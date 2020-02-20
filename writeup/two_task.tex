@@ -1,17 +1,31 @@
 \section{Results for Two Tasks}\label{sec_defspike}
 
+
+We would like to get insight on how covariate and model shifts result in slower rates of transfer.
+We denote task 2 as the target, i.e. $\beta_2 = \beta_t$.
+We denote task 1 as the source, i.e. $\beta_1 = \beta_s$.
+
+\subsection{Same Model $\beta$ with Covariate Shift}
+
+First, we show that if $\beta_s$ and $\beta_t$ are equal, then combining the source and target task always helps.
+The key quantity is to look at:
+\begin{align}\label{eq_two_task}
+  \tr[(X_1^{\top}X_1 + X_2^{\top} X_2)^{-1}],
+\end{align}
+and compare it to
+\begin{align}\label{eq_target_task}
+	\tr[(X_2^{\top} X_2)^{-1}].
+\end{align}
+
 \begin{proposition}
   Show that adding tasks always helps or reduces estimation error.
 \end{proposition}
 
-We would like to get insight on how the covariate shift results in slower rates of transfer.
-The key quantity is to look at:
-\begin{align}
-  \tr[(X_1^{\top}X_1 + X_2^{\top} X_2)^{-1}]
-\end{align}
+\begin{proof}
+	\todo{straightforward calculation}
+\end{proof}
 
-%\subsection{The model}
-
+Next, we calculate the amount of improvement by comparing equation \eqref{eq_two_task} to equation \eqref{eq_target_task}.
 We study the spectrum of the random matrix model: 
 $$Q= \Sigma_1^{1/2}  X_1^T X_1 \Sigma_1^{1/2}  + \Sigma_2^{1/2}  X_2^T X_2 \Sigma_2^{1/2} ,$$
 where $\Sigma_{1,2}$ are $p\times p$ deterministic covariance matrices, and $X_1=(x_{ij})_{1\le i \le n_1, 1\le j \le p}$ and $X_2=(x_{ij})_{n_1+1\le i \le n_1+n_2, 1\le j \le p}$ are $n_1\times p$ and $n_2 \times p$ random matrices, respectively, where the entries $x_{ij}$, $1 \leq i \leq n_1+n_2\equiv n$, $1 \leq j \leq p$, are real independent random variables satisfying
@@ -45,7 +59,7 @@ $$\cal G(z) \approx \diag\left( \frac{1}{-z\left( 1+ m_3(z) + d_i^2 m_4(z)\right
 When $z\to 0$, we shall have
 $$m_3(z)= - \frac{a_3}{z} + \OO(1), \quad m_4(z)= - \frac{a_4}{z} + \OO(1),\quad a_3,a_4>0.$$
 Then for $z\to0$, the equations in \eqref{m34} are reduced to
-\begin{align}\label{m34}
+\begin{align}\label{m35}
 \frac{n_1}{n}\frac{1}{a_3} = 1 +\frac1n\sum_{i=1}^p \frac{1}{a_3 + d_i^2a_4  } ,\quad \frac{n_2}{n}\frac1{a_4} = 1 +\frac1n\sum_{i=1}^p \frac{d_i^2 }{  a_3 + d_i^2 a_4 }. 
 \end{align}
 First, it is easy to see that these equations are equivalent to
@@ -57,3 +71,17 @@ Furthermore, we have
 &=\tr \left[\Sigma_1^{-1/2}  \frac{1}{a_3+ \Sigma_1^{-1}\Sigma_2 a_4} \Sigma_1^{-1/2}\right]=\tr \left[ \frac{1}{a_3\Sigma_1 + a_4\Sigma_2 } \right].
 \end{align*}
 
+\subsection{Model Shift}
+
+In this case, $\beta_s$ and $\beta_t$ are different.
+If we put the two tasks together, we get
+\begin{align}
+	\hat{\beta}_{\MTL} &= (X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} (X_1^{\top}Y_1 + X_2^{\top}Y_2) \\
+	&= (X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} \bigbrace{(X_1^{\top}X_1\beta_s + X_2^{\top}X_2\beta_t) + (X_1^{\top}\varepsilon_1 + X_2^{\top}\varepsilon_2)}
+\end{align}
+Hence
+\begin{align}
+	\exarg{\varepsilon}{\bignorm{\hat{\beta}_{\MTL} - \beta_t}}
+	= \bignorm{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} X_1^{\top}X_1 (\beta_s - \beta_t)}^2
+	+ \sigma^2 \bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}}
+\end{align}
