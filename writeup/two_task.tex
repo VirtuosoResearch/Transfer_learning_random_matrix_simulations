@@ -43,7 +43,7 @@ $$\gamma_n:= \frac{p} {n} \to \gamma,\quad c_n:= \frac{n_1}{n} \to c, \quad \tex
 for some constants $\gamma\in (0,\infty)$ and $c \in (0,1)$. 
 
 We assume that $ \Sigma_1^{-1/2}\Sigma_2$ has eigendecomposition
-\be \nonumber %\label{eigen}
+\be  \label{eigen}
 \Sigma_1^{-1/2}\Sigma_2^{1/2} = ODO^T ,\quad D=\text{diag}(d_1, \cdots, d_p).
 \ee
 Then by the rotational invariance of Gaussian matrices, we have
@@ -85,3 +85,32 @@ Hence
 	= \bignorm{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} X_1^{\top}X_1 (\beta_s - \beta_t)}^2
 	+ \sigma^2 \bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}}
 \end{align}
+
+We are interested in the eigenvalues of 
+$$(X_1^{\top}X_1)^{-1} (X_2^{\top}X_2),$$
+which is called a generalized Fisher matrix. As in the previous setting, we write out their covariance explicitly and consider
+$$  (\Sigma_1^{1/2}  X_1^T X_1 \Sigma_1^{1/2})^{-1}   \Sigma_2^{1/2}  X_2^T X_2 \Sigma_2^{1/2} ,$$
+where $\Sigma_{1,2}$ are $p\times p$ deterministic covariance matrices, and $X_1=(x_{ij})_{1\le i \le n_1, 1\le j \le p}$ and $X_2=(x_{ij})_{n_1+1\le i \le n_1+n_2, 1\le j \le p}$ are $n_1\times p$ and $n_2 \times p$ random matrices, respectively, where the entries $x_{ij}$, $1 \leq i \leq n_1+n_2\equiv n$, $1 \leq j \leq p$, are real independent random variables satisfying \eqref{eq_12moment}. 
+
+For now, we assume that the random variables $x_{ij}$ are i.i.d. Gaussian, and that $ \Sigma_1^{-1/2}\Sigma_2$ has singular value decomposition 
+$$\Sigma_1^{-1/2}\Sigma_2^{1/2} = O_1DO_2 ,\quad D=\text{diag}(d_1, \cdots, d_p).
+$$
+Then it is equivalent to study 
+$$Q:=  ( X_1^T X_1 )^{-1}   D X_2^T X_2 D ,$$
+which has the same nonzero eigenvalues of 
+$$\mathcal Q:=  X_2 D ( X_1^T X_1 )^{-1} D X_2^T,$$
+i.e. $\mathcal Q$ has the same nonzero eigenvalues of $Q$, but has $(n_2-p)$ more zero eigenvalues. 
+
+We can study it using the linearization matrix ({\color{red}for my own purpose right now})
+$$ H = \begin{pmatrix} - z I & X_2D & 0 \\ DX_2^T & 0 & X_1^T \\ 0 & X_1 & I \end{pmatrix}, \quad G(z):=H(z)^{-1}.$$ 
+Then the $(1,1)$-th block is equal to $\cal G(z):=(\mathcal Q-z)^{-1}$. We denote 
+$$m_1(z):=\frac1n\tr \cal G(z), \quad m(z)= \frac1p \left[ nm_1(z) + \frac{n_2-p}{z}\right].$$
+We can show that it satisfies the following self-consistent equations together with another $m_3(z)$:
+\begin{align}\label{m13}
+\frac{n_2}{n}\frac1{m_1} = - z +\frac1n\sum_{i=1}^p \frac{d_i^2}{ m_3 + d_i^2m_1  } ,\quad \frac{n_1}{n}\frac1{m_3} = 1 +\frac1n\sum_{i=1}^p \frac{1}{   m_3 + d_i^2m_1  } .
+\end{align}
+For these two equations, we can obtain one single equation for $m_1(z)$:
+\begin{align}\label{m1}
+m_3= 1-\frac pn + zm_1, \quad \frac{n_2}{n}\frac1{m_1} = - z +\frac1n\sum_{i=1}^p \frac{d_i^2}{ 1-\frac pn + (z + d_i^2)m_1  }  .
+\end{align}
+
