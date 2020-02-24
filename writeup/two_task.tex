@@ -47,7 +47,11 @@ $$\gamma_n:= \frac{p} {n} \to \gamma,\quad c_n:= \frac{n_1}{n} \to c, \quad \tex
 for some constants $\gamma\in (0,\infty)$ and $c \in (0,1)$.
 
 \begin{lemma}
-	\todo{Put in the statement}
+	\todo{Put in the statement} We have with high probability $1-{\rm o}(1)$,
+\begin{align*}
+\frac1p\tr (Q^{-1}) =\frac1p\tr \left[ \frac{1}{a_3\Sigma_1 + a_4\Sigma_2 } \right] +\OO(n^{-1+\epsilon})
+\end{align*}
+for any constant $\epsilon>0$, where $a_{3,4}$ are found using equations in  \eqref{m35reduced}.
 \end{lemma}
 
 We assume that $ \Sigma_1^{-1/2}\Sigma_2$ has eigendecomposition
@@ -71,7 +75,7 @@ Then for $z\to0$, the equations in \eqref{m34} are reduced to
 \frac{n_1}{n}\frac{1}{a_3} = 1 +\frac1n\sum_{i=1}^p \frac{1}{a_3 + d_i^2a_4  } ,\quad \frac{n_2}{n}\frac1{a_4} = 1 +\frac1n\sum_{i=1}^p \frac{d_i^2 }{  a_3 + d_i^2 a_4 }. 
 \end{align}
 First, it is easy to see that these equations are equivalent to
-$$a_3 + a_4 = 1- \gamma_n, \quad a_3 +\frac1n\sum_{i=1}^p \frac{a_3}{a_3 + d_i^2[(1-\gamma_n)-a_3]  }=c_n  .$$
+\begin{align}\label{m35reduced} a_3 + a_4 = 1- \gamma_n, \quad a_3 +\frac1n\sum_{i=1}^p \frac{a_3}{a_3 + d_i^2[(1-\gamma_n)-a_3]  }=c_n  .\end{align} 
 Furthermore, we have
 \begin{align*}
 \tr (Q^{-1}) &= \lim_{z\to 0}\tr \left[\Sigma_1^{-1/2} O \cal G(z)O^T \Sigma_1^{-1/2}\right]
@@ -112,7 +116,7 @@ i.e. $\mathcal Q$ has the same nonzero eigenvalues of $Q$, but has $(n_2-p)$ mor
 We can study it using the linearization matrix ({\color{red}for my own purpose right now})
 $$ H = \begin{pmatrix} - z I & X_2D & 0 \\ DX_2^T & 0 & X_1^T \\ 0 & X_1 & I \end{pmatrix}, \quad G(z):=H(z)^{-1}.$$ 
 Then the $(1,1)$-th block is equal to $\cal G(z):=(\mathcal Q-z)^{-1}$. We denote 
-$$m_1(z):=\frac1n\tr \cal G(z), \quad m(z)= \frac1p \left[ nm_1(z) + \frac{n_2-p}{z}\right].$$
+\begin{equation}\label{m1m}m_1(z):=\frac1n\tr \cal G(z), \quad m(z)= \frac1p \left[ nm_1(z) + \frac{n_2-p}{z}\right].\ee
 We can show that it satisfies the following self-consistent equations together with another $m_3(z)$:
 \begin{align}\label{m13}
 \frac{n_2}{n}\frac1{m_1} = - z +\frac1n\sum_{i=1}^p \frac{d_i^2}{ m_3 + d_i^2m_1  } ,\quad \frac{n_1}{n}\frac1{m_3} = 1 +\frac1n\sum_{i=1}^p \frac{1}{   m_3 + d_i^2m_1  } .
@@ -121,4 +125,13 @@ For these two equations, we can obtain one single equation for $m_1(z)$:
 \begin{align}\label{m1}
 m_3= 1-\frac pn + zm_1, \quad \frac{n_2}{n}\frac1{m_1} = - z +\frac1n\sum_{i=1}^p \frac{d_i^2}{ 1-\frac pn + (z + d_i^2)m_1  }  .
 \end{align}
+One can solve the above equation for $m_1$ with positive imaginary parts, and then calculate $m(z)$ using \eqref{m1m}. 
+
+With $m(z)$, we can define
+$$\rho_c(z):=\frac1\pi \lim_{\eta\downarrow 0} m(z).$$
+It will be a compact supported probability density which gives the eigenvalue distribution of $Q$. Moreover, we have  
+$$\frac{1}{p}\tr \frac1{(\Sigma_1^{1/2}  X_1^T X_1 \Sigma_1^{1/2})^{-1}   \Sigma_2^{1/2}  X_2^T X_2 \Sigma_2^{1/2} +1}\left(\frac1{(\Sigma_1^{1/2}  X_1^T X_1 \Sigma_1^{1/2})^{-1}   \Sigma_2^{1/2}  X_2^T X_2 \Sigma_2^{1/2} +1}\right)^T \approx \int \frac{\rho_c(x)}{(x+1)^2}{\rm d}x.$$
+Moreover, the right edge $\lambda_+$ of $\rho_c$ gives the location of the largest eigenvalue, while the left edge $\lambda_-$  of $\rho_c$ gives the location of the smallest eigenvalue ({\color{red}we have ways to determine the edges by solving some equations, state them later}). They will provide the upper and lower bounds on the operator norm: 
+$$\frac{1}{1+\lambda_+}\le \frac1{(\Sigma_1^{1/2}  X_1^T X_1 \Sigma_1^{1/2})^{-1}   \Sigma_2^{1/2}  X_2^T X_2 \Sigma_2^{1/2} +1}\le \frac1{1+\lambda_-}.$$
+
 
