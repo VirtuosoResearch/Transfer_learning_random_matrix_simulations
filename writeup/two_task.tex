@@ -20,7 +20,7 @@ The estimation error using the target alone is
 	e(\hat{\beta}_t) = \sigma^2 \cdot \tr[(X_2^{\top} X_2)^{-1}].
 \end{align}
 
-\begin{proposition}
+\begin{proposition}\label{prop_monotone}
   When there is no model shift, adding the source task data always reduces the estimation error, i.e.
 	\[ e(\hat{\beta}_{s,t}) \le e(\hat{\beta}_t). \]
 \end{proposition}
@@ -31,16 +31,32 @@ The estimation error using the target alone is
 
 Next, we calculate the amount of improvement by comparing equation \eqref{eq_two_task} to equation \eqref{eq_target_task}.
 We can get a precise result that only depends on the covariance matrices $\Sigma_1, \Sigma_2$ and the number of data points $n_1, n_2$ as follows.
+We shall consider the high-dimensional setting such that
+$$\gamma_n:= \frac{p} {n_1 + n_2} \to \gamma,\quad c_n:= \frac{n_1}{n_1 + n_2} \to c, \quad \text{as } \ n_1, n_2\to \infty, $$
+for some constants $\gamma\in (0,\infty)$ and $c \in (0,1)$.
 
-\begin{lemma}
+\begin{lemma}\label{lem_model_shift}
+	Let $\lambda_1, \lambda_2, \dots, \lambda_p$ denote the singular values of $\Sigma_1^{-1/2}\Sigma_2^{1/2}$.
 	When there is no model shift, the amount of reduction on the estimation error is given as
 	\begin{align*}
 		e(\hat{\beta}_t) - e(\hat{\beta}_{s,t})
-		= \sigma^2 p \cdot \bigtr{\frac 1 {(n_2 - p) \Sigma_2} - \frac 1 {(n_1 + n_2)a_1 \Sigma_1 + (n_1 + n_2)a_2 \Sigma_2}}
+		= \sigma^2 p \cdot \bigtr{\frac 1 {(n_2 - p) \Sigma_2} - \frac 1 {(n_1 + n_2)a_1 \Sigma_1 + (n_1 + n_2)a_2 \Sigma_2}},
 	\end{align*}
+	where $a_1, a_2$ are the solutions of the following equations
+	\begin{gather}
+		 a_1 + a_2 = 1- \gamma_n \label{m35reduced_1}\\
+		 a_1 +\frac1n\sum_{i=1}^p \frac{a_1}{a_1 + \lambda_i^2[(1-\gamma_n)-a_1]} = c_n. \label{m35reduced_2}
+	\end{gather}
 \end{lemma}
 
-We study the spectrum of the random matrix model: 
+As a remark, we see that Proposition \ref{prop_monotone} follows from Lemma \ref{lem_model_shift} because
+\begin{align*}
+	~ & (n_2 - p)\Sigma_2 \preceq (n_1 + n_2) a_1 \Sigma_1 + (n_1 + n_2)a_2 \Sigma \\
+	\Leftrightarrow~ & \zeroMatrix \preceq (n_1 + n_2) a_1 \Sigma_1 + (n_1 - (n_1 + n_2)\cdot a_1) \Sigma_2,
+\end{align*}
+which is true since $a_1 \le n_1 / (n_1 + n_2)$ by equation \eqref{m35reduced_2}.
+
+To prove Lemma \ref{lem_model_shift}, we study the spectrum of the random matrix model:
 $$Q= \Sigma_1^{1/2}  Z_1^T Z_1 \Sigma_1^{1/2}  + \Sigma_2^{1/2}  Z_2^T Z_2 \Sigma_2^{1/2} ,$$
 where $\Sigma_{1,2}$ are $p\times p$ deterministic covariance matrices, and $X_1=(x_{ij})_{1\le i \le n_1, 1\le j \le p}$ and $X_2=(x_{ij})_{n_1+1\le i \le n_1+n_2, 1\le j \le p}$ are $n_1\times p$ and $n_2 \times p$ random matrices, respectively, where the entries $x_{ij}$, $1 \leq i \leq n_1+n_2\equiv n$, $1 \leq j \leq p$, are real independent random variables satisfying
 \begin{equation}\label{eq_12moment} %\label{assm1}
@@ -52,16 +68,16 @@ For now, we assume that the random variables $x_{ij}$ are i.i.d. Gaussian, but w
 %\max_{i,j}\left(\mathbb E|x_{ij}|^k\right)^{1/k} \le \mu_k n^{-1/2},  %\var \left(h_{xy}\right)^{1/2}
 %\end{equation}
 %for all $n$. %For simplicity, we assume that $k$ is a finite fixed integer, the strengths $d_1 > d_2 > \cdots > d_k >0$ are fixed constants, and $ \bu_i$,  $\bv_i$ are deterministic unit vectors. 
-We shall consider the high-dimensional setting such that
-$$\gamma_n:= \frac{p} {n} \to \gamma,\quad c_n:= \frac{n_1}{n} \to c, \quad \text{as } \ n\to \infty, $$ 
-for some constants $\gamma\in (0,\infty)$ and $c \in (0,1)$.
+
 
 \begin{lemma}
-	\todo{Put in the statement} We have with high probability $1-{\rm o}(1)$,
+	In the setting of Lemma \ref{lem_model_shift}, we have with high probability $1-{\rm o}(1)$,
 \begin{align*}
-\frac1p\tr (Q^{-1}) =\frac1p\tr \left[ \frac{1}{a_3\Sigma_1 + a_4\Sigma_2 } \right] +\OO(n^{-1+\epsilon})
+\tr ((X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}) = \frac{p}{n_1+n_2}\cdot \tr \left[ \frac{1}{a_1\Sigma_1 + a_2\Sigma_2} \right] +\bigo{\frac{p}{n^{1-\epsilon}}}.
 \end{align*}
-for any constant $\epsilon>0$, where $a_{3,4}$ are found using equations in  \eqref{m35reduced}.
+	for any constant $\epsilon>0$. %, where $a_{3,4}$ are found using equations in  \eqref{m35reduced}.
+	In particular, when $n_1 = 0$, we have that $a_1 = 0$ and $a_2 = (n_2-p) / n_2$, hence
+	\[ \bigtr{(X_2^{\top}X_2)^{-1}} = \frac{p}{n_2-p}\bigtr{\frac 1 {\Sigma_2}} + \bigo{\frac{p}{n_2^{1-\varepsilon}}}. \]
 \end{lemma}
 
 We assume that $ \Sigma_1^{-1/2}\Sigma_2$ has eigendecomposition
@@ -85,7 +101,7 @@ Then for $z\to0$, the equations in \eqref{m34} are reduced to
 \frac{n_1}{n}\frac{1}{a_3} = 1 +\frac1n\sum_{i=1}^p \frac{1}{a_3 + d_i^2a_4  } ,\quad \frac{n_2}{n}\frac1{a_4} = 1 +\frac1n\sum_{i=1}^p \frac{d_i^2 }{  a_3 + d_i^2 a_4 }. 
 \end{align}
 First, it is easy to see that these equations are equivalent to
-\begin{align}\label{m35reduced} a_3 + a_4 = 1- \gamma_n, \quad a_3 +\frac1n\sum_{i=1}^p \frac{a_3}{a_3 + d_i^2[(1-\gamma_n)-a_3]  }=c_n  .\end{align} 
+\begin{align} a_3 + a_4 = 1- \gamma_n, \quad a_3 +\frac1n\sum_{i=1}^p \frac{a_3}{a_3 + d_i^2[(1-\gamma_n)-a_3]  }=c_n  .\end{align}
 Furthermore, we have
 \begin{align*}
 \tr (Q^{-1}) &= \lim_{z\to 0}\tr \left[\Sigma_1^{-1/2} O \cal G(z)O^T \Sigma_1^{-1/2}\right]
