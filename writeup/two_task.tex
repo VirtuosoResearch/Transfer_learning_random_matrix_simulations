@@ -62,7 +62,7 @@ To prove Lemma \ref{lem_model_shift}, we study the spectrum of the random matrix
 $$Q= \Sigma_1^{1/2}  Z_1^T Z_1 \Sigma_1^{1/2}  + \Sigma_2^{1/2}  Z_2^T Z_2 \Sigma_2^{1/2} ,$$
 where $\Sigma_{1,2}$ are $p\times p$ deterministic covariance matrices, and $X_1=(x_{ij})_{1\le i \le n_1, 1\le j \le p}$ and $X_2=(x_{ij})_{n_1+1\le i \le n_1+n_2, 1\le j \le p}$ are $n_1\times p$ and $n_2 \times p$ random matrices, respectively, where the entries $x_{ij}$, $1 \leq i \leq n_1+n_2\equiv n$, $1 \leq j \leq p$, are real independent random variables satisfying
 \begin{equation}\label{eq_12moment} %\label{assm1}
-\mathbb{E} x_{ij} =0, \ \quad \ \mathbb{E} \vert x_{ij} \vert^2  = n^{-1}.
+\mathbb{E} z_{ij} =0, \ \quad \ \mathbb{E} \vert z_{ij} \vert^2  = n^{-1}.
 \end{equation} 
 For now, we assume that the random variables $x_{ij}$ are i.i.d. Gaussian, but we know that universality holds for generally distributed entries. %have arbitrarily high moments, 
 %in the sense that for any fixed $k\in \mathbb N$, there is a constant $\mu_k>0$ such that
@@ -126,49 +126,53 @@ Hence
 	+ \sigma^2 \bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}}
 \end{align}
 
-We are interested in the eigenvalues of 
-$$(X_1^{\top}X_1)^{-1} (X_2^{\top}X_2),$$
-which is called a generalized Fisher matrix. As in the previous setting, we write out their covariance explicitly and consider
-$$  (\Sigma_1^{1/2}  X_1^T X_1 \Sigma_1^{1/2})^{-1}   \Sigma_2^{1/2}  X_2^T X_2 \Sigma_2^{1/2} ,$$
-where $\Sigma_{1,2}$ are $p\times p$ deterministic covariance matrices, and $X_1=(x_{ij})_{1\le i \le n_1, 1\le j \le p}$ and $X_2=(x_{ij})_{n_1+1\le i \le n_1+n_2, 1\le j \le p}$ are $n_1\times p$ and $n_2 \times p$ random matrices, respectively, where the entries $x_{ij}$, $1 \leq i \leq n_1+n_2\equiv n$, $1 \leq j \leq p$, are real independent random variables satisfying \eqref{eq_12moment}. 
+We consider the same setting as in previous subsection. Assume that $p/n_1$ is a small number such that $Z_1^TZ_1$ is roughly an isometry, that is, under \eqref{eq_12moment}, 
+$$ \left\| Z_1^T Z_1 -  \frac{n_1}{n} I \right\| \le 2\sqrt{\frac{p}{n}} + {\frac{p}{n}} .$$ 
+In the previous subsection, we have seen that ({\color{red}may need to assume that $\Sigma_1$ and $\Sigma_2$ are in the same eigenspace})
 
 For now, we assume that the random variables $x_{ij}$ are i.i.d. Gaussian, and that $ \Sigma_1^{-1/2}\Sigma_2$ has singular value decomposition 
 $$\Sigma_1^{-1/2}\Sigma_2^{1/2} = O_1DO_2 ,\quad D=\text{diag}(d_1, \cdots, d_p).
 $$
-Then it is equivalent to study 
-$$Q:=  ( X_1^T X_1 )^{-1}   D X_2^T X_2 D ,$$
-which has the same nonzero eigenvalues of 
-$$\mathcal Q:=  X_2 D ( X_1^T X_1 )^{-1} D X_2^T,$$
-i.e. $\mathcal Q$ has the same nonzero eigenvalues of $Q$, but has $(n_2-p)$ more zero eigenvalues. 
+%Then it is equivalent to study 
+%$$Q:=  ( X_1^T X_1 )^{-1}   D X_2^T X_2 D ,$$
+%which has the same nonzero eigenvalues of 
+%$$\mathcal Q:=  X_2 D ( X_1^T X_1 )^{-1} D X_2^T,$$
+%i.e. $\mathcal Q$ has the same nonzero eigenvalues of $Q$, but has $(n_2-p)$ more zero eigenvalues. 
 
-We can study it using the linearization matrix ({\color{red}for my own purpose right now})
-$$ H = \begin{pmatrix} - z I & X_2D & 0 \\ DX_2^T & 0 & X_1^T \\ 0 & X_1 & I \end{pmatrix}, \quad G(z):=H(z)^{-1}.$$ 
-Then the $(1,1)$-th block is equal to $\cal G(z):=(\mathcal Q-z)^{-1}$. We denote 
-\begin{equation}\label{m1m}m_1(z):=\frac1n\tr \cal G(z), \quad m(z)= \frac1p \left[ nm_1(z) + \frac{n_2-p}{z}\right].\ee
-We can show that it satisfies the following self-consistent equations together with another $m_3(z)$:
-\begin{align}\label{m13}
-\frac{n_2}{n}\frac1{m_1} = - z +\frac1n\sum_{i=1}^p \frac{d_i^2}{ m_3 + d_i^2m_1  } ,\quad \frac{n_1}{n}\frac1{m_3} = 1 +\frac1n\sum_{i=1}^p \frac{1}{   m_3 + d_i^2m_1  } .
-\end{align}
-For these two equations, we can obtain one single equation for $m_1(z)$:
-\begin{align}\label{m1}
-m_3= 1-\frac pn + zm_1, \quad \frac{n_2}{n}\frac1{m_1} = - z +\frac1n\sum_{i=1}^p \frac{d_i^2}{ 1-\frac pn + (z + d_i^2)m_1  }  .
-\end{align}
-One can solve the above equation for $m_1$ with positive imaginary parts, and then calculate $m(z)$ using \eqref{m1m}. 
-
-With $m(z)$, we can define
-$$\rho_c(z):=\frac1\pi \lim_{\eta\downarrow 0} m(z).$$
-It will be a compact supported probability density which gives the eigenvalue distribution of $Q$. Moreover, we have  
-$$\frac{1}{p}\tr \frac1{(\Sigma_1^{1/2}  X_1^T X_1 \Sigma_1^{1/2})^{-1}   \Sigma_2^{1/2}  X_2^T X_2 \Sigma_2^{1/2} +1}\left(\frac1{(\Sigma_1^{1/2}  X_1^T X_1 \Sigma_1^{1/2})^{-1}   \Sigma_2^{1/2}  X_2^T X_2 \Sigma_2^{1/2} +1}\right)^T \approx \int \frac{\rho_c(x)}{(x+1)^2}{\rm d}x.$$
-We know that 
-$$ m(z)=\int \frac{\rho_c(x)}{ x-z}{\rm d}x.$$
-Hence we have
-$$ m'(-1)=\int \frac{\rho_c(x)}{(x+1)^2}{\rm d}x.$$
-
-Moreover, the right edge $\lambda_+$ of $\rho_c$ gives the location of the largest eigenvalue, while the left edge $\lambda_-$  of $\rho_c$ gives the location of the smallest eigenvalue. They will provide the upper and lower bounds on the operator norm: 
-$$\frac{1}{1+\lambda_+}\le \frac1{(\Sigma_1^{1/2}  X_1^T X_1 \Sigma_1^{1/2})^{-1}   \Sigma_2^{1/2}  X_2^T X_2 \Sigma_2^{1/2} +1}\le \frac1{1+\lambda_-}.$$
-The edges of the spectrum can be determined by solving the following equations of $(x,m_1)$:
-$$\frac{n_2}{n}\frac1{m_1} = - x +\frac1n\sum_{i=1}^p \frac{d_i^2}{ 1-\frac pn + (x + d_i^2)m_1  } ,\quad  \frac{n_2}{n}\frac1{m_1^2} = \frac1n\sum_{i=1}^p \frac{d_i^2 (x+d_i^2)}{\left[ 1-\frac pn + (x + d_i^2)m_1 \right]^2 } .$$
-The solutions for $x$ give the locations for the edges of the spectrum.  
-% ({\color{red}we have ways to determine the edges by solving some equations, state them later})
+%----------The following is the results on the eigenvalues, not the singular values-------------
+%We are interested in the eigenvalues of 
+%$$(X_1^{\top}X_1)^{-1} (X_2^{\top}X_2),$$
+%which is called a generalized Fisher matrix. As in the previous setting, we write out their covariance explicitly and consider
+%$$  (\Sigma_1^{1/2}  Z_1^T Z_1 \Sigma_1^{1/2})^{-1}   \Sigma_2^{1/2}  Z_2^T Z_2 \Sigma_2^{1/2} ,$$
+%where $\Sigma_{1,2}$ are $p\times p$ deterministic covariance matrices, and $X_1=(x_{ij})_{1\le i \le n_1, 1\le j \le p}$ and $X_2=(x_{ij})_{n_1+1\le i \le n_1+n_2, 1\le j \le p}$ are $n_1\times p$ and $n_2 \times p$ random matrices, respectively, where the entries $x_{ij}$, $1 \leq i \leq n_1+n_2\equiv n$, $1 \leq j \leq p$, are real independent random variables satisfying \eqref{eq_12moment}. 
+%We can study it using the linearization matrix ({\color{red}for my own purpose right now})
+%$$ H = \begin{pmatrix} - z I & X_2D & 0 \\ DX_2^T & 0 & X_1^T \\ 0 & X_1 & I \end{pmatrix}, \quad G(z):=H(z)^{-1}.$$ 
+%Then the $(1,1)$-th block is equal to $\cal G(z):=(\mathcal Q-z)^{-1}$. We denote 
+%\begin{equation}\label{m1m}m_1(z):=\frac1n\tr \cal G(z), \quad m(z)= \frac1p \left[ nm_1(z) + \frac{n_2-p}{z}\right].\ee
+%We can show that it satisfies the following self-consistent equations together with another $m_3(z)$:
+%\begin{align}\label{m13}
+%\frac{n_2}{n}\frac1{m_1} = - z +\frac1n\sum_{i=1}^p \frac{d_i^2}{ m_3 + d_i^2m_1  } ,\quad \frac{n_1}{n}\frac1{m_3} = 1 +\frac1n\sum_{i=1}^p \frac{1}{   m_3 + d_i^2m_1  } .
+%\end{align}
+%For these two equations, we can obtain one single equation for $m_1(z)$:
+%\begin{align}\label{m1}
+%m_3= 1-\frac pn + zm_1, \quad \frac{n_2}{n}\frac1{m_1} = - z +\frac1n\sum_{i=1}^p \frac{d_i^2}{ 1-\frac pn + (z + d_i^2)m_1  }  .
+%\end{align}
+%One can solve the above equation for $m_1$ with positive imaginary parts, and then calculate $m(z)$ using \eqref{m1m}. 
+%
+%With $m(z)$, we can define
+%$$\rho_c(z):=\frac1\pi \lim_{\eta\downarrow 0} m(z).$$
+%It will be a compact supported probability density which gives the eigenvalue distribution of $Q$. Moreover, we have  
+%$$\frac{1}{p}\tr \frac1{(\Sigma_1^{1/2}  X_1^T X_1 \Sigma_1^{1/2})^{-1}   \Sigma_2^{1/2}  X_2^T X_2 \Sigma_2^{1/2} +1}\left(\frac1{(\Sigma_1^{1/2}  X_1^T X_1 \Sigma_1^{1/2})^{-1}   \Sigma_2^{1/2}  X_2^T X_2 \Sigma_2^{1/2} +1}\right)^T \approx \int \frac{\rho_c(x)}{(x+1)^2}{\rm d}x.$$
+%We know that 
+%$$ m(z)=\int \frac{\rho_c(x)}{ x-z}{\rm d}x.$$
+%Hence we have
+%$$ m'(-1)=\int \frac{\rho_c(x)}{(x+1)^2}{\rm d}x.$$
+%
+%Moreover, the right edge $\lambda_+$ of $\rho_c$ gives the location of the largest eigenvalue, while the left edge $\lambda_-$  of $\rho_c$ gives the location of the smallest eigenvalue. They will provide the upper and lower bounds on the operator norm: 
+%$$\frac{1}{1+\lambda_+}\le \frac1{(\Sigma_1^{1/2}  X_1^T X_1 \Sigma_1^{1/2})^{-1}   \Sigma_2^{1/2}  X_2^T X_2 \Sigma_2^{1/2} +1}\le \frac1{1+\lambda_-}.$$
+%The edges of the spectrum can be determined by solving the following equations of $(x,m_1)$:
+%$$\frac{n_2}{n}\frac1{m_1} = - x +\frac1n\sum_{i=1}^p \frac{d_i^2}{ 1-\frac pn + (x + d_i^2)m_1  } ,\quad  \frac{n_2}{n}\frac1{m_1^2} = \frac1n\sum_{i=1}^p \frac{d_i^2 (x+d_i^2)}{\left[ 1-\frac pn + (x + d_i^2)m_1 \right]^2 } .$$
+%The solutions for $x$ give the locations for the edges of the spectrum.  
+%--------------------------------------
 
 
