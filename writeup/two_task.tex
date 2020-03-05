@@ -135,13 +135,73 @@ Hence
 	+ \sigma^2 \bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}}
 \end{align}
 
-We consider the same setting as in previous subsection. Assume that $p/n_1$ is a small number such that $Z_1^TZ_1$ is roughly an isometry, that is, under \eqref{eq_12moment}, 
+We are now interested in the following quantity 
+$$ (\beta_s - \beta_t)^{\top}X_1^{\top}X_1 \frac{1}{X_1^{\top}X_1 + X_2^{\top}X_2}  \Sigma_2 \frac{1}{X_1^{\top}X_1 + X_2^{\top}X_2} X_1^{\top}X_1 (\beta_s - \beta_t) $$
+We consider the same setting as in previous subsection: 
+$$ X_1^{\top}X_1:=\Sigma_1^{1/2}  Z_1^T Z_1 \Sigma_1^{1/2} ,\quad X_2^{\top}X_2= \Sigma_2^{1/2}  Z_2^T Z_2 \Sigma_2^{1/2},$$
+where $z_{ij}$, $1 \leq i \leq n_1+n_2\equiv n$, $1 \leq j \leq p$, are real independent random variables satisfying \eqref{eq_12moment}. For now, we assume that the random variables $z_{ij}$ are i.i.d. Gaussian, but we know that universality holds for generally distributed entries. Assume that $p/n_1$ is a small number such that $Z_1^TZ_1$ is roughly an isometry, that is, under \eqref{eq_12moment}, 
 $$ \left\| Z_1^T Z_1 -  \frac{n_1}{n} I \right\| \le 2\sqrt{\frac{p}{n}} + {\frac{p}{n}} .$$ 
-In the previous subsection, we have seen that ({\color{red}may need to assume that $\Sigma_1$ and $\Sigma_2$ are in the same eigenspace})
+Then we have
+$$  \left\|X_1^{\top}X_1 (\beta_s - \beta_t)  - \frac{n_1}{n}(\beta_s - \beta_t)\right\|_2 \le C \sqrt{\frac{p}{n}} \left\| (\beta_s - \beta_t)\right\|_2. $$
+It remain to study the following expression 
+\begin{align*}
+\frac{1}{X_1^{\top}X_1 + X_2^{\top}X_2}  \Sigma_2 \frac{1}{X_1^{\top}X_1 + X_2^{\top}X_2}  = \Sigma_2^{-1/2}\left(\frac{1}{A^T Z_1^{\top}Z_1 A + Z_2^{\top}Z_2} \right)^2 \Sigma_2^{-1/2} \\
+\stackrel{d}{=} \Sigma_2^{-1/2}V \left(\frac{1}{\Lambda Z_1^{\top}Z_1 \Lambda + Z_2^{\top}Z_2} \right)^2 V^T \Sigma_2^{-1/2},
+\end{align*}
+where 
+\be  \label{eigen2}
+A:=\Sigma_1^{1/2}\Sigma_2^{-1/2} = U\Lambda V^T ,\quad \Lambda=\text{diag}(\lambda_1, \cdots, \lambda_p).
+\ee
+Using 
+$$\left(\frac{1}{\Lambda Z_1^{\top}Z_1 \Lambda + Z_2^{\top}Z_2} \right)^2 =\left. \frac{\dd }{\dd z}\right|_{z=0}\frac{1}{\Lambda Z_1^{\top}Z_1 \Lambda + Z_2^{\top}Z_2 - z} ,$$
+we  need to study the resolvent of 
+$$G(z) = \left( \Lambda Z_1^{\top}Z_1 \Lambda + Z_2^{\top}Z_2 - z \right)^{-1}.$$
+Its local law can be studied as in previous subsection (be careful we need to switch the roles of $Z_1$ and $Z_2$). More precisely,  we have that 
+$$ G(z) \approx \diag\left( \frac{1}{-z\left( 1+ m_3(z) + \lambda_i^2 m_4(z)\right)}\right)_{1\le i \le p}= \frac{1}{-z\left( 1+ m_3(z) + \Lambda^2 m_4(z)\right)} .$$
+Here $m_{3,4}(z)$ satisfy the following self-consistent equations
+%$$\frac{1}{G_{ii}} \approx -z \left( 1+m_3 + d_i^2m_4 \right), \quad \frac{1}{G_{\mu\mu}} = -z(1+m_1), \ \ \mu\in \cal I_1,\quad \frac{1}{G_{\nu\nu}} = -z(1+m_2), \ \ \nu\in \cal I_2,$$
+%$$m_1= \frac1n\sum_{i}G_{ii}, \quad m_2= \frac1n\sum_{i}d_i^2 G_{ii}, \quad m_3 = \frac1n\sum_{\mu\in \cal I_1} G_{\mu\mu},\quad m_4 = \frac1n\sum_{\mu\in \cal I_2} G_{\mu\mu}.$$
+\begin{align}\label{m34shift}
+\frac{n_2}{n}\frac1{m_3} = - z +\frac1n\sum_{i=1}^p \frac1{  1+m_3 + \lambda_i^2m_4  } ,\quad \frac{n_1}{n}\frac1{m_4} = - z +\frac1n\sum_{i=1}^p \frac{\lambda_i^2 }{  1+m_3 + \lambda_i^2m_4  } .
+\end{align}
+Then we calculate the derivatives of $u_3:=zm_3$ and $u_4:=zm_4$ with respect to $z$:
+\begin{align}\label{dotm34}
+\frac{n_2}{n}\frac1{u_3^2}u'_3 =  \frac1n\sum_{i=1}^p \frac{1+u'_3 + \lambda_i^2 u'_4}{ ( z+u_3 + \lambda_i^2u_4)^2  } ,\quad \frac{n_1}{n}\frac1{u_4^2}u'_4 =   \frac1n\sum_{i=1}^p \frac{\lambda_i^2\left(1+u'_3 + \lambda_i^2 u'_4\right) }{  (z+u_3 + \lambda_i^2u_4)^2  } .
+\end{align}
+We can solve the above equations to get $u'_3$ and $u'_4$. Then we have 
+$$ G^2(z) \approx   \frac{1 +  u_3'(z) +\Lambda^2 u'_4(z)}{ \left( z+ u_3(z) + \Lambda^2  u_4(z)\right)^2}  $$
+{\cob in certain sense}.
 
-For now, we assume that the random variables $x_{ij}$ are i.i.d. Gaussian, and that $ \Sigma_1^{-1/2}\Sigma_2$ has singular value decomposition 
-$$\Sigma_1^{-1/2}\Sigma_2^{1/2} = O_1DO_2 ,\quad D=\text{diag}(d_1, \cdots, d_p).
-$$
+We now simplify the expressions for $z\to 0$ case. When $z\to 0$, we shall have
+$$u_3(z)= -  {a_3} + \OO(z), \quad u_4(z)= -  a_4 + \OO(z), \quad a_3,a_4 >0.$$
+For $z\to0$, the equations in \eqref{m34shift} are reduced to
+\begin{align}\label{m35shift}
+\frac{n_2}{n}\frac{1}{a_3} = 1 +\frac1n\sum_{i=1}^p \frac{1}{a_3 + \lambda_i^2a_4  } ,\quad \frac{n_1}{n}\frac1{a_4} = 1 +\frac1n\sum_{i=1}^p \frac{\lambda_i^2 }{  a_3 + \lambda_i^2 a_4 }. 
+\end{align}
+It is easy to see that these equations are equivalent to
+\begin{align} a_3 + a_4 = 1- \gamma_n, \quad a_3 +\frac1n\sum_{i=1}^p \frac{a_3}{a_3 + \lambda_i^2[(1-\gamma_n)-a_3]  }=\frac{n_2}{n}  .\end{align}
+The equations in \eqref{dotm34} reduce to 
+\be \label{dotm34red}
+\begin{split}
+\left(\frac{n_2}{n}\frac1{a_3^2}- \frac1n\sum_{i=1}^p \frac{1 }{ (  a_3 + \lambda_i^2a_4)^2  }\right) b_3 -  \left(\frac1n\sum_{i=1}^p \frac{  \lambda_i^2 }{ (  a_3 + \lambda_i^2a_4)^2  }\right)b_4 =  \frac1n\sum_{i=1}^p \frac{1 }{ (  a_3 + \lambda_i^2a_4)^2  } ,\\
+ %\frac{n_1}{n}\frac1{a_4^2}b_4 =   \frac1n\sum_{i=1}^p \frac{\lambda_i^2\left(1+b_3 + \lambda_i^2 b_4\right) }{  (a_3 + \lambda_i^2a_4)^2  } , \\
+ \left( \frac{n_1}{n}\frac1{a_4^2} -  \frac1n\sum_{i=1}^p \frac{\lambda_i^4   }{  (a_3 + \lambda_i^2a_4)^2  }\right)b_4 -\left( \frac1n\sum_{i=1}^p \frac{\lambda_i^2  }{  (a_3 + \lambda_i^2a_4)^2  }\right)b_3 =   \frac1n\sum_{i=1}^p \frac{\lambda_i^2 }{  (a_3 + \lambda_i^2a_4)^2  } .
+\end{split}
+\ee
+where we denote $b_3:=u_3'(0)$ and $b_4:=u_4'(0)$. Thus we have
+$$\left(\frac{1}{\Lambda Z_1^{\top}Z_1 \Lambda + Z_2^{\top}Z_2} \right)^2  = G^2(0) \approx   \frac{ 1 + b_3 + \Lambda^2  b_4}{\left( a_3 + \Lambda^2  a_4\right)^2} .$$
+This gives that
+\begin{align*}
+& \frac{1}{X_1^{\top}X_1 + X_2^{\top}X_2}  \Sigma_2 \frac{1}{X_1^{\top}X_1 + X_2^{\top}X_2} =\Sigma_2^{-1/2}V \left(\frac{1}{\Lambda Z_1^{\top}Z_1 \Lambda + Z_2^{\top}Z_2} \right)^2 V^T \Sigma_2^{-1/2}\\
+& \approx  \Sigma_2^{-1/2}V \frac{ 1 + b_3 + \Lambda^2  b_4}{\left( a_3 + \Lambda^2  a_4\right)^2}V^T \Sigma_2^{-1/2}= \Sigma_2^{-1/2}  \frac{ 1 + b_3 +  b_4 A^\top A }{\left( a_3 +   a_4 A^\top A\right)^2}\Sigma_2^{-1/2} .
+\end{align*}
+Hence we have 
+\begin{align*}
+& (\beta_s - \beta_t)^{\top}X_1^{\top}X_1 \frac{1}{X_1^{\top}X_1 + X_2^{\top}X_2}  \Sigma_2 \frac{1}{X_1^{\top}X_1 + X_2^{\top}X_2} X_1^{\top}X_1 (\beta_s - \beta_t) \\
+ & \approx (\beta_s - \beta_t)^{\top}\Sigma_1 \Sigma_2^{-1/2}  \frac{ 1 + b_3 +  b_4 A^\top A }{\left( a_3 +   a_4 A^\top A\right)^2}\Sigma_2^{-1/2} \Sigma_1(\beta_s - \beta_t).
+\end{align*}
+
+ 
 %Then it is equivalent to study 
 %$$Q:=  ( X_1^T X_1 )^{-1}   D X_2^T X_2 D ,$$
 %which has the same nonzero eigenvalues of 
