@@ -1,4 +1,4 @@
-# MTL_random_matrix
+# Studying information transfer in multi-task learning using random matrix theory
 Theoretical analysis of multi-task learning using random matrix theory
 
 Summary and some references:
