@@ -20,14 +20,6 @@ The estimation error using the target alone is
 	e(\hat{\beta}_t) = \sigma^2 \cdot \tr[(X_2^{\top} X_2)^{-1}].
 \end{align}
 
-\begin{proposition}\label{prop_monotone}
-  When there is no model shift, adding the source task data always reduces the estimation error, i.e.
-	\[ e(\hat{\beta}_{s,t}) \le e(\hat{\beta}_t). \]
-\end{proposition}
-
-\begin{proof}
-	This is simply because $\bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}} \le \bigtr{(X_1^{\top}X_1)^{-1}}$.
-\end{proof}
 
 Next, we calculate the amount of improvement by comparing equation \eqref{eq_two_task} to equation \eqref{eq_target_task}.
 We can get a precise result that only depends on the covariance matrices $\Sigma_1, \Sigma_2$ and the number of data points $n_1, n_2$ as follows.
@@ -35,7 +27,7 @@ We shall consider the high-dimensional setting such that
 $$\gamma_n:= \frac{p} {n_1 + n_2} \to \gamma,\quad c_n:= \frac{n_1}{n_1 + n_2} \to c, \quad \text{as } \ n_1, n_2\to \infty, $$
 for some constants $\gamma\in (0,\infty)$ and $c \in (0,1)$.
 
-\begin{lemma}\label{lem_model_shift}
+\begin{theorem}\label{lem_model_shift}
 	Let $\lambda_1, \lambda_2, \dots, \lambda_p$ denote the singular values of $\Sigma_1^{-1/2}\Sigma_2^{1/2}$.
 	When there is no model shift, the amount of reduction on the estimation error is given as
 	\begin{align*}
@@ -47,7 +39,7 @@ for some constants $\gamma\in (0,\infty)$ and $c \in (0,1)$.
 		 a_1 + a_2 = 1- \frac{p}{n_1 + n_2} \label{m35reduced_1}\\
 		 a_1 +\frac1{n_1 + n_2}\sum_{i=1}^p \frac{a_1}{a_1 + \lambda_i^2[(1-\frac{p}{n_1 + n_2})-a_1]} = \frac{n_1}{n_1 + n_2}. \label{m35reduced_2}
 	\end{gather}
-\end{lemma}
+\end{theorem}
 
 As a remark, we see that Proposition \ref{prop_monotone} follows from Lemma \ref{lem_model_shift} because
 \begin{align*}
