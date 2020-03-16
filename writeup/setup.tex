@@ -1,7 +1,7 @@
 \section{Problem Setup}\label{sec_setup}
 
 In the multi-task learning (MTL) problem, we are given the input of $k$ tasks $(X_1, Y_1), (X_2, Y_2), \dots, (X_k, Y_k)$.
-We use a shared body (module) $B$ for all tasks and a separate head (module) $\set{A_i}_{i=1}^k$ for each task.
+We use a shared body (module) $B\in\real^{p\times r}$ for all tasks and a separate head (module) $\set{A_i}_{i=1}^k$ for each task.
 %    \paragraph{Different covariates:}
 This corresponds to minimizing the following optimization objective.
 \begin{align}
@@ -10,6 +10,11 @@ This corresponds to minimizing the following optimization objective.
 \end{align}
 Note that we consider the natural parameterization without reweighting the tasks above.
 The shared body $B$ plays an important role because it allows information transfer between different task data.
+There are two ways to ensure the sharing of information between tasks.
+\begin{itemize}
+	\item Adding a regularization over $B$, e.g. \cite{LPTV09,LPVT11}.
+	\item Controlling the capacity $r$ of $B$.
+\end{itemize}
 
 \subsection{Hypothesis}
 
