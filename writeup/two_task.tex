@@ -1,15 +1,15 @@
-\section{Results for Two Tasks}\label{sec_defspike}
+\section{Warm Up: The Case of Two Tasks}\label{sec_defspike}
 
 
-We would like to get insight on how covariate and model shifts result in slower rates of transfer.
-For the case of two tasks, we can get precise rates in the low-dimensional setting using random matrix theory.
-Since there are only two tasks, we call task 1 the source task and task 2 the target task,
+We would like to get insight on how covariate and model shifts affect the rate of transfer.
+For the case of two tasks, we can get precise rates using random matrix theory.
+For the sake of clarity, we call task 1 the source task and task 2 the target task,
 i.e. $\beta_1 = \beta_s$ and $\beta_2 = \beta_t$.
 %We denote task 1 as the source, i.e. $\beta_1 = \beta_s$.
 
 \subsection{Covariate Shift}
 
-First, we show that if $\beta_s$ and $\beta_t$ are equal, then combining the source and target task always helps.
+As Proposition \ref{prop_monotone} shows, if $\beta_s$ and $\beta_t$ are equal, then adding the source task dataset always helps learn the target task.
 %The key quantity is to look at:
 The estimation error using the source and target together is
 \begin{align}\label{eq_two_task}
@@ -20,8 +20,7 @@ The estimation error using the target alone is
 	e(\hat{\beta}_t) = \sigma^2 \cdot \tr[(X_2^{\top} X_2)^{-1}].
 \end{align}
 
-
-Next, we calculate the amount of improvement by comparing equation \eqref{eq_two_task} to equation \eqref{eq_target_task}.
+We calculate the amount of improvement by comparing equation \eqref{eq_two_task} to equation \eqref{eq_target_task}.
 We can get a precise result that only depends on the covariance matrices $\Sigma_1, \Sigma_2$ and the number of data points $n_1, n_2$ as follows.
 We shall consider the high-dimensional setting such that
 $$\gamma_n:= \frac{p} {n_1 + n_2} \to \gamma,\quad c_n:= \frac{n_1}{n_1 + n_2} \to c, \quad \text{as } \ n_1, n_2\to \infty, $$
@@ -41,7 +40,7 @@ for some constants $\gamma\in (0,\infty)$ and $c \in (0,1)$.
 	\end{gather}
 \end{theorem}
 
-As a remark, we see that Proposition \ref{prop_monotone} follows from Lemma \ref{lem_model_shift} because
+As a remark, we see that Proposition \ref{prop_monotone} follows from Theorem \ref{lem_model_shift} because
 \begin{align*}
 	e(\hat{\beta}_{s,t}) \le e(\hat{\beta}_t)
 	\Leftarrow~ & (n_2 - p)\Sigma_2 \preceq (n_1 + n_2) a_1 \Sigma_1 + (n_1 + n_2)a_2 \Sigma \\
