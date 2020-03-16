@@ -1,25 +1,14 @@
 \section{Problem Setup}\label{sec_setup}
 
 In the multi-task learning (MTL) problem, we are given the input of $k$ tasks $(X_1, Y_1), (X_2, Y_2), \dots, (X_k, Y_k)$.
-We use a shared module $B$ for all tasks and a separate module $\set{A_i}_{i=1}^k$ for each task.
+We use a shared body (module) $B$ for all tasks and a separate head (module) $\set{A_i}_{i=1}^k$ for each task.
 %    \paragraph{Different covariates:}
 This corresponds to minimizing the following optimization objective.
 \begin{align}
 	\label{eq_mtl}
 	f(B; A_1, \dots, A_k) = \sum_{i=1}^k \normFro{X_i B A_i - Y_i}^2.
 \end{align}
-
-When the models are the same for all tasks, we use a simplified objective as follows.
-\begin{align}
-	\label{eq_mtl_basic}
-	f(w) = \sum_{i=1}^k \normFro{X_i w - Y_i}^2.
-\end{align}
-%{\bf The distributed learning problem.}
-%    \begin{align}
-%     f(w) = \sum_{i=1}^k \normFro{X_i w - Y_i}^2. \label{eq_dist}
-%   \end{align}
-
-Equation \eqref{eq_mtl} is a slightly more complicated parametrization of equation \eqref{eq_mtl_basic}, in that each $A_i$ can select a model from the subspace of $B$ to fit $(X_i, Y_i)$.
+Note that we consider the natural parameterization without reweighting the tasks above.
 
 
 \subsection{Hypothesis}
@@ -35,8 +24,20 @@ Our hypothesis is that the covariate shift can slow down the convergence of lear
 
 In this setting, we assume that the covariates of task $i$ are drawn from $\Sigma_i \in \real^{d \times d}$, but the models are the same across all the tasks, i.e.
 \begin{align}
-	y_i = X_i \beta + \varepsilon_i, \mbox{ with } \frac 1 {n_i} X_i^{\top}X_i \sim \Sigma_i
+	Y_i = X_i \beta + \varepsilon_i. %, \mbox{ with } \frac 1 {n_i} X_i^{\top}X_i \sim \Sigma_i
 \end{align}
+
+When the models are the same for all tasks, we use a simplified objective as follows.
+\begin{align}
+	\label{eq_mtl_basic}
+	f(w) = \sum_{i=1}^k \normFro{X_i w - Y_i}^2.
+\end{align}
+%{\bf The distributed learning problem.}
+%    \begin{align}
+%     f(w) = \sum_{i=1}^k \normFro{X_i w - Y_i}^2. \label{eq_dist}
+%   \end{align}
+
+Equation \eqref{eq_mtl} is a slightly more complicated parametrization of equation \eqref{eq_mtl_basic}, in that each $A_i$ can select a model from the subspace of $B$ to fit $(X_i, Y_i)$.
 
 
 
