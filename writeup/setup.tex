@@ -16,14 +16,13 @@ There are two ways to ensure the sharing of information between tasks.
 	\item Controlling the capacity $r$ of $B$.
 \end{itemize}
 
-\subsection{Hypothesis}
 
-Our hypothesis is that the heterogeneity among the multiple tasks can be categorized into two classes, \textit{covariate shift} and \textit{model shift}. %\todo{Add some references to add spice on these takes.}
-We consider two natural questions within each category.
-\begin{itemize}
-	\item How does covariate shift affect the rate of information transfer? For example, is it better to have the same covariance matrix or not?
-	\item Under model shift, when do we get positive vs. negative transfer? How does the type of transfer depend on the number of data points, the distance of the task models etc?
-\end{itemize}
+\paragraph{Data generation.} We shall assume that each task data follows a linear model.
+For every $1\le i\le k$, we assume that
+\[ Y_i = X_i \beta_i + \varepsilon_i, \]
+where $\beta_i\in\real^p$ is the model parameter for the $i$-th task.
+Each row of $X_i\in\real^{n_i\times p}$ is assumed to be drawn i.i.d. from a fixed distribution with covariance matrix $\Sigma_i$.
+
 
 \paragraph{Objectives.}
 We will designate the $k$-th task as the target.
@@ -50,19 +49,29 @@ Concretely, we focus on two objectives.
 %\end{itemize}
 
 
+\subsection{Hypothesis}
+
+Our hypothesis is that the heterogeneity among the multiple tasks can be categorized into two classes, \textit{covariate shift} and \textit{model shift}. %\todo{Add some references to add spice on these takes.}
+We consider two natural questions within each category.
+\begin{itemize}
+	\item How does covariate shift affect the rate of information transfer? For example, is it better to have the same covariance matrix or not?
+	\item Under model shift, when do we get positive vs. negative transfer? How does the type of transfer depend on the number of data points, the distance of the task models etc?
+\end{itemize}
+
+
+
 \subsubsection{Covariate Shift}
 
-A natural setting is when the covariance matrices $\frac{1}{n_i}\cdot X_i^{\top} X_i$ are different, i.e. having different spectrum or singular vectors.
+A natural setting is when the covariance matrices $\Sigma_i$ are different across tasks, i.e. having different spectrum or singular vectors.
 This is also known as covariate shift in the literature.
 \todo{Our hypothesis is that the covariate shift can slow down the convergence of learning the true $\theta$ as a function of the number of data points.}
+A special case of this setting is that the single-task models are the same across all the tasks, i.e. $\beta_i = \beta$, for all $1\le i\le k$.
+%\begin{align}
+%	Y_i = X_i \beta + \varepsilon_i. %, \mbox{ with } \frac 1 {n_i} X_i^{\top}X_i \sim
+%\Sigma_i
+%\end{align}
 
-
-In this setting, we assume that the covariates of task $i$ are drawn from $\Sigma_i \in \real^{d \times d}$, but the models are the same across all the tasks, i.e.
-\begin{align}
-	Y_i = X_i \beta + \varepsilon_i. %, \mbox{ with } \frac 1 {n_i} X_i^{\top}X_i \sim \Sigma_i
-\end{align}
-
-When the models are the same for all tasks, we use a simplified objective as follows.
+Since all tasks share the same underlying model $\beta$, we use a simplified objective as follows.
 \begin{align}
 	\label{eq_mtl_basic}
 	f(w) = \sum_{i=1}^k \norm{X_i w - Y_i}^2.
@@ -71,16 +80,26 @@ When the models are the same for all tasks, we use a simplified objective as fol
 %    \begin{align}
 %     f(w) = \sum_{i=1}^k \normFro{X_i w - Y_i}^2. \label{eq_dist}
 %   \end{align}
-Equation \eqref{eq_mtl_basic} is simplified from Equation \eqref{eq_mtl} by setting $A_i$ to be 1 for all tasks. %can select a model from the subspace of $B$ to fit $(X_i, Y_i)$.
+Equation \eqref{eq_mtl_basic} is simplified from equation \eqref{eq_mtl} by setting $A_i$ to be 1 for all tasks. %can select a model from the subspace of $B$ to fit $(X_i, Y_i)$.
 
 \begin{proposition}\label{prop_monotone}
 	Suppose that $n > p$.
-  When there is no model shift, adding the source task data always reduces the estimation error, i.e.
-	\[ e(\hat{\beta}_{s,t}) \le e(\hat{\beta}_t). \]
+  When there is no model shift, adding the source task data always reduces the estimation error and the test error for the target task, i.e.
+	\begin{align}
+		e(\hat{\beta}_{s,t})  &\le e(\hat{\beta}_t), \text{ and} \label{eq_mono_e}\\
+		te(\hat{\beta}_{s,t}) &\le te(\hat{\beta}_t) \label{eq_mono_te}
+	\end{align}
 \end{proposition}
 
 \begin{proof}
-	This is simply because $\bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}} \le \bigtr{(X_1^{\top}X_1)^{-1}}$.
+	Equation \eqref{eq_mono_e} is simply because
+		\[ e(\hat{\beta}_{s,t}) = \bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}} \le \bigtr{(X_1^{\top}X_1)^{-1}} = e(\hat{\beta}_t). \]
+	Equation \eqref{eq_mono_te} follows because
+	\begin{align*}
+		te(\hat{\beta}_{s,t}) = \bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2} &= \bigtr{\bigbrace{\Sigma_2^{-1/2}X_1^{\top}X_1\Sigma_2^{-1/2} + \Sigma_2^{-1/2}X_2^{\top}X_2\Sigma^{-1/2}}^{-1}} \\
+		&\le \bigtr{\bigbrace{\Sigma_2^{-1/2}X_2^{\top}X_2\Sigma_2^{-1/2}}^{-1}}
+			= \bigtr{(X_2^{\top}X_2)^{-1} \Sigma_2} = te(\hat{\beta}_t).
+	\end{align*}
 \end{proof}
 
 
@@ -94,7 +113,7 @@ The $i$-th task data can be viewed as generated by a separate model $\beta_i\in\
 	Y_i = X_i \beta_i + \varepsilon_i.
 \end{align}
 
-\paragraph{Sparse models.}
+\subsection{Sparse models}
 One important case is the sparse case, where we assume that the $\beta_i$'s are sparse in the sense 
 that each $\beta_i$ is in a subspace of dimension $k_i\ll p$. In other words,
 $$\beta_i = \sum_{j=1}^{k_i} a^{(i)}_j v^{(i)}_j,$$
