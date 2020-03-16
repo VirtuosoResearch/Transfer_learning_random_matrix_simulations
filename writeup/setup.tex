@@ -25,6 +25,31 @@ We consider two natural questions within each category.
 	\item Under model shift, when do we get positive vs. negative transfer? How does the type of transfer depend on the number of data points, the distance of the task models etc?
 \end{itemize}
 
+\paragraph{Objectives.}
+We will designate the $k$-th task as the target.
+Our goal is to come up with an estimator $\hat{\beta}$ to provide accurate predictions for the target task, provided with the other auxiliary task data.
+Concretely, we focus on two objectives.
+\begin{itemize}
+	\item Estimation error for the target model $\beta_t$: we consider their distance
+		\[ e(\hat{\beta}) \define \exarg{\varepsilon_i, \forall 1\le i\le k}{\bignorm{\hat{\beta} - \beta_t}^2}. \]
+	\item Test error for the target task:
+		\begin{align*}
+			te(\hat{\beta}) &\define \exarg{x \sim \Sigma_k}{\exarg{{\varepsilon_i, \forall 1\le i\le k}}{(x^{\top}\hat{\beta} - x^{\top}\beta_t)^2}} \\
+			&= \exarg{\varepsilon_i, \forall 1\le i\le k}{(\hat{\beta} - \beta_t)^{\top}\Sigma_k(\hat{\beta} - \beta_t)}.
+		\end{align*}
+\end{itemize}
+%\todo{may also consider test error}
+%Several relevant directions on this setting.
+%\begin{itemize}
+%  \item {\bf Low-rank space of $\set{\theta_i}_{i=1}^k$.} We may assume that the task models themselves form a low-rank space. This imposes that the tasks should be related to each other in some way.
+%  \item {\bf PCA-based averaging for distributed regression.} This also leads to a natural heuristic for the distributed learning problem.
+%    After receiving $\hat{\theta_i}$, for $i = 1, 2,\dots, k$, we can apply PCA to find a low-rank space of the estimates.
+%  \item {\bf The hypothesis testing view.} A practical question that often arises in MTL is, if we can access a new task data (say $k+1$-th), should we add the task to the existing set of tasks or not?
+%    One hypothesis is to find the projecion of $\hat{\theta}_{k+1}$ to the low-rank space of the estimates.
+%  \item {\bf MTL and matrix factorization.} Could we use the results from MF to solve MTL? Does the landscape of MTL connect to MF?
+%\end{itemize}
+
+
 \subsubsection{Covariate Shift}
 
 A natural setting is when the covariance matrices $\frac{1}{n_i}\cdot X_i^{\top} X_i$ are different, i.e. having different spectrum or singular vectors.
@@ -49,6 +74,7 @@ When the models are the same for all tasks, we use a simplified objective as fol
 Equation \eqref{eq_mtl_basic} is simplified from Equation \eqref{eq_mtl} by setting $A_i$ to be 1 for all tasks. %can select a model from the subspace of $B$ to fit $(X_i, Y_i)$.
 
 \begin{proposition}\label{prop_monotone}
+	Suppose that $n > p$.
   When there is no model shift, adding the source task data always reduces the estimation error, i.e.
 	\[ e(\hat{\beta}_{s,t}) \le e(\hat{\beta}_t). \]
 \end{proposition}
@@ -80,25 +106,4 @@ Hence our analysis will be valid with projected covariance matrices $P_i \Sigma_
 $$\frac{1}{n_i} P_i \Sigma_i^{1/2} Z_i^T Z_i \Sigma_i^{1/2}P_i \approx P_i \Sigma_i P_i.$$
 Finally, for our analysis it is not necessary to assume that $\beta_T$ is sparse for the target. 
 
-\subsection{Objectives}
-
-We will designate the $k$-th task as the target.
-Our goal is to come up with an estimator $\hat{\beta}$ to provide accurate predictions for the target task, provided with the other auxiliary task data.
-Concretely, we focus on two objectives.
-\begin{itemize}
-	\item Estimation error for the target model $\beta_t$: we consider their distance
-		\[ \exarg{\varepsilon_i, \forall 1\le i\le k}{\bignorm{\hat{\beta} - \beta_t}^2}. \]
-	\item Test error for the target task:
-		\[ \exarg{x \sim \Sigma_k}{\exarg{{\varepsilon_i, \forall 1\le i\le k}}{(x^{\top}\hat{\beta} - x^{\top}\beta_t)^2}}. \]
-\end{itemize}
-%\todo{may also consider test error}
-%Several relevant directions on this setting.
-%\begin{itemize}
-%  \item {\bf Low-rank space of $\set{\theta_i}_{i=1}^k$.} We may assume that the task models themselves form a low-rank space. This imposes that the tasks should be related to each other in some way.
-%  \item {\bf PCA-based averaging for distributed regression.} This also leads to a natural heuristic for the distributed learning problem.
-%    After receiving $\hat{\theta_i}$, for $i = 1, 2,\dots, k$, we can apply PCA to find a low-rank space of the estimates.
-%  \item {\bf The hypothesis testing view.} A practical question that often arises in MTL is, if we can access a new task data (say $k+1$-th), should we add the task to the existing set of tasks or not?
-%    One hypothesis is to find the projecion of $\hat{\theta}_{k+1}$ to the low-rank space of the estimates.
-%  \item {\bf MTL and matrix factorization.} Could we use the results from MF to solve MTL? Does the landscape of MTL connect to MF?
-%\end{itemize}
 
