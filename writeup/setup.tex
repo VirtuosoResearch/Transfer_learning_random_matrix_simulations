@@ -30,10 +30,10 @@ Our goal is to come up with an estimator $\hat{\beta}$ to provide accurate predi
 Concretely, we focus on two objectives.
 \begin{itemize}
 	\item Estimation error for the target model $\beta_t$: we consider their distance
-		\[ e(\hat{\beta}) \define \exarg{\varepsilon_i, \forall 1\le i\le k}{\bignorm{\hat{\beta} - \beta_t}^2}. \]
+		\[ \err(\hat{\beta}) \define \exarg{\varepsilon_i, \forall 1\le i\le k}{\bignorm{\hat{\beta} - \beta_t}^2}. \]
 	\item Test error for the target task:
 		\begin{align*}
-			te(\hat{\beta}) &\define \exarg{x \sim \Sigma_k}{\exarg{{\varepsilon_i, \forall 1\le i\le k}}{(x^{\top}\hat{\beta} - x^{\top}\beta_t)^2}} \\
+			\te(\hat{\beta}) &\define \exarg{x \sim \Sigma_k}{\exarg{{\varepsilon_i, \forall 1\le i\le k}}{(x^{\top}\hat{\beta} - x^{\top}\beta_t)^2}} \\
 			&= \exarg{\varepsilon_i, \forall 1\le i\le k}{(\hat{\beta} - \beta_t)^{\top}\Sigma_k(\hat{\beta} - \beta_t)}.
 		\end{align*}
 \end{itemize}
@@ -86,19 +86,19 @@ Equation \eqref{eq_mtl_basic} is simplified from equation \eqref{eq_mtl} by sett
 	Suppose that $n > p$.
   When there is no model shift, adding the source task data always reduces the estimation error and the test error for the target task, i.e.
 	\begin{align}
-		e(\hat{\beta}_{s,t})  &\le e(\hat{\beta}_t), \text{ and} \label{eq_mono_e}\\
-		te(\hat{\beta}_{s,t}) &\le te(\hat{\beta}_t) \label{eq_mono_te}
+		\err(\hat{\beta}_{s,t})  &\le \err(\hat{\beta}_t), \text{ and} \label{eq_mono_e}\\
+		\te(\hat{\beta}_{s,t}) &\le \te(\hat{\beta}_t) \label{eq_mono_te}
 	\end{align}
 \end{proposition}
 
 \begin{proof}
 	Equation \eqref{eq_mono_e} is simply because
-		\[ e(\hat{\beta}_{s,t}) = \bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}} \le \bigtr{(X_1^{\top}X_1)^{-1}} = e(\hat{\beta}_t). \]
+		\[ \err(\hat{\beta}_{s,t}) = \bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}} \le \bigtr{(X_1^{\top}X_1)^{-1}} = \err(\hat{\beta}_t). \]
 	Equation \eqref{eq_mono_te} follows because
 	\begin{align*}
-		te(\hat{\beta}_{s,t}) = \bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2} &= \bigtr{\bigbrace{\Sigma_2^{-1/2}X_1^{\top}X_1\Sigma_2^{-1/2} + \Sigma_2^{-1/2}X_2^{\top}X_2\Sigma^{-1/2}}^{-1}} \\
+		\te(\hat{\beta}_{s,t}) = \bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2} &= \bigtr{\bigbrace{\Sigma_2^{-1/2}X_1^{\top}X_1\Sigma_2^{-1/2} + \Sigma_2^{-1/2}X_2^{\top}X_2\Sigma^{-1/2}}^{-1}} \\
 		&\le \bigtr{\bigbrace{\Sigma_2^{-1/2}X_2^{\top}X_2\Sigma_2^{-1/2}}^{-1}}
-			= \bigtr{(X_2^{\top}X_2)^{-1} \Sigma_2} = te(\hat{\beta}_t).
+			= \bigtr{(X_2^{\top}X_2)^{-1} \Sigma_2} = \te(\hat{\beta}_t).
 	\end{align*}
 \end{proof}
 

@@ -17,18 +17,19 @@ The estimator using the source and target together from minimizing \eqref{eq_mtl
 \[ \hat{\beta}_{s,t} = (X_1^{\top} X_1 + X_2^{\top} X_2)^{-1} (X_1^{\top}Y_1 + X_2^{\top}Y_2)\]
 The estimation error of $\hat{\beta}_{s,t}$ is
 \begin{align}\label{eq_two_task}
-  e(\hat{\beta}_{s,t}) = \sigma^2 \cdot \tr[(X_1^{\top}X_1 + X_2^{\top} X_2)^{-1}].
+  \err(\hat{\beta}_{s,t}) = \sigma^2 \cdot \tr[(X_1^{\top}X_1 + X_2^{\top} X_2)^{-1}].
 \end{align}
 The estimation error using the target alone is
 \begin{align}\label{eq_target_task}
-	e(\hat{\beta}_t) = \sigma^2 \cdot \tr[(X_2^{\top} X_2)^{-1}].
+	\err(\hat{\beta}_t) = \sigma^2 \cdot \tr[(X_2^{\top} X_2)^{-1}].
 \end{align}
 The improvement of estimation error from adding the source task is then given by
-$e(\hat{\beta}_t) - e(\hat{\beta}_{s,t})$.
-For the test error on the target task, the improvement from adding the source task
+$\err(\hat{\beta}_t) - \err(\hat{\beta}_{s,t})$.
+For the test error on the target task, the improvement from adding the source task is
+\[ \te(\hat{\beta}_t) - \te(\hat{\beta}_{s,t}) = \sigma^2\cdot\bigtr{\bigbrace{(X_2^{\top}X_2)^{-1} - (X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}}\cdot\Sigma_2}. \]
 
-We calculate the amount of improvement by comparing equation \eqref{eq_two_task} to equation \eqref{eq_target_task}.
-We can get a precise result that only depends on the covariance matrices $\Sigma_1, \Sigma_2$ and the number of data points $n_1, n_2$ as follows.
+%We calculate the amount of improvement by comparing equation \eqref{eq_two_task} to equation \eqref{eq_target_task}.
+We can get a precise result on the improvement of adding the source task data that only depends on the covariance matrices $\Sigma_1, \Sigma_2$ and the number of data points $n_1, n_2$.
 We shall consider the high-dimensional setting such that
 $$\gamma_n:= \frac{p} {n_1 + n_2} \to \gamma,\quad c_n:= \frac{n_1}{n_1 + n_2} \to c, \quad \text{as } \ n_1, n_2\to \infty, $$
 for some constants $\gamma\in (0,\infty)$ and $c \in (0,1)$.
@@ -37,8 +38,10 @@ for some constants $\gamma\in (0,\infty)$ and $c \in (0,1)$.
 	Let $\lambda_1, \lambda_2, \dots, \lambda_p$ denote the singular values of $\Sigma_1^{-1/2}\Sigma_2^{1/2}$.
 	When there is no model shift, the amount of reduction on the estimation error is given as
 	\begin{align*}
-		e(\hat{\beta}_t) - e(\hat{\beta}_{s,t})
-		= \sigma^2 p \cdot \bigtr{\frac 1 {(n_2 - p) \Sigma_2} - \frac 1 {(n_1 + n_2)a_1 \Sigma_1 + (n_1 + n_2)a_2 \Sigma_2}},
+		\err(\hat{\beta}_t) - \err(\hat{\beta}_{s,t})
+		&= \sigma^2 p \cdot \bigtr{\frac 1 {(n_2 - p) \Sigma_2} - \frac 1 {(n_1 + n_2)a_1 \Sigma_1 + (n_1 + n_2)a_2 \Sigma_2}}, \\
+		\te(\hat{\beta}_t) - \te(\hat{\beta}_{s,t})
+		&= \sigma^2 p \cdot \bigtr{\frac 1 {n_2 - p} - \frac 1 {(n_1 + n_2)a_1\Sigma_1\Sigma_2^{-1} + (n_1 + n_2)a_2\id}}.
 	\end{align*}
 	where $a_1, a_2$ are the solutions of the following equations
 	\begin{gather}
@@ -49,7 +52,7 @@ for some constants $\gamma\in (0,\infty)$ and $c \in (0,1)$.
 
 As a remark, we see that Proposition \ref{prop_monotone} follows from Theorem \ref{lem_model_shift} because
 \begin{align*}
-	e(\hat{\beta}_{s,t}) \le e(\hat{\beta}_t)
+	\err(\hat{\beta}_{s,t}) \le \err(\hat{\beta}_t)
 	\Leftarrow~ & (n_2 - p)\Sigma_2 \preceq (n_1 + n_2) a_1 \Sigma_1 + (n_1 + n_2)a_2 \Sigma \\
 	\Leftrightarrow~ & \zeroMatrix \preceq (n_1 + n_2) a_1 \Sigma_1 + (n_1 - (n_1 + n_2)\cdot a_1) \Sigma_2,
 \end{align*}
