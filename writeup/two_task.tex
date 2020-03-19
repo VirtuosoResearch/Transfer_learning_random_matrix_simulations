@@ -36,27 +36,33 @@ for some constants $\gamma\in (0,\infty)$ and $c \in (0,1)$.
 
 \begin{theorem}[Transfer rate under covariate shift]\label{thm_model_shift}
 	Let $\lambda_1, \lambda_2, \dots, \lambda_p$ denote the singular values of $\Sigma_1^{-1/2}\Sigma_2^{1/2}$.
-	When there is no model shift, the amount of reduction on the estimation error is given as
+	When there is no model shift, we have that
+	\begin{align*}
+		\err(\hat{\beta}_{s,t}) &= \sigma^2 p \cdot \bigtr{\frac 1 {(n_1 + n_2)a_1\Sigma_1 + (n_1 + n_2)a_2\Sigma_2}} \\
+		\te(\hat{\beta}_{s,t}) &= \sigma^2 p \cdot \bigtr{\frac 1 {(n_1 + n_2)a_1\Sigma_2^{-1/2}\Sigma_1\Sigma_2^{-1/2} + (n_1 + n_2)a_2\id}}
+	\end{align*}
+	where $a_1, a_2$ are the solutions of the following equations
+	\begin{gather}
+		 a_1 + a_2 = 1- \frac{p}{n_1 + n_2} \label{eq_a1}\\
+		 a_1 + \sum_{i=1}^p \frac{a_1}{(n_1 + n_2)a_1 + (n_1 + n_2)\lambda_i^2 a_2} = \frac{n_1}{n_1 + n_2}. \label{eq_a2}.
+	\end{gather}
+\end{theorem}
+
+As a remark, we see that Proposition \ref{prop_monotone} follows from Theorem \ref{thm_model_shift}.
+The amount of reduction on estimation error and test error for the target task is given as
 	\begin{align*}
 		\err(\hat{\beta}_t) - \err(\hat{\beta}_{s,t})
 		&= \sigma^2 p \cdot \bigtr{\frac 1 {(n_2 - p) \Sigma_2} - \frac 1 {(n_1 + n_2)a_1 \Sigma_1 + (n_1 + n_2)a_2 \Sigma_2}}, \\
 		\te(\hat{\beta}_t) - \te(\hat{\beta}_{s,t})
 		&= \sigma^2 p \cdot \bigtr{\frac 1 {n_2 - p} - \frac 1 {(n_1 + n_2)a_1\Sigma_2^{-1/2}\Sigma_1\Sigma_2^{-1/2} + (n_1 + n_2)a_2\id}}.
 	\end{align*}
-	where $a_1, a_2$ are the solutions of the following equations
-	\begin{gather}
-		 a_1 + a_2 = 1- \frac{p}{n_1 + n_2} \label{m35reduced_1}\\
-		 a_1 +\frac1{n_1 + n_2}\sum_{i=1}^p \frac{a_1}{a_1 + \lambda_i^2[(1-\frac{p}{n_1 + n_2})-a_1]} = \frac{n_1}{n_1 + n_2}. \label{m35reduced_2}
-	\end{gather}
-\end{theorem}
-
-As a remark, we see that Proposition \ref{prop_monotone} follows from Theorem \ref{thm_model_shift} because
+Because
 \begin{align*}
 	\err(\hat{\beta}_{s,t}) \le \err(\hat{\beta}_t)
 	\Leftarrow~ & (n_2 - p)\Sigma_2 \preceq (n_1 + n_2) a_1 \Sigma_1 + (n_1 + n_2)a_2 \Sigma_2 \\
 	\Leftrightarrow~ & \zeroMatrix \preceq (n_1 + n_2) a_1 \Sigma_1 + (n_1 - (n_1 + n_2)\cdot a_1) \Sigma_2,
 \end{align*}
-which is true since $a_1 \le n_1 / (n_1 + n_2)$ by equation \eqref{m35reduced_2}.
+which is true since $a_1 \le n_1 / (n_1 + n_2)$ by equation \eqref{eq_a2}.
 The proof for $\te(\hat{\beta}_{s,t}) \le \te(\hat{\beta}_t)$ follows by multiplying $\Sigma_2^{-1/2}$ on both sides of the inequalities above.
 
 Now we apply Theorem \ref{thm_model_shift} to show how covariate shift affects the rate of transfer.
@@ -65,10 +71,20 @@ Now we apply Theorem \ref{thm_model_shift} to show how covariate shift affects t
 In this case, we have $\lambda_i = 1$ for all $1\le i\le p$.
 And $a_1 + a_2 = 1 - p / (n_1 + n_2)$.
 Hence
-\[ e(\hat{\beta}_t) - e(\hat{\beta}_{s,t}) = \sigma^2 p \cdot \bigbrace{\frac{1}{n_2 - p} - \frac{1}{n_1 + n_2 - p}} \bigtr{\Sigma_2^{-1}}. \]
+\[ \te(\hat{\beta}_{s,t}) = \frac{\sigma^2 p^2}{n_1 + n_2 - p} \text{ and } \err(\hat{\beta}_{s,t}) = \frac {\sigma^2 p} {n_1 + n_2 - p} \bigtr{\Sigma_2^{-1}}. \]
 
-\paragraph{Example 2: when $\Sigma_1 \neq \Sigma_2$.}
-\todo{bla}
+\paragraph{Example 2: when $\Sigma_1 = \Sigma_2 / \lambda$.}
+In this case, equations \eqref{eq_a1} and \eqref{eq_a2} become
+\[ a_1 + a_2 = 1 - p/(n_1 + n_2), a_1 + \frac{p}{n_1 + n_2} \cdot \frac {a_1} {a_1 + \lambda^2 a_2} = \frac{n_1} {n_1 + n_2}. \]
+By solving these, we can get the test errors and Figure \ref{fig_te_scaling} shows how they grow as we increase the number of source task data points.
+We can see that the smaller $\lambda$ is, the lower the test errors will be.
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.4\textwidth]{figures/scaling.eps}
+	\caption{When $\Sigma_1 = \Sigma_2 / \lambda$.}
+	\label{fig_te_scaling}
+\end{figure}
 
 \bigskip
 To prove Theorem \ref{thm_model_shift}, we study the spectrum of the random matrix model:
