@@ -1,0 +1,2034 @@
+\appendix
+
+\section{Proof of Lemma \ref{X1X2}} %\label{sec_maintools}
+
+(\cor will simplify greatly\nc)
+
+\subsection{Notations}
+
+%Following the notations in \cite{EKYY,EKYY1}, we will use the following definition to characterize events of high probability.
+%
+%\begin{definition}[High probability event] \label{high_prob}
+%Define
+%\begin{equation}\label{def_phi}
+%\varphi:=(\log N)^{\log \log N}.
+%\end{equation} 
+%We say that an $N$-dependent event $\Omega$ holds with {\it{$\xi$-high probability}} if there exist constant $c,C>0$ independent of $N$, such that
+%\begin{equation}
+%\mathbb{P}(\Omega) \geq 1-N^{C} \exp(- c\varphi^{\xi}),  \label{D25}
+%\end{equation}
+%for all sufficiently large $N$. For simplicity, for the case $\xi=1$, we just say {\it{high probability}}. Note that if (\ref{D25}) holds, then $\mathbb P(\Omega) \ge 1 - \exp(-c'\varphi^{\xi})$ for any constant $0\le c' <c$. 
+%\end{definition}
+%\begin{remark}
+%For any $c, C>0$, there exists a $0< c^{\prime}<c$, such that $N^{C} \exp(-c \varphi^{\xi}) \leq \exp(-c^{\prime} \varphi^{\xi})$. Hence, if
+%\begin{equation}
+%\mathbb{P}(\Omega) \geq 1- \exp(-c \varphi^{\xi})
+%\end{equation}
+%$\Omega$ is also a $\xi$-high probability event.
+%\end{remark}
+
+We will use the following notion of stochastic domination, which was first introduced in \cite{Average_fluc} and subsequently used in many works on random matrix theory, such as \cite{isotropic,principal,local_circular,Delocal,Semicircle,Anisotropic}. It simplifies the presentation of the results and their proofs by systematizing statements of the form ``$\xi$ is bounded by $\zeta$ with high probability up to a small power of $N$".
+
+\begin{definition}[Stochastic domination]\label{stoch_domination}
+%\begin{itemize}
+%\item[(i)] 
+(i) Let
+\[\xi=\left(\xi^{(N)}(u):N\in\bbN, u\in U^{(N)}\right),\hskip 10pt \zeta=\left(\zeta^{(N)}(u):N\in\bbN, u\in U^{(N)}\right)\]
+be two families of nonnegative random variables, where $U^{(N)}$ is a possibly $N$-dependent parameter set. We say $\xi$ is stochastically dominated by $\zeta$, uniformly in $u$, if for any fixed (small) $\epsilon>0$ and (large) $D>0$, 
+\[\sup_{u\in U^{(N)}}\bbP\left[\xi^{(N)}(u)>N^\epsilon\zeta^{(N)}(u)\right]\le N^{-D}\]
+for large enough $N\ge N_0(\epsilon, D)$, and we shall use the notation $\xi\prec\zeta$. Throughout this paper, the stochastic domination will always be uniform in all parameters that are not explicitly fixed (such as matrix indices, and $z$ that takes values in some compact set). Note that $N_0(\epsilon, D)$ may depend on quantities that are explicitly constant, such as $\tau$ in Assumption \ref{assm_big1} and \eqref{assm_gap}. If for some complex family $\xi$ we have $|\xi|\prec\zeta$, then we will also write $\xi \prec \zeta$ or $\xi=O_\prec(\zeta)$.
+%\item[(ii)] 
+
+(ii) We extend the definition of $O_\prec(\cdot)$ to matrices in the weak operator sense as follows. Let $A$ be a family of random matrices and $\zeta$ be a family of nonnegative random variables. Then $A=O_\prec(\zeta)$ means that $\left|\left\langle\mathbf v, A\mathbf w\right\rangle\right|\prec\zeta \| \mathbf v\|_2 \|\mathbf w\|_2 $ uniformly in any deterministic vectors $\mathbf v$ and $\mathbf w$. Here and throughout the following, whenever we say ``uniformly in any deterministic vectors", we mean that ``uniformly in any deterministic vectors belonging to a set of cardinality $N^{\OO(1)}$".
+%\item[(iv)] 
+
+(iii) We say an event $\Xi$ holds with high probability if for any constant $D>0$, $\mathbb P(\Xi)\ge 1- N^{-D}$ for large enough $N$.
+%\end{itemize}
+\end{definition}
+
+The following lemma collects basic properties of stochastic domination $\prec$, which will be used tacitly in the proof.
+
+\begin{lemma}[Lemma 3.2 in \cite{isotropic}]\label{lem_stodomin}
+Let $\xi$ and $\zeta$ be families of nonnegative random variables.
+
+(i) Suppose that $\xi (u,v)\prec \zeta(u,v)$ uniformly in $u\in U$ and $v\in V$. If $|V|\le N^C$ for some constant $C$, then $\sum_{v\in V} \xi(u,v) \prec \sum_{v\in V} \zeta(u,v)$ uniformly in $u$.
+
+(ii) If $\xi_1 (u)\prec \zeta_1(u)$ and $\xi_2 (u)\prec \zeta_2(u)$ uniformly in $u\in U$, then $\xi_1(u)\xi_2(u) \prec \zeta_1(u)\zeta_2(u)$ uniformly in $u$.
+
+(iii) Suppose that $\Psi(u)\ge N^{-C}$ is deterministic and $\xi(u)$ satisfies $\mathbb E\xi(u)^2 \le N^C$ for all $u$. Then if $\xi(u)\prec \Psi(u)$ uniformly in $u$, we have $\mathbb E\xi(u) \prec \Psi(u)$ uniformly in $u$.
+\end{lemma}
+
+
+\begin{definition}[Bounded support condition] \label{defn_support}
+We say a random matrix $X$ satisfies the {\it{bounded support condition}} with $q$, if
+\begin{equation}
+\max_{i,j}\vert x_{ij}\vert \prec q. \label{eq_support}
+\end{equation}
+Here $q\equiv q(N)$ is a deterministic parameter and usually satisfies $ N^{-{1}/{2}} \leq q \leq N^{- \phi} $ for some (small) constant $\phi>0$. Whenever (\ref{eq_support}) holds, we say that $X$ has support $q$. 
+%Moreover, if the entries of $X$ satisfy (\ref{size_condition}), then $X$ trivially satisfies the bounded support condition with $q=N^{-\phi}$.
+\end{definition}
+
+%\begin{remark}
+%Note that the Gaussian distribution satisfies the condition (\ref{eq_support}) with $q< N^{-\phi}$ for any $\phi<1/2$. We also remark that if (\ref{eq_support}) holds, then the event $\left\{\vert x_{ij}\vert \le q, \forall 1\le i \le M,1\le j \le N\right\}$ holds with $\xi$-high probability for any fixed $\xi>0$ according to Definition \ref{high_prob}. For this reason, the bad event $\left\{\vert x_{ij}\vert > q \text{ for some }i,j\right\}$ is negligible, and we will not consider the case it happens throughout the proof.
+%\end{remark}
+
+Next we introduce a convenient self-adjoint linearization trick, which has been proved to be useful in studying the local laws of random matrices of the Gram type \cite{Alt_Gram, AEK_Gram, Anisotropic, XYY_circular}. We define the following $(n+N)\times (n+N)$ self-adjoint block matrix, which is a linear function of $X$:
+%\begin{definition}[Linearizing block matrix]\label{def_linearHG}%definiton of the Green function
+%We define the $(n+N)\times (n+N)$ block matrix
+ \begin{equation}\label{linearize_block}
+   H \equiv H(X): = \left( {\begin{array}{*{20}c}
+   { 0 } & \Sig^{1/2} U^{*}X V\tilde \Sig^{1/2}   \\
+   {\tilde\Sig^{1/2}V^*X^* U\Sig^{1/2} } & {0}  \\
+   \end{array}} \right),
+ \end{equation}
+Then we define its resolvent (Green's function) as
+ \begin{equation}\label{eqn_defG}
+ G \equiv G (X,z):= \left[H(X)-\left( {\begin{array}{*{20}c}
+   { I_{n\times n}} & 0  \\
+   0 & { zI_{N\times N}}  \\
+\end{array}} \right)\right]^{-1} , \quad z\in \mathbb C_+ .
+ \end{equation}
+%It is easy to verify that the eigenvalues $\lambda_1(H)\ge \ldots \ge \lambda_{n+N}(H)$ of $H$ are related to the ones of $\mathcal Q_1$ through
+%\begin{equation}\label{Heigen}
+%\lambda_i(H)=-\lambda_{n+N-i+1}(H)=\sqrt{\lambda_i\left(\mathcal Q_2\right)}, \ \ 1\le i \le n\wedge N, \quad \text{and}\quad \lambda_i(H)=0, \ \ n\wedge N + 1 \le i \le n\vee N.
+%\end{equation}
+%and
+%$$\lambda_i(H)=0, \ \ n\wedge N + 1 \le i \le n\vee N.$$
+%where we used the notations $n\wedge N:=\min\{N,M\}$ and $n\vee N:=\max\{N,M\}$. 
+By Schur complement formula, we can verify that (recall \eqref{def_green})
+\begin{align} 
+G = \left( {\begin{array}{*{20}c}
+   { z\mathcal G_1} & \mathcal G_1 \Sig^{1/2} U^{*}X V\tilde \Sig^{1/2}  \\
+   {\tilde\Sig^{1/2}V^*X^* U\Sig^{1/2} \mathcal G_1} & { \mathcal G_2 }  \\
+\end{array}} \right) = \left( {\begin{array}{*{20}c}
+   { z\mathcal G_1} & \Sig^{1/2} U^{*}X V\tilde \Sig^{1/2} \mathcal G_2   \\
+   {\mathcal G_2}\tilde\Sig^{1/2}V^*X^* U\Sig^{1/2} & { \mathcal G_2 }  \\ 
+\end{array}} \right). \label{green2}
+\end{align}
+%where $\mathcal G_{1,2}$ are defined in (\ref{def_green}). 
+Thus a control of $G$ yields directly a control of the resolvents $\mathcal G_{1,2}$. For simplicity of notations, we define the index sets
+%By (\ref{green2}), we immediately get that
+%$$m_1^{(n)}(z):= \frac{1}{Nz}\sum_{i=1}^n\sigma_i G_{ii}(z) ,\quad m_2^{(N)}(x):=\frac{1}{N}\sum_{\mu=1}^N \tilde\sigma_\mu (\mathcal G_2)_{\mu\mu}(z). $$
+%\end{definition}
+%\begin{definition}[Index sets]\label{def_index} 
+%We define the index sets
+\[\mathcal I_1:=\{1,...,n\}, \quad \mathcal I_2:=\{n+1,...,n+N\}, \quad \mathcal I:=\mathcal I_1\cup\mathcal I_2.\]
+Then we label the indices of the matrices according to 
+$$X= (X_{i\mu}:i\in \mathcal I_1, \mu \in \mathcal I_2), \quad A=(A_{ij}: i,j\in \mathcal I_1),\quad B=(B_{\mu\nu}: \mu,\nu\in \mathcal I_2).$$  
+In the rest of this paper, %whenever referring to the entries of $H$ and $G$, 
+we will consistently use the latin letters $i,j\in\mathcal I_1$, greek letters $\mu,\nu\in\mathcal I_2$, and $a,b\in\mathcal I$. 
+%\cor (do we need this notations?) For $1\le i \le \min\{N,M\}$ and $M+1 \le \mu  \le M+\min\{N,M\}$, we introduce the notations $\bar i:=i+M \in \mathcal I_2$ and $\bar\mu:=\mu-M \in \mathcal I_1$. For any $\mathcal I \times \mathcal I$ matrix $A$, we define the following $2\times 2$ submatrices %$A_{[ij]}$
+%\begin{equation}\label{Aij_group}
+%A_{[ij]}=\left( {\begin{array}{*{20}c}
+%   {A_{ij} } & {A_{i\bar j} }  \\
+%   {A_{\bar i j} } & {A_{\bar i\bar j} }  \\
+%\end{array}} \right), \ \ 1\le i,j \le \min\{N,M\}.
+%\end{equation}
+%We shall call $A_{[ij]}$ a {\it{diagonal group}} if $i=j$, and an {\it{off-diagonal group}} otherwise. \nc
+%\end{definition}
+
+ 
+Next we introduce the spectral decomposition of $G$. Let
+$$\Sig^{1/2} U^{*}X V\tilde \Sig^{1/2}  = \sum_{k = 1}^{n\wedge N} {\sqrt {\lambda_k} \xi_k } \zeta _{k}^* ,$$
+be a singular value decomposition of $\Sig^{1/2} U^{*}X V\tilde \Sig^{1/2}$, where
+$$\lambda_1\ge \lambda_2 \ge \ldots \ge \lambda_{n\wedge N} \ge 0 = \lambda_{n\wedge N+1} = \ldots = \lambda_{n\vee N},$$
+$\{\xi_{k}\}_{k=1}^{n}$ are the left-singular vectors, and $\{\zeta_{k}\}_{k=1}^{N}$ are the right-singular vectors.
+%orthonormal bases of $\mathbb R^{\mathcal I_1}$ and $\mathbb R^{\mathcal I_2}$, respectively. 
+Then using (\ref{green2}), we can get that for $i,j\in \mathcal I_1$ and $\mu,\nu\in \mathcal I_2$,
+\begin{align}
+G_{ij} = \sum_{k = 1}^{n} \frac{z\xi_k(i) \xi_k^*(j)}{\lambda_k-z},\ \quad \ &G_{\mu\nu} = \sum_{k = 1}^{N} \frac{\zeta_k(\mu) \zeta_k^*(\nu)}{\lambda_k-z}, \label{spectral1}\\
+G_{i\mu} = \sum_{k = 1}^{n\wedge N} \frac{\sqrt{\lambda_k}\xi_k(i) \zeta_k^*(\mu)}{\lambda_k-z}, \ \quad \ &G_{\mu i} = \sum_{k = 1}^{n\wedge N} \frac{\sqrt{\lambda_k}\zeta_k(\mu) \xi_k^*(i)}{\lambda_k-z}.\label{spectral2}
+\end{align}
+
+
+\subsection{Main tools}\label{sec_tools}
+
+For any constants $c_0,C_0>0$ and $a \le 1$, we define a domain of the spectral parameter $z$ as
+\begin{equation}
+S(c_0,C_0,a):= \left\{z=E+ \ii \eta: \lambda_r - c_0 \leq E \leq C_0 \lambda_r, N^{-1+a} \leq \eta \leq 1 \right\}. \label{SSET1}
+\end{equation}
+In particular, we shall denote
+\begin{equation}
+S(c_0,C_0,-\infty):= \left\{z=E+ \ii \eta: \lambda_r - c_0 \leq E \leq C_0 \lambda_r, 0 \leq \eta \leq 1 \right\}.
+\end{equation}
+We define the distance to the rightmost edge as
+\begin{equation}
+\kappa \equiv \kappa_E := \vert E -\lambda_r\vert , \ \ \text{for } z= E+\ii \eta.\label{KAPPA}
+\end{equation}
+Then we have the following lemma, which summarizes some basic properties of $m_{2c}$ and $\rho_{2c}$.
+%{\color{red}Discuss about the case \eqref{assm3extra}. }
+
+\begin{lemma}\label{lem_mbehavior}
+Suppose the assumptions \eqref{assm2}, \eqref{assm3} and \eqref{assm_gap} hold. Then
+there exists sufficiently small constant $\tilde c>0$ such that the following estimates hold:
+\begin{itemize}
+\item[(1)]
+\begin{equation}
+\rho_{1,2c}(x) \sim \sqrt{\lambda_r-x}, \quad \ \ \text{ for } x \in \left[\lambda_r - 2\tilde c,\lambda_r \right];\label{SQUAREROOT}
+\end{equation}
+\item[(2)] for $z =E+\ii \eta\in S(\tilde c,C_0,-\infty)$, 
+\begin{equation}\label{Immc}
+\vert m_{1,2c}(z) \vert \sim 1,  \quad  \im m_{1,2c}(z) \sim \begin{cases}
+    {\eta}/{\sqrt{\kappa+\eta}}, & \text{ if } E\geq \lambda_r \\
+    \sqrt{\kappa+\eta}, & \text{ if } E \le \lambda_r\\
+  \end{cases};
+\end{equation}
+%for $z = E+\ii \eta\in S(\tilde c,C_0,\omega)$;
+\item[(3)] there exists constant $\tau'>0$ such that
+\begin{equation}\label{Piii}
+\min_{\mu\in \mathcal I_2} \vert 1 + m_{1c}(z)\tilde \sigma_\mu \vert \ge \tau', \quad \min_{i\in \mathcal I_1} \vert 1 + m_{2c}(z)\sigma_i  \vert \ge \tau',
+\end{equation}
+for any $z \in S(\tilde c,C_0,-\infty)$.
+\end{itemize}
+The estimates \eqref{SQUAREROOT} and \eqref{Immc} also hold for $\rho_c$ and $m_c$. 
+\end{lemma}
+%and
+%\begin{equation}
+%  \operatorname{Im} m_{2c}(z) \sim \begin{cases}
+%    {\eta}/{\sqrt{\kappa+\eta}}, & E\geq \lambda_r \\
+%    \sqrt{\kappa+\eta}, & E \le \lambda_r\\
+%  \end{cases},  \label{SQUAREROOTBEHAVIOR}
+%\end{equation}
+\begin{proof}
+The estimate \eqref{SQUAREROOT} is already given by Lemma \ref{lambdar_sqrt}. The estimate \eqref{Immc} can be proved easily with \eqref{sqroot4}. 
+%The estimate \eqref{SQUAREROOT} for $\rho_c$ is already given by Lemma \ref{lambdar_sqrt}. The estimate \eqref{Immc} for $m_c$ follows from  \eqref{def_mc}, \eqref{Piii}, and \eqref{Immc} for $m_{2c}$.
+It remains to prove \eqref{Piii}. By assumption \eqref{assm_gap} and the fact $m_{2c}(\lambda_r) \in (-\sigma_1^{-1}, 0)$, we have
+$$\left| 1+ m_{2c}(\lambda_r) \sigma_i \right| \ge \tau,  \quad i\in \mathcal I_1.$$
+With \eqref{sqroot4}, we see that if $\kappa+\eta \le 2c_0$ for some sufficiently small constant $c_0>0$, then
+$$\left| 1+ m_{2c}(z)\sigma_k \right| \ge \tau/2.$$
+Then we consider the case with $E \ge \lambda_r + c_0$ and $\eta \le c_1$ for some constant $c_1>0$. In fact, for $\eta=0$ and $E> \lambda_r$, $m_{2c}(E)$ is real and it is easy to verify that $m_{2c}'(E)\ge 0$ using 
+the Stieltjes transform formula 
+%(\ref{Stj_app}). Applying (\ref{SQUAREROOT}) to the Stieltjes transform
+\begin{equation}\label{Stj_app}
+m_{2c}(z):=\int_{\mathbb R} \frac{\rho_{2c}(dx)}{x-z},
+\end{equation}
+Hence we have
+$$ 1+ \sigma_i m_{2c}(E)  \ge 1+ \sigma_i m_{2c}(\lambda_r ) \ge \tau, \ \ \text{ for }E\ge \lambda_r + c_0.$$
+Using (\ref{Stj_app}) again, we can get that 
+$$\left|\frac{\dd m_{2c}(z)}{ \dd z }\right| \le c_0^{-2}, \ \ \text{for } E\ge \lambda_r + c_0.$$ 
+Thus if $c_1$ is sufficiently small, we have
+$$\left| 1+ \sigma_k m_{2c}(E+\ii\eta) \right| \ge  \tau/2$$
+for $E\ge \lambda_r + c_0$ and $\eta \le c_1$. Finally, it remains to consider the case with $\eta \ge c_1$. Note that we have $|m_{2c}(z)| \sim \Im \, m_{2c}(z) \sim 1$ by (\ref{Immc}). If $\sigma_k \le \left|2m_{2c}(z)\right|^{-1}$, then $\left| 1+ \sigma_k m_{2c}(z) \right| \ge 1/2$. Otherwise, we have %Together with (\ref{Immc}), we get that
+$$\left| 1+ \sigma_k m_{2c}(z) \right| \ge \sigma_k \Im\, m_{2c}(z) \ge \frac{\Im\, m_{2c}(z)}{2 |m_{2c}(z)|}\gtrsim 1 .$$
+%for some constant $\tau'>0$. 
+In sum, we have proved the second estimate in \eqref{Piii}. The first estimate can be proved in a similar way. 
+\end{proof}
+
+%Then we have the following estimates for $m_{2c}$:
+%%\begin{lemma}[Lemma ]\label{lem_mbehavior}
+%%and $\delta_N \le (\log N)^{-1}$, 
+%%we have
+%\begin{equation}\label{Immc}
+%\vert m_{2c}(z) \vert \sim 1, \ \  \Im \, m_{2c}(z) \sim \begin{cases}
+%    {\eta}/{\sqrt{\kappa+\eta}}, & \text{ if } E \notin \text{supp}\, \rho_{2c}\\
+%    \sqrt{\kappa+\eta}, & \text{ if } E \in \text{supp}\, \rho_{2c}\\
+%  \end{cases},
+%\end{equation}
+%%and 
+%\begin{equation}\label{Piii}
+%\max_{i\in \mathcal I_1} \vert (1 + m_{2c}(z)\sigma_i)^{-1} \vert = \OO(1).
+%\end{equation}
+%\end{lemma}
+
+%\begin{remark}
+%Recall that $a_k$ are the edges of the spectral density $\rho_{2c}$; see (\ref{support_rho1c}). Hence $\rho_{2c}(a_k)=0$, and we must have $a_k < \lambda_r - 2\tilde c$ for $2\le k \le 2p$. In particular, $S(c_0,C_0,\e)$ is away from all the other edges if we choose $c_0 \le \tilde c$. 
+%\end{remark}
+
+\begin{definition} [Classical locations of eigenvalues]
+The classical location $\gamma_j$ of the $j$-th eigenvalue of $\mathcal Q_1$ is defined as
+\begin{equation}\label{gammaj}
+\gamma_j:=\sup_{x}\left\{\int_{x}^{+\infty} \rho_{c}(x)dx > \frac{j-1}{n}\right\}.
+\end{equation}
+In particular, we have $\gamma_1 = \lambda_r$.
+\end{definition}
+%\begin{remark}
+%If $\gamma_j$ lies in the bulk of $\rho_{2c}$, then by the positivity of $\rho_{2c}$ we can define $\gamma_j$ through the equation
+%\begin{equation*}
+%\int_{\gamma_j}^{+\infty} \rho_{2c}(x)dx = \frac{j-1}{N}.
+%\end{equation*}
+%We can also define the classical location of the $j$-th eigenvalue of $\mathcal Q_1$ by changing $\rho_{2c}$ to $\rho_{1c}$ and $(j-1)/{N}$ to $(j-1)/{M}$ in (\ref{gammaj}). By (\ref{def21}), this gives the same location as $\gamma_j$ for $j\le n\wedge N$.
+%\end{remark}
+
+In the rest of this section, we present some results that will be used in the proof of Theorem \ref{main_thm}. Their proofs will be given in subsequent sections. For any matrix $X$ satisfying Assumption \ref{assm_big1} and the tail condition (\ref{tail_cond}), we can construct a matrix $X^s$ that approximates $X$ with probability $1-\oo(1)$, and satisfies Assumption \ref{assm_big1}, the bounded support condition (\ref{eq_support}) with $q\le N^{-\phi}$ for some small constant $\phi>0$, and
+%${\bf A_3 }$:
+\begin{equation}\label{conditionA2}
+\mathbb{E}\vert  x^s_{ij} \vert^3 =\OO(N^{-{3}/{2}}), \quad   \mathbb{E} \vert  x^s_{ij} \vert^4  =\OO_\prec (N^{-2});
+\end{equation}
+see Section \ref{sec_cutoff} for the details. We will need the following local laws, eigenvalues rigidity, eigenvector delocalization, and edge universality results for separable covariance matrices with $X^s$.
+%with support $q\le N^{-\phi}$ and satisfying the condition (\ref{conditionA2}).
+
+%\cor ---------------------------------- (revise starting from here) ------------------ \nc
+
+We define the deterministic limit $\Pi$ of the resolvent $G$ in (\ref{eqn_defG}) as
+\begin{equation}\label{defn_pi}
+\Pi (z): = \left( {\begin{array}{*{20}c}
+   { -\left(1+m_{2c}(z)\Sigma \right)^{-1} } & 0  \\
+   0 & { - z^{-1} (1+m_{1c}(z)\tilde \Sigma )^{-1} }  \\
+\end{array}} \right) .
+\end{equation}
+Note that we have
+\be\label{mcPi}
+\frac1{nz}\sum_{i\in \mathcal I_1} \Pi_{ii} =m_c. 
+\ee
+Define the control parameters
+\begin{equation}\label{eq_defpsi}
+\Psi (z):= \sqrt {\frac{\Im \, m_{2c}(z)}{{N\eta }} } + \frac{1}{N\eta}.
+\end{equation}
+Note that by (\ref{Immc}) and (\ref{Piii}), we have
+\begin{equation}\label{psi12}
+\|\Pi\|=\OO(1), \quad \Psi \gtrsim N^{-1/2} , \quad \Psi^2 \lesssim (N\eta)^{-1}, \quad \Psi(z) \sim  \sqrt {\frac{\Im \, m_{1c}(z)}{{N\eta }} } + \frac{1}{N\eta},
+\end{equation}
+%and 
+%\begin{equation}\labelpsi12
+%\Psi(z) \sim  \sqrt {\frac{\Im \, m_{1c}(z)}{{N\eta }} } + \frac{1}{N\eta},
+%\end{equation}
+for $z\in S(\tilde c, C_0,-\infty)$. Now we are ready to state the local laws for $G(X,z)$. For the purpose of proving Theorem \ref{main_thm}, we shall relax the condition \eqref{assm_3rdmoment} a little bit. 
+
+%\begin{definition}[Deterministic limit of $G$]
+%We define the deterministic limit $\Pi$ of the Green function $G$ in (\ref{green2}) as
+%\begin{equation}
+%\Pi (z): = \left( {\begin{array}{*{20}c}
+%   { -\left(1+m_{2c}(z)\Sigma \right)^{-1} } & 0  \\
+%   0 & { - z^{-1} (1+m_{1c}(z)\tilde \Sigma )^{-1} }  \\
+%\end{array}} \right) .
+%\end{equation}
+%%where $\Sigma$ is defined in (\ref{def_Sigma}).
+%\end{definition}
+
+
+
+\begin{theorem} [Local laws]\label{LEM_SMALL} %[Results on covariance matrices with small support]
+
+Suppose Assumption \ref{assm_big1} and \eqref{assm_gap} hold. Suppose $X$ satisfies the bounded support condition (\ref{eq_support}) with $q\le N^{-\phi}$ for some constant $\phi>0$. Furthermore, suppose $X$ satisfies \eqref{conditionA2} and
+\be\label{assm_3moment}
+%\mathbb E x_{ij}^3=0,  
+\left|\mathbb E x_{ij}^3\right|\le b_N N^{-2}, \quad 1\le i \le n,\ \  1\le j \le N,
+\ee
+%and
+%\begin{equation}\label{conditionA4}
+%\mathbb{E}\vert x_{ij} \vert^3 \leq C N^{-{3}/{2}}, \quad \mathbb{E} \vert x_{ij} \vert^4  \prec N^{-2},  \quad 1\le i \le n, 1\le j \le N. %\mathbb{E}\vert x_{ij} \vert^3 \prec N^{-{3}/{2}}, \quad  
+%\end{equation}
+where $b_N$ is an $N$-dependent deterministic parameter satisfying $1 \leq b_N \le N^{1/2}$. Fix $C_0>1$ and let $c_0>0$ be a sufficiently small constant. Given any $\epsilon>0$, we define the domain
+\be \label{tildeS}
+\tilde S(c_0,C_0,\e):= S(c_0,C_0,\epsilon) \cap \left\{z = E+ \ii \eta: b_N \left(\Psi^2(z) + \frac{q}{N\eta}\right)\le N^{-\e}\right\}.
+\ee
+Then for any fixed $\e>0$, the following estimates hold. 
+\begin{itemize}
+\item[(1)] {\bf Anisotropic local law}: For any $z\in \tilde S(c_0,C_0,\epsilon)$ and deterministic unit vectors $\mathbf u, \mathbf v \in \mathbb C^{\mathcal I}$,
+\begin{equation}\label{aniso_law}
+\left| \langle \mathbf u, G(X,z) \mathbf v\rangle - \langle \mathbf u, \Pi (z)\mathbf v\rangle \right| \prec q+ \Psi(z).
+\end{equation}
+
+\item[(2)] {\bf Averaged local law}: For any $z \in \tilde S(c_0, C_0, \epsilon)$,  we have
+\begin{equation}
+ \vert m(z)-m_{c}(z) \vert \prec q^2 + (N \eta)^{-1}. \label{aver_in1} %+ q^2 
+\end{equation}
+where $m$ is defined in \eqref{defn_m}. Moreover, outside of the spectrum we have the following stronger estimate
+\begin{equation}\label{aver_out1}
+ | m(z)-m_{c}(z)|\prec q^2  + \frac{1}{N(\kappa +\eta)} + \frac{1}{(N\eta)^2\sqrt{\kappa +\eta}},
+\end{equation}
+uniformly in $z\in \tilde S(c_0,C_0,\epsilon)\cap \{z=E+\ii\eta: E\ge \lambda_r, N\eta\sqrt{\kappa + \eta} \ge N^\epsilon\}$, where $\kappa$ is defined in \eqref{KAPPA}. 
+\end{itemize}
+The above estimates are uniform in the spectral parameter $z$ and any set of deterministic vectors of cardinality $N^{\OO(1)}$. If $A$ or $B$ is diagonal, then \eqref{aniso_law}-\eqref{aver_out1} hold for $z\in S(c_0,C_0,\epsilon) $.
+\end{theorem}
+
+
+The main difficulty for the proof of Theorem \ref{LEM_SMALL} is due to the fact that the entries of $A^{1/2} XB^{1/2}$ are not independent anymore. However, notice that if $X\equiv X^{Gauss}$ is a Wishart matrix, %(i.e. i.i.d. Gaussian matrix), 
+we have 
+$$\Sig^{1/2} U^{*}X^{Gauss} V\tilde \Sig^{1/2} \stackrel{d}{=}  \Sig^{1/2} X^{Gauss} \tilde \Sig^{1/2}.$$
+In this case, the problem is reduced to proving the anisotropic local law for separable covariance matrices 
+%$\Sig^{1/2} X^{Gauss} \tilde \Sig^{1/2}$ 
+with diagonal spatial and temporal covariance matrices, which can be handled using the standard resolvent methods as in e.g. \cite{isotropic,PY}. To go from the Gaussian case to the general $X$ case, we adopt a continuous self-consistent comparison argument developed in \cite{Anisotropic}. In order for this argument to work, we need to assume 
+%that the third moments of the $X$ entries coincide with that of the Gaussian random variable, i.e. 
+\eqref{assm_3rdmoment}. Under the weaker condition \eqref{assm_3moment}, we cannot prove the local laws up to the optimal scale $\eta \gg N^{-1}$, but only up to the scale $\eta \gg \max\{\frac{qb_N}{N},\frac{\sqrt{b_N}}{N}\}$ near the edge. However, to prove the edge universality, we only need to have a good local law up to the scale $\eta \le N^{-2/3-\e}$, hence $b_N$ can take values up to $b_N \ll N^{1/3}$. (In the proof of Theorem \ref{main_thm} in Section \ref{sec_cutoff}, we will take $b_N=N^{-\e}$ for some small constant $\e>0$.) Finally, if $A$ or $B$ is diagonal, one can prove the local laws up to the optimal scale for all $b_N=\OO( N^{1/2})$ by using an improved comparison argument in \cite{Anisotropic}. 
+
+Following the above discussions, we divide the proof of Theorem \ref{LEM_SMALL} into two steps. In Section \ref{sec_Gauss}, we give the proof for separable covariance matrices of the form $\Sig^{1/2} X \tilde \Sig X^* \Sig^{1/2}$, which implies the local laws in the Gaussian $X$ case. In Section \ref{sec_comparison}, we apply the self-consistent comparison argument in \cite{Anisotropic} to extend the result to the general $X$ case. Compared with \cite{Anisotropic}, there are two differences in our setting: (1) the support of $X$ in Theorem \ref{LEM_SMALL} is $q=\OO(N^{-\phi})$ for some constant $0<\phi \le 1/2$, while \cite{Anisotropic} dealt with $X$ with smaller support $q=\OO(N^{-1/2})$; (2) one has $B=I$ in \cite{Anisotropic}, which simplifies the proof a little bit.
+
+
+%Then due to (\ref{match_moments}), we expect that $X$ has ``similar properties" as $\tilde X$, so that these results also hold for $X$. This will be proved with a Green function comparison method, that is, we expand the Green functions with $X$ in terms of Green functions with $\tilde X$ using resolvent expansions, and then estimate the relevant error terms. \cor see Section \ref{comparison} for more details.
+%
+%we will make use of the results in Theorem \ref{LEM_SMALL}-Lemma \ref{lem_smallcomp} for separable covariance matrices with small support. 
+%
+%\cor (say something ...) From Theorem \ref{LEM_SMALL}-Lemma \ref{lem_smallcomp}, we see that Theorems \ref{thm_largerigidity}, \ref{lem_comparison} and Lemma \ref{thm_largebound} hold for $\tilde X$. Then due to (\ref{match_moments}), we expect that $X$ has ``similar properties" as $\tilde X$, so that these results also hold for $X$. This will be proved with a Green function comparison method, that is, we expand the Green functions with $X$ in terms of Green functions with $\tilde X$ using resolvent expansions, and then estimate the relevant error terms. \cor see Section \ref{comparison} for more details. \nc
+
+
+
+
+
+
+\section{Proof of of Theorem \ref{main_thm}}\label{sec_cutoff}
+
+In this section, we prove Theorem \ref{main_thm} with the results in Section \ref{sec_tools}. 
+%We begin by proving the necessity part.
+%\vspace{5pt}
+%\begin{proof}[Proof of the sufficiency]
+Given the matrix $X$ satisfying Assumption \ref{assm_big1} and the tail condition (\ref{tail_cond}), we introduce a cutoff on its matrix entries at the level $N^{-\epsilon}$. For any fixed $\epsilon>0$, define
+\begin{equation*}
+\alpha_N:=\mathbb{P}\left(\vert q_{11} \vert > N^{{1}/{2}-\epsilon}\right), \ \ \beta_N:=\mathbb{E}\left[\mathbf{1}{\left(|q_{11}|> N^{{1}/{2}-\epsilon}\right)}q_{11} \right].
+\end{equation*}
+By (\ref{tail_cond}) and integration by parts, we get that for any fixed $\delta>0$ and large enough $N$,
+\begin{equation}
+\alpha_N \leq \delta N^{-2+4\epsilon}, \ \ \vert \beta_N \vert \leq \delta N^{-{3}/{2}+3 \epsilon} . \label{BBBOUNDS}
+\end{equation}
+Let $\rho(x)$ be the distribution density of $q_{11}$. Then we define independent random variables $q_{ij}^s$, $q_{ij}^l$, $c_{ij}$, $1\le i \le n$ and $1\le j \le N$, in the following ways:
+\begin{itemize}
+\item $q_{ij}^s$ has distribution density $\rho_s(x)$, where
+\begin{equation}
+\rho_s(x)= \mathbf{1}\left(\left| x-\frac{\beta_N}{1-\alpha_N}  \right| \leq N^{{1}/{2}-\epsilon} \right) \frac{\rho\left(x-\frac{\beta_N}{1-\alpha_N}\right)}{1-\alpha_N}; \nonumber%\label{DEF1}
+\end{equation}
+\item $q_{ij}^l$ has distribution density $\rho_l(x)$, where
+\begin{equation}
+\rho_l(x)= \mathbf{1}\left(\left| x-\frac{\beta_N}{1-\alpha_N}  \right| > N^{{1}/{2}-\epsilon} \right)\frac{\rho\left(x-\frac{\beta_N}{1-\alpha_N}\right)}{\alpha_N}; \nonumber%\label{DEF2}
+\end{equation}
+\item $c_{ij}$ is a Bernoulli 0-1 random variable with $\mathbb{P}(c_{ij}=1)=\alpha_N$ and $\mathbb{P}(c_{ij}=0)=1-\alpha_N$.
+\end{itemize}
+Let $X^s$, $X^l$ and $X^c$ be random matrices such that $X^s_{ij} = N^{-1/2}q_{ij}^s$, $X^l_{ij} = N^{-1/2}q_{ij}^l$ and $X^c_{ij} = c_{ij}$.
+%Theorem satisfies the conditions ${\bf A_1, A_2^{\prime}}$ with $q=N^{-\phi}, \ \phi>0$ and ${\bf A_3}$.
+%\noindent {\bf Proof of Proposition 2.2:}
+%\begin{proof}[Proof of Proposition 2.2]
+%By Lemma 5.2 of \cite{LY}, for any $C>0$, if $C \leq \vert A \vert$ and $B \geq A^2+1$, then there exists a random variable $x$ such that
+%\begin{equation*}
+%\mathbb{E}(x)=0, \ \mathbb{E}(x^2)=1, \ \mathbb{E}(x^3)=C, \ \mathbb{E}(x^4)=B
+%\end{equation*}
+%with the following support
+%\begin{equation*}
+%\text{supp}(x) \subset [-DB,DB]
+%\end{equation*}
+%where $D$ depends only on $C$.  Now we choose $C=B_2, \ A=\mathcal{O}(1), \ B=\mathcal{O}(B_2 \log N), D=B_2(=C)$, then there exists a random variable $\tilde{q}$, s.t
+%\begin{equation*}
+%\mathbb{E}\tilde{q}=0, \ \mathbb{E}\vert \tilde{q} \vert^2=1, \ \mathbb{E}(\tilde{q})^3=B_2, \ \mathbb{E}(\tilde{q})^4=\mathcal{O}(B_2 \log N)
+%\end{equation*}
+%Define a matrix $\tilde{X}$ with i.i.d entries $\tilde{x}_{ij}=\frac{1}{\sqrt{N}} \tilde{q}_{ij}$, where $\tilde{q}_{ij} \approx \tilde{q}$. Hence, there exists a matrix $\tilde{X}$, the first four moments match with $X$ and the support becomes
+%$$[-B_2 \log N, B_2 \log N]$$
+%This implies $q=\mathcal{O}(\frac{\log N}{\sqrt{N}})$.  \end{proof}
+%\noindent Therefore, we have constructed matrices $X_1,  \tilde{X_1}$ from $X$ satisfying conditions ${\bf A_1, \ A_2^{\prime}}$ and ${\bf A_3} $, where $X_1$ has a large support while $\tilde{X_1}$ has a small support.  We will leave the proof of Proposition 2.3 to section 4.  The rest is to finish the proof  {\bf step 5}, which is (\ref{BOUNDSBSBSBSBS}).  We firstly provide two facts. Define the matrix $C$ with i.i.d entries $C_{ij}=c_{ij}$.  \\
+%By (\ref{DEF1}), (\ref{DEF2}) and the fact that $X^c_{ij}$ is Bernoulli, 
+It is easy to check that for independent $X^s$, $X^l$ and $X^c$,
+\begin{equation}
+X_{ij} \stackrel{d}{=} X^s_{ij}\left(1-X^c_{ij}\right)+X^l_{ij}X^c_{ij} - \frac{1}{\sqrt{N}}\frac{\beta_N}{1-\alpha_N}. \label{T3}
+\end{equation}
+%where $X_2= (\mathbb{E}\vert q^l_{ij} \vert^2)^{-\frac{1}{2}}X^l$ and $X_{ij}^l=\frac{1}{\sqrt{N}} q_{ij}^l$.
+%where by (\ref{BBBOUNDS}), we have
+%\begin{equation*}
+%\left\vert \frac{1}{\sqrt{N}}\frac{\beta_N}{1-\alpha_N} \right\vert \leq 2\delta N^{-2+3\epsilon}.
+%\end{equation*}
+If we define the $n\times N$ matrix $Y=(Y_{ij})$ by 
+$$Y_{ij}=\frac{1}{\sqrt{N}}\frac{\beta_N}{1-\alpha_N}=\OO(\delta N^{-2+3\epsilon}), \quad 1\le i \le n,\ \ 1\le  j \le N,$$
+then we have $ \| Y \| =\OO (N^{-1+3\epsilon}) $. % depending on $\delta$ and $d$. 
+%Using the bound (\ref{boundH}), 
+In the proof below, one will see that (recall \eqref{Qtilde})
+$$ \left\| \Sig^{1/2} U^{*}(X+Y) V\tilde \Sig^{1/2} \right\| = \lambda^{1/2}_1\left(\tilde {\mathcal Q}_1(X+Y)\right) =\OO(1)$$
+with probability $1-\oo(1)$, where $\lambda_1$ denotes the largest eigenvalue of $\tilde {\mathcal Q}_1$. Thus with probability $1-\oo(1)$, we have 
+%it is easy to see that with $\xi_1$-high probability%from the representation (\ref{linearize_block}), it is easy to see that
+\begin{align}\label{const_err}
+\left|\lambda_1\left(\tilde {\mathcal Q}_1(X+Y)\right) - \lambda_1\left(\tilde {\mathcal Q}_1(X)\right)\right| = O\left( N^{-1+3\epsilon} \right).
+\end{align}
+Hence the deterministic part in (\ref{T3}) is negligible under the scaling $N^{2/3}$.
+
+
+By (\ref{tail_cond}), \eqref{assm_3rdmoment} and integration by parts, it is easy to check that
+\begin{align}\label{estimate_qs}
+\mathbb{E} q^{s}_{11} =0, \ \ \mathbb{E}\vert q^s_{11}\vert^2=1-\OO(N^{-1+2 \epsilon}), \ \ \mathbb{E}|q^s_{11}|^3 = \OO(1),  \ \ \mathbb{E}( q^s_{11})^3 = \OO(N^{-1/2+\e}),  \ \ \mathbb{E}\vert q^s_{11} \vert^4=\OO(\log N).
+\end{align}
+Thus $X_1:=(\mathbb{E}\vert q^s_{11} \vert^2)^{-{1}/{2}}X^s$ is a matrix that satisfies the assumptions for $X$ in Theorem \ref{LEM_SMALL} with $b_N=N^\e$ and $q=N^{-\e}$. 
+%Together with the estimate for $\mathbb{E}\vert q^s_{11}\vert^2$ in (\ref{estimate_qs}), 
+Then by Theorem \ref{lem_comparison}, there exist constants $\epsilon,\delta>0$ such that for any $s\in \mathbb R$,
+\be\label{univ_small}
+\begin{split}
+\mathbb{P}^G \left( N^{{2}/{3}}(\lambda_1-\lambda_{r}) 
+ \leq  s-N^{-\epsilon}\right)-N^{-\delta} \leq
+\mathbb{P}^s\left(N^{{2}/{3}}(\lambda_1-\lambda_{r})\leq s \right) & \\
+\leq \mathbb{P}^G(N^{{2}/{3}}\left(\lambda_1-\lambda_{r}) \leq s+N^{-\epsilon}\right)+N^{-\delta} &,
+\end{split}
+\ee
+where $\mathbb P^s$ denotes the law for $X^s$ and $\mathbb P^G$ denotes the law for Wishart matrix. Now we write the first two terms on the right-hand side of (\ref{T3}) as
+$$X^s_{ij}(1-X^c_{ij})+X^l_{ij}X^c_{ij} = X^s_{ij} + R_{ij} X^c_{ij}, \quad R_{ij}:=X^l_{ij}-X^s_{ij}.$$
+%where $ R_{ij}:=X^l_{ij}-X^s_{ij}.$ 
+We define the matrix $R^c :=(R_{ij} X^c_{ij})$. It remains to show that the effect of $R^c$ on $\lambda_1$ is negligible. Note that $X^c_{ij}$ is independent of $X^s_{ij}$ and $R_{ij}$. 
+
+We first introduce a cutoff on matrix $X^c$ as $\tilde X^c : =\mathbf{1}_{A}X^c$, where
+\begin{align*}
+A:=& \left\{\#\{(i,j):X^c_{ij}=1\}\leq N^{5\epsilon}\right\} \cap \left\{X^c_{ij}=X^c_{kl}=1  {\Rightarrow} \{i,j\}=\{k,l\} \ \text{or} \  \{i,j\} \cap \{k,l\}=\emptyset \right\}.
+\end{align*}
+If we regard the matrix $X^c$ as a sequence $\mathbf X^c$ of $nN$ {\it{i.i.d.}} Bernoulli random variables, it is easy to obtain from the large deviation formula that
+\begin{equation}\label{LDP_B}
+\mathbb{P}\left(\sum_{i=1}^{nN} \mathbf X^c_i \leq N^{5 \epsilon}\right) \geq 1- \exp(- N^{\epsilon}),
+\end{equation}
+for sufficiently large $N$. Suppose the number $m$ of the nonzero elements in $X^c$ is given with $m \le N^{5\epsilon} $. Then it is easy to check that
+\begin{align}\label{LDP_C}
+\mathbb P\left(\exists \, i = k, j\ne l \ \text{or} \  i\ne k, j =l \text{ such that } X^c_{ij}=X^c_{kl}=1 \left| \sum_{i=1}^{nN} \mathbf X^c_i = m \right. \right) = \OO(m^2N^{-1}). 
+\end{align}
+Combining the estimates (\ref{LDP_B}) and (\ref{LDP_C}), we get that 
+\begin{equation}\label{prob_A}
+\mathbb P(A) \ge 1 -  \OO(N^{-1+10\epsilon}).
+\end{equation}
+% and hence
+%\begin{equation}
+%\mathbb P(X^c = \tilde X^c) \ge 1 - \mathcal \OO(N^{-1+10\epsilon}).
+%\end{equation}
+%By independence, we can put the matrix $C_{ij}$ into a vector  $C^1 \in \mathbb{R}^{MN}$, then we have
+%\begin{equation*}
+%\mathbb{P}(\{\text{Rank(C)} \geq N^{5 \epsilon}\}) \leq \mathbb{P}(\sum_{i=1}^{MN} C^1_i \geq N^{5 \epsilon}) \leq \exp(-N^2 I(N^{5\epsilon-2}))
+%\end{equation*}
+%where $I(x)=x\log x +(1-x)\log (1-x)+ \log 2$ and it is easy to check that, when $N$ is sufficiently large, $I(N^{5\epsilon-2})>0$.
+%By definition, we have
+%\begin{equation*}
+%\mathbb{P}(A) \geq 1- \mathbb{P}(\{\text{Rank(C)} \geq N^{5 \epsilon}\})
+%\end{equation*}
+On the other hand, by condition (\ref{tail_cond}), we have
+\begin{equation}\label{prob_R}
+\mathbb{P}\left(|R_{ij}| \geq \omega \right) \leq \mathbb{P}\left(|q_{ij}| \geq \frac{\omega}{2}N^{1/2}\right) = \oo(N^{-2}) ,
+\end{equation}
+for any fixed constant $\omega>0$. Hence if we introduce the matrix 
+$$E = \mathbf 1\left(A\cap \left\{\max_{i,j} |R_{ij}| \leq \omega \right\}\right) R^c,$$
+then we have 
+\begin{equation}\label{EneR}
+\mathbb P( E = R^c)=1-\oo(1)
+\end{equation}
+by (\ref{prob_A}) and (\ref{prob_R}). Thus we only need to study the largest eigenvalue of $\tilde {\mathcal Q}_1(X^s+E)$, where $\max_{i,j} |E_{ij}| \le \omega$ and $\text{rank}(E) \le N^{5\epsilon}$. In fact, it suffices to prove that
+\begin{equation}\label{eq_claim}
+\mathbb P\left(\left|\lambda_1^s - \lambda_1^E\right| \le N^{-3/4}\right) = 1-\oo(1), \quad \lambda_1^s:=\lambda_1\left(\tilde {\mathcal Q}_1(X^s) \right),\quad  \lambda_1^E:=\lambda_1\left(\tilde {\mathcal Q}_1(X^s+E) \right).
+\end{equation}
+%where 
+%$$\lambda_1^s:=\lambda_1\left(\tilde {\mathcal Q}_1(X^s) \right),\quad  \lambda_1^E:=\lambda_1\left(\tilde {\mathcal Q}_1(E) \right).$$ 
+The estimate (\ref{eq_claim}), combined with (\ref{const_err}), (\ref{univ_small}) and (\ref{EneR}), concludes (\ref{SUFFICIENT}).
+
+Now we prove (\ref{eq_claim}). Since $ \tilde{X}^c $ is independent of $X^s$, the positions of the nonzero elements of $E$ are independent of $X^s$. Without loss of generality, we assume the $m$ nonzero entries of $E$ are
+\begin{equation}
+e_{11}, \ e_{22}, \ \cdots,  \ e_{mm}, \ \ m \le N^{5\epsilon}. \label{STRUCTURE}
+\end{equation}
+For other choices of the positions of nonzero entries, the proof is exactly the same, but we make this assumption to simplify the notations. By the definition of $E$, we have $|e_{ii}| \le \omega$, $1\le i \le m$. We define the matrices
+$$  H^s : = \left( {\begin{array}{*{20}c}
+   { 0 } & \Sig^{1/2} U^{*}X^s V\tilde \Sig^{1/2}  \\
+   {(\Sig^{1/2} U^{*}X^s V\tilde \Sig^{1/2})^*} & {0}  \\
+   \end{array}} \right)$$ 
+and $H^{E} : = H^s + P$, where
+\begin{align*}
+P: &= \left( {\begin{array}{*{20}c}
+   { 0 } & \Sig^{1/2} U^{*}E V\tilde \Sig^{1/2}   \\
+   { (\Sig^{1/2} U^{*}E V\tilde \Sig^{1/2} )^*} & {0}  \\
+   \end{array}} \right)= \left( {\begin{array}{*{20}c}
+   {\Sig^{1/2} U^{*}} & 0  \\
+   { 0} & {\tilde \Sig^{1/2}V^*}  \\
+   \end{array}} \right)\left( {\begin{array}{*{20}c}
+   { 0 } & E  \\
+   { E^*} & {0}  \\
+   \end{array}} \right)\left( {\begin{array}{*{20}c}
+   {U\Sig^{1/2} } & 0  \\
+   { 0} & {V\tilde \Sig^{1/2}}  \\
+   \end{array}} \right)\\
+  & = \left( {\begin{array}{*{20}c}
+   {\Sig^{1/2} U^{*}} & 0  \\
+   { 0} & {\tilde \Sig^{1/2}V^*}  \\
+   \end{array}} \right)W P_DW^* \left( {\begin{array}{*{20}c}
+   {U\Sig^{1/2} } & 0  \\
+   { 0} & {V\tilde \Sig^{1/2}}  \\
+   \end{array}} \right),
+   \end{align*}
+%Furthermore, we have the eigendecomposition 
+%$$\left( {\begin{array}{*{20}c}
+%   { 0 } & E  \\
+%   { E^*} & {0}  \\
+%   \end{array}} \right) = W P_DW^*,$$ 
+where $P_D$ is a $2m \times 2m$ diagonal matrix
+$$P_D= \text{diag}\left(e_{11}, \ldots, e_{mm}, -e_{11},\ldots, -e_{mm}\right),$$
+and $W$ is an $(n+N)\times 2m$ matrix such that
+$$W_{ab}= \begin{cases}
+\delta_{a,i}/\sqrt{2} + \delta_{a,(n+i)}/\sqrt{2}, \ &b = i , \, i\le m\\
+\delta_{a,i}/\sqrt{2} - \delta_{a,(n+i)}/\sqrt{2}, \ &b = i+m , \, i\le m
+%\\0, \ & b\ge 2m+1.
+\end{cases}.$$
+With the identity
+$$\det\left( {\begin{array}{*{20}c}
+   { - I_{n\times n}} & \Sig^{1/2} U^{*}X V\tilde \Sig^{1/2}  \\
+   {(\Sig^{1/2} U^{*}X V\tilde \Sig^{1/2})^*} & { - zI_{N\times N}}  \\
+\end{array}} \right) =z^{N-n}\det(- I_{N\times N})\det\left(\tilde{\mathcal Q}_1(X) - zI_{n\times n}\right), $$
+and Lemma 6.1 of \cite{KY}, we find that if $\mu\notin \sigma(\tilde{\mathcal Q}_1(X^s))$, then $\mu$ is an eigenvalue of $\tilde {\mathcal Q}_1( X^s + \gamma E)$ if and only if
+\begin{equation}
+\det\left(O^* G^s (\mu)O + (\gamma P_D)^{-1}\right)=0,
+\end{equation}
+%\begin{equation}
+%\det\left(W^* \left( {\begin{array}{*{20}c}
+%   {U\Sig^{1/2} } & 0  \\
+%   { 0} & {V\tilde \Sig^{1/2}}  \\
+%   \end{array}} \right) G^s (\mu)\left( {\begin{array}{*{20}c}
+%   {\Sig^{1/2} U^{*}} & 0  \\
+%   { 0} & {\tilde \Sig^{1/2}V^*}  \\
+%   \end{array}} \right)W + (\gamma P_D)^{-1}\right)=0,
+%\end{equation}
+where
+$$G^s(\mu):=\left(H^s-\left( {\begin{array}{*{20}c}
+   {  I_{n\times n}} & 0  \\
+   {0} & { \mu I_{N\times N}}  \\
+\end{array}} \right)\right)^{-1}, \quad O:=\left( {\begin{array}{*{20}c}
+   {\Sig^{1/2} U^{*}} & 0  \\
+   { 0} & {\tilde \Sig^{1/2}V^*}  \\
+   \end{array}} \right)W.$$ 
+Define $R^\gamma:=O^* G^s O + (\gamma P_D)^{-1}$ for $0<\gamma < 1$. Now let $\mu: = \lambda_1^s \pm N^{-3/4}.$ We claim that 
+\begin{equation}\label{suff_claim}
+{\mathbb P\left(\det R^\gamma (\mu) \ne 0 \text{ for all }0< \gamma \le 1\right) = 1-\oo(1).}
+\end{equation}
+If (\ref{suff_claim}) holds, then $\mu$ is not an eigenvalue of $\tilde{\mathcal Q}_1(X+\gamma E)$ with probability $1-\oo(1)$. Denote the largest eigenvalue of $\tilde{\mathcal Q}_1(X+\gamma E)$ by $\lambda^\gamma_1$, $0<\gamma \leq 1$, and define $\lambda^{0}_1:=\lim_{\gamma\downarrow 0}\lambda_1^\gamma$. Then we have $\lambda^0_1= \lambda_1^s $ and $\lambda^1_1= \lambda_1^E$. With the continuity of $\lambda_1^\gamma$ with respect to $\gamma$ and the fact that $\lambda^0_1\in (\lambda_1^s -N^{-3/4},\lambda_1^s +N^{-3/4})$, we find that
+$$ \lambda_1^E = \lambda^1_1 \in (\lambda_1^s-N^{-3/4},\lambda_1^s+N^{-3/4}),$$
+with probability $1-\oo(1)$, which proves (\ref{eq_claim}).
+
+%It has the following $2\times 2$ blocks (recall the definition (\ref{Aij_group})): for $1\le i \le m $,
+%\begin{align}\label{Q_group}
+%\left( {\begin{array}{*{20}c}
+%   {R^\gamma_{i,j}} & {R^\gamma_{i,j+m}}  \\
+%   {R^\gamma_{i+m,j}} & {R^\gamma_{i+m,j+m}}  \\
+%   \end{array}} \right) & =  \frac{1}{2} \left( {\begin{array}{*{20}c}
+%   {1} & {1}  \\
+%   {1} & {-1}  \\
+%   \end{array}} \right) G_{[ij]} \left( {\begin{array}{*{20}c}
+%   {1} & {1}  \\
+%   {1} & {-1}  \\
+%   \end{array}} \right) \nonumber \\
+%   & +  \delta_{ij}\left( {\begin{array}{*{20}c}
+%   {(\gamma e_{ii})^{-1}} & {0}  \\
+%   {0} & {-(\gamma e_{ii})^{-1}}  \\
+%   \end{array}} \right) \ \ .
+%\end{align}
+
+
+Finally, we prove (\ref{suff_claim}). Note that $\eta_0=\OO(b_N/N)=\OO(N^{-1+\e})$, hence $z=\lambda_r+\ii N^{-{2}/{3}}$ is in $\tilde S(c_0, C_0,\delta)$ for any small constant $\delta>0$. Now we write
+\be\label{Rgamma}
+R^\gamma(\mu)=O^* \left( G^s(\mu) - G^s(z)\right) O+ O^* \left( G^s(z) - \Pi(z)\right) O + O^*  \Pi(z) O + (\gamma P_D)^{-1} . 
+\ee
+With \eqref{psi12}, %\eqref{Piii} and \eqref{assm3}, 
+we have 
+\be\label{Pi part}
+\|O^*  \Pi(z) O\| =\OO(1)
+\ee
+%for some constant $C>0$ depending only on $\tau$. 
+By Lemma \ref{thm_largebound}, we have
+$$\mathbb E \left| \left[O^* \left( G^s(z) - \Pi(z)\right) O\right]_{ab} \right|^2 \prec \Psi^2 = \OO(N^{-2/3}), \quad 1\le a,b \le 2m,$$
+where we used (\ref{Immc}) and \eqref{eq_defpsi} in the second step. Then with Markov's inequality and a union bound, we can get that
+\begin{equation}\label{BOUND2}
+\max_{1\le a , b \le 2m} \left| \left[O^* \left( G^s(z) - \Pi(z)\right) O\right]_{ab} \right| \le N^{-1/6}
+\end{equation}
+holds with probability $1- \OO(mN^{-1/3})$. Thus we have
+\be\label{Gz part}
+\left\|O^* \left( G^s(z) - \Pi(z)\right) O\right\| = \OO(mN^{-1/6})= \OO(1) \quad \text{with probability $1- \OO(mN^{-1/3})$}.
+\ee
+% Then by (\ref{DIAGONAL}) and (\ref{SQUAREROOTBEHAVIOR}), we have with high probability,
+%\begin{equation}
+%\max_{a} \vert G_{aa}^s (z) - \Pi_{aa}(\lambda_r) \vert \leq N^{-{\epsilon}/{2}}, \label{BOUND1}
+%\end{equation}
+%where we also used the Assumption \ref{assm_big2} and 
+%$$\left|m_{2c}(z) - m_{2c}(\lambda_r)\right| \sim |z-\lambda_r|^{1/2},$$
+%which follows from (\ref{SQUAREROOT}). For the off-diagonal terms, we use (\ref{weak_off}), (\ref{SQUAREROOTBEHAVIOR}) and the Markov inequality to conclude that
+%\begin{equation}\label{BOUND2}
+%\max_{a \ne b \in \{1,\ldots, m\}\cup\{M+1, \ldots, M+m\} } |G_{ab}^s(z)| \le N^{-1/6}
+%\end{equation}
+%holds with probability $1- \OO(N^{-1/6})$.
+%\begin{equation}
+%\max_{ i \neq j} \vert G_{ij}^1(z) \vert \leq  N^{-\frac{1}{6}+\epsilon} \label{BOUND2}
+%\end{equation}
+%where $G^{1}(z)$ is the Green function of $X_1^{*}X_1$.
+It remains to bound the first term in \eqref{Rgamma}. As pointed out in Remark \ref{rigid_multi}, we can extend (\ref{univ_small}) to finite correlation functions of the largest eigenvalues. Since the largest eigenvalues in the Gaussian case are separated in the scale $N^{-2/3}$, we conclude that
+\begin{equation}\label{repulsion_estimate}
+\mathbb P\left( \min_{i}|\lambda_i(\tilde Q_1(X^s) ) - \mu| \ge N^{-3/4} \right) = 1-\oo(1).
+\end{equation}
+On the other hand, the rigidity result (\ref{rigidity}) gives that %with high probability,
+\begin{equation}\label{rigid_estimate}
+|\mu - \lambda_r | \prec N^{-2/3} + N^{-3/4}.
+\end{equation}
+Using (\ref{delocal}), (\ref{repulsion_estimate}), (\ref{rigid_estimate}) and the rigidity estimate (\ref{rigidity}), we can get that for any set $\Omega$ of deterministic unit vectors of cardinality $N^{\OO(1)}$, %and any small constant $c>0$,
+\begin{equation}
+\sup_{\mathbf u,\mathbf v\in \Omega}\left\vert \left\langle \mathbf u, \left(G^{s}(z)-G^{s}(\mu)\right) \mathbf v\right\rangle \right\vert \le N^{-{1}/{4}+3\e} \label{REALCOMPLEX}
+\end{equation}
+with probability $1-\oo(1)$. For instance, for deterministic unit vectors $\mathbf u,\mathbf v \in \mathbb C^{\mathcal I_2}$ and any small constant $c>0$, we have with probability $1-\oo(1)$ that
+\begin{align*}
+& \left| \left\langle \mathbf u, \left(G^{s}(z)-G^{s}(\mu)\right) \mathbf v\right\rangle\right|  \le \sum_{k} \left|\langle \mathbf u, \zeta_k \rangle \langle \mathbf v, \zeta_k\rangle \right|\left| \frac{1}{\lambda_k - z} - \frac{1}{\lambda_k - \mu}\right| \\
+& \prec \frac{1}{N^{2/3}}\sum_{\gamma_k \le \lambda_r- c_1} \left|\langle \mathbf u, \zeta_k \rangle \langle \mathbf v, \zeta_k\rangle \right| +  \frac{N^\e}{N^{5/3}}\sum_{ \gamma_k > \lambda_r - c_1} \frac{1}{|\lambda_k - z||\lambda_k - \mu|}  \\
+& \le \frac{1}{N^{2/3}} + \frac{N^\e}{N^{5/3}}\sum_{1\le k \le N^\e} \frac{1}{|\lambda_k - z||\lambda_k - \mu|} + \frac{N^\e}{N^{5/3}}\sum_{k> N^c, \gamma_k>\lambda_r - c_1} \frac{1}{|\lambda_k - z||\lambda_k - \mu|} \\
+& \prec \frac{1}{N^{2/3}} + \frac{N^{2\e}}{N^{1/4}} + \frac{N^\e}{N^{2/3}}\left(\frac{1}{N}\sum_{k> N^\e, \gamma_k>\lambda_r - c} \frac{1}{|\lambda_k - z||\lambda_k - \mu|}\right) \prec N^{-1/4+2\e},
+\end{align*}
+where in the first step we used (\ref{spectral1}), in the second step (\ref{delocal}) and $|\lambda_k - z||\lambda_k - \mu| \gtrsim 1$ for $\gamma_k \le \lambda_r-c_1$ due to (\ref{rigidity}), in the third step the Cauchy-Schwarz inequality, in the fourth step (\ref{repulsion_estimate}), and in the last step $|\lambda_k - z||\lambda_k - \mu| \sim (k/N)^{-4/3}$ for $k>N^\e$ by the rigidity estimate (\ref{rigidity}). %For all the other choices of $\mathbf u$ and $\mathbf v$, we can prove the estimate (\ref{REALCOMPLEX}) in a similar way. 
+For the other choices of deterministic unit vectors $\mathbf u ,\mathbf v \in \mathbb C^{\mathcal I_{1,2}}$, we can prove \eqref{REALCOMPLEX} in a similar way. Now with (\ref{REALCOMPLEX}), we can get that %a similar bound as in \eqref{Gz part}:
+\be\label{Gmu part}
+\left\|O^* \left( G^s(\mu) - G^s(z)\right) O\right\| = \OO(mN^{-1/4+3\e}) \quad \text{with probability $1- \oo(1)$}.
+\ee
+With \eqref{Pi part}, \eqref{Gz part} and \eqref{Gmu part}, we see that as long as $\omega$ is chosen to be sufficiently small, we have
+$$\left\| O^* \left( G^s(\mu) - G^s(z)\right) O+ O^* \left( G^s(z) - \Pi(z)\right) O + O^*  \Pi(z) O\right\| < (\gamma \omega)^{-1}$$
+for all $0<\gamma\le 1$ with probability $1-\oo(1)$. This proves the claim (\ref{suff_claim}), which further gives (\ref{eq_claim}) and completes the proof.
+
+% see that (\ref{BOUND1}) and (\ref{BOUND2}) still hold if we replace $z$ by $\mu=\lambda_1^s \pm N^{-{3}/{4}}$ and double the right hand sides. Then using $\max_{i}|e_{ii}| \le \tau^{-1}\omega$ and (\ref{Q_group}), we get that for any $0<\gamma\le 1$,
+%\begin{align*}
+%& \min_{1\le i \le m, \gamma} \{|R^\gamma_{ii}|, |R^\gamma_{i+m,i+m}|\} \ge \tau {\omega}^{-1} - \frac{1}{2}\left| \Pi_{ii}(\lambda_r)+ m_{2c}(\lambda_r)\right| -  \OO(N^{-\epsilon/2}), \\
+%& \max_{1\le i \le m, \gamma} \{|R^\gamma_{i,i+m}|, |R^\gamma_{i+m,i}|\} \le  \frac{1}{2}\left| \Pi_{ii}(\lambda_r) - m_{2c}(\lambda_r)\right| +  \OO(N^{-\epsilon/2}),
+%\end{align*}
+%and
+%$$\max_{1 \le i \ne j \le m, \gamma} \left( |R^\gamma_{i,j}|+|R^\gamma_{i+m,j}|+|R^\gamma_{i,j+m}|+ |R^\gamma_{i+m,j+m}|\right) = \OO(N^{-1/6}),$$
+%hold with probability $1-\OO(1)$. Thus $R^{\gamma}$ is diagonally dominant with probability $1-\OO(1)$ (provided that $\omega$ is chosen to be sufficiently small). This proves the claim (\ref{suff_claim}), which further gives (\ref{eq_claim}) and completes the proof.
+%\end{proof}
+
+\section{Proof of Theorem \ref{LEM_SMALL}: Gaussian $X$}\label{sec_Gauss}
+
+%We divide the proof of Theorem \ref{LEM_SMALL} into two steps. We first prove Theorem \ref{LEM_SMALL} in the special case where $X$ is Gaussian. Then we use a self-consistent comparison arguments developed in \cite{Anisotropic} to prove Theorem \ref{LEM_SMALL} in the general case. 
+
+As discussed below Theorem \ref{LEM_SMALL}, in this step we prove Theorem \ref{LEM_SMALL} for separable covariance matrices of the form $\Sig^{1/2} X \tilde \Sig X^* \Sig^{1/2}$, which will imply the local laws in the Gaussian $X$ case. Thus in this section, we deal with the following resolvent:
+\begin{equation}\label{eqn_comparison1}
+G(X,z) {=}  \left[\left( {\begin{array}{*{20}c}
+   { 0 } & \Sig^{1/2} X \tilde \Sig^{1/2}   \\
+   {\tilde\Sig^{1/2}X^*\Sig^{1/2} } & {0}  \\
+   \end{array}} \right)-\left( {\begin{array}{*{20}c}
+   { I_{n\times n}} & 0  \\
+   0 & { zI_{N\times N}}  \\
+\end{array}} \right)\right]^{-1}
+\end{equation}
+with $X$ satisfying \eqref{eq_support} with $q=N^{-1/2}$.
+%we choose the entries of $X$ to be $i.i.d.$ Gaussian due to the following reason. If $X=X^{Gauss}$ is Gaussian, then $U^* X^{Gauss} V \stackrel{d}{=} X^{Gauss}$. Thus for the resolvent $G$ defined in in (\ref{eqn_defG}), we have
+%\begin{equation}\label{eqn_comparison1}
+%G(X,z) \stackrel{d}{=}  \left[\left( {\begin{array}{*{20}c}
+%   { 0 } & \Sig^{1/2} X \tilde \Sig^{1/2}   \\
+%   {\tilde\Sig^{1/2}X^*\Sig^{1/2} } & {0}  \\
+%   \end{array}} \right)-\left( {\begin{array}{*{20}c}
+%   { I_{n\times n}} & 0  \\
+%   0 & { zI_{N\times N}}  \\
+%\end{array}} \right)\right]^{-1}
+%\end{equation}
+%provided that $X$ is Gaussian. In particular, the entries of $\Sig^{1/2} X^{Gauss}\tilde \Sig^{1/2}$ are independent and satisfies the bounded support condition \eqref{eq_support} with $q=N^{-1/2}$, which make the direct proof of Theorem \ref{LEM_SMALL} possible using the methods in \cite{isotropic}. 
+More precisely, we will prove the following result. 
+
+\begin{proposition}\label{prop_diagonal}
+Suppose Assumption \ref{assm_big1} and \eqref{assm_gap} hold. Suppose $X$ satisfies the bounded support condition (\ref{eq_support}) with $q= N^{-1/2}$. Suppose $A$ and $B$ are diagonal, i.e. $U=I_{n\times n}$ and $V=I_{N\times N}$. Fix $C_0>1$ and let $c_0>0$ be a sufficiently small constant. Then for any fixed $\epsilon>0$, the following estimates hold. %there exist constants $C_1>0$ and $\xi_1 \ge 3$ such that the following events hold with $\xi_1$-high probability:
+\begin{itemize}
+\item[(1)] {\bf Anisotropic local law}:  For any $z\in S(c_0,C_0,\epsilon)$ and deterministic unit vectors $\mathbf u, \mathbf v \in \mathbb C^{\mathcal I}$,
+\begin{equation}\label{aniso_diagonal}
+\left| \langle \mathbf u, G(X,z) \mathbf v\rangle - \langle \mathbf u, \Pi (z)\mathbf v\rangle \right| \prec \Psi(z).
+\end{equation}
+
+\item[(2)] {\bf Averaged local law}: We have %{\bf Local deformed MP law}:
+\begin{equation}\label{aver_diagonal}
+ | m(z)-m_{c}(z)|\prec ({N\eta})^{-1}
+\end{equation}
+for any $z\in S(c_0,C_0,\epsilon)$, and 
+%Moreover, outside of the spectrum we have the following stronger averaged local law (recall \eqref{KAPPA})
+\begin{equation}\label{aver_out}
+ | m(z)-m_{c}(z)|\prec \frac{1}{N(\kappa +\eta)} + \frac{1}{(N\eta)^2\sqrt{\kappa +\eta}},
+\end{equation}
+for any $z\in S(c_0,C_0,\epsilon)\cap \{z=E+\ii\eta: E\ge \lambda_r, N\eta\sqrt{\kappa + \eta} \ge N^\epsilon\}$. 
+\end{itemize}
+Both of the above estimates are uniform in the spectral parameter $z$ and the deterministic vectors $\mathbf u, \mathbf v$.
+
+\end{proposition}
+The proof Proposition \ref{prop_diagonal} is similar to the previous proof of the local laws, such as \cite{isotropic, DY, Anisotropic, XYY_circular}. Thus instead of giving all the details, we only describe briefly the proof. In particular, we shall focus on the key self-consistent equation argument, which is (almost) the only part that departs significantly from the previous proof in e.g. \cite{isotropic}. In the proof, we always denote the spectral parameter by $z=E+\ii\eta$. 
+
+\subsection{Basic tools}
+In this subsection, we collect some basic tools that will be used. For simplicity, we denote $Y:=\Sig^{1/2} X \tilde \Sig^{1/2}$. 
+
+\begin{definition}[Minors]
+For any $ (n+N)\times (n+N)$ matrix $\cal A$ and $\mathbb T \subseteq \mathcal I$, we define the minor $\cal A^{(\mathbb T)}:=(\cal A_{ab}:a,b \in \mathcal I\setminus \mathbb T)$ as the $ (n+N-|\mathbb T|)\times (n+N-|\mathbb T|)$ matrix obtained by removing all rows and columns indexed by $\mathbb T$. Note that we keep the names of indices when defining $\cal A^{(\mathbb T)}$, i.e. $(\cal A^{(\mathbb{T})})_{ab}= \cal A_{ab}$ for $a,b \notin \mathbb{{T}}$. Correspondingly, we define the resolvent minor as
+\begin{align*}
+G^{(\mathbb T)}:&=\left[\left(H - \left( {\begin{array}{*{20}c}
+   { I_{n\times n}} & 0  \\
+   0 & { zI_{N\times N}}  \\
+\end{array}} \right)\right)^{(\mathbb T)}\right]^{-1} = \left( {\begin{array}{*{20}c}
+   { z\mathcal G_1^{(\mathbb T)}} & \mathcal G_1^{(\mathbb T)} Y^{(\mathbb T)}  \\
+   {\left(Y^{(\mathbb T)}\right)^*\mathcal G_1^{(\mathbb T)}} & { \mathcal G_2^{(\mathbb T)} }  \\
+\end{array}} \right)  = \left( {\begin{array}{*{20}c}
+   { z\mathcal G_1^{(\mathbb T)}} & Y^{(\mathbb T)}\mathcal G_2^{(\mathbb T)}   \\
+   {\mathcal G_2^{(\mathbb T)}}\left(Y^{(\mathbb T)}\right)^* & { \mathcal G_2^{(\mathbb T)} }  \\
+\end{array}} \right),
+\end{align*}
+and the partial traces
+$$m_1^{(\mathbb T)}:=\frac{1}{Nz}\sum_{i\notin \mathbb T}\sigma_i G_{ii}^{(\mathbb T)},\ \ m_2^{(\mathbb T)}:= \frac{1}{N}\sum_{\mu \notin \mathbb T}\tilde \sigma_\mu G_{\mu\mu}^{(\mathbb T)}.$$ 
+For convenience, we will adopt the convention that for any minor $\cal A^{(T)}$ defined as above, $\cal A^{(T)}_{ab} = 0$ if $a \in \mathbb T$ or $b \in \mathbb T$. We will abbreviate $(\{a\})\equiv (a)$, $(\{a, b\})\equiv (ab)$, and $\sum_{a}^{(\mathbb T)} := \sum_{a\notin \mathbb T} .$
+\end{definition}
+
+%\begin{definition} [Minor of matrix] For a $M \times N$ matrix $X$, $\ \mathbb{T}$ is a subset of  $\ \{1,2,\cdots,N\}$, we define $X^{\{\mathbb{T}\}}$ as the $M \times (N- \vert \mathbb{T} \vert)$ minor of matrix $X$ by deleting the $i$-th($i \in \mathbb{T}$) columns of $X$. We will keep the name of index of $X$ for $X^{\{\mathbb{T} \}}$, namely,
+%$(X^{\{\mathbb{T}\}})_{ij}=\mathbf{1}_{ \{j \notin \mathbb{{T}}\}} X_{ij}$. 
+%\end{definition}
+
+\begin{lemma}{(Resolvent identities).}
+
+\begin{itemize}
+\item[(i)]
+For $i\in \mathcal I_1$ and $\mu\in \mathcal I_2$, we have
+\begin{equation}
+\frac{1}{{G_{ii} }} =  - 1 - \left( {YG^{\left( i \right)} Y^*} \right)_{ii} ,\ \ \frac{1}{{G_{\mu \mu } }} =  - z  - \left( {Y^*  G^{\left( \mu  \right)} Y} \right)_{\mu \mu }.\label{resolvent2}
+\end{equation}
+
+ \item[(ii)]
+ For $i\ne j \in \mathcal I_1$ and $\mu \ne \nu \in \mathcal I_2$, we have
+\begin{equation}
+G_{ij}   = G_{ii} G_{jj}^{\left( i \right)} \left( {YG^{\left( {ij} \right)} Y^* } \right)_{ij},\ \ G_{\mu \nu }  = G_{\mu \mu } G_{\nu \nu }^{\left( \mu  \right)} \left( {Y^*  G^{\left( {\mu \nu } \right)} Y} \right)_{\mu \nu }. \label{resolvent3}
+\end{equation}
+For $i\in \mathcal I_1$ and $\mu\in \mathcal I_2$, we have
+\begin{equation}\label{resolvent6}
+\begin{split}
+& G_{i\mu } = G_{ii} G_{\mu \mu }^{\left( i \right)} \left( { - Y_{i\mu }  +  {\left( {YG^{\left( {i\mu } \right)} Y} \right)_{i\mu } } } \right), \ \  G_{\mu i}  = G_{\mu \mu } G_{ii}^{\left( \mu  \right)} \left( { - Y_{\mu i}^*  + \left( {Y^*  G^{\left( {\mu i} \right)} Y^*  } \right)_{\mu i} } \right).
+\end{split}
+\end{equation}
+
+ \item[(iii)]
+ For $a \in \mathcal I$ and $b, c \in \mathcal I \setminus \{a\}$,
+\begin{equation}
+G_{bc}^{\left( a \right)}  = G_{bc}  - \frac{G_{ba} G_{ac}}{G_{aa}}, \ \ \frac{1}{{G_{bb} }} = \frac{1}{{G_{bb}^{(a)} }} - \frac{{G_{ba} G_{ab} }}{{G_{bb} G_{bb}^{(a)} G_{aa} }}. \label{resolvent8}
+\end{equation}
+%and
+%\begin{equation}
+%\frac{1}{{G_{ss} }} = \frac{1}{{G_{ss}^{(r)} }} - \frac{{G_{sr} G_{rs} }}{{G_{ss} G_{ss}^{(r)} G_{rr} }}.
+%\label{resolvent9}
+%\end{equation}
+
+ \item[(iv)]
+All of the above identities hold for $G^{(\mathbb T)}$ instead of $G$ for $\mathbb T \subset \mathcal I$, and in the case where $A$ and $B$ are not diagonal.
+\end{itemize}
+\label{lemm_resolvent}
+\end{lemma}
+\begin{proof}
+All these identities can be proved using Schur's complement formula. The reader can refer to, for example, \cite[Lemma 4.4]{Anisotropic}.
+\end{proof}
+
+\begin{lemma}\label{Ward_id}
+Fix constants $c_0,C_0>0$. The following estimates hold uniformly for all $z\in S(c_0,C_0,a)$ for any $a\in \mathbb R$:
+\begin{equation}
+\left\| G \right\| \le C\eta ^{ - 1} ,\ \ \left\| {\partial _z G} \right\| \le C\eta ^{ - 2}. \label{eq_gbound}
+\end{equation}
+Furthermore, we have the following identities:
+\begin{align}
+& \sum_{i \in \mathcal I_1 }  \left| {G_{j i} } \right|^2 = \sum_{i \in \mathcal I_1 }  \left| {G_{ij} } \right|^2  = \frac{|z|^2}{\eta}\Im\left(\frac{G_{jj}}{z}\right) ,  \label{eq_gsq2} \\
+& \sum_{\mu  \in \mathcal I_2 } {\left| {G_{\nu \mu } } \right|^2 } = \sum_{\mu  \in \mathcal I_2 } {\left| {G_{\mu \nu} } \right|^2 }  = \frac{{\Im \, G_{\nu\nu} }}{\eta}, \label{eq_gsq1}\\ 
+& \sum_{i \in \mathcal I_1 } {\left| {G_{\mu i} } \right|^2 } = \sum_{i \in \mathcal I_1 } {\left| {G_{i\mu} } \right|^2 } = {G}_{\mu \mu}  + \frac{\bar z}{\eta} \Im \, G_{\mu\mu} , \label{eq_gsq3} \\ 
+&\sum_{\mu \in \mathcal I_2 } {\left| {G_{i \mu} } \right|^2 } = \sum_{\mu \in \mathcal I_2 } {\left| {G_{\mu i} } \right|^2 } =  \frac{{G}_{ii}}{z}  + \frac{\bar z}{\eta} \Im\left(\frac{{G_{ii} }}{z}\right) . \label{eq_gsq4} 
+ \end{align}
+All of the above estimates remain true for $G^{(\mathbb T)}$ instead of $G$ for any $\mathbb T \subseteq \mathcal I$, and in the case where $A$ and $B$ are not diagonal.
+%Finally, suppose $\{\mathbf v_{i}\}_{i=1}^{N}$ and $\{\mathbf w_{\mu}\}_{\mu=1}^{N}$ are orthonormal bases of $\mathbb C^{\mathcal I_1}$ and $\mathbb C^{\mathcal I_2}$, respectively, then the above estimates remain true if we replace $\mathbf e_i$ with $\mathbf v_i$ and $\mathbf e_\mu$ with $\mathbf v_{\mu}$.
+\label{lemma_Im}
+\end{lemma}
+\begin{proof}
+These estimates and identities can be proved through simple calculations with (\ref{green2}), (\ref{spectral1}) and (\ref{spectral2}). We refer the reader to \cite[Lemma 4.6]{Anisotropic} and \cite[Lemma 3.5]{XYY_circular}.
+\end{proof}
+
+\begin{lemma}
+Fix constants $c_0,C_0>0$. For any $\mathbb T \subseteq \mathcal I$ and $a\in \mathbb R$, the following bounds hold uniformly in $z\in S(c_0,C_0,a)$:
+\begin{equation}\label{m_T}
+\big| {m_1  - m_1^{\left( \mathbb T \right)} } \big| + \big| {m_2  - m_2^{\left( \mathbb T \right)} } \big| \le \frac{{C\left| \mathbb T \right|}}{{N\eta }}, %\ \ i= 1,2, 
+\end{equation}
+%and 
+%\begin{equation}\label{m11_T}
+%\left| {\frac{1}{N}\sum_{i=1}^M \sigma_i \left(G_{ii}^{(\mathbb T)} - G_{ii}\right)} \right| \le \frac{{C\left| \mathbb T \right|}}{{N\eta }}, %\ \ i= 1,2, 
+%\end{equation}
+where $C>0$ is a constant depending only on $\tau$.
+%where $C>0$ depends only on $C_0 \lambda_r$. %is an absolute constant. %depending only on the aspect ratio $d$.
+\end{lemma}
+\begin{proof}
+For $\mu\in\mathcal I_2$, we have
+\begin{align*}
+\left|m_2-m_2^{(\mu)}\right|& =\frac{1}{N}\left|\sum_{\nu\in\mathcal I_2}  \tilde \sigma_\nu\frac{G_{\nu\mu}G_{\mu\nu}}{G_{\mu\mu}}\right| \le \frac{C}{N|G_{\mu\mu}|} \sum_{\nu\in\mathcal I_2} |G_{\nu\mu}|^2 = \frac{C\Im\, G_{\mu\mu}}{N\eta |G_{\mu\mu}|} \le \frac{C}{N\eta}, % \label{rough_boundmi}
+\end{align*}
+where in the first step we used (\ref{resolvent8}), and in the second and third steps we used (\ref{eq_gsq1}). Similarly, using (\ref{resolvent8}) and (\ref{eq_gsq3}) we get
+\begin{align*}
+\left|m_2 -m_2^{(i)}\right| & = \frac{1}{N}\left|\sum_{\nu \in\mathcal I_2}\tilde \sigma_\nu\frac{G_{\nu i}G_{i\nu}}{G_{ii}}\right| \le \frac{C}{N|G_{ii}|} \left( \frac{{G}_{ii}}{z}  + \frac{\bar z}{\eta} \Im\left(\frac{{G_{ii} }}{z}\right)\right)   \le \frac{C}{N\eta}.
+\end{align*}
+Similarly, we can prove the same bounds for the $m_1$ case. Then (\ref{m_T}) can be proved by induction on the indices in $\mathbb T$. %The proof for (\ref{m11_T}) is similar except that one needs to use the assumption (\ref{assm3}).
+\end{proof}
+
+The following lemma gives large deviation bounds for bounded supported random variables. 
+%It constitutes the main difference between our proof and the one in \cite{KY2}, where the authors used a large deviation bound for random variables with arbitrarily high moments.
+
+\begin{lemma}[Lemma 3.8 of \cite{EKYY1}]\label{largederivation}
+Let $(x_i)$, $(y_j)$ be independent families of centered and independent random variables, and $(A_i)$, $(B_{ij})$ be families of deterministic complex numbers. Suppose the entries $x_i$, $y_j$ have variance at most $N^{-1}$ and satisfy the bounded support condition (\ref{eq_support}) with $q\le N^{-\epsilon}$ for some constant $\epsilon>0$. Then we have the following bound:
+%for any fixed $\xi>0$, the following bounds hold with $\xi$-high probability:
+\begin{align}
+\Big\vert \sum_i A_i x_i \Big\vert \prec  q \max_{i} \vert A_i \vert+ \frac{1}{\sqrt{N}}\Big(\sum_i |A_i|^2 \Big)^{1/2} , \quad  & \Big\vert \sum_{i,j} x_i B_{ij} y_j \Big\vert \prec q^2 B_d  + qB_o + \frac{1}{N}\Big(\sum_{i\ne j} |B_{ij}|^2\Big)^{{1}/{2}} , \\
+ \Big\vert \sum_{i} \bar x_i B_{ii} x_i - \sum_{i} (\mathbb E|x_i|^2) B_{ii}  \Big\vert  \prec q B_d  ,\quad & \Big\vert \sum_{i\ne j} \bar x_i B_{ij} x_j \Big\vert  \prec qB_o + \frac{1}{N}\left(\sum_{i\ne j} |B_{ij}|^2\right)^{{1}/{2}} ,
+\end{align}
+where $B_d:=\max_{i} |B_{ii} |$ and $B_o:= \max_{i\ne j} |B_{ij}|.$
+\end{lemma}  
+
+For the proof of Proposition \ref{prop_diagonal}, it is convenient to introduce the following random control parameters.
+
+\begin{definition}[Control parameters]
+We define the random errors
+\begin{equation}\label{eqn_randomerror}
+\Lambda : = \mathop {\max }\limits_{a,b \in \mathcal I} \left| {\left( {G - \Pi } \right)_{ab} } \right|,\ \ \Lambda _o : = \mathop {\max }\limits_{a \ne b \in \mathcal I} \left| {G_{ab} } \right|, \ \ \theta:= |m_1-m_{1c}| +  |m_2-m_{2c}| ,
+\end{equation}
+%Moreover, we define 
+and the random control parameter (recall $\Psi$ defined in \eqref{eq_defpsi})
+\begin{equation}\label{eq_defpsitheta}
+\Psi _\theta  : = \sqrt {\frac{{\Im \, m_{2c}  + \theta }}{{N\eta }}} + \frac{1}{N\eta}.
+\end{equation}
+%and the deterministic control parameter
+%\begin{equation}\label{eq_defpsi}
+%\Psi := \sqrt {\frac{\Im\, m_{2c} }{{N\eta }} } + \frac{1}{N\eta}.
+%\end{equation}
+\end{definition}
+
+%Finally, we have the following lemma, which is a consequence of the Assumption \ref{assm_big2}.
+%\begin{lemma}\label{lem_assm3}
+%There exists constants $c_0, \tau' >0$ such that 
+%\begin{equation}\label{Piii}
+%|1+m_{2c}(z)\sigma_k |\ge \tau',
+%\end{equation}
+%for all $z \in S(c_0,C_0,C_1)$ and $1\le k \le M$.
+%\end{lemma}
+%\begin{proof}
+%By Assumption \ref{assm_big2} and the fact $m_{2c}(\lambda_r) \in (-\sigma_1^{-1}, 0)$, we have
+%$$\left| 1+ m_{2c}(\lambda_r) \sigma_k \right| \ge \tau,  \ \ 1\le k \le M.$$
+%Applying (\ref{SQUAREROOT}) to the Stieltjes transform
+%\begin{equation}\label{Stj_app}
+%m_{2c}(z):=\int_{\mathbb R} \frac{\rho_{2c}(dx)}{x-z},
+%\end{equation}
+%one can verify that $m_{2c}(z) \sim \sqrt{z-\lambda_r}$ for $z$ close to $\lambda_r$. Hence if $\kappa+\eta \le 2c_0$ for some sufficiently small constant $c_0>0$, we have
+%$$\left| 1+ m_{2c}(z)\sigma_k \right| \ge \tau/2.$$
+%Then we consider the case with $E-\lambda_r \ge c_0$ and $\eta \le c_1$ for some constant $c_1>0$. In fact, for $\eta=0$ and $E\ge \lambda_r + c_0$, $m_{2c}(E)$ is real and it is easy to verify that $m_{2c}'(E)\ge 0$ using the formula (\ref{Stj_app}). Hence we have
+%$$\left| 1+ \sigma_k m_{2c}(E) \right| \ge \left| 1+ \sigma_k m_{2c}(\lambda_r + c_0) \right| \ge \tau/2, \ \ \text{ for }E\ge \lambda_r + c_0.$$
+%Using (\ref{Stj_app}) again, we can get that 
+%$$\left|\frac{dm_{2c}(z)}{ d z }\right| \le c_0^{-2}, \ \ \text{for } E\ge \lambda_r + c_0.$$ 
+%So if $c_1$ is sufficiently small, we have
+%$$\left| 1+ \sigma_k m_{2c}(E+\ii\eta) \right| \ge \frac{1}{2}\left| 1+ \sigma_k m_{2c}(E) \right| \ge \tau/4$$
+%for $E\ge \lambda_r + c_0$ and $\eta \le c_1$. Finally, it remains to consider the case with $\eta \ge c_1$. If $\sigma_k \le \left|2m_{2c}(z)\right|^{-1}$, then we have $\left| 1+ \sigma_k m_{2c}(z) \right| \ge 1/2$. Otherwise, we have $\Im \, m_{2c}(z) \sim 1$ by (\ref{SQUAREROOTBEHAVIOR}). Together with (\ref{Immc}), we get that
+%$$\left| 1+ \sigma_k m_{2c}(z) \right| \ge \sigma_k \Im\, m_{2c}(z) \ge \frac{\Im\, m_{2c}(z)}{2 m_{2c}(z)} \ge \tau' $$
+%for some constant $\tau'>0$.
+%\end{proof}
+
+\subsection{Entrywise local law}
+
+The main goal of this subsection is to prove the following entrywise local law. The anisotropic local law \eqref{aniso_diagonal} then follows from the entrywise local law combined with a polynomialization method as we will explain in next subsection.
+
+\begin{proposition}\label{prop_entry}
+Suppose the assumptions in Proposition \ref{prop_diagonal} hold. Fix $C_0>0$ and let $c_0>0$ be a sufficiently small constant. Then for any fixed $\epsilon>0$, the following estimate holds uniformly for $z\in S(c_0,C_0,\epsilon)$: %there exist constants 
+\begin{equation}\label{entry_diagonal}
+\max_{a,b}\left| G_{ab}(X,z)  - \Pi_{ab} (z) \right| \prec \Psi(z).
+\end{equation} 
+\end{proposition}
+
+%We fix a $\xi_1\ge 3$ throughout this section. 
+%Our goal is to prove that $G$ is close to $\Pi$ in the sense of entrywise and averaged local laws. Hence it is convenient to introduce the following random control parameters.
+
+%\begin{definition}[Control parameters]
+%We define the entrywise and averaged errors
+%\begin{equation}\label{eqn_randomerror}
+%\Lambda : = \mathop {\max }\limits_{a,b \in \mathcal I} \left| {\left( {G - \Pi } \right)_{ab} } \right|,\ \ \Lambda _o : = \mathop {\max }\limits_{a \ne b \in \mathcal I} \left| {G_{ab} } \right|, \ \ \theta:= |m_2-m_{2c}| .
+%\end{equation}
+%Moreover, we define the random control parameter
+%\begin{equation}\label{eq_defpsitheta}
+%\Psi _\theta  : = \sqrt {\frac{{\Im \, m_{2c}  + \theta }}{{N\eta }}} + \frac{1}{N\eta},
+%\end{equation}
+%and the deterministic control parameter
+%\begin{equation}\label{eq_defpsi}
+%\Psi := \sqrt {\frac{\Im\, m_{2c} }{{N\eta }} } + \frac{1}{N\eta}.
+%\end{equation}
+%\end{definition}
+
+
+In analogy to \cite[Section 3]{EKYY1} and \cite[Section 5]{Anisotropic}, we introduce the $Z$ variables
+\begin{equation*}
+  Z_{a}^{(\mathbb T)}:=(1-\mathbb E_{a})\big(G_{aa}^{(\mathbb T)}\big)^{-1}, \ \ a\notin \mathbb T,
+\end{equation*}
+where $\mathbb E_{a}[\cdot]:=\mathbb E[\cdot\mid H^{(a)}],$ i.e. it is the partial expectation over the randomness of the $a$-th row and column of $H$. By (\ref{resolvent2}), we have
+\begin{align}
+Z_i &= (\mathbb E_{i} - 1) \left( {YG^{\left( i \right)} Y^*} \right)_{ii} = \sigma_i \sum_{\mu ,\nu\in \mathcal I_2} \sqrt{\tilde \sigma_\mu \tilde \sigma_\nu}G^{(i)}_{\mu\nu} \left(\frac{1}{N}\delta_{\mu\nu} - X_{i\mu}X_{i\nu}\right),\label{Zi}\\
+%\end{equation}
+%%and
+%\begin{equation}
+%\begin{split}
+Z_\mu &= (\mathbb E_{\mu} - 1) \left( {Y^*  G^{\left( \mu  \right)} Y} \right)_{\mu \mu } = \tilde \sigma_\mu \sum_{i,j \in \mathcal I_1} \sqrt{\sigma_i \sigma_j}G^{(\mu)}_{ij} \left(\frac{1}{N} \delta_{ij} - X_{i\mu}X_{j\mu}\right).\label{Zmu}
+%\end{split}
+\end{align}
+The following lemma plays a key role in the proof of local laws.
+
+\begin{lemma}\label{Z_lemma}
+Suppose the assumptions in Proposition \ref{prop_diagonal} hold. Let $c_0>0$ be a sufficiently small constant and fix $C_0, \epsilon >0$. Define the $z$-dependent event $\Xi(z):=\{\Lambda(z) \le (\log N)^{-1}\}$. Then there exists constant $C>0$ such that the following estimates hold uniformly for all $a\in \mathcal I$ and $z\in S(c_0,C_0,\epsilon)$:
+\begin{align}
+{\mathbf 1}(\Xi)\left(\Lambda_o + |Z_{a}|\right) \prec \Psi_\theta, \label{Zestimate1}
+\end{align}
+and 
+\begin{align}
+{\mathbf 1}\left(\eta \ge 1 \right)\left(\Lambda_o + |Z_{a}|\right)\prec \Psi_\theta. \label{Zestimate2}
+\end{align}
+%Moreover, then for $z\in S(C_0)$,
+%\begin{align}
+%1(\Xi)\Lambda_0 \le C(\log N)^{2\xi}\left(q+\Psi_\theta\right) \label{offestimate}
+%\end{align}
+%holds with $\xi$-high probability.
+\end{lemma}
+\begin{proof}
+ Applying Lemma \ref{largederivation} to $Z_{i}$ in (\ref{Zi}), we get that on $\Xi$,
+\begin{equation}\label{estimate_Zi}
+\begin{split}
+\left| Z_{i}\right| & \prec  q+\frac{1}{N} \left( \sum_{\mu, \nu} \tilde \sigma_\mu {\left| G_{\mu\nu}^{(i)}  \right|^2 }  \right)^{1/2} = q+ \frac{1}{N}\left( {\sum_\mu \frac{\tilde \sigma_\mu  \im G_{\mu\mu}^{(i)} }{\eta} } \right)^{1/2}= q + \sqrt { \frac{ \Im\, m_2^{(i)}  } {N\eta} },
+\end{split}
+\end{equation}
+where we used (\ref{assm3}), (\ref{eq_gsq1}) and the fact that $\max_{a,b}|G_{ab}|= \OO(1)$ on event $\Xi$. Now by (\ref{eqn_randomerror}), (\ref{eq_defpsitheta}) and the bound (\ref{m_T}), we have that
+\begin{align}\label{m2psi}
+\sqrt{\frac{{\Im\, m_2^{(i)} }}{N\eta} } = \sqrt {\frac{{\Im\,m_{2c}  + \Im ( {m_2^{(i)}  - m_2 }) + \Im ( {m_2  - m_{2c} } )}}{{N\eta }}}  \le C \Psi _\theta .
+\end{align}
+Together with the fact that $q= N^{-1/2} \lesssim \Psi_\theta$ by \eqref{psi12}, we get \eqref{Zestimate1} for ${\mathbf 1}(\Xi) |Z_{i}|$.
+%conclude that $${\mathbf 1}(\Xi) |Z_{i}|  \le C\varphi^{2\xi}\left(q+\Psi_\theta\right)$$ with $\xi$-high probability. 
+Similarly, we can prove the same estimate for ${\mathbf 1}(\Xi) |Z_{\mu}| $, where in the proof one need to use  (\ref{eq_gsq2}) and \eqref{psi12}. 
+%In the proof, we also need to use (\ref{barm}) and
+%$$\Im \left( -\frac{d-1}{z}\right) = \OO(\eta) = \OO(\Im\, m_{2c}(z)).$$
+If $\eta\ge 1$, we also have $\max_{a,b}|G_{ab}|= \OO(1)$ by (\ref{eq_gbound}). Then repeating the above proof, we obtain \eqref{Zestimate2} for ${\mathbf 1}(\eta\ge 1) |Z_{a}|$.
+%that 
+%$${\mathbf 1}(\eta\ge 1) |Z_{a}|  \le C\varphi^{2\xi}\left(q+\Psi_\theta\right)$$
+%with $\xi$-high probability.
+%Using (\ref{resolvent3}), Lemma \ref{largederivation} and the bound $\max_{a,b}|G_{ab}|=\OO(1)$ on $\Xi$, 
+Similarly, using (\ref{resolvent3}) and Lemmas \ref{Ward_id}-\ref{largederivation}, we can prove that %with $\xi$-high probability,
+\begin{equation}\label{2blocks}
+{\mathbf 1}(\Xi) \left( |G_{ij}| + |G_{\mu\nu}|\right) + {\mathbf 1}(\eta\ge 1) \left( |G_{ij}| + |G_{\mu\nu}|\right) \prec \Psi_\theta.
+\end{equation}
+%uniformly for $i\ne j$ and $\mu\ne \nu$. 
+
+It remains to prove the bounds for $G_{i\mu}$ and $G_{\mu i}$ entries. Using (\ref{resolvent6}), \eqref{eq_support}, %the bounded support condition (\ref{eq_support}) for $X_{i\mu}$, 
+the bound $\max_{a,b}|G_{ab}|= \OO(1)$ on $\Xi$, Lemma \ref{Ward_id} and Lemma \ref{largederivation}, we get that %with $\xi$-high probability,
+\begin{equation*}%\label{off_larged}
+\begin{split}
+\left|G_{i\mu }\right| & \prec q+  \frac{1}{N}\left( {\sum^{(i\mu)}_{j,\nu } \tilde \sigma_\nu {\left| {G_{\nu j}^{(i\mu)} } \right|^2 } } \right)^{1/2}= q+  \frac{1}{N}\left( \sum_{\nu}^{(\mu)}\tilde \sigma_\nu \left({G}^{(i\mu)}_{\nu \nu}  + \frac{\bar z}{\eta} \Im \, G_{\nu\nu}^{(i\mu)}\right)\right)^{1/2} \lesssim q+\sqrt{ \frac{|m_2^{(i\mu)}|}{N} } + \sqrt{\frac{ \Im \, m_2^{(i\mu)}}{N\eta}} .
+\end{split}
+\end{equation*}
+As in (\ref{m2psi}), we can show that
+\begin{equation}\label{estimatel1} \sqrt{\frac{ \Im \, m_2^{(i\mu)}}{N\eta}}= \OO(\Psi_\theta).\end{equation}
+For the other term, we have
+\begin{equation}\label{estimatel2}
+\begin{split}
+  \sqrt{ \frac{|m_2^{(i\mu)}|}{N} } & \le  \sqrt {\frac{|m_{2c}|  + |m_2^{(i\mu)}  - m_2| + |m_2  - m_{2c} |}{{N}}} \lesssim \frac{1}{N\sqrt{\eta}}+\sqrt { \frac{\theta }{{N}}}  + \sqrt {\frac{{\left| {m_{2c} } \right|}}{N}}   \lesssim  \Psi _\theta , 
+ \end{split}
+\end{equation}
+where we used (\ref{m_T}) and ${{\left| {m_{2c} } \right|}}{{N}^{-1}} = O(\Psi^2) $ by \eqref{psi12}. %O\left(\frac{{\Im\, m_{2c} }}{N\eta}\right), $$
+%since $|m_{2c}|= \OO(1)$ and $\Im\, m_{2c} \gtrsim \eta$ by \eqref{Immc}. 
+With (\ref{estimatel1}) and (\ref{estimatel2}), we obtain that ${\mathbf 1}(\Xi) |G_{i\mu}| \prec \Psi_\theta $. Together with (\ref{2blocks}), we get the estimate (\ref{Zestimate1}) for $\mathbf 1(\Xi)\Lambda_o$. Finally, the estimate (\ref{Zestimate2}) for ${\mathbf 1}\left(\eta \ge 1 \right)\Lambda_o$ can be proved in a similar way with the bound $\mathbf{1}(\eta\ge 1)\max_{a,b}|G_{ab}|= \OO(1)$.
+\end{proof}
+
+A key component of the proof for Proposition \ref{prop_entry} is an analysis of the self-consistent equation. Recall the equations in \eqref{separa_m12} and the function $f(z,m)$ in \eqref{separable_MP}.
+
+%that $m_{2c}(z)$ is the solution to the equation $z=f(m)$ for $f$ defined in (\ref{deformed_MP2}).
+
+\begin{lemma}\label{lemm_selfcons_weak}
+Let $c_0>0$ be a sufficiently small constant and fix $C_0,\epsilon>0$. Then the following estimates hold uniformly in $z \in S(c_0, C_0,\epsilon)$: %with $\xi$-high probability:
+\begin{equation}
+{\mathbf 1}(\eta \ge 1)\left| f(z, m_2) \right|\prec N^{-1/2}, \quad {\mathbf 1}(\eta\ge 1)\left|  m_1(z) - d_N \int\frac{x}{-z\left[1+xm_{2}(z) \right]} \pi_A^{(n)}(dx)\right| \prec N^{-1/2}, \label{selfcons_lemm2}
+\end{equation}
+and
+\begin{equation}
+{\mathbf 1}(\Xi)\left| f(z, m_2) \right| \prec \Psi_\theta, \quad {\mathbf 1}(\Xi)\left|  m_1(z) - d_N \int\frac{x}{-z\left[1+xm_{2}(z) \right]} \pi_A^{(n)}(dx)\right| \prec \Psi_\theta, \label{selfcons_lemm}
+\end{equation}
+where $\Xi$ is as given in Lemma \ref{Z_lemma}. Moreover, we have the finer estimates
+\begin{equation}
+{\mathbf 1}(\Xi)\left|f(z, m_2)\right| \prec  {\mathbf 1}(\Xi)\left(\left|[Z]_1\right| + \left|[Z]_2\right|\right) + \Psi^2_\theta, \label{selfcons_improved}
+\end{equation}
+and
+\be\label{selfcons_improved2}
+{\mathbf 1}(\Xi)\left|  m_1(z) - d_N \int\frac{x}{-z\left[1+xm_{2}(z) \right]} \pi_A^{(n)}(dx)\right| \prec {\mathbf 1}(\Xi)\left|[Z]_1\right| + \Psi^2_\theta,
+\ee
+where
+\begin{equation}\label{def_Zaver}
+[Z]_1:=\frac{1}{N}\sum_{i\in \mathcal I_1} \frac{\sigma_i}{(1+\sigma_i m_2)^2} Z_i, \ \ [Z]_2:=\frac{1}{N}\sum_{\mu \in \mathcal I_2} \frac{\tilde \sigma_\mu }{\left(1 + \tilde \sigma_\mu m_1\right)^2}Z_\mu.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+We first prove (\ref{selfcons_improved}) and \eqref{selfcons_improved2}, from which (\ref{selfcons_lemm}) follows due to (\ref{Zestimate1}) and (\ref{Piii}). By (\ref{resolvent2}), (\ref{Zi}) and (\ref{Zmu}), we have
+\begin{equation}\label{self_Gii}
+\frac{1}{{G_{ii} }}=  - 1 - \frac{\sigma_i}{N} \sum_{\mu\in \mathcal I_2}\tilde \sigma_\mu G^{\left( i \right)}_{\mu\mu} + Z_i =  - 1 - \sigma_i m_2 + \epsilon_i,
+\end{equation}
+and
+\begin{equation}\label{self_Gmu}
+\frac{1}{{G_{\mu\mu} }}=  - z - \frac{\tilde \sigma_\mu}{N} \sum_{i\in \mathcal I_1}\sigma_i G^{\left( \mu\right)}_{ii}+ Z_{\mu} =  - z - z \tilde \sigma_\mu m_1 + \epsilon_\mu,
+\end{equation}
+where 
+$$\epsilon_i := Z_i + \sigma_i\left(m_2 - m_2^{(i)}\right) \ \ \text{and} \ \ \epsilon_\mu := Z_{\mu} + z \tilde \sigma_\mu\left(m_1 -m_1^{(\mu)}\right).$$
+By (\ref{m_T}) and (\ref{Zestimate1}), we have for all $i$ and $\mu$,
+\begin{equation}\label{erri}
+\mathbf 1(\Xi)\left(|\epsilon_i | + |\epsilon_\mu| \right)\prec \Psi_\theta. 
+\end{equation}
+Moreover, by (\ref{resolvent8}) we have
+\begin{equation}\label{high_err}
+\mathbf 1(\Xi)\left( |m_2 - m_2^{(i)}| + |m_1 -m_1^{(\mu)}| \right)\le \mathbf 1(\Xi)\frac{1}{N}\left(\sum_{\nu\in \mathcal I_2} \tilde \sigma_\nu \left|\frac{G_{\nu i} G_{i\nu}}{G_{ii}}\right| + \sum_{j\in \mathcal I_1}\sigma_j \left|\frac{G_{j\mu} G_{\mu j}}{G_{\mu\mu}}\right| \right)\prec \Psi_\theta^2,
+\end{equation}
+where we used (\ref{Zestimate1}) and $|G_{ii}| \sim |G_{\mu\mu}| \sim 1$ on $\Xi$ in the second step.
+%with $\xi $-high probability.
+%Similarly, we can also get that
+%\begin{equation}\label{self_Gmu}
+%\frac{1}{{G_{\mu\mu} }}=  - z - \frac{1}{N} \sum_{i\in \mathcal I_1}\sigma_i G^{\left( \mu\right)}_{ii}+ Z_{\mu} =  - z - \frac{1}{N} \sum_{i\in \mathcal I_1}\sigma_i G_{ii} + \epsilon_\mu,
+%\end{equation}
+%where 
+%$$\epsilon_\mu := Z_{\mu} + \frac{1}{N} \sum_{i\in \mathcal I_1}\sigma_i \left(G^{\left( \mu\right)}_{ii}-G_{ii}\right).$$
+%Moreover, we have 
+Now using \eqref{self_Gii}, \eqref{erri}, \eqref{high_err}, \eqref{Zestimate1}, \eqref{Piii} and the definition of $\Xi$, we can obtain that
+\be\label{Gii0}
+\mathbf 1(\Xi)G_{ii}=\mathbf 1(\Xi)\left[\frac{1}{-(1 + \sigma_i m_2)} - \frac{Z_i}{\left(1 +  \sigma_i m_2\right)^2}  +O_\prec\left(\Psi_\theta^2\right)\right].
+\ee
+Taking average $\frac{1}{Nz}\sum_i \sigma_i$, we get
+\be\label{Gii}
+\mathbf 1(\Xi)m_1 =\mathbf 1(\Xi)\left[\frac1N\sum_i\frac{\sigma_i}{-z(1 + \sigma_i m_2)} - z^{-1}[Z]_1  +O_\prec\left(\Psi_\theta^2\right)\right],
+\ee
+which proves \eqref{selfcons_improved2}. On the other hand, using (\ref{self_Gmu}), \eqref{erri}, \eqref{high_err}, \eqref{Zestimate1}, \eqref{Piii} and the definition of $\Xi$, we obtain that
+\be\label{Gmumu0}
+\mathbf 1(\Xi)G_{\mu\mu}=\mathbf 1(\Xi)\left[\frac{1}{- z(1 + \tilde \sigma_\mu m_1)} - \frac{Z_\mu}{z^2\left(1 + \tilde \sigma_\mu m_1\right)^2}  +O_\prec\left(\Psi_\theta^2\right)\right].
+\ee
+Taking average $N^{-1}\sum_\mu \tilde \sigma_\mu$, we get
+\be\label{Gmumu}
+\mathbf 1(\Xi)m_2=\mathbf 1(\Xi)\left[\frac1N\sum_{\mu}\frac{\tilde \sigma_\mu}{- z(1 + \tilde \sigma_\mu m_1)} -z^{-2}[Z]_2 +O_\prec\left(\Psi_\theta^2\right)\right].
+\ee
+Plugging \eqref{Gii} into \eqref{Gmumu}, and using \eqref{Piii} and the definition of $\Xi$, we can obtain that
+\be\label{end_rep}
+\mathbf 1(\Xi)m_2=\mathbf 1(\Xi)\left[\frac1N\sum_{\mu}\frac{\tilde \sigma_\mu}{- z + \frac{\tilde \sigma_\mu }N\sum_i\frac{\sigma_i}{1 + \sigma_i m_2} } + O_\prec\left(|[Z]_1|+|[Z]_2|+\Psi_\theta^2\right)\right].
+\ee
+%where we again used \eqref{Piii} and the definition of $\Xi$. 
+Comparing with \eqref{separable_MP}, we have proved \eqref{selfcons_improved}.
+
+
+%we get that for any $\mu$ and $\nu$,
+%\begin{equation}\label{diagonal_compare}
+%\mathbf 1(\Xi)(G_{\mu\mu} - G_{\nu\nu}) = \mathbf 1(\Xi)G_{\mu\mu} G_{\nu\nu} (\epsilon_\nu - \epsilon_\mu) = O\left(\varphi^{2\xi } (q + \Psi_\theta) \right),
+%\end{equation}
+%with $\xi $-high probability. This implies that 
+%\begin{equation}\label{average_bound}
+%\mathbf 1(\Xi)|G_{\mu\mu}-m_2| \le C\varphi^{2\xi } (q + \Psi_\theta), \ \ \mu \in \mathcal I_2,
+%\end{equation}
+%with $\xi $-high probability. 
+%
+%Now we plug (\ref{self_Gii}) into (\ref{self_Gmu}) and take the average $N^{-1}\sum_\mu$. Note that we can write 
+%$$\frac{1}{G_{\mu\mu}} = \frac{1}{m_2} - \frac{1}{m_2^2}(G_{\mu\mu} - m_2) + \frac{1}{m_2^2}(G_{\mu\mu} - m_2)^2\frac{1}{G_{\mu\mu}}.$$
+%After taking the average, the second term on the right-hand side vanishes and the third term provides a $ \OO(\varphi^{4\xi } (q + \Psi_\theta)^2)$ factor by (\ref{average_bound}). On the other hand, using (\ref{resolvent8}) and (\ref{Zestimate1}) we get that
+%\begin{equation*}
+%1(\Xi)\left| \frac{1}{N} \sum_{i\in \mathcal I_1}\sigma_i \left(G^{\left( \mu\right)}_{ii}-G_{ii}\right)\right| \le 1(\Xi) \frac{1}{N} \sum_{i\in \mathcal I_1}\sigma_i \left|\frac{G_{i\mu} G_{\mu i}}{G_{\mu\mu}}\right|\le  C\varphi^{4\xi } (q + \Psi_\theta)^2,
+%\end{equation*}
+%and
+%\begin{equation*}
+%\mathbf 1(\Xi)|m_2 - m_2^{(i)}| \le \mathbf 1(\Xi)\frac{1}{N}\sum_{\mu\in \mathcal I_2} \left|\frac{G_{\mu i} G_{i\mu}}{G_{ii}}\right| \le  C\varphi^{4\xi } (q + \Psi_\theta)^2,
+%\end{equation*}
+%with $\xi$-high probability. Hence the average of (\ref{self_Gmu}) gives
+%\begin{equation*}
+%\begin{split}
+%\mathbf 1(\Xi) \frac{1}{m_2} & =  \mathbf 1(\Xi)\left\{  -z +  \frac{1}{N} \sum_{i\in \mathcal I_1} \frac{\sigma_i}{1+\sigma_i m_2 - Z_i + O\left(\varphi^{4\xi } (q + \Psi_\theta)^2\right)} + [Z]_2 \right\} \\
+%& +  O\left(\varphi^{4\xi } (q + \Psi_\theta)^2 \right) ,
+%\end{split}
+%\end{equation*}
+%with $\xi$-high probability. Finally, using (\ref{Piii}) and the definition of $\Xi$ we can expand the fractions in the sum to get that
+%\begin{align*}
+%\mathbf 1(\Xi)\left\{z + \frac{1}{m_2} - \frac{1}{N} \sum_{i\in \mathcal I_1} \frac{\sigma_i}{1+\sigma_i m_2}\right\} &=  \mathbf 1(\Xi)\left([Z]_1+ [Z]_2 \right) +  O\left(\varphi^{4\xi } (q + \Psi_\theta)^2 \right) .
+%\end{align*}
+%This concludes (\ref{selfcons_improved}).
+
+Then we prove (\ref{selfcons_lemm2}). Using the bound $\mathbf{1}(\eta\ge 1)\max_{a,b}|G_{ab}|=\OO(1)$, we trivially have $|m_1|+ |m_2| + \theta=\OO(1)$. Thus we have 
+$\mathbf 1(\eta\ge 1) \Psi_\theta =\OO(N^{-1/2})$. Then \eqref{m_T} and (\ref{Zestimate2}) together give that
+\begin{equation}\label{epsilonL}
+\mathbf 1(\eta\ge 1) (|\epsilon_i|+|\epsilon_\mu|) \prec N^{-1/2}.
+\end{equation}
+First we claim that in the case $\eta \ge 1$, with high probability,
+\begin{equation}\label{estimate_m2L}
+|m_1| \ge \Im\, m_1 \ge c , \quad |m_2| \ge \Im\, m_2 \ge c , 
+\end{equation} 
+for some constant $c>0$. By the spectral decomposition (\ref{spectral1}), we have
+$$\im G_{ii} = \Im \sum_{k = 1}^{M} \frac{z|\xi_k(i)|^2}{\lambda_k-z}= \sum_{k = 1}^{M} |\xi_k(i)|^2 \Im \left( -1 + \frac{\lambda_k}{\lambda_k-z}\right)\ge 0.$$
+Then by (\ref{self_Gmu}), $G_{\mu\mu}^{-1}$ is of order $\OO(1)$ and has imaginary part $\le - \eta + O_\prec\left( N^{-1/2}\right)$. This implies $ \Im\, G_{\mu\mu} \gtrsim \eta$ with high probability, which gives the second estimate of (\ref{estimate_m2L}) by \eqref{assm3}. Moreover, with \eqref{assm3} we also get that $\im ( 1 + \sigma_i m_2)\gtrsim 1$ for $i \le \tau n.$ 
+Then with \eqref{self_Gii} and a similar argument as above, we obtain the first estimate of (\ref{estimate_m2L}). Next, we claim that in the case $\eta\ge 1$, with high probability,
+\begin{equation}\label{estimate_m23}
+| 1+ \tilde \sigma_\mu m_1| \ge c', \quad | 1+ \sigma_i m_2| \ge c' , 
+\end{equation} 
+for some constant $c'>0$. In fact, if $\sigma_i \le 2|m_2|^{-1}$, we trivially have $| 1+ \sigma_i m_2|\ge 1/2$. Otherwise, we have 
+%$\sigma_i \gtrsim 1$ (since $|m_2| = \OO(1)$), which gives that
+$$|1+ \sigma_i m_2| \ge \frac{ \Im\, m_2}{2|m_2|} \ge c'$$
+by \eqref{estimate_m2L}. The first estimate in \eqref{estimate_m23} can be proved in the same way. Finally, with (\ref{epsilonL}), (\ref{estimate_m2L}) and (\ref{estimate_m23}), we can repeat the previous arguments between \eqref{self_Gii} and \eqref{end_rep} to get (\ref{selfcons_lemm2}).
+\end{proof}
+
+The following lemma gives the stability of the equation $ f(z,m)=0$. Roughly speaking, it states that if $f(z, m_{2}(z))$ is small and $m_2(\tilde z)-m_{2c}(\tilde z)$ is small for $\Im\, \tilde z \ge \Im\, z$, then $m_{2}(z)-m_{2c}(z)$ is small. For an arbitrary $z\in S(c_0,C_0, \e)$, we define the discrete set
+\begin{align*}%\label{eqn_def_L}
+L(w):=\{z\}\cup \{z'\in S(c_0,C_0, \e): \text{Re}\, z' = \text{Re}\, z, \text{Im}\, z'\in [\text{Im}\, z, 1]\cap (N^{-10}\mathbb N)\} .
+\end{align*}
+Thus, if $\text{Im}\, z \ge 1$, then $L(z)=\{z\}$; if $\text{Im}\, z<1$, then $L(z)$ is a 1-dimensional lattice with spacing $N^{-10}$ plus the point $z$. Obviously, we have $|L(z)|\le N^{10}$. %The following lemma is stated as Definition 5.4 of \cite{KY2} %and Lemma 4.5 of \cite{BEKYY}.
+
+\begin{lemma}\label{stability}
+Let $c_0>0$ be a sufficiently small constant and fix $C_0,\epsilon>0$. The self-consistent equation $f(z,m)=0$ is stable on $S(c_0,C_0, \epsilon)$ in the following sense. Suppose the $z$-dependent function $\delta$ satisfies $N^{-2} \le \delta(z) \le (\log N)^{-1}$ for $z\in S(c_0,C_0, \epsilon)$ and that $\delta$ is Lipschitz continuous with Lipschitz constant $\le N^2$. Suppose moreover that for each fixed $E$, the function $\eta \mapsto \delta(E+\ii\eta)$ is non-increasing for $\eta>0$. Suppose that $u_2: S(c_0,C_0,\epsilon)\to \mathbb C$ is the Stieltjes transform of a probability measure. Let $z\in S(c_0,C_0,\epsilon)$ and suppose that for all $z'\in L(z)$ we have 
+\begin{equation}\label{Stability0}
+\left| f(z, u_2)\right| \le \delta(z).
+\end{equation}
+Then we have
+\begin{equation}
+\left|u_2(z)-m_{2c}(z)\right|\le \frac{C\delta}{\sqrt{\kappa+\eta+\delta}},\label{Stability1}
+\end{equation}
+for some constant $C>0$ independent of $z$ and $N$, where $\kappa$ is defined in (\ref{KAPPA}). 
+%Similarly, the self-consistent equation $\mathcal D_2$ in (\ref{def_D12}) is also stable on $S(C_1)$.
+\end{lemma}
+\begin{proof}
+This lemma can proved with the same method as in e.g. \cite[Lemma 4.5]{isotropic} and \cite[Appendix A.2]{Anisotropic}. The only input is Lemma \ref{lambdar_sqrt}. 
+\end{proof}
+
+
+Note that by Lemma \ref{stability} and (\ref{selfcons_lemm2}), we immediately get that
+\begin{equation}\label{average_L}
+\mathbf 1(\eta\ge 1)\theta(z) \prec N^{-1/2}.
+\end{equation}
+%with $\xi$-high probability. 
+From (\ref{Zestimate2}), we obtain the off-diagonal estimate
+\begin{equation}\label{offD_L}
+\mathbf 1(\eta\ge 1)\Lambda_o(z) \prec N^{-1/2}.
+\end{equation}
+Using (\ref{self_Gii}), \eqref{self_Gmu} and (\ref{average_L}), we get that 
+\begin{equation}\label{diag_L}
+\mathbf 1(\eta\ge 1)\left(\left|G_{ii} - \Pi_{ii}\right| + |G_{\mu\mu}-\Pi_{\mu\mu}|\right) \prec N^{-1/2},
+\end{equation}
+which gives the diagonal estimate. These bounds can be easily generalized to the case $\eta \ge c$ for any fixed $c>0$. Compared with (\ref{entry_diagonal}), one can see that the bounds (\ref{offD_L}) and (\ref{diag_L}) are optimal for the $\eta\ge c$ case. Now it remains to deal with the small $\eta$ case (in particular, the local case with $\eta\ll 1$). We first prove the following weak bound.
+
+\begin{lemma}[Weak entrywise local law]\label{alem_weak} 
+Let $c_0>0$ be a sufficiently small constant and fix $C_0,\epsilon>0$. Then we have %there exists $C>0$ such that with $\xi$-high probability,
+\begin{equation} \label{localweakm}
+\Lambda(z) \prec (N\eta)^{-1/4},
+\end{equation}
+uniformly in $z \in S(c_0,C_0,\epsilon)$.
+\end{lemma}
+\begin{proof}
+One can prove this lemma using a continuity argument as in e.g. \cite[Section 4.1]{isotropic}, \cite[Section 5.3]{Semicircle} or \cite[Section 3.6]{EKYY1}. The key inputs are Lemmas \ref{Z_lemma}-\ref{stability}, and the estimates (\ref{average_L})-(\ref{diag_L}) in the $\eta \ge 1$ case. All the other parts of the proof are essentially the same. 
+\end{proof}
+
+To get the strong entrywise local law as in \eqref{entry_diagonal}, we need stronger bounds on $[Z]_1$ and $[Z]_2$ in (\ref{selfcons_improved}) and (\ref{selfcons_improved2}). They follow from the following {\it{fluctuation averaging lemma}}. 
+
+\begin{lemma}[Fluctuation averaging] \label{abstractdecoupling}
+Suppose $\Phi$ and $\Phi_o$ are positive, $N$-dependent deterministic functions on $S(c_0,C_0,\epsilon)$ satisfying $N^{-1/2} \le \Phi, \Phi_o \le N^{-c}$ for some constant $c>0$. Suppose moreover that $\Lambda \prec \Phi$ and $\Lambda_o \prec \Phi_o$. Then for all $z \in S(c_0,C_0,\epsilon)$ we have
+\begin{equation}\label{flucaver_ZZ}
+\left|[Z]_1 \right| + \left|[Z]_2 \right| \prec   {\Phi _o^2}.
+\end{equation}
+%Fix a constant $\xi>0$. Suppose $q\le \varphi^{-5\xi}$ and that there exists $\tilde S\subseteq S(c_0,C_0,L)$ with $L\ge 18\xi$ such that with $\xi$-high probability,
+%\begin{equation} 
+%\Lambda(z) \le \gamma(z) \text{ for } z\in \tilde S,
+%\end{equation}
+%where $\gamma$ is a deterministic function satisfying $\gamma(z)\le \varphi^{-\xi}$. Then we have that with $(\xi-\tau_N)$-high probability,
+%\begin{equation}
+%\left|[Z]_1(z)\right|+ \left|[Z]_2(z)\right| \le \varphi^{18\xi} \left(q^2 + \frac{1}{(N\eta)^2} + \frac{\Im \, m_{2c}(z) + \gamma(z)}{N\eta} \right),
+%\end{equation}
+%for $z\in \tilde S$, where $\tau_N:=2/\log \log N$. 
+\end{lemma}
+\begin{proof}
+We suppose that the event $\Xi$ holds. The bound \eqref{flucaver_ZZ} can be proved in a similar way as \cite[Lemma 4.9]{isotropic} and \cite[Theorem 4.7]{Semicircle}. Take $[Z]_1$ as an example. The only complication of the proof is that the coefficients ${\sigma_i}/{(1+\sigma_i m_2)^2}$ are random and depend on $i$. This can be dealt with by writing, for any $i\in \mathcal I_1$,
+$$m_2 = m_2^{(i)} + \frac{1}{N}\sum_{\mu\in\mathcal I_2} \tilde \sigma_\mu \frac{G_{\mu i} G_{i\mu}}{G_{ii}} = m_2^{(i)} + \OO(\Lambda_o^2).$$
+%where by Lemma \ref{Z_lemma}, we have
+%\begin{align*}
+%\Lambda_o^2 \le C\varphi^{4\xi}\left(q^2+\Psi_\theta^2 \right) \le C\varphi^{4\xi} \left(q^2 + \frac{1}{(N\eta)^2} + \frac{\Im \, m_{2c}(z) + \gamma(z)}{N\eta} \right).
+%\end{align*}
+%with $\xi$-high probability. 
+Then we write
+\begin{align}
+[Z]_1 & =\frac{1}{N}\sum_{i\in \mathcal I_1} \frac{\sigma_i}{\big(1+m_2^{(i)}\sigma_i \big)^2} Z_i + \OO(\Lambda_o^2)  = \frac{1}{N}\sum_{i\in \mathcal I_1} (1-\mathbb E_i)\Bigg[\frac{\sigma_i}{\big(1+m_2^{(i)}\sigma_i\big)^2}G_{ii}^{-1}\Bigg]+ \OO(\Lambda_o^2) \nonumber\\
+& = \frac{1}{N}\sum_{i\in \mathcal I_1} (1-\mathbb E_i)\left[\frac{\sigma_i}{\left(1+m_2 \sigma_i\right)^2}G_{ii}^{-1}\right] + \OO(\Lambda_o^2).\label{Z1_aver}
+\end{align}
+Now the method to bound the first term in the line (\ref{Z1_aver}) is only a slight modification of the one in \cite{isotropic} or \cite{Semicircle}. For the proof of an even more complicated fluctuation averaging lemma, one can also refer to \cite[Lemma 4.9]{XYY_circular}. Finally, we use that $\Xi$ holds with high probability by Lemma \ref{alem_weak} to conclude the proof. 
+\end{proof}
+
+Now we give the proof of Proposition \ref{prop_entry}.
+
+\begin{proof}[Proof of Proposition \ref{prop_entry}]
+%Fix $c_0,C_0>0$, $\xi> 3$ and set 
+%$$L:=120\xi, \ \ \tilde \xi:= 2/\log 2 + \xi.$$
+%Hence we have $\tilde \xi \le 2\xi$ and $L\ge 60\tilde \xi$. Then to prove (\ref{DIAGONAL}), it suffices to prove 
+%\begin{equation}\label{goal_law1}
+%\bigcap_{z \in S(c_0,C_0,L)} \left\{ \Lambda(z) \leq C\varphi^{20\tilde \xi}\left(q+ \sqrt{\frac{\operatorname{Im} m_{2c}(z) }{N \eta}}+ \frac{1}{N\eta}\right) \right\},
+%\end{equation}
+%with $\xi$-high probability. %For notational convenience, we shall denote $m_c:=m_{1c}+m_{2c}$. 
+
+By Lemma \ref{alem_weak}, the event $\Xi$ holds with high probability. Then by Lemma \ref{alem_weak} and Lemma \ref{Z_lemma}, we can take
+\be\label{initial_phio}
+\Phi_o = \sqrt{\frac{\im m_{2c} + (N\eta)^{-1/4}}{N\eta}} + \frac{1}{N\eta},\quad \Phi= \frac{1}{(N\eta)^{1/4}},
+\ee
+ in Lemma \ref{abstractdecoupling}. 
+%have that
+%$\Lambda\prec |w|^{-3/8}(N\eta)^{-1/4}$. Therefore  $\theta\prec |w|^{-3/8}(N\eta)^{-1/4}$ and
+%$$\Lambda_o\prec\Psi_\theta\prec\sqrt{\frac{\Im(m_{1c}+m_{2c})+|w|^{-3/8}(N\eta)^{-1/4}}{N\eta}}, $$
+%where we use $|w|^{-1/2}(N\eta)^{-3/8}\ge (N\eta)^{-1}$ by the definition (\ref{eq_domainD}) of $\bD$.
+%Lemma \ref{fluc_aver} then gives 
+%\[\Phi_o = |w|^{1/2}\sqrt{\frac{\Im(m_{1c}+m_{2c})+|w|^{-3/8}(N\eta)^{-1/4}}{N\eta}},\ \ \ \Phi=\left(\frac{|w|^{1/2}}{N\eta}\right)^{1/4}\]
+%$\|[Z]\| + \|\langle Z \rangle\|\prec |w|^{-1/2}\Phi_o^2.$ 
+Then (\ref{selfcons_improved}) gives
+$$|f(z,m_2)| \prec\frac{ \im m_{2c} + (N\eta)^{-1/4}}{N\eta}.$$
+Using Lemma \ref{stability}, we get
+\be\label{m2}
+|m_2-m_{2c}|\prec\frac{\im m_{2c}}{N\eta\sqrt{\kappa+\eta}}+\frac{1}{(N\eta)^{5/8}} \prec \frac{1}{(N\eta)^{5/8}} ,
+\ee
+where we used $\im m_{2c}=\OO(\sqrt{\kappa+\eta})$ by \eqref{Immc} in the second step. With (\ref{selfcons_improved2}) and \eqref{m2}, we get the same bound for $m_1$, which gives
+\be\label{m1}
+\theta \prec {(N\eta)^{-5/8}} ,
+\ee
+Then using Lemma \ref{Z_lemma} and (\ref{m1}), we obtain that
+\begin{align}\label{1iteration}
+\Lambda_o \prec  \sqrt{\frac{\im m_{2c} + (N\eta)^{-5/8}}{N\eta}} + \frac{1}{N\eta}
+\end{align}
+uniformly in $z\in S(c_0,C_0,\epsilon)$, which is a better bound than the one in (\ref{initial_phio}). Taking the RHS of \eqref{1iteration} as the new $\Phi_o$, we can obtain an even better bound for $\Lambda_o$. Iterating the above arguments, we get the bound
+$$\theta \prec \left({N\eta}\right)^{-\sum_{k=1}^l 2^{-k} - 2^{-l-2} }$$
+after $l$ iterations. This implies %the averaged local law
+\be\label{aver_proof}
+\theta\prec(N\eta)^{-1}
+\ee
+since $l$ can be arbitrarily large. Now with \eqref{aver_proof}, Lemma \ref{Z_lemma}, \eqref{Gii0} and \eqref{Gmumu0}, we can obtain \eqref{entry_diagonal}. 
+%that
+%$$\Lambda(z)\prec \Psi(z),$$
+%which proves Proposition \ref{prop_entry}.
+\end{proof}
+
+\subsection{Proof of Proposition \ref{prop_diagonal}}
+
+We now can finish the proof of Proposition \ref{prop_diagonal} using Proposition \ref{prop_entry}. By \eqref{Gii0} and \eqref{aver_proof}, we have
+$$m=\frac1n\sum_i \frac{1}{-z(1 + \sigma_i m_2)} - \frac1n\sum_i \frac{Z_i}{z\left(1 +  \sigma_i m_2\right)^2}  +O_\prec\left(\Psi^2\right).$$
+Using the same method as in Lemma \ref{abstractdecoupling}, we can obtain that
+$$\left|\frac1n\sum_i \frac{Z_i}{\left(1 +  \sigma_i m_2\right)^2}\right| \prec \Psi^2.$$
+Together with \eqref{def_mc}, \eqref{Piii} and \eqref{aver_proof}, we get that
+$$|m-m_c| \prec (N\eta)^{-1} + \Psi^2 \prec (N\eta)^{-1},$$
+where we used \eqref{psi12} in the second step. This proves \eqref{aver_diagonal}. 
+
+For $z\in S_{out}(c_0,C_0,\epsilon): =S(c_0,C_0,\epsilon)\cap \{z=E+\ii\eta: E\ge \lambda_r, N\eta\sqrt{\kappa + \eta} \ge N^\epsilon\}$, we have
+$$\Psi^2 \le 2\left[{\frac{\Im \, m_{2c}(z)}{{N\eta }} } + \frac{1}{(N\eta)^2}\right] \lesssim \frac{1}{N\sqrt{\kappa+\eta}} + \frac{1}{(N\eta)^2} \lesssim \frac{1}{N(\kappa +\eta)} + \frac{1}{(N\eta)^2\sqrt{\kappa +\eta}},$$
+where we used \eqref{Immc} in the second step. Thus to prove \eqref{aver_out}, it suffices to prove that 
+\be\label{aver_proof2}
+|m_2-m_{2c}|\prec \frac{1}{N(\kappa +\eta)} + \frac{1}{(N\eta)^2\sqrt{\kappa +\eta}} ,\quad z\in S_{out}(c_0,C_0,\epsilon).
+\ee
+In fact, taking $\Phi_o=\Phi=\Psi$ in Lemma \ref{abstractdecoupling} and then using Lemma \ref{stability}, we get that
+$$|m_2-m_{2c}|\prec \frac{\Psi^2}{\sqrt{\kappa + \eta}} \lesssim \frac{1}{N(\kappa +\eta)} + \frac{1}{(N\eta)^2\sqrt{\kappa +\eta}}.$$
+This finishes the proof of \eqref{aver_proof2}, and hence \eqref{aver_out}.
+
+Finally, with (\ref{entry_diagonal}), one can repeat the polynomialization method in \cite[Section 5]{isotropic} to get the anisotropic local law (\ref{aniso_diagonal}). The only difference is that one need to use the first bound in \eqref{assm3}.
+
+\section{Proof of Theorem \ref{LEM_SMALL}: self-consistent comparison}\label{sec_comparison}
+
+In this section, we finish the proof of Theorem \ref{LEM_SMALL} for a general $X$ satisfying \eqref{conditionA2}, \eqref{assm_3moment} and the bounded support condition (\ref{eq_support}) with $q\le N^{-\phi}$ for some constant $\phi>0$. 
+%As remarked at the beginning of Section \ref{sec_Gauss},
+The proposition \ref{prop_diagonal} implies that \eqref{aniso_law} holds for Gaussian $X^{Gauss}$. Thus the basic idea is to prove that for $X$ satisfying the assumptions in Theorem \ref{LEM_SMALL}, %we have
+\begin{equation*}%\label{Gaussian_starting}
+\left\langle \mathbf u, \left( G(X,w) -  G(X^{Gauss},w)\right) \mathbf v\right\rangle \prec q+\Psi(z)
+\end{equation*}
+uniformly for deterministic unit vectors $\mathbf u,\mathbf v\in{\mathbb C}^{\mathcal I}$ and $z\in \tilde S(c_0,C_0,\e)$. 
+ 
+For simplicity of notations, we introduce the following generalized entries. For $\mathbf v,\mathbf w \in \mathbb C^{\mathcal I}$ and $a\in \mathcal I$, we shall denote
+\begin{equation}
+G_{\mathbf{vw}}:=\langle \mathbf v,G\mathbf w\rangle, \quad G_{\mathbf{v}a}:=\langle \mathbf v,G\mathbf e_a\rangle, \quad G_{a\mathbf{w}}:=\langle \mathbf e_a,G\mathbf w\rangle,
+\end{equation}
+where $\mathbf e_a$ is the standard unit vector along $a$-th axis. Given vectors $\mathbf x\in \mathbb C^{\mathcal I_1}$ and $\mathbf y\in \mathbb C^{\mathcal I_2}$, we always identify them with their natural embeddings $\left( {\begin{array}{*{20}c}
+   {\mathbf x}  \\
+   0 \\
+\end{array}} \right)$ and $\left( {\begin{array}{*{20}c}
+   0  \\
+   \mathbf y \\
+\end{array}} \right)$ in $\mathbb C^{\mathcal I}$.
+The exact meanings will be clear from the context. Now similar to Lemma \ref{lemma_Im}, we can prove the following estimates for $\mathcal G$.
+
+\begin{lemma}\label{lem_comp_gbound}
+For $i\in \mathcal I_1$ and $\mu\in \mathcal I_2$, we define $\mathbf u_i=U^* \mathbf e_i  \in \mathbb C^{\mathcal I_1}$ and $\mathbf v_\mu=V^* \mathbf e_\mu  \in \mathbb C^{\mathcal I_2}$, i.e. $\mathbf u_i$ is the $i$-th row vector of $U$ and $\mathbf v_\mu$ is the $\mu$-th row vector of $V$. Let $\mathbf x \in \mathbb C^{\mathcal I_1}$ and $\mathbf y \in \mathbb C^{\mathcal I_2}$. Then we have %for some constant $C>0$,
+  \begin{align}
+ & \sum_{i \in \mathcal I_1 }  \left| {G_{\mathbf x \mathbf u_i} } \right|^2  =\sum_{i \in \mathcal I_1 }  \left| {G_{ \mathbf u_i \mathbf x} } \right|^2  = \frac{|z|^2}{\eta}\im\left(\frac{ G_{\mathbf x\mathbf x}}{z}\right) , \label{eq_sgsq2} \\
+& \sum_{\mu  \in \mathcal I_2 } {\left| {G_{\mathbf y \mathbf v_\mu } } \right|^2 }=\sum_{\mu  \in \mathcal I_2 } {\left| {G_{\mathbf v_\mu \mathbf y } } \right|^2 }  = \frac{{\im G_{\mathbf y\mathbf y} }}{\eta }, \label{eq_sgsq1}\\ 
+& \sum_{i \in \mathcal I_1 } {\left| {G_{\mathbf y \mathbf u_i} } \right|^2 } =\sum_{i \in \mathcal I_1 } {\left| {G_{ \mathbf u_i \mathbf y} } \right|^2 } = {G}_{\mathbf y\mathbf y}  +\frac{\bar z}{\eta} \im G_{\mathbf y\mathbf y}  , \label{eq_sgsq3} \\
+& \sum_{\mu \in \mathcal I_2 } {\left| {G_{\mathbf x \mathbf v_\mu} } \right|^2 }= \sum_{\mu \in \mathcal I_2 } {\left| {G_{\mathbf v_\mu \mathbf x } } \right|^2 }= \frac{G_{\mathbf x\mathbf x}}{z}  + \frac{\bar z}{\eta} \im \left(\frac{G_{\mathbf x\mathbf x}}{z}\right) .\label{eq_sgsq4}
+ \end{align}
+ All of the above estimates remain true for $G^{(\mathbb T)}$ instead of $G$ for any $\mathbb T \subseteq \mathcal I$. 
+\end{lemma}
+%\begin{proof}
+%The proof is almost the same as the proof of Lemma \ref{lemma_Im}, except that we use
+%$$ \sum_{i\in \mathcal I_1}\mathbf v_i \mathbf v_i^\dag = V_1 V_1^\dag = I_{N\times N}.$$
+%\end{proof}
+\begin{proof}
+We only prove \eqref{eq_sgsq1} and \eqref{eq_sgsq3}. The proof for \eqref{eq_sgsq2} and \eqref{eq_sgsq4} is very similar. With  \eqref{spectral1}, we get that
+\begin{align}\label{middle}
+\sum_{\mu  \in \mathcal I_2 } {\left| {G_{\mathbf y \mathbf v_\mu } } \right|^2 } =& \sum_{\mu  \in \mathcal I_2 } \left\langle \mathbf y,G {\mathbf v_\mu  } \right\rangle \left\langle {\mathbf v_\mu}, G^\dag \mathbf y \right\rangle  = \sum_{k = 1}^N {\frac{{\left| {\left\langle {\mathbf y,\zeta _k } \right\rangle } \right|^2  }}{{\left( {\lambda _k  - E} \right)^2  + \eta ^2 }} }   =\frac{{\im  G_{\mathbf y\mathbf y} }}{\eta }.
+\end{align}
+For simplicity, we denote $Y:=\Sig^{1/2} U^{*}X V\tilde \Sig^{1/2}$. Then with \eqref{green2} and \eqref{spectral2}, we get that
+\begin{align*}
+ \sum_{i \in \mathcal I_1 } {\left| {G_{\mathbf y\mathbf u_i} } \right|^2 } =  \left( {{\mathcal G_2} Y^\dag Y \mathcal G_2^\dag  } \right)_{\mathbf y\mathbf y}=  \left( {{\mathcal G_2} \left(Y^\dag Y-\bar z\right) \mathcal G_2^\dag  } \right)_{\mathbf y\mathbf y} + \bar z \left( {{\mathcal G_2} \mathcal G_2^\dag  } \right)_{\mathbf y\mathbf y} =  {G}_{\mathbf y\mathbf y}  +\frac{\bar z}{\eta} \im G_{\mathbf y\mathbf y}  ,
+ \end{align*}
+ where we used $\mathcal G_2^\dag= \left(Y^\dag Y-\bar z\right)^{-1}$ and \eqref{middle} in the last step.
+\end{proof}
+
+
+%\subsection{Bootstrapping on the spectral scale}
+%\begin{subsection}{Self-consistent comparison}\label{subsection_selfcomp}
+Our proof basically follows the arguments in \cite[Section 7]{Anisotropic} with some modifications. Thus we will not give all the details. We first focus on proving the anisotropic local law \eqref{aniso_law}, and the proof of \eqref{aver_in1}-\eqref{aver_out1} will be given at the end of this section. By polarization, to prove \eqref{aniso_law} it suffices to prove that %the following bound:
+ \begin{equation}\label{goal_ani2}
+\left\langle \mathbf v, \left(G(X,z)- \Pi(z)\right) \mathbf v \right\rangle \prec q+\Psi(z)
+\end{equation}
+uniformly in $z\in \tilde S(c_0,C_0,\e)$ and any deterministic unit vector $ \mathbf v\in{\mathbb C}^{\mathcal I}$. In fact, we can obtain the more general bound \eqref{aniso_law}
+%\begin{equation*}%\label{goal_ani}
+%\left\langle \mathbf u, \left(G(X,z) - \Pi(z)\right) \mathbf v \right\rangle \prec \Psi(z)
+%\end{equation*}
+by applying (\ref{goal_ani2}) to the vectors $\mathbf u + \mathbf v$ and $\mathbf u + i\mathbf v$, respectively.
+
+%\begin{proposition}\label{comparison_prop}
+%Suppose the assumptions of Theorem \ref{LEM_SMALL} hold.  Fix ${\left| z \right|^2 } \le 1 - \tau$ and suppose that the assumptions of Theorem \ref{law_wideT} hold. If (\ref{assm_3rdmoment}) holds or $\eta \ge N^{-1/2+\zeta}|m_{2c}|^{-1}$, then for any regular domain $\mathbf S \subseteq \mathbf D$,
+% \begin{equation}\label{goal_ani2}
+%\left\langle \mathbf v, \left( G(w)-\Pi(w)\right) \mathbf v \right\rangle \prec \Psi(z)
+%\end{equation}
+%uniformly in $w\in \bS$ and any deterministic unit vectors $ \mathbf v\in{\mathbb C}^{\mathcal I}$.
+%\end{proposition}
+
+%We first assume that (\ref{assm_3rdmoment}) holds. Then we will show how to modify the arguments to prove the $\eta \ge N^{-1/2+\zeta}|m_{2c}|^{-1}$ case.
+The proof consists of a bootstrap argument from larger scales to smaller scales in multiplicative increments of $N^{-\delta}$, where
+\begin{equation}
+ \delta \in\left(0,\frac{\min\{\epsilon,\phi\}}{2C_a}\right). \label{assm_comp_delta}
+\end{equation}
+Here $\e>0$ is the constant in $\tilde S(c_0,C_0,\e)$, $\phi>0$ is a constant such that $q\le N^{-\phi}$, $C_a> 0$ is an absolute constant that will be chosen large enough in the proof. For any $\eta\ge N^{-1+\e}$, we define
+\begin{equation}\label{eq_comp_eta}
+\eta_l:=\eta N^{\delta l} \text{ for } \ l=0,...,L-1,\ \ \ \eta_L:=1.
+\end{equation}
+where
+%\begin{equation}\label{eq_comp_L}
+$L\equiv L(\eta):=\max\left\{l\in\mathbb N|\ \eta N^{\delta(l-1)}<1\right\}.$
+%\end{equation}
+%through
+% \begin{equation}\label{eq_comp_eta}
+%  \eta_l:=\eta N^{\delta l}\ \ l=0,...,L-1,\ \ \ \eta_L:=1.
+% \end{equation}
+Note that $L\le \delta^{-1}$.
+
+By (\ref{eq_gbound}), the function $z\mapsto G(z)- \Pi(z)$ is Lipschitz continuous in $\tilde S(c_0,C_0,\e)$ with Lipschitz constant bounded by $N^2$. Thus to prove (\ref{goal_ani2}) for all $z\in \tilde S(c_0,C_0,\e)$, it suffices to show that (\ref{goal_ani2}) holds for all $z$ in some discrete but sufficiently dense subset ${\mathbf S} \subset \tilde S(c_0,C_0,\e)$. We will use the following discretized domain $\bS$.
+\begin{definition}
+Let $\mathbf S$ be an $N^{-10}$-net of $\tilde S(c_0,C_0,\e)$ such that $ |\mathbf S |\le N^{20}$ and
+\[E+\ii\eta\in\mathbf S\Rightarrow E+\ii\eta_l\in\mathbf S\text{ for }l=1,...,L(\eta).\]
+\end{definition}
+
+The bootstrapping is formulated in terms of two scale-dependent properties ($\bA_m$) and ($\bC_m$) defined on the subsets
+\[\mathbf S_m:=\left\{z\in\mathbf S\mid\text{Im} \, z\ge N^{-\delta m}\right\}.\]
+${(\bA_m)}$ For all $z\in\mathbf S_m$, all deterministic unit vectors $\mathbf x \in \mathbb C^{\mathcal I_1}$ and $\mathbf y \in \mathbb C^{\mathcal I_2}$, and all $X$ satisfying the assumptions in Theorem \ref{LEM_SMALL}, we have
+\begin{equation}\label{eq_comp_Am}
+ \im \left(\frac{G_{\mathbf x\mathbf x}(z)}{z}\right) + \im G_{\mathbf y\mathbf y}(z)\prec \im m_{2c}(z) +N^{C_a\delta}(q+\Psi(z)).
+\end{equation}
+${(\bC_m)}$ For all $z\in\mathbf S_m$, all deterministic unit vector $\mathbf v\in \mathbb C^{\mathcal I}$, and all $X$ satisfying the assumptions in Theorem \ref{LEM_SMALL}, %(\ref{assm1})-(\ref{assm2}), 
+we have
+\begin{equation}\label{eq_comp_Cm}
+ \left|G_{\mathbf v\mathbf v}(z)-\Pi_{\mathbf v\mathbf v}(z)\right|\prec N^{C_a\delta}(q+\Psi(z)).
+\end{equation}
+%The bootstrapping is started by the following result
+%\begin{lemma}\label{lemm_boot0}
+It is trivial to see that ${(\mathbf A_0)}$ holds by \eqref{eq_gbound} and \eqref{Immc}. Moreover, it is easy to observe the following result.
+%\end{lemma}
+%\begin{proof}
+% By Lemma \ref{lemma_Im} and the assumption (\ref{assm3}), we have for $w\in\widehat\bS_0$,
+% \[\text{Im} G_{\mathbf{vv}}(w)\le C |w|^{1/2}\left\|G(w)\right\| \le \frac{C}{\eta}\le C |w|^{1/2}\Im \left[m_{1c}(w)+m_{2c}(w)\right],\]
+%where we use (\ref{estimate1_bulk}) for $w\in{\widehat\bS}_0$.
+%\end{proof}
+
+\begin{lemma}\label{lemm_boot2}
+For any $m$, property ${(\mathbf C_m)}$ implies property $(\mathbf A_m)$.
+\end{lemma}
+\begin{proof}
+By \eqref{Immc}, \eqref{Piii} and the definition of $\Pi$ in \eqref{defn_pi}, it is easy to get that 
+$$\im \left(\frac{\Pi_{\mathbf x\mathbf x}(z)}{z}\right) + \im \Pi_{\mathbf y\mathbf y}(z)\lesssim \im m_{2c}(z) ,$$
+%$\im \Pi_{\bv\bv}=\OO(\im m_{2c})$, 
+which finishes the proof.
+%Suppose property $(\mathbf C_m)$ holds. By (\ref{def_PiPhi}), we have
+%\begin{align*}
+%\widetilde \Pi_{\mathbf v\mathbf v} = |w|^{1/2} \left\langle \mathbf v, \overline T^\dag \Pi \overline T \mathbf v \right\rangle = |w|^{1/2} \left(\Pi_d \right)_{ {\mathbf u} {\mathbf u}} ,
+%\end{align*}
+%where $ \mathbf u = \bar T  \mathbf v.$ Now (\ref{estimate_PiImw}) implies
+%\begin{equation}\label{eqn_ImPi}
+%\Im\, \widetilde \Pi_{\mathbf v\mathbf v} \le C \Im(m_{1c}+m_{2c}),
+%\end{equation}
+%and further
+%$$\text{Im} G_{\mathbf{vv}}(w)\le\text{Im}\, \Pi_{\mathbf {vv}}+\left| G_{\mathbf{vv}}(w)-\Pi_{\mathbf{vv}}(w)\right|\prec|w|^{1/2}\text{Im}\left[m_{1c}(w)+m_{2c}(w)\right]+N^{C_a\delta}\Psi(z).$$
+%Thus the property $(\mathbf A_m)$ follows.
+\end{proof}
+
+The key step is the following induction result.
+\begin{lemma}\label{lemm_boot}
+For any $1\le m\le \delta^{-1}$, property $(\mathbf A_{m-1})$ implies property $(\mathbf C_m)$.
+\end{lemma}
+
+Combining Lemmas \ref{lemm_boot2} and \ref{lemm_boot}, we conclude that (\ref{eq_comp_Cm}) holds for all $w\in\mathbf S$. Since $\delta$ can be chosen arbitrarily small under the condition (\ref{assm_comp_delta}), we conclude that (\ref{goal_ani2}) holds for all $w\in\mathbf S$, and \eqref{aniso_law} follows for all $z\in \tilde S(c_0,C_0,\e)$. What remains now is the proof of Lemma \ref{lemm_boot}. Denote
+\begin{equation}\label{eq_comp_F(X)}
+ F_{\mathbf v}(X,z):=\left|G_{\mathbf{vv}}(X,z)-\Pi_{\mathbf {vv}}(z)\right|.
+\end{equation}
+By Markov's inequality, it suffices to prove the following lemma.
+\begin{lemma}\label{lemm_comp_0}
+ Fix $p\in \mathbb N$ and $m\le \delta^{-1}$. Suppose that the assumptions of Theorem \ref{LEM_SMALL} and property $(\mathbf A_{m-1})$ hold. Then we have
+ \begin{equation}
+  \mathbb EF_{\mathbf v}^p(X,z)\le\left[ N^{C_a\delta}\left(q+\Psi(z)\right)\right]^p
+ \end{equation}
+ for all $z\in{\mathbf S}_m$ and any deterministic unit vector $\mathbf v$.
+\end{lemma}
+In the rest of this section, we focus on proving Lemma \ref{lemm_comp_0}. 
+%\begin{subsubsection}{Rough bound}
+First, in order to make use of the assumption $(\mathbf A_{m-1})$, which has spectral parameters in $\mathbf S_{m-1}$, to get some estimates for $G$ with spectral parameters in $\mathbf S_{m}$, we shall use the following rough bounds for $ G_{\mathbf{xy}}$.
+
+\begin{lemma}\label{lemm_comp_1}
+For any $z=E+\ii\eta\in\mathbf S$ and unit vectors $\mathbf x,\mathbf y\in \mathbb C^{\mathcal I}$,  we have %{\cor need to revise}
+\begin{align*}
+\left|G_{\mathbf x\mathbf y}(z)-\Pi_{\mathbf x\mathbf y}(z)\right|\prec & N^{2\delta}\sum_{l=1}^{L(\eta)} \left[\im \left(\frac{G_{\mathbf x_1\mathbf x_1}(E+\ii\eta_l)}{E+\ii\eta_l}\right)+\im G_{\mathbf x_2\mathbf x_2}(E+\ii\eta_l) \right.\\
+& \left. +\im \left(\frac{G_{\mathbf y_1\mathbf y_1}(E+\ii\eta_l)}{E+\ii\eta_l}\right)+\im G_{\mathbf y_2\mathbf y_2}(E+\ii\eta_l)\right]+1,
+\end{align*}
+where $\mathbf x=\left( {\begin{array}{*{20}c}
+   {\mathbf x}_1   \\
+   {\mathbf x}_2 \\
+   \end{array}} \right)$ and $\mathbf y=\left( {\begin{array}{*{20}c}
+   {\mathbf y}_1   \\
+   {\mathbf y}_2 \\
+   \end{array}} \right)$ for ${\mathbf x}_1,{\mathbf y}_1\in\mathbb C^{\mathcal I_1}$ and ${\mathbf x}_2,{\mathbf y}_2\in\mathbb C^{\mathcal I_2}$, and $\eta_l$ is defined in (\ref{eq_comp_eta}).
+%recall that $L(\eta)$ and $\eta_l$ are defined in $(\ref{eq_comp_L})$ and $(\ref{eq_comp_eta})$.
+\end{lemma}
+\begin{proof} The proof is the same as the one for \cite[Lemma 7.12]{Anisotropic}.\end{proof}
+%\begin{proof}
+%By (\ref{estimate_Piw12}) and the definition of $\widetilde \Pi$ in (\ref{def_PiPhi}), we get that $\left|\Pi_{\mathbf x\mathbf y}\right| \le |\mathbf x||\mathbf y|.$ Thus it suffices to estimate $|\mathcal G_{\mathbf{xy}}|$. By the definition of $\mathcal G$ in (\ref{def_mathcalg}), we see that $\mathcal G_{\mathbf{xy}}=R_{\mathbf{\bar x \bar y}}$ for $R:=|w|^{1/2}G$ and $\bar {\mathbf u}:=\overline T\mathbf u$ for $\mathbf u\in\{\mathbf x, \mathbf y\}$.
+%Using the singular value decomposition (\ref{singular_rep}) we get that
+%\begin{equation}\label{eqn_roughbound1}
+%\left|R_{\bar{\mathbf x}_1\bar{\mathbf y}_1}\right|=\left|\inprod{\bar{\mathbf x}_1,|w|^{1/2} \sum \limits_{ k=1 }^{ N } \frac { \xi_k \xi_k ^{ \dag  } }{ \lambda _{ k }-w } \bar{\mathbf y}_1}\right|\le |w|^{1/2} \sum \limits_{ k=1 }^{ N }\frac{|\inprod{\bar{\mathbf x}_1,\xi_k}|^2}{2\left|\lambda_k-w\right|}+ |w|^{1/2} \sum \limits_{ k=1 }^{ N }\frac{|\inprod{\bar{\mathbf y}_1,\xi_k}|^2}{2\left|\lambda_k-w\right|},
+%\end{equation}
+%and
+%\begin{equation}\label{eqn_roughbound2}
+%\left|R_{\bar{\mathbf x}_1\bar{\mathbf y}_2}\right| = \left|\inprod{\bar{\mathbf x}_1,w^{-1/2}|w|^{1/2} \sum_{k=1}^{ N } \frac { \sqrt{\lambda_k}\xi_k \zeta_{\bar k}^\dag }{\lambda_k-w } \bar{\mathbf y}_2}\right|\le \sum \limits_{ k=1 }^{ N }\frac{\sqrt{\lambda_k}|\inprod{\bar{\mathbf x}_1,\xi_k}|^2}{2\left|\lambda_k-w\right|}+\sum \limits_{ k=1 }^{ N }\frac{\sqrt{\lambda_k}|\inprod{\bar{\mathbf y}_2,\zeta_{\bar k}}|^2}{2\left|\lambda_k-w\right|}.
+%\end{equation}
+%
+%%where the second step is by
+%%\begin{align*}
+%% \frac{\sqrt{\lambda_k} }{|\lambda^k-w|}=&\sqrt{\frac{\lambda_k}{\lambda_k^2+E^2+\eta^2-2E\lambda_k}}\\
+%% \le &\sqrt{\frac{\lambda_k}{2\lambda_k\sqrt{E^2+\eta^2}-2E\lambda_k}}\\
+%% =&\sqrt{\frac{\sqrt{E^2+\eta^2}+E}{2\eta^2}}\le \frac{|w|^{1/2}}{\eta}.
+%%\end{align*}
+%%{\color{red} \[R(w)=\begin{pmatrix} |w|^{1/2} \sum \limits_{ k=1 }^{ N }\frac { \xi_k \xi_k ^{ \dag  } }{ \lambda _{ k }-w }  & w^{-1/2}|w|^{1/2}\sum \limits_{ k=1 }^{ N } \frac { \sqrt \lambda_k\xi_k \zeta_k ^{ \dag  } }{ \lambda _{ k }-w }  \\ w^{-1/2}|w|^{1/2}\sum \limits_{ k=1 }^{ N } \frac { \sqrt\lambda_k\zeta_k \xi_k ^{ \dag  } }{ \lambda _{ k }-w }  & |w|^{1/2}\sum \limits_{ k=1 }^{ N } \frac { \zeta_k \zeta_k ^{ \dag  } }{ \lambda _{ k }-w }  \end{pmatrix}.\]}
+%Recall the notation $\eta_l$ in (\ref{eq_comp_eta}), define the subsets of indices
+%\[U_l=\{k\mid\eta_{l-1}\le|\lambda_k-E|<\eta_l\},\ \ l=0,...,L+1,\]
+%where we set $\eta_{-1}=0$ and $\eta_{L+1}=\infty$. Now we split the summation in (\ref{eqn_roughbound2}) according to $U_l$. For $l=1,...,L$ we have
+%\begin{align*}
+% \sum \limits_{ k\in U_l }\frac{\sqrt{\lambda_k}|\inprod{\bar{\mathbf x}_1,\xi_k}|^2}{2\left|\lambda_k-w\right|}\le& \sum_{k\in U_l}\frac{\sqrt{E+\eta_l}|\inprod{\bar{\mathbf x}_1,\xi_k}|^2\eta_l}{2(\lambda_k-E)^2} \le \sum_{k\in U_l}\frac{({2E^2+2\eta_l^2})^{1/4}|\inprod{\bar{\mathbf x}_1,\xi_k}|^2\eta_l}{(\lambda_k-E)^2+\eta_{l-1}^2}\\
+% \le& 2^{1/4}N^{2\delta}\sum_{k\in U_l}\frac{|{E+\ii\eta_l}|^{1/2}|\inprod{\bar{\mathbf x}_1,\xi_k}|^2\eta_l}{(\lambda_k-E)^2+\eta_{l}^2} = 2^{1/4}N^{2\delta}\text{Im}\, R_{\bar{\mathbf x}_1\bar{\mathbf x}_1}\left(E+\ii\eta_l\right);
+%\end{align*}
+%for $l=0$,
+%\begin{align*}
+% \sum \limits_{ k\in U_0 }\frac{\sqrt{\lambda_k}|\inprod{\bar{\mathbf x}_1,\xi_k}|^2}{2\left|\lambda_k-w\right|}\le& \sum_{k\in U_0}\frac{\sqrt{E+\eta}|\inprod{\bar{\mathbf x}_1,\xi_k}|^2 \sqrt{2}\eta}{2\left[(\lambda_k-E)^2+\eta^2\right]} \le 2^{-1/4}N^{2\delta}\sum_{k\in U_0}\frac{|{E+\ii\eta_1}|^{1/2}|\inprod{\bar{\mathbf x}_1,\xi_k}|^2\eta_1}{(\lambda_k-E)^2+\eta_1^2}\\
+% =&2^{-1/4}N^{\delta}\text{Im}\, R_{\bar{\mathbf x}_1\bar{\mathbf x}_1}\left(E+\ii\eta_1\right);
+%\end{align*}
+%and for $l={L+1}$,
+%\begin{align*}
+% \sum \limits_{ k\in U_{L+1} }\frac{\sqrt{\lambda_k}\inprod{\bar{\mathbf x}_1,\xi_k}^2}{2\left|\lambda_k-w\right|} & \le \sum_{k\in U_{L+1}}\frac{\sqrt{\lambda_k}|\inprod{\bar{\mathbf x}_1,\xi_k}|^2 \sqrt{2}|\lambda_k-E|}{2\left[(\lambda_k-E)^2+\eta_L^2\right]} \prec \sum_{k\in U_{L+1}}\frac{|\inprod{\bar{\mathbf x}_1,\xi_k}|^2\eta_L}{(\lambda_k-E)^2+\eta_{L}^2} \\
+% & \le C \text{Im}\, R_{\bar{\mathbf x}_1\bar{\mathbf x}_1}\left(E+\ii\eta_L\right),
+%\end{align*}
+%where in the second step we used that $\lambda_k\prec 1$, which follows from (\ref{norm_upperbound}). Combining the above estimates we get that
+%\[\sum \limits_{ k=1 }^{ N }\frac{\sqrt{\lambda_k}|\inprod{\bar{\mathbf x}_1,\xi_k}|^2}{2\left|\lambda_k-w\right|}\prec N^{2\delta}\sum_{l=1}^{L}\text{Im}\, R_{\bar{\mathbf x}_1\bar{\mathbf x}_1}(E+\ii\eta_l).\]
+%Similarly, we can prove that
+%\[\sum \limits_{ k=1 }^{ N }\frac{\sqrt{\lambda_k}|\inprod{\bar{\mathbf y}_2,\zeta_k}|^2}{\left|\lambda_k-w\right|}\prec N^{2\delta}\sum_{l=1}^{L}\text{Im}\, R_{\bar{\mathbf y}_2\bar{\mathbf y}_2}(E+\ii\eta_l).\]
+%Since $|E+\ii\eta|\le|E+\ii\eta_l|$, we immediately get
+%\[|w|^{1/2}\sum \limits_{ k=1 }^{ N }\frac{\inprod{\bar{\mathbf u}_1,\xi_k}^2}{\left|\lambda_k-w\right|}\prec N^{2\delta}\sum_{l=1}^{L}\text{Im}\, R_{\bar{\mathbf u}_1\bar{\mathbf u}_1}(E+\ii\eta_l)\]
+%for $\mathbf u \in \{\mathbf x, \mathbf y\}$.
+%%and
+%%\[|w|^{1/2}\sum \limits_{ k=1 }^{ N }\frac{\inprod{\bar{\mathbf y}_1,\xi_k}^2}{\left|\lambda_k-w\right|}\prec N^{2\delta}\sum_{l=1}^{L}\text{Im}R_{\bar{\mathbf y}_1\bar{\mathbf y}_1}(E+\ii\eta_l)\]
+%Plugging into (\ref{eqn_roughbound1}) and (\ref{eqn_roughbound2}), we get that
+%\[|R_{\bar{\mathbf x}_1\bar{\mathbf y}_1}|+|R_{\bar{\mathbf x}_1\bar{\mathbf y}_2}|\prec N^{2\delta}\sum_{l=1}^{L(\eta)}\left[\text{Im}\, R_{\bar{\mathbf x}_1\bar{\mathbf x}_1}(E+\ii\eta_l)+\text{Im}\, R_{\bar{\mathbf y}_1\bar{\mathbf y}_1}(E+\ii\eta_l)+\text{Im}\, R_{\bar{\mathbf y}_2\bar{\mathbf y}_2}(E+\ii\eta_l)\right].\]
+%We can bound $|R_{\bar{\mathbf x}_2 \bar{\mathbf y}_1}|$ and $|R_{\bar{\mathbf x}_2\bar{\mathbf y}_2}|$ in a similar way. This concludes the proof.
+%\end{proof}
+
+Recall that for a given family of random matrices $A$, we use $A=O_\prec(\zeta)$ to mean $\left|\left\langle\mathbf v, A\mathbf w\right\rangle\right|\prec\zeta \| \mathbf v\|_2 \|\mathbf w\|_2 $ uniformly in any deterministic vectors $\mathbf v$ and $\mathbf w$ (see Definition \ref{stoch_domination} (ii)).
+
+\begin{lemma}\label{lemm_comp_2}
+Suppose $(\mathbf A_{m-1})$ holds, then
+ \begin{equation}\label{eq_comp_apbound}
+  G(z)-\Pi(z)=\OO_{\prec}(N^{2\delta}),
+ \end{equation}
+ and
+%for all $w\in \mathbf S_m$. Moreover for any unit vector $\mathbf v$ we have
+\begin{equation}\label{eq_comp_apbound2}
+\im \left(\frac{G_{\mathbf x\mathbf x}(z)}{z}\right) + \im G_{\mathbf y\mathbf y}(z) \prec N^{2\delta}\left[ \im m_{2c}(z)+N^{C_a\delta}(q+\Psi(z))\right],
+\end{equation}
+ for all $z \in \mathbf S_m$ and any deterministic unit vectors $\mathbf x \in \mathbb C^{\mathcal I_1}$ and $\mathbf y \in \mathbb C^{\mathcal I_2}$.
+\end{lemma}
+\begin{proof} The proof is the same as the one for \cite[Lemma 7.13]{Anisotropic}.\end{proof}
+%\begin{proof}
+%Let $z=E+\ii\eta \in \mathbf S_m$. Then $E+\ii\eta_l \in \mathbf S_{m-1}$ for $l=1,\ldots, L(\eta)$, and (\ref{eq_comp_Am}) gives $\im G_{\mathbf v\mathbf v}(z)\prec 1.$ The estimate (\ref{eq_comp_apbound}) now follows immediately from Lemma \ref{lemm_comp_1}. To prove (\ref{eq_comp_apbound2}), we remark that if $s(w)$ is the Stieltjes transform of any positive integrable function on $\mathbb R$, the map $\eta \mapsto \eta\Im\, s(E+\ii\eta)$ is nondecreasing and the map $\eta \mapsto \eta^{-1} \im s(E+\ii\eta)$ is nonincreasing. We apply them to $\im G_{\mathbf v\mathbf v}(E+\ii\eta)$ and $\im m_{2c}(E+\ii\eta)$ to get for $z_1=E+\ii\eta_1\in \mathbf S_{m-1}$,
+%\begin{align*}
+%\im G_{\mathbf v\mathbf v}(w) & \le N^{\delta}\frac{|w|^{1/2}}{|w_1|^{1/2}}\im G_{\mathbf v\mathbf v}(w_1)\prec N^{\delta}\left[|w|^{1/2}\im\left(m_{1c}(w_1)+m_{2c}(w_1)\right)+N^{C_a\delta}\frac{|w|^{1/2}}{|w_1|^{1/2}}\Phi(w_1)\right] \\
+%& \le N^{2\delta}\left[|w|^{1/2}\im\left(m_{1c}(w)+m_{2c}(w)\right)+N^{C_a\delta}\Psi(z)\right],
+%\end{align*}
+%where we used $\Psi(z):=|w|^{1/2}\Psi(w)$ and the fact that $\eta \mapsto \Psi(E+\ii\eta)$ is nonincreasing, which is clear from the definition (\ref{eq_defpsi}).
+%\end{proof}
+%\end{subsubsection}
+
+Now we are ready to perform the self-consistent comparison. %introduced in \cite{Anisotropic}. %to prove Lemma \ref{lemm_comp_0}. 
+We divide the proof into three subsections. In Sections \ref{subsec_interp}-\ref{section_words}, we prove Lemma \ref{lemm_comp_0} under the condition 
+\be\label{3moment}
+%\mathbb E x_{ij}^3=0,  
+\mathbb E x_{ij}^3=0, \quad 1\le i \le n,\ \  1\le j \le N,
+\ee
+for $z\in S(c_0,C_0,\e)$. Then in Section \ref{subsec_3moment}, we show how to relax \eqref{3moment} to \eqref{assm_3moment} for $z\in \tilde S(c_0,C_0,\e)$.
+
+
+\begin{subsection}{Interpolation and expansion} \label{subsec_interp}
+%The self-consistent comparison is performed with the following interpolation.
+\begin{definition}[Interpolating matrices]
+%Introduce the notation $X^0:=X^{Gauss}$ and $X^1:=X$. We define the interpolation matrix $X^\theta$ by setting
+%\begin{equation}
+% X^\theta_{i\mu}:=\chi^\theta_{i\mu} X^1+(1-\chi^\theta_{i\mu})X^0, \ \ \theta\in [0,1],
+%\end{equation}
+%for $i\in \mathcal I_1$ and $\mu\in \mathcal I_2$ (recall the Definition \ref{def_indexsets}). Here $(\chi^\theta_{i\mu})$ is a family of i.i.d Bernoulli random variables, independent of $X^0$ and $X^1$, satisfying $\bbP(\chi_{i\mu}^\theta=1)=\theta$ and $\bbP(\chi_{i\mu}^\theta=0)=1-\theta$.
+Introduce the notations $X^0:=X^{Gauss}$ and $X^1:=X$. Let $\rho_{i\mu}^0$ and $\rho_{i\mu}^1$ be the laws of $X_{i\mu}^0$ and $X_{i\mu}^1$, respectively. For $\theta\in [0,1]$, we define the interpolated law
+$$\rho_{i\mu}^\theta := (1-\theta)\rho_{i\mu}^0+\theta\rho_{i\mu}^1.$$
+We shall work on the probability space consisting of triples $(X^0,X^\theta, X^1)$ of independent $\mathcal I_1\times \mathcal I_2$ random matrices, where the matrix $X^\theta=(X_{i\mu}^\theta)$ has law
+\begin{equation}\label{law_interpol}
+\prod_{i\in \mathcal I_1}\prod_{\mu\in \mathcal I_2} \rho_{i\mu}^\theta(dX_{i\mu}^\theta).
+\end{equation}
+For $\lambda \in \mathbb R$, $i\in \mathcal I_1$ and $\mu\in \mathcal I_2$, we define the matrix $X_{(i\mu)}^{\theta,\lambda}$ through
+\[\left(X_{(i\mu)}^{\theta,\lambda}\right)_{j\nu}:=\begin{cases}X_{i\mu}^{\theta}, &\text{ if }(j,\nu)\ne (i,\mu)\\ \lambda, &\text{ if }(j,\nu)=(i,\mu)\end{cases}.\]
+We also introduce the matrices \[G^{\theta}(z):=G\left(X^{\theta},z\right),\ \ \ G^{\theta, \lambda}_{(i\mu)}(z):=G\left(X_{(i\mu)}^{\theta,\lambda},z\right).\]
+%according to (\ref{def_mathcalg}) and the Definition \ref{def_linearHG}.
+\end{definition}
+
+We shall prove Lemma \ref{lemm_comp_0} through interpolation matrices $X^\theta$ between $X^0$ and $X^1$. It holds for $X^0$ by Proposition \ref{prop_diagonal}.%as remarked at the beginning of Section \ref{sec_Gauss}.
+\begin{lemma}\label{Gaussian_case}
+Lemma \ref{lemm_comp_0} holds if $X=X^0$.
+\end{lemma}
+%\begin{proof}
+%As remarked above (\ref{Gaussian_starting}), the anisotropic law (\ref{goal_ani}) holds for $X^0$, i.e. $F_{\mathbf v}^p(X^0,w)\prec \Phi^p$. Now to apply (iii) of Lemma \ref{lem_stodomin}, we need an upper bound $\mathbb E\left(F_{\mathbf v}^p(X^0,w)\right)^2 \le N^{C_p}$ for some constant $C_p$. This follows easily from (\ref{eq_gbound}) and
+%(\ref{estimate_Piw12}).
+%\end{proof}
+
+Using (\ref{law_interpol}) and fundamental calculus, we get the following basic interpolation formula.
+\begin{lemma}\label{lemm_comp_3}
+ For $F:\mathbb R^{\mathcal I_1 \times\mathcal I_2}\rightarrow \mathbb C$ we have
+\begin{equation}\label{basic_interp}
+\frac{d}{d\theta}\mathbb E F(X^\theta)=\sum_{i\in\mathcal I_1}\sum_{\mu\in\mathcal I_2}\left[\mathbb E F\left(X^{\theta,X_{i\mu}^1}_{(i\mu)}\right)-\mathbb E F\left(X^{\theta,X_{i\mu}^0}_{(i\mu)}\right)\right]
+\end{equation}
+ provided all the expectations exist.
+\end{lemma}
+
+We shall apply Lemma \ref{lemm_comp_3} with $F(X)=F_{\mathbf v}^p(X,z)$ for $F_{\mathbf v}(X,z)$ defined in (\ref{eq_comp_F(X)}). The main work is devoted to proving the following self-consistent estimate for the right-hand side of (\ref{basic_interp}).
+
+\begin{lemma}\label{lemm_comp_4}
+ Fix $p\in 2\mathbb N$ and $m\le \delta^{-1}$. Suppose (\ref{3moment}) and $\mathbf{(A_{m-1})}$ hold, then we have
+ \begin{equation}
+  \sum_{i\in\mathcal I_1}\sum_{\mu\in\mathcal I_2}\left[\mathbb EF_{\mathbf v}^p\left(X^{\theta,X_{i\mu}^1}_{(i\mu)},z\right)-\mathbb EF_{\mathbf v}^p\left(X^{\theta,X_{i\mu}^0}_{(i\mu)},z\right)\right]=
+  \OO\left(\left[N^{C_a\delta} (q+\Psi(z))\right]^p+\mathbb EF_{\mathbf v}^p(X^\theta,z)\right)
+ \end{equation}
+ for all $\theta\in[0,1]$, $z\in\mathbf S_m$ and any deterministic unit vector $\mathbf v$.
+\end{lemma}
+Combining Lemmas \ref{Gaussian_case}-\ref{lemm_comp_4} with a Gr\"onwall's argument, we can conclude Lemma \ref{lemm_comp_0} and hence \eqref{goal_ani2}. %Theorem \ref{LEM_SMALL}.%Proposition \ref{comparison_prop}.
+In order to prove Lemma \ref{lemm_comp_4}, we compare $X^{\theta,X_{i\mu}^0}_{(i\mu)}$ and $X^{\theta,X_{i\mu}^1}_{(i\mu)}$ via a common $X^{\theta,0}_{(i\mu)}$, i.e. we will prove that
+\begin{equation}\label{lemm_comp_5}
+\sum_{i\in\mathcal I_1}\sum_{\mu\in\mathcal I_2}\left[\mathbb EF_{\mathbf v}^p\left(X^{\theta,X_{i\mu}^u}_{(i\mu)},z\right)-\mathbb EF_{\mathbf v}^p\left(X^{\theta,0}_{(i\mu)},z\right)\right]= \OO\left(\left[N^{C_a\delta} (q+\Psi(z))\right]^p+\mathbb EF_{\mathbf v}^p(X^\theta,z)\right)
+ \end{equation}
+for all $u\in \{0,1\}$, $\theta\in[0,1]$, $w\in \mathbf{S}_m$, and any deterministic unit vector $\mathbf v$.
+%In the remainder of this section, we prove (\ref{lemm_comp_5}) for $u=1$.
+
+Underlying the proof of (\ref{lemm_comp_5}) is an expansion approach which we will describe below. 
+%Throughout the rest of the proof, 
+During the proof, we always assume that $(\mathbf A_{m-1})$ holds. Also the rest of the proof is performed at a fixed $z\in \mathbf S_m$. We define the $\mathcal I \times \mathcal I$ matrix $\Delta_{(i\mu)}^\lambda$ as
+\begin{equation}\label{deltaimu}
+\Delta_{(i\mu)}^{\lambda} :=\lambda \left( {\begin{array}{*{20}c}
+   { 0 } & \Sig^{1/2} \mathbf u_i \mathbf v_\mu^* \tilde \Sig^{1/2}   \\
+   { \tilde \Sig^{1/2}\mathbf v_\mu \mathbf u_i^* \Sig^{1/2} } & {0}  \\
+   \end{array}} \right),%   \lambda \mathbf u_i \delta_{is}\delta_{\mu t}+\lambda\delta_{it}\delta_{\mu s}, \ \  i\in \mathcal I_1, \mu\in \mathcal I_2,
+\end{equation}
+where we recall the definitions of $\mathbf u_i$ and $\mathbf v_\mu$ in Lemma \ref{lem_comp_gbound}. Then we have for any $\lambda,\lambda'\in \mathbb R$ and $K\in \mathbb N$,
+\begin{equation}\label{eq_comp_expansion}
+\G_{(i \mu)}^{\theta,\lambda'} = G_{(i\mu)}^{\theta,\lambda}+\sum_{k=1}^{K}  G_{(i\mu)}^{\theta,\lambda}\left( \Delta_{(i\mu)}^{\lambda-\lambda'} G_{(i\mu)}^{\theta,\lambda}\right)^k+ G_{(i\mu)}^{\theta,\lambda'}\left(\Delta_{(i\mu)}^{\lambda-\lambda'} G_{(i\mu)}^{\theta,\lambda}\right)^{K+1}.
+\end{equation}
+%where
+%$\overline V:=\begin{pmatrix}V_1 & 0\\ 0 & I\end{pmatrix}$ and $\alpha:=\frac{w^{1/2}}{|w|^{1/2}}.$
+The following result provides a priori bounds for the entries of $G_{(i\mu)}^{\theta,\lambda}$.
+\begin{lemma}\label{lemm_comp_6}
+ Suppose that $y$ is a random variable satisfying $|y|\prec q$. Then
+ \begin{equation}\label{comp_eq_apriori}
+   G_{(i\mu)}^{\theta,y}-\Pi=\OO_{\prec}(N^{2\delta}),\quad i\in\sI_1, \ \mu\in\sI_2.
+ \end{equation}
+% for all $i\in\sI^M_1$ and $\mu\in\sI_2$.
+\end{lemma}
+\begin{proof} The proof is the same as the one for \cite[Lemma 7.14]{Anisotropic}. \end{proof}
+%\begin{proof}
+% It suffices to show that $G_{(i\mu)}^{\theta,y}=O_{\prec}(N^{2\delta})$ since $\|\Pi\|=\OO(1)$ by \eqref{Piii}. By assumption ($\mathbf A_{m-1}$), the Lemma \ref{lemm_comp_2} holds for the matrix ensemble $X^\theta$ (since it satisfies (\ref{assm1})-(\ref{assm2})). In particular $G^{\theta,X_{i\mu}^u}_{(i\mu)}=O_\prec(N^{2\delta})$. Now we apply the expansion (\ref{eq_comp_expansion}) with $\lambda:=X_{i\mu}^\theta$, $\lambda':=y$ and large enough $K$ such that $K(2\delta-\phi)\le -2$. Using $|\lambda-\lambda'|\prec q$, it is easy to estimate all the terms in (\ref{eq_comp_expansion}) using Lemma \ref{lemm_comp_2} except the rest term.
+%To handle the rest term, we use the rough bound $G_{(i\mu)}^{\theta,\lambda'}\prec N$ coming from a simple modification of (\ref{eq_gbound}).
+%\end{proof}
+
+In the following proof, for simplicity of notations, we introduce $f_{(i\mu)}(\lambda):=F_{\mathbf v}^p(X_{(i\mu)}^{\theta, \lambda})$. We use $f_{(i\mu)}^{(r)}$ to denote the $r$-th derivative of $f_{(i\mu)}$. With Lemma \ref{lemm_comp_6} and (\ref{eq_comp_expansion}), it is easy to prove the following result.
+\begin{lemma}
+Suppose that $y$ is a random variable satisfying $|y|\prec q$. Then for fixed $r\in\bbN$,
+  \begin{equation}
+  \left|f_{(i\mu)}^{(r)}(y)\right|\prec N^{2\delta(r+p)}.
+ \end{equation}
+\end{lemma}
+By this lemma, the Taylor expansion of $f_{(i\mu)}$ gives
+\begin{equation}\label{eq_comp_taylor}
+f_{(i\mu)}(y)=\sum_{r=0}^{4p+4}\frac{y^r}{r!}f^{(r)}_{(i\mu)}(0)+\OO_\prec\left( q^{p+4}\right),
+\end{equation}
+provided $C_a$ is chosen large enough in (\ref{assm_comp_delta}). Therefore we have for $u\in\{0,1\}$,
+\begin{align*}
+\mathbb EF_{\mathbf v}^p\left(X^{\theta,X_{i\mu}^u}_{(i\mu)}\right)-\mathbb EF_{\mathbf v}^p\left(X^{\theta,0}_{(i\mu)}\right)=&\bbE\left[f_{(i\mu)}\left(X_{i\mu}^u\right)-f_{(i\mu)}(0)\right]\\=&\bbE f_{(i\mu)}(0)+\frac{1}{2N}\bbE f_{(i\mu)}^{(2)}(0)+\sum_{r=4}^{4p+4}\frac{1}{r!}\bbE f^{(r)}_{(i\mu)}(0)\bbE\left(X_{i\mu}^u\right)^r+\OO_\prec(q^{p+4}),
+\end{align*}
+where we used that $X_{i\mu}^u$ has vanishing first and third moments and its variance is $1/N$. (Note that this is the only place where we need the condition \eqref{3moment}.) By \eqref{conditionA2} and the bounded support condition, we have
+\be\label{moment-4}
+\left|\bbE\left(X_{i\mu}^u\right)^r\right| \prec N^{-2}q^{r-4} , \quad r \ge 4.
+\ee
+Thus to show (\ref{lemm_comp_5}), we only need to prove for $r=4,5,...,4p+4$,
+\begin{equation}\label{eq_comp_est}
+N^{-2}q^{r-4}\sum_{i\in\mathcal I_1}\sum_{\mu\in\mathcal I_2}\left|\bbE f^{(r)}_{(i\mu)}(0)\right|=\OO\left(\left[N^{C_a\delta} (q+\Psi)\right]^p+\mathbb EF_{\mathbf v}^p(X^\theta,z)\right).\end{equation}
+%where we used (\ref{assm2}). 
+In order to get a self-consistent estimate in terms of the matrix $X^\theta$ on the right-hand side of (\ref{eq_comp_est}), we want to replace $X^{\theta,0}_{(i\mu)}$ in $f_{(i\mu)}(0)=F_{\mathbf v}^p(X_{(i\mu)}^{\theta, 0})$ with $X^\theta = X_{(i\mu)}^{\theta, X_{i\mu}^\theta}$. %We have the following lemma.
+\begin{lemma}
+Suppose that
+\begin{equation}\label{eq_comp_selfest}
+N^{-2}q^{r-4}\sum_{i\in\mathcal I_1}\sum_{\mu\in\mathcal I_2}\left|\bbE f^{(r)}_{(i\mu)}(X_{i\mu}^\theta)\right|=\OO\left(\left[N^{C_a\delta} (q+\Psi)\right]^p+\mathbb EF_{\mathbf v}^p(X^\theta,z)\right)
+\end{equation}
+holds for $r=4,...,4p+4$. Then (\ref{eq_comp_est}) holds for $r=4,...,4p+4$.
+\end{lemma}
+\begin{proof}
+We abbreviate $ f_{(i\mu)}\equiv f$ and $X_{i\mu}^\theta \equiv \xi$. Then with (\ref{eq_comp_taylor}) we can get
+\begin{equation}\label{eq_comp_taylor2}
+\E f^{(l)}(0)=\E f^{(l)}(\xi)-\sum_{k=1}^{4p+4-l}\E f^{(l+k)}(0)\frac{\E \xi^k}{k!}+\OO_\prec(q^{p+4-l}).
+\end{equation}
+The estimate \eqref{eq_comp_est} then follows from a repeated application of (\ref{eq_comp_taylor2}).  Fix $r=4,...,4p+4$. Using (\ref{eq_comp_taylor2}), we get
+\begin{align*}
+\mathbb E f^{(r)}(0)&=\mathbb E f^{(r)}(\xi) - \sum_{k_1\ge 1} \mathbf 1(r+k_1 \le 4p +4)\mathbb E f^{(r+k_1)}(0) \frac{\mathbb E\xi^{k_1}}{k_1!}+\OO_\prec(q^{p+4-r}) \\
+&=\mathbb E f^{(r)}(\xi) - \sum_{k_1\ge 1} \mathbf 1(r+k_1 \le 4p +4)\mathbb E f^{(r+k_1)}(\xi) \frac{\mathbb E\xi^{k_1}}{k_1!} \\
+&+\sum_{k_1,k_2\ge 1} \mathbf 1(r+k_1+k_2 \le 4p +4)\mathbb E f^{(r+k_1+k_2)}(0) \frac{\mathbb E\xi^{k_1}}{k_1!} \frac{\mathbb E\xi^{k_2}}{k_2!} + \OO_\prec(q^{p+4-r}) \\
+&=\cdots=\sum_{t=0}^{4p+4-r}(-1)^t \sum_{k_1,\cdots, k_t \ge 1}\mathbf 1\left(r+\sum_{j=1}^t k_j \le 4p +4\right)\mathbb E f^{(r+\sum_{j=1}^t k_j)}(\xi)\prod_{j=1}^t \frac{\mathbb E\xi^{k_j}}{k_j!} + \OO_\prec(q^{p+4-r}).
+\end{align*}
+The lemma now follows easily by using \eqref{moment-4}.
+\end{proof}
+\end{subsection}
+
+\begin{subsection}{Conclusion of the proof with words}\label{section_words}
+
+What remains now is to prove (\ref{eq_comp_selfest}). For simplicity, we abbreviate $X^\theta \equiv X$. %for the remainder of the proof. 
+In order to exploit the detailed structure of the derivatives on the left-hand side of (\ref{eq_comp_selfest}), we introduce the following algebraic objects.
+
+\begin{definition}[Words]\label{def_comp_words}
+Given $i\in \mathcal I_1$ and $\mu\in \mathcal I_2$. Let $\sW$ be the set of words of even length in two letters $\{\mathbf i, {\mu}\}$. We denote the length of a word $w\in\sW$ by $2m(w)$ with $m(w)\in \mathbb N$. We use bold symbols to denote the letters of words. For instance, $w=\mathbf t_1\mathbf s_2\mathbf t_2\mathbf s_3\cdots\mathbf t_r\mathbf s_{r+1}$ denotes a word of length $2r$.
+Define $\sW_r:=\{w\in \mathcal W: m(w)=r\}$ to be the set of words of length $2r$, and such that
+%We require that 
+each word $w\in \sW_r$ satisfies that $\mathbf t_l\mathbf s_{l+1}\in\{\mathbf i{}{\mu},{}{\mu}\mathbf i\}$ for all $1\le l\le r$.
+
+Next we assign to each letter $*$ a value $[*]$ through $[\mathbf i]:=\Sigma \bu_i$, $[{} {\mu}]:=\tilde \Sigma \mathbf v_\mu,$ where $\mathbf u_i$ and $\bv_\mu$ are defined in Lemma \ref{lem_comp_gbound} and are regarded as summation indices. Note that it is important to distinguish the abstract letter from its value, which is a summation index. Finally, to each word $w$ we assign a random variable $A_{\mathbf v, i, \mu}(w)$ as follows. If $m(w)=0$ we define
+ $$A_{\mathbf v, i, \mu}(w):=G_{\mathbf v\mathbf v}-\Pi_{\mathbf v\mathbf v}.$$
+ If $m(w)\ge 1$, say $w=\mathbf t_1\mathbf s_2\mathbf t_2\mathbf s_3\cdots\mathbf t_r\mathbf s_{r+1}$, we define
+ \begin{equation}\label{eq_comp_A(W)}
+ A_{\mathbf v, i, \mu}(w):=G_{\bv[\mathbf t_1]} G_{[\mathbf s_2][\mathbf t_2]}\cdots G_{[\mathbf s_r][\mathbf t_r]} G_{[\mathbf s_{r+1}]\bv}.
+ \end{equation}
+\end{definition}
+
+Notice the words are constructed such that, by \eqref{deltaimu} and (\ref{eq_comp_expansion}) ,
+\[\left(\frac{\partial}{\partial X_{i\mu}}\right)^r \left( G_{\mathbf v\mathbf v}-\Pi_{\mathbf v\mathbf v}\right)=(-1)^r r!\sum_{w\in \mathcal W_r} A_{\mathbf v, i, \mu}(w),\quad r\in \mathbb N,\]
+with which we get that
+\begin{align*}
+\left(\frac{\partial}{\partial X_{i\mu}}\right)^r F_{\bv}^p(X)=(-1)^r & \sum_{m_1+\cdots+m_p=r}\prod_{t=1}^{p/2}\left(m_t! m_{t+p/2}!\right) \left(\sum_{w_t\in\sW_{m_t}}\sum_{w_{t+p/2}\in\sW_{m_{t+p/2}}}A_{\mathbf v, i, \mu}(w_t)\overline{A_{\mathbf v, i, \mu}(w_{t+p/2})}\right).
+\end{align*}
+Then to prove (\ref{eq_comp_selfest}), it suffices to show that
+\begin{equation}
+N^{-2}q^{r-4}\sum_{i\in\mathcal I_1}\sum_{\mu\in\mathcal I_2}\left|\bbE\prod_{t=1}^{p/2}A_{\mathbf v, i, \mu}(w_t)\overline{A_{\mathbf v, i, \mu}(w_{t+p/2})}\right|=\OO\left(\left[N^{C_a\delta} (q+\Psi)\right]^p+\mathbb EF_{\mathbf v}^p(X,z)\right)\label{eq_comp_goal1}
+\end{equation}
+for  $4\le r\le 4p+4$ and all words $w_1,...,w_p\in \sW$ satisfying $m(w_1)+\cdots+m(w_p)=r$.
+To avoid the unimportant notational complications associated with the complex conjugates, we will actually prove that
+\begin{equation}\label{eq_comp_goal2}
+N^{-2}q^{r-4}\sum_{i\in\mathcal I_1}\sum_{\mu\in\mathcal I_2}\left|\bbE\prod_{t=1}^{p}A_{\mathbf v, i, \mu}(w_t)\right|=\OO\left(\left[N^{C_a\delta} (q+\Psi)\right]^p+\mathbb EF_{\mathbf v}^p(X,z)\right).
+\end{equation}
+The proof of $(\ref{eq_comp_goal1})$ is essentially the same but with slightly heavier notations. Treating empty words separately, we find it suffices to prove
+\begin{equation}
+\label{eq_comp_goal3}N^{-2}q^{r-4}\sum_{i\in\mathcal I_1}\sum_{\mu\in\mathcal I_2}\bbE\left|A^{p-l}_{\mathbf v, i, \mu}(w_0)\prod_{t=1}^{l}A_{\mathbf v, i, \mu}(w_t)\right|=\OO\left(\left[N^{C_a\delta} (q+\Psi)\right]^p+\mathbb EF_{\mathbf v}^p(X,z)\right)
+\end{equation}
+for  $4\le r\le 4p+4$, $1\le l \le p$, and words such that $m(w_0)=0$, $\sum_t m(w_t)=r$ and $m(w_t)\ge 1$ for $t\ge 1$.
+
+To estimate (\ref{eq_comp_goal3}) we introduce the quantity
+\begin{equation}\label{eq_comp_Rs}
+\mathcal R_a:=|G_{\mathbf v \mathbf w_a}|+|G_{\mathbf w_a \mathbf v}|
+\end{equation}
+for $a\in \sI$, where $\mathbf w_i:= \Sigma^{1/2} \bu_i$ for $i\in\sI_1$ and $\mathbf w_\mu:=\tilde \Sigma^{1/2} \bv_\mu$ for $\mu\in\sI_2$.
+
+\begin{lemma}\label{lem_comp_A}
+  For $w\in\sW$, we have the rough bound
+  \begin{equation}
+  |A_{\mathbf v, i, \mu}(w)|\prec N^{2\delta(m(w)+1)}.\label{eq_comp_A1}
+  \end{equation}
+  Furthermore, for $m(w)\ge 1$ we have
+  \begin{equation}
+  |A_{\mathbf v, i, \mu}(w)|\prec(\mathcal R_i^2+\mathcal R_\mu^2)N^{2\delta(m(w)-1)}.\label{eq_comp_A2}
+  \end{equation}
+  For $m(w)=1$, we have the better bound
+  \begin{equation}
+  |A_{\mathbf v, i, \mu}(w)|\prec \mathcal R_i\mathcal R_\mu.\label{eq_comp_A3}
+  \end{equation}
+\end{lemma}
+\begin{proof}
+The estimates (\ref{eq_comp_A1}) and (\ref{eq_comp_A2}) follow immediately from the rough bound (\ref{eq_comp_apbound}) and definition (\ref{eq_comp_A(W)}).  
+%For (\ref{eq_comp_A2}), we break $A_{\mathbf v, i, \mu}(w)$ into $G_{\bv[\mathbf t_1]}(G_{[\mathbf s_2][\mathbf t_2]}\cdots G_{[\mathbf s_n][\mathbf t_n]})^{1/2}$ times $(G_{[\mathbf s_2][\mathbf t_2]}\cdots G_{[\mathbf s_n][\mathbf t_n]})^{1/2}G_{[\mathbf s_{n+1}]\bv}$ and use Cauchy-Schwarz inequality. 
+The estimate (\ref{eq_comp_A3}) follows from the constraint $\mathbf t_1\ne\mathbf s_2$ in the definition (\ref{eq_comp_A(W)}).
+\end{proof}
+By pigeonhole principle, if $r\le 2l-2$, then there exist at least two words $w_t$ with $m(w_t)=1$. Therefore by Lemma \ref{lem_comp_A} we have
+\begin{equation}\label{eq_comp_r1}
+ \left|A^{p-l}_{\mathbf v, i, \mu}(w_0)\prod_{t=1}^{l}A_{\mathbf v, i, \mu}(w_t)\right|\prec N^{2\delta(r+l)}F_{\bv}^{p-l}(X)\left(\one(r\ge 2l-1)(\mathcal R_i^2+\mathcal R_\mu^2)+\one(r\le 2l-2)\mathcal R_i^2\mathcal R_\mu^2\right).
+\end{equation}
+Let $\mathbf v=\left( {\begin{array}{*{20}c}
+   {\mathbf v}_1   \\
+   {\mathbf v}_2 \\
+   \end{array}} \right)$ for ${\mathbf v}_1 \in\mathbb C^{\mathcal I_1}$ and ${\mathbf v}_2\in\mathbb C^{\mathcal I_2}$. Then using Lemma \ref{lem_comp_gbound}, we get
+\begin{align}
+ \frac{1}{N}\sum_{i\in\sI_1}\mathcal R_i^2+ \frac{1}{N}\sum_{\mu\in\sI_2}\mathcal R_{\mu}^2 & \prec\frac{\im \left(z^{-1}G_{\mathbf v_1\mathbf v_1}\right) + \im \left(G_{\mathbf v_2\mathbf v_2}\right) +\eta \left|G_{\mathbf v_1\mathbf v_1}\right|+\eta \left|G_{\mathbf v_2\mathbf v_2}\right|}{N\eta} \nonumber\\
+& \prec N^{2\delta}\frac{\im m_{2c} + N^{C_a\delta}(q+\Psi(z)) }{N\eta}\prec N^{(C_a+2)\delta} \left( \Psi^2(z) + \frac{q}{N\eta}\right), \label{eq_comp_r2}
+\end{align}
+where in the second step we used the two bounds in Lemma \ref{lemm_comp_2} and $\eta =\OO(\im m_{2c})$ by \eqref{Immc}, and in the last step the definition of $\Psi$ in \eqref{eq_defpsi}. Using the same method we can get
+\begin{equation}\label{eq_comp_r3}
+\frac{1}{N^2}\sum_{i\in\sI_1}\sum_{\mu\in\sI_2}\mathcal R_i^2\mathcal R_\mu^2\prec \left[N^{(C_a+2)\delta}\left(\Psi^2(z) + \frac{q}{N\eta}\right)\right]^2.
+\end{equation}
+Plugging (\ref{eq_comp_r2}) and (\ref{eq_comp_r3}) into (\ref{eq_comp_r1}), we get that the left-hand side of
+(\ref{eq_comp_goal3}) is bounded by
+\begin{align*}
+& q^{r-4}N^{2\delta(r+l+2)}\bbE F_{\bv}^{p-l}(X)\left[\one(r\ge 2l-1)\left(N^{C_a\delta/2}(q+\Psi)\right)^2+\one(r\le 2l-2)\left(N^{C_a\delta/2}(q+\Psi)\right)^4\right]\\
+& \le N^{2\delta(r+l+2)} \bbE F_{\bv}^{p-l}(X)\left[\one(r\ge 2l-1)\left(N^{C_a\delta/2}(q+\Psi)\right)^{r-2}+\one(r\le 2l-2)\left(N^{C_a\delta/2}(q+\Psi)\right)^r\right]\\
+ &\le \bbE F_{\bv}^{p-l}(X)\left[\one(r\ge 2l-1)\left(N^{C_a\delta/2+12\delta}(q+\Psi)\right)^{r-2}+\one(r\le 2l-2)\left(N^{C_a\delta/2+12\delta}(q+\Psi)\right)^r\right],
+\end{align*}
+%\[q^{m-4}N^{2\delta(n+l+2)}\bbE F_{\bv}^{p-l}(X)\left[\one(m\ge 2l-1)\left(N^{C_a\delta/2}(q+\Psi(z))\right)^2+\one(m\le 2l-2)\left(N^{C_a\delta/2}(q+\Psi(z))\right)^4\right].\]
+%Using $\Phi \gtrsim N^{-1/2}$, we find that the left hand side of (\ref{eq_comp_goal3}) is bounded by
+%\begin{align*}
+% & N^{2\delta(n+q+2)} \bbE F_{\bv}^{p-q}(X)\left(\one(m\ge 2l-1)\left(N^{C_0\delta/2}\Phi\right)^{n-2}+\one(m\le 2l-2)\left(N^{C_0\delta/2}\Phi\right)^n\right)\\
+% &\le \bbE F_{\bv}^{p-q}(X)\left(\one(m\ge 2l-1)\left(N^{C_0\delta/2+12\delta}\Phi\right)^{n-2}+\one(m\le 2l-2)\left(N^{C_0\delta/2+12\delta}\Phi\right)^n\right)
+%\end{align*}
+where we used that $l\le r$ and $r\ge 4$ in the last step. If we choose $C_a\ge 25$, then by (\ref{assm_comp_delta}) we have $N^{C_a\delta/2+12\delta} \ll \min \{ N^{\phi/2},N^{\e/2}\}$, and hence $N^{C_a\delta/2+12\delta}(q+\Psi) \ll 1$. Moreover, if $r\ge 4$ and $r\ge 2l-1$, then $r\ge l+2$. Therefore we conclude that the left-hand side of $(\ref{eq_comp_goal3})$ is bounded by
+\begin{equation}
+\bbE F_{\bv}^{p-l}(X)\left[N^{C_a\delta}(q+\Psi)\right]^l.
+\end{equation}
+Now (\ref{eq_comp_goal3}) follows from H\"older's inequality. This concludes the proof of (\ref{eq_comp_selfest}), and hence of (\ref{lemm_comp_5}), and hence of Lemma \ref{lemm_boot}. This proves \eqref{goal_ani2}, and hence \eqref{aniso_law} under the condition \eqref{3moment}.
+
+
+%Proposition \ref{comparison_prop} under the assumption (\ref{assm_3rdmoment}).
+%the anisotropic local law in Theorem \ref{law_wideT}.
+\end{subsection}
+%\end{subsection}
+
+
+
+\subsection{Non-vanishing third moment}\label{subsec_3moment}
+
+In this subsection, we prove Lemma \ref{lemm_comp_0} under \eqref{assm_3moment} for $z\in \tilde S(c_0, C_0,\e)$. 
+%In this case, we can verify that
+%\begin{equation}\label{eq_comp_boundPhi}
+%\Phi \le N^{-1/4-\zeta/2}.
+%\end{equation}
+Following the arguments in Sections \ref{subsec_interp}-\ref{section_words}, we see that it suffices to prove the estimate ($\ref{eq_comp_selfest}$) in the $r=3$ case. In other words, we need to prove the following lemma. 
+\begin{lemma}\label{lemm_comparison_big}
+Fix $p\in 2\mathbb N$ and $m \le \delta^{-1}$. Let $z\in {\mathbf S}_m $ and suppose $(\mathbf A_{m-1})$ holds. Then %we have
+\begin{equation}\label{eq_comp_selfest_generalX}
+b_N N^{-2}\sum_{i\in\mathcal I_1}\sum_{\mu\in\mathcal I_2}\left|\bbE f^{(3)}_{(i\mu)}(X_{i\mu}^\theta)\right|=\OO\left(\left[N^{C_a\delta} (q+\Psi)\right]^p+\mathbb EF_{\mathbf v}^p(X^\theta,z)\right).
+\end{equation}
+\end{lemma}
+\begin{proof}
+The main new ingredient of the proof is a further iteration step at a fixed $z$. Suppose
+\begin{equation}\label{comp_geX_iteration}
+G-\tilde\Pi=\OO_\prec(\Phi)
+\end{equation}
+for some deterministic parameter $\Phi\equiv \Phi_N$. By the a priori bound (\ref{eq_comp_apbound}), we can take $\Phi\le N^{2\delta}$. Assuming (\ref{comp_geX_iteration}), we shall prove a self-improving bound of the form
+\begin{equation}\label{comp_geX_self-improving-bound}
+b_N N^{-2}\sum_{i\in\mathcal I_1}\sum_{\mu\in\mathcal I_2}\left|\bbE f^{(3)}_{(i\mu)}(X_{i\mu}^\theta)\right|=\OO\left(\left[N^{C_a\delta} (q+\Psi)\right]^p+(N^{-\epsilon/2}\Phi)^p+\mathbb EF_{\mathbf v}^p(X^\theta,w)\right).
+\end{equation}
+Once (\ref{comp_geX_self-improving-bound}) is proved, we can use it iteratively to get an increasingly accurate bound 
+for $\left|G_{\mathbf{vv}}(X,z)-\Pi_{\mathbf {vv}}(z)\right|$. After each step, we obtain a better bound (\ref{comp_geX_iteration}) with $\Phi$ reduced by $N^{-\e/2}$. Hence after $\OO(\e^{-1})$ many iterations we can get (\ref{eq_comp_selfest_generalX}).
+
+As in Section \ref{section_words}, to prove (\ref{comp_geX_self-improving-bound}) it suffices to show 
+\begin{equation}\label{comp_geX_words}
+b_N N^{-2}\left|\sum_{i\in\mathcal I_1}\sum_{\mu\in\mathcal I_2}A^{p-l}_{\mathbf v, i, \mu}(w_0)\prod_{t=1}^{l}A_{\mathbf v, i, \mu}(w_t)\right|\prec F_{\bv}^{p-l}(X)\left[N^{(C_0-1)\delta}(q+\Psi) + N^{-\e/2}\Phi\right]^l,
+\end{equation}
+which follows from the bound
+\begin{equation}\label{comp_geX_words2}
+b_N N^{-2}\left|\sum_{i\in\mathcal I_1}\sum_{\mu\in\mathcal I_2}\prod_{t=1}^{l}A_{\mathbf v, i, \mu}(w_t)\right|\prec \left[N^{(C_0-1)\delta}(q+\Psi) + N^{-\e/2}\Phi\right]^l.
+\end{equation}
+%Each of the three cases $l=1,\, 2,\, 3$ can be proved as in \cite[Lemma 12.7]{Anisotropic}, and we leave the details to the reader. This concludes Lemma \ref{lemm_comparison_big}.
+%The rest of the proof is straightforward. 
+We now list all the three cases with $l=1,\, 2,\, 3$, and discuss each case separately.  
+
+When $l = 1$, the single factor $A_{\mathbf v, i, \mu}(w_1)$ is of the form
+\[ G_{\mathbf v[\mathbf t_1]} G_{[\mathbf s_2][\mathbf t_2]} G_{[\mathbf s_3][\mathbf t_3]} G_{[\mathbf s_4]\mathbf v}.\]
+%\[\wt G_{[s][t]}= G_{[s][t]}-\wt\Pi_{[s][t]},\] 
+Then we split it as
+\begin{align}
+G_{\mathbf v[\mathbf t_1]} G_{[\mathbf s_2][\mathbf t_2]} G_{[\mathbf s_3][\mathbf t_3]} G_{[\mathbf s_4]\mathbf v}
+=& G_{\mathbf v[\mathbf t_1]} \Pi_{[\mathbf s_2][\mathbf t_2]} \Pi_{[\mathbf s_3][\mathbf t_3]} G_{[\mathbf s_4]\mathbf v} + G_{\mathbf v[\mathbf t_1]}\wt G_{[\mathbf s_2][\mathbf t_2]} \Pi_{[\mathbf s_3][\mathbf t_3]}G_{[\mathbf s_4]\mathbf v}\nonumber\\
+ + & G_{\mathbf v[\mathbf t_1]} \Pi_{[\mathbf s_2][\mathbf t_2]} \wt G_{[\mathbf s_3][\mathbf t_3]}  G_{[\mathbf s_4]\mathbf v}+ G_{\mathbf v[\mathbf t_1]}\wt G_{[\mathbf s_2][\mathbf t_2]}
+\wt G_{[\mathbf s_3][\mathbf t_3]} G_{[\mathbf s_4]\mathbf v},\label{comp_geX_expG}
+\end{align}
+where we abbreviate $\wt G: = G - \Pi$. For the second term, we have
+\begin{align}\label{term11}
+b_N N^{-2}\sum_{i\in\mathcal I_1}\sum_{\mu\in\mathcal I_2}\left|G_{\mathbf v[\mathbf t_1]}\wt G_{[\mathbf s_2][\mathbf t_2]} \Pi_{[\mathbf s_3][\mathbf t_3]}G_{[\mathbf s_4]\mathbf v}\right|\prec b_N \Phi \cdot N^{(C_a+2)\delta}\left(\Psi^2 + \frac{q}{N\eta}\right)\prec N^{-\e/2}\Phi
+\end{align}
+provided $\delta$ is small enough, where we used (\ref{eq_comp_r2}), (\ref{comp_geX_iteration}) and the definition \eqref{tildeS}. The third and fourth term of (\ref{comp_geX_expG}) can be dealt with in a similar way. For the first term, when $[\mathbf t_1]=\mathbf w_i$ and $[\mathbf s_4]=\bw_\mu$, we have
+\begin{align*}
+& \Big|\sum_{i\in\mathcal I_1}\sum_{\mu\in\mathcal I_2} G_{\mathbf v \mathbf w_i} \Pi_{[\mathbf s_2][\mathbf t_2]}\Pi_{[\mathbf s_3][\mathbf t_3]} G_{\mathbf w_\mu \mathbf v}\Big| \prec N^{1+2\delta}\left(\sum_{\mu\in\mathcal I_2}| G_{\mathbf w_\mu\mathbf v}|^2\right)^{1/2}\prec N^{3/2+(C_a/2+3)\delta}(q+\Psi),
+\end{align*}
+where we used (\ref{eq_comp_r2}) and the fact that $\Pi$ is deterministic, such that the a priori bound (\ref{comp_eq_apriori}) gives
+$$\Big|\sum_{i\in\mathcal I_1} G_{\mathbf v \mathbf w_i} \Pi_{[\mathbf s_2][\mathbf t_2]}\Pi_{[\mathbf s_3][\mathbf t_3]} \Big| \prec N^{1/2+2\delta} .$$
+%Cauchy-Schwarz inequality, a priori bounds (\ref{comp_eq_apriori}) and (\ref{eq_comp_r2}), and $\|\sum_i\mathbf v_i\|\le \sqrt N$. 
+If $[\mathbf t_1]=\mathbf w_\mu$ and $[\mathbf s_4]=\mathbf v_i$, the proof is similar. If $[\mathbf t_1]=[\mathbf s_4]$, then at least one of the terms $\Pi_{[\mathbf s_2][\mathbf t_2]}$ and $\Pi_{[\mathbf s_3][\mathbf t_3]}$ must be of the form $\Pi_{\mathbf w_i\mathbf w_\mu}$ or $\Pi_{\mathbf w_\mu\mathbf w_i}$, and hence we have
+$$\sum_i|\Pi_{[\mathbf s_2][\mathbf t_2]}\Pi_{[\mathbf s_3][\mathbf t_3]}|=\OO(N^{1/2}) \quad\text{ or }\quad \sum_\mu | \Pi_{[\mathbf s_2][\mathbf t_2]} \Pi_{[\mathbf s_3][\mathbf t_3]}|=\OO(N^{1/2}).$$
+Therefore using $(\ref{eq_comp_r2})$ and (\ref{tildeS}), we get
+\begin{align*}
+\Big|\sum_{i\in\mathcal I_1}\sum_{\mu\in\mathcal I_2}G_{\mathbf v[\mathbf t_1]} \Pi_{[\mathbf s_2][\mathbf t_2]}\Pi_{[\mathbf s_3][\mathbf t_3]}G_{[\mathbf s_4]\mathbf v}\Big|
+& \prec N^{3/2+(C_a+2)\delta}\left(q^2 + \Psi^2 \right) \le  N^{3/2}(q+\Psi) .
+\end{align*}
+provided $\delta$ is small enough. 
+%where we used $(\ref{eq_comp_r2})$ and (\ref{eq_comp_boundPhi}).
+In sum, we obtain that
+$$b_NN^{-2}\Big|\sum_{i\in\mathcal I_1}\sum_{\mu\in\mathcal I_2} G_{\mathbf v[\mathbf t_1]} \Pi_{[\mathbf s_2][\mathbf t_2]}\Pi_{[\mathbf s_3][\mathbf t_3]} G_{[\mathbf s_4]\mathbf v}\Big|\prec N^{(C_a-1)\delta}(q+\Psi)$$
+provided that $C_a\ge 8$. Together with \eqref{term11}, this proves  (\ref{comp_geX_words2}) for $l=1$.
+
+When $l=2$, $\prod_{t=1}^2 A_{\mathbf v, i, \mu}(w_t)$ is of the form
+\begin{align}
+ & G_{\mathbf v\mathbf w_i} G_{\mathbf w_\mu \mathbf v} G_{\mathbf v \mathbf w_i} G_{\mathbf w_\mu\mathbf w_\mu} G_{\mathbf w_i\mathbf v}, \quad   G_{\mathbf v\mathbf w_i} G_{\mathbf w_\mu \mathbf v} G_{\mathbf v \mathbf w_\mu} G_{\mathbf w_i \mathbf w_i} G_{\mathbf w_\mu\mathbf v}, \label{eqn_q21}  \\
+ &  G_{\mathbf v\mathbf w_i} G_{\mathbf w_\mu \mathbf v} G_{\mathbf v \mathbf w_i} G_{\mathbf w_\mu \mathbf w_i} G_{\mathbf w_\mu\mathbf v}, \quad   G_{\mathbf v\mathbf w_i} G_{\mathbf w_\mu \mathbf v} G_{\mathbf v \mathbf w_\mu} G_{\mathbf w_i \mathbf w_\mu} G_{\mathbf w_i\mathbf v},\label{eqn_q22}
+\end{align}
+or an expression obtained from one of these four by exchanging $\mathbf w_i$ and $\mathbf w_\mu$. The first expression in (\ref{eqn_q21}) can be estimated using (\ref{comp_eq_apriori}), (\ref{eq_comp_r2}) and (\ref{comp_geX_iteration}):
+\begin{equation}
+\label{q=2_1}\sum_\mu G_{\mathbf w_\mu \mathbf v} G_{\mathbf w_\mu\mathbf w_\mu}=\sum_\mu G_{\mathbf w_\mu \mathbf v}\wt G_{\mathbf w_\mu\mathbf w_\mu}+\sum_\mu  G_{\mathbf w_\mu \mathbf v}\Pi_{\mathbf w_\mu\mathbf w_\mu}=\OO_\prec\left[N^{1+(C_a/2+1)\delta}\Phi\left(\Psi^2 + \frac{q}{N\eta}\right)^{1/2}+ N^{1/2+2\delta}\right],
+\end{equation}
+and
+\begin{equation}\label{q=2_2}
+\Big|\sum_i G_{\mathbf v\mathbf w_i} G_{\mathbf v \mathbf w_i} G_{\mathbf w_i\mathbf v}\Big|\prec N^{1+(C_a+4)\delta} \left(\Psi^2 + \frac{q}{N\eta}\right).
+\end{equation}
+Combining \eqref{tildeS}, (\ref{q=2_1}) and (\ref{q=2_2}), we get that 
+\[b_N N^{-2}\Big|\sum_i\sum_\mu G_{\mathbf v\mathbf w_i} G_{\mathbf w_\mu \mathbf v} G_{\mathbf v \mathbf w_i} G_{\mathbf w_\mu\mathbf w_\mu} G_{\mathbf w_i\mathbf v}\Big| \prec \left(N^{(C_a-1)\delta}(q+\Psi) + N^{-\e/2}\Phi\right)^2,\]
+provided $\delta$ is small enough. The second expression in (\ref{eqn_q21}) can be estimated similarly. The first expression of (\ref{eqn_q22}) can be estimated using \eqref{tildeS}, (\ref{comp_eq_apriori}) and (\ref{eq_comp_r2}) by
+\begin{equation*}
+\begin{split}
+b_N N^{-2}\left|\sum_i\sum_\mu  G_{\mathbf v\mathbf w_i} G_{\mathbf w_\mu \mathbf v} G_{\mathbf v \mathbf w_i} G_{\mathbf w_\mu \mathbf w_i} G_{\mathbf w_\mu\mathbf v}\right|& \prec b_N N^{-2+2\delta}\sum_i\sum_\mu\left| G_{\mathbf v\mathbf w_i}\right|^2\left| G_{\mathbf w_\mu\mathbf v}\right|^2 \\
+& \prec b_N N^{(2C_0+6)\delta}\left( \Psi^2 +\frac{q}{N\eta}\right)^2 \le (q +\Psi)^2
+\end{split}
+\end{equation*}
+for small enough $\delta$. The second expression in (\ref{eqn_q22}) is estimated similarly.  This proves (\ref{comp_geX_words2}) for $l=2$.
+
+When $l = 3$, $\prod_{t=1}^3 A_{\mathbf v, i, \mu}(w_t)$ is of the form 
+$( G_{\mathbf v\mathbf w_i} G_{\mathbf w_\mu \mathbf v})^3$ or an expression obtained by exchanging $\mathbf w_i$ and $\mathbf w_\mu$ in some of the three factors. We use (\ref{eq_comp_r2}) and $\sum_i|\Pi_{\mathbf v\mathbf w_i}|^2 = \OO(1)$ to get that
+\[\left|\sum_i( G_{\mathbf v\mathbf w_i})^3\right|\prec \sum_i|\wt G_{\mathbf v\mathbf w_i}|^3+\sum_i|\Pi_{\mathbf v\mathbf w_i}|^3\prec \Phi\sum_i \left(| G_{\mathbf v\mathbf w_i}|^2+|\Pi_{\mathbf v\mathbf w_i}|^2 \right)+1\prec N^{1+(C_0+2)\delta}\left(\Psi^2 +\frac{q}{N\eta}\right)\Phi+\Phi+1.\]
+Now we conclude (\ref{comp_geX_words2}) for $l=3$ using \eqref{tildeS} and $N^{-1/2}=\OO( q+\Psi)$.
+\end{proof}
+
+
+If $A$ or $B$ is diagonal, then we can still prove \eqref{aniso_law} for all $z\in S(c_0,C_0,\e)$ without using \eqref{3moment}. This follows from an improved self-consistent comparison argument for sample covariance matrices (i.e. separable covariance matrices with $B=I$) in \cite[Section 8]{Anisotropic}. The argument for separable covariance matrices with diagonal $A$ or $B$ is almost the same except for some notational differences, so we omit the details. 
+
+
+
+\subsection{Weak averaged local law}\label{section_averageTX}
+
+%We first prove the following weak averaged local law.
+%
+%\begin{lemma} \label{thm_largerigidity2}
+%Suppose the assumptions in Theorem \ref{thm_largerigidity} hold. %Fix the constants $c_0$ and $C_0$ as given in Theorem \ref{LEM_SMALL}. 
+%Then for any fixed $\epsilon>0$, we have
+%%there exists constant $C_1>0$, depending only on $c_0$, $C_0$, $B$ and $\phi$, such that %with high probability we have
+%\begin{equation}
+% \vert m(z)-m_{c}(z) \vert \prec  q^2 + (N \eta)^{-1}, \label{NEWMPBOUNDS2}
+%\end{equation}
+%uniformly for all $z \in  S(c_0, C_0, \epsilon)$. Moreover, outside of the spectrum we have the following stronger averaged local law (recall \eqref{KAPPA})
+%\begin{equation}\label{aver_out2}
+% | m(z)-m_{c}(z)|\prec q^2   + \frac{1}{N(\kappa +\eta)} + \frac{1}{(N\eta)^2\sqrt{\kappa +\eta}},
+%\end{equation}
+%uniformly in $z\in S(c_0,C_0,\epsilon)\cap \{z=E+\ii\eta: E\ge \lambda_r, N\eta\sqrt{\kappa + \eta} \ge N^\epsilon\}$ for any constant $\epsilon>0$. If $A$ or $B$ is diagonal, then \eqref{NEWMPBOUNDS2} and \eqref{aver_out2} hold without the condition \eqref{assm_3moment}.
+%\end{lemma}
+
+In this section, we prove the weak averaged local laws in \eqref{aver_in1} and \eqref{aver_out1}. %\begin{proof}
+The proof is similar to that for \eqref{aniso_law} in previous subsections, and we only explain the differences. Note that the bootstrapping argument is not necessary, since we already have a good a priori bound by \eqref{aniso_law}.
+%In this section we prove the averaged local law in Theorem \ref{law_wideT}. The anisotropic local law proved in the previous section gives a good a priori bound. 
+In analogy to (\ref{eq_comp_F(X)}), we define
+%\begin{align*}
+%\wt F(X,w) : &=|w|^{1/2} |m_2(w)-m_{2c}(w)|=|w|^{1/2}\left|\frac{1}{N}\sum_{\nu\in\sI_2}G_{\nu\nu}(w)-m_{2c}(w)\right|\\
+%&=\left|\frac{1}{N}\sum_{\nu\in\sI_2} G_{\nu\nu}(w)-|w|^{1/2}m_{2c}(w)\right|.
+%\end{align*}
+\begin{align*}
+\wt F(X,z) : &= |m(z)-m_{c}(z)| =\left|\frac{1}{nz}\sum_{i\in\sI_1} \left(G_{ii}(X,z)- \Pi_{ii}(z)\right)\right|,
+\end{align*}
+where we used \eqref{mcPi}. 
+%$\Phi^2 =\OO(|w|^{1/2}/{(N\eta)})$, 
+%it suffices to prove that $\wt F\prec (q+\Psi(z))^2$. 
+Moreover, by Proposition \ref{prop_diagonal}, \eqref{aver_in1} and \eqref{aver_out1} hold for Gaussian $X$ (without the $q^2$ term). For now, we assume \eqref{3moment} and prove the following stronger estimates:
+\begin{equation}
+ \vert m(z)-m_{c}(z) \vert \prec (N \eta)^{-1} \label{aver_ins} %+ q^2 
+\end{equation}
+for $z\in S(c_0,C_0,\epsilon)$, and 
+\begin{equation}\label{aver_outs}
+ | m(z)-m_{c}(z)|\prec \frac{q}{N\eta}  + \frac{1}{N(\kappa +\eta)} + \frac{1}{(N\eta)^2\sqrt{\kappa +\eta}},
+\end{equation}
+for $z\in S(c_0,C_0,\epsilon)\cap \{z=E+\ii\eta: E\ge \lambda_r, N\eta\sqrt{\kappa + \eta} \ge N^\epsilon\}$. At the end of this section, we will show how to relax \eqref{3moment} to \eqref{assm_3moment} for $z\in \tilde S(c_0,C_0,\e)$.
+
+Note that
+\be\label{psi2}
+\Psi^2(z) \lesssim \frac{1}{N\eta}, \quad \text{and} \quad \Psi^2(z) \lesssim \frac{1}{N(\kappa +\eta)} + \frac{1}{(N\eta)^2\sqrt{\kappa +\eta}} \ \text{ outside of the spectrum}.
+\ee
+Then following the argument in Section \ref{subsec_interp}, analogous to (\ref{eq_comp_selfest}), we only need to prove that
+\begin{equation}\label{eq_comp_selfestAvg}
+N^{-2}q^{r-4}\sum_{i\in\mathcal I_1}\sum_{\mu\in\mathcal I_2}\left|\bbE \left(\frac{\partial}{\partial X_{i\mu}}\right)^r\wt F^p(X)\right|=\OO\left(\left[N^{\delta}\left(\Psi^2+\frac{q}{N\eta}\right)\right]^p+\mathbb E\wt F^p(X)\right)
+\end{equation}
+for all $r=4,...,4p+4$, where $\delta>0$ is any positive constant. Analogous to (\ref{eq_comp_goal2}), it suffices to prove that for $r=4,...,4p+4$,
+\begin{equation}\label{eq_comp_goalAvg}
+N^{-2}q^{r-4}\sum_{i\in\mathcal I_1}\sum_{\mu\in\mathcal I_2}\left|\bbE\prod_{t=1}^{p}\left(\frac{1}{n}\sum_{j\in\sI_1}A_{ \mathbf e_j, i, \mu}(w_t)\right)\right|=\OO\left(\left[N^{\delta}\left(\Psi^2+\frac{q}{N\eta}\right)\right]^p+\mathbb E\wt F^p(X)\right)
+\end{equation}
+for $\sum_t m(w_t)=r$. 
+%The only difference in the definition of $A_{\mathbf v, i, \mu}(w)$ is that when $m(w)=0$, we define
+%\[A_{\mathbf v, i, \mu}(w):= G_{\mathbf v\mathbf v}-|w|^{1/2}m_{2c}.\]
+Similar to (\ref{eq_comp_Rs}) we define
+\begin{equation}\nonumber%\label{eq_comp_RsAvg}
+\mathcal R_{j, a}:=| G_{j \mathbf w_a}|+| G_{\mathbf w_a j}|.
+\end{equation}
+Using \eqref{aniso_law} and Lemma \ref{lem_comp_gbound}, similarly to \eqref{eq_comp_r2}, we get that
+\begin{equation}\label{eq_comp_r22}
+\begin{split}
+ \frac{1}{n}\sum_{j\in\sI_1}\mathcal R_{j,a}^2 & \prec \frac{ \im \left(z^{-1}G_{\mathbf w_i\mathbf w_i}\right) + \im G_{\mathbf w_\mu\mathbf w_\mu} + \eta\left(\left| G_{\mathbf w_i\mathbf w_i} \right|+ \left| G_{\mathbf w_\mu \mathbf w_\mu} \right|\right)}{N\eta} \prec \Psi^2+\frac{q}{N\eta}.
+ \end{split}
+\end{equation}
+Since $G=\OO_\prec(1)$ by \eqref{aniso_law}, we have 
+\begin{equation}\label{average_bound}
+\left|\frac{1}{n}\sum_{j\in\sI_1}A_{ \mathbf e_j, i, \mu}(w)\right|\prec \frac{1}{n}\sum_{j\in\sI_1}\left(\mathcal R_{j,i}^2+\mathcal R_{j,\mu}^2\right)\prec \Psi^2 +\frac{q}{N\eta} \quad \text{ for any $w$ such that }m(w)\ge 1.
+\end{equation}
+With (\ref{average_bound}), for any $r\ge 4$, the left-hand side of (\ref{eq_comp_goalAvg}) is bounded by
+\[\bbE\wt F^{p-l}(X)\left(\Psi^2+\frac{q}{N\eta}\right)^{l}.\]
+Applying Holder's inequality, we get \eqref{eq_comp_selfestAvg}, which completes the proof of \eqref{aver_ins} and \eqref{aver_outs} under \eqref{3moment}. %\cor about removing 3rd moment assumption \nc
+
+
+%\end{proof}
+
+
+Then we prove the averaged local law for $z\in \tilde S(c_0,C_0,\e)$ under \eqref{assm_3moment}. By \eqref{psi2}, it suffices to prove 
+\begin{equation}\label{comp_avg_geX_self-improving-bound}
+b_N N^{-2}\left|\sum_{i\in\mathcal I_1}\sum_{\mu\in\mathcal I_2}\bbE \left(\frac{\partial}{\partial X_{i\mu}}\right)^3\wt F^p(X)\right|=\OO\left(\left[N^\delta (q^2 +\Psi^2)\right]^p + \left( \frac{N^{-\e/2}}{N\eta}\right)^p+\mathbb E\wt F^p(X)\right),
+\end{equation}
+for any constant $\delta>0$. Analogous to the arguments in Section \ref{subsec_3moment}, it reduces to showing that
+\begin{equation}\label{eq_comp_goalAvg_genX}
+b_N N^{-2}\left|\sum_{i\in\mathcal I_1}\sum_{\mu\in\mathcal I_2} \prod_{t=1}^{l}\left(\frac{1}{n}\sum_{j\in\sI_1}A_{ \mathbf e_j, i, \mu}(w_t)\right)\right|=\OO_\prec\left(\left(q^2+\Psi^2\right)^{l} + \left( \frac{N^{-\e/2}}{N\eta}\right)^l\right),
+\end{equation}
+where $l\in \{1,2,3\}$ is the number of words with nonzero length. Then we can discuss these three cases using a similar argument as in Section \ref{subsec_3moment}, with the only difference being that we now can use the anisotropic local law \eqref{aniso_law} instead of the a priori bounds \eqref{comp_eq_apriori}  and (\ref{comp_geX_iteration}). %As an example, we only give the proof for the case with $l=1$.
+
+%Again we can prove the three cases $q=1,\, 2,\, 3$ as in \cite[Lemma 12.8]{Anisotropic}, and we leave the details to the reader. This concludes the averaged local law. 
+%
+%Again we discuss the three cases $q=1,\, 2,\, 3$ separately. During the proof we tacitly use the anisotropic local law proved above.
+
+In the $l=1$ case, we first consider the expression $A_{ \mathbf e_j, i, \mu}(w_1) =  G_{j\mathbf w_i} G_{\mathbf w_\mu \mathbf w_\mu} G_{\mathbf w_i\mathbf w_i} G_{\mathbf w_\mu j}$. We have 
+\begin{equation}\nonumber
+\left|\sum_i G_{j\mathbf w_i} G_{\mathbf w_i\mathbf w_i}\right| \le \left|\sum_i G_{j\mathbf w_i} \Pi_{\mathbf w_i\mathbf w_i}\right| + \sum_i (q+\Psi)\left| G_{j\mathbf w_i} \right|\prec \sqrt N + N (q+\Psi) \left(\Psi^2 +\frac{q}{N\eta}\right)^{1/2},
+\end{equation}
+where we used \eqref{aniso_law} and \eqref{eq_comp_r2}.
+%since the leading term is $\sum_i\wt\Pi_{\nu\mathbf v_i}\wt\Pi_{\mathbf v_i\mathbf v_i}$. 
+Similarly, we also have
+\begin{equation}\nonumber
+ \left|\sum_\mu G_{\mathbf w_\mu\mathbf w_\mu} G_{\mathbf w_\mu j}\right|\prec \left|\sum_\mu {\Pi}_{\mathbf w_\mu \mathbf w_\mu}  G_{\mathbf w_\mu j}\right|  + \left|\sum_\mu \tilde{ G}_{\mathbf w_\mu \mathbf w_\mu}  G_{\mathbf w_\mu j}\right|  \prec \sqrt N(q+\Psi)+N (q+\Psi) \left(\Psi^2 +\frac{q}{N\eta}\right)^{1/2},
+\end{equation} 
+where we also used $\Pi_{\mathbf w_\mu j}=0$ for any $\mu$ in the second step. Then with \eqref{tildeS}, we can see that the LHS of (\ref{eq_comp_goalAvg_genX}) is bounded by $\OO_\prec(q^2 + \Psi^2)$ in this case.
+%$$b_N N^{-2}\left|\sum_{i\in\mathcal I_1}\sum_{\mu\in\mathcal I_2}\left(\frac{1}{n}\sum_{j\in\sI_1}A_{ \mathbf e_j, i, \mu}(w_1)\right)\right| \prec q^2+\Psi^2 .$$
+For the case $A_{ \mathbf e_j, i, \mu}(w_1) =  G_{j\mathbf w_i} G_{\mathbf w_\mu\mathbf w_\mu} G_{\mathbf w_i \mathbf w_\mu} G_{\mathbf w_i j}$, we can estimate that
+$$\left|\sum_\mu  G_{\mathbf w_\mu\mathbf w_\mu} G_{\mathbf w_i \mathbf w_\mu} \right| \le \left|\sum_\mu  \Pi_{\mathbf w_\mu\mathbf w_\mu} G_{\mathbf w_i \mathbf w_\mu} \right| + \sum_\mu (q+\Psi)\left|G_{\mathbf w_i \mathbf w_\mu} \right| \prec \sqrt N + N (q+\Psi) \left(\Psi^2 +\frac{q}{N\eta}\right)^{1/2},$$
+and
+$$ \sum_i \left|G_{j\mathbf w_i} G_{\mathbf w_i j}\right|\prec N\left(\Psi^2 +\frac{q}{N\eta}\right).$$
+Thus in this case the LHS of (\ref{eq_comp_goalAvg_genX}) is also bounded by $\OO_\prec(q^2 + \Psi^2)$. The case $A_{ \mathbf e_j, i, \mu}(w_1) =  G_{j\mathbf w_i} G_{\mathbf w_\mu\mathbf w_i} G_{\mathbf w_\mu \mathbf w_\mu} G_{\mathbf w_i j}$ can be handled similarly. Finally in the case $A_{ \mathbf e_j, i, \mu}(w_1) =  G_{j\mathbf w_i} G_{\mathbf w_\mu\mathbf w_i} G_{\mathbf w_\mu \mathbf w_i} G_{\mathbf w_\mu j}$, we can estimate that
+$$ \left|\sum_{i,\mu}  G_{j\mathbf w_i} G_{\mathbf w_\mu\mathbf w_i} G_{\mathbf w_\mu \mathbf w_i} G_{\mathbf w_\mu j} \right| \prec  \sum_{i,\mu} \left(\left| G_{j\mathbf w_i}\right|^2 +\left| G_{\mathbf w_\mu j} \right|^2 \right) | G_{\mathbf w_\mu \mathbf w_i}|^2 \prec N^2 \left(\Psi^2 +\frac{q}{N\eta}\right)^2.$$
+Again in this case the LHS of (\ref{eq_comp_goalAvg_genX}) is bounded by $\OO_\prec(q^2 + \Psi^2)$. All the other expressions are obtained from these four by exchanging $\mathbf w_i$ and $\mathbf w_\mu$.
+
+In the $l=2$ case, $\prod_{t=1}^{2}\left(\frac{1}{n}\sum_{j\in\sI_1}A_{ \mathbf e_j, i, \mu}(w_t)\right)$ is of the forms
+\[\frac{1}{N^2}\sum_{j_1,j_2} G_{j_1\mathbf w_i} G_{\mathbf w_\mu j_1} G_{j_2 \mathbf w_i} G_{\mathbf w_\mu\mathbf w_\mu} G_{\mathbf w_i j_2}\quad \text{ or }\quad \frac{1}{N^2}\sum_{j_1,j_2} G_{j_1\mathbf w_i} G_{\mathbf w_\mu j_1} G_{j_2\mathbf w_i} G_{\mathbf w_\mu\mathbf w_i} G_{\mathbf w_\mu j_2},\]
+or an expression obtained from one of these terms by exchanging $\mathbf w_i$ and $\mathbf w_\mu$. These two expressions can be written as 
+\be\label{2terms}
+N^{-2}( G^{\times 2} )_{\mathbf w_\mu\mathbf w_i}(G^{\times 2})_{\mathbf w_i\mathbf w_i} G_{\mathbf w_\mu\mathbf w_\mu}, \quad N^{-2}( G^{\times 2})^2_{\mathbf w_\mu\mathbf w_i} G_{\mathbf w_\mu\mathbf w_i}, \quad G^{\times 2}:= G \begin{pmatrix}I_{\mathcal I_1 \times \mathcal I_1} & 0\\ 0 & 0\end{pmatrix} G.
+\ee
+For the second term, using \eqref{green2}, \eqref{spectral1} and recalling that $Y=\Sig^{1/2} U^{*}X V\tilde \Sig^{1/2}$, we can get that
+\begin{align}
+& \left|\frac{1}{N^2}\sum_{i,\mu} ( G^{\times 2})^2_{\mathbf w_\mu\mathbf w_i} G_{\mathbf w_\mu\mathbf w_i}\right| \le \frac{1}{N^2}\sum_{i,\mu} \left|( G^{\times 2})_{\mathbf w_\mu\mathbf w_i} \right|^2 = \frac{|z|^2}{N^2}\text{Tr}\left[(\mathcal G_1^{*})^2 YY^* (\mathcal G_1)^2\right] \nonumber\\
+& =  \frac{|z|^2}{N^2}\text{Tr}\left[\mathcal G_1^{*} (\mathcal G_1)^2\right]  +  \frac{\bar z |z|^2}{N^2}\text{Tr}\left[(\mathcal G_1^{*})^2 (\mathcal G_1)^2\right]  \lesssim \frac{1}{N^2}\sum_k \frac{1}{\left[(\lambda_k-E)^2 +\eta^2\right]^{3/2}}+ \frac{1}{N^2}\sum_k \frac{1}{\left[(\lambda_k-E)^2 +\eta^2\right]^{2}} \nonumber\\
+& \lesssim \frac{1}{N\eta^3}\left(\frac1n \sum_k \frac{\eta}{(\lambda_k-E)^2 +\eta^2} \right) =\frac{\im m}{N\eta^3}\prec  \frac{\im m_c + q+\Psi}{N\eta^3} \lesssim \eta^{-2}\left(\Psi^2 +\frac{q}{N\eta}\right).\label{3term}
+\end{align}
+Using \eqref{aniso_law} and \eqref{eq_comp_r2}, it is easy to show that
+\be \label{3.5term}
+\left|\sum_{\mu}( G^{\times 2} )_{\mathbf w_\mu\mathbf w_i} \Pi_{\mathbf w_\mu\mathbf w_\mu}\right| \prec N^{3/2}\left( \Psi^2 + \frac{q}{N\eta}\right),\quad \text{ and } \quad \left|(G^{\times 2})_{\mathbf x\mathbf y} \right| \prec N\left( \Psi^2 + \frac{q}{N\eta}\right), \ee
+for any deterministic unit vectors $\mathbf x$, $\mathbf y$. Thus for the first term in \eqref{2terms}, we have
+\begin{align}
+\left|\frac{1}{N^2}\sum_{i,\mu}( G^{\times 2} )_{\mathbf w_\mu\mathbf w_i}(G^{\times 2})_{\mathbf w_i\mathbf w_i} G_{\mathbf w_\mu\mathbf w_\mu}\right| & \le \left|\frac{1}{N^2}\sum_{i,\mu}( G^{\times 2} )_{\mathbf w_\mu\mathbf w_i}(G^{\times 2})_{\mathbf w_i\mathbf w_i} \tilde G_{\mathbf w_\mu\mathbf w_\mu}\right| + \left|\frac{1}{N^2}\sum_{i,\mu}( G^{\times 2} )_{\mathbf w_\mu\mathbf w_i}(G^{\times 2})_{\mathbf w_i\mathbf w_i} \Pi_{\mathbf w_\mu\mathbf w_\mu}\right| \nonumber\\
+& \prec N(q+\Psi)\left( \Psi^2 + \frac{q}{N\eta}\right)\left(\frac{1}{N^2}\sum_{i,\mu}\left|( G^{\times 2} )_{\mathbf w_\mu\mathbf w_i}\right|^2\right)^{1/2} +N^{3/2}\left( \Psi^2 + \frac{q}{N\eta}\right)^2 \nonumber\\
+& \prec N\eta^{-1}(q+\Psi)\left( \Psi^2 + \frac{q}{N\eta}\right)^{3/2} +N^{3/2}\left( \Psi^2 + \frac{q}{N\eta}\right)^2,\label{4term}
+\end{align}
+where in the last step we used the bound in \eqref{3term}. Now using \eqref{3term}, \eqref{4term} and \eqref{tildeS}, we get
+$$b_N N^{-2}\left|\sum_{i\in\mathcal I_1}\sum_{\mu\in\mathcal I_2} \prod_{t=1}^{2}\left(\frac{1}{n}\sum_{j\in\sI_1}A_{ \mathbf e_j, i, \mu}(w_t)\right)\right| \prec \left(q^2+\Psi^2\right)^{2} + \left( \frac{N^{-\e/2}}{N\eta}\right)^2 .$$%\left( q^2 + \Psi^2 + \frac{N^{-\e/2}}{N\eta}\right)^2.$$
+
+Finally, in the $l=3$ case, $\prod_{t=1}^{3}\left(\frac{1}{N}\sum_{j\in\sI_1}A_{ \mathbf e_j, i, \mu}(w_t)\right)$ is of the form 
+${N^{-3}}( G^{\times 2})^3_{\mathbf w_i\mathbf w_\mu}$, or an expression obtained by exchanging $\mathbf w_i$ and $\mathbf w_\mu$ in some of the three factors. Using \eqref{3.5term} and the bound in \eqref{3term}, we can estimate that %Using $\|\mathcal G_2\|\prec 1$, we can estimate $\left|\sum_i( G_2)^3_{\mathbf v_i\mu}\right|\prec 1$. Therefore 
+$$\frac{1}{N^3}\left|\sum_{i,\mu}( G^{\times 2})^3_{\mathbf w_i\mathbf w_\mu}\right| \prec \left( \Psi^2 + \frac{q}{N\eta}\right)\frac{1}{N^2}\sum_{i,\mu}\left|( G^{\times 2} )_{\mathbf w_\mu\mathbf w_i}\right|^2 \prec \eta^{-2}\left(\Psi^2 +\frac{q}{N\eta}\right)^2,$$
+Then the LHS of (\ref{eq_comp_goalAvg_genX}) is bounded by 
+$$O_\prec\left(\left(q^2 + \Psi^2\right) \left(\frac{N^{-\e/2}}{N\eta}\right)^2\right).$$
+
+Combining the above three cases, we conclude \eqref{comp_avg_geX_self-improving-bound}, which finishes the proof of \eqref{aver_in1} and \eqref{aver_out1}. %under \eqref{assm_3moment}.
+
+If $A$ or $B$ is diagonal, then by the remark at the end of Section \ref{subsec_3moment}, the anisotropic local law \eqref{aniso_law} holds for all $z\in S(c_0,C_0,\e)$ even in the case with $b_N=N^{1/2}$ in \eqref{assm_3moment}. Then with \eqref{aniso_law} and the self-consistent comparison argument in \cite[Section 9]{Anisotropic}, we can prove \eqref{aver_in1} and \eqref{aver_out1} for $z\in S(c_0,C_0,\e)$. Again most of the arguments are the same as the ones in \cite[Section 9]{Anisotropic}, hence we omit the details. 
+
