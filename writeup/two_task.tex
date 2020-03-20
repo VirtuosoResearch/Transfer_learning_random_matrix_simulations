@@ -44,7 +44,7 @@ for some constants $\gamma\in (0,\infty)$ and $c \in (0,1)$.
 	where $a_1, a_2$ are the solutions of the following equations
 	\begin{gather}
 		 a_1 + a_2 = 1- \frac{p}{n_1 + n_2} \label{eq_a1}\\
-		 a_1 + \sum_{i=1}^p \frac{a_1}{(n_1 + n_2)a_1 + (n_1 + n_2)\lambda_i^2 a_2} = \frac{n_1}{n_1 + n_2}. \label{eq_a2}.
+		 a_1 + \sum_{i=1}^p \frac{a_1}{(n_1 + n_2)a_1 + (n_1 + n_2)\lambda_i^2 a_2} = \frac{n_1}{n_1 + n_2}. \label{eq_a2}
 	\end{gather}
 \end{theorem}
 
@@ -76,16 +76,40 @@ Hence
 \paragraph{Example 2: when $\Sigma_1 = \Sigma_2 / \lambda$.}
 In this case, equations \eqref{eq_a1} and \eqref{eq_a2} become
 \[ a_1 + a_2 = 1 - p/(n_1 + n_2), a_1 + \frac{p}{n_1 + n_2} \cdot \frac {a_1} {a_1 + \lambda^2 a_2} = \frac{n_1} {n_1 + n_2}. \]
-By solving these, we can get the test errors and Figure \ref{fig_te_scaling} shows how they grow as we increase the number of source task data points.
+By solving these, we can get the test errors (the estimation error behaves similarly).
+Figure \ref{fig_te_scaling} shows how they grow as we increase the number of source task data points.
+Here $n_2 = 4p$ and $n_1$ ranges from $p$ to $20p$.
 We can see that the smaller $\lambda$ is, the lower the test errors will be.
 
 \paragraph{Example 3: when $\Sigma_1$ and $\Sigma_2$ are complementary.}
+Here we have that for $\Sigma_1^{-1/2}\Sigma_2^{1/2}$, the first $p/2$ singular values of $\Sigma_1$ is $\lambda$ and the rest is $1/\lambda$.
+For this case, equations \eqref{eq_a1} and \eqref{eq_a2} become
+\[ a_1 + a_2 = 1 - \frac{p}{n_1 + n_2}, a_1 + \frac{p}{2(n_1 + n_2)}\cdot \bigbrace{\frac{a_1}{a_1 + \lambda^2 a_2} + \frac{a_1}{a_1 + \frac{a_2}{\lambda^2}}} = \frac{n_1}{n_1 + n_2}. \]
+It's not hard to verify that there is only one valid solution from the above.
+After solving these, we get the test error for the target task as follows.
+\[ \frac{p}{2(n_1 + n_2)} \cdot \bigbrace{\frac{1}{\frac{a_1}{\lambda^2} + a_2} + \frac{1}{a_1\lambda^2 + a_2}}.\]
+
+In Figure \ref{fig_te_complement}, we plot the test error of the target task for $n_2 = 4p$ and $n_1$ ranging from $p$ to $20p$.
+We observe the following two phases as we increase $n_1 / p$.
+\begin{itemize}
+	\item When $n_1 \le n_2$, having complementary covariance matrices leads to lower test error compared to the case when $\Sigma_1 = \Sigma_2$.
+	\item When $n_1 > n_2$, having complementary covariance matrices leads to higher test error compared to the case when $\Sigma_1 = \Sigma_2$.
+\end{itemize}
 
 \begin{figure}
 	\centering
-	\includegraphics[width=0.4\textwidth]{figures/scaling.eps}
-	\caption{When $\Sigma_1 = \Sigma_2 / \lambda$.}
-	\label{fig_te_scaling}
+	\begin{minipage}{0.48\textwidth}
+		\centering
+		\includegraphics[width=0.9\textwidth]{figures/scaling.eps}
+		\caption{When $\Sigma_1 = \Sigma_2 / \lambda$.}
+		\label{fig_te_scaling}
+	\end{minipage}\hfill
+	\begin{minipage}{0.48\textwidth}
+		\centering
+		\includegraphics[width=0.9\textwidth]{figures/complementary.eps}
+		\caption{When $\Sigma_1$ and $\Sigma_2$ are complementary.}
+		\label{fig_te_complement}
+	\end{minipage}
 \end{figure}
 
 \bigskip
