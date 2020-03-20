@@ -34,7 +34,7 @@ We shall consider the high-dimensional setting such that
 $$\gamma_n:= \frac{p} {n_1 + n_2} \to \gamma,\quad c_n:= \frac{n_1}{n_1 + n_2} \to c, \quad \text{as } \ n_1, n_2\to \infty, $$
 for some constants $\gamma\in (0,\infty)$ and $c \in (0,1)$.
 
-\begin{theorem}[Transfer rate under covariate shift]\label{thm_model_shift}
+\begin{theorem}[Transfer rate under covariate shift]\label{thm_cov_shift}
 	Let $\lambda_1, \lambda_2, \dots, \lambda_p$ denote the singular values of $\Sigma_1^{-1/2}\Sigma_2^{1/2}$.
 	When there is no model shift, we have that
 	\begin{align*}
@@ -48,7 +48,7 @@ for some constants $\gamma\in (0,\infty)$ and $c \in (0,1)$.
 	\end{gather}
 \end{theorem}
 
-As a remark, we see that Proposition \ref{prop_monotone} follows from Theorem \ref{thm_model_shift}.
+As a remark, we see that Proposition \ref{prop_monotone} follows from Theorem \ref{thm_cov_shift}.
 The amount of reduction on estimation error and test error for the target task is given as
 	\begin{align*}
 		\err(\hat{\beta}_t) - \err(\hat{\beta}_{s,t})
@@ -65,7 +65,7 @@ Because
 which is true since $a_1 \le n_1 / (n_1 + n_2)$ by equation \eqref{eq_a2}.
 The proof for $\te(\hat{\beta}_{s,t}) \le \te(\hat{\beta}_t)$ follows by multiplying $\Sigma_2^{-1/2}$ on both sides of the inequalities above.
 
-Now we apply Theorem \ref{thm_model_shift} to show how covariate shift affects the rate of transfer.
+Now we apply Theorem \ref{thm_cov_shift} to show how covariate shift affects the rate of transfer.
 
 \paragraph{Example 1: when $\Sigma_1 = \Sigma_2$.}
 In this case, we have $\lambda_i = 1$ for all $1\le i\le p$.
@@ -113,7 +113,7 @@ We observe the following two phases as we increase $n_1 / p$.
 \end{figure}
 
 \bigskip
-To prove Theorem \ref{thm_model_shift}, we study the spectrum of the random matrix model:
+To prove Theorem \ref{thm_cov_shift}, we study the spectrum of the random matrix model:
 $$Q= \Sigma_1^{1/2}  Z_1^T Z_1 \Sigma_1^{1/2}  + \Sigma_2^{1/2}  Z_2^T Z_2 \Sigma_2^{1/2} ,$$
 where $\Sigma_{1,2}$ are $p\times p$ deterministic covariance matrices, and $X_1=(x_{ij})_{1\le i \le n_1, 1\le j \le p}$ and $X_2=(x_{ij})_{n_1+1\le i \le n_1+n_2, 1\le j \le p}$ are $n_1\times p$ and $n_2 \times p$ random matrices, respectively, where the entries $x_{ij}$, $1 \leq i \leq n_1+n_2\equiv n$, $1 \leq j \leq p$, are real independent random variables satisfying
 \begin{equation}\label{eq_12moment} %\label{assm1}
@@ -128,7 +128,7 @@ For now, we assume that the random variables $x_{ij}$ are i.i.d. Gaussian, but w
 
 
 \begin{lemma}\label{lem_cov_shift}
-	In the setting of Theorem \ref{thm_model_shift}, we have with high probability $1-{\rm o}(1)$,
+	In the setting of Theorem \ref{thm_cov_shift}, we have with high probability $1-{\rm o}(1)$,
 \begin{align*}
 \tr ((X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}) = \frac{p}{n_1+n_2}\cdot \tr \left[ \frac{1}{a_1\Sigma_1 + a_2\Sigma_2} \right] +\bigo{\frac{p}{n^{1-\epsilon}}}.
 \end{align*}
@@ -191,11 +191,21 @@ Hence
 	&= \bignorm{\Sigma_2^{1/2} (X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} X_1^{\top}X_1 (\beta_s - \beta_t)}^2 + \sigma^2\cdot \bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2}
 \end{align}
 
+We can see that because of model shift, i.e. $\beta_s \neq \beta_t$.
+We can no longer guarantee that $\te(\hat{\beta}_{s,t}) \le \te(\hat{\beta}_t)$.
+The goal of this part is to show conditions under which we get positive vs. negative transfer.
+
 \todo{For technical reasons, we will consider the test error.} From Lemma \ref{lem_cov_shift}, we know that
-\[ \bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} \Sigma_2} = \frac{p}{n_1 + n_2}\cdot \bigtr{ \bigbrace{a_1\Sigma_2^{-1/2}\Sigma_1\Sigma_2^{-1/2} + a_2\id}^{-1}}. \]
+\[ \bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} \Sigma_2} = \frac{p}{n_1 + n_2}\cdot \bigtr{ \bigbrace{a_1\Sigma_2^{-1/2}\Sigma_1\Sigma_2^{-1/2} + a_2\id}^{-1}}, \]
+where $a_1, a_2$ are specified in Theorem \ref{thm_cov_shift}.
 It remains to consider the first term in $\te(\hat{\beta}_{s,t})$, which is
 %We are now interested in the following quantity
-$$ (\beta_s - \beta_t)^{\top}X_1^{\top}X_1 \frac{1}{X_1^{\top}X_1 + X_2^{\top}X_2}  \Sigma_2 \frac{1}{X_1^{\top}X_1 + X_2^{\top}X_2} X_1^{\top}X_1 (\beta_s - \beta_t) $$
+$$ Z_1 \define (\beta_s - \beta_t)^{\top}X_1^{\top}X_1 \frac{1}{X_1^{\top}X_1 + X_2^{\top}X_2}  \Sigma_2 \frac{1}{X_1^{\top}X_1 + X_2^{\top}X_2} X_1^{\top}X_1 (\beta_s - \beta_t)$$.
+
+\begin{lemma}
+	\todo{$Z_1$ is bla}.
+\end{lemma}
+
 We consider the same setting as in previous subsection: 
 $$ X_1^{\top}X_1:=\Sigma_1^{1/2}  Z_1^T Z_1 \Sigma_1^{1/2} ,\quad X_2^{\top}X_2= \Sigma_2^{1/2}  Z_2^T Z_2 \Sigma_2^{1/2},$$
 where $z_{ij}$, $1 \leq i \leq n_1+n_2\equiv n$, $1 \leq j \leq p$, are real independent random variables satisfying \eqref{eq_12moment}. For now, we assume that the random variables $z_{ij}$ are i.i.d. Gaussian, but we know that universality holds for generally distributed entries. Assume that $p/n_1$ is a small number such that $Z_1^TZ_1$ is roughly an isometry, that is, under \eqref{eq_12moment}, 
