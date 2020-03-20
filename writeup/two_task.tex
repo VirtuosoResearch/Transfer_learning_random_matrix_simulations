@@ -127,7 +127,7 @@ For now, we assume that the random variables $x_{ij}$ are i.i.d. Gaussian, but w
 %for all $n$. %For simplicity, we assume that $k$ is a finite fixed integer, the strengths $d_1 > d_2 > \cdots > d_k >0$ are fixed constants, and $ \bu_i$,  $\bv_i$ are deterministic unit vectors. 
 
 
-\begin{lemma}
+\begin{lemma}\label{lem_cov_shift}
 	In the setting of Theorem \ref{thm_model_shift}, we have with high probability $1-{\rm o}(1)$,
 \begin{align*}
 \tr ((X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}) = \frac{p}{n_1+n_2}\cdot \tr \left[ \frac{1}{a_1\Sigma_1 + a_2\Sigma_2} \right] +\bigo{\frac{p}{n^{1-\epsilon}}}.
@@ -169,19 +169,32 @@ Furthermore, we have
 \subsection{Model Shift}
 
 In this case, $\beta_s$ and $\beta_t$ are different.
-If we put the two tasks together, we get
-\begin{align}
+From \cite{WZR20}, we know that either we need to explicitly restrict the capacity $r$ of $B$, or implicitly add a regularization on $B$.
+\todo{We focus on the former case in this section.}
+Following \cite{WZR20}, we consider the case when $r=1$ since there are only two tasks.
+
+\subsubsection{The Objective with Shared Weights}
+
+We begin by considering the simplified equation \eqref{eq_mtl_basic} to solve for the target task.
+By putting the two tasks together, we get
+\begin{align*}
 	\hat{\beta}_{s,t} &= (X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} (X_1^{\top}Y_1 + X_2^{\top}Y_2) \\
-	&= (X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} \bigbrace{(X_1^{\top}X_1\beta_s + X_2^{\top}X_2\beta_t) + (X_1^{\top}\varepsilon_1 + X_2^{\top}\varepsilon_2)}
-\end{align}
+	&= (X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} \bigbrace{(X_1^{\top}X_1\beta_s + X_2^{\top}X_2\beta_t) + (X_1^{\top}\varepsilon_1 + X_2^{\top}\varepsilon_2)} \\
+	&= \beta_t + (X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\bigbrace{X_1^{\top}X_1(\beta_s - \beta_t) + (X_1^{\top}\varepsilon_1 + X_2^{\top}\varepsilon_2)}
+\end{align*}
 Hence
 \begin{align}
-	\exarg{\varepsilon}{\bignorm{\hat{\beta}_{s,t} - \beta_t}}
-	= \bignorm{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} X_1^{\top}X_1 (\beta_s - \beta_t)}^2
-	+ \sigma^2 \bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}}
+	\err(\hat{\beta}_{s,t})
+	&= \bignorm{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} X_1^{\top}X_1 (\beta_s - \beta_t)}^2
+	+ \sigma^2 \bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}}, \text{ and} \\
+	\te(\hat{\beta}_{s,t})
+	&= \bignorm{\Sigma_2^{1/2} (X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} X_1^{\top}X_1 (\beta_s - \beta_t)}^2 + \sigma^2\cdot \bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2}
 \end{align}
 
-We are now interested in the following quantity 
+\todo{For technical reasons, we will consider the test error.} From Lemma \ref{lem_cov_shift}, we know that
+\[ \bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} \Sigma_2} = \frac{p}{n_1 + n_2}\cdot \bigtr{ \bigbrace{a_1\Sigma_2^{-1/2}\Sigma_1\Sigma_2^{-1/2} + a_2\id}^{-1}}. \]
+It remains to consider the first term in $\te(\hat{\beta}_{s,t})$, which is
+%We are now interested in the following quantity
 $$ (\beta_s - \beta_t)^{\top}X_1^{\top}X_1 \frac{1}{X_1^{\top}X_1 + X_2^{\top}X_2}  \Sigma_2 \frac{1}{X_1^{\top}X_1 + X_2^{\top}X_2} X_1^{\top}X_1 (\beta_s - \beta_t) $$
 We consider the same setting as in previous subsection: 
 $$ X_1^{\top}X_1:=\Sigma_1^{1/2}  Z_1^T Z_1 \Sigma_1^{1/2} ,\quad X_2^{\top}X_2= \Sigma_2^{1/2}  Z_2^T Z_2 \Sigma_2^{1/2},$$
