@@ -199,51 +199,78 @@ The goal of this part is to show conditions under which we get positive vs. nega
 \todo{For technical reasons, we will consider the test error.} From Lemma \ref{lem_cov_shift}, we know that
 \[ \bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} \Sigma_2} = \frac{p}{n_1 + n_2}\cdot \bigtr{ \bigbrace{a_1\Sigma_2^{-1/2}\Sigma_1\Sigma_2^{-1/2} + a_2\id}^{-1}}, \]
 where $a_1, a_2$ are specified in Theorem \ref{thm_cov_shift}.
-It remains to consider the first term in $\te(\hat{\beta}_{s,t})$, which is bounded using the following lemma.
+Hence the variance part is reduced by the following amount
+\begin{align}
+	\Delta_{\vari} \define \sigma^2 p \cdot \bigbrace{\frac{p}{n_2 - p} - \frac{1}{n_1 + n_2} \bigtr{\bigbrace{a_1 M^{\top}M + a_2\id}^{-1}}}
+\end{align}
+It remains to consider increment from the first term in $\te(\hat{\beta}_{s,t})$, which is bounded using the following lemma.
 %We are now interested in the following quantity
 
-\begin{theorem}[Positive transfer under model shift]
-	a
-\end{theorem}
-
-\begin{theorem}[Negative transfer under model shift]
-\end{theorem}
-
-\begin{lemma}
-	\todo{check}
+\begin{theorem}\label{thm_model_shift}
 	Let $a_1, a_2$ be the solutions from equations \eqref{eq_a1} and \eqref{eq_a2}.
 	Denote by $M \define \Sigma_1^{1/2}\Sigma_2^{-1/2}$.
-	\todo{The following?}
-	\begin{align*}
-		&~ \bignorm{\Sigma_2^{1/2} (X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}X_1^{\top}X_1(\beta_s - \beta_t)}^2 \\
-		\le &~ (\beta_s - \beta_t)^{\top} \Sigma_1^{1/2} M \frac{(1 + a_3)\id + a_4 M^{\top}M}{(a_1 + a_2 M^{\top}M)^2} M^{\top} \Sigma_1^{1/2} (\beta_s - \beta_t)
-	\end{align*}
-
-
-	We have that
-	\begin{align*}
-		&~ {\bignorm{\Sigma_2^{1/2} (X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} X_1^{\top}X_1 (\beta_s - \beta_t)}} \\
-		&\le ~ \left[(\beta_s - \beta_t)^{\top}\Sigma_1^{1/2}M\frac{(1 + a_3)\id + a_4 M^{\top}M}{(a_1 + a_2 M^{\top}M)} M^{\top}\Sigma_1^{1/2} (\beta_s - \beta_t)\right]^{1/2} \\
-		&+ \left\|M\frac{(1 + a_3)\id + a_4 M^{\top}M}{(a_1 + a_2 M^{\top}M)} M^{\top}\right\|_{op}^{1/2} \|\Sigma_1^{1/2} (\beta_s - \beta_t)\|_2 \left( 2\sqrt{\frac{p} {n_1}} + \frac{p}{n_1}\right),
-	\end{align*}
-	and
-	\begin{align*}
-		&~ {\bignorm{\Sigma_2^{1/2} (X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} X_1^{\top}X_1 (\beta_s - \beta_t)}} \\
-		&\ge ~ \left[(\beta_s - \beta_t)^{\top}\Sigma_1^{1/2}M\frac{(1 + a_3)\id + a_4 M^{\top}M}{(a_1 + a_2 M^{\top}M)} M^{\top}\Sigma_1^{1/2} (\beta_s - \beta_t)\right]^{1/2} \\
-		&- \left\|M\frac{(1 + a_3)\id + a_4 M^{\top}M}{(a_1 + a_2 M^{\top}M)} M^{\top}\right\|_{op}^{1/2} \|\Sigma_1^{1/2} (\beta_s - \beta_t)\|_2 \left( 2\sqrt{\frac{p} {n_1}} + \frac{p}{n_1}\right).
-	\end{align*}
-	Here in the error term $p$ can be replaced with the rank of $\Sigma_1$. Without any extra information, we can only use the fact the rank of $\Sigma_1$ is at most $p$.
-	
-	Here $a_3, a_4$ are the solutions of the following linear equations
-%	\begin{align}
-%		\left(\frac{n_2}{n_1+n_2}\frac1{a_1^2}- \frac1{n_1+n_2}\sum_{i=1}^p \frac{1}{ (a_1 + \lambda_i^2a_2)^2  }\right) a_3 -  \left(\frac1{n_1+n_2}\sum_{i=1}^p \frac{  \lambda_i^2 }{ (  a_1 + \lambda_i^2a_2)^2  }\right)a_4 &=  \frac1{n_1+n_2}\sum_{i=1}^p \frac{1 }{ (  a_1 + \lambda_i^2a_2)^2  } , \label{eq_a3} \\
-%		\left( \frac{n_1}{n_1+n_2}\frac1{a_2^2} -  \frac1n\sum_{i=1}^p \frac{\lambda_i^4   }{  (a_1 + \lambda_i^2a_2)^2  }\right)a_4 -\left( \frac1 {n_1+n_2}\sum_{i=1}^p \frac{\lambda_i^2  }{  (a_1 + \lambda_i^2a_2)^2  }\right)a_3 &=   \frac1 {n_1+n_2}\sum_{i=1}^p \frac{\lambda_i^2 }{  (a_1 + \lambda_i^2a_2)^2  }. \label{eq_a4}
-%	\end{align}	
+	Let
+	\[ \Delta_{\beta} \define (\beta_s - \beta_t)^{\top} \Sigma_1^{1/2} M \frac{(1 + a_3)\id + a_4 M^{\top}M}{(a_1 + a_2 M^{\top}M)^2} M^{\top} \Sigma_1^{1/2} (\beta_s - \beta_t), \]
+	where $a_3, a_4$ are the solutions of the following linear equations
 	\begin{align}
 		\left( \frac1{a_1^2}- \frac1{n_2}\sum_{i=1}^p \frac{1}{ (a_1 + \lambda_i^2a_2)^2  }\right) a_3 -  \left(\frac1{n_2}\sum_{i=1}^p \frac{  \lambda_i^2 }{ (  a_1 + \lambda_i^2a_2)^2  }\right)a_4 &=  \frac1{n_2}\sum_{i=1}^p \frac{1 }{ (  a_1 + \lambda_i^2a_2)^2  } , \label{eq_a3} \\
 		\left( \frac1{a_2^2} -  \frac1{n_1}\sum_{i=1}^p \frac{\lambda_i^4   }{  (a_1 + \lambda_i^2a_2)^2  }\right)a_4 -\left( \frac1 {n_1}\sum_{i=1}^p \frac{\lambda_i^2  }{  (a_1 + \lambda_i^2a_2)^2  }\right)a_3 &=   \frac1 {n_1}\sum_{i=1}^p \frac{\lambda_i^2 }{  (a_1 + \lambda_i^2a_2)^2  }. \label{eq_a4}
 	\end{align}
-\end{lemma}
+	We have the following conditions that guarantee when we get positive or negative transfer.
+	\begin{itemize}
+		\item {\bf Positive transfer:} when ${\Delta_{\vari}} / {\Delta_{\beta}} \ge \bigbrace{\frac{n_1}p + 2\sqrt{\frac{n_1}{p}} + 1}^2$, we have that $\te(\hat{\beta}_{s,t}) \le \te(\hat{\beta}_t)$.
+		\item {\bf Negative transfer:} when $\Delta_{\vari} / {\Delta_{\beta}} \le \bigbrace{\frac{n_1^2}{p^2} - {\frac{4n_1^{1.5}}{p^{1.5}}} - \frac{2n_1}{p}}$, we have that $\te(\hat{\beta}_{s,t}) \ge \te(\hat{\beta}_t)$.
+	\end{itemize}
+\end{theorem}
+
+Theorem \ref{thm_model_shift} shows upper and lower bounds on the transition point between positive and negative transfer, which is determined by the parameters of the task data: $n_1, n_2, \Sigma_1, \Sigma_2, \beta_s, \beta_t$.
+We describe examples based on Theorem \ref{thm_model_shift}.
+
+
+\begin{proposition}\label{prop_model_shift}
+	In the setting of Theorem \ref{thm_model_shift}, we have that
+	\begin{align*}
+		\bigbrace{\frac{n_1^2}{p^2} - {\frac{4n_1^{1.5}}{p^{1.5}}} - \frac{2n_1}{p}} \Delta
+		\le \bignorm{\Sigma_2^{1/2} (X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}X_1^{\top}X_1(\beta_s - \beta_t)}^2
+		\le \bigbrace{\sqrt{\frac{n_1}{p}} + 1}^4 \Delta.
+	\end{align*}
+\end{proposition}
+
+\begin{proof}
+	Follows by applying equation \eqref{eq_isometric}.
+	Recall that $X_1^{\top}X_1 = \Sigma_1^{1/2}Z_1^{\top}Z_1\Sigma_1^{1/2}$.
+	Denote by $\cE = Z_1^{\top}Z_1 - \frac{n_1}p\id$.
+	Let $K = (X_1^{\top}X_1 + X_2^{\top}X_1)^{-1}$.
+	We have
+	\begin{align}
+		\bignorm{\Sigma_2^{1/2}(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}X_1^{\top}X_1(\beta_s - \beta_t)}^2
+		= &\frac{n_1^2}{p^2}\Delta + \frac{2n_1}p(\beta_s - \beta_t)^{\top}\Sigma_1^{1/2}\cE\Sigma_1^{1/2}K \Sigma_2 K \Sigma_1 (\beta_s - \beta_t) \\
+		&+ \bignorm{\Sigma_2^{1/2} K \Sigma_1^{1/2}\cE \Sigma_1^{1/2}(\beta_s - \beta_t)}^2 \label{eq_lem_model_shift_1}\\
+		\le& \bigbrace{\frac{n_1^2}{p^2} + \frac{2n_1}p(1 + 2\sqrt{\frac{n_1}p}) + (1 + 2\sqrt{\frac{n_1}p})^2} \Delta. \nonumber
+	\end{align}
+	For the other direction, we simply note that the third term in equation \eqref{eq_lem_model_shift_1} is positive.
+	And the second term is bigger than $-\frac{2n_1}p(1 + 2\sqrt{\frac{n_1}p}) \Delta$.
+\end{proof}
+
+
+%	\begin{align}
+%		\left(\frac{n_2}{n_1+n_2}\frac1{a_1^2}- \frac1{n_1+n_2}\sum_{i=1}^p \frac{1}{ (a_1 + \lambda_i^2a_2)^2  }\right) a_3 -  \left(\frac1{n_1+n_2}\sum_{i=1}^p \frac{  \lambda_i^2 }{ (  a_1 + \lambda_i^2a_2)^2  }\right)a_4 &=  \frac1{n_1+n_2}\sum_{i=1}^p \frac{1 }{ (  a_1 + \lambda_i^2a_2)^2  } , \label{eq_a3} \\
+%		\left( \frac{n_1}{n_1+n_2}\frac1{a_2^2} -  \frac1n\sum_{i=1}^p \frac{\lambda_i^4   }{  (a_1 + \lambda_i^2a_2)^2  }\right)a_4 -\left( \frac1 {n_1+n_2}\sum_{i=1}^p \frac{\lambda_i^2  }{  (a_1 + \lambda_i^2a_2)^2  }\right)a_3 &=   \frac1 {n_1+n_2}\sum_{i=1}^p \frac{\lambda_i^2 }{  (a_1 + \lambda_i^2a_2)^2  }. \label{eq_a4}
+%	\end{align}
+	%We have that
+	%\begin{align*}
+	%	&~ {\bignorm{\Sigma_2^{1/2} (X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} X_1^{\top}X_1 %(\beta_s - \beta_t)}} \\
+	%	&\le ~ \left[(\beta_s - \beta_t)^{\top}\Sigma_1^{1/2}M\frac{(1 + a_3)\id + a_4 M^{\top}M}{(a_1 + a_2 M^{\top}M)} M^{\top}\Sigma_1^{1/2} (\beta_s - \beta_t)\right]^{1/2} \\
+	%	&+ \left\|M\frac{(1 + a_3)\id + a_4 M^{\top}M}{(a_1 + a_2 M^{\top}M)} M^{\top}\right\|_{op}^{1/2} \|\Sigma_1^{1/2} (\beta_s - \beta_t)\|_2 \left( 2\sqrt{\frac{p} {n_1}} + \frac{p}{n_1}\right),
+	%\end{align*}
+	%and
+	%\begin{align*}
+	%	&~ {\bignorm{\Sigma_2^{1/2} (X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} X_1^{\top}X_1 (\beta_s - \beta_t)}} \\
+	%	&\ge ~ \left[(\beta_s - \beta_t)^{\top}\Sigma_1^{1/2}M\frac{(1 + a_3)\id + a_4 M^{\top}M}{(a_1 + a_2 M^{\top}M)} M^{\top}\Sigma_1^{1/2} (\beta_s - \beta_t)\right]^{1/2} \\
+	%	&- \left\|M\frac{(1 + a_3)\id + a_4 M^{\top}M}{(a_1 + a_2 M^{\top}M)} M^{\top}\right\|_{op}^{1/2} \|\Sigma_1^{1/2} (\beta_s - \beta_t)\|_2 \left( 2\sqrt{\frac{p} {n_1}} + \frac{p}{n_1}\right).
+	%\end{align*}
+	%Here in the error term $p$ can be replaced with the rank of $\Sigma_1$. Without any extra information, we can only use the fact the rank of $\Sigma_1$ is at most $p$.
+	
 
 We consider the same setting as in previous subsection: 
 $$ X_1^{\top}X_1:=\Sigma_1^{1/2}  Z_1^T Z_1 \Sigma_1^{1/2} ,\quad X_2^{\top}X_2= \Sigma_2^{1/2}  Z_2^T Z_2 \Sigma_2^{1/2},$$
@@ -254,7 +281,7 @@ where $z_{ij}$, $1 \leq i \leq n_1+n_2\equiv n$, $1 \leq j \leq p$, are real ind
 {\color{blue}
 If we assume the variances of the entries of $Z_1$ are $p^{-1}$, then we have
 \begin{align}
--\frac{n_1}{p}\left(2\sqrt{\frac{p}{n_1}} - {\frac{p}{n_1}}\right)  \le \bignorm{Z_1^T Z_1 -  \frac{n_1}{p} \id}  \le \frac{n_1}{p}\left(2\sqrt{\frac{p}{n_1}} + {\frac{p}{n_1}}\right) .
+-\frac{n_1}{p}\left(2\sqrt{\frac{p}{n_1}} - {\frac{p}{n_1}}\right)  \le {Z_1^T Z_1 -  \frac{n_1}{p} \id}  \le \frac{n_1}{p}\left(2\sqrt{\frac{p}{n_1}} + {\frac{p}{n_1}}\right) . \label{eq_isometric}
 \end{align}
 }
 
