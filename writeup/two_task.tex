@@ -189,7 +189,7 @@ Hence
 	&= \bignorm{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} X_1^{\top}X_1 (\beta_s - \beta_t)}^2
 	+ \sigma^2 \bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}}, \text{ and} \\
 	\te(\hat{\beta}_{s,t})
-	&= \bignorm{\Sigma_2^{1/2} (X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} X_1^{\top}X_1 (\beta_s - \beta_t)}^2 + \sigma^2\cdot \bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2}
+	&= \bignorm{\Sigma_2^{1/2} (X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} X_1^{\top}X_1 (\beta_s - \beta_t)}^2 + \sigma^2\cdot \bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2} \label{eq_te_model_shift}
 \end{align}
 
 We can see that because of model shift, i.e. $\beta_s \neq \beta_t$.
@@ -206,7 +206,7 @@ Hence the variance part is reduced by the following amount
 It remains to consider increment from the first term in $\te(\hat{\beta}_{s,t})$, which is bounded using the following lemma.
 %We are now interested in the following quantity
 
-\begin{theorem}\label{thm_model_shift}
+\begin{theorem}[Transfer rate under model shift]\label{thm_model_shift}
 	Let $a_1, a_2$ be the solutions from equations \eqref{eq_a1} and \eqref{eq_a2}.
 	Denote by $M \define \Sigma_1^{1/2}\Sigma_2^{-1/2}$.
 	Let
@@ -227,6 +227,12 @@ Theorem \ref{thm_model_shift} shows upper and lower bounds on the transition poi
 We describe examples based on Theorem \ref{thm_model_shift}.
 
 
+
+The proof of Theorem \ref{thm_model_shift} involves two parts.
+
+
+\paragraph{Part I: Bounding the bias from model shift.}
+We relate the first term in equation \eqref{eq_te_model_shift} to $\Delta_{\beta}$.
 \begin{proposition}\label{prop_model_shift}
 	In the setting of Theorem \ref{thm_model_shift}, we have that
 	\begin{align*}
@@ -271,7 +277,7 @@ We describe examples based on Theorem \ref{thm_model_shift}.
 	%\end{align*}
 	%Here in the error term $p$ can be replaced with the rank of $\Sigma_1$. Without any extra information, we can only use the fact the rank of $\Sigma_1$ is at most $p$.
 	
-
+\paragraph{Part II: The limit of $\Delta_{\beta}$ using random matrix theory.}
 We consider the same setting as in previous subsection: 
 $$ X_1^{\top}X_1:=\Sigma_1^{1/2}  Z_1^T Z_1 \Sigma_1^{1/2} ,\quad X_2^{\top}X_2= \Sigma_2^{1/2}  Z_2^T Z_2 \Sigma_2^{1/2},$$
 where $z_{ij}$, $1 \leq i \leq n_1+n_2\equiv n$, $1 \leq j \leq p$, are real independent random variables satisfying \eqref{eq_12moment}. For now, we assume that the random variables $z_{ij}$ are i.i.d. Gaussian, but we know that universality holds for generally distributed entries. Assume that $p/n_1$ is a small number such that $Z_1^TZ_1$ is roughly an isometry, that is, under \eqref{eq_12moment}, 
