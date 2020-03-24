@@ -66,29 +66,35 @@ Because
 which is true since $a_1 \le n_1 / (n_1 + n_2)$ by equation \eqref{eq_a2}.
 The proof for $\te(\hat{\beta}_{s,t}) \le \te(\hat{\beta}_t)$ follows by multiplying $\Sigma_2^{-1/2}$ on both sides of the inequalities above.
 
+\medskip
 Now we apply Theorem \ref{thm_cov_shift} to show how covariate shift affects the rate of transfer.
 
-\paragraph{Example 1: when $\Sigma_1 = \Sigma_2$.}
+\begin{example}[\textbf{When $\Sigma_1 = \Sigma_2$}]
 In this case, we have $\lambda_i = 1$ for all $1\le i\le p$.
 And $a_1 + a_2 = 1 - p / (n_1 + n_2)$.
 Hence
 \[ \te(\hat{\beta}_{s,t}) = \frac{\sigma^2 p^2}{n_1 + n_2 - p} \text{ and } \err(\hat{\beta}_{s,t}) = \frac {\sigma^2 p} {n_1 + n_2 - p} \bigtr{\Sigma_2^{-1}}. \]
+\end{example}
 
-\paragraph{Example 2: when $\Sigma_1 = \Sigma_2 / \lambda$.}
+\smallskip
+\begin{example}[\textbf{When $\Sigma_1 = \Sigma_2 / \lambda$}]
 In this case, equations \eqref{eq_a1} and \eqref{eq_a2} become
 \[ a_1 + a_2 = 1 - p/(n_1 + n_2), a_1 + \frac{p}{n_1 + n_2} \cdot \frac {a_1} {a_1 + \lambda^2 a_2} = \frac{n_1} {n_1 + n_2}. \]
 By solving these, we can get the test errors (the estimation error behaves similarly).
 Figure \ref{fig_te_scaling} shows how they grow as we increase the number of source task data points.
 Here $n_2 = 4p$ and $n_1$ ranges from $p$ to $20p$.
 We can see that the smaller $\lambda$ is, the lower the test errors will be.
+\end{example}
 
-\paragraph{Example 3: when $\Sigma_1$ and $\Sigma_2$ are complementary.}
+\smallskip
+\begin{example}[\textbf{When $\Sigma_1$ and $\Sigma_2$ are complementary}]
 Here we have that for $\Sigma_1^{-1/2}\Sigma_2^{1/2}$, the first $p/2$ singular values of $\Sigma_1$ is $\lambda$ and the rest is $1/\lambda$.
 For this case, equations \eqref{eq_a1} and \eqref{eq_a2} become
 \[ a_1 + a_2 = 1 - \frac{p}{n_1 + n_2}, a_1 + \frac{p}{2(n_1 + n_2)}\cdot \bigbrace{\frac{a_1}{a_1 + \lambda^2 a_2} + \frac{a_1}{a_1 + \frac{a_2}{\lambda^2}}} = \frac{n_1}{n_1 + n_2}. \]
 It's not hard to verify that there is only one valid solution from the above.
 After solving these, we get the test error for the target task as follows.
 \[ \frac{p}{2(n_1 + n_2)} \cdot \bigbrace{\frac{1}{\frac{a_1}{\lambda^2} + a_2} + \frac{1}{a_1\lambda^2 + a_2}}.\]
+\end{example}
 
 In Figure \ref{fig_te_complement}, we plot the test error of the target task for $n_2 = 4p$ and $n_1$ ranging from $p$ to $20p$.
 We observe the following two phases as we increase $n_1 / p$.
@@ -113,7 +119,7 @@ We observe the following two phases as we increase $n_1 / p$.
 	\end{minipage}
 \end{figure}
 
-\bigskip
+\medskip
 To prove Theorem \ref{thm_cov_shift}, we study the spectrum of the random matrix model:
 $$Q= \Sigma_1^{1/2}  Z_1^T Z_1 \Sigma_1^{1/2}  + \Sigma_2^{1/2}  Z_2^T Z_2 \Sigma_2^{1/2} ,$$
 where $\Sigma_{1,2}$ are $p\times p$ deterministic covariance matrices, and $X_1=(x_{ij})_{1\le i \le n_1, 1\le j \le p}$ and $X_2=(x_{ij})_{n_1+1\le i \le n_1+n_2, 1\le j \le p}$ are $n_1\times p$ and $n_2 \times p$ random matrices, respectively, where the entries $x_{ij}$, $1 \leq i \leq n_1+n_2\equiv n$, $1 \leq j \leq p$, are real independent random variables satisfying
@@ -224,12 +230,21 @@ It remains to consider increment from the first term in $\te(\hat{\beta}_{s,t})$
 \end{theorem}
 
 Theorem \ref{thm_model_shift} shows upper and lower bounds on the transition point between positive and negative transfer, which is determined by the parameters of the task data: $n_1, n_2, \Sigma_1, \Sigma_2, \beta_s, \beta_t$.
+
+As a remark, for the special case when $\beta_s - \beta_t$ is i.i.d. with variance $d^2$ and $\Sigma_1 = \id$, we can get a tighter lower bound that guarantees negative transfer when
+\[ \Delta_{\var} \le \bigbrace{\sqrt{\frac{n_1}p} - 1}^4 \Delta_{\beta}. \]
 We describe examples based on Theorem \ref{thm_model_shift}.
 
 
+\begin{example}[\textbf{Phase transition as we increase the distance of task models}]
+\end{example}
 
+
+\begin{example}[\textbf{Phase transition as we increase the source task data size}]
+\end{example}
+
+\medskip
 The proof of Theorem \ref{thm_model_shift} involves two parts.
-
 
 \paragraph{Part I: Bounding the bias from model shift.}
 We relate the first term in equation \eqref{eq_te_model_shift} to $\Delta_{\beta}$.
