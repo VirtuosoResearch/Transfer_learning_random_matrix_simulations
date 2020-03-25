@@ -216,11 +216,13 @@ It remains to consider the increment from the first term in $\te(\hat{\beta}_{s,
 	Let $a_1, a_2$ be the solutions from equations \eqref{eq_a1} and \eqref{eq_a2}.
 	Denote by $M \define \Sigma_1^{1/2}\Sigma_2^{-1/2}$.
 	Let
-	\[ \Delta_{\beta} \define (\beta_s - \beta_t)^{\top} \Sigma_1^{1/2} M \frac{(1 + a_3)\id + a_4 M^{\top}M}{(a_1 + a_2 M^{\top}M)^2} M^{\top} \Sigma_1^{1/2} (\beta_s - \beta_t), \]
+	\[ \Delta_{\beta} \define (\beta_s - \beta_t)^{\top} \Sigma_1^{1/2} M \frac{(1 + a_3)\id + a_4 M^{\top}M}{(a_2 + a_1 M^{\top}M)^2} M^{\top} \Sigma_1^{1/2} (\beta_s - \beta_t), \]
 	where $a_3, a_4$ are the solutions of the following linear equations
 	\begin{align}
-		\left( \frac1{a_1^2}- \frac1{n_2}\sum_{i=1}^p \frac{1}{ (a_1 + \lambda_i^2a_2)^2  }\right) a_3 -  \left(\frac1{n_2}\sum_{i=1}^p \frac{  \lambda_i^2 }{ (  a_1 + \lambda_i^2a_2)^2  }\right)a_4 &=  \frac1{n_2}\sum_{i=1}^p \frac{1 }{ (  a_1 + \lambda_i^2a_2)^2  } , \label{eq_a3} \\
-		\left( \frac1{a_2^2} -  \frac1{n_1}\sum_{i=1}^p \frac{\lambda_i^4   }{  (a_1 + \lambda_i^2a_2)^2  }\right)a_4 -\left( \frac1 {n_1}\sum_{i=1}^p \frac{\lambda_i^2  }{  (a_1 + \lambda_i^2a_2)^2  }\right)a_3 &=   \frac1 {n_1}\sum_{i=1}^p \frac{\lambda_i^2 }{  (a_1 + \lambda_i^2a_2)^2  }. \label{eq_a4}
+		\left(\frac{n_2}{a_2^2}- \sum_{i=1}^p \frac{1}{ (a_2 + \lambda_i^2a_1)^2  }\right) a_3 -  \left(\sum_{i=1}^p \frac{  \lambda_i^2 }{ (  a_2 + \lambda_i^2a_1)^2  }\right)a_4
+		&= \sum_{i=1}^p \frac{1 }{ (  a_2 + \lambda_i^2a_1)^2  }, \label{eq_a3} \\
+		\left(\frac{n_1}{a_1^2} -  \sum_{i=1}^p \frac{\lambda_i^4   }{  (a_2 + \lambda_i^2a_1)^2  }\right)a_4 -\left(\sum_{i=1}^p \frac{\lambda_i^2  }{  (a_2 + \lambda_i^2a_1)^2  }\right)a_3
+		&= \sum_{i=1}^p \frac{\lambda_i^2 }{  (a_2 + \lambda_i^2a_1)^2  }. \label{eq_a4}
 	\end{align}
 	We have the following conditions that guarantee the type of transfer we can get under model shift.
 	\begin{itemize}
@@ -237,6 +239,10 @@ We describe examples based on Theorem \ref{thm_model_shift} to show several conc
 
 
 \begin{example}[\textbf{Increasing the distance of task models}]
+	We consider a simple setting where $\Sigma_1 = \id$.
+	Suppose that $\beta_s - \beta_t$ is a vector with mean zero and variance $d^2$. Hence the task models have distance $d^2$ in expectation.
+	In this case, we can simplify $\Delta_{\beta}$ as follows
+	\[ d^2 \cdot \sum_{i=1}^p \frac{(1 + a_3)\lambda_i^2 + a_4 \lambda_i^4}{(a_1 \lambda_i^2 + a_2)}. \]
 \end{example}
 
 
@@ -343,16 +349,16 @@ We now simplify the expressions for $z\to 0$ case. When $z\to 0$, we shall have
 $$u_3(z)= -  {a_3} + \OO(z), \quad u_4(z)= -  a_4 + \OO(z), \quad a_3,a_4 >0.$$
 For $z\to0$, the equations in \eqref{m34shift} are reduced to
 \begin{align}\label{m35shift}
-\frac{n_2}{n}\frac{1}{a_3} = 1 +\frac1n\sum_{i=1}^p \frac{1}{a_3 + \lambda_i^2a_4  } ,\quad \frac{n_1}{n}\frac1{a_4} = 1 +\frac1n\sum_{i=1}^p \frac{\lambda_i^2 }{  a_3 + \lambda_i^2 a_4 }. 
+\frac{n_2}{n}\frac{1}{\todo{a_2}} = 1 +\frac1n\sum_{i=1}^p \frac{1}{\todo{a_2} + \lambda_i^2\todo{a_1}  } ,\quad \frac{n_1}{n}\frac1{\todo{a_1}} = 1 +\frac1n\sum_{i=1}^p \frac{\lambda_i^2 }{  \todo{a_2} + \lambda_i^2 \todo{a_1} }.
 \end{align}
 It is easy to see that these equations are equivalent to
-\begin{align} a_3 + a_4 = 1- \gamma_n, \quad a_3 +\frac1n\sum_{i=1}^p \frac{a_3}{a_3 + \lambda_i^2[(1-\gamma_n)-a_3]  }=\frac{n_2}{n}  .\end{align}
+\begin{align} a_1 + a_2 = 1- \gamma_n, \quad a_1 +\frac1n\sum_{i=1}^p \frac{a_1}{a_1 + a_2/\lambda_i^2}=\frac{n_1}{n}  .\end{align}
 The equations in \eqref{dotm34} reduce to 
 \be \label{dotm34red}
 \begin{split}
-\left(\frac{n_2}{n}\frac1{a_3^2}- \frac1n\sum_{i=1}^p \frac{1 }{ (  a_3 + \lambda_i^2a_4)^2  }\right) b_3 -  \left(\frac1n\sum_{i=1}^p \frac{  \lambda_i^2 }{ (  a_3 + \lambda_i^2a_4)^2  }\right)b_4 =  \frac1n\sum_{i=1}^p \frac{1 }{ (  a_3 + \lambda_i^2a_4)^2  } ,\\
+\left(\frac{n_2}{n}\frac1{\todo{a_2}^2}- \frac1n\sum_{i=1}^p \frac{1 }{ (  \todo{a_2} + \lambda_i^2\todo{a_1})^2  }\right) a_3 -  \left(\frac1n\sum_{i=1}^p \frac{  \lambda_i^2 }{ (  \todo{a_2} + \lambda_i^2\todo{a_1})^2  }\right)a_4 =  \frac1n\sum_{i=1}^p \frac{1 }{ (  \todo{a_2} + \lambda_i^2\todo{a_1})^2  } ,\\
  %\frac{n_1}{n}\frac1{a_4^2}b_4 =   \frac1n\sum_{i=1}^p \frac{\lambda_i^2\left(1+b_3 + \lambda_i^2 b_4\right) }{  (a_3 + \lambda_i^2a_4)^2  } , \\
- \left( \frac{n_1}{n}\frac1{a_4^2} -  \frac1n\sum_{i=1}^p \frac{\lambda_i^4   }{  (a_3 + \lambda_i^2a_4)^2  }\right)b_4 -\left( \frac1n\sum_{i=1}^p \frac{\lambda_i^2  }{  (a_3 + \lambda_i^2a_4)^2  }\right)b_3 =   \frac1n\sum_{i=1}^p \frac{\lambda_i^2 }{  (a_3 + \lambda_i^2a_4)^2  } .
+ \left( \frac{n_1}{n}\frac1{a_1^2} -  \frac1n\sum_{i=1}^p \frac{\lambda_i^4   }{  (a_2 + \lambda_i^2a_1)^2  }\right)a_4 -\left( \frac1n\sum_{i=1}^p \frac{\lambda_i^2  }{  (a_2 + \lambda_i^2a_1)^2  }\right)a_3 =   \frac1n\sum_{i=1}^p \frac{\lambda_i^2 }{  (a_2 + \lambda_i^2a_1)^2  } .
 \end{split}
 \ee
 where we denote $b_3:=u_3'(0)$ and $b_4:=u_4'(0)$. Thus we have
@@ -365,7 +371,7 @@ This gives that
 Hence we have 
 \begin{align*}
 & (\beta_s - \beta_t)^{\top}X_1^{\top}X_1 \frac{1}{X_1^{\top}X_1 + X_2^{\top}X_2}  \Sigma_2 \frac{1}{X_1^{\top}X_1 + X_2^{\top}X_2} X_1^{\top}X_1 (\beta_s - \beta_t) \\
- & \approx (\beta_s - \beta_t)^{\top}\Sigma_1 \Sigma_2^{-1/2}  \frac{ 1 + b_3 +  b_4 A^\top A }{\left( a_3 +   a_4 A^\top A\right)^2}\Sigma_2^{-1/2} \Sigma_1(\beta_s - \beta_t).
+ & \approx (\beta_s - \beta_t)^{\top}\Sigma_1 \Sigma_2^{-1/2}  \frac{ 1 + a_3 +  a_4 A^\top A }{\left( a_2 +   a_1 A^\top A\right)^2}\Sigma_2^{-1/2} \Sigma_1(\beta_s - \beta_t).
 \end{align*}
 
 
