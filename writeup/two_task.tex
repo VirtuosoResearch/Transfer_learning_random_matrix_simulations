@@ -137,14 +137,15 @@ For now, we assume that the random variables $x_{ij}$ are i.i.d. Gaussian, but w
 \begin{lemma}\label{lem_cov_shift}
 	In the setting of Theorem \ref{thm_cov_shift}, we have with high probability $1-{\rm o}(1)$,
 \begin{align*}
-\tr ((X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}) = \frac{p}{n_1+n_2}\cdot \tr \left[ \frac{1}{a_1\Sigma_1 + a_2\Sigma_2} \right] +\bigo{\frac{p}{n^{1-\epsilon}}}.
+\tr ((X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}) = \frac{1}{n_1+n_2}\cdot \tr \left[ \frac{1}{a_1\Sigma_1 + a_2\Sigma_2} \right] +\bigo{\frac{1}{n^{1-\epsilon}}}.
 \end{align*}
 	for any constant $\epsilon>0$. %, where $a_{3,4}$ are found using equations in  \eqref{m35reduced}.
 	In particular, when $n_1 = 0$, we have that $a_1 = 0$ and $a_2 = (n_2-p) / n_2$, hence
-	\[ \bigtr{(X_2^{\top}X_2)^{-1}} = \frac{p}{n_2-p}\bigtr{\frac 1 {\Sigma_2}} + \bigo{\frac{p}{n_2^{1-\varepsilon}}}. \]
+	\[ \bigtr{(X_2^{\top}X_2)^{-1}} = \frac{1}{n_2-p}\bigtr{\frac 1 {\Sigma_2}} + \bigo{\frac{1}{n_2^{1-\varepsilon}}}. \]
 \end{lemma}
 
-\todo{shift $\lambda$} We assume that $ \Sigma_1^{-1/2}\Sigma_2$ has eigendecomposition
+\begin{proof} 
+{\color{blue}(revise the following proof)} We assume that $ \Sigma_1^{-1/2}\Sigma_2$ has eigendecomposition
 \be  \label{eigen}
 \Sigma_1^{-1/2}\Sigma_2^{1/2} = ODO^T ,\quad D=\text{diag}(d_1, \cdots, d_p).
 \ee
@@ -172,6 +173,7 @@ Furthermore, we have
 =\tr \left[\Sigma_1^{-1/2} O  \left( \frac{1}{a_3 + D^2 a_4 }\right) O^T \Sigma_1^{-1/2}\right] \\
 &=\tr \left[\Sigma_1^{-1/2}  \frac{1}{a_3+ \Sigma_1^{-1}\Sigma_2 a_4} \Sigma_1^{-1/2}\right]=\tr \left[ \frac{1}{a_3\Sigma_1 + a_4\Sigma_2 } \right].
 \end{align*}
+\end{proof}
 
 \subsection{Model Shift}
 
@@ -328,19 +330,19 @@ We relate the first term in equation \eqref{eq_te_model_shift} to $\Delta_{\beta
 We consider the same setting as in previous subsection: 
 $$ X_1^{\top}X_1:=\Sigma_1^{1/2}  Z_1^T Z_1 \Sigma_1^{1/2} ,\quad X_2^{\top}X_2= \Sigma_2^{1/2}  Z_2^T Z_2 \Sigma_2^{1/2},$$
 where $z_{ij}$, $1 \leq i \leq n_1+n_2\equiv n$, $1 \leq j \leq p$, are real independent random variables satisfying \eqref{eq_12moment}. For now, we assume that the random variables $z_{ij}$ are i.i.d. Gaussian, but we know that universality holds for generally distributed entries. Assume that $p/n_1$ is a small number such that $Z_1^TZ_1$ is roughly an isometry, that is, under \eqref{eq_12moment}, 
-\todo{
-\begin{align}\left\| Z_1^T Z_1 -  \frac{n_1}{n} I \right\| \le 2\sqrt{\frac{p}{n}} + {\frac{p}{n}} .
-\end{align}}
+%\todo{
+%\begin{align}\left\| Z_1^T Z_1 -  \frac{n_1}{n} I \right\| \le 2\sqrt{\frac{p}{n}} + {\frac{p}{n}} .
+%\end{align}}
 {\color{blue}
-If we assume the variances of the entries of $Z_1$ are $p^{-1}$, then we have
+If we assume the variances of the entries of $Z_1$ are $1$, then we have
 \begin{align}
--\frac{n_1}{p}\left(2\sqrt{\frac{p}{n_1}} - {\frac{p}{n_1}}\right)  \le {Z_1^T Z_1 -  \frac{n_1}{p} \id}  \le \frac{n_1}{p}\left(2\sqrt{\frac{p}{n_1}} + {\frac{p}{n_1}}\right) . \label{eq_isometric}
+- {n_1} \left(2\sqrt{\frac{p}{n_1}} - {\frac{p}{n_1}}\right)  \le {Z_1^T Z_1 -  n_1 \id}  \le {n_1} \left(2\sqrt{\frac{p}{n_1}} + {\frac{p}{n_1}}\right) . \label{eq_isometric}
 \end{align}
 }
 
-Then we have
-$$  \left\|X_1^{\top}X_1 (\beta_s - \beta_t)  - \frac{n_1}{n}(\beta_s - \beta_t)\right\|_2 \le C \sqrt{\frac{p}{n}} \left\| (\beta_s - \beta_t)\right\|_2. $$
-It remain to study the following expression 
+%Then we have
+%$$  \left\|X_1^{\top}X_1 (\beta_s - \beta_t)  - \frac{n_1}{n}(\beta_s - \beta_t)\right\|_2 \le C \sqrt{\frac{p}{n}} \left\| (\beta_s - \beta_t)\right\|_2. $$
+\todo{(revise the following proof)} It remain to study the following expression 
 \begin{align*}
 \frac{1}{X_1^{\top}X_1 + X_2^{\top}X_2}  \Sigma_2 \frac{1}{X_1^{\top}X_1 + X_2^{\top}X_2}  = \Sigma_2^{-1/2}\left(\frac{1}{A^T Z_1^{\top}Z_1 A + Z_2^{\top}Z_2} \right)^2 \Sigma_2^{-1/2} \\
 \stackrel{d}{=} \Sigma_2^{-1/2}V \left(\frac{1}{\Lambda Z_1^{\top}Z_1 \Lambda + Z_2^{\top}Z_2} \right)^2 V^T \Sigma_2^{-1/2},
