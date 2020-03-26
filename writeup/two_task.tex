@@ -38,8 +38,8 @@ for some constants $\gamma\in (0,\infty)$ and $c \in (0,1)$.
 	Let $\lambda_1, \lambda_2, \dots, \lambda_p$ denote the singular values of $\Sigma_1^{1/2}\Sigma_2^{-1/2}$.
 	When there is no model shift, we have that
 	\begin{align*}
-		\err(\hat{\beta}_{s,t}) &= \sigma^2 p \cdot \bigtr{\frac 1 {(n_1 + n_2)a_1\Sigma_1 + (n_1 + n_2)a_2\Sigma_2}} \\
-		\te(\hat{\beta}_{s,t}) &= \sigma^2 p \cdot \bigtr{\frac 1 {(n_1 + n_2)a_1\Sigma_2^{-1/2}\Sigma_1\Sigma_2^{-1/2} + (n_1 + n_2)a_2\id}}
+		\err(\hat{\beta}_{s,t}) &= \sigma^2 \cdot \bigtr{\frac 1 {(n_1 + n_2)a_1\Sigma_1 + (n_1 + n_2)a_2\Sigma_2}} \\
+		\te(\hat{\beta}_{s,t}) &= \sigma^2 \cdot \bigtr{\frac 1 {(n_1 + n_2)a_1\Sigma_2^{-1/2}\Sigma_1\Sigma_2^{-1/2} + (n_1 + n_2)a_2\id}}
 	\end{align*}
 	where $a_1, a_2$ are the solutions of the following equations
 	\begin{gather}
@@ -205,11 +205,11 @@ We can no longer guarantee that $\te(\hat{\beta}_{s,t}) \le \te(\hat{\beta}_t)$.
 The goal of this part is to show conditions under which we get positive vs. negative transfer.
 
 \todo{For technical reasons, we will consider the test error.} From Lemma \ref{lem_cov_shift}, we know that
-\[ \bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} \Sigma_2} = \frac{p}{n_1 + n_2}\cdot \bigtr{ \bigbrace{a_1\Sigma_2^{-1/2}\Sigma_1\Sigma_2^{-1/2} + a_2\id}^{-1}}, \]
+\[ \bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} \Sigma_2} = \frac{1}{n_1 + n_2}\cdot \bigtr{ \bigbrace{a_1\Sigma_2^{-1/2}\Sigma_1\Sigma_2^{-1/2} + a_2\id}^{-1}}, \]
 where $a_1, a_2$ are specified in Theorem \ref{thm_cov_shift}.
 Hence the variance part is reduced by the following amount
 \begin{align}
-	\Delta_{\vari} \define \sigma^2 p \cdot \bigbrace{\frac{p}{n_2 - p} - \frac{1}{n_1 + n_2} \bigtr{\bigbrace{a_1 M^{\top}M + a_2\id}^{-1}}}
+	\Delta_{\vari} \define \sigma^2 \cdot \bigbrace{\frac{p}{n_2 - p} - \frac{1}{n_1 + n_2} \bigtr{\bigbrace{a_1 M^{\top}M + a_2\id}^{-1}}}
 \end{align}
 It remains to consider the increment from the first term in $\te(\hat{\beta}_{s,t})$, which is bounded using the following lemma.
 %We are now interested in the following quantity
@@ -228,7 +228,7 @@ It remains to consider the increment from the first term in $\te(\hat{\beta}_{s,
 	\end{align}
 	We have the following conditions that guarantee the type of transfer we can get under model shift.
 	\begin{itemize}
-		\item {\bf Positive transfer:} when ${\Delta_{\vari}} \ge \bigbrace{\frac{n_1}p + 2\sqrt{\frac{n_1}{p}} + 1}^2 {\Delta_{\beta}} $, we have that $\te(\hat{\beta}_{s,t}) \le \te(\hat{\beta}_t)$.
+		\item {\bf Positive transfer:} when ${\Delta_{\vari}} \ge \bigbrace{\sqrt{n_1} + \sqrt{{p}}}^2 {\Delta_{\beta}} $, we have that $\te(\hat{\beta}_{s,t}) \le \te(\hat{\beta}_t)$.
 		\item {\bf Negative transfer:} when $\Delta_{\vari} \le \bigbrace{\frac{n_1^2}{p^2} - {\frac{4n_1^{1.5}}{p^{1.5}}} - \frac{2n_1}{p}} {\Delta_{\beta}} $, we have that $\te(\hat{\beta}_{s,t}) \ge \te(\hat{\beta}_t)$.
 	\end{itemize}
 \end{theorem}
@@ -236,7 +236,7 @@ It remains to consider the increment from the first term in $\te(\hat{\beta}_{s,
 Theorem \ref{thm_model_shift} shows upper and lower bounds on the transition point between positive and negative transfer, which is determined by the parameters of the task data: $n_1, n_2, \Sigma_1, \Sigma_2, \beta_s, \beta_t$.
 
 As a remark, for the special case when $\beta_s - \beta_t$ is i.i.d. with variance $d^2$ and $\Sigma_1 = \id$, we can get a tighter lower bound that guarantees negative transfer when
-\[ \Delta_{\var} \le \bigbrace{\sqrt{\frac{n_1}p} - 1}^4 \Delta_{\beta}. \]
+\[ \Delta_{\var} \le \bigbrace{\sqrt{{n_1}} - \sqrt{p}}^4 \Delta_{\beta}. \]
 
 \medskip
 We describe examples based on Theorem \ref{thm_model_shift} to show several conceptual insights.
@@ -269,7 +269,7 @@ We describe examples based on Theorem \ref{thm_model_shift} to show several conc
 	Then we obtain
 	\begin{align}
 		\Delta_{\beta} = p \cdot d^2 \cdot \frac{(c_1 + c_2)^3}{(c_1 + c_2 - 1)^3},
-		\Delta_{\var} = p \cdot \sigma^2 \cdot \frac{c_1}{(c_2 - 1)(c_1 + c_2 - 1)}.
+		\Delta_{\var} = \sigma^2 \cdot \frac{c_1}{(c_2 - 1)(c_1 + c_2 - 1)}.
 	\end{align}
 \end{example}
 
@@ -285,23 +285,23 @@ We relate the first term in equation \eqref{eq_te_model_shift} to $\Delta_{\beta
 \begin{proposition}\label{prop_model_shift}
 	In the setting of Theorem \ref{thm_model_shift}, we have that
 	\begin{align*}
-		\bigbrace{\frac{n_1^2}{p^2} - {\frac{4n_1^{1.5}}{p^{1.5}}} - \frac{2n_1}{p}} \Delta
+		\bigbrace{{n_1^2}{} - {4\sqrt{n_1^{3}p}} - {2n_1 p}} \Delta
 		\le \bignorm{\Sigma_2^{1/2} (X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}X_1^{\top}X_1(\beta_s - \beta_t)}^2
-		\le \bigbrace{\sqrt{\frac{n_1}{p}} + 1}^4 \Delta.
+		\le \bigbrace{\sqrt{{n_1}{}} + \sqrt{p}}^4 \Delta.
 	\end{align*}
 \end{proposition}
 
 \begin{proof}
 	Follows by applying equation \eqref{eq_isometric}.
 	Recall that $X_1^{\top}X_1 = \Sigma_1^{1/2}Z_1^{\top}Z_1\Sigma_1^{1/2}$.
-	Denote by $\cE = Z_1^{\top}Z_1 - \frac{n_1}p\id$.
+	Denote by $\cE = Z_1^{\top}Z_1 - {n_1}\id$.
 	Let $K = (X_1^{\top}X_1 + X_2^{\top}X_1)^{-1}$.
 	We have
 	\begin{align}
 		\bignorm{\Sigma_2^{1/2}(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}X_1^{\top}X_1(\beta_s - \beta_t)}^2
-		= &\frac{n_1^2}{p^2}\Delta + \frac{2n_1}p(\beta_s - \beta_t)^{\top}\Sigma_1^{1/2}\cE\Sigma_1^{1/2}K \Sigma_2 K \Sigma_1 (\beta_s - \beta_t) \\
+		= &{n_1^2}{}\Delta + {2n_1}(\beta_s - \beta_t)^{\top}\Sigma_1^{1/2}\cE\Sigma_1^{1/2}K \Sigma_2 K \Sigma_1 (\beta_s - \beta_t) \\
 		&+ \bignorm{\Sigma_2^{1/2} K \Sigma_1^{1/2}\cE \Sigma_1^{1/2}(\beta_s - \beta_t)}^2 \label{eq_lem_model_shift_1}\\
-		\le& \bigbrace{\frac{n_1^2}{p^2} + \frac{2n_1}p(1 + 2\sqrt{\frac{n_1}p}) + (1 + 2\sqrt{\frac{n_1}p})^2} \Delta. \nonumber
+		\le& \bigbrace{{n_1^2}{} + \frac{2n_1}p(p + 2\sqrt{{n_1}p}) + (p + 2\sqrt{{n_1}p})^2} \Delta. \nonumber
 	\end{align}
 	For the other direction, we simply note that the third term in equation \eqref{eq_lem_model_shift_1} is positive.
 	And the second term is bigger than $-\frac{2n_1}p(1 + 2\sqrt{\frac{n_1}p}) \Delta$.
