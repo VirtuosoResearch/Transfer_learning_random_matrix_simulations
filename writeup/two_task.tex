@@ -289,7 +289,7 @@ We describe examples based on Theorem \ref{thm_model_shift} to show several conc
 	Then we obtain
 	\begin{align}
 		\Delta_{\beta} = p \cdot d^2 \cdot \frac{c_1^2 (c_1 + c_2)}{(c_1 + c_2 - 1)^3},
-		\Delta_{\var} = \sigma^2 \cdot \frac{c_1}{(c_2 - 1)(c_1 + c_2 - 1)}.
+		\Delta_{\vari} = \sigma^2 \cdot \frac{c_1}{(c_2 - 1)(c_1 + c_2 - 1)}.
 	\end{align}
 
 	We demonstrate our result with a simulation.
@@ -324,9 +324,9 @@ We relate the first term in equation \eqref{eq_te_model_shift} to $\Delta_{\beta
 \begin{proposition}\label{prop_model_shift}
 	In the setting of Theorem \ref{thm_model_shift}, we have that
 	\begin{align*}
-		\bigbrace{1 - {4\sqrt{\frac{p}{n_1}}} - {2\frac{p}{n_1}}} \Delta
+		\bigbrace{1 - {4\sqrt{\frac{p}{n_1}}} - {2\frac{p}{n_1}}} \Delta_{\beta}
 		\le \bignorm{\Sigma_2^{1/2} (X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}X_1^{\top}X_1(\beta_s - \beta_t)}^2
-		\le \bigbrace{1 + \sqrt{\frac{p}{n_1}}}^4 \Delta.
+		\le \bigbrace{1 + \sqrt{\frac{p}{n_1}}}^4 \Delta_{\beta}.
 	\end{align*}
 \end{proposition}
 
@@ -335,15 +335,26 @@ We relate the first term in equation \eqref{eq_te_model_shift} to $\Delta_{\beta
 	Recall that $X_1^{\top}X_1 = \Sigma_1^{1/2}Z_1^{\top}Z_1\Sigma_1^{1/2}$.
 	Denote by $\cE = Z_1^{\top}Z_1 - {n_1}\id$.
 	Let $K = (X_1^{\top}X_1 + X_2^{\top}X_1)^{-1}$.
+	Let $\alpha = \bignorm{\Sigma_2^{1/2} K \Sigma_1 (\beta_s - \beta_t)}^2$.
 	We have
 	\begin{align}
-		\bignorm{\Sigma_2^{1/2}(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}X_1^{\top}X_1(\beta_s - \beta_t)}^2
-		= &{n_1^2}{}\Delta + {2n_1}(\beta_s - \beta_t)^{\top}\Sigma_1^{1/2}\cE\Sigma_1^{1/2}K \Sigma_2 K \Sigma_1 (\beta_s - \beta_t) \\
-		&+ \bignorm{\Sigma_2^{1/2} K \Sigma_1^{1/2}\cE \Sigma_1^{1/2}(\beta_s - \beta_t)}^2 \label{eq_lem_model_shift_1}\\
-		\le& \bigbrace{{n_1^2}{} + \frac{2n_1}p(p + 2\sqrt{{n_1}p}) + (p + 2\sqrt{{n_1}p})^2} \Delta. \nonumber
+		& \bignorm{\Sigma_2^{1/2}(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}X_1^{\top}X_1(\beta_s - \beta_t)}^2 \nonumber \\
+		= &{n_1^2}{}\alpha + {2n_1}(\beta_s - \beta_t)^{\top}\Sigma_1^{1/2}\cE\Sigma_1^{1/2}K \Sigma_2 K \Sigma_1 (\beta_s - \beta_t)
+		+ \bignorm{\Sigma_2^{1/2} K \Sigma_1^{1/2}\cE \Sigma_1^{1/2}(\beta_s - \beta_t)}^2 \label{eq_lem_model_shift_1}\\
+		\le& n_1\bigbrace{{n_1^2}{} + \frac{2n_1}p(p + 2\sqrt{{n_1}p}) + (p + 2\sqrt{{n_1}p})^2} \alpha = n_1^2\bigbrace{1 + \sqrt{\frac{p}{n_1}}}^4 \alpha. \nonumber
 	\end{align}
-{\cob(seems there is some problem with these bounds?)}	For the other direction, we simply note that the third term in equation \eqref{eq_lem_model_shift_1} is positive.
-	And the second term is bigger than $-\frac{2n_1}p(1 + 2\sqrt{\frac{n_1}p}) \Delta$.
+	Here we use the following on the second term in equation \eqref{eq_lem_model_shift_1}
+	\begin{align*}
+		& \bigabs{(\beta_s - \beta_t)^{\top} \Sigma_1^{1/2} \cE \Sigma_1^{1/2} K \Sigma_2 K \Sigma_1 (\beta_s - \beta_t)} \\
+		= & \bigabs{\bigtr{\cE \Sigma_1^{1/2}K\Sigma_2 K \Sigma_1(\beta_s - \beta_t)(\beta_s - \beta_t)^{\top} \Sigma_1^{1/2}}} \\
+		\le & \norm{\cE} \cdot \bignormNuclear{\Sigma_1^{1/2} K \Sigma_2 K \Sigma_1 (\beta_s - \beta_t) (\beta_s - \beta_t)^{\top} \Sigma_1^{1/2}} \\
+		\le & n_1 \bigbrace{2\sqrt{\frac{p}{n_1}} + \frac{p}{n_1}} \cdot \bignormNuclear{\Sigma_1^{1/2} K \Sigma_2 K \Sigma_1 (\beta_s - \beta_t)(\beta_s - \beta_t)^{\top} \Sigma_1^{1/2}} \tag{by equation \eqref{eq_isometric}} \\
+		=   & n_1 \bigbrace{2\sqrt{\frac{p}{n_1}} + \frac{p}{n_1}} \alpha \tag{since the matrix inside is rank 1}
+	\end{align*}
+	The third term in equation \eqref{eq_lem_model_shift_1} can be bounded similarly.
+
+	For the other direction, we simply note that the third term in equation \eqref{eq_lem_model_shift_1} is positive.
+	And the second term is bigger than $-2n_1^2(2\sqrt{\frac{p}{n_1}} + \frac{p}{n_1}) \alpha$ using equation \eqref{eq_isometric}.
 \end{proof}
 
 
@@ -365,7 +376,7 @@ We relate the first term in equation \eqref{eq_te_model_shift} to $\Delta_{\beta
 	%\end{align*}
 	%Here in the error term $p$ can be replaced with the rank of $\Sigma_1$. Without any extra information, we can only use the fact the rank of $\Sigma_1$ is at most $p$.
 	
-\paragraph{Part II: The limit of $\Delta_{\beta}$ using random matrix theory.}
+\paragraph{Part II: The limit of $\bignorm{\Sigma_2^{1/2} (X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_1 (\beta_s - \beta_t)}^2$ using random matrix theory.}
 We consider the same setting as in previous subsection: 
 $$ X_1^{\top}X_1:=\Sigma_1^{1/2}  Z_1^T Z_1 \Sigma_1^{1/2} ,\quad X_2^{\top}X_2= \Sigma_2^{1/2}  Z_2^T Z_2 \Sigma_2^{1/2},$$
 where $z_{ij}$, $1 \leq i \leq n_1+n_2\equiv n$, $1 \leq j \leq p$, are real independent random variables satisfying \eqref{eq_12moment}. For now, we assume that the random variables $z_{ij}$ are i.i.d. Gaussian, but we know that universality holds for generally distributed entries. Assume that $p/n_1$ is a small number such that $Z_1^TZ_1$ is roughly an isometry, that is, under \eqref{eq_12moment}, 
