@@ -258,8 +258,8 @@ It remains to consider the increment from the first term in $\te(\hat{\beta}_{s,
 %		\end{align*}
 %	}
 
-Theorem \ref{thm_model_shift} shows upper bounds that guarantee positive transfer, which is determined by the parameters of the task data: $n_1, n_2, \Sigma_1, \Sigma_2, \beta_s, \beta_t$.
-Next we describe lower bounds that guaranteen negative transfer to complement Theorem \ref{thm_model_shift}
+Theorem \ref{thm_model_shift} shows upper bounds that guarantee positive transfer, which is determined by the change of variance $\Delta_{\vari}$ and a certain model shift bias parameter $\Delta_{\beta}$ determined by the covariate shift matrix and the model shift.
+Next we describe lower bounds that guarantee negative transfer to complement Theorem \ref{thm_model_shift}.
 
 \begin{theorem}[Negative transfer under model shift]\label{thm_model_shift_neg}
 	In the setting of Theorem \ref{thm_model_shift}, we have $\te(\hat{\beta}_{s,t}) \ge \te(\hat{\beta}_t)$ when
@@ -276,7 +276,7 @@ Next we describe lower bounds that guaranteen negative transfer to complement Th
 \medskip
 We describe examples based on Theorem \ref{thm_model_shift} and Theorem \ref{thm_model_shift_neg} to show several conceptual insights.
 
-\begin{example}[\textbf{Increasing the distance of task models}]
+\begin{example}[\textbf{The effect of $d$, the distance of task models}]
 	We consider a simple setting where $\Sigma_1 = \id$.
 	Suppose that $\beta_s - \beta_t$ is a vector with mean zero and variance $d^2$. Hence the task models have distance $d^2\cdot p$ in expectation.
 
@@ -328,7 +328,7 @@ We describe examples based on Theorem \ref{thm_model_shift} and Theorem \ref{thm
 	\label{fig_model_shift_phasetrans}
 \end{figure}
 
-\begin{example}[\textbf{Increasing the source task data size}]
+\begin{example}[\textbf{The effect of $n_1$, the source task data size}]
 \end{example}
 
 \medskip
@@ -343,10 +343,15 @@ We relate the first term in equation \eqref{eq_te_model_shift} to $\Delta_{\beta
 		\le \bignorm{\Sigma_2^{1/2} (X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}X_1^{\top}X_1(\beta_s - \beta_t)}^2
 		\le \bigbrace{1 + \sqrt{\frac{p}{n_1}}}^4 \Delta_{\beta}.
 	\end{align*}
+	For the special case when $\Sigma_1 = \id$ and $\beta_s - \beta_t$ is i.i.d. with mean $0$ and variance $d^2$, we further have
+	\begin{align*}
+		\bigbrace{1 - \sqrt{\frac{p}{n_1}}}^4 \Delta_{\beta}
+		\le \bignorm{\Sigma_2^{1/2} (X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}X_1^{\top}X_1(\beta_s - \beta_t)}^2.
+	\end{align*}
 \end{proposition}
 
 \begin{proof}
-	Follows by applying equation \eqref{eq_isometric}.
+	The proof follows by applying equation \eqref{eq_isometric}.
 	Recall that $X_1^{\top}X_1 = \Sigma_1^{1/2}Z_1^{\top}Z_1\Sigma_1^{1/2}$.
 	Denote by $\cE = Z_1^{\top}Z_1 - {n_1}\id$.
 	Let $K = (X_1^{\top}X_1 + X_2^{\top}X_1)^{-1}$.
