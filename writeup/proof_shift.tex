@@ -1,0 +1,225 @@
+\section{Proofs of Theorem \todo{bla}}
+
+The proofs of Theorem \ref{thm_model_shift} and Theorem \ref{thm_model_shift_neg} involve two parts.
+
+\paragraph{Part I: Bounding the bias from model shift.}
+We relate the first term in equation \eqref{eq_te_model_shift} to $\Delta_{\beta}$.
+\begin{proposition}\label{prop_model_shift}
+	In the setting of Theorem \ref{thm_model_shift}, we have that
+	\begin{align*}
+		\bigbrace{1 - {4\sqrt{\frac{p}{n_1}}} - {2\frac{p}{n_1}}} \Delta_{\beta}
+		\le \bignorm{\Sigma_2^{1/2} (X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}X_1^{\top}X_1(\beta_s - \beta_t)}^2
+		\le \bigbrace{1 + \sqrt{\frac{p}{n_1}}}^4 \Delta_{\beta}.
+	\end{align*}
+	For the special case when $\Sigma_1 = \id$ and $\beta_s - \beta_t$ is i.i.d. with mean $0$ and variance $d^2$, we further have
+	\begin{align*}
+		\bigbrace{1 - \sqrt{\frac{p}{n_1}}}^4 \Delta_{\beta}
+		\le \bignorm{\Sigma_2^{1/2} (X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}X_1^{\top}X_1(\beta_s - \beta_t)}^2.
+	\end{align*}
+\end{proposition}
+
+\begin{proof}
+	The proof follows by applying equation \eqref{eq_isometric}.
+	Recall that $X_1^{\top}X_1 = \Sigma_1^{1/2}Z_1^{\top}Z_1\Sigma_1^{1/2}$.
+	Denote by $\cE = Z_1^{\top}Z_1 - {n_1}\id$.
+	Let $K = (X_1^{\top}X_1 + X_2^{\top}X_1)^{-1}$.
+	Let $\alpha = \bignorm{\Sigma_2^{1/2} K \Sigma_1 (\beta_s - \beta_t)}^2$.
+	We have
+	\begin{align}
+		& \bignorm{\Sigma_2^{1/2}(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}X_1^{\top}X_1(\beta_s - \beta_t)}^2 \nonumber \\
+		= &{n_1^2}{}\alpha + {2n_1}(\beta_s - \beta_t)^{\top}\Sigma_1^{1/2}\cE\Sigma_1^{1/2}K \Sigma_2 K \Sigma_1 (\beta_s - \beta_t)
+		+ \bignorm{\Sigma_2^{1/2} K \Sigma_1^{1/2}\cE \Sigma_1^{1/2}(\beta_s - \beta_t)}^2 \label{eq_lem_model_shift_1}\\
+		\le& n_1\bigbrace{{n_1^2}{} + \frac{2n_1}p(p + 2\sqrt{{n_1}p}) + (p + 2\sqrt{{n_1}p})^2} \alpha = n_1^2\bigbrace{1 + \sqrt{\frac{p}{n_1}}}^4 \alpha. \nonumber
+	\end{align}
+	Here we use the following on the second term in equation \eqref{eq_lem_model_shift_1}
+	\begin{align*}
+		& \bigabs{(\beta_s - \beta_t)^{\top} \Sigma_1^{1/2} \cE \Sigma_1^{1/2} K \Sigma_2 K \Sigma_1 (\beta_s - \beta_t)} \\
+		= & \bigabs{\bigtr{\cE \Sigma_1^{1/2}K\Sigma_2 K \Sigma_1(\beta_s - \beta_t)(\beta_s - \beta_t)^{\top} \Sigma_1^{1/2}}} \\
+		\le & \norm{\cE} \cdot \bignormNuclear{\Sigma_1^{1/2} K \Sigma_2 K \Sigma_1 (\beta_s - \beta_t) (\beta_s - \beta_t)^{\top} \Sigma_1^{1/2}} \\
+		\le & n_1 \bigbrace{2\sqrt{\frac{p}{n_1}} + \frac{p}{n_1}} \cdot \bignormNuclear{\Sigma_1^{1/2} K \Sigma_2 K \Sigma_1 (\beta_s - \beta_t)(\beta_s - \beta_t)^{\top} \Sigma_1^{1/2}} \tag{by equation \eqref{eq_isometric}} \\
+		=   & n_1 \bigbrace{2\sqrt{\frac{p}{n_1}} + \frac{p}{n_1}} \alpha \tag{since the matrix inside is rank 1}
+	\end{align*}
+	The third term in equation \eqref{eq_lem_model_shift_1} can be bounded similarly.
+
+	For the other direction, we simply note that the third term in equation \eqref{eq_lem_model_shift_1} is positive.
+	And the second term is bigger than $-2n_1^2(2\sqrt{\frac{p}{n_1}} + \frac{p}{n_1}) \alpha$ using equation \eqref{eq_isometric}.
+\end{proof}
+
+
+%	\begin{align}
+%		\left(\frac{n_2}{n_1+n_2}\frac1{a_1^2}- \frac1{n_1+n_2}\sum_{i=1}^p \frac{1}{ (a_1 + \lambda_i^2a_2)^2  }\right) a_3 -  \left(\frac1{n_1+n_2}\sum_{i=1}^p \frac{  \lambda_i^2 }{ (  a_1 + \lambda_i^2a_2)^2  }\right)a_4 &=  \frac1{n_1+n_2}\sum_{i=1}^p \frac{1 }{ (  a_1 + \lambda_i^2a_2)^2  } , \label{eq_a3} \\
+%		\left( \frac{n_1}{n_1+n_2}\frac1{a_2^2} -  \frac1n\sum_{i=1}^p \frac{\lambda_i^4   }{  (a_1 + \lambda_i^2a_2)^2  }\right)a_4 -\left( \frac1 {n_1+n_2}\sum_{i=1}^p \frac{\lambda_i^2  }{  (a_1 + \lambda_i^2a_2)^2  }\right)a_3 &=   \frac1 {n_1+n_2}\sum_{i=1}^p \frac{\lambda_i^2 }{  (a_1 + \lambda_i^2a_2)^2  }. \label{eq_a4}
+%	\end{align}
+	%We have that
+	%\begin{align*}
+	%	&~ {\bignorm{\Sigma_2^{1/2} (X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} X_1^{\top}X_1 %(\beta_s - \beta_t)}} \\
+	%	&\le ~ \left[(\beta_s - \beta_t)^{\top}\Sigma_1^{1/2}M\frac{(1 + a_3)\id + a_4 M^{\top}M}{(a_1 + a_2 M^{\top}M)} M^{\top}\Sigma_1^{1/2} (\beta_s - \beta_t)\right]^{1/2} \\
+	%	&+ \left\|M\frac{(1 + a_3)\id + a_4 M^{\top}M}{(a_1 + a_2 M^{\top}M)} M^{\top}\right\|_{op}^{1/2} \|\Sigma_1^{1/2} (\beta_s - \beta_t)\|_2 \left( 2\sqrt{\frac{p} {n_1}} + \frac{p}{n_1}\right),
+	%\end{align*}
+	%and
+	%\begin{align*}
+	%	&~ {\bignorm{\Sigma_2^{1/2} (X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} X_1^{\top}X_1 (\beta_s - \beta_t)}} \\
+	%	&\ge ~ \left[(\beta_s - \beta_t)^{\top}\Sigma_1^{1/2}M\frac{(1 + a_3)\id + a_4 M^{\top}M}{(a_1 + a_2 M^{\top}M)} M^{\top}\Sigma_1^{1/2} (\beta_s - \beta_t)\right]^{1/2} \\
+	%	&- \left\|M\frac{(1 + a_3)\id + a_4 M^{\top}M}{(a_1 + a_2 M^{\top}M)} M^{\top}\right\|_{op}^{1/2} \|\Sigma_1^{1/2} (\beta_s - \beta_t)\|_2 \left( 2\sqrt{\frac{p} {n_1}} + \frac{p}{n_1}\right).
+	%\end{align*}
+	%Here in the error term $p$ can be replaced with the rank of $\Sigma_1$. Without any extra information, we can only use the fact the rank of $\Sigma_1$ is at most $p$.
+
+\paragraph{Part II: The limit of $\bignorm{\Sigma_2^{1/2} (X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_1 (\beta_s - \beta_t)}^2$ using random matrix theory.}
+We consider the same setting as in previous subsection:
+$$ X_1^{\top}X_1:=\Sigma_1^{1/2}  Z_1^T Z_1 \Sigma_1^{1/2} ,\quad X_2^{\top}X_2= \Sigma_2^{1/2}  Z_2^T Z_2 \Sigma_2^{1/2},$$
+where $z_{ij}$, $1 \leq i \leq n_1+n_2\equiv n$, $1 \leq j \leq p$, are real independent random variables satisfying \eqref{eq_12moment}. For now, we assume that the random variables $z_{ij}$ are i.i.d. Gaussian, but we know that universality holds for generally distributed entries. Assume that $p/n_1$ is a small number such that $Z_1^TZ_1$ is roughly an isometry, that is, under \eqref{eq_12moment},
+%\todo{
+%\begin{align}\left\| Z_1^T Z_1 -  \frac{n_1}{n} I \right\| \le 2\sqrt{\frac{p}{n}} + {\frac{p}{n}} .
+%\end{align}}
+{\color{blue}
+If we assume the variances of the entries of $Z_1$ are $1$, then we have
+\begin{align}
+- {n_1} \left(2\sqrt{\frac{p}{n_1}} - {\frac{p}{n_1}}\right)  \le {Z_1^T Z_1 -  n_1 \id}  \le {n_1} \left(2\sqrt{\frac{p}{n_1}} + {\frac{p}{n_1}}\right) . \label{eq_isometric}
+\end{align}
+}
+
+%Then we have
+%$$  \left\|X_1^{\top}X_1 (\beta_s - \beta_t)  - \frac{n_1}{n}(\beta_s - \beta_t)\right\|_2 \le C \sqrt{\frac{p}{n}} \left\| (\beta_s - \beta_t)\right\|_2. $$
+\todo{(revise the following proof)} It remain to study the following expression
+\begin{align*}
+\frac{1}{X_1^{\top}X_1 + X_2^{\top}X_2}  \Sigma_2 \frac{1}{X_1^{\top}X_1 + X_2^{\top}X_2}  = \Sigma_2^{-1/2}\left(\frac{1}{A^T Z_1^{\top}Z_1 A + Z_2^{\top}Z_2} \right)^2 \Sigma_2^{-1/2} \\
+\stackrel{d}{=} \Sigma_2^{-1/2}V \left(\frac{1}{\Lambda Z_1^{\top}Z_1 \Lambda + Z_2^{\top}Z_2} \right)^2 V^T \Sigma_2^{-1/2},
+\end{align*}
+where
+\be  \label{eigen2}
+A:=\Sigma_1^{1/2}\Sigma_2^{-1/2} = U\Lambda V^T ,\quad \Lambda=\text{diag}(\lambda_1, \cdots, \lambda_p).
+\ee
+Using
+$$\left(\frac{1}{\Lambda Z_1^{\top}Z_1 \Lambda + Z_2^{\top}Z_2} \right)^2 =\left. \frac{\dd }{\dd z}\right|_{z=0}\frac{1}{\Lambda Z_1^{\top}Z_1 \Lambda + Z_2^{\top}Z_2 - z} ,$$
+we  need to study the resolvent of
+$$G(z) = \left( \Lambda Z_1^{\top}Z_1 \Lambda + Z_2^{\top}Z_2 - z \right)^{-1}.$$
+Its local law can be studied as in previous subsection (be careful we need to switch the roles of $Z_1$ and $Z_2$). More precisely,  we have that
+$$ G(z) \approx \diag\left( \frac{1}{-z\left( 1+ m_3(z) + \lambda_i^2 m_4(z)\right)}\right)_{1\le i \le p}= \frac{1}{-z\left( 1+ m_3(z) + \Lambda^2 m_4(z)\right)} .$$
+Here $m_{3,4}(z)$ satisfy the following self-consistent equations
+%$$\frac{1}{G_{ii}} \approx -z \left( 1+m_3 + d_i^2m_4 \right), \quad \frac{1}{G_{\mu\mu}} = -z(1+m_1), \ \ \mu\in \cal I_1,\quad \frac{1}{G_{\nu\nu}} = -z(1+m_2), \ \ \nu\in \cal I_2,$$
+%$$m_1= \frac1n\sum_{i}G_{ii}, \quad m_2= \frac1n\sum_{i}d_i^2 G_{ii}, \quad m_3 = \frac1n\sum_{\mu\in \cal I_1} G_{\mu\mu},\quad m_4 = \frac1n\sum_{\mu\in \cal I_2} G_{\mu\mu}.$$
+\begin{align}\label{m34shift}
+\frac{n_2}{n}\frac1{m_3} = - z +\frac1n\sum_{i=1}^p \frac1{  1+m_3 + \lambda_i^2m_4  } ,\quad \frac{n_1}{n}\frac1{m_4} = - z +\frac1n\sum_{i=1}^p \frac{\lambda_i^2 }{  1+m_3 + \lambda_i^2m_4  } .
+\end{align}
+Then we calculate the derivatives of $u_3:=zm_3$ and $u_4:=zm_4$ with respect to $z$:
+\begin{align}\label{dotm34}
+\frac{n_2}{n}\frac1{u_3^2}u'_3 =  \frac1n\sum_{i=1}^p \frac{1+u'_3 + \lambda_i^2 u'_4}{ ( z+u_3 + \lambda_i^2u_4)^2  } ,\quad \frac{n_1}{n}\frac1{u_4^2}u'_4 =   \frac1n\sum_{i=1}^p \frac{\lambda_i^2\left(1+u'_3 + \lambda_i^2 u'_4\right) }{  (z+u_3 + \lambda_i^2u_4)^2  } .
+\end{align}
+We can solve the above equations to get $u'_3$ and $u'_4$. Then we have
+$$ G^2(z) \approx   \frac{1 +  u_3'(z) +\Lambda^2 u'_4(z)}{ \left( z+ u_3(z) + \Lambda^2  u_4(z)\right)^2}  $$
+{\cob in certain sense}.
+
+\cob $a_3\to a_2$, $a_4\to a_1$ \nc
+
+We now simplify the expressions for $z\to 0$ case. When $z\to 0$, we shall have
+$$u_3(z)= -  {a_3} + \OO(z), \quad u_4(z)= -  a_4 + \OO(z), \quad a_3,a_4 >0.$$
+For $z\to0$, the equations in \eqref{m34shift} are reduced to
+\begin{align}\label{m35shift}
+\frac{n_2}{n}\frac{1}{\todo{a_2}} = 1 +\frac1n\sum_{i=1}^p \frac{1}{\todo{a_2} + \lambda_i^2\todo{a_1}  } ,\quad \frac{n_1}{n}\frac1{\todo{a_1}} = 1 +\frac1n\sum_{i=1}^p \frac{\lambda_i^2 }{  \todo{a_2} + \lambda_i^2 \todo{a_1} }.
+\end{align}
+It is easy to see that these equations are equivalent to
+\begin{align} a_1 + a_2 = 1- \gamma_n, \quad a_1 +\frac1n\sum_{i=1}^p \frac{a_1}{a_1 + a_2/\lambda_i^2}=\frac{n_1}{n}  .\end{align}
+The equations in \eqref{dotm34} reduce to
+\be \label{dotm34red}
+\begin{split}
+\left(\frac{n_2}{n}\frac1{\todo{a_2}^2}- \frac1n\sum_{i=1}^p \frac{1 }{ (  \todo{a_2} + \lambda_i^2\todo{a_1})^2  }\right) a_3 -  \left(\frac1n\sum_{i=1}^p \frac{  \lambda_i^2 }{ (  \todo{a_2} + \lambda_i^2\todo{a_1})^2  }\right)a_4 =  \frac1n\sum_{i=1}^p \frac{1 }{ (  \todo{a_2} + \lambda_i^2\todo{a_1})^2  } ,\\
+ %\frac{n_1}{n}\frac1{a_4^2}b_4 =   \frac1n\sum_{i=1}^p \frac{\lambda_i^2\left(1+b_3 + \lambda_i^2 b_4\right) }{  (a_3 + \lambda_i^2a_4)^2  } , \\
+ \left( \frac{n_1}{n}\frac1{a_1^2} -  \frac1n\sum_{i=1}^p \frac{\lambda_i^4   }{  (a_2 + \lambda_i^2a_1)^2  }\right)a_4 -\left( \frac1n\sum_{i=1}^p \frac{\lambda_i^2  }{  (a_2 + \lambda_i^2a_1)^2  }\right)a_3 =   \frac1n\sum_{i=1}^p \frac{\lambda_i^2 }{  (a_2 + \lambda_i^2a_1)^2  } .
+\end{split}
+\ee
+where we denote $b_3:=u_3'(0)$ and $b_4:=u_4'(0)$. Thus we have
+$$\left(\frac{1}{\Lambda Z_1^{\top}Z_1 \Lambda + Z_2^{\top}Z_2} \right)^2  = G^2(0) \approx   \frac{ 1 + b_3 + \Lambda^2  b_4}{\left( a_3 + \Lambda^2  a_4\right)^2} .$$
+This gives that
+\begin{align*}
+& \frac{1}{X_1^{\top}X_1 + X_2^{\top}X_2}  \Sigma_2 \frac{1}{X_1^{\top}X_1 + X_2^{\top}X_2} =\Sigma_2^{-1/2}V \left(\frac{1}{\Lambda Z_1^{\top}Z_1 \Lambda + Z_2^{\top}Z_2} \right)^2 V^T \Sigma_2^{-1/2}\\
+& \approx  \Sigma_2^{-1/2}V \frac{ 1 + b_3 + \Lambda^2  b_4}{\left( a_3 + \Lambda^2  a_4\right)^2}V^T \Sigma_2^{-1/2}= \Sigma_2^{-1/2}  \frac{ 1 + b_3 +  b_4 A^\top A }{\left( a_3 +   a_4 A^\top A\right)^2}\Sigma_2^{-1/2} .
+\end{align*}
+Hence we have
+\begin{align*}
+& (\beta_s - \beta_t)^{\top}X_1^{\top}X_1 \frac{1}{X_1^{\top}X_1 + X_2^{\top}X_2}  \Sigma_2 \frac{1}{X_1^{\top}X_1 + X_2^{\top}X_2} X_1^{\top}X_1 (\beta_s - \beta_t) \\
+ & \approx (\beta_s - \beta_t)^{\top}\Sigma_1 \Sigma_2^{-1/2}  \frac{ 1 + a_3 +  a_4 A^\top A }{\left( a_2 +   a_1 A^\top A\right)^2}\Sigma_2^{-1/2} \Sigma_1(\beta_s - \beta_t).
+\end{align*}
+
+
+
+%Then it is equivalent to study
+%$$Q:=  ( X_1^T X_1 )^{-1}   D X_2^T X_2 D ,$$
+%which has the same nonzero eigenvalues of
+%$$\mathcal Q:=  X_2 D ( X_1^T X_1 )^{-1} D X_2^T,$$
+%i.e. $\mathcal Q$ has the same nonzero eigenvalues of $Q$, but has $(n_2-p)$ more zero eigenvalues.
+
+%----------The following is the results on the eigenvalues, not the singular values-------------
+%We are interested in the eigenvalues of
+%$$(X_1^{\top}X_1)^{-1} (X_2^{\top}X_2),$$
+%which is called a generalized Fisher matrix. As in the previous setting, we write out their covariance explicitly and consider
+%$$  (\Sigma_1^{1/2}  Z_1^T Z_1 \Sigma_1^{1/2})^{-1}   \Sigma_2^{1/2}  Z_2^T Z_2 \Sigma_2^{1/2} ,$$
+%where $\Sigma_{1,2}$ are $p\times p$ deterministic covariance matrices, and $X_1=(x_{ij})_{1\le i \le n_1, 1\le j \le p}$ and $X_2=(x_{ij})_{n_1+1\le i \le n_1+n_2, 1\le j \le p}$ are $n_1\times p$ and $n_2 \times p$ random matrices, respectively, where the entries $x_{ij}$, $1 \leq i \leq n_1+n_2\equiv n$, $1 \leq j \leq p$, are real independent random variables satisfying \eqref{eq_12moment}.
+%We can study it using the linearization matrix ({\color{red}for my own purpose right now})
+%$$ H = \begin{pmatrix} - z I & X_2D & 0 \\ DX_2^T & 0 & X_1^T \\ 0 & X_1 & I \end{pmatrix}, \quad G(z):=H(z)^{-1}.$$
+%Then the $(1,1)$-th block is equal to $\cal G(z):=(\mathcal Q-z)^{-1}$. We denote
+%\begin{equation}\label{m1m}m_1(z):=\frac1n\tr \cal G(z), \quad m(z)= \frac1p \left[ nm_1(z) + \frac{n_2-p}{z}\right].\ee
+%We can show that it satisfies the following self-consistent equations together with another $m_3(z)$:
+%\begin{align}\label{m13}
+%\frac{n_2}{n}\frac1{m_1} = - z +\frac1n\sum_{i=1}^p \frac{d_i^2}{ m_3 + d_i^2m_1  } ,\quad \frac{n_1}{n}\frac1{m_3} = 1 +\frac1n\sum_{i=1}^p \frac{1}{   m_3 + d_i^2m_1  } .
+%\end{align}
+%For these two equations, we can obtain one single equation for $m_1(z)$:
+%\begin{align}\label{m1}
+%m_3= 1-\frac pn + zm_1, \quad \frac{n_2}{n}\frac1{m_1} = - z +\frac1n\sum_{i=1}^p \frac{d_i^2}{ 1-\frac pn + (z + d_i^2)m_1  }  .
+%\end{align}
+%One can solve the above equation for $m_1$ with positive imaginary parts, and then calculate $m(z)$ using \eqref{m1m}.
+%
+%With $m(z)$, we can define
+%$$\rho_c(z):=\frac1\pi \lim_{\eta\downarrow 0} m(z).$$
+%It will be a compact supported probability density which gives the eigenvalue distribution of $Q$. Moreover, we have
+%$$\frac{1}{p}\tr \frac1{(\Sigma_1^{1/2}  X_1^T X_1 \Sigma_1^{1/2})^{-1}   \Sigma_2^{1/2}  X_2^T X_2 \Sigma_2^{1/2} +1}\left(\frac1{(\Sigma_1^{1/2}  X_1^T X_1 \Sigma_1^{1/2})^{-1}   \Sigma_2^{1/2}  X_2^T X_2 \Sigma_2^{1/2} +1}\right)^T \approx \int \frac{\rho_c(x)}{(x+1)^2}{\rm d}x.$$
+%We know that
+%$$ m(z)=\int \frac{\rho_c(x)}{ x-z}{\rm d}x.$$
+%Hence we have
+%$$ m'(-1)=\int \frac{\rho_c(x)}{(x+1)^2}{\rm d}x.$$
+%
+%Moreover, the right edge $\lambda_+$ of $\rho_c$ gives the location of the largest eigenvalue, while the left edge $\lambda_-$  of $\rho_c$ gives the location of the smallest eigenvalue. They will provide the upper and lower bounds on the operator norm:
+%$$\frac{1}{1+\lambda_+}\le \frac1{(\Sigma_1^{1/2}  X_1^T X_1 \Sigma_1^{1/2})^{-1}   \Sigma_2^{1/2}  X_2^T X_2 \Sigma_2^{1/2} +1}\le \frac1{1+\lambda_-}.$$
+%The edges of the spectrum can be determined by solving the following equations of $(x,m_1)$:
+%$$\frac{n_2}{n}\frac1{m_1} = - x +\frac1n\sum_{i=1}^p \frac{d_i^2}{ 1-\frac pn + (x + d_i^2)m_1  } ,\quad  \frac{n_2}{n}\frac1{m_1^2} = \frac1n\sum_{i=1}^p \frac{d_i^2 (x+d_i^2)}{\left[ 1-\frac pn + (x + d_i^2)m_1 \right]^2 } .$$
+%The solutions for $x$ give the locations for the edges of the spectrum.
+%--------------------------------------
+
+
+
+\paragraph{Proof of Lemma \ref{lem_cov_shift}.}
+
+\begin{proof}
+{\color{blue}(revise the following proof)} We assume that $ \Sigma_1^{-1/2}\Sigma_2$ has eigendecomposition
+\be  \label{eigen}
+\Sigma_1^{-1/2}\Sigma_2^{1/2} = ODO^T ,\quad D=\text{diag}(d_1, \cdots, d_p).
+\ee
+Then by the rotational invariance of Gaussian matrices, we have
+$$\wt Q \overset{d}{=}\Sigma_1^{1/2} O \wt Q O^T \Sigma_1^{1/2},\quad \wt Q:=   X_1^T X_1  + D X_2^T X_2 D .$$
+Thus we study the spectrum of $\wt Q$ instead. We define $\cal G(z):= (\wt Q-z)^{-1}$ for $z\in \C_+$. With some random matrix tools, we have that
+$$\cal G(z) \approx \diag\left( \frac{1}{-z\left( 1+ m_3(z) + d_i^2 m_4(z)\right)}\right)_{1\le i \le p}= \frac{1}{-z\left( 1+ m_3(z) + D^2 m_4(z)\right)} $$
+{\cob in certain sense}. Here $m_{3,4}(z)$ satisfy the following self-consistent equations
+%$$\frac{1}{G_{ii}} \approx -z \left( 1+m_3 + d_i^2m_4 \right), \quad \frac{1}{G_{\mu\mu}} = -z(1+m_1), \ \ \mu\in \cal I_1,\quad \frac{1}{G_{\nu\nu}} = -z(1+m_2), \ \ \nu\in \cal I_2,$$
+%$$m_1= \frac1n\sum_{i}G_{ii}, \quad m_2= \frac1n\sum_{i}d_i^2 G_{ii}, \quad m_3 = \frac1n\sum_{\mu\in \cal I_1} G_{\mu\mu},\quad m_4 = \frac1n\sum_{\mu\in \cal I_2} G_{\mu\mu}.$$
+\begin{align}\label{m34}
+\frac{n_1}{n}\frac1{m_3} = - z +\frac1n\sum_{i=1}^p \frac1{  1+m_3 + d_i^2m_4  } ,\quad \frac{n_2}{n}\frac1{m_4} = - z +\frac1n\sum_{i=1}^p \frac{d_i^2 }{  1+m_3 + d_i^2m_4  }
+\end{align}
+When $z\to 0$, we shall have
+$$m_3(z)= - \frac{a_3}{z} + \OO(1), \quad m_4(z)= - \frac{a_4}{z} + \OO(1),\quad a_3,a_4>0.$$
+Then for $z\to0$, the equations in \eqref{m34} are reduced to
+\begin{align}\label{m35}
+\frac{n_1}{n}\frac{1}{a_3} = 1 +\frac1n\sum_{i=1}^p \frac{1}{a_3 + d_i^2a_4  } ,\quad \frac{n_2}{n}\frac1{a_4} = 1 +\frac1n\sum_{i=1}^p \frac{d_i^2 }{  a_3 + d_i^2 a_4 }.
+\end{align}
+First, it is easy to see that these equations are equivalent to
+\begin{align} a_3 + a_4 = 1- \gamma_n, \quad a_3 +\frac1n\sum_{i=1}^p \frac{a_3}{a_3 + d_i^2[(1-\gamma_n)-a_3]  }=c_n  .\end{align}
+Furthermore, we have
+\begin{align*}
+\tr (Q^{-1}) &= \lim_{z\to 0}\tr \left[\Sigma_1^{-1/2} O \cal G(z)O^T \Sigma_1^{-1/2}\right]
+=\tr \left[\Sigma_1^{-1/2} O  \left( \frac{1}{a_3 + D^2 a_4 }\right) O^T \Sigma_1^{-1/2}\right] \\
+&=\tr \left[\Sigma_1^{-1/2}  \frac{1}{a_3+ \Sigma_1^{-1}\Sigma_2 a_4} \Sigma_1^{-1/2}\right]=\tr \left[ \frac{1}{a_3\Sigma_1 + a_4\Sigma_2 } \right].
+\end{align*}
+\end{proof}
+
+%\section{The Case of Two Tasks}\label{sec_defspike}
+%We denote task 1 as the source, i.e. $\beta_1 = \beta_s$.
+%\subsection{Covariate Shift}
+%\subsection{Model Shift}
