@@ -1,75 +1,3 @@
-\section{Negative Transfer: The Limit Caused by Model Shifts}
-
-Next we describe lower bounds that guarantee negative transfer to complement Theorem \ref{thm_model_shift}.
-
-\begin{theorem}[Negative transfer under model shift]\label{thm_model_shift_neg}
-	In the setting of Theorem \ref{thm_model_shift}, we have $\te(\hat{\beta}_{s,t}) \ge \te(\hat{\beta}_t)$ when
-	\begin{align*}
-		\Delta_{\vari} \le \bigbrace{1 - 4\sqrt{\frac{p}{n_1}} - \frac{2p}{n_1}} {\Delta_{\beta}}
-	\end{align*}
-	In the special case that $\beta_s - \beta_t$ is i.i.d. with mean $0$ and variance $d^2$ and $\Sigma_1 = \id$, we can get a tighter lower bound that guarantees negative transfer when
-\begin{align}
-	\Delta_{\vari} \le \bigbrace{1 - \sqrt{\frac{p}{n_1}}}^4 \Delta_{\beta}.\label{eq_model_shift_neg}
-\end{align}
-
-\end{theorem}
-
-\medskip
-We describe examples based on Theorem \ref{thm_model_shift} and Theorem \ref{thm_model_shift_neg} to show several conceptual insights.
-
-\begin{example}[\textbf{The effect of $d$, the distance of task models}]
-	We consider a simple setting where $\Sigma_1 = \id$.
-	Suppose that $\beta_s - \beta_t$ is a vector with mean zero and variance $d^2$. Hence the task models have distance $d^2\cdot p$ in expectation.
-
-	We first consider $\Sigma_2 = \id$. In this case, we can simplify $\Delta_{\beta}$ as follows
-	\begin{align} \label{eq_delta_simple}
-		\Delta_{\beta} \define d^2 \cdot \sum_{i=1}^p \frac{(1 + a_3)\lambda_i^2 + a_4 \lambda_i^4}{(a_1 \lambda_i^2 + a_2)^2}.
-	\end{align}
-	Now we solve the equations \eqref{eq_a1}, \eqref{eq_a2}, \eqref{eq_a3}, \eqref{eq_a4} to get
-	\begin{align}
-		a_1 = \frac{c_1(c_1 + c_2 - 1)}{(c_1 + c_2)^2},
-		a_2 = \frac{c_2(c_1 + c_2 - 1)}{(c_1 + c_2)^2},
-		a_3 = \frac{c_2}{(c_1 + c_2)(c_1 + c_2 - 1)},
-		a_4 = \frac{c_1}{(c_1 + c_2)(c_1 + c_2 - 1)}.
-	\end{align}
-%{\color{blue}if $\Sigma_1=\Sigma_2=\id$, then
-%	\begin{align}
-%		a_1 = c_1 \left( 1- \gamma_n\right) , \quad
-%		a_2 = c_2 \left( 1- \gamma_n\right), \quad
-%		a_3 = \frac{\gamma_n c_2}{1-\gamma_n}, \quad
-%		a_4 =  \frac{\gamma_n c_1}{1-\gamma_n}.
-%	\end{align}
-%	where $\gamma_n=p/n$, $c_1=n_1/n$, and $c_2=n_2/n$.
-%}
-
-	Then we obtain
-	\begin{align}
-		\Delta_{\beta} = p \cdot d^2 \cdot \frac{c_1^2 (c_1 + c_2)}{(c_1 + c_2 - 1)^3},
-		\Delta_{\vari} = \sigma^2 \cdot \frac{c_1}{(c_2 - 1)(c_1 + c_2 - 1)}.
-	\end{align}
-
-	We demonstrate our result with a simulation.
-	We consider a setting where $p = 200$, $n_1 = 90p$, $n_2 = 30p$.
-	\todo{Fill in other params.}
-	We fix the target task and vary the source task, by varying the task model distance parameter $d$.
-	We show that Theorem \ref{thm_model_shift} predicts whether we can get positive or negative transfer.
-	Figure \ref{fig_model_shift_phasetrans} shows the result.
-	We obtain the following insight from the simulation.
-	\begin{itemize}
-		\item Adding the source task has the effect of reducing the variance of the estimator, independent of the model shift.
-		\item Model shift introduces an additional bias term, which scales with $d^2$, the distance of the two task models.
-		Hence, the type of transfer is determined by the tradeoff between the bias caused by model shift and the reduction of variance.
-	\end{itemize}
-\end{example}
-
-\begin{figure}
-	\centering
-	\includegraphics[width=0.5\textwidth]{figures/model_shift_phase_transition.eps}
-	\caption{Positive vs negative transfer as a parameter of the task model distances.}
-	\label{fig_model_shift_phasetrans}
-\end{figure}
-
-
 \section{The De-Noising Effect of Multi-Task Learning}
 
 
@@ -78,7 +6,7 @@ From \cite{WZR20}, we know that either we need to explicitly restrict the capaci
 \todo{We focus on the former case in this section.}
 Following \cite{WZR20}, we consider the case when $r=1$ since there are only two tasks.
 
-\subsubsection{The Objective with Shared Weights}
+\subsection{The Objective with Shared Weights}
 
 We begin by considering the simplified equation \eqref{eq_mtl_basic} to solve for the target task.
 By putting the two tasks together, we get
@@ -188,9 +116,6 @@ For the test error on the target task, the improvement from adding the source ta
 
 %We calculate the amount of improvement by comparing equation \eqref{eq_two_task} to equation \eqref{eq_target_task}.
 We can get a precise result on the improvement of adding the source task data that only depends on the covariance matrices $\Sigma_1, \Sigma_2$ and the number of data points $n_1, n_2$.
-We shall consider the high-dimensional setting such that
-$$\gamma_n:= \frac{p} {n_1 + n_2} \to \gamma,\quad c_n:= \frac{n_1}{n_1 + n_2} \to c, \quad \text{as } \ n_1, n_2\to \infty, $$
-for some constants $\gamma\in (0,\infty)$ and $c \in (0,1)$.
 
 \begin{theorem}[Positve transfer rate under covariate shift]\label{thm_cov_shift}
 	Let $\lambda_1, \lambda_2, \dots, \lambda_p$ denote the singular values of $\Sigma_1^{1/2}\Sigma_2^{-1/2}$.
@@ -302,4 +227,76 @@ For now, we assume that the random variables $x_{ij}$ are i.i.d. Gaussian, but w
 	\[ \bigtr{(X_2^{\top}X_2)^{-1}} = \frac{1}{n_2-p}\bigtr{\frac 1 {\Sigma_2}} + \bigo{\frac{1}{n_2^{1-\varepsilon}}}. \]
 \end{lemma}
 
+
+
+\section{Negative Transfer: The Limit Caused by Model Shifts}
+
+Next we describe lower bounds that guarantee negative transfer to complement Theorem \ref{thm_model_shift}.
+
+\begin{theorem}[Negative transfer under model shift]\label{thm_model_shift_neg}
+	In the setting of Theorem \ref{thm_model_shift}, we have $\te(\hat{\beta}_{s,t}) \ge \te(\hat{\beta}_t)$ when
+	\begin{align*}
+		\Delta_{\vari} \le \bigbrace{1 - 4\sqrt{\frac{p}{n_1}} - \frac{2p}{n_1}} {\Delta_{\beta}}
+	\end{align*}
+	In the special case that $\beta_s - \beta_t$ is i.i.d. with mean $0$ and variance $d^2$ and $\Sigma_1 = \id$, we can get a tighter lower bound that guarantees negative transfer when
+\begin{align}
+	\Delta_{\vari} \le \bigbrace{1 - \sqrt{\frac{p}{n_1}}}^4 \Delta_{\beta}.\label{eq_model_shift_neg}
+\end{align}
+
+\end{theorem}
+
+\medskip
+We describe examples based on Theorem \ref{thm_model_shift} and Theorem \ref{thm_model_shift_neg} to show several conceptual insights.
+
+\begin{example}[\textbf{The effect of $d$, the distance of task models}]
+	We consider a simple setting where $\Sigma_1 = \id$.
+	Suppose that $\beta_s - \beta_t$ is a vector with mean zero and variance $d^2$. Hence the task models have distance $d^2\cdot p$ in expectation.
+
+	We first consider $\Sigma_2 = \id$. In this case, we can simplify $\Delta_{\beta}$ as follows
+	\begin{align} \label{eq_delta_simple}
+		\Delta_{\beta} \define d^2 \cdot \sum_{i=1}^p \frac{(1 + a_3)\lambda_i^2 + a_4 \lambda_i^4}{(a_1 \lambda_i^2 + a_2)^2}.
+	\end{align}
+	Now we solve the equations \eqref{eq_a1}, \eqref{eq_a2}, \eqref{eq_a3}, \eqref{eq_a4} to get
+	\begin{align}
+		a_1 = \frac{c_1(c_1 + c_2 - 1)}{(c_1 + c_2)^2},
+		a_2 = \frac{c_2(c_1 + c_2 - 1)}{(c_1 + c_2)^2},
+		a_3 = \frac{c_2}{(c_1 + c_2)(c_1 + c_2 - 1)},
+		a_4 = \frac{c_1}{(c_1 + c_2)(c_1 + c_2 - 1)}.
+	\end{align}
+%{\color{blue}if $\Sigma_1=\Sigma_2=\id$, then
+%	\begin{align}
+%		a_1 = c_1 \left( 1- \gamma_n\right) , \quad
+%		a_2 = c_2 \left( 1- \gamma_n\right), \quad
+%		a_3 = \frac{\gamma_n c_2}{1-\gamma_n}, \quad
+%		a_4 =  \frac{\gamma_n c_1}{1-\gamma_n}.
+%	\end{align}
+%	where $\gamma_n=p/n$, $c_1=n_1/n$, and $c_2=n_2/n$.
+%}
+
+	Then we obtain
+	\begin{align}
+		\Delta_{\beta} = p \cdot d^2 \cdot \frac{c_1^2 (c_1 + c_2)}{(c_1 + c_2 - 1)^3},
+		\Delta_{\vari} = \sigma^2 \cdot \frac{c_1}{(c_2 - 1)(c_1 + c_2 - 1)}.
+	\end{align}
+
+	We demonstrate our result with a simulation.
+	We consider a setting where $p = 200$, $n_1 = 90p$, $n_2 = 30p$.
+	\todo{Fill in other params.}
+	We fix the target task and vary the source task, by varying the task model distance parameter $d$.
+	We show that Theorem \ref{thm_model_shift} predicts whether we can get positive or negative transfer.
+	Figure \ref{fig_model_shift_phasetrans} shows the result.
+	We obtain the following insight from the simulation.
+	\begin{itemize}
+		\item Adding the source task has the effect of reducing the variance of the estimator, independent of the model shift.
+		\item Model shift introduces an additional bias term, which scales with $d^2$, the distance of the two task models.
+		Hence, the type of transfer is determined by the tradeoff between the bias caused by model shift and the reduction of variance.
+	\end{itemize}
+\end{example}
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.5\textwidth]{figures/model_shift_phase_transition.eps}
+	\caption{Positive vs negative transfer as a parameter of the task model distances.}
+	\label{fig_model_shift_phasetrans}
+\end{figure}
 
