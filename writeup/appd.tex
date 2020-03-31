@@ -1,3 +1,4 @@
+
 \appendix
 
 \section{Proof of Lemma \ref{lem_cov_shift}} %\label{sec_maintools}
@@ -30,7 +31,7 @@ We assume that there exists a small constant $\tau>0$ such that %for all $N$ lar
 \end{equation}
 We assume that $M:=\Sig_1^{1/2} \Sig_2^{-1/2}$ has singular value decomposition
 \be\label{eigen2}
-M= U\Lambda V^\top, \quad \Lambda=\text{diag}( \lambda^{(2)}_1, \ldots, \lambda^{(2)}_N).
+M= U\Lambda V^\top, \quad \Lambda=\text{diag}( \sigma, \ldots, \sigma_p).
 \ee
 Note that \eqref{assm3} implies  
 \begin{equation}\label{assm32}
@@ -128,7 +129,9 @@ Our main goal is to study the following matrix inverse
 Using \eqref{eigen2}, we can rewrite it as
 $$\Sigma_2^{-1/2}V\left(   \Lambda U^\top Z_1^\top Z_1 U\Lambda  + V^\top Z_2^\top Z_2V\right)^{-1}V^\top\Sigma_2^{-1/2}$$
 For this purpose, we shall study the following matrix for $z\in \C_+$, 
-$$\cal G(z):=\left(   \Lambda U^\top Z_1^\top Z_1 U\Lambda  + V^\top Z_2^\top Z_2V -z\right)^{-1},\quad z\in \C_+,$$
+\be\label{mainG}
+\cal G(z):=\left(   \Lambda U^\top Z_1^\top Z_1 U\Lambda  + V^\top Z_2^\top Z_2V -z\right)^{-1},\quad z\in \C_+,
+\ee
 which we shall refer to as resolvent (or Green's function).
 
 Now we introduce a convenient self-adjoint linearization trick. This idea dates back at least to Girko, see e.g., the works \cite{girko2012theory,girko1975random,girko1985spectral} and references therein. It has been proved to be useful in studying the local laws of random matrices of the Gram type \cite{Alt_Gram, AEK_Gram, Anisotropic, XYY_circular}. We define the following $(p+n_1+n_2)\times (p+n_1+n_2)$ self-adjoint block matrix, which is a linear function of $X$:
@@ -157,32 +160,28 @@ Then we define its resolvent (Green's function) as
 %$$\lambda_i(H)=0, \ \ n\wedge N + 1 \le i \le n\vee N.$$
 %where we used the notations $n\wedge N:=\min\{N,M\}$ and $n\vee N:=\max\{N,M\}$. 
 
-\cob
-\begin{definition}[Index sets]\label{def_index}
+
+%\begin{definition}[Index sets]\label{def_index}
 For simplicity of notations, we define the index sets
-$$\cal I_1:=\llbracket 1,p\rrbracket, \ \quad \ \cal I_2:=\llbracket p+1,p+q\rrbracket,$$
-and 
-$$\cal I_3:=\llbracket p+q+1,p+q+n\rrbracket, \ \quad \ \cal I_4:=\llbracket p+q+n+1,p+q+2n\rrbracket. $$
- We will consistently use the latin letters $i,j\in\sI_{1,2}$ and greek letters $\mu,\nu\in\sI_{3,4}$. Moreover, we shall use the notations $\fa,\fb\in \cal I:=\cup_{i=1}^4 \cal I_i$. We label the indices of the matrices according to
- $$X= (x_{i\mu}:i\in \mathcal I_1, \mu \in \mathcal I_3), \quad Y= (y_{j\nu}:j\in \mathcal I_2, \nu \in \mathcal I_4).$$
-Moreover, we denote $\overline i:= i+p$ for $i\in \cal I_1$, $\overline j:= j-p$ for $j\in \cal I_2$, $\overline \mu : = \mu +n $ for $\mu \in \cal I_3$, and $\overline \nu : = \nu - n $ for $\nu \in \cal I_4$. 
-\end{definition}
-
-
-\begin{definition}[Resolvents]\label{resol_not}
+$$\cal I_1:=\llbracket 1,p\rrbracket, \ \quad \ \cal I_2:=\llbracket p+1,p+n_1\rrbracket, \quad \cal I_3:=\llbracket p+n_1+1,p+n_1+n_2\rrbracket .$$
+ We will consistently use the latin letters $i,j\in\sI_{1}$ and greek letters $\mu,\nu\in\sI_{2}\cup \sI_{3}$. Moreover, we shall use the notations $\fa,\fb\in \cal I:=\cup_{i=1}^3 \cal I_i$. We label the indices of the matrices according to
+ $$Z_1= (z_{\mu i}:i\in \mathcal I_1, \mu \in \mathcal I_2), \quad Z_2= (z_{i\nu}:i\in \mathcal I_1, \nu \in \mathcal I_3).$$
+%Moreover, we denote $\overline i:= i+p$ for $i\in \cal I_1$, $\overline j:= j-p$ for $j\in \cal I_2$, $\overline \mu : = \mu +n $ for $\mu \in \cal I_3$, and $\overline \nu : = \nu - n $ for $\nu \in \cal I_4$. 
+%\end{definition}
+%\begin{definition}[Resolvents]\label{resol_not}
 %For $z = E+ \ii \eta \in \mathbb C_+,$ we define the resolvents $G(z)$. 
-We denote the $\cal I_\al \times \cal I_\al$ block of $ G(z)$ by $ \cal G_\al(z)$ for $\al=1,2,3,4$. We denote the $(\cal I_1\cup \cal I_2)\times (\cal I_1\cup \cal I_2)$ block of $ G(z)$ by $ \cal G_L(z)$, the $(\cal I_1\cup \cal I_2)\times (\cal I_3\cup \cal I_4)$ block by $ \cal G_{LR}(z)$, the $(\cal I_3\cup \cal I_4)\times (\cal I_1\cup \cal I_2)$ block  by $ \cal G_{RL}(z)$, and the $(\cal I_3\cup \cal I_4)\times (\cal I_3\cup \cal I_4)$ block by $ \cal G_R(z)$. We introduce the following random quantities:
-$$ m_\al(z) :=\frac1n\tr  \cal G_{\al}(z) = \frac{1}{n}\sum_{\fa \in \cal I_\al}  G_{\fa\fa}(z) ,\quad \al=1,2,3,4. $$
-Recalling the notations in \eqref{def Sxy}, we define $\cal H:=S_{xx}^{-1/2}S_{xy}S_{yy}^{-1/2}$ and
-\be\label{Rxy}
-\begin{split}
- R_1(z):=(\cal C_{XY}-z)^{-1}&=(\cal H\cal H^T-z)^{-1}, \\
- R_2(z):=(\cal C_{YX}-z)^{-1}&=(\cal H^T\cal H-z)^{-1},  \quad m(z):= q^{-1}\tr  R_2(z).
- \end{split}
-\ee
-Note that we have $R_1\cal H = \cal HR_2$, $\cal H^T R_1 = R_2 \cal H^T $, and 
-\be\label{R12} \tr  R_1 = \tr  R_2 - \frac{p-q}{z}= q  m(z) - \frac{p-q}{z},\ee
-since $\cal C_{XY}$ has $(p-q)$ more zeros eigenvalues than $\cal C_{YX}$. 
+Then we denote the $\cal I_\al \times \cal I_\beta$ block of $ G(z)$ by $ \cal G_{\al\beta}(z)$ for $\al,\beta=1,2,3$. Moreover,  we denote the $\cal I_1 \times \cal I_1$ block of $ G(z)$ by $ \cal G_{L}(z)$, the $\cal I_1 \times (\cal I_2 \cup \cal I_3)$ by $\cal G_{LR}$, the $ (\cal I_2 \cup \cal I_3)\times \cal I_1$ block by $\cal G_{RL}$, and the $ (\cal I_2 \cup \cal I_3)\times (\cal I_2 \cup \cal I_3)$ block by $\cal G_R$. 
+%We denote the $(\cal I_1\cup \cal I_2)\times (\cal I_1\cup \cal I_2)$ block of $ G(z)$ by $ \cal G_L(z)$, the $(\cal I_1\cup \cal I_2)\times (\cal I_3\cup \cal I_4)$ block by $ \cal G_{LR}(z)$, the $(\cal I_3\cup \cal I_4)\times (\cal I_1\cup \cal I_2)$ block  by $ \cal G_{RL}(z)$, and the $(\cal I_3\cup \cal I_4)\times (\cal I_3\cup \cal I_4)$ block by $ \cal G_R(z)$. 
+%Recalling the notations in \eqref{def Sxy}, we define $\cal H:=S_{xx}^{-1/2}S_{xy}S_{yy}^{-1/2}$ and
+%\be\label{Rxy}
+%\begin{split}
+% R_1(z):=(\cal C_{XY}-z)^{-1}&=(\cal H\cal H^T-z)^{-1}, \\
+% R_2(z):=(\cal C_{YX}-z)^{-1}&=(\cal H^T\cal H-z)^{-1},  \quad m(z):= q^{-1}\tr  R_2(z).
+% \end{split}
+%\ee
+%Note that we have $R_1\cal H = \cal HR_2$, $\cal H^T R_1 = R_2 \cal H^T $, and 
+%\be\label{R12} \tr  R_1 = \tr  R_2 - \frac{p-q}{z}= q  m(z) - \frac{p-q}{z},\ee
+%since $\cal C_{XY}$ has $(p-q)$ more zeros eigenvalues than $\cal C_{YX}$. 
 %Finally, we can define ${\cal G}^b_L(z)$, ${\cal G}^b_R(z)$, $ m^b_\al(z)$, $\cal H^b$, $R_{1,2}^b$, etc.\;in the obvious way by replacing $Y$ with $\cal Y$. 
 %for $\wt {\mathcal Q}_{1,2}$ as
 %\begin{equation}\label{def_green}
@@ -194,247 +193,370 @@ since $\cal C_{XY}$ has $(p-q)$ more zeros eigenvalues than $\cal C_{YX}$.
 %\ee
 %We also introduce the following quantities:
 %$$m_1(z)\equiv m_1^{(n)}(z):= \frac{1}{N}\sum_{i=1}^n\sigma_i (\mathcal G_1)_{ii}(z) ,\quad m_2(z)\equiv m_2^{(N)}(x):=\frac{1}{N}\sum_{\mu=1}^N \wt\sigma_\mu (\mathcal G_2)_{\mu\mu}(z). $$
-\end{definition}
-
-
-%Moreover, all the discussions below also hold for resolvents with superscript ``$b$", but we do not write them down in order to simplify the presentation. 
-
-
-%We can write the equation \eqref{deteq} as
-%\be\label{det perturb}\det \left[ G(\lambda)^{-1} + \begin{pmatrix} 0 & \begin{pmatrix} TY & 0\\ 0 &T^T X\end{pmatrix}\\ \begin{pmatrix} X^TT^T & 0\\ 0 & \cal Y^T T\end{pmatrix}  & 0\end{pmatrix} \right] =0.\ee
-%We denote the $i$-th row of $X$ (or $Y$) as $\bx^T_i$ (or $\by^T_i$), and $X^T_1$ (or $Y^T_1$) be the sub-matrix consists of the first $r$ rows of $X$ (or Y). Denote 
-%$$D= \diag \left( t_1, \cdots, t_r\right),\quad \cal D= \diag \left( t_1, \cdots, t_r, t_1, \cdots, t_r\right),\quad \bE = (\mathbf e_1, \cdots, \mathbf e_r, \mathbf e_{p+1}, \cdots, \mathbf e_{p+r}), $$ 
-%where $\mathbf e_i$'s are the standard basis vectors in $\C^{p+q}$. Then we can write 
-%$$\begin{pmatrix} 0 & \begin{pmatrix} TY & 0\\ 0 &T^T X\end{pmatrix}\\ \begin{pmatrix} X^TT^T & 0\\ 0 & \cal Y^T T\end{pmatrix}  & 0\end{pmatrix} = \begin{pmatrix} \bE & 0 \\ 0 & \bU\end{pmatrix}\begin{pmatrix} 0 & \cal D\\ \cal D  & 0\end{pmatrix}\begin{pmatrix} \bE^T & 0 \\ 0 & \bU^T\end{pmatrix},$$
-%where
-%$$\bU:=\begin{pmatrix} Y_1 & 0\\ 0 & X_1\end{pmatrix}.$$
-%If $\lambda$ is such that $\det(G(\lambda))\ne 0$, then \eqref{det perturb} is equivalent to 
-%\be\label{det per1}
-%\det \left[ \begin{pmatrix} 0 & \cal D^{-1}\\ \cal D^{-1}  & 0\end{pmatrix} + \begin{pmatrix} \bE^T & 0 \\ 0 & \bU^T\end{pmatrix} G(\lambda)\begin{pmatrix} \bE & 0 \\ 0 & \bU\end{pmatrix} \right] =0. 
-%\ee
-%Using \eqref{eq local}, we roughly have
-%\be\label{det per2}
-%\det \left[ \begin{pmatrix} 0 & \cal D^{-1}\\ \cal D^{-1}  & 0\end{pmatrix} + \begin{pmatrix} \bE^T & 0 \\ 0 & \bU^T\end{pmatrix} G(\lambda)\begin{pmatrix} \bE & 0 \\ 0 & \bU\end{pmatrix} \right] =0. 
-%\ee
-
-By Schur complement formula, we immediately obtain that
-%\begin{align*}
-%\cal G_L &=-\left[ \begin{pmatrix}  X & 0 \\ 0 &  Y \end{pmatrix} \begin{pmatrix}  z  I_n & z^{1/2}I_n\\ z^{1/2}I_n &  z  I_n\end{pmatrix} \begin{pmatrix} X^T & 0 \\ 0 & Y^T \end{pmatrix} \right]^{-1} \\
-%&= \begin{pmatrix} \cal G_1 & - z^{-1/2}\cal G_1(XY^T)(YY^T)^{-1}\\ - z^{-1/2}(YY^T)^{-1}(YX^T) \cal G_1 & \cal G_2\end{pmatrix} \\
-%&= \begin{pmatrix} \cal G_1 & - z^{-1/2}(XX^T)^{-1}(XY^T)\cal G_2\\ - z^{-1/2}\cal G_2 (YX^T) (XX^T)^{-1}  & \cal G_2\end{pmatrix}
-%\end{align*}
-\be\label{GL1}
+%\end{definition}
+For simplicity, we will denote $Y_1:=Z_1 U\Lambda $, $Y_2:=Z_2V$ and $W:=(Y_1^\top, Y_2^\top)$. By Schur complement formula, one can find that (recall \eqref{mainG})
+\be \label{green2}
 \begin{split}
- \cal G_L & = \begin{pmatrix} S_{xx}^{-1/2}R_1S_{xx}^{-1/2} & - z^{-1/2}S_{xx}^{-1/2}R_1\cal HS_{yy}^{-1/2} \\ - z^{-1/2}S_{yy}^{-1/2}\cal H^T R_1S_{xx}^{-1/2} & S_{yy}^{-1/2}R_2S_{yy}^{-1/2}\end{pmatrix}, % \\
-%&= \begin{pmatrix} S_{xx}^{-1/2}R_1S_{xx}^{-1/2} & - z^{-1/2}S_{xx}^{-1/2}\cal H R_2 S_{yy}^{-1/2} \\ - z^{-1/2}S_{yy}^{-1/2}R_2\cal H ^T S_{xx}^{-1/2} & S_{yy}^{-1/2}R_2S_{yy}^{-1/2}\end{pmatrix} 
+& \cal G_{11}=\left(WW^\top -z \right)^{-1} =\cal G ,\quad \cal G_{LR}=\cal G_{RL}^\top  = \cal G W , \quad \cal G_R:= \begin{pmatrix}\cal G_{22} & \cal G_{23} \\ \cal G_{32} & \cal G_{33}\end{pmatrix}= z\left(W^\top W - z\right)^{-1}.
 \end{split}
 \ee
-and
-\begin{equation*}
-\begin{split}\cal G_1= S_{xx}^{-1/2}R_1S_{xx}^{-1/2} = \left(S_{xy}S_{yy}^{-1}S_{yx} - z S_{xx}\right)^{-1}, \\ \cal G_2 = S_{yy}^{-1/2}R_2S_{yy}^{-1/2}= \left(S_{yx}S_{xx}^{-1}S_{xy}  - z S_{yy}\right)^{-1}.
-\end{split}
-\end{equation*}
-The other blocks are
-\be\label{GR1}
-\cal G_R =   \begin{pmatrix}  z  I_n & z^{1/2}I_n\\ z^{1/2}I_n &  z  I_n\end{pmatrix} +   \begin{pmatrix}  z  I_n & z^{1/2}I_n\\ z^{1/2}I_n &  z  I_n\end{pmatrix}  \begin{pmatrix} X^T & 0 \\ 0 & Y^T \end{pmatrix} \cal G_L \begin{pmatrix} X & 0 \\ 0 &  Y \end{pmatrix} \begin{pmatrix}  z  I_n & z^{1/2}I_n\\ z^{1/2}I_n &  z  I_n\end{pmatrix}  ,
-\ee
-and
-\be\label{GLR1}
-\begin{split}
-&{\cal G}_{LR}(z)= -\cal G_L(z) \begin{pmatrix} X & 0 \\ 0 &  Y \end{pmatrix} \begin{pmatrix}  z  I_n & z^{1/2}I_n\\ z^{1/2}I_n &  z  I_n\end{pmatrix}  , \\ 
-&{\cal G}_{RL}(z)= -  \begin{pmatrix}  z  I_n & z^{1/2}I_n\\ z^{1/2}I_n &  z  I_n\end{pmatrix}  \begin{pmatrix} X^T & 0 \\ 0 & Y^T \end{pmatrix} {\cal G}_L(z).
+Thus a control of $G$ yields directly a control of the resolvent $\mathcal G$. We also introduce the following random quantities (some partial traces and weighted partial traces):
+\be\label{defm}
+\begin{split} 
+m(z) :=\frac1n\sum_{i \in \cal I_1}G_{ii}(z)=\frac1n \tr \cal G(z),\quad & m_1(z):=\frac1n\sum_{i \in \cal I_1}\sigma_i^2 G_{ii}(z),\\
+ m_2(z):= \frac{1}{n}\sum_{\mu \in \cal I_2}G_{\mu\mu}(z) = \frac1n \tr \cal G_{22}(z),\quad & m_3(z):= \frac{1}{n}\sum_{\mu \in \cal I_3}G_{\mu\mu}(z) = \frac1n \tr \cal G_{33}(z).
 \end{split}
 \ee
-\nc
-
-
-By Schur complement formula, we can verify that the (recall \eqref{def_green})
-\begin{align} 
-G = \left( {\begin{array}{*{20}c}
-   { z\mathcal G_1} & \mathcal G_1 \Sig^{1/2} U^{*}X V\tilde \Sig^{1/2}  \\
-   {\tilde\Sig^{1/2}V^*X^* U\Sig^{1/2} \mathcal G_1} & { \mathcal G_2 }  \\
-\end{array}} \right) = \left( {\begin{array}{*{20}c}
-   { z\mathcal G_1} & \Sig^{1/2} U^{*}X V\tilde \Sig^{1/2} \mathcal G_2   \\
-   {\mathcal G_2}\tilde\Sig^{1/2}V^*X^* U\Sig^{1/2} & { \mathcal G_2 }  \\ 
-\end{array}} \right). \label{green2}
-\end{align}
+%Now using Schur complement formula, we can verify that the (recall \eqref{def_green})
+%\begin{align} 
+%G = \left( {\begin{array}{*{20}c}
+%   { z\mathcal G_1} & \mathcal G_1 \Sig^{1/2} U^{*}X V\tilde \Sig^{1/2}  \\
+%   {\tilde\Sig^{1/2}V^*X^* U\Sig^{1/2} \mathcal G_1} & { \mathcal G_2 }  \\
+%\end{array}} \right) = \left( {\begin{array}{*{20}c}
+%   { z\mathcal G_1} & \Sig^{1/2} U^{*}X V\tilde \Sig^{1/2} \mathcal G_2   \\
+%   {\mathcal G_2}\tilde\Sig^{1/2}V^*X^* U\Sig^{1/2} & { \mathcal G_2 }  \\ 
+%\end{array}} \right). \label{green2}
+%\end{align}
 %where $\mathcal G_{1,2}$ are defined in (\ref{def_green}). 
-Thus a control of $G$ yields directly a control of the resolvents $\mathcal G_{1,2}$. For simplicity of notations, we define the index sets
-%By (\ref{green2}), we immediately get that
-%$$m_1^{(n)}(z):= \frac{1}{Nz}\sum_{i=1}^n\sigma_i G_{ii}(z) ,\quad m_2^{(N)}(x):=\frac{1}{N}\sum_{\mu=1}^N \tilde\sigma_\mu (\mathcal G_2)_{\mu\mu}(z). $$
-%\end{definition}
-%\begin{definition}[Index sets]\label{def_index} 
-%We define the index sets
-\[\mathcal I_1:=\{1,...,n\}, \quad \mathcal I_2:=\{n+1,...,n+N\}, \quad \mathcal I:=\mathcal I_1\cup\mathcal I_2.\]
-Then we label the indices of the matrices according to 
-$$X= (X_{i\mu}:i\in \mathcal I_1, \mu \in \mathcal I_2), \quad A=(A_{ij}: i,j\in \mathcal I_1),\quad B=(B_{\mu\nu}: \mu,\nu\in \mathcal I_2).$$  
-In the rest of this paper, %whenever referring to the entries of $H$ and $G$, 
-we will consistently use the latin letters $i,j\in\mathcal I_1$, greek letters $\mu,\nu\in\mathcal I_2$, and $a,b\in\mathcal I$. 
-%\cor (do we need this notations?) For $1\le i \le \min\{N,M\}$ and $M+1 \le \mu  \le M+\min\{N,M\}$, we introduce the notations $\bar i:=i+M \in \mathcal I_2$ and $\bar\mu:=\mu-M \in \mathcal I_1$. For any $\mathcal I \times \mathcal I$ matrix $A$, we define the following $2\times 2$ submatrices %$A_{[ij]}$
-%\begin{equation}\label{Aij_group}
-%A_{[ij]}=\left( {\begin{array}{*{20}c}
-%   {A_{ij} } & {A_{i\bar j} }  \\
-%   {A_{\bar i j} } & {A_{\bar i\bar j} }  \\
-%\end{array}} \right), \ \ 1\le i,j \le \min\{N,M\}.
-%\end{equation}
-%We shall call $A_{[ij]}$ a {\it{diagonal group}} if $i=j$, and an {\it{off-diagonal group}} otherwise. \nc
-%\end{definition}
+
 
  
 Next we introduce the spectral decomposition of $G$. Let
-$$\Sig^{1/2} U^{*}X V\tilde \Sig^{1/2}  = \sum_{k = 1}^{n\wedge N} {\sqrt {\lambda_k} \xi_k } \zeta _{k}^* ,$$
-be a singular value decomposition of $\Sig^{1/2} U^{*}X V\tilde \Sig^{1/2}$, where
-$$\lambda_1\ge \lambda_2 \ge \ldots \ge \lambda_{n\wedge N} \ge 0 = \lambda_{n\wedge N+1} = \ldots = \lambda_{n\vee N},$$
-$\{\xi_{k}\}_{k=1}^{n}$ are the left-singular vectors, and $\{\zeta_{k}\}_{k=1}^{N}$ are the right-singular vectors.
+$$W= \sum_{k = 1}^{p} {\sqrt {\lambda_k} \xi_k } \zeta _{k}^* ,$$
+be a singular value decomposition of $(Y_1^\top, Y_2^\top)$, where
+$$\lambda_1\ge \lambda_2 \ge \ldots \ge \lambda_{p} \ge 0 = \lambda_{p+1} = \ldots = \lambda_{n},$$
+$\{\xi_{k}\}_{k=1}^{p}$ are the left-singular vectors, and $\{\zeta_{k}\}_{k=1}^{n_1+n_2}$ are the right-singular vectors.
 %orthonormal bases of $\mathbb R^{\mathcal I_1}$ and $\mathbb R^{\mathcal I_2}$, respectively. 
 Then using (\ref{green2}), we can get that for $i,j\in \mathcal I_1$ and $\mu,\nu\in \mathcal I_2$,
 \begin{align}
-G_{ij} = \sum_{k = 1}^{n} \frac{z\xi_k(i) \xi_k^*(j)}{\lambda_k-z},\ \quad \ &G_{\mu\nu} = \sum_{k = 1}^{N} \frac{\zeta_k(\mu) \zeta_k^*(\nu)}{\lambda_k-z}, \label{spectral1}\\
-G_{i\mu} = \sum_{k = 1}^{n\wedge N} \frac{\sqrt{\lambda_k}\xi_k(i) \zeta_k^*(\mu)}{\lambda_k-z}, \ \quad \ &G_{\mu i} = \sum_{k = 1}^{n\wedge N} \frac{\sqrt{\lambda_k}\zeta_k(\mu) \xi_k^*(i)}{\lambda_k-z}.\label{spectral2}
+& G_{ij} = \sum_{k = 1}^{p} \frac{\xi_k(i) \xi_k^*(j)}{\lambda_k-z}, \quad G_{\mu\nu} = 
+%z\sum_{k = 1}^{n} \frac{\zeta_k(\mu) \zeta_k^*(\nu)}{\lambda_k-z}=
+z\sum_{k = 1}^{p} \frac{\zeta_k(\mu) \zeta_k^*(\nu)}{\lambda_k-z} - \sum_{k = p+1}^{n}  \zeta_k(\mu) \zeta_k^*(\nu) , \label{spectral1}\\
+& G_{i\mu} = \sum_{k = 1}^{p} \frac{\sqrt{\lambda_k}\xi_k(i) \zeta_k^*(\mu)}{\lambda_k-z},  \quad G_{\mu i} = \sum_{k = 1}^{p} \frac{\sqrt{\lambda_k}\zeta_k(\mu) \xi_k^*(i)}{\lambda_k-z}.\label{spectral2}
 \end{align}
 
-We denote the eigenvalues of $\mathcal Q_1$ and $\mathcal Q_2$ in descending order by $\lambda_1(\mathcal Q_1)\geq \ldots \geq \lambda_{p}(\mathcal Q_1)$ and $\lambda_1(\mathcal Q_2) \geq \ldots \geq \lambda_p(\mathcal Q_2)$. Since $\mathcal Q_1$ and $\mathcal Q_2$ share the same nonzero eigenvalues, we will for simplicity write $\lambda_j$, $1\le j \le N\wedge n$, to denote the $j$-th eigenvalue of both $\mathcal Q_1$ and $\mathcal Q_2$ without causing any confusion. 
-
-
-\cob 
-
-\subsection{Resolvents and limiting law}
-
-In this paper, we will study the eigenvalue statistics of $\mathcal Q_{1}$ and $\mathcal Q_2$ through their {\it{resolvents}} (or  {\it{Green's functions}}). It is equivalent to study the matrices 
-\be\label{Qtilde}
-\wt{\mathcal Q}_1(X):=\Sig^{1/2} U^{*}XBX^*U\Sig^{1/2}, \quad \wt{\mathcal Q}_2(X):=\wt\Sig^{1/2}V^*X^* A X V\wt \Sig^{1/2}.
-\ee
-In this paper, we shall denote the upper half complex plane and the right half real line by 
-$$\mathbb C_+:=\{z\in \mathbb C: \im z>0\}, \quad \mathbb R_+:=[0,\infty).$$ %\quad  \mathbb R_*:=(0,\infty).$$
-
-\begin{definition}[Resolvents]\label{resol_not}
-For $z = E+ \ii \eta \in \mathbb C_+,$ we define the resolvents for $\wt {\mathcal Q}_{1,2}$ as
-\begin{equation}\label{def_green}
-\mathcal G_1(X,z):=\left(\wt{\mathcal Q}_1(X) -z\right)^{-1} , \ \ \ \mathcal G_2 (X,z):=\left(\wt{\mathcal Q}_2(X)-z\right)^{-1} .
-\end{equation}
- We denote the ESD $\rho^{(n)}$ of $\wt {\mathcal Q}_{1}$ and its Stieltjes transform as
-\be\label{defn_m}
-\rho\equiv \rho^{(n)} := \frac{1}{n} \sum_{i=1}^n \delta_{\lambda_i(\wt{\mathcal Q}_1)},\quad m(z)\equiv m^{(n)}(z):=\int \frac{1}{x-z}\rho_{1}^{(n)}(\dd x)=\frac{1}{n} \mathrm{Tr} \, \mathcal G_1(z).
-\ee
-We also introduce the following quantities:
-$$m_1(z)\equiv m_1^{(n)}(z):= \frac{1}{N}\sum_{i=1}^n\sigma_i (\mathcal G_1(z) )_{ii},\quad m_2(z)\equiv m_2^{(N)}(x):=\frac{1}{N}\sum_{\mu=1}^N \wt\sigma_\mu (\mathcal G_2(z) )_{\mu\mu}. $$
-
-%, \ \ \rho_{2}^{(N)} := \frac{1}{N} \sum_{i=1}^N \delta_{\lambda_i(\mathcal Q_2)}.$$
-%Then the Stieltjes transforms of $\rho_{1}$ is given by
-%\begin{align*}
-%& m_1^{(n)}(z):=\int \frac{1}{x-z}\rho_{1}^{(n)}(\dd x)=\frac{1}{n} \mathrm{Tr} \, \mathcal G_1(z). 
-%%& m_2^{(N)}(z):=\int \frac{1}{x-z}\rho_{2}^{(N)}(\dd x)=\frac{1}{N} \mathrm{Tr} \, \mathcal G_2(z). %\label{ST_m12}
-%\end{align*}
-%and
-%\begin{equation}
-%m_2^{(N)}(z):=\int \frac{1}{x-z}d\rho_{2}^{M}(x)=\frac{1}{N}\sum_{i=1}^N (\mathcal G_2)_{ii}(z)=\frac{1}{N} \mathrm{Tr} \, \mathcal G_2(z). \label{ST_m2}
-%\end{equation}
-%Similarly, we can also define $m_1(z)\equiv m_1^{(M)}(z):= M^{-1}\mathrm{Tr} \, \mathcal G_1(z)$. 
-\end{definition}
-
-
-It was shown in \cite{Separable} that if $d_N \to d \in (0,\infty)$ and $\pi_A^{(n)}$, $\pi_B^{(N)}$ converge to certain probability distributions, then almost surely $\rho^{(n)}$ converges to a deterministic distributions $ \rho_{\infty}$. We now describe it through the Stieltjes transform
-$$m_{\infty}(z):=\int_{\mathbb R} \frac{\rho_{\infty}(\dd x)}{x-z}, \quad z \in \mathbb C_+.$$
-For any finite $N$ and $z\in \mathbb C_+$, we define $(m^{(N)}_{1c}(z),m^{(N)}_{2c}(z))\in \mathbb C_+^2$ as the unique solution to the system of self-consistent equations
-\begin{equation}\label{separa_m12}
-{m^{(n)}_{1c}(z)} = d_N \int\frac{x}{-z\left[1+xm^{(N)}_{2c}(z) \right]} \pi_A^{(n)}(\dd x), \quad  {m^{(N)}_{2c}(z)} =  \int\frac{x}{-z\left[1+xm^{(N)}_{1c}(z) \right]} \pi_B^{(N)}(\dd x).
-\end{equation}
-Then we define
-\begin{equation}\label{def_mc}
-m_c(z)\equiv m_c^{(n)}(z):= \int\frac{1}{-z\left[1+xm^{(N)}_{2c}(z) \right]} \pi_A^{(n)}(\dd x).
-\end{equation}
-It is easy to verify that $m_c^{(n)}(z)\in \mathbb C_+$ for $z\in \mathbb C_+$. Letting $\eta \downarrow 0$, we can obtain a probability measure $\rho_{c}^{(n)}$ with the inverse formula
-\begin{equation}\label{ST_inverse}
-\rho_{c}^{(n)}(E) = \lim_{\eta\downarrow 0} \frac{1}{\pi}\Im\, m^{(n)}_{c}(E+\ii \eta).
-\end{equation}
-If $d_N \to d \in (0,\infty)$ and $\pi_A^{(n)}$, $\pi_B^{(N)}$ converge to certain probability distributions, then $m_c^{(n)}$ also converges and we define
-$$m_{\infty}(z):=\lim_{N\to \infty} m_c^{(n)}(z), \ \ z \in \mathbb C_+.$$
-Letting $\eta \downarrow 0$, we can recover the asymptotic eigenvalue density $ \rho_{\infty}$ with
-\begin{equation}\label{ST_inverse}
-\rho_{\infty}(E) = \lim_{\eta\downarrow 0} \frac{1}{\pi}\Im\, m_{\infty}(E+\ii \eta).
-\end{equation}
-It is also easy to see that $\rho_\infty$ is the weak limit of $\rho_{c}^{(n)}$. 
-%The measure $ \rho_{\infty}$ is sometimes called the {\it{multiplicative free convolution}} of $\pi_A$, $\pi_B$ with the Marchenko-Pastur (MP) law (see e.g. \cite{AGZ,VDN}), i.e. $\pi_A \boxtimes \rho_{MP} \boxtimes \pi_B$, where $\rho_{MP}$ denotes the MP distribution. 
-
-The above definitions of $m_c^{(n)}$, $\rho_c^{(n)}$, $m_\infty$ and $\rho_\infty$ make sense due to the following theorem. Throughout the rest of this paper, we often omit the super-indices $(n)$ and $(N)$ from our notations. 
-
-%Throughout the rest of this paper, we will often omit the super-index $n$ or $N$ from our notations. 
-
-\begin{theorem} [Existence, uniqueness, and continuous density]
-For any $z\in \mathbb C_+$, there exists a unique solution $(m_{1c},m_{2c})\in \mathbb C_+^2$ to the systems of equations in (\ref{separa_m12}). The function $m_c$ in (\ref{def_mc}) is the Stieltjes transform of a probability measure $\mu_c$ supported on $\mathbb R_+$. Moreover, $\mu_c$ has a continuous derivative $\rho_c(x)$ on $(0,\infty)$, which is defined by \eqref{ST_inverse}.
-\end{theorem}
-\begin{proof}
-See {\cite[Theorem 1.2.1]{Zhang_thesis}}, {\cite[Theorem 2.4]{Hachem2007}} and {\cite[Theorem 3.1]{Separable_solution}}.
-\end{proof}
-
-
-
+%We denote the eigenvalues of $\mathcal Q_1$ and $\mathcal Q_2$ in descending order by $\lambda_1(\mathcal Q_1)\geq \ldots \geq \lambda_{p}(\mathcal Q_1)$ and $\lambda_1(\mathcal Q_2) \geq \ldots \geq \lambda_p(\mathcal Q_2)$. Since $\mathcal Q_1$ and $\mathcal Q_2$ share the same nonzero eigenvalues, we will for simplicity write $\lambda_j$, $1\le j \le N\wedge n$, to denote the $j$-th eigenvalue of both $\mathcal Q_1$ and $\mathcal Q_2$ without causing any confusion. 
  
-Now we go back to study the equations in (\ref{separa_m12}). If we define the function
-% Corresponding to the equation in (\ref{separa_m12}), we define the function 
-\begin{equation}\label{separable_MP}
-f(z,\al):=- \al + \int\frac{x}{-z+xd_N \int\frac{t}{1+t\al} \pi_A(\dd t)} \pi_B(\dd x) ,
-\end{equation}
-then $m_{2c}(z)$ can be characterized as the unique solution to the equation $f(z,\al)=0$ of $\al$ with $\Im \, \al> 0$, and $m_{1c}(z)$ is defined using the first equation in \eqref{separa_m12}.
-%as $$m_{1c}(z) = d_N \int\frac{x}{-z\left[1+xm_{2c}(z) \right]} \pi_A(\dd x).$$
-Moreover, $m_{1,2c}(z)$ are the Stieltjes transforms of densities $\rho_{1,2c}$:
-$$\rho_{1,2c}(E) = \lim_{\eta\downarrow 0} \frac{1}{\pi}\Im\, m_{1,2c}(E+\ii \eta).$$
-Then we have the following result.
 
-\begin{lemma}\label{lambdar}%[Support of the deformed MP law]
-The densities $\rho_{c}$ and $\rho_{1,2c}$ all have the same support on $(0,\infty)$, which is a union of intervals: %connected components:
-\begin{equation}\label{support_rho1c}
-{\rm{supp}} \, \rho_{c} \cap (0,\infty) ={\rm{supp}} \, \rho_{1,2c} \cap (0,\infty) = \bigcup_{k=1}^p [a_{2k}, a_{2k-1}] \cap (0,\infty),
-\end{equation}
-where $p\in \mathbb N$ depends only on $\pi_{A,B}$. Moreover, $(x,\al)=(a_k, m_{2c}(a_k))$ are the real solutions to the equations
-\begin{equation}
-f(x,\al)=0, \ \ \text{and} \ \ \frac{\partial f}{\partial \al}(x,\al) = 0. \label{equationEm2}
-\end{equation}
-Moreover, we have $m_{1c}(a_1) \in (-\wt \sigma_1^{-1}, 0)$ and $m_{2c}(a_1) \in (-\sigma_1^{-1}, 0)$. %Finally, under (\ref{assm2}) and (\ref{assm3}), we have $a_1 \le C$ for some constant $C>0$. 
-\end{lemma}
-\begin{proof}
-See Section 3 of \cite{Separable_solution}.
-\end{proof}
-
- %It is easy to observe that $b_k=m_{2c}(a_k)$ according to the definition of $f$. 
- We shall call $a_k$ the spectral edges. In particular, we will focus on the rightmost edge $\lambda_+ := a_1$. 
-%\begin{equation}\label{right_edge}
-%\lambda_+ := a_1 
+%\subsection{Resolvents and limiting law}
+%
+%In this paper, we will study the eigenvalue statistics of $\mathcal Q_{1}$ and $\mathcal Q_2$ through their {\it{resolvents}} (or  {\it{Green's functions}}). It is equivalent to study the matrices 
+%\be\label{Qtilde}
+%\wt{\mathcal Q}_1(X):=\Sig^{1/2} U^{*}XBX^*U\Sig^{1/2}, \quad \wt{\mathcal Q}_2(X):=\wt\Sig^{1/2}V^*X^* A X V\wt \Sig^{1/2}.
+%\ee
+%In this paper, we shall denote the upper half complex plane and the right half real line by 
+%$$\mathbb C_+:=\{z\in \mathbb C: \im z>0\}, \quad \mathbb R_+:=[0,\infty).$$ %\quad  \mathbb R_*:=(0,\infty).$$
+%
+%\begin{definition}[Resolvents]\label{resol_not}
+%For $z = E+ \ii \eta \in \mathbb C_+,$ we define the resolvents for $\wt {\mathcal Q}_{1,2}$ as
+%\begin{equation}\label{def_green}
+%\mathcal G_1(X,z):=\left(\wt{\mathcal Q}_1(X) -z\right)^{-1} , \ \ \ \mathcal G_2 (X,z):=\left(\wt{\mathcal Q}_2(X)-z\right)^{-1} .
 %\end{equation}
-%throughout the following.
-Now we make the following assumption: there exists a constant $\tau>0$ such that %{\color{red}(can we remove one of the conditions?)}
-\begin{equation}\label{assm_gap}
-1 + m_{1c}(\lambda_+) \wt \sigma_1 \ge \tau, \quad 1 + m_{2c}(\lambda_+) \sigma_1\ge \tau. %\quad \frac{\partial^2 f}{\partial m^2}\left(\lambda_+,m_{2c}(\lambda_+)\right) \ge \tau.
-\end{equation}
-This assumption guarantees a regular square-root behavior of the spectral densities $\rho_{1,2c}$ near $\lambda_+$ as shown by the following lemma.
-%(see Lemma \ref{lem_mbehavior} below), which is used in proving the local deformed MP law at the soft edge.
+% We denote the ESD $\rho^{(n)}$ of $\wt {\mathcal Q}_{1}$ and its Stieltjes transform as
+%\be\label{defn_m}
+%\rho\equiv \rho^{(n)} := \frac{1}{n} \sum_{i=1}^n \delta_{\lambda_i(\wt{\mathcal Q}_1)},\quad m(z)\equiv m^{(n)}(z):=\int \frac{1}{x-z}\rho_{1}^{(n)}(\dd x)=\frac{1}{n} \mathrm{Tr} \, \mathcal G_1(z).
+%\ee
+%We also introduce the following quantities:
+%$$m_1(z)\equiv m_1^{(n)}(z):= \frac{1}{N}\sum_{i=1}^n\sigma_i (\mathcal G_1(z) )_{ii},\quad m_2(z)\equiv m_2^{(N)}(x):=\frac{1}{N}\sum_{\mu=1}^N \wt\sigma_\mu (\mathcal G_2(z) )_{\mu\mu}. $$
+%
+%%, \ \ \rho_{2}^{(N)} := \frac{1}{N} \sum_{i=1}^N \delta_{\lambda_i(\mathcal Q_2)}.$$
+%%Then the Stieltjes transforms of $\rho_{1}$ is given by
+%%\begin{align*}
+%%& m_1^{(n)}(z):=\int \frac{1}{x-z}\rho_{1}^{(n)}(\dd x)=\frac{1}{n} \mathrm{Tr} \, \mathcal G_1(z). 
+%%%& m_2^{(N)}(z):=\int \frac{1}{x-z}\rho_{2}^{(N)}(\dd x)=\frac{1}{N} \mathrm{Tr} \, \mathcal G_2(z). %\label{ST_m12}
+%%\end{align*}
+%%and
+%%\begin{equation}
+%%m_2^{(N)}(z):=\int \frac{1}{x-z}d\rho_{2}^{M}(x)=\frac{1}{N}\sum_{i=1}^N (\mathcal G_2)_{ii}(z)=\frac{1}{N} \mathrm{Tr} \, \mathcal G_2(z). \label{ST_m2}
+%%\end{equation}
+%%Similarly, we can also define $m_1(z)\equiv m_1^{(M)}(z):= M^{-1}\mathrm{Tr} \, \mathcal G_1(z)$. 
+%\end{definition}
 
-\begin{lemma} \label{lambdar_sqrt}
-Under the assumptions \eqref{assm2}, \eqref{assm3} and \eqref{assm_gap}, there exist constants $a_{1,2}>0$ such that
-\be\label{sqroot3}
-\rho_{1,2c}(\lambda_+ - x) = a_{1,2} x^{1/2} + \OO(x), \quad x\downarrow 0,
+
+We now define the deterministic limit of $\cal G(z)$. We first define the deterministic limits of $(m_2(z), m_{3}(z))$, that is $(m_{2 c}(z),m_{3c}(z))$, as the (unique) solution to the following system of self-consistent equations
+\begin{equation}\label{selfomega}
+\begin{split}
+&\frac{n_1}{n}\frac1{m_{2c}} = - 1 +\frac1n\sum_{i=1}^p \frac{\sigma_i^2}{  z+\sigma_i^2m_{2c} + m_{3c}  } ,\quad \frac{n_2}{n}\frac1{m_{3c}} = - 1 +\frac1n\sum_{i=1}^p \frac{1 }{  z+\sigma_i^2 m_{2c} +  m_{3c}  },
+\end{split}
+\ee
+such that $(m_{2 c}(z), m_{3c}(z))\in \C_+$ for $z\in \C_+$. For simplicity, we  introduce the parameters 
+\be\label{ratios}
+\gamma\equiv \gamma_n :=\frac{p}{n},\quad r_1\equiv r_1(n) :=\frac{n_1}{n},\quad r_2\equiv r_2(n) :=\frac{n_2}{n}.
+\ee
+We then define the matrix limit of $G(z)$ as
+\be \label{defn_piw}
+\Pi(z) := \begin{pmatrix} -(z+\sigma_i^2 m_{2c} +  m_{3c})^{-1} & 0 & 0 \\ 0 & r_1^{-1}m_{2c}(z)I_{n_1} & 0 \\ 0 & 0 & r_2^{-1}m_{3c}(z)I_{n_2}  \end{pmatrix}.\ee
+In particular, the matrix limit of $\cal G(z)$ is given by $-(z+\sigma_i^2 m_{2c} +  m_{3c})^{-1}$. 
+
+If $z=0$, then the equations \eqref{selfomega} is reduced to 
+\begin{equation}\label{selfomega0}
+\begin{split}
+&\frac{n_1}{n}\frac1{a_2} = - 1 +\frac1n\sum_{i=1}^p \frac{\sigma_i^2}{ \sigma_i^2 a_2+ a_3  } ,\quad \frac{n_2}{n}\frac1{a_3} = - 1 +\frac1n\sum_{i=1}^p \frac{1 }{\sigma_i^2 a_2+ a_3 },
+\end{split}
+\ee
+where $a_2:=m_{2c}(0)$ and $a_3:=m_{3c}(0)$.
+
+The existence and uniqueness of the solution $(m_{2 c}(z),m_{3c}(z))$ is given by the following lemma. Moreover, we will also include some basic estimates on it. {\cor(say something about the previous work)}
+
+\cob
+\begin{lemma} \label{lem_mbehaviorw}
+There exist constants $c_0, C_0>0$ depending only on $c_1, c_2$ and $\delta_l$ in \eqref{tlc} such that the following statements hold. 
+%Fix any constants $c, C>0$. If \eqref{assm20} holds, then we have the following estimates.
+If $|z|\le c_0$, then there exists a unique solution to \eqref{selfomega} under the condition
+\be\label{prior1}
+\max_{\al=1}^4 |\omega_{\al c}(z) - m_{\al c}(\theta_l)| \le c_0.
+\ee
+Moreover, the solution satisfies
+\be\label{Lipomega}
+\max_{\al=1}^4 |\omega_{\al c}(z) - m_{\al c}(\theta_l)| \le C_0 |z|,
 \ee
 and
-\be\label{sqroot4}
-\quad m_{1,2c}(z) = m_{1,2c}(\lambda_+) + \pi a_{1,2}(z-\lambda_+)^{1/2} + \OO(|z-\lambda_+|), \quad z\to \lambda_+ , \ \ \im z\ge 0.
+\be\label{Immcw}
+0\le \im \omega_{\al c}(z) \le C_0\eta ,\quad z= E+ \ii\eta, \ \ \al=1,2,3,4.
 \ee
-The estimates \eqref{sqroot3} and \eqref{sqroot4} also hold for $\rho_c$ and $m_c$ with a different constant. 
+%For $z\in \C_+ \cap \{z: c\le |z| \le C\}$, we have
+%\begin{equation}\label{absmcw}
+% \vert m_{3c}(z) \vert \sim 1,  \quad \left|z^{-1} - (m_{1c}(z)+m_{2c}(z)) + (z-1)m_{1c}(z)m_{2c}(z) \right|\sim 1,
+% \ee 
+% and
+% \be\label{Immcw} 0\le \im m_{3c}(z) \sim \begin{cases}
+%    {\eta}/{\sqrt{\kappa+\eta}}, & \text{ if } E \notin [\lambda_-,\lambda_+] \\
+%    \sqrt{\kappa+\eta}, & \text{ if } E \in [\lambda_-,\lambda_+]\\
+%  \end{cases}.
+%\end{equation}
+%\end{itemize}
+%The above estimates also hold for $m_{1c}$, $m_{2c}(z)$, $m_{4c}(z)$ and $m_c(z)$. Finally, the estimates \eqref{absmcw}, \eqref{eq_mcomplexw} and \eqref{eq_mdiffw} hold for $h(z)$. 
 \end{lemma}
- 
+ \begin{proof}
+ %We first prove the existence and continuity of the solutions to \eqref{falvww}. 
+ The proof is a standard application of the contraction principle. We abbreviate $m_{\al c}\equiv m_{\al c}(\theta_l)$ and $\e_\al (z):= \omega_{\al c}(z) - m_{\al c}(\theta_l)$ with $|\e_\al| \le \wt c$ for some sufficiently small constant $\wt c>0$. By \eqref{selfomega}, we obtain the self-consistent equations for $(\omega_{1c},\omega_{2c})$:
+ \begin{equation}\label{selfomega1}
+\begin{split}
+& \frac{c_1}{\omega_{1c} }=- z +   (1-\theta_l ) \frac{1 + (1-\theta_l )\omega_{2c}}{[1 + (1-\theta_l )\omega_{1c} ][1 + (1-\theta_l )\omega_{2c} ]-\theta_l ^{-1}},\\
+&\frac{c_2}{\omega_{2c} }=   (1-\theta_l) \frac{1 + (1-\theta_l )\omega_{1c}}{[1 + (1-\theta_l )\omega_{1c} ][1 + (1-\theta_l )\omega_{2c} ]-\theta_l ^{-1}}.
+\end{split}
+\ee
+ On the other hand,  by \eqref{selfm12} and \eqref{selfm3}, the following self-consistent equations hold for $m_{\al c}(\theta_l)$:
+  \begin{equation}\label{selfomega2}
+\begin{split}
+& \frac{c_1}{m_{1c} (\theta_l)}= (1-\theta_l ) \frac{1 + (1-\theta_l )m_{2c} (\theta_l)}{[1 + (1-\theta_l )m_{1c} (\theta_l)][1 + (1-\theta_l )m_{2c} (\theta_l)]-\theta_l ^{-1}},\\
+&\frac{c_2}{m_{2c}(\theta_l) }=   (1-\theta_l) \frac{1 + (1-\theta_l )m_{1c} (\theta_l)}{[1 + (1-\theta_l )m_{1c} (\theta_l) ][1 + (1-\theta_l )m_{2c} (\theta_l)]-\theta_l ^{-1}}.
+\end{split}
+\ee
+Subtract \eqref{selfomega2} from \eqref{selfomega1}, we get that
+ \begin{equation}\label{selfomega3}
+\begin{split}
+& \e_{1} \frac{c_1}{(m_{1c} +\e_1) m_{1c} }= z +   (1-\theta_l )^2 \frac{ g(m_{2c} + \e_2)g( m_{2c}) \e_1+\theta_l^{-1} \e_2}{ [g(m_{1c} + \e_1)g( m_{2c} +\e_2)-\theta_l^{-1} ][g(m_{1c} )g( m_{2c} )-\theta_l^{-1} ]},\\
+&  \e_2 \frac{c_2}{(m_{2c}+\e_2) m_{2c}}= (1-\theta_l )^2 \frac{ g(m_{1c} + \e_1)g( m_{1c}) \e_2+\theta_l^{-1} \e_1}{ [g(m_{1c} + \e_1)g( m_{2c} +\e_2)-\theta_l^{-1} ][g(m_{1c} )g( m_{2c} )-\theta_l^{-1} ]}.
+\end{split}
+\ee
+where we abbreviate  $g(x):=1 + (1-\theta_l ) x $. Inspired by the above equations, we define iteratively a sequence of vectors ${\e}^{(k)}=(\e_1^{(k)},\e_2^{(k)})\in \C^2$ such that ${\e}^{(0)}=\mathbf 0\in \C^2$, and 
+ \begin{equation}\label{selfomega4}
+\begin{split}
+& \left\{\frac{c_1}{m_{1c}^2  } -  \frac{ (1-\theta_l )^2 g(m_{2c})^2 }{ [g(m_{1c})g( m_{2c} )-\theta_l^{-1} ]^2}\right\} \e^{(k+1)}_{1}  -  \frac{ (1-\theta_l )^2 \theta_l^{-1}}{ [g(m_{1c})g( m_{2c} )-\theta_l^{-1} ]^2} \e_2^{(k+1)}= z + \frac{c_1 [\e_1^{(k)}]^2}{m_{1c}^2 (m_{1c}+\e_1^{(k)})} \\
+&+  \frac{ (1-\theta_l )^2}{g(m_{1c} )g( m_{2c})-\theta_l^{-1} } \left\{\frac{ g(m_{2c} + \e_2^{(k)})g( m_{2c}) \e_1^{(k)}+\theta_l^{-1} \e_2^{(k)}}{ g(m_{1c} + \e_1^{(k)})g( m_{2c} +\e_2^{(k)})-\theta_l^{-1} }  - \frac{ g(m_{2c})^2 \e_1^{(k)}+\theta_l^{-1} \e_2^{(k)}}{ g(m_{1c} )g( m_{2c})-\theta_l^{-1} } \right\},\\
+& \left\{\frac{c_2}{m_{2c}^2  } -  \frac{ (1-\theta_l )^2 g(m_{1c})^2 }{ [g(m_{1c})g( m_{2c} )-\theta_l^{-1} ]^2}\right\} \e^{(k+1)}_{2}  -  \frac{ (1-\theta_l )^2 \theta_l^{-1}}{ [g(m_{1c})g( m_{2c} )-\theta_l^{-1} ]^2} \e_1^{(k+1)}= \frac{c_2 [\e_2^{(k)}]^2}{m_{2c}^2 (m_{2c}+\e_2^{(k)})} \\
+&+  \frac{ (1-\theta_l )^2}{g(m_{1c} )g( m_{2c})-\theta_l^{-1} } \left\{\frac{ g(m_{1c} + \e_1^{(k)})g( m_{1c}) \e_2^{(k)}+\theta_l^{-1} \e_1^{(k)}}{ g(m_{1c} + \e_1^{(k)})g( m_{2c} +\e_2^{(k)})-\theta_l^{-1} }  - \frac{ g(m_{1c})^2 \e_2^{(k)}+\theta_l^{-1} \e_1^{(k)}}{ g(m_{1c} )g( m_{2c})-\theta_l^{-1} } \right\}.
+\end{split}
+\ee
+ In other words, \eqref{selfomega4} defines a mapping $\mathbf f:l^\infty (2)\to l^\infty (2)$,
+\be\label{iteration} 
+{\e}^{(k+1)}= \mathbf f({{} \e}^{(k)}), \quad \mathbf f(\mathbf x):=S^{-1}\begin{pmatrix} z\\ 0 \end{pmatrix}+ S^{-1} \mathbf e(\mathbf x),
+\ee
+where 
+$$
+S:=\begin{pmatrix} \frac{c_1}{m_{1c}^2  } -  \frac{ \theta_l^2 (1-\theta_l )^2 }{ (1-t_l)^2}g(m_{2c})^2  & -  \frac{ (1-\theta_l )^2\theta_l }{ (1-t_l)^2} \\ -   \frac{ (1-\theta_l )^2\theta_l }{ (1-t_l)^2}  &\frac{c_2}{m_{2c}^2  } -  \frac{ \theta_l^2(1-\theta_l )^2 }{ (1-t_l)^2}g(m_{1c})^2  \end{pmatrix},  
+$$
+and
+$$\mathbf e(\mathbf x):= \begin{pmatrix} \frac{c_1 x_1^2}{m_{1c}^2 (m_{1c}+x_1)} -  \frac{ \theta_l(1-\theta_l )^2}{1-t_l } \left\{\frac{ g(m_{2c} + x_2)g( m_{2c}) x_1 +\theta_l^{-1} x_2}{ g(m_{1c} +x_1)g( m_{2c} +x_2)-\theta_l^{-1} }  - \frac{ g(m_{2c})^2 x_1+\theta_l^{-1} x_2}{ g(m_{1c} )g( m_{2c})-\theta_l^{-1} } \right\} \\ \frac{c_2 x_2^2}{m_{2c}^2 (m_{2c}+x_2)} -  \frac{ \theta_l (1-\theta_l )^2}{1-t_l } \left\{\frac{ g(m_{1c} + x_1)g( m_{1c}) x_2+\theta_l^{-1} x_1}{ g(m_{1c} + x_1)g( m_{2c} +x_2)-\theta_l^{-1} }  - \frac{ g(m_{1c})^2 x_2 +\theta_l^{-1} x_1}{ g(m_{1c} )g( m_{2c})-\theta_l^{-1} } \right\} \end{pmatrix}.$$
+Here we have used $\theta_lg(m_{1c})g( m_{2c} ) = f_c(\theta_l) = t_l$ (recall \eqref{fcz}) to simplify the expressions a little bit.
+
+With direct calculation, one can show that under \eqref{tlc}, there exist constants $\wt c, \wt C>0$ depending only on $c_1, c_2$ and $\delta_l$ such that
+\be\label{dust}
+\|S^{-1}\|_{l^\infty\to l^\infty} \le \wt C, \quad \text{and} \quad \|\mathbf r(\mathbf x)\|_\infty \le \wt C\|\mathbf x\|_\infty^2 \ \ \text{for} \ \ \|\bx\|_\infty \le \wt c.
+\ee
+With \eqref{dust} and \eqref{iteration}, it is easy to see that there exists a sufficiently small constant $\tau>0$ depending only on $\wt C$, such that $\mathbf f$ is a self-mapping 
+$$\mathbf f: B_r \left(l^\infty(\Z_2)\right)\to B_r \left(l^\infty(\Z_2)\right), \quad B_r\left(l^\infty(\Z_2)\right):=\{\bx\in l^\infty(\Z_2): \|\bx\|_\infty \le r \},$$
+as long as $r\le \tau$ and $|z| \le c_\tau$ for some constant $c_\tau>0$ depending only on $c_1, c_2,\delta_l$ and $\tau$. 
+%\be\label{priori_cond}
+%\zeta+\| \b g\|_\infty+ |z-\wt z|\le c_r
+%\ee
+%for some constant $ c_r>0$ depending on $r$. 
+Now it suffices to prove that $h$ restricted to $B_r \left(l^\infty(\Z_N)\right)$ is a contraction, which then implies that ${{} \e}:=\lim_{k\to\infty} {{{} \e}}^{(k)}$ exists and is a unique solution to \eqref{selfomega3} subject to the condition $\|{{} \e}\|_\infty \le r$. 
+
+
+From the iteration relation \eqref{iteration}, using \eqref{dust} we obtain that
+\be\label{k1k}
+{{} \e}^{(k+1)} - {{} \e}^{(k)}= S^{-1}\left[\mathbf e({{} \e}^{(k)}) -\mathbf e({{} \e}^{(k-1)})\right] \le \wt C \left\|\mathbf e({{} \e}^{(k)}) -\mathbf e({{} \e}^{(k-1)})\right\|_\infty .
+\ee
+From the expression of $\mathbf e$, we see that as long as $r$ is chosen to be sufficiently small compared to $\theta_l^{-1}-g(m_{1c})g( m_{2c} )= (1-t_l)\theta_l^{-1}$, we have
+%where $q(\bx)$ denotes a vector with components $q(x_i)$. 
+%Using $|q'(0)| = 0$ and \eqref{dust}, we get from \eqref{k1k} that
+$$
+ \left\|\mathbf e({{} \e}^{(k)}) -\mathbf e({{} \e}^{(k-1)})\right\|_\infty \le C (\|\bx^{k }\|_\infty +\|\bx^{k-1 }\|_\infty)\|{{} \e}^{(k)} - {{} \e}^{(k-1)}\|_\infty
+ %\|\bx^{k+1}-\bx^k\|_\infty\le  C_\kappa \left(\zeta+\|\bx^{k }\|_\infty +\|\bx^{k-1 }\|_\infty  \right)\cdot \|\bx^{k }-\bx^{k-1}\|_\infty
+$$
+for some constant $C >0$ depending only on $c_1, c_2$ and $\delta_l$. Thus we can choose a sufficiently small constant $0<r \le \min\{\tau, (2C)^{-1}\}$ such that $Cr \le 1/2$, i.e. $\mathbf f$ is indeed a contraction mapping on $ B_r \left(l^\infty(\Z_2)\right)$, which proves both the existence and uniqueness of the solution to \eqref{selfomega3} if we choose $c_0$ in \eqref{prior1} as $c_0=\min\{c_\tau, r\}$. After obtaining $\omega_{1c}$ and $\omega_{2c}$ with ${{} \e}$, we can then define $\omega_{3c}$ and $\omega_{4c}$.
+
+Note that with \eqref{dust} and ${{} \e}^{(0)}=\mathbf 0$, we get from \eqref{iteration} that
+ $$ \|{{} \e}^{(1)}\|_\infty\le \wt C|z| .$$
+With the contraction mapping, we have the bound 
+$$\|{{} \e}\|_\infty \le \sum_{k=0}^\infty \|{{} \e}^{(k+1)}-{{} \e}^{(k)}\|_\infty \le 2\wt C|z|.$$
+This gives the bound \eqref{Lipomega} for $\omega_{1,2c}$. Then using \eqref{selfomega}, we immediately obtain the bound \eqref{Lipomega} for $\omega_{3,4c}$ as long as $c_0$ is taken sufficiently small. 
+
+Finally, for \eqref{Immcw}, we take imaginary parts of the self-consistent equations in \eqref{selfomega1}:  
+ \begin{equation} \nonumber
+\begin{split}
+& \frac{c_1}{|\omega_{1c} |^2} \im\omega_{1c} = \eta +   (1-\theta_l )^2 \frac{1}{|g(\omega_{1c})g(\omega_{2c})-\theta_l ^{-1} |^2} \left( |g(\omega_{2c})|^2\im \omega_{1c} + \theta_l^{-1} \im \omega_{2c}\right),\\
+&\frac{c_2}{|\omega_{2c}|^2 } \im\omega_{2c}= (1-\theta_l )^2 \frac{1}{|g(\omega_{1c})g(\omega_{2c})-\theta_l ^{-1} |^2} \left( |g(\omega_{1c})|^2\im \omega_{2c} + \theta_l^{-1} \im \omega_{1c}\right).
+\end{split}
+\ee
+One can then solve the above equations for $\im \omega_{1c}$ and $\im \omega_{2c}$ in terms of $ \omega_{1c}$ and $ \omega_{2c}$ and show that \eqref{Immcw} holds for $\im \omega_{1,2 c}(z) $. In fact, if we replace $ (\omega_{1c}, \omega_{2c})$ with $(m_{1c},m_{2c})$ in the coefficients, one can show with direct calculation that \eqref{Immcw} holds. Then one can use a simple perturbation argument using the bound \eqref{Lipomega}. Finally, with \eqref{selfomega}, we immediately obtain that \eqref{Immcw} holds for $\im \omega_{3,4 c}(z) $. 
+%We now prove \eqref{dozy}. We have proved above that both $(M_\zeta^{\b g})_i(z, \wt z)$ and $(M_{\zeta'}^{\b g'})_i(z', \wt z\,')$ exist and satisfy \eqref{bony}. Denote by $m':=m_{\rm sc}(\wt z\,'+ {\rm i} 0^+\, )$ and $x'_i:=(M_{\zeta'}^{\b g'})_i(z', \wt z\,')-m' $. By \eqref{m'}, we have 
+%\be\label{m-m'}
+%|m'-m|={\rm O}(|\wt z - \wt z\,'|).
+%\ee 
+%Then using \eqref{mGYY} we can obtain that  
+%\begin{align*}
+% \|  \bx'-\bx \|_\infty \le & C\|(1-m^2S_0)^{-1}\|_{L^\infty\to L^\infty}\cdot  \left\{ |\wt z-\wt z\,'|\cdot \left[ \|\bx'\|_\infty +  \|\b g'\|_\infty+ |z'-\wt z\,'| + \|\bx'\|_\infty^2 + \zeta' (1+\|\bx'\|_\infty)\right] \right.\\
+%& + \left. \left[  \|\b g-\b g'\|_\infty+ |z-z'| + |\wt z-\wt z\,'|+ |\zeta-\zeta'|(1+\|\bx'\|_\infty)+ \left(\zeta+\|\bx \|_\infty +\| \bx' \|_\infty  \right)\cdot \|\bx' - \bx \|_\infty\right]\right\} \\
+%\le & C\left(\zeta+\|\bx \|_\infty +\| \bx' \|_\infty  \right)\cdot \|\bx' - \bx \|_\infty + C \left(  \|\b g-\b g'\|_\infty+ |z-z'| + |\wt z-\wt z\,'|+ |\zeta-\zeta'|\right).
+%\end{align*}
+%Applying \eqref{bony} to both $(M_\zeta^{\b g})_i(z, \wt z)$ and $(M_{\zeta'}^{\b g'})_i(z', \wt z\,')$,
+%we see that for small enough $c$, 
+%$$ \|  \bx'-\bx \|_\infty \le C \left(  \|\b g-\b g'\|_\infty+ |z-z'| + |\wt z-\wt z\,'|+ |\zeta-\zeta'|\right).$$
+%Together with \eqref{m-m'}, we obtain \eqref{dozy} as desired. 
+\end{proof}
+
+As a byproduct of the contraction mapping argument in the above proof, we also obtain the following stability result that will be useful for our proof of Theorem \ref{thm_localw} below. 
+
+
+\begin{lemma} \label{lem_stabw}
+There exist constants $c_0, C_0>0$ depending only on $c_1, c_2$ and $\delta_l$ in \eqref{tlc} such that the self-consistent equations in \eqref{selfomega} are stable in the following sense. Suppose $|z|\le c_0$ and $\omega_{\al}: \C_+\mapsto \C_+$, $\al=1,2,3,4$, are analytic functions of $z$ such that 
+\be\label{prior1}
+\max_{\al=1}^4 |\omega_{\al}(z) - m_{\al c}(\theta_l)| \le c_0.
+\ee
+Suppose they satisfy the system of equations
+\begin{equation}\label{selfomegaerror}
+\begin{split}
+& \frac{c_1}{\omega_{1} }+ z +  \omega_{3}= \mathcal E_1,\quad \omega_{3} - (\theta_l -1) \frac{1 + (1-\theta_l )\omega_{2}}{[1 + (1-\theta_l )\omega_{1} ][1 + (1-\theta_l )\omega_{2} ]-\theta_l ^{-1}}= \mathcal E_2,\\
+&\frac{c_2}{\omega_{2} } + \omega_{4} = \mathcal E_3, \quad  \omega_{4} -(\theta_l -1) \frac{1 + (1-\theta_l )\omega_{1}}{[1 + (1-\theta_l )\omega_{1} ][1 + (1-\theta_l )\omega_{2} ]-\theta_l ^{-1}}= \mathcal E_4,
+\end{split}
+\ee
+for some errors satisfying 
+$$ \max_{\al=1}^4 |\mathcal E_\al| \le \delta(z),$$
+where $\delta(z)$ is any deterministic $z$-dependent function $\delta(z) \le (\log n)^{-1}.$ Then we have 
+ \begin{equation}
+\max_{\al=1}^4 \left|\omega_\al(z)-\omega_{\al c}(z)\right|\le C_0\delta(z).\label{Stability1}
+\end{equation}
+\end{lemma}
+\begin{proof}
+As in the proof of Lemma \ref{lem_mbehaviorw}, we subtract the equations \eqref{selfomegaerror} from \eqref{selfomega}, and consider the contraction principle for the functions $\e_\al (z):= \omega_{\al }(z) - \omega_{\al c}(z)$. We omit the details.
+\end{proof}
 \nc
 
-For any constants $c_0,C_0>0$ and $a \le 1$, we define a domain of the spectral parameter $z$ as
+%It was shown in \cite{Separable} that if $d_N \to d \in (0,\infty)$ and $\pi_A^{(n)}$, $\pi_B^{(N)}$ converge to certain probability distributions, then almost surely $\rho^{(n)}$ converges to a deterministic distributions $ \rho_{\infty}$. We now describe it through the Stieltjes transform
+%$$m_{\infty}(z):=\int_{\mathbb R} \frac{\rho_{\infty}(\dd x)}{x-z}, \quad z \in \mathbb C_+.$$
+%For any finite $N$ and $z\in \mathbb C_+$, we define $(m^{(N)}_{1c}(z),m^{(N)}_{2c}(z))\in \mathbb C_+^2$ as the unique solution to the system of self-consistent equations
+%\begin{equation}\label{separa_m12}
+%{m^{(n)}_{1c}(z)} = d_N \int\frac{x}{-z\left[1+xm^{(N)}_{2c}(z) \right]} \pi_A^{(n)}(\dd x), \quad  {m^{(N)}_{2c}(z)} =  \int\frac{x}{-z\left[1+xm^{(N)}_{1c}(z) \right]} \pi_B^{(N)}(\dd x).
+%\end{equation}
+%Then we define
+%\begin{equation}\label{def_mc}
+%m_c(z)\equiv m_c^{(n)}(z):= \int\frac{1}{-z\left[1+xm^{(N)}_{2c}(z) \right]} \pi_A^{(n)}(\dd x).
+%\end{equation}
+%It is easy to verify that $m_c^{(n)}(z)\in \mathbb C_+$ for $z\in \mathbb C_+$. Letting $\eta \downarrow 0$, we can obtain a probability measure $\rho_{c}^{(n)}$ with the inverse formula
+%\begin{equation}\label{ST_inverse}
+%\rho_{c}^{(n)}(E) = \lim_{\eta\downarrow 0} \frac{1}{\pi}\Im\, m^{(n)}_{c}(E+\ii \eta).
+%\end{equation}
+%If $d_N \to d \in (0,\infty)$ and $\pi_A^{(n)}$, $\pi_B^{(N)}$ converge to certain probability distributions, then $m_c^{(n)}$ also converges and we define
+%$$m_{\infty}(z):=\lim_{N\to \infty} m_c^{(n)}(z), \ \ z \in \mathbb C_+.$$
+%Letting $\eta \downarrow 0$, we can recover the asymptotic eigenvalue density $ \rho_{\infty}$ with
+%\begin{equation}\label{ST_inverse}
+%\rho_{\infty}(E) = \lim_{\eta\downarrow 0} \frac{1}{\pi}\Im\, m_{\infty}(E+\ii \eta).
+%\end{equation}
+%It is also easy to see that $\rho_\infty$ is the weak limit of $\rho_{c}^{(n)}$. 
+%%The measure $ \rho_{\infty}$ is sometimes called the {\it{multiplicative free convolution}} of $\pi_A$, $\pi_B$ with the Marchenko-Pastur (MP) law (see e.g. \cite{AGZ,VDN}), i.e. $\pi_A \boxtimes \rho_{MP} \boxtimes \pi_B$, where $\rho_{MP}$ denotes the MP distribution. 
+%
+%The above definitions of $m_c^{(n)}$, $\rho_c^{(n)}$, $m_\infty$ and $\rho_\infty$ make sense due to the following theorem. Throughout the rest of this paper, we often omit the super-indices $(n)$ and $(N)$ from our notations. 
+%
+%%Throughout the rest of this paper, we will often omit the super-index $n$ or $N$ from our notations. 
+%
+%\begin{theorem} [Existence, uniqueness, and continuous density]
+%For any $z\in \mathbb C_+$, there exists a unique solution $(m_{1c},m_{2c})\in \mathbb C_+^2$ to the systems of equations in (\ref{separa_m12}). The function $m_c$ in (\ref{def_mc}) is the Stieltjes transform of a probability measure $\mu_c$ supported on $\mathbb R_+$. Moreover, $\mu_c$ has a continuous derivative $\rho_c(x)$ on $(0,\infty)$, which is defined by \eqref{ST_inverse}.
+%\end{theorem}
+%\begin{proof}
+%See {\cite[Theorem 1.2.1]{Zhang_thesis}}, {\cite[Theorem 2.4]{Hachem2007}} and {\cite[Theorem 3.1]{Separable_solution}}.
+%\end{proof}
+%
+%
+%
+% 
+%Now we go back to study the equations in (\ref{separa_m12}). If we define the function
+%% Corresponding to the equation in (\ref{separa_m12}), we define the function 
+%\begin{equation}\label{separable_MP}
+%f(z,\al):=- \al + \int\frac{x}{-z+xd_N \int\frac{t}{1+t\al} \pi_A(\dd t)} \pi_B(\dd x) ,
+%\end{equation}
+%then $m_{2c}(z)$ can be characterized as the unique solution to the equation $f(z,\al)=0$ of $\al$ with $\Im \, \al> 0$, and $m_{1c}(z)$ is defined using the first equation in \eqref{separa_m12}.
+%%as $$m_{1c}(z) = d_N \int\frac{x}{-z\left[1+xm_{2c}(z) \right]} \pi_A(\dd x).$$
+%Moreover, $m_{1,2c}(z)$ are the Stieltjes transforms of densities $\rho_{1,2c}$:
+%$$\rho_{1,2c}(E) = \lim_{\eta\downarrow 0} \frac{1}{\pi}\Im\, m_{1,2c}(E+\ii \eta).$$
+%Then we have the following result.
+%
+%\begin{lemma}\label{lambdar}%[Support of the deformed MP law]
+%The densities $\rho_{c}$ and $\rho_{1,2c}$ all have the same support on $(0,\infty)$, which is a union of intervals: %connected components:
+%\begin{equation}\label{support_rho1c}
+%{\rm{supp}} \, \rho_{c} \cap (0,\infty) ={\rm{supp}} \, \rho_{1,2c} \cap (0,\infty) = \bigcup_{k=1}^p [a_{2k}, a_{2k-1}] \cap (0,\infty),
+%\end{equation}
+%where $p\in \mathbb N$ depends only on $\pi_{A,B}$. Moreover, $(x,\al)=(a_k, m_{2c}(a_k))$ are the real solutions to the equations
+%\begin{equation}
+%f(x,\al)=0, \ \ \text{and} \ \ \frac{\partial f}{\partial \al}(x,\al) = 0. \label{equationEm2}
+%\end{equation}
+%Moreover, we have $m_{1c}(a_1) \in (-\wt \sigma_1^{-1}, 0)$ and $m_{2c}(a_1) \in (-\sigma_1^{-1}, 0)$. %Finally, under (\ref{assm2}) and (\ref{assm3}), we have $a_1 \le C$ for some constant $C>0$. 
+%\end{lemma}
+%\begin{proof}
+%See Section 3 of \cite{Separable_solution}.
+%\end{proof}
+%
+% %It is easy to observe that $b_k=m_{2c}(a_k)$ according to the definition of $f$. 
+% We shall call $a_k$ the spectral edges. In particular, we will focus on the rightmost edge $\lambda_+ := a_1$. 
+%%\begin{equation}\label{right_edge}
+%%\lambda_+ := a_1 
+%%\end{equation}
+%%throughout the following.
+%Now we make the following assumption: there exists a constant $\tau>0$ such that %{\color{red}(can we remove one of the conditions?)}
+%\begin{equation}\label{assm_gap}
+%1 + m_{1c}(\lambda_+) \wt \sigma_1 \ge \tau, \quad 1 + m_{2c}(\lambda_+) \sigma_1\ge \tau. %\quad \frac{\partial^2 f}{\partial m^2}\left(\lambda_+,m_{2c}(\lambda_+)\right) \ge \tau.
+%\end{equation}
+%This assumption guarantees a regular square-root behavior of the spectral densities $\rho_{1,2c}$ near $\lambda_+$ as shown by the following lemma.
+%%(see Lemma \ref{lem_mbehavior} below), which is used in proving the local deformed MP law at the soft edge.
+%
+%\begin{lemma} \label{lambdar_sqrt}
+%Under the assumptions \eqref{assm2}, \eqref{assm3} and \eqref{assm_gap}, there exist constants $a_{1,2}>0$ such that
+%\be\label{sqroot3}
+%\rho_{1,2c}(\lambda_+ - x) = a_{1,2} x^{1/2} + \OO(x), \quad x\downarrow 0,
+%\ee
+%and
+%\be\label{sqroot4}
+%\quad m_{1,2c}(z) = m_{1,2c}(\lambda_+) + \pi a_{1,2}(z-\lambda_+)^{1/2} + \OO(|z-\lambda_+|), \quad z\to \lambda_+ , \ \ \im z\ge 0.
+%\ee
+%The estimates \eqref{sqroot3} and \eqref{sqroot4} also hold for $\rho_c$ and $m_c$ with a different constant. 
+%\end{lemma}
+% 
+
+
+For any constants $c_0>0$ and $a \le 1$, we define a domain of the spectral parameter $z$ as
 \begin{equation}
-S(c_0,C_0,a):= \left\{z=E+ \ii \eta: \lambda_r - c_0 \leq E \leq C_0 \lambda_r, N^{-1+a} \leq \eta \leq 1 \right\}. \label{SSET1}
+S(c_0):= \left\{z=E+ \ii \eta \in \C_+: |z|\le c_0 \right\}. \label{SSET1}
 \end{equation}
-In particular, we shall denote
-\begin{equation}
-S(c_0,C_0,-\infty):= \left\{z=E+ \ii \eta: \lambda_r - c_0 \leq E \leq C_0 \lambda_r, 0 \leq \eta \leq 1 \right\}.
-\end{equation}
-We define the distance to the rightmost edge as
-\begin{equation}
-\kappa \equiv \kappa_E := \vert E -\lambda_r\vert , \ \ \text{for } z= E+\ii \eta.\label{KAPPA}
-\end{equation}
+%In particular, we shall denote
+%\begin{equation}
+%S(c_0,C_0,-\infty):= \left\{z=E+ \ii \eta: \lambda_r - c_0 \leq E \leq C_0 \lambda_r, 0 \leq \eta \leq 1 \right\}.
+%\end{equation}
+%We define the distance to the rightmost edge as
+%\begin{equation}
+%\kappa \equiv \kappa_E := \vert E -\lambda_r\vert , \ \ \text{for } z= E+\ii \eta.\label{KAPPA}
+%\end{equation}
 Then we have the following lemma, which summarizes some basic properties of $m_{2c}$ and $\rho_{2c}$.
 %{\color{red}Discuss about the case \eqref{assm3extra}. }
 
