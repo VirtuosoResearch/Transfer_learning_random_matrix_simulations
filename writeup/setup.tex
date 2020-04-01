@@ -1,16 +1,17 @@
 \section{Introduction}
 
-Multi-task learning that is applied on heterogenous data can often result in suboptimal models (or negative transfer in more technical terms).
+Multi-task learning that is applied on heterogeneous data can often result in suboptimal models (or negative transfer in more technical terms).
 In a previous work \cite{WZR20}, we identified three factors that help determine when multi-task learning works, and when it doesn't.
-In this work, we zoom in to the task covariance part of \cite{WZR20} to further understand when multi-task learning works under covariate and model shifts.
+In this work, we zoom in to the task covariance part of \cite{WZR20} to further understand when multi-task learning works for heterogeneous data.
+We study a high-dimensional linear regression setting under covariate and model shifts.
 By using random matrix theory, we can explain several phenomena that are not explained by the techniques of \cite{WZR20}.
-These are achieved through tight generalization bounds established in the high-dimensional linear regression setting.
+These are achieved through tight generalization bounds established in the high-dimensional regression setting.
 \begin{enumerate}
-	\item {\bf De-noising effect of MTL:} we show that multi-task transfer has a de-noising effect of reducing the variance of the estimator.
+	\item {\bf De-noising effect of MTL:} we show that multi-task learning has a de-noising effect of reducing the variance of the estimator.
 	When this variance reduction effect is bigger than the bias caused by model shift, we get positive transfer.
 	\item {\bf Covariate shift affects the rate of transfer:} we further show that covariate shift can control the rate in which transfer occurs.
-	\item {\bf Negative transfer from model shift:} we establish a fundamental limit that is caused by model shift.
-	Moreover, this cannot be corrected via changing the model capacity or reweighting the tasks.
+	\item {\bf Negative transfer from model shift:} we establish a fundamental limit of multi-task learning compared to single-task learning in the presence of model shift.
+	The phenomenon of negative transfer persists despite changing the model capacity or reweighting the tasks.
 \end{enumerate}
 
 
@@ -80,8 +81,7 @@ We consider two natural questions within each category.
 \end{itemize}
 
 
-\subsubsection{Model Shift}
-
+\paragraph{Model shift.}
 In general the single-task models can also be different across different tasks.
 We shall argue that in addition to the bias and variance terms of generalization error, model shift introduces a third term which is the bias caused by model shift.
 
@@ -93,9 +93,8 @@ We shall argue that in addition to the bias and variance terms of generalization
 %\end{align}
 
 
-\subsubsection{Covariate Shift}
-
-A natural setting is when the covariance matrices $\Sigma_i$ are different across tasks, i.e. having different spectrum or singular vectors.
+\paragraph{Covariate shift.}
+The covariance matrices $\Sigma_i$ may be be different across tasks, i.e. having different spectrum or singular vectors.
 This is also known as covariate shift in the literature.
 \todo{Our hypothesis is that the covariate shift can slow down the convergence of learning the true $\theta$ as a function of the number of data points.}
 A special case of this setting is that the single-task models are the same across all the tasks, i.e. $\beta_i = \beta$, for all $1\le i\le k$.
