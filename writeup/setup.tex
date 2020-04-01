@@ -24,12 +24,12 @@ This setting is prevalent in applications of multi-task learning to image classi
 \section{Problem Setup}\label{sec_setup}
 
 In the multi-task learning (MTL) problem, we are given the input of $k$ tasks $(X_1, Y_1), (X_2, Y_2), \dots, (X_k, Y_k)$.
-We use a shared body (module) $B\in\real^{p\times r}$ for all tasks and a separate head (module) $\set{A_i \in \real^{r}}_{i=1}^k$ for each task.
+We use a shared body (module) $B\in\real^{p\times r}$ for all tasks and a separate head (module) $\set{W_i \in \real^{r}}_{i=1}^k$ for each task.
 %    \paragraph{Different covariates:}
 This corresponds to minimizing the following optimization objective.
 \begin{align}
 	\label{eq_mtl}
-	f(B; A_1, \dots, A_k) = \sum_{i=1}^k \norm{X_i B A_i - Y_i}^2.
+	f(B; W_1, \dots, W_k) = \sum_{i=1}^k \norm{X_i B W_i - Y_i}^2.
 \end{align}
 Note that we consider the natural parameterization without reweighting the tasks above.
 The shared body $B$ plays an important role because it allows information transfer between different task data.
