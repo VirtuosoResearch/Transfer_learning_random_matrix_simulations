@@ -2,15 +2,19 @@
 
 In this part, we shall establish the intuition that adding more data helps in multi-task learning by reducing the variance of the estimator.
 We achieve this through tight generalization bounds obtained from random matrix theory.
+We focus the case of two tasks to provide a complete picture on how covariate and model shifts can affect the type of transfer.
+From \cite{WZR20}, we know that either we need to explicitly restrict the capacity $r$ of $B$ so that there is transfer between the two tasks.
+Following \cite{WZR20}, for the rest of the section, we shall consider the case when $r=1$ since there are only two tasks.
 
-\subsection{The Objective with Shared Weights}
+\subsection{Warm Up: The Simplified Objective with Shared Weights Only}
 
-In this case, $\beta_s$ and $\beta_t$ are different.
-From \cite{WZR20}, we know that either we need to explicitly restrict the capacity $r$ of $B$, or implicitly add a regularization on $B$.
-\todo{We focus on the former case in this section.}
-Following \cite{WZR20}, we consider the case when $r=1$ since there are only two tasks.
-
+%In this case, $\beta_s$ and $\beta_t$ are different.
+%, or implicitly add a regularization on $B$.
+%\todo{We focus on the former case in this section.}
+%, we consider the case when $r=1$ since there are only two tasks.
 We begin by considering the simplified equation \eqref{eq_mtl_basic} to solve for the target task.
+This is equivalent to setting $W_i = 1$ for the two tasks in equation \eqref{eq_mtl}.
+The result of this simplified setting will set up the ground for solving equation \eqref{eq_mtl} when we also optimize $W_1$ and $W_2$.
 By putting the two tasks together, we get
 \begin{align*}
 	\hat{\beta}_{s,t} &= (X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} (X_1^{\top}Y_1 + X_2^{\top}Y_2) \\
@@ -87,21 +91,7 @@ It remains to consider the increment from the first term in $\te(\hat{\beta}_{s,
 Theorem \ref{thm_model_shift} shows upper bounds that guarantee positive transfer, which is determined by the change of variance $\Delta_{\vari}$ and a certain model shift bias parameter $\Delta_{\beta}$ determined by the covariate shift matrix and the model shift.
 
 
-
-
-\begin{example}[\textbf{The effect of $n_1$, the source task data size}]
-\end{example}
-
-
-\subsection{The Multi-Task Learning Objective}
-
-
-
-
-
-
-\subsection{Negative Transfer: The Limit Caused by Model Shifts}
-
+\paragraph{Negative transfer: the Limit caused by model shifts.}
 Next we describe lower bounds that guarantee negative transfer to complement Theorem \ref{thm_model_shift}.
 
 \begin{theorem}[Negative transfer under model shift]\label{thm_model_shift_neg}
@@ -170,6 +160,20 @@ We describe examples based on Theorem \ref{thm_model_shift} and Theorem \ref{thm
 	\caption{Positive vs negative transfer as a parameter of the task model distances.}
 	\label{fig_model_shift_phasetrans}
 \end{figure}
+
+
+
+\begin{example}[\textbf{The effect of $n_1$, the source task data size}]
+\end{example}
+
+
+\subsection{The Multi-Task Learning Objective}
+
+
+
+
+
+
 
 
 
