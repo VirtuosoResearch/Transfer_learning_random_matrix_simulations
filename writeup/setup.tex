@@ -74,7 +74,8 @@ where $B\in\real^p$ and $w_1, w_2$ are both real numbers.
 To solve the above, suppose that $w_1, w_2$ are fixed, by local optimality, we solve $B$ as
 \begin{align*}
 	\hat{B}(w) &= (w_1^2 X_1^{\top}X_1 + w_2^2 X_2^{\top}X_2)^{-1} (w_1 X_1^{\top}Y_1 + w_2 X_2^{\top}Y_2) \\
-	&= \frac{1}{w_2} (w^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} (w X_1^{\top}Y_1 + X_2^{\top}Y_2),
+	&= \frac{1}{w_2} (w^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} (w X_1^{\top}Y_1 + X_2^{\top}Y_2) \\
+	&= \frac{1}{w_2}\bigbrace{\beta_t + (w^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\bigbrace{X_1^{\top}X_1(w\beta_s - w^2\beta_t) + (w X_1^{\top}\varepsilon_1 + X_2^{\top}\varepsilon_2)}},
 \end{align*}
 where we denote $w = w_1 / w_2$.
 As a remark, when $w = 1$, we recover the linear regression estimator.
@@ -199,3 +200,8 @@ for some constants $c_1, c_2 \in (1,\infty)$.
 A crucial quantity is what we call the \textit{covariate shift} matrix $M = \Sigma_1^{1/2}\Sigma_2^{-1/2}$.
 Let $\lambda_1, \lambda_2, \dots, \lambda_p$ denote the singular values of $M$.
 % \gamma_n:= \frac{p} {n_1 + n_2} \to \gamma,
+
+\begin{lemma}\label{lem_minv}
+	In the setting when $n_2 = c_2 p$ we have that as $p$ goes to infinity,
+	\[ \bigtr{(X_2^{\top}X_2)^{-1}\Sigma_2} = \frac{1}{n_2 - p}\bigtr{\Sigma_2^{-1}}. \]
+\end{lemma}

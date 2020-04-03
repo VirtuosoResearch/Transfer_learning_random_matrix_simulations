@@ -5,43 +5,56 @@ In this part, we shall establish the intuition that adding more data helps in mu
 We achieve this through tight generalization bounds obtained from random matrix theory.
 We focus the case of two tasks to provide a complete picture on how covariate and model shifts can affect the type of transfer.
 
-
+Recall that the test error of $\hat{\beta}_{t}^{\MTL}$ consists of two parts
+\[ \te(\hat{\beta}_t^{\MTL}) = \hat{w}^2 \bignorm{\Sigma_2^{1/2} (w^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}X_1^{\top}X_1 (\beta_s - \hat{w}\beta_t)}^2 + \sigma^2\cdot \bigtr{(\hat{w}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2}. \]
+It is not hard to show that the variance of $\hat{\beta}_t^{\MTL}$ is reduced compared to $\hat{\beta}_t^{\STL}$ (following the argument of Proposition \ref{prop_monotone}), i.e.
+\[ \sigma^2\cdot \bigtr{(\hat{w}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2} \le \sigma^2\cdot \bigtr{(X_2^{\top}X_2)^{-1}\Sigma_2}. \]
+Because of model shift however, i.e. $\beta_s \neq \beta_t$.
+We can no longer guarantee that $\te(\hat{\beta}_{t}^{\MTL}) \le \te(\hat{\beta}_t^{\STL})$.
+The main result of this part show deterministic conditions under which we get positive or negative transfer.
+And the conditions depend only on the covariate shift matrix $M$, the difference of the task models, and the number of per-task data points.
+In order to characterize $\te(\hat{\beta}_t^{\MTL})$ and $\te(\hat{\beta}_t^{\STL})$, the technical crux of our approach relies on deriving the limit of the trace of matrix inverse in the high-dimensional setting.
+To illustrate the idea, we observe that by using Lemma \ref{lem_minv}, we have that
+\[ \te(\hat{\beta}_t^{\STL}) = \frac{\sigma^2}{n_2 - p}\bigtr{\Sigma_2^{-1}}. \]
+We shall also derive the limit of $\te(\hat{\beta}_t^{\MTL})$.
+\todo{write a brief technical overview}
 
 %In this case, $\beta_s$ and $\beta_t$ are different.
 %, or implicitly add a regularization on $B$.
 %\todo{We focus on the former case in this section.}
 %, we consider the case when $r=1$ since there are only two tasks.
-We begin by considering the simplified equation \eqref{eq_mtl_basic} to solve for the target task.
-This is equivalent to setting $W_i = 1$ for the two tasks in equation \eqref{eq_mtl}.
-The result of this simplified setting will set up the ground for solving equation \eqref{eq_mtl} when we also optimize $W_1$ and $W_2$.
-By putting the two tasks together, we get
-\begin{align*}
-	\hat{\beta}_{s,t} &= (X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} (X_1^{\top}Y_1 + X_2^{\top}Y_2) \\
-	&= (X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} \bigbrace{(X_1^{\top}X_1\beta_s + X_2^{\top}X_2\beta_t) + (X_1^{\top}\varepsilon_1 + X_2^{\top}\varepsilon_2)} \\
-	&= \beta_t + (X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\bigbrace{X_1^{\top}X_1(\beta_s - \beta_t) + (X_1^{\top}\varepsilon_1 + X_2^{\top}\varepsilon_2)}
-\end{align*}
-Hence
-\begin{align}
-	\err(\hat{\beta}_{s,t})
-	&= \bignorm{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} X_1^{\top}X_1 (\beta_s - \beta_t)}^2
-	+ \sigma^2 \bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}}, \text{ and} \\
-	\te(\hat{\beta}_{s,t})
-	&= \bignorm{\Sigma_2^{1/2} (X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} X_1^{\top}X_1 (\beta_s - \beta_t)}^2 + \sigma^2\cdot \bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2} \label{eq_te_model_shift}
-\end{align}
+%We begin by considering the simplified equation \eqref{eq_mtl_basic} to solve for the target task.
+%This is equivalent to setting $W_i = 1$ for the two tasks in equation \eqref{eq_mtl}.
+%The result of this simplified setting will set up the ground for solving equation \eqref{eq_mtl} when we also optimize $W_1$ and $W_2$.
+%By putting the two tasks together, we get
+%\begin{align*}
+%	\hat{\beta}_{s,t} &= (X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} (X_1^{\top}Y_1 + X_2^{\top}Y_2) \\
+%	&= (X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} \bigbrace{(X_1^{\top}X_1\beta_s + X_2^{\top}X_2\beta_t) + (X_1^{\top}\varepsilon_1 + X_2^{\top}\varepsilon_2)} \\
+%	&= \beta_t + (X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\bigbrace{X_1^{\top}X_1(\beta_s - \beta_t) + (X_1^{\top}\varepsilon_1 + X_2^{\top}\varepsilon_2)}
+%\end{align*}
+%Hence
+%\begin{align}
+%	\err(\hat{\beta}_{s,t})
+%	&= \bignorm{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} X_1^{\top}X_1 (\beta_s - \beta_t)}^2
+%	+ \sigma^2 \bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}}, \text{ and} \\
+%	\te(\hat{\beta}_{s,t})
+%	&= \bignorm{\Sigma_2^{1/2} (X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} X_1^{\top}X_1 (\beta_s - \beta_t)}^2 + \sigma^2\cdot \bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2} \label{eq_te_model_shift}
+%\end{align}
 
-We can see that because of model shift, i.e. $\beta_s \neq \beta_t$.
-We can no longer guarantee that $\te(\hat{\beta}_{s,t}) \le \te(\hat{\beta}_t)$.
-The goal of this part is to show conditions under which we get positive vs. negative transfer.
 
-\todo{For technical reasons, we will consider the test error.} From Lemma \ref{lem_cov_shift}, we know that
-\[ \bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} \Sigma_2} = \frac{1}{n_1 + n_2}\cdot \bigtr{ \bigbrace{a_1\Sigma_2^{-1/2}\Sigma_1\Sigma_2^{-1/2} + a_2\id}^{-1}}, \]
-where $a_1, a_2$ are specified in Theorem \ref{thm_cov_shift}.
-Hence the variance part is reduced by the following amount
-\begin{align}
-	\Delta_{\vari} \define \sigma^2 \cdot \bigbrace{\frac{p}{n_2 - p} - \frac{1}{n_1 + n_2} \bigtr{\bigbrace{a_1 M^{\top}M + a_2\id}^{-1}}}
-\end{align}
-It remains to consider the increment from the first term in $\te(\hat{\beta}_{s,t})$, which is bounded using the following lemma.
+
+\todo{For technical reasons, we will consider the test error.}
+%From Lemma \ref{lem_cov_shift}, we know that
+%\[ \bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} \Sigma_2} = \frac{1}{n_1 + n_2}\cdot \bigtr{ \bigbrace{a_1\Sigma_2^{-1/2}\Sigma_1\Sigma_2^{-1/2} + a_2\id}^{-1}}, \]
+%where $a_1, a_2$ are specified in Theorem \ref{thm_cov_shift}.
+%Hence the variance part is reduced by the following amount
+%\begin{align}
+%	\Delta_{\vari} \define \sigma^2 \cdot \bigbrace{\frac{p}{n_2 - p} - \frac{1}{n_1 + n_2} \bigtr{\bigbrace{a_1 M^{\top}M + a_2\id}^{-1}}}
+%\end{align}
+%It remains to consider the increment from the first term in $\te(\hat{\beta}_{s,t})$, which is bounded using the following lemma.
 %We are now interested in the following quantity
+
+\subsection{Deterministic Conditions for Postive Transfer}
 
 \begin{theorem}[Positive transfer under model shift]\label{thm_model_shift}
 	Let $a_1, a_2$ be the solutions from equations \eqref{eq_a1} and \eqref{eq_a2}.
@@ -317,7 +330,7 @@ For now, we assume that the random variables $x_{ij}$ are i.i.d. Gaussian, but w
 
 
 
-\section{The Case with $k$ Tasks of the Same Covariates}
+\section{The Case with Many Tasks of the Same Covariates}
 
 
 
