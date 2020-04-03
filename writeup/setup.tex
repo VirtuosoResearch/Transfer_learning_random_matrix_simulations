@@ -6,6 +6,8 @@ In this work, we zoom in to the task covariance part of \cite{WZR20} to further 
 We study a high-dimensional linear regression setting under covariate and model shifts.
 By using random matrix theory, we can explain several phenomena that are not explained by the techniques of \cite{WZR20}.
 These are achieved through tight generalization bounds established in the high-dimensional regression setting.
+
+First, we provide a complete and precise picture for when there is positive vs negative transfer in the setting of learning two tasks.
 \begin{enumerate}
 	\item {\bf De-noising effect of MTL:} we show that multi-task learning has a de-noising effect of reducing the variance of the estimator.
 	When this variance reduction effect is bigger than the bias caused by model shift, we get positive transfer.
@@ -14,16 +16,20 @@ These are achieved through tight generalization bounds established in the high-d
 	The phenomenon of negative transfer persists despite changing the model capacity or reweighting the tasks.
 \end{enumerate}
 
+Secondly for the general setting with $k$ tasks, we study the case when all tasks share the same covariates.
+This setting is prevalent in applications of multi-task learning to image classification, where there are multiple prediciton labels/tasks for every image \cite{EA20}.
+\todo{We show the following results.}
+
 
 \section{Problem Setup}\label{sec_setup}
 
 In the multi-task learning (MTL) problem, we are given the input of $k$ tasks $(X_1, Y_1), (X_2, Y_2), \dots, (X_k, Y_k)$.
-We use a shared body (module) $B\in\real^{p\times r}$ for all tasks and a separate head (module) $\set{A_i \in \real^{r}}_{i=1}^k$ for each task.
+We use a shared body (module) $B\in\real^{p\times r}$ for all tasks and a separate head (module) $\set{W_i \in \real^{r}}_{i=1}^k$ for each task.
 %    \paragraph{Different covariates:}
 This corresponds to minimizing the following optimization objective.
 \begin{align}
 	\label{eq_mtl}
-	f(B; A_1, \dots, A_k) = \sum_{i=1}^k \norm{X_i B A_i - Y_i}^2.
+	f(B; W_1, \dots, W_k) = \sum_{i=1}^k \norm{X_i B W_i - Y_i}^2.
 \end{align}
 Note that we consider the natural parameterization without reweighting the tasks above.
 The shared body $B$ plays an important role because it allows information transfer between different task data.
