@@ -66,6 +66,25 @@ There are two ways to ensure the sharing of information between tasks.
 \end{itemize}
 
 \paragraph{The case of two tasks.}
+From \cite{WZR20}, we know that either we need to explicitly restrict the capacity $r$ of $B$ so that there is transfer between the two tasks.
+Following \cite{WZR20}, for the rest of the paper, we shall consider the case when $r=1$ since there are only two tasks.
+Here, equation \eqref{eq_mtl} simplifies to the following
+\[ f(B; w_1, w_2) = \bignorm{X_1 B w_1 - Y_1}^2 + \bignorm{X_2 B w_2 - Y_2}^2, \]
+where $B\in\real^p$ and $w_1, w_2$ are both real numbers.
+To solve the above, suppose that $w_1, w_2$ are fixed, by local optimality, we solve $B$ as
+\begin{align*}
+	\hat{B}(w) &= (w_1^2 X_1^{\top}X_1 + w_2^2 X_2^{\top}X_2)^{-1} (w_1 X_1^{\top}Y_1 + w_2 X_2^{\top}Y_2) \\
+	&= \frac{1}{w_2} (w^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} (w X_1^{\top}Y_1 + X_2^{\top}Y_2),
+\end{align*}
+where we denote $w = w_1 / w_2$.
+As a remark, when $w = 1$, we recover the linear regression estimator.
+The test error of using $w_2 \hat{B}(w)$ for the target task is
+\begin{align*}
+	\te(w_2\hat{B}(w)) = w^2 \bignorm{\Sigma^{1/2}(w^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} X_1^{\top}X_1 (\beta_s - w \beta_t)}^2 + \sigma^2 \cdot \bigtr{(w^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} \Sigma_2}.
+\end{align*}
+Let $\hat{w}$ denote the minimizer of $te(w_2 \hat{B})$ over $w\in\real$.
+Note that we can obtain the value of $\te(w_1\hat{B})$ through a validation set.
+We will denote $\hat{\beta}_t^{\MTL} = w_2 \hat{B}(\hat{w})$.
 
 %\todo{may also consider test error}
 %Several relevant directions on this setting.
@@ -79,7 +98,7 @@ There are two ways to ensure the sharing of information between tasks.
 %\end{itemize}
 
 
-\subsection{Hypothesis}
+\subsection{Hypothesis on Heterogeneous Task Data}
 
 Our hypothesis is that the heterogeneity among the multiple tasks can be categorized into two classes, \textit{covariate shift} and \textit{model shift}. %\todo{Add some references to add spice on these takes.}
 We consider two natural questions within each category.
@@ -113,25 +132,31 @@ A special case of this setting is that the single-task models are the same acros
 %\Sigma_i
 %\end{align}
 
-\paragraph{Problem statement.}
-
-Since all tasks share the same underlying model $\beta$, we use a simplified objective as follows.
-\begin{align}
-	\label{eq_mtl_basic}
-	f(w) = \sum_{i=1}^k \norm{X_i w - Y_i}^2.
-\end{align}
+\paragraph{Problem statement.} Our goal is to study under model and covariate shifts, whether multi-task learning helps learn the target task better than single-task learning.
+The baseline where we solve the target task with its own data is
+\begin{align*}
+	te(\hat{\beta}_t^{\STL}) = \sigma^2 \cdot \bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}}, \text{ where } \hat{\beta}_t^{\STL} = (X_2^{\top}X_2)^{-1} X_2^{\top}Y_2.
+\end{align*}
+Clearly, whether $\hat{\beta}_t^{\MTL}$ outperforms $\hat{\beta}_t^{\STL}$ depends on the covariate matrices, the difference of the task models, and the number of per-task data points.
+Our goal is provide conditions under which there is positive transfer ($\te(\hat{\beta}_t^{\MTL}) \le \hat{\beta}_t^{\STL}$) or negative transfer ($\te(\hat{\beta}_t^{\MTL}) \ge \hat{\beta}_t^{\STL}$).
+As a warm up, we show that when $\beta_s = \beta_t$, then the transfer is always positive.
+%Since all tasks share the same underlying model $\beta$, we use a simplified objective as follows.
+%\begin{align}
+%	\label{eq_mtl_basic}
+%	f(w) = \sum_{i=1}^k \norm{X_i w - Y_i}^2.
+%\end{align}
 %{\bf The distributed learning problem.}
 %    \begin{align}
 %     f(w) = \sum_{i=1}^k \normFro{X_i w - Y_i}^2. \label{eq_dist}
 %   \end{align}
-Equation \eqref{eq_mtl_basic} is simplified from equation \eqref{eq_mtl} by setting $A_i$ to be 1 for all tasks. %can select a model from the subspace of $B$ to fit $(X_i, Y_i)$.
+%Equation \eqref{eq_mtl_basic} is simplified from equation \eqref{eq_mtl} by setting $A_i$ to be 1 for all tasks. %can select a model from the subspace of $B$ to fit $(X_i, Y_i)$.
 
 \begin{proposition}\label{prop_monotone}
 	Suppose that $n > p$.
-  When there is no model shift, adding the source task data always reduces the estimation error and the test error for the target task, i.e.
+  When there is no model shift, i.e. $\beta_s = \beta_t$, adding the source task data always reduces the estimation error and the test error for the target task, i.e.
 	\begin{align}
-		\err(\hat{\beta}_{s,t})  &\le \err(\hat{\beta}_t), \text{ and} \label{eq_mono_e}\\
-		\te(\hat{\beta}_{s,t}) &\le \te(\hat{\beta}_t) \label{eq_mono_te}
+		\err(\hat{\beta}_{t}^{\MTL})  &\le \err(\hat{\beta}_t^{\STL}), \text{ and} \label{eq_mono_e}\\
+		\te(\hat{\beta}_{t}^{\MTL}) &\le \te(\hat{\beta}_t^{\STL}) \label{eq_mono_te}
 	\end{align}
 \end{proposition}
 
