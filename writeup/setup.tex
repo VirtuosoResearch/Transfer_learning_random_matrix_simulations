@@ -79,9 +79,12 @@ To solve the above, suppose that $w_1, w_2$ are fixed, by local optimality, we s
 where we denote $w = w_1 / w_2$.
 As a remark, when $w = 1$, we recover the linear regression estimator.
 The test error of using $w_2 \hat{B}(w)$ for the target task is
-\begin{align*}
-	\te(w_2\hat{B}(w)) = w^2 \bignorm{\Sigma^{1/2}(w^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} X_1^{\top}X_1 (\beta_s - w \beta_t)}^2 + \sigma^2 \cdot \bigtr{(w^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} \Sigma_2}.
-\end{align*}
+\begin{align}
+	\te(w_2\hat{B}(w)) =&~ w^2 \bignorm{\Sigma_2^{1/2}(w^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} X_1^{\top}X_1 (\beta_s - w \beta_t)}^2 \nonumber \\
+			&~ + \sigma^2 \cdot \bigtr{(w^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} \Sigma_2}. \label{eq_te_mtl}
+\end{align}
+In the above, the first is a bias term introduced by the model shift between the source and target tasks.
+The second is a variance term, which decreases monotonically as we add more and more source task data.
 Let $\hat{w}$ denote the minimizer of $te(w_2 \hat{B})$ over $w\in\real$.
 Note that we can obtain the value of $\te(w_1\hat{B})$ through a validation set.
 We will denote $\hat{\beta}_t^{\MTL} = w_2 \hat{B}(\hat{w})$.
@@ -155,23 +158,27 @@ As a warm up, we show that when $\beta_s = \beta_t$, then the transfer is always
 	Suppose that $n > p$.
   When there is no model shift, i.e. $\beta_s = \beta_t$, adding the source task data always reduces the estimation error and the test error for the target task, i.e.
 	\begin{align}
-		\err(\hat{\beta}_{t}^{\MTL})  &\le \err(\hat{\beta}_t^{\STL}), \text{ and} \label{eq_mono_e}\\
-		\te(\hat{\beta}_{t}^{\MTL}) &\le \te(\hat{\beta}_t^{\STL}) \label{eq_mono_te}
+%		\err(\hat{\beta}_{t}^{\MTL})  &\le \err(\hat{\beta}_t^{\STL}), \text{ and} \label{eq_mono_e}\\
+		\te(\hat{\beta}_{t}^{\MTL}) &\le \te(\hat{\beta}_t^{\STL}). \label{eq_mono_te}
 	\end{align}
 \end{proposition}
 
 \begin{proof}
-	Equation \eqref{eq_mono_e} is simply because
-		\[ \err(\hat{\beta}_{s,t}) = \bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}} \le \bigtr{(X_1^{\top}X_1)^{-1}} = \err(\hat{\beta}_t). \]
-	Equation \eqref{eq_mono_te} follows because
+%	Equation \eqref{eq_mono_e} is simply because
+%		\[ \err(\hat{\beta}_{s,t}) = \bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}} \le \bigtr{(X_1^{\top}X_1)^{-1}} = \err(\hat{\beta}_t). \]
+%	Equation \eqref{eq_mono_te} follows because
+	Recall that $\hat{\beta}_t^{\MTL} = \hat{w} \cdot \hat{B}$.
+	By the optimality of $\hat{w}$, we have by setting $w = 1$ in equation \eqref{eq_te_mtl}
 	\begin{align*}
-		\te(\hat{\beta}_{s,t}) = \bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2} &= \bigtr{\bigbrace{\Sigma_2^{-1/2}X_1^{\top}X_1\Sigma_2^{-1/2} + \Sigma_2^{-1/2}X_2^{\top}X_2\Sigma^{-1/2}}^{-1}} \\
+		\te(\hat{\beta}_t^{\MTL}) &\le \sigma^2 \cdot \bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2} \\
+		&= \sigma^2 \cdot \bigtr{\bigbrace{\Sigma_2^{-1/2}X_1^{\top}X_1\Sigma_2^{-1/2} + \Sigma_2^{-1/2}X_2^{\top}X_2\Sigma^{-1/2}}^{-1}} \\
 		&\le \bigtr{\bigbrace{\Sigma_2^{-1/2}X_2^{\top}X_2\Sigma_2^{-1/2}}^{-1}}
-			= \bigtr{(X_2^{\top}X_2)^{-1} \Sigma_2} = \te(\hat{\beta}_t).
+			= \bigtr{(X_2^{\top}X_2)^{-1} \Sigma_2} = \te(\hat{\beta}_t^{\STL}),
 	\end{align*}
+	which concludes the proof.
 \end{proof}
 
-
+As a remark, we can derive a similar result for the estimation error as well. The details are omitted.
 
 
 \subsection{The High-Dimensional Setting}
@@ -179,7 +186,8 @@ As a warm up, we show that when $\beta_s = \beta_t$, then the transfer is always
 %\todo{setup motivation and notations}
 We would like to get insight on how covariate and model shifts affect the rate of transfer.
 We will consider the high-dimensional setting where for the target task, its number of data points is a small constant times $p$.
-This setting captures a wide range of applications of multi-task learning where we would like to use auxillary task data to help train tasks with limited labeled data.
+This setting captures a wide range of applications of multi-task learning where we would like to use auxiliary task data to help train tasks with limited labeled data.
+Furthermore, this setting is particularly suited to our study since there is need for adding more data to help learn the target task.
 
 \paragraph{The case of two tasks.}
 We can get precise rates using random matrix theory.
@@ -188,6 +196,6 @@ i.e. $\beta_1 = \beta_s$ and $\beta_2 = \beta_t$.
 We introduce the following notations for the high-dimensional setting
 \[ c_{n_1} \define \frac{n_1}{p} \to c_1, \quad c_{n_2} \define \frac{n_2}p \to c_2, \quad \text{as } \ n_1, n_2\to \infty, \]
 for some constants $c_1, c_2 \in (1,\infty)$.
-
-
+A crucial quantity is what we call the \textit{covariate shift} matrix $M = \Sigma_1^{1/2}\Sigma_2^{-1/2}$.
+Let $\lambda_1, \lambda_2, \dots, \lambda_p$ denote the singular values of $M$.
 % \gamma_n:= \frac{p} {n_1 + n_2} \to \gamma,
