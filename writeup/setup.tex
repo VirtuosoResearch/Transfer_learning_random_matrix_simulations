@@ -23,7 +23,33 @@ This setting is prevalent in applications of multi-task learning to image classi
 
 \section{Problem Setup}\label{sec_setup}
 
-In the multi-task learning (MTL) problem, we are given the input of $k$ tasks $(X_1, Y_1), (X_2, Y_2), \dots, (X_k, Y_k)$.
+\paragraph{Data generation.}
+In the multi-task learning (MTL) problem, we are given the input of $k$ tasks $(X_1, Y_1)$, $(X_2, Y_2)$, $\dots$, $(X_k, Y_k)$.
+We shall assume that each task data follows a linear model.
+For every $1\le i\le k$, we assume that
+\[ Y_i = X_i \beta_i + \varepsilon_i, \]
+where $\beta_i\in\real^p$ is the model parameter for the $i$-th task.
+Each row of $X_i\in\real^{n_i\times p}$ is assumed to be drawn i.i.d. from a fixed distribution with covariance matrix $\Sigma_i$.
+We assume that for every row $x$ of $X_i$, we have
+\[ \ex{xx^{\top}} = \Sigma_i. \]
+We also write $x = \Sigma_i^{1/2} z_i$, where $z_i$ is a random vector with mean $0$ and variance $1$.
+
+
+\paragraph{Generalization error.}
+We will designate the $k$-th task as the target.
+Our goal is to come up with an estimator $\hat{\beta}$ to provide accurate predictions for the target task, provided with the other auxiliary task data.
+Concretely, we focus on two objectives.
+\begin{itemize}
+	\item Estimation error for the target model $\beta_t$: we consider their distance
+		\[ \err(\hat{\beta}) \define \exarg{\varepsilon_i, \forall 1\le i\le k}{\bignorm{\hat{\beta} - \beta_t}^2}. \]
+	\item Test error for the target task:
+		\begin{align*}
+			\te(\hat{\beta}) &\define \exarg{x \sim \Sigma_k}{\exarg{{\varepsilon_i, \forall 1\le i\le k}}{(x^{\top}\hat{\beta} - x^{\top}\beta_t)^2}} \\
+			&= \exarg{\varepsilon_i, \forall 1\le i\le k}{(\hat{\beta} - \beta_t)^{\top}\Sigma_k(\hat{\beta} - \beta_t)}.
+		\end{align*}
+\end{itemize}
+
+\paragraph{The MTL problem.}
 We use a shared body (module) $B\in\real^{p\times r}$ for all tasks and a separate head (module) $\set{W_i \in \real^{r}}_{i=1}^k$ for each task.
 %    \paragraph{Different covariates:}
 This corresponds to minimizing the following optimization objective.
@@ -39,30 +65,8 @@ There are two ways to ensure the sharing of information between tasks.
 	\item Controlling the capacity $r$ of $B$, e.g. \cite{KD12,WZR20}. Moreover, \cite{KD12} observed that controlling the capacity can outperform the implicit capacity control of adding regularization over $B$.
 \end{itemize}
 
+\paragraph{The case of two tasks.}
 
-\paragraph{Data generation.} We shall assume that each task data follows a linear model.
-For every $1\le i\le k$, we assume that
-\[ Y_i = X_i \beta_i + \varepsilon_i, \]
-where $\beta_i\in\real^p$ is the model parameter for the $i$-th task.
-Each row of $X_i\in\real^{n_i\times p}$ is assumed to be drawn i.i.d. from a fixed distribution with covariance matrix $\Sigma_i$.
-We assume that for every row $x$ of $X_i$, we have
-\[ \ex{xx^{\top}} = \Sigma_i. \]
-We also write $x = \Sigma_i^{1/2} z_i$, where $z_i$ is a random vector with mean $0$ and variance $1$.
-
-
-\paragraph{Objectives.}
-We will designate the $k$-th task as the target.
-Our goal is to come up with an estimator $\hat{\beta}$ to provide accurate predictions for the target task, provided with the other auxiliary task data.
-Concretely, we focus on two objectives.
-\begin{itemize}
-	\item Estimation error for the target model $\beta_t$: we consider their distance
-		\[ \err(\hat{\beta}) \define \exarg{\varepsilon_i, \forall 1\le i\le k}{\bignorm{\hat{\beta} - \beta_t}^2}. \]
-	\item Test error for the target task:
-		\begin{align*}
-			\te(\hat{\beta}) &\define \exarg{x \sim \Sigma_k}{\exarg{{\varepsilon_i, \forall 1\le i\le k}}{(x^{\top}\hat{\beta} - x^{\top}\beta_t)^2}} \\
-			&= \exarg{\varepsilon_i, \forall 1\le i\le k}{(\hat{\beta} - \beta_t)^{\top}\Sigma_k(\hat{\beta} - \beta_t)}.
-		\end{align*}
-\end{itemize}
 %\todo{may also consider test error}
 %Several relevant directions on this setting.
 %\begin{itemize}
@@ -108,6 +112,8 @@ A special case of this setting is that the single-task models are the same acros
 %	Y_i = X_i \beta + \varepsilon_i. %, \mbox{ with } \frac 1 {n_i} X_i^{\top}X_i \sim
 %\Sigma_i
 %\end{align}
+
+\paragraph{Problem statement.}
 
 Since all tasks share the same underlying model $\beta$, we use a simplified objective as follows.
 \begin{align}
