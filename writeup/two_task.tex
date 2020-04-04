@@ -6,7 +6,9 @@ We achieve this through tight generalization bounds obtained from random matrix 
 We focus the case of two tasks to provide a complete picture on how covariate and model shifts can affect the type of transfer.
 
 Recall that the test error of $\hat{\beta}_{t}^{\MTL}$ consists of two parts
-\[ \te(\hat{\beta}_t^{\MTL}) = \hat{w}^2 \bignorm{\Sigma_2^{1/2} (w^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}X_1^{\top}X_1 (\beta_s - \hat{w}\beta_t)}^2 + \sigma^2\cdot \bigtr{(\hat{w}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2}. \]
+\begin{align}
+	\te(\hat{\beta}_t^{\MTL}) = \hat{w}^2 \bignorm{\Sigma_2^{1/2} (\hat{w}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}X_1^{\top}X_1 (\beta_s - \hat{w}\beta_t)}^2 + \sigma^2\cdot \bigtr{(\hat{w}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2}. \label{eq_te_model_shift}
+\end{align}
 It is not hard to show that the variance of $\hat{\beta}_t^{\MTL}$ is reduced compared to $\hat{\beta}_t^{\STL}$ (following the argument of Proposition \ref{prop_monotone}), i.e.
 \[ \sigma^2\cdot \bigtr{(\hat{w}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2} \le \sigma^2\cdot \bigtr{(X_2^{\top}X_2)^{-1}\Sigma_2}. \]
 Because of model shift however, i.e. $\beta_s \neq \beta_t$.
@@ -54,7 +56,7 @@ We shall also derive the limit of $\te(\hat{\beta}_t^{\MTL})$.
 %It remains to consider the increment from the first term in $\te(\hat{\beta}_{s,t})$, which is bounded using the following lemma.
 %We are now interested in the following quantity
 
-\subsection{Deterministic Conditions for the Case of Two Tasks}
+\subsection{Tight Bounds for the Case of Two Tasks}
 
 We state our main result for two tasks with both covariate and model shift in the following theorem.
 
@@ -63,15 +65,15 @@ We state our main result for two tasks with both covariate and model shift in th
 	Let $\hat{w}$ denote the optimal solution for the ratio $W_1/W_2$ in equation \eqref{eq_te_mtl}.
 	Let ${M} = \hat{w} \Sigma_1^{1/2}\Sigma_2^{-1/2}$ denote the weighted covariate shift matrix.
 	Denote by ${\lambda}_1, {\lambda}_2, \dots, {\lambda}_p$ the singular values of ${M}^{\top}{M}$.
-	The information transfer is solely determined by two deterministic quantities $\Delta_{\beta}$ and $\Delta_{\vari}$, which show the change of model shift bias and variace, respectively.
+	The information transfer is solely determined by two deterministic quantities $\Delta_{\beta}$ and $\Delta_{\vari}$, which show the change of model shift bias and variace, respectively. With high probability we have
 	\begin{align*}
 	 	\te(\hat{\beta}_{t}^{\MTL}) \le \te(\hat{\beta}_t^{\STL}) \text{ when: } &\Delta_{\vari} - \Delta_{\beta} \ge \left(2\sqrt{\frac{p} {n_1}} + \frac{p}{n_1}\right) \delta \\
-		\te(\hat{\beta}_t^{\MTL}) \ge \te(\hat{\beta}_t^{\STL}) \text{ when: } &\Delta_{\vari} - \Delta_{\beta} \le \bigbrace{2\sqrt{\frac {p}{n_1}} + \frac{p}{n_1}} \delta,
+		\te(\hat{\beta}_t^{\MTL}) \ge \te(\hat{\beta}_t^{\STL}) \text{ when: } &\Delta_{\vari} - \Delta_{\beta} \le -\bigbrace{2\sqrt{\frac {p}{n_1}} + \frac{p}{n_1}} \delta,
 	\end{align*}
-	where $\delta = \norm{Z} \cdot \norm{\Sigma_1^{1/2}(\beta_s - \hat{w}\beta_t)}^2$ with $Z = {M} \frac{(1 + a_3)\id + a_4 {M}^{\top}{M}}{(a_2 + a_1 {M}^{\top}{M})^2} {M}^{\top}$, and
+	where $\delta = \norm{Z} \cdot \norm{\Sigma_1^{1/2}(\beta_s - \hat{w}\beta_t)}^2$ with $Z = \frac{n_1^2}{(n_1 + n_2)^2}\cdot{M} \frac{(1 + a_3)\id + a_4 {M}^{\top}{M}}{(a_2 + a_1 {M}^{\top}{M})^2} {M}^{\top}$, and
 	\begin{align*}
-		\Delta_{\vari} &\define \sigma^2 \bigbrace{\frac{1}{n_2 - p}\bigtr{\Sigma_2^{-1}} - \frac{1}{n_1 + n_2}\bigtr{(a_1 M^{\top}M + a_2\id)^{-1}}} \\
-		\Delta_{\beta} &\define \frac{n_1^2}{(n_1 + n_2)^2}(\beta_s - \beta_t)^{\top} \Sigma_1^{1/2} Z \Sigma_1^{1/2} (\beta_s - \beta_t),
+		\Delta_{\vari} &\define {\frac{\sigma^2 }{n_2 - p}\bigtr{\Sigma_2^{-1}} - \frac{\sigma^2}{n_1 + n_2}\bigtr{(a_1 M^{\top}M + a_2\id)^{-1}}} \\
+		\Delta_{\beta} &\define (\beta_s - \hat{w}\beta_t)^{\top} \Sigma_1^{1/2} Z \Sigma_1^{1/2} (\beta_s - \hat{w}\beta_t),
 	\end{align*}
 	and $a_1, a_2, a_3, a_4$ are the solutions of the following linear equations
 	\begin{gather}
@@ -115,12 +117,10 @@ We state our main result for two tasks with both covariate and model shift in th
 %		\end{align*}
 %	}
 
-Theorem \ref{thm_model_shift} shows upper bounds that guarantee positive transfer, which is determined by the change of variance $\Delta_{\vari}$ and a certain model shift bias parameter $\Delta_{\beta}$ determined by the covariate shift matrix and the model shift.
-
-
+Theorem \ref{thm_model_shift} shows upper and lower bounds that guarantee positive transfer, which is determined by the change of variance $\Delta_{\vari}$ and a certain model shift bias parameter $\Delta_{\beta}$ determined by the covariate shift matrix and the model shift.
+The bounds get tighter and tighter as $n_1 / p$ increases.
 %\paragraph{Negative transfer: the Limit caused by model shifts.}
 %Next we describe lower bounds that guarantee negative transfer to complement Theorem \ref{thm_model_shift}.
-
 %\begin{theorem}[Negative transfer under model shift]\label{thm_model_shift_neg}
 %	In the setting of Theorem \ref{thm_model_shift}, we have $\te(\hat{\beta}_{s,t}) \ge
 %\te(\hat{\beta}_t)$ when
@@ -133,11 +133,9 @@ Theorem \ref{thm_model_shift} shows upper bounds that guarantee positive transfe
 %\end{align}
 %
 %\end{theorem}
-
-\medskip
 We describe examples based on Theorem \ref{thm_model_shift} to show several conceptual insights.
 
-\begin{example}[\textbf{The effect of $d$, the distance of task models}]
+\begin{example}[\textbf{Varying the distance of task models}]
 	We consider a simple setting where $\Sigma_1 = \id$.
 	Suppose that $\beta_s - \beta_t$ is a vector with mean zero and variance $d^2$. Hence the task models have distance $d^2\cdot p$ in expectation.
 
@@ -145,7 +143,7 @@ We describe examples based on Theorem \ref{thm_model_shift} to show several conc
 	\begin{align} \label{eq_delta_simple}
 		\Delta_{\beta} \define d^2 \cdot \sum_{i=1}^p \frac{(1 + a_3)\lambda_i^2 + a_4 \lambda_i^4}{(a_1 \lambda_i^2 + a_2)^2}.
 	\end{align}
-	Now we solve the equations \eqref{eq_a1}, \eqref{eq_a2}, \eqref{eq_a3}, \eqref{eq_a4} to get
+	Now we solve the equations \eqref{eq_a2}, \eqref{eq_a3}, \eqref{eq_a4} to get
 	\begin{align}
 		a_1 = \frac{c_1(c_1 + c_2 - 1)}{(c_1 + c_2)^2},
 		a_2 = \frac{c_2(c_1 + c_2 - 1)}{(c_1 + c_2)^2},
@@ -202,7 +200,7 @@ We describe examples based on Theorem \ref{thm_model_shift} to show several conc
 
 
 
-\section{The Effect of Covariate Shift on the Rate of Transfer}
+\subsection{The Effect of Covariate Shift on the Rate of Transfer}
 
 
 
