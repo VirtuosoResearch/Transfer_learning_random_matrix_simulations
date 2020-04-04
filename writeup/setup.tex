@@ -11,9 +11,10 @@ First, we provide a complete and precise picture for when there is positive vs n
 \begin{enumerate}
 	\item {\bf De-noising effect of MTL:} we show that multi-task learning has a de-noising effect of reducing the variance of the estimator.
 	When this variance reduction effect is bigger than the bias caused by model shift, we get positive transfer.
-	\item {\bf Covariate shift affects the rate of transfer:} we further show that covariate shift can control the rate in which transfer occurs.
-	\item {\bf Negative transfer from model shift:} we establish a fundamental limit of multi-task learning compared to single-task learning in the presence of model shift.
+
+	{\bf Negative transfer from model shift:} To complement the above result, we establish a fundamental limit of multi-task learning compared to single-task learning in the presence of model shift.
 	The phenomenon of negative transfer persists despite changing the model capacity or reweighting the tasks.
+	\item {\bf Covariate shift affects the rate of transfer:} we further show that covariate shift can control the rate in which transfer occurs.
 \end{enumerate}
 
 Secondly for the general setting with $k$ tasks, we study the case when all tasks share the same covariates.
@@ -23,7 +24,33 @@ This setting is prevalent in applications of multi-task learning to image classi
 
 \section{Problem Setup}\label{sec_setup}
 
-In the multi-task learning (MTL) problem, we are given the input of $k$ tasks $(X_1, Y_1), (X_2, Y_2), \dots, (X_k, Y_k)$.
+\paragraph{Data generation.}
+In the multi-task learning (MTL) problem, we are given the input of $k$ tasks $(X_1, Y_1)$, $(X_2, Y_2)$, $\dots$, $(X_k, Y_k)$.
+We shall assume that each task data follows a linear model.
+For every $1\le i\le k$, we assume that
+\[ Y_i = X_i \beta_i + \varepsilon_i, \]
+where $\beta_i\in\real^p$ is the model parameter for the $i$-th task.
+Each row of $X_i\in\real^{n_i\times p}$ is assumed to be drawn i.i.d. from a fixed distribution with covariance matrix $\Sigma_i$.
+We assume that for every row $x$ of $X_i$, we have
+\[ \ex{xx^{\top}} = \Sigma_i. \]
+We also write $x = \Sigma_i^{1/2} z_i$, where $z_i$ is a random vector with mean $0$ and variance $1$.
+
+
+\paragraph{Generalization error.}
+We will designate the $k$-th task as the target.
+Our goal is to come up with an estimator $\hat{\beta}$ to provide accurate predictions for the target task, provided with the other auxiliary task data.
+Concretely, we focus on two objectives.
+\begin{itemize}
+	\item Estimation error for the target model $\beta_t$: we consider their distance
+		\[ \err(\hat{\beta}) \define \exarg{\varepsilon_i, \forall 1\le i\le k}{\bignorm{\hat{\beta} - \beta_t}^2}. \]
+	\item Test error for the target task:
+		\begin{align*}
+			\te(\hat{\beta}) &\define \exarg{x \sim \Sigma_k}{\exarg{{\varepsilon_i, \forall 1\le i\le k}}{(x^{\top}\hat{\beta} - x^{\top}\beta_t)^2}} \\
+			&= \exarg{\varepsilon_i, \forall 1\le i\le k}{(\hat{\beta} - \beta_t)^{\top}\Sigma_k(\hat{\beta} - \beta_t)}.
+		\end{align*}
+\end{itemize}
+
+\paragraph{The MTL problem.}
 We use a shared body (module) $B\in\real^{p\times r}$ for all tasks and a separate head (module) $\set{W_i \in \real^{r}}_{i=1}^k$ for each task.
 %    \paragraph{Different covariates:}
 This corresponds to minimizing the following optimization objective.
@@ -39,30 +66,31 @@ There are two ways to ensure the sharing of information between tasks.
 	\item Controlling the capacity $r$ of $B$, e.g. \cite{KD12,WZR20}. Moreover, \cite{KD12} observed that controlling the capacity can outperform the implicit capacity control of adding regularization over $B$.
 \end{itemize}
 
+\paragraph{The case of two tasks.}
+From \cite{WZR20}, we know that either we need to explicitly restrict the capacity $r$ of $B$ so that there is transfer between the two tasks.
+Following \cite{WZR20}, for the rest of the paper, we shall consider the case when $r=1$ since there are only two tasks.
+Here, equation \eqref{eq_mtl} simplifies to the following
+\[ f(B; w_1, w_2) = \bignorm{X_1 B w_1 - Y_1}^2 + \bignorm{X_2 B w_2 - Y_2}^2, \]
+where $B\in\real^p$ and $w_1, w_2$ are both real numbers.
+To solve the above, suppose that $w_1, w_2$ are fixed, by local optimality, we solve $B$ as
+\begin{align*}
+	\hat{B}(w) &= (w_1^2 X_1^{\top}X_1 + w_2^2 X_2^{\top}X_2)^{-1} (w_1 X_1^{\top}Y_1 + w_2 X_2^{\top}Y_2) \\
+	&= \frac{1}{w_2} (w^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} (w X_1^{\top}Y_1 + X_2^{\top}Y_2) \\
+	&= \frac{1}{w_2}\bigbrace{\beta_t + (w^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\bigbrace{X_1^{\top}X_1(w\beta_s - w^2\beta_t) + (w X_1^{\top}\varepsilon_1 + X_2^{\top}\varepsilon_2)}},
+\end{align*}
+where we denote $w = w_1 / w_2$.
+As a remark, when $w = 1$, we recover the linear regression estimator.
+The test error of using $w_2 \hat{B}(w)$ for the target task is
+\begin{align}
+	\te(w_2\hat{B}(w)) =&~ w^2 \bignorm{\Sigma_2^{1/2}(w^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} X_1^{\top}X_1 (\beta_s - w \beta_t)}^2 \nonumber \\
+			&~ + \sigma^2 \cdot \bigtr{(w^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} \Sigma_2}. \label{eq_te_mtl}
+\end{align}
+In the above, the first is a bias term introduced by the model shift between the source and target tasks.
+The second is a variance term, which decreases monotonically as we add more and more source task data.
+Let $\hat{w}$ denote the minimizer of $te(w_2 \hat{B})$ over $w\in\real$.
+Note that we can obtain the value of $\te(w_1\hat{B})$ through a validation set.
+We will denote $\hat{\beta}_t^{\MTL} = w_2 \hat{B}(\hat{w})$.
 
-\paragraph{Data generation.} We shall assume that each task data follows a linear model.
-For every $1\le i\le k$, we assume that
-\[ Y_i = X_i \beta_i + \varepsilon_i, \]
-where $\beta_i\in\real^p$ is the model parameter for the $i$-th task.
-Each row of $X_i\in\real^{n_i\times p}$ is assumed to be drawn i.i.d. from a fixed distribution with covariance matrix $\Sigma_i$.
-We assume that for every row $x$ of $X_i$, we have
-\[ \ex{xx^{\top}} = \Sigma_i. \]
-We also write $x = \Sigma_i^{1/2} z_i$, where $z_i$ is a random vector with mean $0$ and variance $1$.
-
-
-\paragraph{Objectives.}
-We will designate the $k$-th task as the target.
-Our goal is to come up with an estimator $\hat{\beta}$ to provide accurate predictions for the target task, provided with the other auxiliary task data.
-Concretely, we focus on two objectives.
-\begin{itemize}
-	\item Estimation error for the target model $\beta_t$: we consider their distance
-		\[ \err(\hat{\beta}) \define \exarg{\varepsilon_i, \forall 1\le i\le k}{\bignorm{\hat{\beta} - \beta_t}^2}. \]
-	\item Test error for the target task:
-		\begin{align*}
-			\te(\hat{\beta}) &\define \exarg{x \sim \Sigma_k}{\exarg{{\varepsilon_i, \forall 1\le i\le k}}{(x^{\top}\hat{\beta} - x^{\top}\beta_t)^2}} \\
-			&= \exarg{\varepsilon_i, \forall 1\le i\le k}{(\hat{\beta} - \beta_t)^{\top}\Sigma_k(\hat{\beta} - \beta_t)}.
-		\end{align*}
-\end{itemize}
 %\todo{may also consider test error}
 %Several relevant directions on this setting.
 %\begin{itemize}
@@ -75,7 +103,7 @@ Concretely, we focus on two objectives.
 %\end{itemize}
 
 
-\subsection{Hypothesis}
+\subsection{Hypothesis on Heterogeneous Task Data}
 
 Our hypothesis is that the heterogeneity among the multiple tasks can be categorized into two classes, \textit{covariate shift} and \textit{model shift}. %\todo{Add some references to add spice on these takes.}
 We consider two natural questions within each category.
@@ -109,38 +137,50 @@ A special case of this setting is that the single-task models are the same acros
 %\Sigma_i
 %\end{align}
 
-Since all tasks share the same underlying model $\beta$, we use a simplified objective as follows.
-\begin{align}
-	\label{eq_mtl_basic}
-	f(w) = \sum_{i=1}^k \norm{X_i w - Y_i}^2.
-\end{align}
+\paragraph{Problem statement.} Our goal is to study under model and covariate shifts, whether multi-task learning helps learn the target task better than single-task learning.
+The baseline where we solve the target task with its own data is
+\begin{align*}
+	te(\hat{\beta}_t^{\STL}) = \sigma^2 \cdot \bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}}, \text{ where } \hat{\beta}_t^{\STL} = (X_2^{\top}X_2)^{-1} X_2^{\top}Y_2.
+\end{align*}
+Clearly, whether $\hat{\beta}_t^{\MTL}$ outperforms $\hat{\beta}_t^{\STL}$ depends on the covariate matrices, the difference of the task models, and the number of per-task data points.
+Our goal is provide conditions under which there is positive transfer ($\te(\hat{\beta}_t^{\MTL}) \le \hat{\beta}_t^{\STL}$) or negative transfer ($\te(\hat{\beta}_t^{\MTL}) \ge \hat{\beta}_t^{\STL}$).
+As a warm up, we show that when $\beta_s = \beta_t$, then the transfer is always positive.
+%Since all tasks share the same underlying model $\beta$, we use a simplified objective as follows.
+%\begin{align}
+%	\label{eq_mtl_basic}
+%	f(w) = \sum_{i=1}^k \norm{X_i w - Y_i}^2.
+%\end{align}
 %{\bf The distributed learning problem.}
 %    \begin{align}
 %     f(w) = \sum_{i=1}^k \normFro{X_i w - Y_i}^2. \label{eq_dist}
 %   \end{align}
-Equation \eqref{eq_mtl_basic} is simplified from equation \eqref{eq_mtl} by setting $A_i$ to be 1 for all tasks. %can select a model from the subspace of $B$ to fit $(X_i, Y_i)$.
+%Equation \eqref{eq_mtl_basic} is simplified from equation \eqref{eq_mtl} by setting $A_i$ to be 1 for all tasks. %can select a model from the subspace of $B$ to fit $(X_i, Y_i)$.
 
 \begin{proposition}\label{prop_monotone}
 	Suppose that $n > p$.
-  When there is no model shift, adding the source task data always reduces the estimation error and the test error for the target task, i.e.
+  When there is no model shift, i.e. $\beta_s = \beta_t$, adding the source task data always reduces the estimation error and the test error for the target task, i.e.
 	\begin{align}
-		\err(\hat{\beta}_{s,t})  &\le \err(\hat{\beta}_t), \text{ and} \label{eq_mono_e}\\
-		\te(\hat{\beta}_{s,t}) &\le \te(\hat{\beta}_t) \label{eq_mono_te}
+%		\err(\hat{\beta}_{t}^{\MTL})  &\le \err(\hat{\beta}_t^{\STL}), \text{ and} \label{eq_mono_e}\\
+		\te(\hat{\beta}_{t}^{\MTL}) &\le \te(\hat{\beta}_t^{\STL}). \label{eq_mono_te}
 	\end{align}
 \end{proposition}
 
 \begin{proof}
-	Equation \eqref{eq_mono_e} is simply because
-		\[ \err(\hat{\beta}_{s,t}) = \bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}} \le \bigtr{(X_1^{\top}X_1)^{-1}} = \err(\hat{\beta}_t). \]
-	Equation \eqref{eq_mono_te} follows because
+%	Equation \eqref{eq_mono_e} is simply because
+%		\[ \err(\hat{\beta}_{s,t}) = \bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}} \le \bigtr{(X_1^{\top}X_1)^{-1}} = \err(\hat{\beta}_t). \]
+%	Equation \eqref{eq_mono_te} follows because
+	Recall that $\hat{\beta}_t^{\MTL} = \hat{w} \cdot \hat{B}$.
+	By the optimality of $\hat{w}$, we have by setting $w = 1$ in equation \eqref{eq_te_mtl}
 	\begin{align*}
-		\te(\hat{\beta}_{s,t}) = \bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2} &= \bigtr{\bigbrace{\Sigma_2^{-1/2}X_1^{\top}X_1\Sigma_2^{-1/2} + \Sigma_2^{-1/2}X_2^{\top}X_2\Sigma^{-1/2}}^{-1}} \\
+		\te(\hat{\beta}_t^{\MTL}) &\le \sigma^2 \cdot \bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2} \\
+		&= \sigma^2 \cdot \bigtr{\bigbrace{\Sigma_2^{-1/2}X_1^{\top}X_1\Sigma_2^{-1/2} + \Sigma_2^{-1/2}X_2^{\top}X_2\Sigma^{-1/2}}^{-1}} \\
 		&\le \bigtr{\bigbrace{\Sigma_2^{-1/2}X_2^{\top}X_2\Sigma_2^{-1/2}}^{-1}}
-			= \bigtr{(X_2^{\top}X_2)^{-1} \Sigma_2} = \te(\hat{\beta}_t).
+			= \bigtr{(X_2^{\top}X_2)^{-1} \Sigma_2} = \te(\hat{\beta}_t^{\STL}),
 	\end{align*}
+	which concludes the proof.
 \end{proof}
 
-
+As a remark, we can derive a similar result for the estimation error as well. The details are omitted.
 
 
 \subsection{The High-Dimensional Setting}
@@ -148,7 +188,8 @@ Equation \eqref{eq_mtl_basic} is simplified from equation \eqref{eq_mtl} by sett
 %\todo{setup motivation and notations}
 We would like to get insight on how covariate and model shifts affect the rate of transfer.
 We will consider the high-dimensional setting where for the target task, its number of data points is a small constant times $p$.
-This setting captures a wide range of applications of multi-task learning where we would like to use auxillary task data to help train tasks with limited labeled data.
+This setting captures a wide range of applications of multi-task learning where we would like to use auxiliary task data to help train tasks with limited labeled data.
+Furthermore, this setting is particularly suited to our study since there is need for adding more data to help learn the target task.
 
 \paragraph{The case of two tasks.}
 We can get precise rates using random matrix theory.
@@ -157,6 +198,11 @@ i.e. $\beta_1 = \beta_s$ and $\beta_2 = \beta_t$.
 We introduce the following notations for the high-dimensional setting
 \[ c_{n_1} \define \frac{n_1}{p} \to c_1, \quad c_{n_2} \define \frac{n_2}p \to c_2, \quad \text{as } \ n_1, n_2\to \infty, \]
 for some constants $c_1, c_2 \in (1,\infty)$.
-
-
+A crucial quantity is what we call the \textit{covariate shift} matrix $M = \Sigma_1^{1/2}\Sigma_2^{-1/2}$.
+Let $\lambda_1, \lambda_2, \dots, \lambda_p$ denote the singular values of $M$.
 % \gamma_n:= \frac{p} {n_1 + n_2} \to \gamma,
+
+\begin{lemma}\label{lem_minv}
+	In the setting when $n_2 = c_2 p$ we have that as $p$ goes to infinity,
+	\[ \bigtr{(X_2^{\top}X_2)^{-1}\Sigma_2} = \frac{1}{n_2 - p}\bigtr{\Sigma_2^{-1}}. \]
+\end{lemma}

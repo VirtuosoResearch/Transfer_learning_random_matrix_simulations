@@ -1,57 +1,92 @@
-\section{Warm Up: The Simplified Objective with Shared Weights Only}
+\section{The De-Noising Effect of Multi-Task Learning}
+
+
+In this part, we shall establish the intuition that adding more data helps in multi-task learning by reducing the variance of the estimator.
+We achieve this through tight generalization bounds obtained from random matrix theory.
+We focus the case of two tasks to provide a complete picture on how covariate and model shifts can affect the type of transfer.
+
+Recall that the test error of $\hat{\beta}_{t}^{\MTL}$ consists of two parts
+\begin{align}
+	\te(\hat{\beta}_t^{\MTL}) = \hat{w}^2 \bignorm{\Sigma_2^{1/2} (\hat{w}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}X_1^{\top}X_1 (\beta_s - \hat{w}\beta_t)}^2 + \sigma^2\cdot \bigtr{(\hat{w}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2}. \label{eq_te_model_shift}
+\end{align}
+It is not hard to show that the variance of $\hat{\beta}_t^{\MTL}$ is reduced compared to $\hat{\beta}_t^{\STL}$ (following the argument of Proposition \ref{prop_monotone}), i.e.
+\[ \sigma^2\cdot \bigtr{(\hat{w}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2} \le \sigma^2\cdot \bigtr{(X_2^{\top}X_2)^{-1}\Sigma_2}. \]
+Because of model shift however, i.e. $\beta_s \neq \beta_t$.
+We can no longer guarantee that $\te(\hat{\beta}_{t}^{\MTL}) \le \te(\hat{\beta}_t^{\STL})$.
+The main result of this part show deterministic conditions under which we get positive or negative transfer.
+And the conditions depend only on the covariate shift matrix $M$, the difference of the task models, and the number of per-task data points.
+In order to characterize $\te(\hat{\beta}_t^{\MTL})$ and $\te(\hat{\beta}_t^{\STL})$, the technical crux of our approach relies on deriving the limit of the trace of matrix inverse in the high-dimensional setting.
+To illustrate the idea, we observe that by using Lemma \ref{lem_minv}, we have that
+\[ \te(\hat{\beta}_t^{\STL}) = \frac{\sigma^2}{n_2 - p}\bigtr{\Sigma_2^{-1}}. \]
+We shall also derive the limit of $\te(\hat{\beta}_t^{\MTL})$.
+\todo{write a brief technical overview}
 
 %In this case, $\beta_s$ and $\beta_t$ are different.
 %, or implicitly add a regularization on $B$.
 %\todo{We focus on the former case in this section.}
 %, we consider the case when $r=1$ since there are only two tasks.
-We begin by considering the simplified equation \eqref{eq_mtl_basic} to solve for the target task.
-This is equivalent to setting $W_i = 1$ for the two tasks in equation \eqref{eq_mtl}.
-The result of this simplified setting will set up the ground for solving equation \eqref{eq_mtl} when we also optimize $W_1$ and $W_2$.
-By putting the two tasks together, we get
-\begin{align*}
-	\hat{\beta}_{s,t} &= (X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} (X_1^{\top}Y_1 + X_2^{\top}Y_2) \\
-	&= (X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} \bigbrace{(X_1^{\top}X_1\beta_s + X_2^{\top}X_2\beta_t) + (X_1^{\top}\varepsilon_1 + X_2^{\top}\varepsilon_2)} \\
-	&= \beta_t + (X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\bigbrace{X_1^{\top}X_1(\beta_s - \beta_t) + (X_1^{\top}\varepsilon_1 + X_2^{\top}\varepsilon_2)}
-\end{align*}
-Hence
-\begin{align}
-	\err(\hat{\beta}_{s,t})
-	&= \bignorm{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} X_1^{\top}X_1 (\beta_s - \beta_t)}^2
-	+ \sigma^2 \bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}}, \text{ and} \\
-	\te(\hat{\beta}_{s,t})
-	&= \bignorm{\Sigma_2^{1/2} (X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} X_1^{\top}X_1 (\beta_s - \beta_t)}^2 + \sigma^2\cdot \bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2} \label{eq_te_model_shift}
-\end{align}
+%We begin by considering the simplified equation \eqref{eq_mtl_basic} to solve for the target task.
+%This is equivalent to setting $W_i = 1$ for the two tasks in equation \eqref{eq_mtl}.
+%The result of this simplified setting will set up the ground for solving equation \eqref{eq_mtl} when we also optimize $W_1$ and $W_2$.
+%By putting the two tasks together, we get
+%\begin{align*}
+%	\hat{\beta}_{s,t} &= (X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} (X_1^{\top}Y_1 + X_2^{\top}Y_2) \\
+%	&= (X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} \bigbrace{(X_1^{\top}X_1\beta_s + X_2^{\top}X_2\beta_t) + (X_1^{\top}\varepsilon_1 + X_2^{\top}\varepsilon_2)} \\
+%	&= \beta_t + (X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\bigbrace{X_1^{\top}X_1(\beta_s - \beta_t) + (X_1^{\top}\varepsilon_1 + X_2^{\top}\varepsilon_2)}
+%\end{align*}
+%Hence
+%\begin{align}
+%	\err(\hat{\beta}_{s,t})
+%	&= \bignorm{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} X_1^{\top}X_1 (\beta_s - \beta_t)}^2
+%	+ \sigma^2 \bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}}, \text{ and} \\
+%	\te(\hat{\beta}_{s,t})
+%	&= \bignorm{\Sigma_2^{1/2} (X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} X_1^{\top}X_1 (\beta_s - \beta_t)}^2 + \sigma^2\cdot \bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2} \label{eq_te_model_shift}
+%\end{align}
 
-We can see that because of model shift, i.e. $\beta_s \neq \beta_t$.
-We can no longer guarantee that $\te(\hat{\beta}_{s,t}) \le \te(\hat{\beta}_t)$.
-The goal of this part is to show conditions under which we get positive vs. negative transfer.
 
-\todo{For technical reasons, we will consider the test error.} From Lemma \ref{lem_cov_shift}, we know that
-\[ \bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} \Sigma_2} = \frac{1}{n_1 + n_2}\cdot \bigtr{ \bigbrace{a_1\Sigma_2^{-1/2}\Sigma_1\Sigma_2^{-1/2} + a_2\id}^{-1}}, \]
-where $a_1, a_2$ are specified in Theorem \ref{thm_cov_shift}.
-Hence the variance part is reduced by the following amount
-\begin{align}
-	\Delta_{\vari} \define \sigma^2 \cdot \bigbrace{\frac{p}{n_2 - p} - \frac{1}{n_1 + n_2} \bigtr{\bigbrace{a_1 M^{\top}M + a_2\id}^{-1}}}
-\end{align}
-It remains to consider the increment from the first term in $\te(\hat{\beta}_{s,t})$, which is bounded using the following lemma.
+
+\todo{For technical reasons, we will consider the test error.}
+%From Lemma \ref{lem_cov_shift}, we know that
+%\[ \bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} \Sigma_2} = \frac{1}{n_1 + n_2}\cdot \bigtr{ \bigbrace{a_1\Sigma_2^{-1/2}\Sigma_1\Sigma_2^{-1/2} + a_2\id}^{-1}}, \]
+%where $a_1, a_2$ are specified in Theorem \ref{thm_cov_shift}.
+%Hence the variance part is reduced by the following amount
+%\begin{align}
+%	\Delta_{\vari} \define \sigma^2 \cdot \bigbrace{\frac{p}{n_2 - p} - \frac{1}{n_1 + n_2} \bigtr{\bigbrace{a_1 M^{\top}M + a_2\id}^{-1}}}
+%\end{align}
+%It remains to consider the increment from the first term in $\te(\hat{\beta}_{s,t})$, which is bounded using the following lemma.
 %We are now interested in the following quantity
 
-\begin{theorem}[Positive transfer under model shift]\label{thm_model_shift}
-	Let $a_1, a_2$ be the solutions from equations \eqref{eq_a1} and \eqref{eq_a2}.
-	Denote by $M \define \Sigma_1^{1/2}\Sigma_2^{-1/2}$.
-	We have $\te(\hat{\beta}_{s,t}) \le \te(\hat{\beta}_t)$ when
-	\begin{align}
-		{\Delta_{\vari}} \ge \bigbrace{1 + \sqrt{\frac{p}{n_1}}}^2 {\Delta_{\beta}}, \label{eq_model_shift_pos}
-	\end{align}
-	where
-	\[ \Delta_{\beta} \define \frac{n_1^2}{(n_1 + n_2)^2}(\beta_s - \beta_t)^{\top} \Sigma_1^{1/2} M \frac{(1 + a_3)\id + a_4 M^{\top}M}{(a_2 + a_1 M^{\top}M)^2} M^{\top} \Sigma_1^{1/2} (\beta_s - \beta_t), \]
-	and $a_3, a_4$ are the solutions of the following linear equations
-	\begin{align}
+\subsection{Positive versus Negative Transfer with Covariate and Model Shifts}
+
+We state our main result for two tasks with both covariate and model shift in the following theorem.
+
+\begin{theorem}\label{thm_model_shift}
+	Let $n_1, n_2$ be the number of data points for the source, target task, respectively.
+	Let $\hat{w}$ denote the optimal solution for the ratio $W_1/W_2$ in equation \eqref{eq_te_mtl}.
+	Let ${M} = \hat{w} \Sigma_1^{1/2}\Sigma_2^{-1/2}$ denote the weighted covariate shift matrix.
+	Denote by ${\lambda}_1, {\lambda}_2, \dots, {\lambda}_p$ the singular values of ${M}^{\top}{M}$.
+	The information transfer is solely determined by two deterministic quantities $\Delta_{\beta}$ and $\Delta_{\vari}$, which show the change of model shift bias and variace, respectively.
+	With high probability we have
+	\begin{align*}
+	 	\te(\hat{\beta}_{t}^{\MTL}) \le \te(\hat{\beta}_t^{\STL}) \text{ when: } &\Delta_{\vari} - \Delta_{\beta} \ge \left(\bigbrace{1 + \sqrt{\frac{p} {n_1}}}^4 - 1 \right) \delta \\
+		\te(\hat{\beta}_t^{\MTL}) \ge \te(\hat{\beta}_t^{\STL}) \text{ when: } &\Delta_{\vari} - \Delta_{\beta} \le -2\bigbrace{2\sqrt{\frac {p}{n_1}} + \frac{p}{n_1}} \delta,
+	\end{align*}
+	where $\delta = \norm{Z} \cdot \norm{\Sigma_1^{1/2}(\beta_s - \hat{w}\beta_t)}^2$ with $Z = \frac{n_1^2}{(n_1 + n_2)^2}\cdot{M} \frac{(1 + a_3)\id + a_4 {M}^{\top}{M}}{(a_2 + a_1 {M}^{\top}{M})^2} {M}^{\top}$, and
+	\begin{align*}
+		\Delta_{\vari} &\define {\sigma^2}\bigbrace{\frac{1}{n_2 - p}\bigtr{{\Sigma_2^{-1}}} -  \frac{1}{n_1 + n_2} \bigtr{(a_1 M^{\top}M + a_2\id)^{-1}} } \\
+		\Delta_{\beta} &\define (\beta_s - \hat{w}\beta_t)^{\top} \Sigma_1^{1/2} Z \Sigma_1^{1/2} (\beta_s - \hat{w}\beta_t),
+	\end{align*}
+	and $a_1, a_2, a_3, a_4$ are the solutions of the following linear equations
+	\begin{gather}
+		 a_1 + a_2 = 1- \frac{p}{n_1 + n_2},~ a_1 + \sum_{i=1}^p \frac{a_1}{(n_1 + n_2)(a_1 + a_2/ \lambda_i^2)} = \frac{n_1}{n_1 + n_2}, \label{eq_a2} \\
 		\left(\frac{n_2}{a_2^2}- \sum_{i=1}^p \frac{1}{ (a_2 + \lambda_i^2a_1)^2  }\right) a_3 -  \left(\sum_{i=1}^p \frac{  \lambda_i^2 }{ (  a_2 + \lambda_i^2a_1)^2  }\right)a_4
-		&= \sum_{i=1}^p \frac{1 }{ (  a_2 + \lambda_i^2a_1)^2  }, \label{eq_a3} \\
+		= \sum_{i=1}^p \frac{1 }{ (  a_2 + \lambda_i^2a_1)^2  }, \label{eq_a3} \\
 		\left(\frac{n_1}{a_1^2} -  \sum_{i=1}^p \frac{\lambda_i^4   }{  (a_2 + \lambda_i^2a_1)^2  }\right)a_4 -\left(\sum_{i=1}^p \frac{\lambda_i^2  }{  (a_2 + \lambda_i^2a_1)^2  }\right)a_3
-		&= \sum_{i=1}^p \frac{\lambda_i^2 }{  (a_2 + \lambda_i^2a_1)^2  }. \label{eq_a4}
-	\end{align}
+		= \sum_{i=1}^p \frac{\lambda_i^2 }{  (a_2 + \lambda_i^2a_1)^2  }. \label{eq_a4}
+	\end{gather}
+\end{theorem}
+
+
 %	We have the following conditions that guarantee the type of transfer we can get under model shift.
 %	\begin{itemize}
 
@@ -60,8 +95,11 @@ It remains to consider the increment from the first term in $\te(\hat{\beta}_{s,
 %				\Delta_{\vari} \le \bigbrace{1 - 4\sqrt{\frac{p}{n_1}} - \frac{2p}{n_1}} {\Delta_{\beta}}
 %			\end{align}
 %	\end{itemize}
-\end{theorem}
-
+%	\begin{align}
+%		{\Delta_{\vari}} \ge \bigbrace{1 + \sqrt{\frac{p}{n_1}}}^2 {\Delta_{\beta}},
+%\label{eq_model_shift_pos}
+%	\end{align}
+%	where
 %{\cob
 %We have that
 %	\begin{align*}
@@ -80,36 +118,45 @@ It remains to consider the increment from the first term in $\te(\hat{\beta}_{s,
 %		\end{align*}
 %	}
 
-Theorem \ref{thm_model_shift} shows upper bounds that guarantee positive transfer, which is determined by the change of variance $\Delta_{\vari}$ and a certain model shift bias parameter $\Delta_{\beta}$ determined by the covariate shift matrix and the model shift.
+Theorem \ref{thm_model_shift} shows upper and lower bounds that guarantee positive transfer, which is determined by the change of variance $\Delta_{\vari}$ and a certain model shift bias parameter $\Delta_{\beta}$ determined by the covariate shift matrix and the model shift.
+The bounds get tighter and tighter as $n_1 / p$ increases.
+%\paragraph{Negative transfer: the Limit caused by model shifts.}
+%Next we describe lower bounds that guarantee negative transfer to complement Theorem \ref{thm_model_shift}.
+%\begin{theorem}[Negative transfer under model shift]\label{thm_model_shift_neg}
+%	In the setting of Theorem \ref{thm_model_shift}, we have $\te(\hat{\beta}_{s,t}) \ge
+%\te(\hat{\beta}_t)$ when
+%	\begin{align*}
+%		\Delta_{\vari} \le \bigbrace{1 - 4\sqrt{\frac{p}{n_1}} - \frac{2p}{n_1}} {\Delta_{\beta}}
+%	\end{align*}
+%	In the special case that $\beta_s - \beta_t$ is i.i.d. with mean $0$ and variance $d^2$ and $\Sigma_1 = \id$, we can get a tighter lower bound that guarantees negative transfer when
+%\begin{align}
+%	\Delta_{\vari} \le \bigbrace{1 - \sqrt{\frac{p}{n_1}}}^4 \Delta_{\beta}.\label{eq_model_shift_neg}
+%\end{align}
+%
+%\end{theorem}
+We describe examples based on Theorem \ref{thm_model_shift} to show several conceptual insights.
 
-
-\paragraph{Negative transfer: the Limit caused by model shifts.}
-Next we describe lower bounds that guarantee negative transfer to complement Theorem \ref{thm_model_shift}.
-
-\begin{theorem}[Negative transfer under model shift]\label{thm_model_shift_neg}
-	In the setting of Theorem \ref{thm_model_shift}, we have $\te(\hat{\beta}_{s,t}) \ge \te(\hat{\beta}_t)$ when
-	\begin{align*}
-		\Delta_{\vari} \le \bigbrace{1 - 4\sqrt{\frac{p}{n_1}} - \frac{2p}{n_1}} {\Delta_{\beta}}
-	\end{align*}
-	In the special case that $\beta_s - \beta_t$ is i.i.d. with mean $0$ and variance $d^2$ and $\Sigma_1 = \id$, we can get a tighter lower bound that guarantees negative transfer when
-\begin{align}
-	\Delta_{\vari} \le \bigbrace{1 - \sqrt{\frac{p}{n_1}}}^4 \Delta_{\beta}.\label{eq_model_shift_neg}
-\end{align}
-
-\end{theorem}
-
-\medskip
-We describe examples based on Theorem \ref{thm_model_shift} and Theorem \ref{thm_model_shift_neg} to show several conceptual insights.
-
-\begin{example}[\textbf{The effect of $d$, the distance of task models}]
+\begin{example}[\textbf{Varying the distance of task models}]
 	We consider a simple setting where $\Sigma_1 = \id$.
-	Suppose that $\beta_s - \beta_t$ is a vector with mean zero and variance $d^2$. Hence the task models have distance $d^2\cdot p$ in expectation.
+	Suppose that $\beta_s - \beta_t$ is i.i.d. with mean $0$ and variance $d^2$. Hence the task models have distance $d^2\cdot p$ in expectation.
+	We can get a bound tighter than Theorem \ref{thm_model_shift} as follows.
+
+	\begin{proposition}
+		In the setting of Theorem \ref{thm_model_shift}, assume that $\Sigma_1 =\id$,
+		$\beta_t$ is i.i.d. with mean $0$ and variance $\kappa^2$ and $\beta_s - \beta_t$ is i.i.d. with mean $0$ and variance $d^2$.
+		We set $\Delta_{\beta} = \bigbrace{(1 - \hat{w})^2 \kappa^2 + d^2)} \bigtr{Z}$
+		and we have
+		\begin{align*}
+			\te(\hat{\beta}_t^{\MTL}) \le \te(\hat{\beta}_t^{\STL}) \text{ when: } & \Delta_{\vari} \ge \bigbrace{1 + \sqrt{\frac{p}{n_1}}}^4 \Delta_{\beta}, \\
+			\te(\hat{\beta}_t^{\MTL}) \ge \te(\hat{\beta}_t^{\STL}) \text{ when: } & \Delta_{\vari} \le \bigbrace{1 - \sqrt{\frac{p}{n_1}}}^4 \Delta_{\beta}.
+		\end{align*}
+	\end{proposition}
 
 	We first consider $\Sigma_2 = \id$. In this case, we can simplify $\Delta_{\beta}$ as follows
 	\begin{align} \label{eq_delta_simple}
 		\Delta_{\beta} \define d^2 \cdot \sum_{i=1}^p \frac{(1 + a_3)\lambda_i^2 + a_4 \lambda_i^4}{(a_1 \lambda_i^2 + a_2)^2}.
 	\end{align}
-	Now we solve the equations \eqref{eq_a1}, \eqref{eq_a2}, \eqref{eq_a3}, \eqref{eq_a4} to get
+	Now we solve the equations \eqref{eq_a2}, \eqref{eq_a3}, \eqref{eq_a4} to get
 	\begin{align}
 		a_1 = \frac{c_1(c_1 + c_2 - 1)}{(c_1 + c_2)^2},
 		a_2 = \frac{c_2(c_1 + c_2 - 1)}{(c_1 + c_2)^2},
@@ -160,8 +207,17 @@ We describe examples based on Theorem \ref{thm_model_shift} and Theorem \ref{thm
 
 
 
+
+
+
+
+
+
 \subsection{The Effect of Covariate Shift on the Rate of Transfer}
 
+
+
+\paragraph{The case when $\beta_s = \beta_t$.}
 As Proposition \ref{prop_monotone} shows, if $\beta_s$ and $\beta_t$ are equal, then adding the source task dataset always helps learn the target task.
 The goal of this section is to understand how covariate shift affects the rate of transfer. \todo{add conceptual msg}
 
@@ -185,17 +241,15 @@ For the test error on the target task, the improvement from adding the source ta
 We can get a precise result on the improvement of adding the source task data that only depends on the covariance matrices $\Sigma_1, \Sigma_2$ and the number of data points $n_1, n_2$.
 
 \begin{theorem}[Positve transfer rate under covariate shift]\label{thm_cov_shift}
-	Let $\lambda_1, \lambda_2, \dots, \lambda_p$ denote the singular values of $\Sigma_1^{1/2}\Sigma_2^{-1/2}$.
 	When there is no model shift, we have that
 	\begin{align*}
 		\err(\hat{\beta}_{s,t}) &= \sigma^2 \cdot \bigtr{\frac 1 {(n_1 + n_2)a_1\Sigma_1 + (n_1 + n_2)a_2\Sigma_2}} \\
 		\te(\hat{\beta}_{s,t}) &= \sigma^2 \cdot \bigtr{\frac 1 {(n_1 + n_2)a_1\Sigma_2^{-1/2}\Sigma_1\Sigma_2^{-1/2} + (n_1 + n_2)a_2\id}}
 	\end{align*}
-	where $a_1, a_2$ are the solutions of the following equations
-	\begin{gather}
-		 a_1 + a_2 = 1- \frac{p}{n_1 + n_2} \label{eq_a1}\\
-		 a_1 + \sum_{i=1}^p \frac{a_1}{(n_1 + n_2)a_1 + (n_1 + n_2) a_2/ \lambda_i^2} = \frac{n_1}{n_1 + n_2}. \label{eq_a2}
-	\end{gather}
+%	where $a_1, a_2$ are the solutions of the following equations
+%	\begin{gather}
+%
+%	\end{gather}
 \end{theorem}
 
 \todo{redo the following}
@@ -302,19 +356,7 @@ For now, we assume that the random variables $x_{ij}$ are i.i.d. Gaussian, but w
 
 
 
-
-%\section{The De-Noising Effect of Multi-Task Learning}
-
-\section{The Multi-Task Learning Objective}
-
-In this part, we shall establish the intuition that adding more data helps in multi-task learning by reducing the variance of the estimator.
-We achieve this through tight generalization bounds obtained from random matrix theory.
-We focus the case of two tasks to provide a complete picture on how covariate and model shifts can affect the type of transfer.
-From \cite{WZR20}, we know that either we need to explicitly restrict the capacity $r$ of $B$ so that there is transfer between the two tasks.
-Following \cite{WZR20}, for the rest of the section, we shall consider the case when $r=1$ since there are only two tasks.
-
-
-\section{The Case with $k$ Tasks of the Same Covariates}
+\section{The Case with Many Tasks of the Same Covariates}
 
 
 
