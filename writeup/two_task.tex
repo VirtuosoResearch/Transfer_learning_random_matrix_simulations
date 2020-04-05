@@ -328,9 +328,9 @@ To prove Theorem \ref{thm_cov_shift}, we study the spectrum of the random matrix
 $$Q= \Sigma_1^{1/2}  Z_1^T Z_1 \Sigma_1^{1/2}  + \Sigma_2^{1/2}  Z_2^T Z_2 \Sigma_2^{1/2} ,$$
 where $\Sigma_{1,2}$ are $p\times p$ deterministic covariance matrices, and $X_1=(x_{ij})_{1\le i \le n_1, 1\le j \le p}$ and $X_2=(x_{ij})_{n_1+1\le i \le n_1+n_2, 1\le j \le p}$ are $n_1\times p$ and $n_2 \times p$ random matrices, respectively, where the entries $x_{ij}$, $1 \leq i \leq n_1+n_2\equiv n$, $1 \leq j \leq p$, are real independent random variables satisfying
 \begin{equation}\label{eq_12moment} %\label{assm1}
-\mathbb{E} z_{ij} =0, \ \quad \ \mathbb{E} \vert z_{ij} \vert^2  = n^{-1}.
+\mathbb{E} z_{ij} =0, \ \quad \ \mathbb{E} \vert z_{ij} \vert^2  = 1.
 \end{equation}
-For now, we assume that the random variables $x_{ij}$ are i.i.d. Gaussian, but we know that universality holds for generally distributed entries. %have arbitrarily high moments,
+%For now, we assume that the random variables $x_{ij}$ are i.i.d. Gaussian, but we know that universality holds for generally distributed entries. %have arbitrarily high moments,
 %in the sense that for any fixed $k\in \mathbb N$, there is a constant $\mu_k>0$ such that
 %\begin{equation}\label{eq_highmoment} %\label{eqn:subgaus}
 %\max_{i,j}\left(\mathbb E|x_{ij}|^k\right)^{1/k} \le \mu_k n^{-1/2},  %\var \left(h_{xy}\right)^{1/2}
@@ -339,15 +339,16 @@ For now, we assume that the random variables $x_{ij}$ are i.i.d. Gaussian, but w
 
 
 \begin{lemma}\label{lem_cov_shift}
-	In the setting of Theorem \ref{thm_cov_shift}, we have with high probability $1-{\rm o}(1)$,
-\begin{align*}
-\tr ((X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}) = \frac{1}{n_1+n_2}\cdot \tr \left[ \frac{1}{a_1\Sigma_1 + a_2\Sigma_2} \right] +\bigo{\frac{1}{n^{1-\epsilon}}}.
-\end{align*}
+	In the setting of Theorem \ref{thm_model_shift}, we have with high probability $1-{\rm o}(1)$,
+\begin{align}\label{lem_cov_shift_eq}
+\tr ((w^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2) = \frac{1}{n_1+n_2}\cdot \tr \left( \frac{1}{a_1 M^\top M + a_2} \right) +\bigo{ n^{-1/2+\epsilon}},
+\end{align}
 	for any constant $\epsilon>0$. %, where $a_{3,4}$ are found using equations in  \eqref{m35reduced}.
-	In particular, when $n_1 = 0$, we have that $a_1 = 0$ and $a_2 = (n_2-p) / n_2$, hence
-	\[ \bigtr{(X_2^{\top}X_2)^{-1}} = \frac{1}{n_2-p}\bigtr{\frac 1 {\Sigma_2}} + \bigo{\frac{1}{n_2^{1-\varepsilon}}}. \]
+	Moreover, when $n_1 = 0$, we have %we have that $a_1 = 0$ and $a_2 = (n_2-p) / n_2$, hence
+	\begin{align}\label{lem_cov_shift_eq2} \bigtr{(X_2^{\top}X_2)^{-1}\Sigma_2} = \frac{p}{n_2-p} + \bigo{n^{-1/2+\epsilon}}, \end{align}
+which is a well-known result for inverse Whishart matrices {\color{red}add some references}. 
 \end{lemma}
-
+We will give the proof of this lemma in Section \ref{sec_maintools}.
 
 
 
