@@ -56,7 +56,7 @@ We shall also derive the limit of $\te(\hat{\beta}_t^{\MTL})$.
 %It remains to consider the increment from the first term in $\te(\hat{\beta}_{s,t})$, which is bounded using the following lemma.
 %We are now interested in the following quantity
 
-\subsection{Positive versus Negative Transfer with Covariate and Model Shifts}
+\subsection{Positive versus Negative Transfer with Multi-Task Training}
 
 We state our main result for two tasks with both covariate and model shift in the following theorem.
 
@@ -72,23 +72,23 @@ We state our main result for two tasks with both covariate and model shift in th
 		\te(\hat{\beta}_t^{\MTL}) \ge \te(\hat{\beta}_t^{\STL}) \text{ when: } &\Delta_{\vari} - \Delta_{\beta} \le -2\bigbrace{2\sqrt{\frac {p}{n_1}} + \frac{p}{n_1}} \delta, \label{lower}
 	\end{align}
 	where $\delta = \norm{Z} \cdot \norm{\Sigma_1^{1/2}(\beta_s - \hat{w}\beta_t)}^2$ with $Z = \frac{n_1^2}{(n_1 + n_2)^2}\cdot{M} \frac{(1 + a_3)\id + a_4 {M}^{\top}{M}}{(a_2 + a_1 {M}^{\top}{M})^2} {M}^{\top}$, and
-	\begin{align*}
-		\Delta_{\vari} &\define {\sigma^2}\bigbrace{\frac{1}{n_2 - p}\bigtr{{\Sigma_2^{-1}}} -  \frac{1}{n_1 + n_2} \bigtr{(a_1 M^{\top}M + a_2\id)^{-1}} } \\
+	\begin{align*} %\bigtr{{\Sigma_2^{-1}}}
+		\Delta_{\vari} &\define {\sigma^2}\bigbrace{\frac{p}{n_2 - p} -  \frac{1}{n_1 + n_2} \bigtr{(a_1 M^{\top}M + a_2\id)^{-1}} } \\
 		\Delta_{\beta} &\define (\beta_s - \hat{w}\beta_t)^{\top} \Sigma_1^{1/2} Z \Sigma_1^{1/2} (\beta_s - \hat{w}\beta_t),
 	\end{align*}
-	{\color{blue}To write the bounds in the form \eqref{upper} and \eqref{lower}, we have to define $\wh w$ as the minimizer of 
-	$$\frac{\sigma^2}{n_1 + n_2} \bigtr{\frac1{a_1(w) M(w)^{\top}M(w) + a_2(w)\id}}+ \Delta_\beta(w).$$
-	Otherwise, the two bounds has to be written into the form
-	\begin{align*}
-	{\sigma^2}\frac{p}{n_2 - p}\ge \min_w \left\{\frac{\sigma^2}{n_1 + n_2} \bigtr{\frac1{a_1(w) M(w)^{\top}M(w) + a_2(w)\id}} + \Delta_\beta(w)+ \left(\bigbrace{1 + \sqrt{\frac{p} {n_1}}}^4 - 1 \right) \delta(w)\right\},
-	\end{align*}
-	and
-	\begin{align*}
-	{\sigma^2}\frac{p}{n_2 - p}\le \min_w \left\{\frac{\sigma^2}{n_1 + n_2} \bigtr{\frac1{a_1(w) M(w)^{\top}M(w) + a_2(w)\id}}+ \Delta_\beta(w) - 2\bigbrace{2\sqrt{\frac {p}{n_1}} + \frac{p}{n_1}} \delta(w)\right\}.
-	\end{align*}	
-	}
-	
-	
+%	{\color{blue}To write the bounds in the form \eqref{upper} and \eqref{lower}, we have to define $\wh w$ as the minimizer of
+%	$$\frac{\sigma^2}{n_1 + n_2} \bigtr{\frac1{a_1(w) M(w)^{\top}M(w) + a_2(w)\id}}+ \Delta_\beta(w).$$
+%	Otherwise, the two bounds has to be written into the form
+%	\begin{align*}
+%	{\sigma^2}\frac{p}{n_2 - p}\ge \min_w \left\{\frac{\sigma^2}{n_1 + n_2} \bigtr{\frac1{a_1(w) M(w)^{\top}M(w) + a_2(w)\id}} + \Delta_\beta(w)+ \left(\bigbrace{1 + \sqrt{\frac{p} {n_1}}}^4 - 1 \right) \delta(w)\right\},
+%	\end{align*}
+%	and
+%	\begin{align*}
+%	{\sigma^2}\frac{p}{n_2 - p}\le \min_w \left\{\frac{\sigma^2}{n_1 + n_2} \bigtr{\frac1{a_1(w) M(w)^{\top}M(w) + a_2(w)\id}}+ \Delta_\beta(w) - 2\bigbrace{2\sqrt{\frac {p}{n_1}} + \frac{p}{n_1}} \delta(w)\right\}.
+%	\end{align*}
+%	}
+%
+%
 	and $a_1, a_2, a_3, a_4$ are the solutions of the following linear equations
 	\begin{gather}
 		 a_1 + a_2 = 1- \frac{p}{n_1 + n_2},~ a_1 + \sum_{i=1}^p \frac{a_1}{(n_1 + n_2)(a_1 + a_2/ \lambda_i^2)} = \frac{n_1}{n_1 + n_2}, \label{eq_a2} \\
@@ -226,11 +226,11 @@ We describe examples based on Theorem \ref{thm_model_shift} to show several conc
 
 
 
-\subsection{The Effect of Covariate Shift on the Rate of Transfer}
+\subsection{The Effect of Covariate Shift on Transfer Rate}
 
 
 
-\paragraph{The case when $\beta_s = \beta_t$.}
+\paragraph{Warm up: When there is no model shift.}
 As Proposition \ref{prop_monotone} shows, if $\beta_s$ and $\beta_t$ are equal, then adding the source task dataset always helps learn the target task.
 The goal of this section is to understand how covariate shift affects the rate of transfer. \todo{add conceptual msg}
 
@@ -364,7 +364,7 @@ which is a well-known result for inverse Whishart matrices {\color{red}add some 
 We will give the proof of this lemma in Section \ref{sec_maintools}.
 
 
-
+\paragraph{The general case.}
 
 
 
