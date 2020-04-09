@@ -87,11 +87,12 @@ As a remark, when $w = 1$, we recover the linear regression estimator.
 Using a validation set that is sub-sampled from the original training dataset, we get a validation loss as follows
 \begin{align}
 		&\val(\hat{B}; w_1, w_2) \nonumber\\
-	=& n_1 \cdot \bigbrace{\bignorm{\Sigma_1^{1/2}(w^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}X_2^{\top}X_2(\beta_s - w\beta_t)}^2 + \sigma^2 \cdot \bigtr{(w^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_1}} \\
-	+& n_2 \cdot \bigbrace{w^2\bignorm{\Sigma_2^{1/2}(w^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}X_1^{\top}X_1(\beta_s - w\beta_t)}^2 + \sigma^2 \cdot \bigtr{(w^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2}}
+	=& n_1 \cdot \bigbrace{\bignorm{\Sigma_1^{1/2}(w^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}X_2^{\top}X_2(\beta_s - w\beta_t)}^2 + \sigma^2 \cdot \bigtr{(w^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_1}} \nonumber \\
+	+& n_2 \cdot \bigbrace{w^2\bignorm{\Sigma_2^{1/2}(w^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}X_1^{\top}X_1(\beta_s - w\beta_t)}^2 + \sigma^2 \cdot \bigtr{(w^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2}} \label{eq_val_mtl}
 \end{align}
-
-\todo{(multi-task training)}
+Minimizing the above loss is akin to performing multi-task training in practice.
+Let $\hat{w}$ denote the minimizer of $\val(\hat{B}; w_1, w_2)$ over $w\in\real$.
+We will denote $\hat{\beta}_t^{\MTL} = w_{2}\hat{B}(\hat{w})$.
 
 \medskip
 \noindent\textit{Optimizing over the target task.} The validation loss of using $w_2 \hat{B}(w)$ for the target task is
@@ -103,8 +104,11 @@ In the above, the first is a bias term introduced by the model shift between the
 The second is a variance term, which decreases monotonically as we add more and more source task data.
 Let $\hat{w}$ denote the minimizer of $te(w_2 \hat{B})$ over $w\in\real$.
 Note that we can obtain the value of $\te(w_1\hat{B})$ through a validation set.
-We will denote $\hat{\beta}_t^{\MTL} = w_2 \hat{B}(\hat{w})$.
-\todo{(fine tuning)}
+We will denote $\hat{\beta}_t^{\TL} = w_2 \hat{B}(\hat{w})$.
+
+There are two reasons for studying this setting.
+First, this is akin to performing transfer learning using the hard parameter sharing architecture.
+Another way to obtain $\hat{\beta}_t^{\TL}$ is that once we minimize the multi-task validation loss, we further minimize the validation loss on the target dataset, which is also known as fine-tuning in practice.
 %\todo{may also consider test error}
 %Several relevant directions on this setting.
 %\begin{itemize}
