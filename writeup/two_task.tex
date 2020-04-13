@@ -230,39 +230,37 @@ We describe examples based on Theorem \ref{thm_model_shift} to show several conc
 
 
 
-\subsubsection{Warm Up: When There Is No Model Shift}
+\subsubsection{Warm Up: When There is No Model Shift}
 As Proposition \ref{prop_monotone} shows, if $\beta_s$ and $\beta_t$ are equal, then adding the source task dataset always helps learn the target task.
 The goal of this section is to understand how covariate shift affects the rate of transfer. \todo{add conceptual msg}
 
 %The key quantity is to look at:
-The estimator using the source and target together from minimizing \eqref{eq_mtl_basic} is
-\[ \hat{\beta}_{s,t} = (X_1^{\top} X_1 + X_2^{\top} X_2)^{-1} (X_1^{\top}Y_1 + X_2^{\top}Y_2)\]
-The estimation error of $\hat{\beta}_{s,t}$ is
-\begin{align}\label{eq_two_task}
-  \err(\hat{\beta}_{s,t}) = \sigma^2 \cdot \tr[(X_1^{\top}X_1 + X_2^{\top} X_2)^{-1}].
-\end{align}
-The estimation error using the target alone is
-\begin{align}\label{eq_target_task}
-	\err(\hat{\beta}_t) = \sigma^2 \cdot \tr[(X_2^{\top} X_2)^{-1}].
-\end{align}
-The improvement of estimation error from adding the source task is then given by
-$\err(\hat{\beta}_t) - \err(\hat{\beta}_{s,t})$.
-For the test error on the target task, the improvement from adding the source task is
-\[ \te(\hat{\beta}_t) - \te(\hat{\beta}_{s,t}) = \sigma^2\cdot\bigtr{\bigbrace{(X_2^{\top}X_2)^{-1} - (X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}}\cdot\Sigma_2}. \]
+%The estimator using the source and target together from minimizing \eqref{eq_mtl_basic} is
+%\[ \hat{\beta}_{s,t} = (X_1^{\top} X_1 + X_2^{\top} X_2)^{-1} (X_1^{\top}Y_1 + X_2^{\top}Y_2)\]
+%The estimation error of $\hat{\beta}_{s,t}$ is
+%\begin{align}\label{eq_two_task}
+%  \err(\hat{\beta}_{s,t}) = \sigma^2 \cdot \tr[(X_1^{\top}X_1 + X_2^{\top} X_2)^{-1}].
+%\end{align}
+%The estimation error using the target alone is
+%\begin{align}\label{eq_target_task}
+%	\err(\hat{\beta}_t) = \sigma^2 \cdot \tr[(X_2^{\top} X_2)^{-1}].
+%\end{align}
+%The improvement of estimation error from adding the source task is then given by
+%$\err(\hat{\beta}_t) - \err(\hat{\beta}_{s,t})$.
+%For the test error on the target task, the improvement from adding the source task is
+%\[ \te(\hat{\beta}_t) - \te(\hat{\beta}_{s,t}) = \sigma^2\cdot\bigtr{\bigbrace{(X_2^{\top}X_2)^{-1} - (X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}}\cdot\Sigma_2}. \]
 
 %We calculate the amount of improvement by comparing equation \eqref{eq_two_task} to equation \eqref{eq_target_task}.
-We can get a precise result on the improvement of adding the source task data that only depends on the covariance matrices $\Sigma_1, \Sigma_2$ and the number of data points $n_1, n_2$.
+A simple observation here is that when $\beta_s = \beta_t$, the optimal $\hat{w}$ for minimizing equation \eqref{eq_te_mtl} is equal to $1$.
+Based on this observation, we can get a more precise result than Theorem \ref{thm_model_shift} on the improvement of adding the source task data that only depends on the covariance matrices $\Sigma_1, \Sigma_2$ and the number of data points $n_1, n_2$.
 
-\begin{theorem}[Positve transfer rate under covariate shift]\label{thm_cov_shift}
-	When there is no model shift, we have that
+\begin{theorem}[Transfer rate without model shift]\label{thm_cov_shift}
+	When $\beta_s = \beta_t$, we have that
 	\begin{align*}
-		\err(\hat{\beta}_{s,t}) &= \sigma^2 \cdot \bigtr{\frac 1 {(n_1 + n_2)a_1\Sigma_1 + (n_1 + n_2)a_2\Sigma_2}} \\
-		\te(\hat{\beta}_{s,t}) &= \sigma^2 \cdot \bigtr{\frac 1 {(n_1 + n_2)a_1\Sigma_2^{-1/2}\Sigma_1\Sigma_2^{-1/2} + (n_1 + n_2)a_2\id}}
+		\err(\hat{\beta}^{\TL}_{s,t}) &= \sigma^2 \cdot \bigtr{\frac 1 {(n_1 + n_2)a_1\Sigma_1 + (n_1 + n_2)a_2\Sigma_2}} \\
+		\te(\hat{\beta}^{\TL}_{s,t}) &= \sigma^2 \cdot \bigtr{\frac 1 {(n_1 + n_2)a_1\Sigma_2^{-1/2}\Sigma_1\Sigma_2^{-1/2} + (n_1 + n_2)a_2\id}},
 	\end{align*}
-%	where $a_1, a_2$ are the solutions of the following equations
-%	\begin{gather}
-%
-%	\end{gather}
+	where $a_1, a_2$ are the solutions of equations \eqref{eq_a2}.
 \end{theorem}
 
 \todo{redo the following}
