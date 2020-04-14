@@ -56,7 +56,7 @@ We shall also derive the limit of $\te(\hat{\beta}_t^{\MTL})$.
 %It remains to consider the increment from the first term in $\te(\hat{\beta}_{s,t})$, which is bounded using the following lemma.
 %We are now interested in the following quantity
 
-\subsection{Positive versus Negative Transfer with Multi-Task Training}
+\subsection{Multi-Task Training versus Single-Task Training}
 
 We state our main result for two tasks with both covariate and model shift in the following theorem.
 
@@ -214,14 +214,8 @@ We describe examples based on Theorem \ref{thm_model_shift} to show several conc
 \end{figure}
 
 
-
-\begin{example}[\textbf{The effect of $n_1$, the source task data size}]
-\end{example}
-
-
-
 \medskip
-\todo{A proof outline; including the following key lemma.}
+\noindent\todo{A proof outline; including the following key lemma.}
 To prove Theorem \ref{thm_cov_shift}, we study the spectrum of the random matrix model:
 $$Q= \Sigma_1^{1/2}  Z_1^T Z_1 \Sigma_1^{1/2}  + \Sigma_2^{1/2}  Z_2^T Z_2 \Sigma_2^{1/2} ,$$
 where $\Sigma_{1,2}$ are $p\times p$ deterministic covariance matrices, and $X_1=(x_{ij})_{1\le i \le n_1, 1\le j \le p}$ and $X_2=(x_{ij})_{n_1+1\le i \le n_1+n_2, 1\le j \le p}$ are $n_1\times p$ and $n_2 \times p$ random matrices, respectively, where the entries $x_{ij}$, $1 \leq i \leq n_1+n_2\equiv n$, $1 \leq j \leq p$, are real independent random variables satisfying
@@ -252,12 +246,9 @@ We will give the proof of this lemma in Section \ref{sec_maintools}.
 
 
 
-\subsection{The Effect of Covariate Shift on Transfer Rate}
+\subsection{Gains of Transfer Learning over Single-Task Training}
 
-
-
-
-\subsubsection{Gains over Single-Task Training}
+%\subsubsection{Gains over Single-Task Training}
 
 \paragraph{Warm up: When there is no model shift.}
 As Proposition \ref{prop_monotone} shows, if $\beta_s$ and $\beta_t$ are equal, then adding the source task dataset always helps learn the target task.
@@ -284,9 +275,8 @@ A simple observation here is that when $\beta_s = \beta_t$, the optimal $\hat{w}
 Based on this observation, we can get a more precise result than Theorem \ref{thm_model_shift} on the improvement of adding the source task data that only depends on the covariance matrices $\Sigma_1, \Sigma_2$ and the number of data points $n_1, n_2$.
 
 \begin{theorem}[Transfer rate without model shift]\label{thm_cov_shift}
-	When $\beta_s = \beta_t$, we have that
-	\todo{figure out the constants} $\hat{w} = 1 \pm \bigo{\frac 1 {n_1+n_2}}$.
-	And we have
+	When $\beta_s = \beta_t$, we have that the optimal ratio for $W_1/W_2$ in equation \eqref{eq_te_mtl} is $\hat{w} = 1 \pm \bigo{\frac 1 {n_1+n_2}}$ \todo{(figure out the constants)}.
+	And
 	\begin{align*}
 		%\err(\hat{\beta}^{\TL}_{s,t}) &= \sigma^2 \cdot \bigtr{\frac 1 {(n_1 + n_2)a_1\Sigma_1 + (n_1 + n_2)a_2\Sigma_2}} \\
 		\te(\hat{\beta}^{\TL}_{t}) &= \sigma^2 \cdot \bigtr{\bigbrace{(n_1 + n_2)a_1\Sigma_2^{-1/2}\Sigma_1\Sigma_2^{-1/2} + (n_1 + n_2)a_2\id}^{-1}} + \bigo{\frac 1 {(n_1 + n_2)^2}},
@@ -377,9 +367,13 @@ We observe the following two phases as we increase $n_1 / p$.
 
 
 \paragraph{The general case.}
+\begin{example}[\textbf{The effect of $n_1$, the source task data size}]
+\end{example}
 
 
-\subsubsection{Gains over Multi-Task Training}
+
+
+\subsubsection{Comparing Transfer Learning to Multi-Task Training}
 
 
 
