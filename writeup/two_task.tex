@@ -154,7 +154,7 @@ We describe examples based on Theorem \ref{thm_model_shift} to show several conc
 	Suppose that $\beta_s - \beta_t$ is i.i.d. with mean $0$ and variance $d^2$. Hence the task models have distance $d^2\cdot p$ in expectation.
 	We can get a bound tighter than Theorem \ref{thm_model_shift} as follows.
 
-	\begin{proposition}
+	\begin{proposition}\label{prop_model_shift_tight}
 		In the setting of Theorem \ref{thm_model_shift}, assume that $\Sigma_1 =\id$,
 		$\beta_t$ is i.i.d. with mean $0$ and variance $\kappa^2$ and $\beta_s - \beta_t$ is i.i.d. with mean $0$ and variance $d^2$.
 		We set $\Delta_{\beta} = \bigbrace{(1 - \hat{w})^2 \kappa^2 + d^2)} \bigtr{Z}$
@@ -250,7 +250,7 @@ We will give the proof of this lemma in Section \ref{sec_maintools}.
 
 %\subsubsection{Gains over Single-Task Training}
 
-\paragraph{Warm up: When there is no model shift.}
+\paragraph{A precise bound when there is no model shift.}
 As Proposition \ref{prop_monotone} shows, if $\beta_s$ and $\beta_t$ are equal, then adding the source task dataset always helps learn the target task.
 The goal of this section is to understand how covariate shift affects the rate of transfer. \todo{add conceptual msg}
 
@@ -323,24 +323,26 @@ We can see that the smaller $\lambda$ is, the lower the test errors will be.
 
 \smallskip
 \begin{example}[\textbf{When $\Sigma_1$ and $\Sigma_2$ are complementary}]
-Here we have that for $\Sigma_1^{-1/2}\Sigma_2^{1/2}$, the first $p/2$ singular values of $\Sigma_1$ is $\lambda$ and the rest is $1/\lambda$.
+	We consider two cases when $\Sigma_1$ and $\Sigma_2$ are \textit{different}
+\begin{itemize}
+	\item {\bf Different singular values:} Here we have that for $\Sigma_1^{-1/2}\Sigma_2^{1/2}$, the first $p/2$ singular values of $\Sigma_1$ is $\lambda$ and the rest is $1/\lambda$.
 For this case, equations \eqref{eq_a2} become
 \[ a_1 + a_2 = 1 - \frac{p}{n_1 + n_2}, a_1 + \frac{p}{2(n_1 + n_2)}\cdot \bigbrace{\frac{a_1}{a_1 + \lambda^2 a_2} + \frac{a_1}{a_1 + \frac{a_2}{\lambda^2}}} = \frac{n_1}{n_1 + n_2}. \]
 It's not hard to verify that there is only one valid solution from the above.
 After solving these, we get the test error for the target task as follows.
 \[ \frac{p}{2(n_1 + n_2)} \cdot \bigbrace{\frac{1}{\frac{a_1}{\lambda^2} + a_2} + \frac{1}{a_1\lambda^2 + a_2}}.\]
+	\item {\bf Different singular spaces:}
+	Suppose $\Sigma_1$ and $\Sigma_2$ have the eigendecomposition
+$$\Sigma_1^{1/2} = 1+ U\Lambda U^\top, \quad \Sigma_2^{1/2} = 1+ V\Lambda V,$$
+where
+$$\Lambda = \diag(\wt\lambda_1,\cdots, \wt\lambda_{p/2}), \quad U= (u_1,\cdots, u_{p/2}), \quad V= (v_1,\cdots, v_{p/2}).$$
+We consider two case: if $V=U$, then $M=\id;$ if $V=U_\perp$ (i.e. the space spanned by $V$ is perpendicular to that spanned by $U$), then
+$$M=\Sigma_1^{1/2} \Sigma_2^{-1/2}=(1+\Lambda)UU^\top + (1+\Lambda)^{-1}V V^\top .$$
+This is an extension of the above example of complementary case.
+\end{itemize}
 \end{example}
 
-\smallskip
-\begin{example}[\textbf{When $\Sigma_1$ and $\Sigma_2$ have perpendicular eigenspaces}]
-Suppose $\Sigma_1$ and $\Sigma_2$ have the eigendecomposition
-$$\Sigma_1^{1/2} = 1+ U\Lambda U^\top, \quad \Sigma_2^{1/2} = 1+ V\Lambda V,$$
-where 
-$$\Lambda = \diag(\wt\lambda_1,\cdots, \wt\lambda_{p/2}), \quad U= (u_1,\cdots, u_{p/2}), \quad V= (v_1,\cdots, v_{p/2}).$$
-We consider two case: if $V=U$, then $M=\id;$ if $V=U_\perp$ (i.e. the space spanned by $V$ is perpendicular to that spanned by $U$), then 
-$$M=\Sigma_1^{1/2} \Sigma_2^{-1/2}=(1+\Lambda)UU^\top + (1+\Lambda)^{-1}V V^\top .$$
-This is an extension of the above example of complementary case. 
-\end{example}
+
 
 In Figure \ref{fig_te_complement}, we plot the test error of the target task for $n_2 = 4p$ and $n_1$ ranging from $p$ to $20p$.
 We observe the following two phases as we increase $n_1 / p$.
@@ -366,10 +368,12 @@ We observe the following two phases as we increase $n_1 / p$.
 \end{figure}
 
 
-\paragraph{The general case.}
-\begin{example}[\textbf{The effect of $n_1$, the source task data size}]
-\end{example}
-
+\paragraph{Extending the intuition to the general case.}
+When there is model shift, i.e. $\beta_s = \beta_t$, we can still use Theorem \ref{thm_model_shift} (and Proposition \ref{prop_model_shift_tight}) to get the result.
+\begin{itemize}
+	\item \textbf{The effect of covariate shift:}
+	\item \textbf{The effect of data ratio:}
+\end{itemize}
 
 
 
