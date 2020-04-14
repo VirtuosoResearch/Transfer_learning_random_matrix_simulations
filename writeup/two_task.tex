@@ -149,6 +149,32 @@ The bounds get tighter and tighter as $n_1 / p$ increases.
 %It remains to consider the increment from the first term in $\te(\hat{\beta}_{s,t})$, which is bounded using the following lemma.
 %We are now interested in the following quantity
 
+\noindent\todo{A proof outline; including the following key lemma.}
+To prove Theorem \ref{thm_cov_shift}, we study the spectrum of the random matrix model:
+$$Q= \Sigma_1^{1/2}  Z_1^T Z_1 \Sigma_1^{1/2}  + \Sigma_2^{1/2}  Z_2^T Z_2 \Sigma_2^{1/2} ,$$
+where $\Sigma_{1,2}$ are $p\times p$ deterministic covariance matrices, and $X_1=(x_{ij})_{1\le i \le n_1, 1\le j \le p}$ and $X_2=(x_{ij})_{n_1+1\le i \le n_1+n_2, 1\le j \le p}$ are $n_1\times p$ and $n_2 \times p$ random matrices, respectively, where the entries $x_{ij}$, $1 \leq i \leq n_1+n_2\equiv n$, $1 \leq j \leq p$, are real independent random variables satisfying
+\begin{equation}\label{eq_12moment} %\label{assm1}
+\mathbb{E} z_{ij} =0, \ \quad \ \mathbb{E} \vert z_{ij} \vert^2  = 1.
+\end{equation}
+%For now, we assume that the random variables $x_{ij}$ are i.i.d. Gaussian, but we know that universality holds for generally distributed entries. %have arbitrarily high moments,
+%in the sense that for any fixed $k\in \mathbb N$, there is a constant $\mu_k>0$ such that
+%\begin{equation}\label{eq_highmoment} %\label{eqn:subgaus}
+%\max_{i,j}\left(\mathbb E|x_{ij}|^k\right)^{1/k} \le \mu_k n^{-1/2},  %\var \left(h_{xy}\right)^{1/2}
+%\end{equation}
+%for all $n$. %For simplicity, we assume that $k$ is a finite fixed integer, the strengths $d_1 > d_2 > \cdots > d_k >0$ are fixed constants, and $ \bu_i$,  $\bv_i$ are deterministic unit vectors.
+
+\begin{lemma}\label{lem_cov_shift}
+	In the setting of Theorem \ref{thm_model_shift}, we have with high probability $1-{\rm o}(1)$,
+\begin{align}\label{lem_cov_shift_eq}
+\tr ((w^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2) = \frac{1}{n_1+n_2}\cdot \tr \left( \frac{1}{a_1 M^\top M + a_2} \right) +\bigo{ n^{-1/2+\epsilon}},
+\end{align}
+	for any constant $\epsilon>0$. %, where $a_{3,4}$ are found using equations in  \eqref{m35reduced}.
+	Moreover, when $n_1 = 0$, we have %we have that $a_1 = 0$ and $a_2 = (n_2-p) / n_2$, hence
+	\begin{align}\label{lem_cov_shift_eq2} \bigtr{(X_2^{\top}X_2)^{-1}\Sigma_2} = \frac{p}{n_2-p} + \bigo{n^{-1/2+\epsilon}}, \end{align}
+which is a well-known result for inverse Whishart matrices {\color{red}add some references}.
+\end{lemma}
+We will give the proof of this lemma in Section \ref{sec_maintools}.
+
 
 \section{Effects of Model Distance, Covariate Shift, and Data Ratio}
 
@@ -224,33 +250,8 @@ We describe examples based on Theorem \ref{thm_model_shift} to show several conc
 \end{figure}
 
 
-\medskip
-\noindent\todo{A proof outline; including the following key lemma.}
-To prove Theorem \ref{thm_cov_shift}, we study the spectrum of the random matrix model:
-$$Q= \Sigma_1^{1/2}  Z_1^T Z_1 \Sigma_1^{1/2}  + \Sigma_2^{1/2}  Z_2^T Z_2 \Sigma_2^{1/2} ,$$
-where $\Sigma_{1,2}$ are $p\times p$ deterministic covariance matrices, and $X_1=(x_{ij})_{1\le i \le n_1, 1\le j \le p}$ and $X_2=(x_{ij})_{n_1+1\le i \le n_1+n_2, 1\le j \le p}$ are $n_1\times p$ and $n_2 \times p$ random matrices, respectively, where the entries $x_{ij}$, $1 \leq i \leq n_1+n_2\equiv n$, $1 \leq j \leq p$, are real independent random variables satisfying
-\begin{equation}\label{eq_12moment} %\label{assm1}
-\mathbb{E} z_{ij} =0, \ \quad \ \mathbb{E} \vert z_{ij} \vert^2  = 1.
-\end{equation}
-%For now, we assume that the random variables $x_{ij}$ are i.i.d. Gaussian, but we know that universality holds for generally distributed entries. %have arbitrarily high moments,
-%in the sense that for any fixed $k\in \mathbb N$, there is a constant $\mu_k>0$ such that
-%\begin{equation}\label{eq_highmoment} %\label{eqn:subgaus}
-%\max_{i,j}\left(\mathbb E|x_{ij}|^k\right)^{1/k} \le \mu_k n^{-1/2},  %\var \left(h_{xy}\right)^{1/2}
-%\end{equation}
-%for all $n$. %For simplicity, we assume that $k$ is a finite fixed integer, the strengths $d_1 > d_2 > \cdots > d_k >0$ are fixed constants, and $ \bu_i$,  $\bv_i$ are deterministic unit vectors.
 
 
-\begin{lemma}\label{lem_cov_shift}
-	In the setting of Theorem \ref{thm_model_shift}, we have with high probability $1-{\rm o}(1)$,
-\begin{align}\label{lem_cov_shift_eq}
-\tr ((w^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2) = \frac{1}{n_1+n_2}\cdot \tr \left( \frac{1}{a_1 M^\top M + a_2} \right) +\bigo{ n^{-1/2+\epsilon}},
-\end{align}
-	for any constant $\epsilon>0$. %, where $a_{3,4}$ are found using equations in  \eqref{m35reduced}.
-	Moreover, when $n_1 = 0$, we have %we have that $a_1 = 0$ and $a_2 = (n_2-p) / n_2$, hence
-	\begin{align}\label{lem_cov_shift_eq2} \bigtr{(X_2^{\top}X_2)^{-1}\Sigma_2} = \frac{p}{n_2-p} + \bigo{n^{-1/2+\epsilon}}, \end{align}
-which is a well-known result for inverse Whishart matrices {\color{red}add some references}.
-\end{lemma}
-We will give the proof of this lemma in Section \ref{sec_maintools}.
 
 
 
@@ -284,7 +285,7 @@ The goal of this section is to understand how covariate shift affects the rate o
 A simple observation here is that when $\beta_s = \beta_t$, the optimal $\hat{w}$ for minimizing equation \eqref{eq_te_mtl} is equal to $1$.
 Based on this observation, we can get a more precise result than Theorem \ref{thm_model_shift} on the improvement of adding the source task data that only depends on the covariance matrices $\Sigma_1, \Sigma_2$ and the number of data points $n_1, n_2$.
 
-\begin{theorem}[Transfer rate without model shift]\label{thm_cov_shift}
+\begin{proposition}[Transfer rate without model shift]\label{thm_cov_shift}
 	When $\beta_s = \beta_t$, we have that the optimal ratio for $W_1/W_2$ in equation \eqref{eq_te_mtl} is $\hat{w} = 1 \pm \bigo{\frac 1 {n_1+n_2}}$ \todo{(figure out the constants)}.
 	And
 	\begin{align*}
@@ -292,7 +293,7 @@ Based on this observation, we can get a more precise result than Theorem \ref{th
 		\te(\hat{\beta}^{\TL}_{t}) &= \sigma^2 \cdot \bigtr{\bigbrace{(n_1 + n_2)a_1\Sigma_2^{-1/2}\Sigma_1\Sigma_2^{-1/2} + (n_1 + n_2)a_2\id}^{-1}} + \bigo{\frac 1 {(n_1 + n_2)^2}},
 	\end{align*}
 	where $a_1, a_2$ are the solutions of equations \eqref{eq_a2}.
-\end{theorem}
+\end{proposition}
 
 As a remark, we see that Proposition \ref{prop_monotone} follows from Theorem \ref{thm_cov_shift}.
 The amount of reduction on test error for the target task is given as
