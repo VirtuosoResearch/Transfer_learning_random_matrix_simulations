@@ -46,17 +46,7 @@ We shall also derive the limit of $\te(\hat{\beta}_t^{\MTL})$.
 
 
 \todo{For technical reasons, we will consider the test error.}
-%From Lemma \ref{lem_cov_shift}, we know that
-%\[ \bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} \Sigma_2} = \frac{1}{n_1 + n_2}\cdot \bigtr{ \bigbrace{a_1\Sigma_2^{-1/2}\Sigma_1\Sigma_2^{-1/2} + a_2\id}^{-1}}, \]
-%where $a_1, a_2$ are specified in Theorem \ref{thm_cov_shift}.
-%Hence the variance part is reduced by the following amount
-%\begin{align}
-%	\Delta_{\vari} \define \sigma^2 \cdot \bigbrace{\frac{p}{n_2 - p} - \frac{1}{n_1 + n_2} \bigtr{\bigbrace{a_1 M^{\top}M + a_2\id}^{-1}}}
-%\end{align}
-%It remains to consider the increment from the first term in $\te(\hat{\beta}_{s,t})$, which is bounded using the following lemma.
-%We are now interested in the following quantity
 
-\subsection{Multi-Task Training versus Single-Task Training}
 
 We state our main result for two tasks with both covariate and model shift in the following theorem.
 
@@ -147,11 +137,21 @@ The bounds get tighter and tighter as $n_1 / p$ increases.
 %\end{align}
 %
 %\end{theorem}
-We describe examples based on Theorem \ref{thm_model_shift} to show several conceptual insights.
 
-\begin{example}[\textbf{Varying the distance of task models}]
-	We consider a simple setting where $\Sigma_1 = \id$.
-	Suppose that $\beta_s - \beta_t$ is i.i.d. with mean $0$ and variance $d^2$. Hence the task models have distance $d^2\cdot p$ in expectation.
+
+%From Lemma \ref{lem_cov_shift}, we know that
+%\[ \bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} \Sigma_2} = \frac{1}{n_1 + n_2}\cdot \bigtr{ \bigbrace{a_1\Sigma_2^{-1/2}\Sigma_1\Sigma_2^{-1/2} + a_2\id}^{-1}}, \]
+%where $a_1, a_2$ are specified in Theorem \ref{thm_cov_shift}.
+%Hence the variance part is reduced by the following amount
+%\begin{align}
+%	\Delta_{\vari} \define \sigma^2 \cdot \bigbrace{\frac{p}{n_2 - p} - \frac{1}{n_1 + n_2} \bigtr{\bigbrace{a_1 M^{\top}M + a_2\id}^{-1}}}
+%\end{align}
+%It remains to consider the increment from the first term in $\te(\hat{\beta}_{s,t})$, which is bounded using the following lemma.
+%We are now interested in the following quantity
+
+
+\section{Effects of Model Distance, Covariate Shift, and Data Ratio}
+
 	We can get a bound tighter than Theorem \ref{thm_model_shift} as follows.
 
 	\begin{proposition}\label{prop_model_shift_tight}
@@ -164,6 +164,16 @@ We describe examples based on Theorem \ref{thm_model_shift} to show several conc
 			\te(\hat{\beta}_t^{\MTL}) \ge \te(\hat{\beta}_t^{\STL}) \text{ when: } & \Delta_{\vari} \le \bigbrace{1 - \sqrt{\frac{p}{n_1}}}^4 \Delta_{\beta}.
 		\end{align*}
 	\end{proposition}
+
+\subsection{Multi-Task Training versus Single-Task Training}
+
+
+We describe examples based on Theorem \ref{thm_model_shift} to show several conceptual insights.
+
+\begin{example}[\textbf{Varying the distance of task models}]
+	We consider a simple setting where $\Sigma_1 = \id$.
+	Suppose that $\beta_s - \beta_t$ is i.i.d. with mean $0$ and variance $d^2$. Hence the task models have distance $d^2\cdot p$ in expectation.
+
 
 	We first consider $\Sigma_2 = \id$. In this case, we can simplify $\Delta_{\beta}$ as follows
 	\begin{align} \label{eq_delta_simple}
