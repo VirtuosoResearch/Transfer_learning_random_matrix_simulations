@@ -151,7 +151,7 @@ The bounds get tighter and tighter as $n_1 / p$ increases.
 
 \noindent\todo{A proof outline; including the following key lemma.}
 To prove Theorem \ref{thm_cov_shift}, we study the spectrum of the random matrix model:
-$$Q= \Sigma_1^{1/2}  Z_1^T Z_1 \Sigma_1^{1/2}  + \Sigma_2^{1/2}  Z_2^T Z_2 \Sigma_2^{1/2} ,$$
+$$Q= \Sigma_1^{1/2}  Z_1^{\top} Z_1 \Sigma_1^{1/2}  + \Sigma_2^{1/2}  Z_2^{\top} Z_2 \Sigma_2^{1/2} ,$$
 where $\Sigma_{1,2}$ are $p\times p$ deterministic covariance matrices, and $X_1=(x_{ij})_{1\le i \le n_1, 1\le j \le p}$ and $X_2=(x_{ij})_{n_1+1\le i \le n_1+n_2, 1\le j \le p}$ are $n_1\times p$ and $n_2 \times p$ random matrices, respectively, where the entries $x_{ij}$, $1 \leq i \leq n_1+n_2\equiv n$, $1 \leq j \leq p$, are real independent random variables satisfying
 \begin{equation}\label{eq_12moment} %\label{assm1}
 \mathbb{E} z_{ij} =0, \ \quad \ \mathbb{E} \vert z_{ij} \vert^2  = 1.
@@ -299,6 +299,33 @@ Based on this observation, we can get a more precise result than Theorem \ref{th
 	\end{align*}
 	where $a_1, a_2$ are the solutions of equations \eqref{eq_a2}.
 \end{proposition}
+
+{\color{blue}
+\begin{proposition}[Transfer rate without model shift] 
+	Suppose $\beta_s = \beta_t$ with i.i.d. entries of mean zero and variance $d^2$. Then we have that the optimal ratio for $W_1/W_2$ in equation \eqref{eq_te_mtl} satisfies 
+	$$1\le \hat{w} \le w_0:=1 + \frac{\sigma^2}{d^2(\sqrt{n_1}-\sqrt{p})^2 \|\Sigma_1\|_{\min}},$$ 
+	where $\|\Sigma_1\|_{\min}$ is the smallest singular value of $\Sigma_1$. Note that $w_0$ is very close to $1$ up to a small error of order $n_1^{-1}$.
+\end{proposition}
+\begin{proof}
+We abbreviate $\val(w_2\hat{B}(w)):=\val(w)$. Under the assumption on $\beta_s$ and $\beta_t$, we can write
+\begin{align}
+	\val(w) =&~ d^2 \left( 1-\frac1w\right)^2 \tr\left[( M^\top Z_1^{\top}Z_1 M + w^{-2}Z_2^{\top}Z_2)^{-1} M^\top Z_1^{\top}\left(Z_1 \Sigma_1 Z_1^{\top}\right) Z_1 M ( M^\top Z_1^{\top}Z_1 M + w^{-2}Z_2^{\top}Z_2)^{-1}\right] \nonumber \\
+			&~ + \sigma^2 \cdot \bigtr{(w^2 M^\top Z_1^{\top}Z_1 M + Z_2^{\top}Z_2)^{-1} \Sigma_2}.  \nonumber
+\end{align}
+Taking derivative with respect to $w$, we obtain that 
+\begin{align*}
+\val'(w) \ge &~ 2\frac{d^2}{w^2} \left( 1-\frac1w\right) \tr\left[( M^\top Z_1^{\top}Z_1 M + w^{-2}Z_2^{\top}Z_2)^{-1} M^\top Z_1^{\top}\left(Z_1 \Sigma_1 Z_1^{\top}\right) Z_1 M ( M^\top Z_1^{\top}Z_1 M + w^{-2}Z_2^{\top}Z_2)^{-1}\right]   \\
+			&~ - 2 \frac{\sigma^2}{w^3} \cdot \bigtr{(w^2 M^\top Z_1^{\top}Z_1 M + Z_2^{\top}Z_2)^{-1} M^\top Z_1^{\top}Z_1 M (w^2 M^\top Z_1^{\top}Z_1 M + Z_2^{\top}Z_2)^{-1}\Sigma_2} \\
+			=& ~ 2\frac{d^2}{w^3} \tr\left[( M^\top Z_1^{\top}Z_1 M + w^{-2}Z_2^{\top}Z_2)^{-1} M^\top Z_1^{\top} \left[\left( w-1\right)\left(Z_1 \Sigma_1 Z_1^{\top}\right) - \frac{\sigma^2}{d^2}\id \right] Z_1 M ( M^\top Z_1^{\top}Z_1 M + w^{-2}Z_2^{\top}Z_2)^{-1}\right]  .
+\end{align*}
+We can write $\id = P+ P_{\perp}$, where $P$ denotes the projection onto the subspace spanned by the columns of $Z_1$ and $P_{\perp}$ denotes the projection onto its orthogonal complement. Together with $P\preceq (\sqrt{n_1}-\sqrt{p})^{-2} Z_1 Z_1^\top$, we get
+\begin{align*}
+M^\top Z_1^{\top} \left[\left( w-1\right)\left(Z_1 \Sigma_1 Z_1^{\top}\right) - \frac{\sigma^2}{d^2}\id \right] Z_1 M  &\succeq M^\top Z_1^{\top} \left[\left( w-1\right)\left(Z_1 \Sigma_1 Z_1^{\top}\right) - \frac{\sigma^2}{d^2(\sqrt{n_1}-\sqrt{p})^{2}} Z_1 Z_1^\top \right] Z_1 M  \\
+&= M^\top Z_1^{\top}Z_1  \left[\left( w-1\right) \Sigma_1  - \frac{\sigma^2}{d^2(\sqrt{n_1}-\sqrt{p})^{2}} \right] Z_1^\top Z_1 M .
+\end{align*}
+Hence $\val'(w)\ge 0$ if $w\ge w_0$, i.e. $\val(w)$ is an increasing function on $[1+w_0,\infty]$. Thus we get $\hat w$ is between $[1,w_0]$. 
+\end{proof}
+}
 
 As a remark, we see that Proposition \ref{prop_monotone} follows from Theorem \ref{thm_cov_shift}.
 The amount of reduction on test error for the target task is given as
