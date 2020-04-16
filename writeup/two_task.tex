@@ -375,7 +375,7 @@ It's not hard to verify that there is only one valid solution from the above.
 After solving these, we get the test error for the target task as follows.
 \be\label{testcomple} 
 te(\lambda)=\frac{p}{2(n_1 + n_2)} \cdot \bigbrace{\frac{1}{\frac{a_1}{\lambda^2} + a_2} + \frac{1}{a_1\lambda^2 + a_2}}.\ee
-	\item {\bf Different singular spaces:}
+	\item {\bf Different singular spaces {\color{blue}(actually they have the same singular spaces)}:}
 	Suppose $\Sigma_1$ and $\Sigma_2$ have the eigendecomposition
 $$\Sigma_1^{1/2} = 1+ U\Lambda U^\top, \quad \Sigma_2^{1/2} = 1+ V\Lambda V,$$
 where
@@ -397,6 +397,14 @@ te(\lambda) - te(1)&= \frac{\gamma}{2(1-\gamma)} (\lambda^2-1)a_1\cdot \bigbrace
 &= \frac{\gamma}{2(1-\gamma)} (\lambda^2-1)^2 a_1\cdot  \frac{2a_1 - (1-\gamma) }{[-a_1(\lambda^2-1)+(1-\gamma)\lambda^2 ][a_1(\lambda^2-1) + (1-\gamma)]} .
 \end{align*}
 If $n_1>n_2$, we have $a_1>(1-\gamma)/2$ (because $a_1>a_2$ as observed from the equation \eqref{compleeq}), and hence $te(\lambda)>te(1)$. Otherwise if $n_1< n_2$, we have $a_1< (1-\gamma)/2$, and hence $te(\lambda)< te(1)$. 
+}
+
+{\color{blue}
+Suppose we fix a scale of the covariate shift. That is given an $a>0$, we consider all possible covariate shift matrices $M^\top M$ such that 
+\be\label{GMcons}\det(M^\top M)= a\Leftrightarrow \prod_{i=1}^p \lambda_i = a.\ee
+We claim as long as we have sufficiently many datas (i.e. as long as $n_1$ is sufficiently large), then the choice $M^\top M = a^{1/p}\id $ achieves the smallest test error. In fact, for sufficiently large $n_1$, we have $a_1\approx 1-\gamma$ and $a_2\approx 0$. Then we have 
+$$te\approx \frac{\sigma^2}{n_1+n_2-p} \sum_{i=1}^p \frac{1}{\lambda_i}.$$
+By AM-GM inequality, under the constraint \eqref{GMcons} the sum is smallest when $\lambda_1=\lambda_2=\cdots=\lambda_p = a^{1/p}$. 
 }
 
 
