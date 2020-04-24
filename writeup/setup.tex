@@ -6,23 +6,39 @@ In this work, we zoom in to the task covariance part of \cite{WZR20} to further 
 We study a high-dimensional linear regression setting where the target task data size is limited.
 We formulate the heterogeneity between different task data under covariate and model shifts \cite{PY09,K18}.
 By using random matrix theory, we can explain several phenomena that are not explained by the techniques of \cite{WZR20}.
+<<<<<<< HEAD
+These are achieved through tight generalization bounds established in the high-dimensional regression setting.
+Our main results are described as follows.
+=======
 \todo{list those here}
 These are achieved through tight generalization bounds established in the high-dimensional regression setting using random matrix theory.
 
 First, we provide a complete and precise picture for when there is positive vs negative transfer in the setting of learning two tasks.
+>>>>>>> 7a264e06eec0f65422a2492170521b934dd03ca5
 \begin{enumerate}
-	\item {\bf De-noising effect of MTL:} we show that multi-task learning has a de-noising effect of reducing the variance of the estimator.
-	With multi-task training, since the training objective balances the losses from both the source and target tasks, the trained model can have worse performance for the target task.
-	In particular, if model shift is too large, we get negative transfer from multi-task training. [\textbf{done}]
+	\item {\bf De-noising effect of information transfer.}
+	We provide a precise analysis for performing multi-task learning over two tasks under covariate and model shifts.
+	We show that multi-task learning helps improve performance over target tasks by \textit{reducing variance} through newly added source task data.
+	On the other hand, the difference between task models causes a negative effect that we call the \textit{model shift bias}.
+	We show upper and lower bounds on both the amount of variance reduced and the amount of model shift bias incurred, which become tighter and tighter as the number of source task data points increases.
 	%{\bf Negative transfer from model shift:} To complement the above result, we establish a fundamental limit of multi-task learning compared to single-task learning in the presence of model shift.
 	%The phenomenon of negative transfer persists despite changing the model capacity or reweighting the tasks. [\textbf{done}]
-	\item {\bf Covariate shift affects the rate of transfer:} next we show that if we optimize the multi-task model on the target task, this can correct the negative transfer.
-	We further show that covariate shift controls the rate in which transfer occurs. [\textbf{1/2 done}]
+	\item {\bf Effects of covariate shift, model distance, and data ratio.}
+	We apply our general theory to compare the performance of three different estimators for the target task: multi-task training, single-task training and transfer learning.
+	\begin{enumerate}
+		\item {\bf Multi-task training over single-task training.} With multi-task training, since the training objective balances the losses from both the source and target tasks, the trained model can have worse performance for the target task.
+	In particular, if model shift is too large, we get negative transfer from multi-task training.
+		\item {\bf Transfer learning over single-task training.} Next we show that if we we only optimize the multi-task model on the target task, then we always obtain improved performance over single-task training.
+		We provide fine-grained understanding on the amount of improvement that depends on covariate shift and data ratio.
+		\item {\bf Transfer learning over multi-task training.} Finally, we show that the transfer learning estimator always improves over mutli-task training.
+		The amount of improvement becomes more significant as the model distance becomes larger.
+	\end{enumerate}
+	\item {\bf Extending to many tasks with the same covariates.} For the general setting with $k$ tasks, we study the case when all tasks share the same covariates.
+This setting is prevalent in applications of multi-task learning to image classification, where there are multiple prediction labels/tasks for every image \cite{EA20}.
+	Since there is no covariate shift and the data ratio is always equal to one, the main factor is model distance.
+	We show that our results and insights from the above can be extended to this setting as well.
 \end{enumerate}
 
-Secondly for the general setting with $k$ tasks, we study the case when all tasks share the same covariates.
-This setting is prevalent in applications of multi-task learning to image classification, where there are multiple prediction labels/tasks for every image \cite{EA20}.
-\todo{We show the following results.} [\textbf{1/2 done}]
 
 
 \section{Problem Setup}\label{sec_setup}
@@ -42,16 +58,15 @@ We also write $x = \Sigma_i^{1/2} z_i$, where $z_i$ is a random vector with mean
 \paragraph{Generalization error.}
 We will designate the $k$-th task as the target.
 Our goal is to come up with an estimator $\hat{\beta}$ to provide accurate predictions for the target task, provided with the other auxiliary task data.
-Concretely, we focus on two objectives.
-\begin{itemize}
-	\item Estimation error for the target model $\beta_t$: we consider their distance
-		\[ \err(\hat{\beta}) \define \exarg{\varepsilon_i, \forall 1\le i\le k}{\bignorm{\hat{\beta} - \beta_t}^2}. \]
-	\item Test error for the target task:
+Concretely, we focus on the test error for the target task:
+%\begin{itemize}
+%	\item Estimation error for the target model $\beta_t$: we consider their distance
+%		\[ \err(\hat{\beta}) \define \exarg{\varepsilon_i, \forall 1\le i\le k}{\bignorm{\hat{\beta} - \beta_t}^2}. \]
 		\begin{align*}
-			\te(\hat{\beta}) &\define \exarg{x \sim \Sigma_k}{\exarg{{\varepsilon_i, \forall 1\le i\le k}}{(x^{\top}\hat{\beta} - x^{\top}\beta_t)^2}} \\
+			\te_k(\hat{\beta}) &\define \exarg{x \sim \Sigma_k}{\exarg{{\varepsilon_i, \forall 1\le i\le k}}{(x^{\top}\hat{\beta} - x^{\top}\beta_t)^2}} \\
 			&= \exarg{\varepsilon_i, \forall 1\le i\le k}{(\hat{\beta} - \beta_t)^{\top}\Sigma_k(\hat{\beta} - \beta_t)}.
 		\end{align*}
-\end{itemize}
+%\end{itemize}
 
 \paragraph{The MTL problem.}
 We use a shared body (module) $B\in\real^{p\times r}$ for all tasks and a separate head (module) $\set{W_i \in \real^{r}}_{i=1}^k$ for each task.
@@ -139,7 +154,7 @@ We consider two natural questions within each category.
 In general the single-task models can also be different across different tasks.
 We shall argue that in addition to the bias and variance terms of generalization error, model shift introduces a third term which is the bias caused by model shift.
 
-\todo{Here the hypothesis is that the optimal $B$ is captured by a low-rank approximation of the single-task models?}
+%\todo{Here the hypothesis is that the optimal $B$ is captured by a low-rank approximation of the single-task models?}
 %We remove the assumption that the models are the same.
 %The $i$-th task data can be viewed as generated by a separate model $\beta_i\in\real^p$.
 %\begin{align}
@@ -150,8 +165,8 @@ We shall argue that in addition to the bias and variance terms of generalization
 \paragraph{Covariate shift.}
 The covariance matrices $\Sigma_i$ may be be different across tasks, i.e. having different spectrum or singular vectors.
 This is also known as covariate shift in the literature.
-\todo{Our hypothesis is that the covariate shift can slow down the convergence of learning the true $\theta$ as a function of the number of data points.}
-A special case of this setting is that the single-task models are the same across all the tasks, i.e. $\beta_i = \beta$, for all $1\le i\le k$.
+%\todo{Our hypothesis is that the covariate shift can slow down the convergence of learning the true $\theta$ as a function of the number of data points.}
+%A special case of this setting is that the single-task models are the same across all the tasks, i.e. $\beta_i = \beta$, for all $1\le i\le k$.
 %\begin{align}
 %	Y_i = X_i \beta + \varepsilon_i. %, \mbox{ with } \frac 1 {n_i} X_i^{\top}X_i \sim
 %\Sigma_i
@@ -222,7 +237,7 @@ A crucial quantity is what we call the \textit{covariate shift} matrix $M = \Sig
 Let $\lambda_1, \lambda_2, \dots, \lambda_p$ denote the singular values of $M$.
 % \gamma_n:= \frac{p} {n_1 + n_2} \to \gamma,
 
-\begin{lemma}\label{lem_minv}
+\begin{lemma}\label{lem_minv}[\todo{ref?}]
 	In the setting when $n_2 = c_2 p$ we have that as $p$ goes to infinity,
 	\[ \bigtr{(X_2^{\top}X_2)^{-1}\Sigma_2} = \frac{p}{n_2 - p}. \]
 	%{\color{blue} \[ \bigtr{(X_2^{\top}X_2)^{-1}\Sigma_2} = \frac{p}{n_2 - p} . \]}
