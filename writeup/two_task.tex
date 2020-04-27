@@ -1,9 +1,8 @@
-\section{The De-Noising Effect of Multi-Task Learning}\label{sec_denoise}
+\section{Variance Reduction from Information Transfer}\label{sec_denoise}
 
-
-In this part, we shall establish the intuition that adding more data helps in multi-task learning by reducing the variance of the estimator.
+In this part, we establish the intuition that adding more data helps in multi-task learning by reducing the variance of the estimator.
 We achieve this through tight generalization bounds obtained from random matrix theory.
-We focus the case of two tasks to provide a complete picture on how covariate and model shifts can affect the type of transfer.
+For the case of two tasks, we identify three factors that determine the type of transfer between tasks: model distance, covariate shift matrix, and data ratio.
 
 Recall that the test error of $\hat{\beta}_{t}^{\MTL}$ consists of two parts
 \begin{align}
@@ -45,158 +44,47 @@ We shall also derive the limit of $\te(\hat{\beta}_t^{\MTL})$.
 
 
 
-\todo{For technical reasons, we will consider the test error.}
+%\todo{For technical reasons, we will consider the test error.}
+%\section{Effects of Model Distance, Covariate Shift, and Data Ratio on Information Transfer}\label{sec_insight}
+\subsection{Model Distance}
 
+As a warm up, we show that when $\beta_s = \beta_t$, then the transfer is always positive.
+%Since all tasks share the same underlying model $\beta$, we use a simplified objective as follows.
+%\begin{align}
+%	\label{eq_mtl_basic}
+%	f(w) = \sum_{i=1}^k \norm{X_i w - Y_i}^2.
+%\end{align}
+%{\bf The distributed learning problem.}
+%    \begin{align}
+%     f(w) = \sum_{i=1}^k \normFro{X_i w - Y_i}^2. \label{eq_dist}
+%   \end{align}
+%Equation \eqref{eq_mtl_basic} is simplified from equation \eqref{eq_mtl} by setting $A_i$ to be 1 for all tasks. %can select a model from the subspace of $B$ to fit $(X_i, Y_i)$.
 
-We state our main result for two tasks with both covariate and model shift in the following theorem.
-
-\begin{theorem}\label{thm_model_shift}
-	Let $n_1, n_2$ be the number of data points for the source, target task, respectively.
-	Let $\hat{w}$ denote the optimal solution for the ratio $w_1/w_2$ in equation \eqref{eq_val_mtl}.
-	Let ${M} = \hat{w} \Sigma_1^{1/2}\Sigma_2^{-1/2}$ denote the weighted covariate shift matrix.
-	Denote by ${\lambda}_1, {\lambda}_2, \dots, {\lambda}_p$ the singular values of ${M}^{\top}{M}$.
-	The information transfer is solely determined by two deterministic quantities $\Delta_{\beta}$ and $\Delta_{\vari}$, which show the change of model shift bias and variace, respectively.
-	With high probability we have
+\begin{proposition}\label{prop_monotone}
+	Suppose that $n > p$.
+  When there is no model shift, i.e. $\beta_s = \beta_t$, adding the source task data always reduces the estimation error and the test error for the target task, i.e.
 	\begin{align}
-	 	\te(\hat{\beta}_{t}^{\MTL}) \le \te(\hat{\beta}_t^{\STL}) \text{ when: } &\Delta_{\vari} - \Delta_{\beta} \ge \left(\bigbrace{1 + \sqrt{\frac{p} {n_1}}}^4 - 1 \right) \delta \label{upper}\\
-		\te(\hat{\beta}_t^{\MTL}) \ge \te(\hat{\beta}_t^{\STL}) \text{ when: } &\Delta_{\vari} - \Delta_{\beta} \le -2\bigbrace{2\sqrt{\frac {p}{n_1}} + \frac{p}{n_1}} \delta, \label{lower}
+%		\err(\hat{\beta}_{t}^{\MTL})  &\le \err(\hat{\beta}_t^{\STL}), \text{ and} \label{eq_mono_e}\\
+		\te(\hat{\beta}_{t}^{\MTL}) &\le \te(\hat{\beta}_t^{\STL}). \label{eq_mono_te}
 	\end{align}
-	where $\delta = \norm{Z} \cdot \norm{\Sigma_1^{1/2}(\beta_s - \hat{w}\beta_t)}^2$ with $Z = \frac{n_1^2}{(n_1 + n_2)^2}\cdot{M} \frac{(1 + a_3)\id + a_4 {M}^{\top}{M}}{(a_2 + a_1 {M}^{\top}{M})^2} {M}^{\top}$, and
-	\begin{align*} %\bigtr{{\Sigma_2^{-1}}}
-		\Delta_{\vari} &\define {\sigma^2}\bigbrace{\frac{p}{n_2 - p} -  \frac{1}{n_1 + n_2} \bigtr{(a_1 M^{\top}M + a_2\id)^{-1}} } \\
-		\Delta_{\beta} &\define (\beta_s - \hat{w}\beta_t)^{\top} \Sigma_1^{1/2} Z \Sigma_1^{1/2} (\beta_s - \hat{w}\beta_t),
+\end{proposition}
+
+\begin{proof}
+%	Equation \eqref{eq_mono_e} is simply because
+%		\[ \err(\hat{\beta}_{s,t}) = \bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}} \le \bigtr{(X_1^{\top}X_1)^{-1}} = \err(\hat{\beta}_t). \]
+%	Equation \eqref{eq_mono_te} follows because
+	Recall that $\hat{\beta}_t^{\MTL} = \hat{w} \cdot \hat{B}$.
+	By the optimality of $\hat{w}$, we have by setting $w = 1$ in equation \eqref{eq_te_mtl}
+	\begin{align*}
+		\te(\hat{\beta}_t^{\MTL}) &\le \sigma^2 \cdot \bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2} \\
+		&= \sigma^2 \cdot \bigtr{\bigbrace{\Sigma_2^{-1/2}X_1^{\top}X_1\Sigma_2^{-1/2} + \Sigma_2^{-1/2}X_2^{\top}X_2\Sigma^{-1/2}}^{-1}} \\
+		&\le \bigtr{\bigbrace{\Sigma_2^{-1/2}X_2^{\top}X_2\Sigma_2^{-1/2}}^{-1}}
+			= \bigtr{(X_2^{\top}X_2)^{-1} \Sigma_2} = \te(\hat{\beta}_t^{\STL}),
 	\end{align*}
-%	{\color{blue}To write the bounds in the form \eqref{upper} and \eqref{lower}, we have to define $\wh w$ as the minimizer of
-%	$$\frac{\sigma^2}{n_1 + n_2} \bigtr{\frac1{a_1(w) M(w)^{\top}M(w) + a_2(w)\id}}+ \Delta_\beta(w).$$
-%	Otherwise, the two bounds has to be written into the form
-%	\begin{align*}
-%	{\sigma^2}\frac{p}{n_2 - p}\ge \min_w \left\{\frac{\sigma^2}{n_1 + n_2} \bigtr{\frac1{a_1(w) M(w)^{\top}M(w) + a_2(w)\id}} + \Delta_\beta(w)+ \left(\bigbrace{1 + \sqrt{\frac{p} {n_1}}}^4 - 1 \right) \delta(w)\right\},
-%	\end{align*}
-%	and
-%	\begin{align*}
-%	{\sigma^2}\frac{p}{n_2 - p}\le \min_w \left\{\frac{\sigma^2}{n_1 + n_2} \bigtr{\frac1{a_1(w) M(w)^{\top}M(w) + a_2(w)\id}}+ \Delta_\beta(w) - 2\bigbrace{2\sqrt{\frac {p}{n_1}} + \frac{p}{n_1}} \delta(w)\right\}.
-%	\end{align*}
-%	}
-%
-%
-	and $a_1, a_2, a_3, a_4$ are the solutions of the following linear equations
-	\begin{gather}
-		 a_1 + a_2 = 1- \frac{p}{n_1 + n_2},~ a_1 + \sum_{i=1}^p \frac{a_1}{(n_1 + n_2)(a_1 + a_2/ \lambda_i^2)} = \frac{n_1}{n_1 + n_2}, \label{eq_a2} \\
-		\left(\frac{n_2}{a_2^2}- \sum_{i=1}^p \frac{1}{ (a_2 + \lambda_i^2a_1)^2  }\right) a_3 -  \left(\sum_{i=1}^p \frac{  \lambda_i^2 }{ (  a_2 + \lambda_i^2a_1)^2  }\right)a_4
-		= \sum_{i=1}^p \frac{1 }{ (  a_2 + \lambda_i^2a_1)^2  }, \label{eq_a3} \\
-		\left(\frac{n_1}{a_1^2} -  \sum_{i=1}^p \frac{\lambda_i^4   }{  (a_2 + \lambda_i^2a_1)^2  }\right)a_4 -\left(\sum_{i=1}^p \frac{\lambda_i^2  }{  (a_2 + \lambda_i^2a_1)^2  }\right)a_3
-		= \sum_{i=1}^p \frac{\lambda_i^2 }{  (a_2 + \lambda_i^2a_1)^2  }. \label{eq_a4}
-	\end{gather}
-\end{theorem}
+	which concludes the proof.
+\end{proof}
 
-
-%	We have the following conditions that guarantee the type of transfer we can get under model shift.
-%	\begin{itemize}
-
-%		\item {\bf Negative transfer:} we have $\te(\hat{\beta}_{s,t}) \ge \te(\hat{\beta}_t)$ when
-%			\begin{align}
-%				\Delta_{\vari} \le \bigbrace{1 - 4\sqrt{\frac{p}{n_1}} - \frac{2p}{n_1}} {\Delta_{\beta}}
-%			\end{align}
-%	\end{itemize}
-%	\begin{align}
-%		{\Delta_{\vari}} \ge \bigbrace{1 + \sqrt{\frac{p}{n_1}}}^2 {\Delta_{\beta}},
-%\label{eq_model_shift_pos}
-%	\end{align}
-%	where
-%{\cob
-%We have that
-%	\begin{align*}
-%		&~ {\bignorm{\Sigma_2^{1/2} (X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} X_1^{\top}X_1 (\beta_s - \beta_t)}} \\
-%		&\le ~ \Delta_\beta^{1/2}+ \left\|M\frac{(1 + a_3)\id + a_4 M^{\top}M}{(a_1 + a_2 M^{\top}M)} M^{\top}\right\|_{op}^{1/2} \|\Sigma_1^{1/2} (\beta_s - \beta_t)\|_2 \left( 2\sqrt{\frac{p} {n_1}} + \frac{p}{n_1}\right),\\
-%		\end{align*}
-%		and
-%	\begin{align*}
-%		&~ {\bignorm{\Sigma_2^{1/2} (X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} X_1^{\top}X_1 (\beta_s - \beta_t)}} \\
-%		&\ge ~ \Delta_\beta^{1/2}- \left\|M\frac{(1 + a_3)\id + a_4 M^{\top}M}{(a_1 + a_2 M^{\top}M)} M^{\top}\right\|_{op}^{1/2} \|\Sigma_1^{1/2} (\beta_s - \beta_t)\|_2 \left( 2\sqrt{\frac{p} {n_1}} + \frac{p}{n_1}\right),
-%	\end{align*}
-%	In the case where the entries of $\beta_s-\beta_t$ are i.i.d. random variables and $\Sigma_1=\id$, we have
-%\begin{align*}
-%		& \Delta_\beta\left( 1-\sqrt{\frac{p}{n_1}}\right)^4 \le ~ {\bignorm{\Sigma_2^{1/2} (X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} X_1^{\top}X_1 (\beta_s - \beta_t)}}^2 \le ~
-%\Delta_\beta\left( 1+\sqrt{\frac{p}{n_1}}\right)^4.
-%		\end{align*}
-%	}
-
-Theorem \ref{thm_model_shift} shows upper and lower bounds that guarantee positive transfer, which is determined by the change of variance $\Delta_{\vari}$ and a certain model shift bias parameter $\Delta_{\beta}$ determined by the covariate shift matrix and the model shift.
-The bounds get tighter and tighter as $n_1 / p$ increases.
-%\paragraph{Negative transfer: the Limit caused by model shifts.}
-%Next we describe lower bounds that guarantee negative transfer to complement Theorem \ref{thm_model_shift}.
-%\begin{theorem}[Negative transfer under model shift]\label{thm_model_shift_neg}
-%	In the setting of Theorem \ref{thm_model_shift}, we have $\te(\hat{\beta}_{s,t}) \ge
-%\te(\hat{\beta}_t)$ when
-%	\begin{align*}
-%		\Delta_{\vari} \le \bigbrace{1 - 4\sqrt{\frac{p}{n_1}} - \frac{2p}{n_1}} {\Delta_{\beta}}
-%	\end{align*}
-%	In the special case that $\beta_s - \beta_t$ is i.i.d. with mean $0$ and variance $d^2$ and $\Sigma_1 = \id$, we can get a tighter lower bound that guarantees negative transfer when
-%\begin{align}
-%	\Delta_{\vari} \le \bigbrace{1 - \sqrt{\frac{p}{n_1}}}^4 \Delta_{\beta}.\label{eq_model_shift_neg}
-%\end{align}
-%
-%\end{theorem}
-
-
-%From Lemma \ref{lem_cov_shift}, we know that
-%\[ \bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} \Sigma_2} = \frac{1}{n_1 + n_2}\cdot \bigtr{ \bigbrace{a_1\Sigma_2^{-1/2}\Sigma_1\Sigma_2^{-1/2} + a_2\id}^{-1}}, \]
-%where $a_1, a_2$ are specified in Theorem \ref{thm_cov_shift}.
-%Hence the variance part is reduced by the following amount
-%\begin{align}
-%	\Delta_{\vari} \define \sigma^2 \cdot \bigbrace{\frac{p}{n_2 - p} - \frac{1}{n_1 + n_2} \bigtr{\bigbrace{a_1 M^{\top}M + a_2\id}^{-1}}}
-%\end{align}
-%It remains to consider the increment from the first term in $\te(\hat{\beta}_{s,t})$, which is bounded using the following lemma.
-%We are now interested in the following quantity
-
-\noindent\todo{A proof outline; including the following key lemma.}
-To prove Theorem \ref{thm_cov_shift}, we study the spectrum of the random matrix model:
-$$Q= \Sigma_1^{1/2}  Z_1^{\top} Z_1 \Sigma_1^{1/2}  + \Sigma_2^{1/2}  Z_2^{\top} Z_2 \Sigma_2^{1/2} ,$$
-where $\Sigma_{1,2}$ are $p\times p$ deterministic covariance matrices, and $X_1=(x_{ij})_{1\le i \le n_1, 1\le j \le p}$ and $X_2=(x_{ij})_{n_1+1\le i \le n_1+n_2, 1\le j \le p}$ are $n_1\times p$ and $n_2 \times p$ random matrices, respectively, where the entries $x_{ij}$, $1 \leq i \leq n_1+n_2\equiv n$, $1 \leq j \leq p$, are real independent random variables satisfying
-\begin{equation}\label{eq_12moment} %\label{assm1}
-\mathbb{E} z_{ij} =0, \ \quad \ \mathbb{E} \vert z_{ij} \vert^2  = 1.
-\end{equation}
-%For now, we assume that the random variables $x_{ij}$ are i.i.d. Gaussian, but we know that universality holds for generally distributed entries. %have arbitrarily high moments,
-%in the sense that for any fixed $k\in \mathbb N$, there is a constant $\mu_k>0$ such that
-%\begin{equation}\label{eq_highmoment} %\label{eqn:subgaus}
-%\max_{i,j}\left(\mathbb E|x_{ij}|^k\right)^{1/k} \le \mu_k n^{-1/2},  %\var \left(h_{xy}\right)^{1/2}
-%\end{equation}
-%for all $n$. %For simplicity, we assume that $k$ is a finite fixed integer, the strengths $d_1 > d_2 > \cdots > d_k >0$ are fixed constants, and $ \bu_i$,  $\bv_i$ are deterministic unit vectors.
-
-\begin{lemma}\label{lem_cov_shift}
-	In the setting of Theorem \ref{thm_model_shift}, we have with high probability $1-{\rm o}(1)$,
-\begin{align}\label{lem_cov_shift_eq}
-\tr ((w^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2) = \frac{1}{n_1+n_2}\cdot \tr \left( \frac{1}{a_1 M^\top M + a_2} \right) +\bigo{ n^{-1/2+\epsilon}},
-\end{align}
-	for any constant $\epsilon>0$. %, where $a_{3,4}$ are found using equations in  \eqref{m35reduced}.
-	Moreover, when $n_1 = 0$, we have %we have that $a_1 = 0$ and $a_2 = (n_2-p) / n_2$, hence
-	\begin{align}\label{lem_cov_shift_eq2} \bigtr{(X_2^{\top}X_2)^{-1}\Sigma_2} = \frac{p}{n_2-p} + \bigo{n^{-1/2+\epsilon}}, \end{align}
-which is a well-known result for inverse Whishart matrices {\color{red}add some references}.
-\end{lemma}
-We will give the proof of this lemma in Section \ref{sec_maintools}.
-
-\paragraph{A tighter bound for a special case.} We can get a bound tighter than Theorem \ref{thm_model_shift} as follows.
-
-	\begin{proposition}\label{prop_model_shift_tight}
-		In the setting of Theorem \ref{thm_model_shift}, assume that $\Sigma_1 =\id$,
-		$\beta_t$ is i.i.d. with mean $0$ and variance $\kappa^2$ and $\beta_s - \beta_t$ is i.i.d. with mean $0$ and variance $d^2$.
-		We set $\Delta_{\beta} = \bigbrace{(1 - \hat{w})^2 \kappa^2 + d^2)} \bigtr{Z}$
-		and we have
-		\begin{align*}
-			\te(\hat{\beta}_t^{\MTL}) \le \te(\hat{\beta}_t^{\STL}) \text{ when: } & \Delta_{\vari} \ge \bigbrace{1 + \sqrt{\frac{p}{n_1}}}^4 \Delta_{\beta}, \\
-			\te(\hat{\beta}_t^{\MTL}) \ge \te(\hat{\beta}_t^{\STL}) \text{ when: } & \Delta_{\vari} \le \bigbrace{1 - \sqrt{\frac{p}{n_1}}}^4 \Delta_{\beta}.
-		\end{align*}
-	\end{proposition}
-
-
-
-
-
-
-\section{Effects of Model Distance, Covariate Shift, and Data Ratio on Information Transfer}\label{sec_insight}
-
-
-\subsection{Multi-Task Training versus Single-Task Training}
+As a remark, we can derive a similar result for the estimation error as well. The details are omitted.
 
 
 We describe examples based on Theorem \ref{thm_model_shift} to show several conceptual insights.
@@ -262,7 +150,7 @@ We describe examples based on Theorem \ref{thm_model_shift} to show several conc
 
 
 
-\subsection{Gains of Transfer Learning over Single-Task Training}
+\subsection{Covariate Shift}
 
 %\subsubsection{Gains over Single-Task Training}
 
@@ -441,7 +329,7 @@ When there is model shift, i.e. $\beta_s = \beta_t$, we can still use Theorem \r
 
 
 
-\subsection{Gains of Transfer Learning over Multi-Task Training}
+\subsection{Data Ratio}
 
 
 

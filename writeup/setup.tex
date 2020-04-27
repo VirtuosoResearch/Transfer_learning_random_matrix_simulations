@@ -1,47 +1,4 @@
-\section{Introduction}
-
-Multi-task learning that is applied on heterogeneous data can often result in suboptimal models (or negative transfer in more technical terms).
-In a previous work \cite{WZR20}, we identified three factors that help determine when multi-task learning works, and when it doesn't.
-In this work, we zoom in to the task covariance part of \cite{WZR20} to further understand when multi-task learning works for heterogeneous data.
-We study a high-dimensional linear regression setting where the target task data size is limited.
-We formulate the heterogeneity between different task data under covariate and model shifts \cite{PY09,K18}.
-By using random matrix theory, we can explain several phenomena that are not explained by the techniques of \cite{WZR20}.
-<<<<<<< HEAD
-These are achieved through tight generalization bounds established in the high-dimensional regression setting.
-Our main results are described as follows.
-=======
-\todo{list those here}
-These are achieved through tight generalization bounds established in the high-dimensional regression setting using random matrix theory.
-
-First, we provide a complete and precise picture for when there is positive vs negative transfer in the setting of learning two tasks.
->>>>>>> 7a264e06eec0f65422a2492170521b934dd03ca5
-\begin{enumerate}
-	\item {\bf De-noising effect of information transfer.}
-	We provide a precise analysis for performing multi-task learning over two tasks under covariate and model shifts.
-	We show that multi-task learning helps improve performance over target tasks by \textit{reducing variance} through newly added source task data.
-	On the other hand, the difference between task models causes a negative effect that we call the \textit{model shift bias}.
-	We show upper and lower bounds on both the amount of variance reduced and the amount of model shift bias incurred, which become tighter and tighter as the number of source task data points increases.
-	%{\bf Negative transfer from model shift:} To complement the above result, we establish a fundamental limit of multi-task learning compared to single-task learning in the presence of model shift.
-	%The phenomenon of negative transfer persists despite changing the model capacity or reweighting the tasks. [\textbf{done}]
-	\item {\bf Effects of covariate shift, model distance, and data ratio.}
-	We apply our general theory to compare the performance of three different estimators for the target task: multi-task training, single-task training and transfer learning.
-	\begin{enumerate}
-		\item {\bf Multi-task training over single-task training.} With multi-task training, since the training objective balances the losses from both the source and target tasks, the trained model can have worse performance for the target task.
-	In particular, if model shift is too large, we get negative transfer from multi-task training.
-		\item {\bf Transfer learning over single-task training.} Next we show that if we we only optimize the multi-task model on the target task, then we always obtain improved performance over single-task training.
-		We provide fine-grained understanding on the amount of improvement that depends on covariate shift and data ratio.
-		\item {\bf Transfer learning over multi-task training.} Finally, we show that the transfer learning estimator always improves over mutli-task training.
-		The amount of improvement becomes more significant as the model distance becomes larger.
-	\end{enumerate}
-	\item {\bf Extending to many tasks with the same covariates.} For the general setting with $k$ tasks, we study the case when all tasks share the same covariates.
-This setting is prevalent in applications of multi-task learning to image classification, where there are multiple prediction labels/tasks for every image \cite{EA20}.
-	Since there is no covariate shift and the data ratio is always equal to one, the main factor is model distance.
-	We show that our results and insights from the above can be extended to this setting as well.
-\end{enumerate}
-
-
-
-\section{Problem Setup}\label{sec_setup}
+\subsection{Setup and Main Results}\label{sec_setup}
 
 \paragraph{Data generation.}
 In the multi-task learning (MTL) problem, we are given the input of $k$ tasks $(X_1, Y_1)$, $(X_2, Y_2)$, $\dots$, $(X_k, Y_k)$.
@@ -137,22 +94,152 @@ Another way to obtain $\hat{\beta}_t^{\TL}$ is that once we minimize the multi-t
 %  \item {\bf MTL and matrix factorization.} Could we use the results from MF to solve MTL? Does the landscape of MTL connect to MF?
 %\end{itemize}
 
+Our goal is to study under model and covariate shifts, whether multi-task learning helps learn the target task better than single-task learning.
+The baseline where we solve the target task with its own data is
+\begin{align*}
+	te(\hat{\beta}_t^{\STL}) = \sigma^2 \cdot \bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}}, \text{ where } \hat{\beta}_t^{\STL} = (X_2^{\top}X_2)^{-1} X_2^{\top}Y_2.
+\end{align*}
+Clearly, whether $\hat{\beta}_t^{\MTL}$ outperforms $\hat{\beta}_t^{\STL}$ depends on the covariate matrices, the difference of the task models, and the number of per-task data points.
 
-\subsection{Hypothesis on Heterogeneous Task Data}
+\begin{algorithm}[!t]
+	\caption{Comparing the generalization error of MTL, TL and STL estimators}
+	\begin{algorithmic}[1]
+		\Input $(X_1, Y_2)$, $(X_2, Y_2)$.
+		\Param Shared body $B$, task-specific prediction heads $W_1, W_2$.
+		\State Training the shared body $B$.
+		\State Optimizing the task heads on the validation set
+
+		\begin{itemize}
+			\item Jointly optimizing both tasks: $\hat{\beta}_t^{\MTL}$
+			\item Optimizing the target task: $\hat{\beta}_t^{\TL}$
+			\item Single-task training baseline: $\hat{\beta}_t^{\STL}$
+		\end{itemize}
+		\State Problem statement: Provide conditions to compare the test error of three estimators on the target task, $\te(\hat{\beta}_t^{\MTL})$, $\te(\hat{\beta}_t^{\STL})$ and $\te(\hat{\beta}_t^{\TL})$.
+	\end{algorithmic}
+\end{algorithm}
+
+We state our main result for two tasks with both covariate and model shift in the following theorem.
+
+\begin{theorem}\label{thm_model_shift}
+	Let $n_1, n_2$ be the number of data points for the source, target task, respectively.
+	Let $\hat{w}$ denote the optimal solution for the ratio $w_1/w_2$ in equation \eqref{eq_val_mtl}.
+	Let ${M} = \hat{w} \Sigma_1^{1/2}\Sigma_2^{-1/2}$ denote the weighted covariate shift matrix.
+	Denote by ${\lambda}_1, {\lambda}_2, \dots, {\lambda}_p$ the singular values of ${M}^{\top}{M}$.
+	The information transfer is solely determined by two deterministic quantities $\Delta_{\beta}$ and $\Delta_{\vari}$, which show the change of model shift bias and variace, respectively.
+	With high probability we have
+	\begin{align}
+	 	\te(\hat{\beta}_{t}^{\MTL}) \le \te(\hat{\beta}_t^{\STL}) \text{ when: } &\Delta_{\vari} - \Delta_{\beta} \ge \left(\bigbrace{1 + \sqrt{\frac{p} {n_1}}}^4 - 1 \right) \delta \label{upper}\\
+		\te(\hat{\beta}_t^{\MTL}) \ge \te(\hat{\beta}_t^{\STL}) \text{ when: } &\Delta_{\vari} - \Delta_{\beta} \le -2\bigbrace{2\sqrt{\frac {p}{n_1}} + \frac{p}{n_1}} \delta, \label{lower}
+	\end{align}
+	where $\delta = \norm{Z} \cdot \norm{\Sigma_1^{1/2}(\beta_s - \hat{w}\beta_t)}^2$ with $Z = \frac{n_1^2}{(n_1 + n_2)^2}\cdot{M} \frac{(1 + a_3)\id + a_4 {M}^{\top}{M}}{(a_2 + a_1 {M}^{\top}{M})^2} {M}^{\top}$, and
+	\begin{align*} %\bigtr{{\Sigma_2^{-1}}}
+		\Delta_{\vari} &\define {\sigma^2}\bigbrace{\frac{p}{n_2 - p} -  \frac{1}{n_1 + n_2} \bigtr{(a_1 M^{\top}M + a_2\id)^{-1}} } \\
+		\Delta_{\beta} &\define (\beta_s - \hat{w}\beta_t)^{\top} \Sigma_1^{1/2} Z \Sigma_1^{1/2} (\beta_s - \hat{w}\beta_t),
+	\end{align*}
+%	{\color{blue}To write the bounds in the form \eqref{upper} and \eqref{lower}, we have to define $\wh w$ as the minimizer of
+%	$$\frac{\sigma^2}{n_1 + n_2} \bigtr{\frac1{a_1(w) M(w)^{\top}M(w) + a_2(w)\id}}+ \Delta_\beta(w).$$
+%	Otherwise, the two bounds has to be written into the form
+%	\begin{align*}
+%	{\sigma^2}\frac{p}{n_2 - p}\ge \min_w \left\{\frac{\sigma^2}{n_1 + n_2} \bigtr{\frac1{a_1(w) M(w)^{\top}M(w) + a_2(w)\id}} + \Delta_\beta(w)+ \left(\bigbrace{1 + \sqrt{\frac{p} {n_1}}}^4 - 1 \right) \delta(w)\right\},
+%	\end{align*}
+%	and
+%	\begin{align*}
+%	{\sigma^2}\frac{p}{n_2 - p}\le \min_w \left\{\frac{\sigma^2}{n_1 + n_2} \bigtr{\frac1{a_1(w) M(w)^{\top}M(w) + a_2(w)\id}}+ \Delta_\beta(w) - 2\bigbrace{2\sqrt{\frac {p}{n_1}} + \frac{p}{n_1}} \delta(w)\right\}.
+%	\end{align*}
+%	}
+%
+%
+	and $a_1, a_2, a_3, a_4$ are the solutions of the following linear equations
+	\begin{gather}
+		 a_1 + a_2 = 1- \frac{p}{n_1 + n_2},~ a_1 + \sum_{i=1}^p \frac{a_1}{(n_1 + n_2)(a_1 + a_2/ \lambda_i^2)} = \frac{n_1}{n_1 + n_2}, \label{eq_a2} \\
+		\left(\frac{n_2}{a_2^2}- \sum_{i=1}^p \frac{1}{ (a_2 + \lambda_i^2a_1)^2  }\right) a_3 -  \left(\sum_{i=1}^p \frac{  \lambda_i^2 }{ (  a_2 + \lambda_i^2a_1)^2  }\right)a_4
+		= \sum_{i=1}^p \frac{1 }{ (  a_2 + \lambda_i^2a_1)^2  }, \label{eq_a3} \\
+		\left(\frac{n_1}{a_1^2} -  \sum_{i=1}^p \frac{\lambda_i^4   }{  (a_2 + \lambda_i^2a_1)^2  }\right)a_4 -\left(\sum_{i=1}^p \frac{\lambda_i^2  }{  (a_2 + \lambda_i^2a_1)^2  }\right)a_3
+		= \sum_{i=1}^p \frac{\lambda_i^2 }{  (a_2 + \lambda_i^2a_1)^2  }. \label{eq_a4}
+	\end{gather}
+\end{theorem}
+
+
+%	We have the following conditions that guarantee the type of transfer we can get under model shift.
+%	\begin{itemize}
+
+%		\item {\bf Negative transfer:} we have $\te(\hat{\beta}_{s,t}) \ge \te(\hat{\beta}_t)$ when
+%			\begin{align}
+%				\Delta_{\vari} \le \bigbrace{1 - 4\sqrt{\frac{p}{n_1}} - \frac{2p}{n_1}} {\Delta_{\beta}}
+%			\end{align}
+%	\end{itemize}
+%	\begin{align}
+%		{\Delta_{\vari}} \ge \bigbrace{1 + \sqrt{\frac{p}{n_1}}}^2 {\Delta_{\beta}},
+%\label{eq_model_shift_pos}
+%	\end{align}
+%	where
+%{\cob
+%We have that
+%	\begin{align*}
+%		&~ {\bignorm{\Sigma_2^{1/2} (X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} X_1^{\top}X_1 (\beta_s - \beta_t)}} \\
+%		&\le ~ \Delta_\beta^{1/2}+ \left\|M\frac{(1 + a_3)\id + a_4 M^{\top}M}{(a_1 + a_2 M^{\top}M)} M^{\top}\right\|_{op}^{1/2} \|\Sigma_1^{1/2} (\beta_s - \beta_t)\|_2 \left( 2\sqrt{\frac{p} {n_1}} + \frac{p}{n_1}\right),\\
+%		\end{align*}
+%		and
+%	\begin{align*}
+%		&~ {\bignorm{\Sigma_2^{1/2} (X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} X_1^{\top}X_1 (\beta_s - \beta_t)}} \\
+%		&\ge ~ \Delta_\beta^{1/2}- \left\|M\frac{(1 + a_3)\id + a_4 M^{\top}M}{(a_1 + a_2 M^{\top}M)} M^{\top}\right\|_{op}^{1/2} \|\Sigma_1^{1/2} (\beta_s - \beta_t)\|_2 \left( 2\sqrt{\frac{p} {n_1}} + \frac{p}{n_1}\right),
+%	\end{align*}
+%	In the case where the entries of $\beta_s-\beta_t$ are i.i.d. random variables and $\Sigma_1=\id$, we have
+%\begin{align*}
+%		& \Delta_\beta\left( 1-\sqrt{\frac{p}{n_1}}\right)^4 \le ~ {\bignorm{\Sigma_2^{1/2} (X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} X_1^{\top}X_1 (\beta_s - \beta_t)}}^2 \le ~
+%\Delta_\beta\left( 1+\sqrt{\frac{p}{n_1}}\right)^4.
+%		\end{align*}
+%	}
+
+Theorem \ref{thm_model_shift} shows upper and lower bounds that guarantee positive transfer, which is determined by the change of variance $\Delta_{\vari}$ and a certain model shift bias parameter $\Delta_{\beta}$ determined by the covariate shift matrix and the model shift.
+The bounds get tighter and tighter as $n_1 / p$ increases.
+%\paragraph{Negative transfer: the Limit caused by model shifts.}
+%Next we describe lower bounds that guarantee negative transfer to complement Theorem \ref{thm_model_shift}.
+%\begin{theorem}[Negative transfer under model shift]\label{thm_model_shift_neg}
+%	In the setting of Theorem \ref{thm_model_shift}, we have $\te(\hat{\beta}_{s,t}) \ge
+%\te(\hat{\beta}_t)$ when
+%	\begin{align*}
+%		\Delta_{\vari} \le \bigbrace{1 - 4\sqrt{\frac{p}{n_1}} - \frac{2p}{n_1}} {\Delta_{\beta}}
+%	\end{align*}
+%	In the special case that $\beta_s - \beta_t$ is i.i.d. with mean $0$ and variance $d^2$ and $\Sigma_1 = \id$, we can get a tighter lower bound that guarantees negative transfer when
+%\begin{align}
+%	\Delta_{\vari} \le \bigbrace{1 - \sqrt{\frac{p}{n_1}}}^4 \Delta_{\beta}.\label{eq_model_shift_neg}
+%\end{align}
+%
+%\end{theorem}
+
+
+%From Lemma \ref{lem_cov_shift}, we know that
+%\[ \bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} \Sigma_2} = \frac{1}{n_1 + n_2}\cdot \bigtr{ \bigbrace{a_1\Sigma_2^{-1/2}\Sigma_1\Sigma_2^{-1/2} + a_2\id}^{-1}}, \]
+%where $a_1, a_2$ are specified in Theorem \ref{thm_cov_shift}.
+%Hence the variance part is reduced by the following amount
+%\begin{align}
+%	\Delta_{\vari} \define \sigma^2 \cdot \bigbrace{\frac{p}{n_2 - p} - \frac{1}{n_1 + n_2} \bigtr{\bigbrace{a_1 M^{\top}M + a_2\id}^{-1}}}
+%\end{align}
+%It remains to consider the increment from the first term in $\te(\hat{\beta}_{s,t})$, which is bounded using the following lemma.
+%We are now interested in the following quantity
+
+
+\section{Preliminaries and Related Work}
+
+\paragraph{Hypothesis on Heterogeneous Task Data}
 
 Our hypothesis is that the heterogeneity among the multiple tasks can be categorized into two classes, \textit{covariate shift} and \textit{model shift}. %\todo{Add some references to add spice on these takes.}
 We consider two natural questions within each category.
 \begin{itemize}
-	\item How does covariate shift affect the rate of information transfer?
-	For example, is it better to have the same covariance matrix or not?
-	\item Under model shift, when do we get positive vs. negative transfer?
+	\item \textbf{Model shift.}
+	In general the single-task models can also be different across different tasks.
+We shall argue that in addition to the bias and variance terms of generalization error, model shift introduces a third term which is the bias caused by model shift.
+
+	Under model shift, when do we get positive vs. negative transfer?
 	How does the type of transfer depend on the number of data points, the distance of the task models etc?
+	\item \textbf{Covariate shift.}
+	The covariance matrices $\Sigma_i$ may be be different across tasks, i.e. having different spectrum or singular vectors.
+This is also known as covariate shift in the literature.
+	How does covariate shift affect the rate of information transfer?
+	For example, is it better to have the same covariance matrix or not?
 \end{itemize}
 
-
-\paragraph{Model shift.}
-In general the single-task models can also be different across different tasks.
-We shall argue that in addition to the bias and variance terms of generalization error, model shift introduces a third term which is the bias caused by model shift.
 
 %\todo{Here the hypothesis is that the optimal $B$ is captured by a low-rank approximation of the single-task models?}
 %We remove the assumption that the models are the same.
@@ -160,11 +247,6 @@ We shall argue that in addition to the bias and variance terms of generalization
 %\begin{align}
 %	Y_i = X_i \beta_i + \varepsilon_i.
 %\end{align}
-
-
-\paragraph{Covariate shift.}
-The covariance matrices $\Sigma_i$ may be be different across tasks, i.e. having different spectrum or singular vectors.
-This is also known as covariate shift in the literature.
 %\todo{Our hypothesis is that the covariate shift can slow down the convergence of learning the true $\theta$ as a function of the number of data points.}
 %A special case of this setting is that the single-task models are the same across all the tasks, i.e. $\beta_i = \beta$, for all $1\le i\le k$.
 %\begin{align}
@@ -172,62 +254,14 @@ This is also known as covariate shift in the literature.
 %\Sigma_i
 %\end{align}
 
-\paragraph{Problem statement.} Our goal is to study under model and covariate shifts, whether multi-task learning helps learn the target task better than single-task learning.
-The baseline where we solve the target task with its own data is
-\begin{align*}
-	te(\hat{\beta}_t^{\STL}) = \sigma^2 \cdot \bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}}, \text{ where } \hat{\beta}_t^{\STL} = (X_2^{\top}X_2)^{-1} X_2^{\top}Y_2.
-\end{align*}
-Clearly, whether $\hat{\beta}_t^{\MTL}$ outperforms $\hat{\beta}_t^{\STL}$ depends on the covariate matrices, the difference of the task models, and the number of per-task data points.
-Our goal is provide conditions under which there is positive transfer ($\te(\hat{\beta}_t^{\MTL}) \le \hat{\beta}_t^{\STL}$) or negative transfer ($\te(\hat{\beta}_t^{\MTL}) \ge \hat{\beta}_t^{\STL}$).
-As a warm up, we show that when $\beta_s = \beta_t$, then the transfer is always positive.
-%Since all tasks share the same underlying model $\beta$, we use a simplified objective as follows.
-%\begin{align}
-%	\label{eq_mtl_basic}
-%	f(w) = \sum_{i=1}^k \norm{X_i w - Y_i}^2.
-%\end{align}
-%{\bf The distributed learning problem.}
-%    \begin{align}
-%     f(w) = \sum_{i=1}^k \normFro{X_i w - Y_i}^2. \label{eq_dist}
-%   \end{align}
-%Equation \eqref{eq_mtl_basic} is simplified from equation \eqref{eq_mtl} by setting $A_i$ to be 1 for all tasks. %can select a model from the subspace of $B$ to fit $(X_i, Y_i)$.
-
-\begin{proposition}\label{prop_monotone}
-	Suppose that $n > p$.
-  When there is no model shift, i.e. $\beta_s = \beta_t$, adding the source task data always reduces the estimation error and the test error for the target task, i.e.
-	\begin{align}
-%		\err(\hat{\beta}_{t}^{\MTL})  &\le \err(\hat{\beta}_t^{\STL}), \text{ and} \label{eq_mono_e}\\
-		\te(\hat{\beta}_{t}^{\MTL}) &\le \te(\hat{\beta}_t^{\STL}). \label{eq_mono_te}
-	\end{align}
-\end{proposition}
-
-\begin{proof}
-%	Equation \eqref{eq_mono_e} is simply because
-%		\[ \err(\hat{\beta}_{s,t}) = \bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}} \le \bigtr{(X_1^{\top}X_1)^{-1}} = \err(\hat{\beta}_t). \]
-%	Equation \eqref{eq_mono_te} follows because
-	Recall that $\hat{\beta}_t^{\MTL} = \hat{w} \cdot \hat{B}$.
-	By the optimality of $\hat{w}$, we have by setting $w = 1$ in equation \eqref{eq_te_mtl}
-	\begin{align*}
-		\te(\hat{\beta}_t^{\MTL}) &\le \sigma^2 \cdot \bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2} \\
-		&= \sigma^2 \cdot \bigtr{\bigbrace{\Sigma_2^{-1/2}X_1^{\top}X_1\Sigma_2^{-1/2} + \Sigma_2^{-1/2}X_2^{\top}X_2\Sigma^{-1/2}}^{-1}} \\
-		&\le \bigtr{\bigbrace{\Sigma_2^{-1/2}X_2^{\top}X_2\Sigma_2^{-1/2}}^{-1}}
-			= \bigtr{(X_2^{\top}X_2)^{-1} \Sigma_2} = \te(\hat{\beta}_t^{\STL}),
-	\end{align*}
-	which concludes the proof.
-\end{proof}
-
-As a remark, we can derive a similar result for the estimation error as well. The details are omitted.
-
-
-\subsection{The High-Dimensional Setting}
-
+\paragraph{The High-Dimensional Setting.}
 %\todo{setup motivation and notations}
 We would like to get insight on how covariate and model shifts affect the rate of transfer.
 We will consider the high-dimensional setting where for the target task, its number of data points is a small constant times $p$.
 This setting captures a wide range of applications of multi-task learning where we would like to use auxiliary task data to help train tasks with limited labeled data.
 Furthermore, this setting is particularly suited to our study since there is need for adding more data to help learn the target task.
 
-\paragraph{The case of two tasks.}
-We can get precise rates using random matrix theory.
+For the case of two tasks, we can get precise rates using random matrix theory.
 For the sake of clarity, we call task 1 the source task and task 2 the target task,
 i.e. $\beta_1 = \beta_s$ and $\beta_2 = \beta_t$.
 We introduce the following notations for the high-dimensional setting
@@ -237,9 +271,4 @@ A crucial quantity is what we call the \textit{covariate shift} matrix $M = \Sig
 Let $\lambda_1, \lambda_2, \dots, \lambda_p$ denote the singular values of $M$.
 % \gamma_n:= \frac{p} {n_1 + n_2} \to \gamma,
 
-\begin{lemma}\label{lem_minv}[\todo{ref?}]
-	In the setting when $n_2 = c_2 p$ we have that as $p$ goes to infinity,
-	\[ \bigtr{(X_2^{\top}X_2)^{-1}\Sigma_2} = \frac{p}{n_2 - p}. \]
-	%{\color{blue} \[ \bigtr{(X_2^{\top}X_2)^{-1}\Sigma_2} = \frac{p}{n_2 - p} . \]}
-	%\bigtr{\Sigma_2^{-1}}
-\end{lemma}
+
