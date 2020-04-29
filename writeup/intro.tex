@@ -7,7 +7,32 @@ To gain insight into the working of these methods, we consider a principled stud
 We follow the model proposed in \cite{WZR20} that to identify conditions on when multi-task and transfer learning works, and when it doesn't.
 We refine the task covariance part of \cite{WZR20} into three factors: model distance, covariate shift matrix and data ratio \cite{PY09,K18}.
 We study a high-dimensional linear regression setting where the target task data size is limited.
-We formulate the heterogeneity between different task data under covariate and model shifts .
+
+\smallskip
+\noindent\textbf{Setup.} We are given the input of $k$ tasks $(X_1, Y_1)$, $(X_2, Y_2)$, $\dots$, $(X_k, Y_k)$.
+We shall assume that each task data follows a linear model.
+For every $1\le i\le k$, we assume that
+\[ Y_i = X_i \beta_i + \varepsilon_i, \]
+where $\beta_i\in\real^p$ is the model parameter for the $i$-th task.
+Each row of $X_i\in\real^{n_i\times p}$ is assumed to be drawn i.i.d. from a fixed distribution with covariance matrix $\Sigma_i$.
+We assume that for every row $x$ of $X_i$, we have
+\[ \ex{xx^{\top}} = \Sigma_i. \]
+We also write $x = \Sigma_i^{1/2} z_i$, where $z_i$ is a random vector with mean $0$ and variance $1$.
+
+We use a shared body (module) $B\in\real^{p\times r}$ for all tasks and a separate head (module) $\set{W_i \in \real^{r}}_{i=1}^k$ for each task.
+%    \paragraph{Different covariates:}
+This corresponds to minimizing the following optimization objective.
+\begin{align}
+	\label{eq_mtl}
+	f(B; W_1, \dots, W_k) = \sum_{i=1}^k \norm{X_i B W_i - Y_i}^2.
+\end{align}
+Note that we consider the natural parameterization without reweighting the tasks above.
+The shared body $B$ plays an important role because it allows information transfer between different task data.
+This is known as the hard parameter sharing architecture in the literature, where we control the capacity $r$ of $B$, e.g. \cite{KD12,WZR20}.
+Moreover, \cite{KD12} observed that controlling the capacity can outperform the implicit capacity control of adding regularization over $B$.
+
+
+%We formulate the heterogeneity between different task data under covariate and model shifts .
 By using random matrix theory, we can explain several phenomena that are not explained by the techniques of \cite{WZR20}.
 \todo{list those here}
 These are achieved through tight generalization bounds established in the high-dimensional regression setting.
@@ -48,34 +73,4 @@ Our main results are described as follows.
 \smallskip
 	\noindent\textbf{Experimental results.}
 
-\subsection{Setup and Main Results}\label{sec_setup}
-
-\paragraph{Data generation.}
-In the multi-task learning (MTL) problem, we are given the input of $k$ tasks $(X_1, Y_1)$, $(X_2, Y_2)$, $\dots$, $(X_k, Y_k)$.
-We shall assume that each task data follows a linear model.
-For every $1\le i\le k$, we assume that
-\[ Y_i = X_i \beta_i + \varepsilon_i, \]
-where $\beta_i\in\real^p$ is the model parameter for the $i$-th task.
-Each row of $X_i\in\real^{n_i\times p}$ is assumed to be drawn i.i.d. from a fixed distribution with covariance matrix $\Sigma_i$.
-We assume that for every row $x$ of $X_i$, we have
-\[ \ex{xx^{\top}} = \Sigma_i. \]
-We also write $x = \Sigma_i^{1/2} z_i$, where $z_i$ is a random vector with mean $0$ and variance $1$.
-
-
-
-\paragraph{The MTL problem.}
-We use a shared body (module) $B\in\real^{p\times r}$ for all tasks and a separate head (module) $\set{W_i \in \real^{r}}_{i=1}^k$ for each task.
-%    \paragraph{Different covariates:}
-This corresponds to minimizing the following optimization objective.
-\begin{align}
-	\label{eq_mtl}
-	f(B; W_1, \dots, W_k) = \sum_{i=1}^k \norm{X_i B W_i - Y_i}^2.
-\end{align}
-Note that we consider the natural parameterization without reweighting the tasks above.
-The shared body $B$ plays an important role because it allows information transfer between different task data.
-There are two ways to ensure the sharing of information between tasks.
-\begin{itemize}
-	\item Adding a regularization over $B$, e.g. \cite{LPTV09,LPVT11}.
-	\item Controlling the capacity $r$ of $B$, e.g. \cite{KD12,WZR20}. Moreover, \cite{KD12} observed that controlling the capacity can outperform the implicit capacity control of adding regularization over $B$.
-\end{itemize}
 
