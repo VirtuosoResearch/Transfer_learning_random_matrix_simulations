@@ -1,44 +1,52 @@
 \section{Introduction}
 
-Multi-task learning that is applied on heterogeneous data can often result in suboptimal models (or negative transfer in more technical terms).
-In a previous work \cite{WZR20}, we identified three factors that help determine when multi-task learning works, and when it doesn't.
-In this work, we zoom in to the task covariance part of \cite{WZR20} to further understand when multi-task learning works for heterogeneous data.
+The idea of transferring information across tasks has recently found applications in lots of work in deep learning.
+In our own experience as well as discussions with collaborators, we have often heard that multi-task learning that is applied on heterogeneous data often result in suboptimal models (or negative transfer in more technical terms).
+
+To gain insight into the working of these methods, we consider a principled study of how hard parameter sharing based multi-task and transfer learning works for learning multiple high-dimensional linear regression tasks.
+We follow the model proposed in \cite{WZR20} that to identify conditions on when multi-task and transfer learning works, and when it doesn't.
+We refine the task covariance part of \cite{WZR20} into three factors: model distance, covariate shift matrix and data ratio \cite{PY09,K18}.
 We study a high-dimensional linear regression setting where the target task data size is limited.
-We formulate the heterogeneity between different task data under covariate and model shifts \cite{PY09,K18}.
+We formulate the heterogeneity between different task data under covariate and model shifts .
 By using random matrix theory, we can explain several phenomena that are not explained by the techniques of \cite{WZR20}.
 \todo{list those here}
 These are achieved through tight generalization bounds established in the high-dimensional regression setting.
 Our main results are described as follows.
 
 \smallskip
-\noindent{\bf Tight generalization bounds via random matrix theory.}
+\noindent{\bf Variance reduction from information transfer.}
 	First, we provide a precise analysis for performing multi-task learning over two tasks under covariate and model shifts.
 	We show that multi-task learning helps improve performance over target tasks by \textit{reducing variance} through newly added source task data.
 	On the other hand, the difference between task models causes a negative effect that we call the \textit{model shift bias}.
 	We show upper and lower bounds on both the amount of variance reduced and the amount of model shift bias incurred, which become tighter and tighter as the number of source task data points increases.
+
+	{\it Insight 1: MTL vs STL.} With multi-task training, since the training objective balances the losses from both the source and target tasks, the trained model can have worse performance for the target task.
+	In particular, if model shift is too large, we get negative transfer from multi-task training.
+
+	{\it Insight 2: TL vs MTL.} Finally, we show that the transfer learning estimator always improves over mutli-task training.
+		The amount of improvement becomes more significant as the model distance becomes larger.
+
+	We show the result for two settings: 2 tasks with different covariates, and $k$ tasks that all share the same covariates.
+	The latter setting is prevalent in applications of multi-task learning to image classification, where there are multiple prediction labels/tasks for every image \cite{EA20}.
+	We show that our results and insights from the above can be extended to this setting as well.
+
 	%{\bf Negative transfer from model shift:} To complement the above result, we establish a fundamental limit of multi-task learning compared to single-task learning in the presence of model shift.
 	%The phenomenon of negative transfer persists despite changing the model capacity or reweighting the tasks. [\textbf{done}]
 
+%\noindent{\bf Variance reduction from information transfer.}
+%	Second, we apply our general theory to compare the performance of three different estimators for the target task: multi-task training, single-task training and transfer learning.
+%	\begin{enumerate}
+
 \smallskip
-\noindent{\bf Variance reduction from information transfer.}
-	Second, we apply our general theory to compare the performance of three different estimators for the target task: multi-task training, single-task training and transfer learning.
-	\begin{enumerate}
-		\item {\bf Model distance.} With multi-task training, since the training objective balances the losses from both the source and target tasks, the trained model can have worse performance for the target task.
-	In particular, if model shift is too large, we get negative transfer from multi-task training.
-
-	Finally, we show that the transfer learning estimator always improves over mutli-task training.
-		The amount of improvement becomes more significant as the model distance becomes larger.
-		\item {\bf Covariate shift and data ratio.} Next we show that if we we only optimize the multi-task model on the target task, then we always obtain improved performance over single-task training.
-		We provide fine-grained understanding on the amount of improvement that depends on covariate shift and data ratio.
-	\end{enumerate}
-
-	For the general setting with $k$ tasks, we study the case when all tasks share the same covariates.
-This setting is prevalent in applications of multi-task learning to image classification, where there are multiple prediction labels/tasks for every image \cite{EA20}.
+	\noindent\textbf{Covariate shift and data ratio.}
 	Since there is no covariate shift and the data ratio is always equal to one, the main factor is model distance.
-	We show that our results and insights from the above can be extended to this setting as well.
+	Next we show that if we we only optimize the multi-task model on the target task, then we always obtain improved performance over single-task training.
+	We provide fine-grained understanding on the amount of improvement that depends on covariate shift and data ratio.
+
+	\textit{Insight 3: TL vs STL.} When data ratio is small, having complementary covariance matrices is better. When data ratio is large, having the same covariance matrix is better.
 
 \smallskip
-\noindent\textbf{Experimental results.}
+	\noindent\textbf{Experimental results.}
 
 \subsection{Setup and Main Results}\label{sec_setup}
 
