@@ -201,31 +201,30 @@ We can see that the smaller $\lambda$ is, the lower the test errors will be.
 \end{example}
 
 \smallskip
-\begin{example}[\textbf{When $\Sigma_1$ and $\Sigma_2$ are complementary}]
-	We consider two cases when $\Sigma_1$ and $\Sigma_2$ are \textit{different}
-\begin{itemize}
-	\item {\bf Different singular values:} Here we have that for $\Sigma_1^{-1/2}\Sigma_2^{1/2}$, the first $p/2$ singular values of $\Sigma_1$ is $\lambda$ and the rest is $1/\lambda$.
-For this case, equations \eqref{eq_a2} become
-\be\label{compleeq} a_1 + a_2 = 1 - \frac{p}{n_1 + n_2}, a_1 + \frac{p}{2(n_1 + n_2)}\cdot \bigbrace{\frac{a_1}{a_1 + \lambda^2 a_2} + \frac{a_1}{a_1 + \frac{a_2}{\lambda^2}}} = \frac{n_1}{n_1 + n_2}. \ee
-It's not hard to verify that there is only one valid solution from the above.
-After solving these, we get the test error for the target task as follows.
-\be\label{testcomple}
-te(\lambda)=\frac{p}{2(n_1 + n_2)} \cdot \bigbrace{\frac{1}{\frac{a_1}{\lambda^2} + a_2} + \frac{1}{a_1\lambda^2 + a_2}}.\ee
-	\item {\bf Different singular spaces {\color{blue}(actually they have the same singular spaces)}:}
-	Suppose $\Sigma_1$ and $\Sigma_2$ have the eigendecomposition
+\begin{example}[\textbf{When $\Sigma_1$ and $\Sigma_2$ are complementary}]\label{example comple}
+	We now consider another case when $\Sigma_1$ and $\Sigma_2$ have complementary eigenspaces. Suppose $\Sigma_1$ and $\Sigma_2$ have the eigendecomposition
 $$\Sigma_1^{1/2} = 1+ U\Lambda U^\top, \quad \Sigma_2^{1/2} = 1+ V\Lambda V,$$
 where
 $$\Lambda = \diag(\wt\lambda_1,\cdots, \wt\lambda_{p/2}), \quad U= (u_1,\cdots, u_{p/2}), \quad V= (v_1,\cdots, v_{p/2}).$$
-We consider two case: if $V=U$, then $M=\id;$ if $V=U_\perp$ (i.e. the space spanned by $V$ is perpendicular to that spanned by $U$), then
+If $V=U_\perp$, i.e. the vectors $v_1,\cdots, v_{p/2}$ are perpendicular to the vectors $u_1,\cdots, u_{p/2}$, then
 $$M=\Sigma_1^{1/2} \Sigma_2^{-1/2}=(1+\Lambda)UU^\top + (1+\Lambda)^{-1}V V^\top .$$
-This is an extension of the above example of complementary case.
-\end{itemize}
-\end{example}
 
-{\color{blue} Note that the curves in Figure 3 all cross at the point $n_1=n_2$. This can be understood in the following way.
-First, if $n_1=n_2$, then it is easy to observe that $a_1=a_2=(1-\gamma)/2$ is the solution to equation \eqref{compleeq}, where we denote $ \gamma=p/(n_1+n_2)$. Then for any $\lambda$, the test error in \eqref{testcomple} takes the value
+As a concrete example we consider the case where $\wt \lambda_1=\cdots=\wt\lambda_{p/2}$ and we denote $\lambda:=1+\wt\lambda_1$. Thus for $M$, the first $p/2$ singular values are equal to $\lambda$ and the rest ones are equal to $\lambda^{-1}$. In this case, equations in \eqref{eq_a2} become
+\be\label{compleeq} a_1 + a_2 = 1 - \frac{p}{n_1 + n_2},  \ \ a_1 + \frac{p}{2(n_1 + n_2)}\cdot \bigbrace{\frac{a_1}{a_1 + \lambda^2 a_2} + \frac{a_1}{a_1 + \frac{a_2}{\lambda^2}}} = \frac{n_1}{n_1 + n_2}. \ee
+It's not hard to verify that there is only one valid solution $(a_1,a_2)$ to \eqref{compleeq}. After solving these, we get the test error for the target task as follows.
+\be\label{testcomple}
+te(\lambda)=\frac{p}{2(n_1 + n_2)} \cdot \bigbrace{\frac{1}{\frac{a_1}{\lambda^2} + a_2} + \frac{1}{a_1\lambda^2 + a_2}}.\ee
+
+In Figure \ref{fig_te_complement}, we plot the test error of the target task for $n_2 = 4p$ and $n_1$ ranging from $p$ to $20p$. First we notice that the curves in Figure \ref{fig_te_complement} all cross at the point $n_1=n_2$. In fact, if $n_1=n_2$, then it is easy to observe that $a_1=a_2=(1-\gamma)/2$ is the solution to equation \eqref{compleeq}, where we denote $ \gamma=p/(n_1+n_2)$. Then for any $\lambda$, the test error in \eqref{testcomple} takes the value
 $$te(\lambda)= \frac{\gamma}{2}\frac{1}{(1-\gamma)/2}=\frac{p}{n_1+n_2-p}.$$
-On the other hand, we write
+
+Second, we observe the following two phases as we increase $n_1 / p$.
+\begin{itemize}
+	\item When $n_1 \le n_2$, having complementary covariance matrices leads to lower test error compared to the case when $\Sigma_1 = \Sigma_2$.
+	\item When $n_1 > n_2$, having complementary covariance matrices leads to higher test error compared to the case when $\Sigma_1 = \Sigma_2$.
+\end{itemize}
+%Second, from Figure \ref{fig_te_complement} we observe that the complementary cases with $\lambda>1$ is better than the case without covariate shift (i.e. $M=\id$ case) when $n_1<n_2$. On the other hand, if we have enough source task data such that $n_1>n_2$, then it is always better to have no covariate shift. 
+This phenomenon can be also explained using our theory. With \eqref{compleeq}, we can write
 $$te(\lambda)=\frac{\gamma}{2} \cdot \bigbrace{\frac{1}{\frac{a_1}{\lambda^2} + (1-\gamma - a_1)} + \frac{1}{a_1\lambda^2 + (1-\gamma - a_1)}}.$$
 We can compute that
 \begin{align*}
@@ -233,23 +232,35 @@ te(\lambda) - te(1)&= \frac{\gamma}{2(1-\gamma)} (\lambda^2-1)a_1\cdot \bigbrace
 &= \frac{\gamma}{2(1-\gamma)} (\lambda^2-1)^2 a_1\cdot  \frac{2a_1 - (1-\gamma) }{[-a_1(\lambda^2-1)+(1-\gamma)\lambda^2 ][a_1(\lambda^2-1) + (1-\gamma)]} .
 \end{align*}
 If $n_1>n_2$, we have $a_1>(1-\gamma)/2$ (because $a_1>a_2$ as observed from the equation \eqref{compleeq}), and hence $te(\lambda)>te(1)$. Otherwise if $n_1< n_2$, we have $a_1< (1-\gamma)/2$, and hence $te(\lambda)< te(1)$.
-}
 
-{\color{blue}
-Suppose we fix a scale of the covariate shift. That is given an $a>0$, we consider all possible covariate shift matrices $M^\top M$ such that
-\be\label{GMcons}\det(M^\top M)= a\Leftrightarrow \prod_{i=1}^p \lambda_i = a.\ee
-We claim as long as we have sufficiently many datas (i.e. as long as $n_1$ is sufficiently large), then the choice $M^\top M = a^{1/p}\id $ achieves the smallest test error. In fact, for sufficiently large $n_1$, we have $a_1\approx 1-\gamma$ and $a_2\approx 0$. Then we have
-$$te\approx \frac{\sigma^2}{n_1+n_2-p} \sum_{i=1}^p \frac{1}{\lambda_i}.$$
-By AM-GM inequality, under the constraint \eqref{GMcons} the sum is smallest when $\lambda_1=\lambda_2=\cdots=\lambda_p = a^{1/p}$.
-}
+\end{example}
+
+We can extend the above observation for Example \ref{example comple} to more general cases with arbitrary covariate shift. To compare different choices of $M$, we need to fix a scaling for them, because otherwise $aM$ always achieves a smaller error than $M$ for $a>1$. For this purpose, we introduce the following condition
+\be\label{GMcons}\det(M^\top M)= a^p \Leftrightarrow \prod_{i=1}^p \lambda_i = a^p\ee
+for some constant $a>0$, and compare different choices of $M$ under this constraint. The next proposition shows that, roughly speaking, as long as there are sufficiently many source task datas, then $M=a\id$ always gives (approximately) the smallest test error. 
+\begin{proposition}
+We have that the test error satisfies 
+\be\label{approxteM}  te(M)\left(1 -  \frac{n_2}{n_1-p} \frac{1}{\lambda_p^2 + \frac{n_2}{n_1-p}}\right)  \le  \frac{\sigma^2}{n_1+n_2}\tr\left( \frac{1}{a_1M^\top M + a_2}\right) \le te(M),\ee
+where $\lambda_p$ is the smallest singular value of $p$ and
+$$te(M):= \frac{\sigma^2}{a_1(n_1+n_2)}\tr\left( \frac{1}{M^\top M}\right) .$$
+Moreover, for all $M$ satisfying \eqref{GMcons}, the minimum of $te(M)$ is attained when $M= a\id$. 
+\end{proposition}
+\begin{proof}
+From equation \eqref{eq_a2}, we get
+$$a_1\ge \frac{n_1-p}{n_1+n_2},\quad a_2\le \frac{n_2}{n_1+n_2}.$$
+With these two bounds, we can easily conclude \eqref{approxteM}. 
+
+For the second statement, we find that we need to minimize 
+$$\tr\left( \frac{1}{M^\top M}\right) = \sum_{i=1}^p\frac{1}{\lambda_i},\quad \text{under}\ \ \prod_{i=1}^p\lambda_i=a^p.$$
+Then using AM-GM inequality, we conclude that the sum $\sum_{i=1}^p\lambda_i^{-1}$ is smallest when $\lambda_1=\cdots=\lambda_p = a$.
+\end{proof}
+
+From the above proposition, we see that when $n_1\gg n_2$, we have that the test error is approximately given by $te(M)$ (as long as we impose a proper lower bound on $\lambda_p$). Moreover, $te(M)$ is minimized when $\Sigma_1$ and $\Sigma_2$ are proportional to each other, i.e. there is no covariate shift between the source task data and target task data. This provides a theoretical evidence that in general covariate shift is unfavored in transfer learning if we have enough source task data, although Example \ref{example comple} show that this may not be true when the number of source task data is small. 
+
+%then the choice $M^\top M = a^{1/p}\id $ achieves the smallest test error. In fact, for sufficiently large $n_1$, we have $a_1\approx 1-\gamma$ and $a_2\approx 0$.
 
 
-In Figure \ref{fig_te_complement}, we plot the test error of the target task for $n_2 = 4p$ and $n_1$ ranging from $p$ to $20p$.
-We observe the following two phases as we increase $n_1 / p$.
-\begin{itemize}
-	\item When $n_1 \le n_2$, having complementary covariance matrices leads to lower test error compared to the case when $\Sigma_1 = \Sigma_2$.
-	\item When $n_1 > n_2$, having complementary covariance matrices leads to higher test error compared to the case when $\Sigma_1 = \Sigma_2$.
-\end{itemize}
+
 
 \begin{figure}
 	\centering
