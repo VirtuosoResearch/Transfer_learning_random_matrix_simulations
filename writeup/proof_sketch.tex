@@ -1,6 +1,5 @@
 \section{Proof Overview of Theorem \ref{thm_model_shift}}
 
-\todo{these calculation goes to appendix}
 \paragraph{The case of two tasks.}
 From \cite{WZR20}, we know that either we need to explicitly restrict the capacity $r$ of $B$ so that there is transfer between the two tasks.
 Following \cite{WZR20}, for the rest of the paper, we shall consider the case when $r=1$ since there are only two tasks.
@@ -43,16 +42,6 @@ We will denote $\hat{\beta}_t^{\TL} = w_2 \hat{B}(\hat{w})$.
 There are two reasons for studying this setting.
 First, this is akin to performing transfer learning using the hard parameter sharing architecture.
 Another way to obtain $\hat{\beta}_t^{\TL}$ is that once we minimize the multi-task validation loss, we further minimize the validation loss on the target dataset, which is also known as fine-tuning in practice.
-%\todo{may also consider test error}
-%Several relevant directions on this setting.
-%\begin{itemize}
-%  \item {\bf Low-rank space of $\set{\theta_i}_{i=1}^k$.} We may assume that the task models themselves form a low-rank space. This imposes that the tasks should be related to each other in some way.
-%  \item {\bf PCA-based averaging for distributed regression.} This also leads to a natural heuristic for the distributed learning problem.
-%    After receiving $\hat{\theta_i}$, for $i = 1, 2,\dots, k$, we can apply PCA to find a low-rank space of the estimates.
-%  \item {\bf The hypothesis testing view.} A practical question that often arises in MTL is, if we can access a new task data (say $k+1$-th), should we add the task to the existing set of tasks or not?
-%    One hypothesis is to find the projecion of $\hat{\theta}_{k+1}$ to the low-rank space of the estimates.
-%  \item {\bf MTL and matrix factorization.} Could we use the results from MF to solve MTL? Does the landscape of MTL connect to MF?
-%\end{itemize}
 
 Our goal is to study under model and covariate shifts, whether multi-task learning helps learn the target task better than single-task learning.
 The baseline where we solve the target task with its own data is
@@ -70,12 +59,7 @@ where $\Sigma_{1,2}$ are $p\times p$ deterministic covariance matrices, and $X_1
 \begin{equation}\label{eq_12moment} %\label{assm1}
 \mathbb{E} z_{ij} =0, \ \quad \ \mathbb{E} \vert z_{ij} \vert^2  = 1.
 \end{equation}
-%For now, we assume that the random variables $x_{ij}$ are i.i.d. Gaussian, but we know that universality holds for generally distributed entries. %have arbitrarily high moments,
-%in the sense that for any fixed $k\in \mathbb N$, there is a constant $\mu_k>0$ such that
-%\begin{equation}\label{eq_highmoment} %\label{eqn:subgaus}
-%\max_{i,j}\left(\mathbb E|x_{ij}|^k\right)^{1/k} \le \mu_k n^{-1/2},  %\var \left(h_{xy}\right)^{1/2}
-%\end{equation}
-%for all $n$. %For simplicity, we assume that $k$ is a finite fixed integer, the strengths $d_1 > d_2 > \cdots > d_k >0$ are fixed constants, and $ \bu_i$,  $\bv_i$ are deterministic unit vectors.
+
 
 \begin{lemma}\label{lem_cov_shift}
 	In the setting of Theorem \ref{thm_model_shift}, we have with high probability $1-{\rm o}(1)$,
@@ -92,8 +76,6 @@ We will give the proof of this lemma in Section \ref{sec_maintools}.
 \begin{lemma}\label{lem_minv}[\todo{ref?}]
 	In the setting when $n_2 = c_2 p$ we have that as $p$ goes to infinity,
 	\[ \bigtr{(X_2^{\top}X_2)^{-1}\Sigma_2} = \frac{p}{n_2 - p}. \]
-	%{\color{blue} \[ \bigtr{(X_2^{\top}X_2)^{-1}\Sigma_2} = \frac{p}{n_2 - p} . \]}
-	%\bigtr{\Sigma_2^{-1}}
 \end{lemma}
 
 

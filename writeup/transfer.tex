@@ -1,19 +1,10 @@
-\section{Illustrative Examples}
+\section{Illustrative Examples and Their Insights on Transfer}
 
 
 \subsection{Effect of Model Distance on Positive versus Negative Transfer}
 
 As a warm up, we show that when $\beta_s = \beta_t$, then the transfer is always positive.
-%Since all tasks share the same underlying model $\beta$, we use a simplified objective as follows.
-%\begin{align}
-%	\label{eq_mtl_basic}
-%	f(w) = \sum_{i=1}^k \norm{X_i w - Y_i}^2.
-%\end{align}
-%{\bf The distributed learning problem.}
-%    \begin{align}
-%     f(w) = \sum_{i=1}^k \normFro{X_i w - Y_i}^2. \label{eq_dist}
-%   \end{align}
-%Equation \eqref{eq_mtl_basic} is simplified from equation \eqref{eq_mtl} by setting $A_i$ to be 1 for all tasks. %can select a model from the subspace of $B$ to fit $(X_i, Y_i)$.
+
 
 \begin{proposition}\label{prop_monotone}
 	Suppose that $n > p$.
@@ -131,9 +122,9 @@ A simple observation here is that when $\beta_s = \beta_t$, the optimal $\hat{w}
 Based on this observation, we can get a more precise result than Theorem \ref{thm_model_shift} on the improvement of adding the source task data that only depends on the covariance matrices $\Sigma_1, \Sigma_2$ and the number of data points $n_1, n_2$.
 
 \begin{proposition}[Transfer rate without model shift]\label{thm_cov_shift}
-	When $\beta_s = \beta_t$, we have that the optimal ratio for $W_1/W_2$ in equation \eqref{eq_te_mtl} satisfies 
+	When $\beta_s = \beta_t$, we have that the optimal ratio for $W_1/W_2$ in equation \eqref{eq_te_mtl} satisfies
 	$$1\le \hat{w} \le w_0:=1 +\frac{\sigma^2  \bigtr{(M^\top Z_1^{\top}Z_1 M)^{-1}} }{\left\|( M^\top Z_1^{\top}Z_1 M + Z_2^{\top}Z_2)^{-1} M^\top Z_1^{\top} Z_1 \Sigma_1^{1/2}\beta_t \right\|^2},$$%is $\hat{w} = 1 \pm \bigo{\frac 1 {n_1+n_2}}$ \todo{(figure out the constants)}
-	where $M:=\Sigma_1^{1/2}\Sigma_2^{-1/2}$. 
+	where $M:=\Sigma_1^{1/2}\Sigma_2^{-1/2}$.
 	And
 	\begin{align*}
 		%\err(\hat{\beta}^{\TL}_{s,t}) &= \sigma^2 \cdot \bigtr{\frac 1 {(n_1 + n_2)a_1\Sigma_1 + (n_1 + n_2)a_2\Sigma_2}} \\
@@ -155,7 +146,7 @@ is increasing with respect to $w$, then the derivative of $\val(w)$ can be bound
 \begin{align*}
 \val'(w) \ge &~ 2\frac{w-1}{w^3} \left\|( M^\top Z_1^{\top}Z_1 M + w^{-2}Z_2^{\top}Z_2)^{-1} M^\top Z_1^{\top} Z_1 \Sigma_1^{1/2}\beta_t \right\|^2   \\
 			&~ - 2 \frac{\sigma^2}{w^3} \cdot \bigtr{(M^\top Z_1^{\top}Z_1 M +w^{-2}  Z_2^{\top}Z_2)^{-1} M^\top Z_1^{\top}Z_1 M (M^\top Z_1^{\top}Z_1 M + w^{-2} Z_2^{\top}Z_2)^{-1}} \\
-\ge &~ 2\frac{w-1}{w^3} \left\|( M^\top Z_1^{\top}Z_1 M +  Z_2^{\top}Z_2)^{-1} M^\top Z_1^{\top} Z_1 \Sigma_1^{1/2}\beta_t \right\|^2   - 2 \frac{\sigma^2}{w^3} \cdot \bigtr{(M^\top Z_1^{\top}Z_1 M)^{-1}}. 
+\ge &~ 2\frac{w-1}{w^3} \left\|( M^\top Z_1^{\top}Z_1 M +  Z_2^{\top}Z_2)^{-1} M^\top Z_1^{\top} Z_1 \Sigma_1^{1/2}\beta_t \right\|^2   - 2 \frac{\sigma^2}{w^3} \cdot \bigtr{(M^\top Z_1^{\top}Z_1 M)^{-1}}.
 			%\\ =& ~ 2\frac{d^2}{w^3} \tr\left[( M^\top Z_1^{\top}Z_1 M + w^{-2}Z_2^{\top}Z_2)^{-1} M^\top Z_1^{\top} \left[\left( w-1\right)\left(Z_1 \Sigma_1 Z_1^{\top}\right) - \frac{\sigma^2}{d^2}\id \right] Z_1 M ( M^\top Z_1^{\top}Z_1 M + w^{-2}Z_2^{\top}Z_2)^{-1}\right]  .
 \end{align*}
 Hence $\val'(w)\ge 0$ if $w\ge w_0$, i.e. $\val(w)$ is an increasing function on $[1+w_0,\infty]$. Thus we get $\hat w$ is between $[1,w_0]$.
@@ -223,7 +214,7 @@ Second, we observe the following two phases as we increase $n_1 / p$.
 	\item When $n_1 \le n_2$, having complementary covariance matrices leads to lower test error compared to the case when $\Sigma_1 = \Sigma_2$.
 	\item When $n_1 > n_2$, having complementary covariance matrices leads to higher test error compared to the case when $\Sigma_1 = \Sigma_2$.
 \end{itemize}
-%Second, from Figure \ref{fig_te_complement} we observe that the complementary cases with $\lambda>1$ is better than the case without covariate shift (i.e. $M=\id$ case) when $n_1<n_2$. On the other hand, if we have enough source task data such that $n_1>n_2$, then it is always better to have no covariate shift. 
+%Second, from Figure \ref{fig_te_complement} we observe that the complementary cases with $\lambda>1$ is better than the case without covariate shift (i.e. $M=\id$ case) when $n_1<n_2$. On the other hand, if we have enough source task data such that $n_1>n_2$, then it is always better to have no covariate shift.
 This phenomenon can be also explained using our theory. With \eqref{compleeq}, we can write
 $$te(\lambda)=\frac{\gamma}{2} \cdot \bigbrace{\frac{1}{\frac{a_1}{\lambda^2} + (1-\gamma - a_1)} + \frac{1}{a_1\lambda^2 + (1-\gamma - a_1)}}.$$
 We can compute that
@@ -237,25 +228,25 @@ If $n_1>n_2$, we have $a_1>(1-\gamma)/2$ (because $a_1>a_2$ as observed from the
 
 We can extend the above observation for Example \ref{example comple} to more general cases with arbitrary covariate shift. To compare different choices of $M$, we need to fix a scaling for them, because otherwise $aM$ always achieves a smaller error than $M$ for $a>1$. For this purpose, we introduce the following condition
 \be\label{GMcons}\det(M^\top M)= a^p \Leftrightarrow \prod_{i=1}^p \lambda_i = a^p\ee
-for some constant $a>0$, and compare different choices of $M$ under this constraint. The next proposition shows that, roughly speaking, as long as there are sufficiently many source task datas, then $M=a\id$ always gives (approximately) the smallest test error. 
+for some constant $a>0$, and compare different choices of $M$ under this constraint. The next proposition shows that, roughly speaking, as long as there are sufficiently many source task datas, then $M=a\id$ always gives (approximately) the smallest test error.
 \begin{proposition}
-We have that the test error satisfies 
+We have that the test error satisfies
 \be\label{approxteM}  te(M)\left(1 -  \frac{n_2}{n_1-p} \frac{1}{\lambda_p^2 + \frac{n_2}{n_1-p}}\right)  \le  \frac{\sigma^2}{n_1+n_2}\tr\left( \frac{1}{a_1M^\top M + a_2}\right) \le te(M),\ee
 where $\lambda_p$ is the smallest singular value of $p$ and
 $$te(M):= \frac{\sigma^2}{a_1(n_1+n_2)}\tr\left( \frac{1}{M^\top M}\right) .$$
-Moreover, for all $M$ satisfying \eqref{GMcons}, the minimum of $te(M)$ is attained when $M= a\id$. 
+Moreover, for all $M$ satisfying \eqref{GMcons}, the minimum of $te(M)$ is attained when $M= a\id$.
 \end{proposition}
 \begin{proof}
 From equation \eqref{eq_a2}, we get
 $$a_1\ge \frac{n_1-p}{n_1+n_2},\quad a_2\le \frac{n_2}{n_1+n_2}.$$
-With these two bounds, we can easily conclude \eqref{approxteM}. 
+With these two bounds, we can easily conclude \eqref{approxteM}.
 
-For the second statement, we find that we need to minimize 
+For the second statement, we find that we need to minimize
 $$\tr\left( \frac{1}{M^\top M}\right) = \sum_{i=1}^p\frac{1}{\lambda_i},\quad \text{under}\ \ \prod_{i=1}^p\lambda_i=a^p.$$
 Then using AM-GM inequality, we conclude that the sum $\sum_{i=1}^p\lambda_i^{-1}$ is smallest when $\lambda_1=\cdots=\lambda_p = a$.
 \end{proof}
 
-From the above proposition, we see that when $n_1\gg n_2$, we have that the test error is approximately given by $te(M)$ (as long as we impose a proper lower bound on $\lambda_p$). Moreover, $te(M)$ is minimized when $\Sigma_1$ and $\Sigma_2$ are proportional to each other, i.e. there is no covariate shift between the source task data and target task data. This provides a theoretical evidence that in general covariate shift is unfavored in transfer learning if we have enough source task data, although Example \ref{example comple} show that this may not be true when the number of source task data is small. 
+From the above proposition, we see that when $n_1\gg n_2$, we have that the test error is approximately given by $te(M)$ (as long as we impose a proper lower bound on $\lambda_p$). Moreover, $te(M)$ is minimized when $\Sigma_1$ and $\Sigma_2$ are proportional to each other, i.e. there is no covariate shift between the source task data and target task data. This provides a theoretical evidence that in general covariate shift is unfavored in transfer learning if we have enough source task data, although Example \ref{example comple} show that this may not be true when the number of source task data is small.
 
 %then the choice $M^\top M = a^{1/p}\id $ achieves the smallest test error. In fact, for sufficiently large $n_1$, we have $a_1\approx 1-\gamma$ and $a_2\approx 0$.
 
@@ -285,3 +276,4 @@ When there is model shift, i.e. $\beta_s = \beta_t$, we can still use Theorem \r
 	\item \textbf{The effect of covariate shift:}
 	\item \textbf{The effect of data ratio:}
 \end{itemize}
+

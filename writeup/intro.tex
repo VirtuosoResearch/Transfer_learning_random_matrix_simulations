@@ -1,7 +1,13 @@
 \section{Introduction}
 
-Methods that can transfer the information from one task to help other tasks have recently found many applications in computer vision, natural language processing and reinforcement learning.
-In our own experience as well as discussions with collaborators, we have often observed that multi-task learning that is applied on heterogeneous data often result in suboptimal models (or negative transfer in more technical terms).
+Multi-task learning is an inductive learning mechanism to improve generalization performance using related task data.
+Many state-of-the-art results in computer vision and natural language processing are obtained using multi-task learning.
+On the other hand, unless the structures across task data are well-understood, applying multi-task learning on several different datasets often result in suboptimal models (or negative transfer in more technical terms).
+
+\todo{Motivate high-dimensional data.} The technical challenge is to deal with high-dimensional data, in particular when the size of the training set is only a small constant times the feature dimension.
+Prior theory is unable to explain a phase transition that occurs when comparing multi-task learning to single-task learning.
+In particular in Figure \ref{fig_motivation}, we observe a shift from positive transfer to negative transfer as a parameter of task relatedness.
+The theory we develop will provide a precise explanation to such a phenomenon (and more).
 
 To gain insight into the working of multi-task learning, we consider a simplified setting for learning multiple high-dimensional linear regression tasks.
 A typical process to do multi-task learning involves two steps:
@@ -24,6 +30,12 @@ This corresponds to minimizing the following optimization objective.
 Note that we consider the natural parameterization without reweighting the tasks above.
 The shared body $B$ plays an important role because it allows information transfer between different task data.
 This is known as the hard parameter sharing architecture in the literature, where we control the capacity $r$ of $B$, e.g. \cite{KD12,WZR20}.
+
+\begin{figure}[!t]
+	\includegraphics[width=0.8\textwidth]{figures/model_distance_motivation.pdf}
+	\caption{Phase transition as a parameter of model distance.}
+	\label{fig_motivation}
+\end{figure}
 
 We focus on comparing the test performance on a target task using estimators from doing multi-task training and transfer learning.
 We compare the test performance of these estimators to the single-task baseline.
