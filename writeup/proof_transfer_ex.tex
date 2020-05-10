@@ -1,0 +1,30 @@
+\section{Supplementary Materials for Section \ref{sec_transfer}}
+
+As a warm up, we show that when $\beta_s = \beta_t$, then the transfer is always positive.
+
+\begin{proposition}\label{prop_monotone}
+	Suppose that $n > p$.
+  When there is no model shift, i.e. $\beta_s = \beta_t$, adding the source task data always reduces the estimation error and the test error for the target task, i.e.
+	\begin{align}
+%		\err(\hat{\beta}_{t}^{\MTL})  &\le \err(\hat{\beta}_t^{\STL}), \text{ and} \label{eq_mono_e}\\
+		\te(\hat{\beta}_{t}^{\MTL}) &\le \te(\hat{\beta}_t^{\STL}). \label{eq_mono_te}
+	\end{align}
+\end{proposition}
+
+\begin{proof}
+%	Equation \eqref{eq_mono_e} is simply because
+%		\[ \err(\hat{\beta}_{s,t}) = \bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}} \le \bigtr{(X_1^{\top}X_1)^{-1}} = \err(\hat{\beta}_t). \]
+%	Equation \eqref{eq_mono_te} follows because
+	Recall that $\hat{\beta}_t^{\MTL} = \hat{w} \cdot \hat{B}$.
+	By the optimality of $\hat{w}$, we have by setting $w = 1$ in equation \eqref{eq_te_mtl}
+	\begin{align*}
+		\te(\hat{\beta}_t^{\MTL}) &\le \sigma^2 \cdot \bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2} \\
+		&= \sigma^2 \cdot \bigtr{\bigbrace{\Sigma_2^{-1/2}X_1^{\top}X_1\Sigma_2^{-1/2} + \Sigma_2^{-1/2}X_2^{\top}X_2\Sigma^{-1/2}}^{-1}} \\
+		&\le \bigtr{\bigbrace{\Sigma_2^{-1/2}X_2^{\top}X_2\Sigma_2^{-1/2}}^{-1}}
+			= \bigtr{(X_2^{\top}X_2)^{-1} \Sigma_2} = \te(\hat{\beta}_t^{\STL}),
+	\end{align*}
+	which concludes the proof.
+\end{proof}
+
+As a remark, we can derive a similar result for the estimation error as well. The details are omitted.
+

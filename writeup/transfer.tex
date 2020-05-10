@@ -1,41 +1,14 @@
-\section{Illustrative Examples and Their Insights on Transfer}
+\section{Illustrative Examples and Their Insights on Transfer}\label{sec_transfer}
 
+We illustrate our main results (to be presented in Section \ref{sec_main}) by considering a few special cases, namely special settings of the task models $\set{\beta_i}_{i=1}^k$, covariance matrices $\set{\Sigma_i}_{i=1}^k$, and number of data points $\set{n_i}_{i=1}^k$.
+We show that our results explain several phenomenon that cannot be explained before.
+\todo{list those here}
 
-\subsection{Effect of Model Distance on Positive versus Negative Transfer}
-
-As a warm up, we show that when $\beta_s = \beta_t$, then the transfer is always positive.
-
-
-\begin{proposition}\label{prop_monotone}
-	Suppose that $n > p$.
-  When there is no model shift, i.e. $\beta_s = \beta_t$, adding the source task data always reduces the estimation error and the test error for the target task, i.e.
-	\begin{align}
-%		\err(\hat{\beta}_{t}^{\MTL})  &\le \err(\hat{\beta}_t^{\STL}), \text{ and} \label{eq_mono_e}\\
-		\te(\hat{\beta}_{t}^{\MTL}) &\le \te(\hat{\beta}_t^{\STL}). \label{eq_mono_te}
-	\end{align}
-\end{proposition}
-
-\begin{proof}
-%	Equation \eqref{eq_mono_e} is simply because
-%		\[ \err(\hat{\beta}_{s,t}) = \bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}} \le \bigtr{(X_1^{\top}X_1)^{-1}} = \err(\hat{\beta}_t). \]
-%	Equation \eqref{eq_mono_te} follows because
-	Recall that $\hat{\beta}_t^{\MTL} = \hat{w} \cdot \hat{B}$.
-	By the optimality of $\hat{w}$, we have by setting $w = 1$ in equation \eqref{eq_te_mtl}
-	\begin{align*}
-		\te(\hat{\beta}_t^{\MTL}) &\le \sigma^2 \cdot \bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2} \\
-		&= \sigma^2 \cdot \bigtr{\bigbrace{\Sigma_2^{-1/2}X_1^{\top}X_1\Sigma_2^{-1/2} + \Sigma_2^{-1/2}X_2^{\top}X_2\Sigma^{-1/2}}^{-1}} \\
-		&\le \bigtr{\bigbrace{\Sigma_2^{-1/2}X_2^{\top}X_2\Sigma_2^{-1/2}}^{-1}}
-			= \bigtr{(X_2^{\top}X_2)^{-1} \Sigma_2} = \te(\hat{\beta}_t^{\STL}),
-	\end{align*}
-	which concludes the proof.
-\end{proof}
-
-As a remark, we can derive a similar result for the estimation error as well. The details are omitted.
-
+\subsection{Model Distance}
 
 We describe examples based on Theorem \ref{thm_model_shift} to show several conceptual insights.
 
-\begin{example}[\textbf{Varying the distance of task models}]
+\textbf{Example.}
 	We consider a simple setting where $\Sigma_1 = \id$.
 	Suppose that $\beta_s - \beta_t$ is i.i.d. with mean $0$ and variance $d^2$. Hence the task models have distance $d^2\cdot p$ in expectation.
 
@@ -79,7 +52,6 @@ We describe examples based on Theorem \ref{thm_model_shift} to show several conc
 		\item Model shift introduces an additional bias term, which scales with $d^2$, the distance of the two task models.
 		Hence, the type of transfer is determined by the tradeoff between the bias caused by model shift and the reduction of variance.
 	\end{itemize}
-\end{example}
 
 
 
@@ -91,7 +63,7 @@ We describe examples based on Theorem \ref{thm_model_shift} to show several conc
 \end{figure}
 
 
-\subsection{Effect of Covariate Shift and Data Ratio on Transfer Rate}
+\subsection{Covariate Shift}
 
 %\subsubsection{Gains over Single-Task Training}
 
@@ -277,3 +249,4 @@ When there is model shift, i.e. $\beta_s = \beta_t$, we can still use Theorem \r
 	\item \textbf{The effect of data ratio:}
 \end{itemize}
 
+\subsection{Data Ratio}
