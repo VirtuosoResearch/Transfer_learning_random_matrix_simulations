@@ -1,30 +1,80 @@
-\section{Supplementary Materials for Section \ref{sec_transfer}}
+\section{Supplementary Materials for Section \ref{sec_insight}}
 
-As a warm up, we show that when $\beta_s = \beta_t$, then the transfer is always positive.
+From \cite{WZR20}, we know that we need to explicitly restrict the capacity $r$ of $B$ so that there is transfer between the two tasks.
+for the rest of the section, we shall consider the case when $r=1$ we are considering the case of two tasks.
+Here, equation \eqref{eq_mtl} simplifies to the following
+\[ f(B; w_1, w_2) = \bignorm{X_1 B w_1 - Y_1}^2 + \bignorm{X_2 B w_2 - Y_2}^2, \]
+where $B\in\real^p$ and $w_1, w_2$ are both real numbers.
+To solve the above, suppose that $w_1, w_2$ are fixed, by local optimality, we solve $B$ as
+\begin{align*}
+	\hat{B}(w) &= (w_1^2 X_1^{\top}X_1 + w_2^2 X_2^{\top}X_2)^{-1} (w_1 X_1^{\top}Y_1 + w_2 X_2^{\top}Y_2) \\
+	&= \frac{1}{w_2} (w^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} (w X_1^{\top}Y_1 + X_2^{\top}Y_2) \\
+	&= \frac{1}{w_2}\bigbrace{\beta_t + (w^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\bigbrace{X_1^{\top}X_1(w\beta_s - w^2\beta_t) + (w X_1^{\top}\varepsilon_1 + X_2^{\top}\varepsilon_2)}},
+\end{align*}
+where we denote $w = w_1 / w_2$.
+As a remark, when $w = 1$, we recover the linear regression estimator.
 
-\begin{proposition}\label{prop_monotone}
-	Suppose that $n > p$.
-  When there is no model shift, i.e. $\beta_s = \beta_t$, adding the source task data always reduces the estimation error and the test error for the target task, i.e.
-	\begin{align}
-%		\err(\hat{\beta}_{t}^{\MTL})  &\le \err(\hat{\beta}_t^{\STL}), \text{ and} \label{eq_mono_e}\\
-		\te(\hat{\beta}_{t}^{\MTL}) &\le \te(\hat{\beta}_t^{\STL}). \label{eq_mono_te}
+\medskip
+\noindent\textit{Jointly optimizing over both tasks.}
+Using a validation set that is sub-sampled from the original training dataset, we get a validation loss as follows
+\begin{align}
+		&\val(\hat{B}; w_1, w_2) \nonumber\\
+	=& n_1 \cdot \bigbrace{\bignorm{\Sigma_1^{1/2}(w^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}X_2^{\top}X_2(\beta_s - w\beta_t)}^2 + \sigma^2 \cdot \bigtr{(w^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_1}} \nonumber \\
+	+& n_2 \cdot \bigbrace{w^2\bignorm{\Sigma_2^{1/2}(w^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}X_1^{\top}X_1(\beta_s - w\beta_t)}^2 + \sigma^2 \cdot \bigtr{(w^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2}} \label{eq_val_mtl}
+\end{align}
+Minimizing the above loss is akin to performing multi-task training in practice.
+Let $\hat{w}$ denote the minimizer of $\val(\hat{B}; w_1, w_2)$ over $w\in\real$.
+We will denote $\hat{\beta}_t^{\MTL} = w_{2}\hat{B}(\hat{w})$.
+
+
+
+Our goal is to study under model and covariate shifts, whether multi-task learning helps learn the target task better than single-task learning.
+The baseline where we solve the target task with its own data is
+\begin{align*}
+	te(\hat{\beta}_t^{\STL}) = \sigma^2 \cdot \bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}}, \text{ where } \hat{\beta}_t^{\STL} = (X_2^{\top}X_2)^{-1} X_2^{\top}Y_2.
+\end{align*}
+Clearly, whether $\hat{\beta}_t^{\MTL}$ outperforms $\hat{\beta}_t^{\STL}$ depends on the covariate matrices, the difference of the task models, and the number of per-task data points.
+
+\begin{lemma}\label{lem_minv}[\todo{ref?}]
+	In the setting when $n_2 = c_2 p$ we have that as $p$ goes to infinity,
+	\[ \bigtr{(X_2^{\top}X_2)^{-1}\Sigma_2} = \frac{p}{n_2 - p}. \]
+\end{lemma}
+
+\begin{lemma}\label{lem_cov_shift}
+	In the setting of Theorem \ref{thm_model_shift}, we have with high probability $1-{\rm o}(1)$,
+\begin{align}\label{lem_cov_shift_eq}
+\tr ((w^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2) = \frac{1}{n_1+n_2}\cdot \tr \left( \frac{1}{a_1 M^\top M + a_2} \right) +\bigo{ n^{-1/2+\epsilon}},
+\end{align}
+	for any constant $\epsilon>0$.
+\end{lemma}
+We will give the proof of this lemma in Section \ref{sec_maintools}.
+
+\subsection{Proof of Proposition \ref{prop_transition}}
+
+Hence the task models have distance $d^2\cdot p$ in expectation.
+	We first consider $\Sigma_2 = \id$. In this case, we can simplify $\Delta_{\beta}$ as follows
+	\begin{align} \label{eq_delta_simple}
+		\Delta_{\beta} \define d^2 \cdot \sum_{i=1}^p \frac{(1 + a_3)\lambda_i^2 + a_4 \lambda_i^4}{(a_1 \lambda_i^2 + a_2)^2}.
 	\end{align}
-\end{proposition}
+	Now we solve the equations \eqref{eq_a2}, \eqref{eq_a3}, \eqref{eq_a4} to get
+	\begin{align}
+		a_1 = \frac{c_1(c_1 + c_2 - 1)}{(c_1 + c_2)^2},
+		a_2 = \frac{c_2(c_1 + c_2 - 1)}{(c_1 + c_2)^2},
+		a_3 = \frac{c_2}{(c_1 + c_2)(c_1 + c_2 - 1)},
+		a_4 = \frac{c_1}{(c_1 + c_2)(c_1 + c_2 - 1)}.
+	\end{align}
+%{\color{blue}if $\Sigma_1=\Sigma_2=\id$, then
+%	\begin{align}
+%		a_1 = c_1 \left( 1- \gamma_n\right) , \quad
+%		a_2 = c_2 \left( 1- \gamma_n\right), \quad
+%		a_3 = \frac{\gamma_n c_2}{1-\gamma_n}, \quad
+%		a_4 =  \frac{\gamma_n c_1}{1-\gamma_n}.
+%	\end{align}
+%	where $\gamma_n=p/n$, $c_1=n_1/n$, and $c_2=n_2/n$.
+%}
 
-\begin{proof}
-%	Equation \eqref{eq_mono_e} is simply because
-%		\[ \err(\hat{\beta}_{s,t}) = \bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}} \le \bigtr{(X_1^{\top}X_1)^{-1}} = \err(\hat{\beta}_t). \]
-%	Equation \eqref{eq_mono_te} follows because
-	Recall that $\hat{\beta}_t^{\MTL} = \hat{w} \cdot \hat{B}$.
-	By the optimality of $\hat{w}$, we have by setting $w = 1$ in equation \eqref{eq_te_mtl}
-	\begin{align*}
-		\te(\hat{\beta}_t^{\MTL}) &\le \sigma^2 \cdot \bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2} \\
-		&= \sigma^2 \cdot \bigtr{\bigbrace{\Sigma_2^{-1/2}X_1^{\top}X_1\Sigma_2^{-1/2} + \Sigma_2^{-1/2}X_2^{\top}X_2\Sigma^{-1/2}}^{-1}} \\
-		&\le \bigtr{\bigbrace{\Sigma_2^{-1/2}X_2^{\top}X_2\Sigma_2^{-1/2}}^{-1}}
-			= \bigtr{(X_2^{\top}X_2)^{-1} \Sigma_2} = \te(\hat{\beta}_t^{\STL}),
-	\end{align*}
-	which concludes the proof.
-\end{proof}
-
-As a remark, we can derive a similar result for the estimation error as well. The details are omitted.
-
+	Then we obtain
+	\begin{align}
+		\Delta_{\beta} = p \cdot d^2 \cdot \frac{c_1^2 (c_1 + c_2)}{(c_1 + c_2 - 1)^3},
+		\Delta_{\vari} = \sigma^2 \cdot \frac{c_1}{(c_2 - 1)(c_1 + c_2 - 1)}.
+	\end{align}
