@@ -26,6 +26,12 @@ Minimizing the above loss is akin to performing multi-task training in practice.
 Let $\hat{w}$ denote the minimizer of $\val(\hat{B}; w_1, w_2)$ over $w\in\real$.
 We will denote $\hat{\beta}_t^{\MTL} = w_{2}\hat{B}(\hat{w})$.
 
+\medskip
+\noindent\textit{Optimizing over the target task.} The validation loss of using $w_2 \hat{B}(w)$ for the target task is
+\begin{align}
+	\val(w_2\hat{B}(w)) =&~ w^2 \bignorm{\Sigma_2^{1/2}(w^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} X_1^{\top}X_1 (\beta_s - w \beta_t)}^2 \nonumber \\
+			&~ + \sigma^2 \cdot \bigtr{(w^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} \Sigma_2}. \label{eq_te_mtl}
+\end{align}
 
 
 Our goal is to study under model and covariate shifts, whether multi-task learning helps learn the target task better than single-task learning.
