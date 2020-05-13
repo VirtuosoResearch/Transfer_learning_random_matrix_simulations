@@ -55,7 +55,7 @@ Hence, the type of transfer is determined by the trade-off between the bias caus
 
 %\subsubsection{Gains over Single-Task Training}
 
-Note that for the case of $k$ tasks with the same covariates, since there is no covariate shift and the data ratio is always equal to one, the main factor is model distance.
+Note that for the case of $k$ tasks with the same covariates, since there is no covariate shift and the data ratio is always equal to one, the main factor is model distance. 
 
 \paragraph{A precise bound when there is no model shift.}
 As Proposition \ref{prop_monotone} shows, if $\beta_s$ and $\beta_t$ are equal, then adding the source task dataset always helps learn the target task.
@@ -79,29 +79,34 @@ The goal of this section is to understand how covariate shift affects the rate o
 
 %We calculate the amount of improvement by comparing equation \eqref{eq_two_task} to equation \eqref{eq_target_task}.
 A simple observation here is that when $\beta_s = \beta_t$, the optimal $\hat{w}$ for minimizing equation \eqref{eq_te_mtl} is equal to $1$.
-Based on this observation, we can get a more precise result than Theorem \ref{thm_model_shift} on the improvement of adding the source task data that only depends on the covariance matrices $\Sigma_1, \Sigma_2$ and the number of data points $n_1, n_2$.
+Based on this observation, we can get a more precise result than Theorem \ref{thm_model_shift} on the improvement of adding the source task data that only depends on the covariance matrices $\Sigma_1, \Sigma_2$ and the number of data points $n_1, n_2$. 
+
+
 
 \begin{proposition}[Transfer rate without model shift]\label{thm_cov_shift}
-	When $\beta_s = \beta_t$, we have that the optimal ratio for $W_1/W_2$ in equation \eqref{eq_te_mtl} satisfies
-	$$1\le \hat{w} \le w_0:=1 +\frac{\sigma^2  \bigtr{(M^\top Z_1^{\top}Z_1 M)^{-1}} }{\left\|( M^\top Z_1^{\top}Z_1 M + Z_2^{\top}Z_2)^{-1} M^\top Z_1^{\top} Z_1 \Sigma_1^{1/2}\beta_t \right\|^2},$$%is $\hat{w} = 1 \pm \bigo{\frac 1 {n_1+n_2}}$ \todo{(figure out the constants)}
-	where $M:=\Sigma_1^{1/2}\Sigma_2^{-1/2}$.
-	And
-	\begin{align*}
+Suppose $\beta_s = \beta_t$ and $\|\beta_t\|_2^2\sim p\sigma^2$ (i.e. the $l^2$-norm of the vector $\beta_t$ is of the same order as that of the error vector). Assume that the condition numbers of $\Sigma_1$, $\Sigma_2$ and $M:=\Sigma_1^{1/2}\Sigma_2^{-1/2}$ are all bounded by a constant $C>0$. Then we have that the optimal ratio for $W_1/W_2$ in equation \eqref{eq_te_mtl} satisfies
+	$$1\le \hat{w} \le 1+\OO(p^{-1}).$$%is $\hat{w} = 1 \pm \bigo{\frac 1 {n_1+n_2}}$ \todo{(figure out the constants)}
+	%where $M:=\Sigma_1^{1/2}\Sigma_2^{-1/2}$.
+Moreover, we have
+	\begin{align}\label{tehatw1}
 		%\err(\hat{\beta}^{\TL}_{s,t}) &= \sigma^2 \cdot \bigtr{\frac 1 {(n_1 + n_2)a_1\Sigma_1 + (n_1 + n_2)a_2\Sigma_2}} \\
-		\te(\hat{\beta}^{\TL}_{t}) &= \sigma^2 \cdot \bigtr{\bigbrace{(n_1 + n_2)a_1\Sigma_2^{-1/2}\Sigma_1\Sigma_2^{-1/2} + (n_1 + n_2)a_2\id}^{-1}} + \bigo{|w_0-1|},
-	\end{align*}
-where $a_1, a_2$ are the solutions of equations \eqref{eq_a2}. \cor $w_0$ is close to 1 if the signal strength $\beta_t$ is much larger than the noise strength \nc
+		\te(\hat{\beta}^{\TL}_{t}) &= \sigma^2 \cdot \bigtr{\bigbrace{(n_1 + n_2)a_1 M^\top M  + (n_1 + n_2)a_2\id}^{-1}} \cdot \left(1+ \bigo{p^{-1}}\right),
+	\end{align}
+where $a_1, a_2$ are the solutions to equations \eqref{eq_a2}. %\cor $w_0$ is close to 1 if the signal strength $\beta_t$ is much larger than the noise strength \nc
 \end{proposition}
 
 
 \begin{proof}
-We abbreviate $\val(w_2\hat{B}(w)):=\val(w)$. We first notice that $\val (w) < \val (1)$ for all $0\le w < 1$. Thus we have $\hat w\ge 1$. It suffices to consider the case with $w> 1$. Under the assumption on $\beta_s$ and $\beta_t$, we can write
+We abbreviate $\val(w_2\hat{B}(w)):=\val(w)$. Note that $\val(w)\le \val(-w)$ for $w\ge 0$. Hence we have $\hat w\ge 0$. Moreover, we notice that $\val (w) < \val (1)$ for all $0\le w < 1$. Thus we have $\hat w\ge 1$. It suffices to consider the case with $w> 1$. Under the assumption on $\beta_s$ and $\beta_t$, we can write
 \begin{align}
 	\val(w) =&~  \left( 1-\frac1w\right)^2 \left\|( M^\top Z_1^{\top}Z_1 M + w^{-2}Z_2^{\top}Z_2)^{-1} M^\top Z_1^{\top} Z_1 \Sigma_1^{1/2}\beta_t \right\|^2 \nonumber \\
 			&~ + \frac{\sigma^2}{w^2} \cdot \bigtr{( M^\top Z_1^{\top}Z_1 M + w^{-2}Z_2^{\top}Z_2)^{-1} }. \nonumber
 \end{align}
 Since
-$$\left\|( M^\top Z_1^{\top}Z_1 M + w^{-2}Z_2^{\top}Z_2)^{-1} M^\top Z_1^{\top} Z_1 \Sigma_1^{1/2}\beta_t \right\|^2 = \tr \left[ ( M^\top Z_1^{\top}Z_1 M + w^{-2}Z_2^{\top}Z_2)^{-2}M^\top Z_1^{\top} Z_1 \Sigma_1^{1/2}\beta_t\beta_t^\top \Sigma_1^{1/2}Z_1^{\top} Z_1  M\right]$$
+\begin{align*}
+&\left\|( M^\top Z_1^{\top}Z_1 M + w^{-2}Z_2^{\top}Z_2)^{-1} M^\top Z_1^{\top} Z_1 \Sigma_1^{1/2}\beta_t \right\|^2 \\
+&= \tr \left[ ( M^\top Z_1^{\top}Z_1 M + w^{-2}Z_2^{\top}Z_2)^{-2}M^\top Z_1^{\top} Z_1 \Sigma_1^{1/2}\beta_t\beta_t^\top \Sigma_1^{1/2}Z_1^{\top} Z_1  M\right]
+\end{align*}
 is increasing with respect to $w$, then the derivative of $\val(w)$ can be bounded from below as
 \begin{align*}
 \val'(w) \ge &~ 2\frac{w-1}{w^3} \left\|( M^\top Z_1^{\top}Z_1 M + w^{-2}Z_2^{\top}Z_2)^{-1} M^\top Z_1^{\top} Z_1 \Sigma_1^{1/2}\beta_t \right\|^2   \\
@@ -109,7 +114,14 @@ is increasing with respect to $w$, then the derivative of $\val(w)$ can be bound
 \ge &~ 2\frac{w-1}{w^3} \left\|( M^\top Z_1^{\top}Z_1 M +  Z_2^{\top}Z_2)^{-1} M^\top Z_1^{\top} Z_1 \Sigma_1^{1/2}\beta_t \right\|^2   - 2 \frac{\sigma^2}{w^3} \cdot \bigtr{(M^\top Z_1^{\top}Z_1 M)^{-1}}.
 			%\\ =& ~ 2\frac{d^2}{w^3} \tr\left[( M^\top Z_1^{\top}Z_1 M + w^{-2}Z_2^{\top}Z_2)^{-1} M^\top Z_1^{\top} \left[\left( w-1\right)\left(Z_1 \Sigma_1 Z_1^{\top}\right) - \frac{\sigma^2}{d^2}\id \right] Z_1 M ( M^\top Z_1^{\top}Z_1 M + w^{-2}Z_2^{\top}Z_2)^{-1}\right]  .
 \end{align*}
-Hence $\val'(w)\ge 0$ if $w\ge w_0$, i.e. $\val(w)$ is an increasing function on $[1+w_0,\infty]$. Thus we get $\hat w$ is between $[1,w_0]$.
+Hence $\val'(w)\ge 0$ if $w>1+ \e_0$, where
+$$\e_0:= \frac{\sigma^2  \bigtr{(M^\top Z_1^{\top}Z_1 M)^{-1}} }{\left\|( M^\top Z_1^{\top}Z_1 M + Z_2^{\top}Z_2)^{-1} M^\top Z_1^{\top} Z_1 \Sigma_1^{1/2}\beta_t \right\|^2}.$$
+In other words, $\val(w)$ is strictly increasing function on $[1+\e_0,\infty]$. Thus we get that $\hat w$ satisfies 
+\be\label{hatw1}1\le w \le 1+\e_0.\ee Using \eqref{eq_isometric}, we get that
+$$\e_0=\OO(\sigma^2/\|\beta_t\|_2^2)=\OO(p^{-1}).$$
+
+Finally, plugging \eqref{hatw1} into the expression $\te(\hat{\beta}^{\TL}_{t}) $, we obtain \eqref{tehatw1}.
+%$$1\le \hat{w} \le w_0:=1 +\frac{\sigma^2  \bigtr{(M^\top Z_1^{\top}Z_1 M)^{-1}} }{\left\|( M^\top Z_1^{\top}Z_1 M + Z_2^{\top}Z_2)^{-1} M^\top Z_1^{\top} Z_1 \Sigma_1^{1/2}\beta_t \right\|^2},$$
 \end{proof}
 
 

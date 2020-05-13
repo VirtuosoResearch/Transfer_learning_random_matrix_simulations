@@ -24,7 +24,7 @@ Using a validation set that is sub-sampled from the original training dataset, w
 	= & n_1 \cdot \bignorm{\Sigma_1^{1/2}(w^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}X_2^{\top}X_2(\beta_s - w\beta_t)}^2 \nonumber \\
 		&+ n_1 \sigma^2 \cdot \bigtr{(w^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_1} \nonumber \\
 		&+ n_2 \cdot w^2\bignorm{\Sigma_2^{1/2}(w^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}X_1^{\top}X_1(\beta_s - w\beta_t)}^2 \nonumber \\
-		&+ n_2 \cdot \sigma^2 \cdot \bigtr{(w^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2} \label{eq_val_mtl}
+		&+ n_2 \cdot \sigma^2 \cdot w^2\bigtr{(w^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2} \label{eq_val_mtl}
 \end{align}
 Let $\hat{w_1}, \hat{w_2}$ be the global minimizer of $\val(\hat{B}; w_1, w_2)$.
 We will define the multi-task learning estimator for the target task as
@@ -64,6 +64,21 @@ We will give the proof of Lemma \ref{lem_cov_shift} in Section \ref{sec_maintool
 
 \subsection{Proof of Proposition \ref{prop_transition}}
 
+%\paragraph{A tighter bound for a special case.} 
+Under the setting of Proposition \ref{prop_transition}, we can get a bound tighter than Theorem \ref{thm_model_shift} as follows.
+
+	\begin{proposition}\label{prop_model_shift_tight}
+		In the setting of Theorem \ref{thm_model_shift}, assume that $\Sigma_1 =\id$,
+		$\beta_t$ is i.i.d. with mean $0$ and variance $\kappa^2$ and $\beta_s - \beta_t$ is i.i.d. with mean $0$ and variance $d^2$. 
+		We set $\Delta_{\beta} = \bigbrace{(1 - \hat{w})^2 \kappa^2 + d^2)} \bigtr{Z}$
+		and we have
+		\begin{align*}
+			\te(\hat{\beta}_t^{\MTL}) \le \te(\hat{\beta}_t^{\STL}) \text{ when: } & \Delta_{\vari} \ge \bigbrace{1 + \sqrt{\frac{p}{n_1}}}^4 \Delta_{\beta}, \\
+			\te(\hat{\beta}_t^{\MTL}) \ge \te(\hat{\beta}_t^{\STL}) \text{ when: } & \Delta_{\vari} \le \bigbrace{1 - \sqrt{\frac{p}{n_1}}}^4 \Delta_{\beta}.
+		\end{align*}
+	\end{proposition}
+We will give the proof of this proposition after proving Theorem \ref{thm_model_shift} in Section \ref{sec pfmain}	.
+
 Using Lemma \ref{lem_minv} and \ref{lem_cov_shift}, we can track the change of variance from $\hat{\beta}_t^{\MTL}$ to $\hat{\beta}_t^{\STL}$ as follows
 The proof will consist of two main steps.
 \begin{itemize}
@@ -98,3 +113,63 @@ Hence the task models have distance $d^2\cdot p$ in expectation.
 		\Delta_{\beta} = p \cdot d^2 \cdot \frac{c_1^2 (c_1 + c_2)}{(c_1 + c_2 - 1)^3},
 		\Delta_{\vari} = \sigma^2 \cdot \frac{c_1}{(c_2 - 1)(c_1 + c_2 - 1)}.
 	\end{align}
+	
+	
+We denote
+\begin{align}
+	\val(w) &= n_1\left[d^2 +\left( w-1\right)^2\kappa^2\right]\cdot \tr\left[( w^2X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_2^{\top}X_2)^2\right] \nonumber \\
+	& + n_2\left[d^2 +\left( w-1\right)^2\kappa^2\right]\cdot \tr\left[( w^2X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} w^2(X_1^{\top}X_1)^2\right] \nonumber\\
+			& + (n_1+n_2 w^2)\sigma^2 \cdot \bigtr{(w^2X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} }. \nonumber
+\end{align}
+Under the setting of Proposition \ref{prop_model_shift_tight}, using concentration of random vector with i.i.d. entries, we have that
+$$\val(\hat{B}; w_1, w_2)= \val(w) \left( 1+\oo(1)\right)\quad \text{with probability }1-\oo(1).$$
+Thus it suffices to study the behavior of $\val (w)$. For the minimizer $\hat w$ of $\val(w)$, we have a similar result as in Proposition \ref{thm_cov_shift}. 
+
+\begin{lemma} 
+Suppose the assumptions of Proposition \ref{prop_model_shift_tight} hold. Assume that $ \kappa^2 \sim pd^2 \sim \sigma^2$ are of the same order. Then we have that the optimal ratio for $\val(w)$ satisfies
+	$$|\hat w -1|=\OO(p^{-1}).$$%is $\hat{w} = 1 \pm \bigo{\frac 1 {n_1+n_2}}$ \todo{(figure out the constants)}
+\end{lemma}
+\begin{proof}
+The proof is also similar to the one for Proposition \ref{thm_cov_shift}. First it is easy to observe that $\val(w)\le \val(-w)$ for $w\ge 0$. Hence it suffices to consider the $w\ge 0$ case.
+
+We first consider the case $w\ge 1$. We write
+\begin{align}
+	\val(w) &= n_1\left[\frac{d^2}{w^4} +\frac{\left( w-1\right)^2}{w^4}\kappa^2\right]\cdot \tr\left[( X_1^{\top}X_1 +w^{-2}X_2^{\top}X_2)^{-2} (X_2^{\top}X_2)^2\right] \nonumber \\
+	& + n_2\left[\frac{d^2}{w^2} +\frac{\left( w-1\right)^2}{w^2}\kappa^2\right]\cdot \tr\left[( X_1^{\top}X_1 +w^{-2}X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right] \nonumber\\
+			& + \sigma^2n_1 \cdot \bigtr{(w^{2}X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} } +  \sigma^2n_2 \cdot \bigtr{(X_1^{\top}X_1  + w^{-2}X_2^{\top}X_2)^{-1} }. \nonumber
+\end{align}
+
+Taking derivative of $\val(w)$ with respect to $w$, we obtain that 
+\begin{align*}
+\val'(w) \ge &~ n_1\left[ \frac{2(w-1)(2-w)}{w^5}\kappa^2 - \frac{4d^2}{w^5}\right] \tr\left[( X_1^{\top}X_1 +w^{-2}X_2^{\top}X_2)^{-2} (X_2^{\top}X_2)^2\right]   \\
++&~ n_2\left[\frac{2\left( w-1\right)}{w^3}\kappa^2 - \frac{2d^2}{w^3} \right]\cdot \tr\left[( X_1^{\top}X_1 +w^{-2}X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right] \nonumber\\
+		-&~ 2n_1 \frac{\sigma^2}{w^3} \cdot \bigtr{(X_1^{\top}X_1 + w^{-2}X_2^{\top}X_2)^{-2} X_1^\top X_1  } = n_1 \bigtr{(X_1^{\top}X_1 + w^{-2}X_2^{\top}X_2)^{-2} \cal A },
+\end{align*}
+where the matrix $\cal A$ is
+\begin{align*}
+\cal A :&= \left[ \frac{2(w-1)(2-w)}{w^5}\kappa^2 - \frac{4d^2}{w^5}\right](X_2^{\top}X_2)^2 + \frac{n_2}{n_1} \left[\frac{2\left( w-1\right)}{w^3}\kappa^2 - \frac{2d^2}{w^3} \right](X_1^{\top}X_1)^2. - 2\frac{\sigma^2}{w^3}X_1^\top X_1
+\end{align*}
+Using the estimate \eqref{eq_isometric}, we get that $\cal A$ is lower bounded as
+\begin{align*}
+\cal A \succeq - \frac{4d^2}{w^5}(\sqrt{n_2}+\sqrt{p})^4 + \frac{n_2}{n_1} \left[\frac{2\left( w-1\right)}{w^3}\kappa^2 - \frac{2d^2}{w^3} \right](\sqrt{n_1}-\sqrt{p})^4 - 2\frac{\sigma^2}{w^3}(\sqrt{n_1}+\sqrt{p})^2\succ 0,
+\end{align*}
+as long as 
+$$w> w_1:=1 +\frac{d^2}{\kappa^2}+ \frac{\sigma^2}{\kappa^2}\frac{n_1(\sqrt{n_1}+\sqrt{p})^2}{n_2(\sqrt{n_1}-\sqrt{p})^4}+ \frac{2d^2}{\kappa^2}\frac{n_1(\sqrt{n_2}+\sqrt{p})^4}{n_2(\sqrt{n_1}-\sqrt{p})^4}.$$
+Hence $\val'(w)>0$ on $(1+w_1,\infty)$, i.e. $\val(w)$ is strictly increasing for $w>1+w_1$. Hence we must have $\hat w\le 1+w_1$. Note that under our assumptions, we have $w_1=1+\OO(p^{-1})$. 
+
+Then we consider the case $w\le 1$. Taking derivative of $\val(w)$ with respect to $w$, we obtain that 
+\begin{align}
+	\val'(w) &\le n_1 \left[2\left( w-1\right) \kappa^2\right]\cdot \tr\left[( w^2X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_2^{\top}X_2)^2\right] \nonumber \\
+	& + n_2\left[2d^2w +2w\left( w-1\right)(2w-1)\kappa^2\right]\cdot \tr\left[( w^2X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right] \nonumber\\
+			& + 2n_2 w\sigma^2 \cdot \bigtr{(w^2X_1^{\top}X_1  + X_2^{\top}X_2)^{-2} X_2^\top X_2} = n_1 \bigtr{(w^2X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} \cal B} , \nonumber
+\end{align}
+where the matrix $\cal B$ is 
+$$\cal B= 2\left( w-1\right) \kappa^2  (X_2^{\top}X_2)^2+\frac{n_2}{n_1}\left[2d^2w +2w\left( w-1\right)(2w-1)\kappa^2\right](X_1^{\top}X_1)^2 + 2\frac{n_2}{n_1} w\sigma^2X_2^\top X_2.$$
+\cob Using the estimate \eqref{eq_isometric}, we get that $\cal A$ is lower bounded as
+\begin{align*}
+\cal A \succeq - \frac{4d^2}{w^5}(\sqrt{n_2}+\sqrt{p})^4 + \frac{n_2}{n_1} \left[\frac{2\left( w-1\right)}{w^3}\kappa^2 - \frac{2d^2}{w^3} \right](\sqrt{n_1}-\sqrt{p})^4 - 2\frac{\sigma^2}{w^3}(\sqrt{n_1}+\sqrt{p})^2\succ 0,
+\end{align*}
+as long as 
+$$w> w_1:=1 +\frac{d^2}{\kappa^2}+ \frac{\sigma^2}{\kappa^2}\frac{n_1(\sqrt{n_1}+\sqrt{p})^2}{n_2(\sqrt{n_1}-\sqrt{p})^4}+ \frac{2d^2}{\kappa^2}\frac{n_1(\sqrt{n_2}+\sqrt{p})^4}{n_2(\sqrt{n_1}-\sqrt{p})^4}.$$
+Hence $\val'(w)>0$ on $(1+w_1,\infty)$, i.e. $\val(w)$ is strictly increasing for $w>1+w_1$. Hence we must have $\hat w\le 1+w_1$. Note that under our assumptions, we have $w_1=1+\OO(p^{-1})$. 
+\end{proof}
