@@ -21,12 +21,12 @@ The advantage of using $f(B; w_1, w_2)$ is that if $\theta_1$ is a scaling of $\
 Using a validation set that is sub-sampled from the original training dataset, we get a validation loss as follows
 \begin{align}
 		\val(\hat{B}; w_1, w_2)
-	= & n_1 \cdot \bignorm{\Sigma_1^{1/2}(w^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}X_2^{\top}X_2(\beta_s - w\beta_t)}^2 \nonumber \\
-		&+ n_1 \sigma^2 \cdot \bigtr{(w^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_1} \nonumber \\
-		&+ n_2 \cdot w^2\bignorm{\Sigma_2^{1/2}(w^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}X_1^{\top}X_1(\beta_s - w\beta_t)}^2 \nonumber \\
-		&+ n_2 \cdot \sigma^2 \cdot \bigtr{(w^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2} \label{eq_val_mtl}
+	= & n_1 \cdot \bignorm{\Sigma_1^{1/2}((\frac{w_1}{w_2})^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}X_2^{\top}X_2(\beta_s - \frac{w_1}{w_2}\beta_t)}^2 \nonumber \\
+		&+ n_1 \sigma^2 \cdot \bigtr{((\frac{w_1}{w_2})^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_1} \nonumber \\
+		&+ n_2 \cdot w^2\bignorm{\Sigma_2^{1/2}((\frac{w_1}{w_2})^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}X_1^{\top}X_1(\beta_s - \frac{w_1}{w_2}\beta_t)}^2 \nonumber \\
+		&+ n_2 \cdot \sigma^2 \cdot \bigtr{((\frac{w_1}{w_2})^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2} \label{eq_val_mtl}
 \end{align}
-Let $\hat{w_1}, \hat{w_2}$ be the global minimizer of $\val(\hat{B}; w_1, w_2)$.
+Let $\hat{w_1}/\hat{w_2}$ be the global minimizer of $\val(\hat{B}; w_1, w_2)$.
 We will define the multi-task learning estimator for the target task as
 	\[ \hat{\beta}_t^{\MTL} = \hat{w}_{2}\hat{B}(\hat{w}_1, \hat{w}_2). \]
 
@@ -48,14 +48,14 @@ The baseline where we solve the target task with its own data is
 We state several helper lemmas to get a bound on the variance of $\hat{\beta}_t^{\STL}$ and $\hat{\beta}_t^{\MTL}$.
 The first lemma, which is a folklore result in random matrix theory, helps determine the asymptotic limit of $\te(\hat{\beta}_t^{\STL})$, as $p$ goes to infinity.
 \begin{lemma}\label{lem_minv}[\todo{ref?}]
-	Let $X\in\real^{n\times p}$ that contains i.i.d. row vectors with mean $0$ and covariance $\Sigma$.
+	Let $X\in\real^{n\times p}$ be a random matrix that contains i.i.d. row vectors with mean $0$ and covariance $\Sigma\in\real^{p\times p}$.
 	In the setting when $n = c p$ we have that as $p$ goes to infinity,
 	\[ \bigtr{(X^{\top}X)^{-1}\Sigma} = \frac{1}{c - 1}. \]
 \end{lemma}
 
-The second lemma is a corollary of Theorem \ref{thm_model_shift}.
+The second lemma, which deals the inverse of the sum of two random matrices, can be viewed as a special case of Theorem \ref{thm_model_shift}.
 \begin{lemma}\label{lem_cov_shift}
-	Let $X_i\in\real^{n_i\times p}$ be a random matrix that contains i.i.d. row vectors with mean $0$ and variance $\Sigma_i$, for $i = 1, 2$.
+	Let $X_i\in\real^{n_i\times p}$ be a random matrix that contains i.i.d. row vectors with mean $0$ and variance $\Sigma_i\in\real^{p\times p}$, for $i = 1, 2$.
 	Denote by $M = \Sigma_1^{1/2}\Sigma_2^{-1/2}$ and let $\lambda_1, \lambda_2, \dots, \lambda_p$ be the singular values of $M^{\top}M$ in decreasing order.
 	When $n_1 = c_1 p$ and $n_2 = c_2 p$, we have that with high probability over the randomness of $X_1$ and $X_2$, the following equation holds
 	\begin{align}%\label{lem_cov_shift_eq}
@@ -63,16 +63,13 @@ The second lemma is a corollary of Theorem \ref{thm_model_shift}.
 	\end{align}
 	for any constant $\epsilon>0$, where $a_1, a_2$ are solutions to the following deterministic equations:
 	\begin{align}
-		a_1 + a_2 = 1- \frac{1}{c_1 + c_2},~ a_1 + \sum_{i=1}^p \frac{a_1}{(c_1 + c_2)(a_1 + a_2/ \lambda_i^2)} = \frac{c_1}{c_1 + c_2}. \label{eq_a12}
+		a_1 + a_2 = 1- \frac{1}{c_1 + c_2},~ a_1 + \frac{1}{p}\cdot\sum_{i=1}^p \frac{a_1}{(c_1 + c_2)(a_1 + a_2/ \lambda_i^2)} = \frac{c_1}{c_1 + c_2}. \label{eq_a12}
 	\end{align}
 \end{lemma}
 We will give the proof of Lemma \ref{lem_cov_shift} in Section \ref{sec_maintools}.
 
 
 \subsection{Proof of Proposition \ref{prop_dist_transition}}
-
-Using Lemma \ref{lem_minv} and \ref{lem_cov_shift}, we can track the change of variance from $\hat{\beta}_t^{\MTL}$ to $\hat{\beta}_t^{\STL}$ as follows
-
 
 The proof will consist of two main steps.
 \begin{itemize}
@@ -81,8 +78,19 @@ The proof will consist of two main steps.
 \end{itemize}
 
 \begin{lemma}
-	In the setting of Proposition \ref{prop_dist_transition}, we have that $\abs{\hat{v} = \hat{w_1} / \hat{w_2} - 1} \le o(1)$.
+	Recall that $\hat{v} = \hat{w_1} / \hat{w_2}$.
+	In the setting of Proposition \ref{prop_dist_transition}, we have that
+	\[ \abs{\hat{v} - 1} \le o(1). \]
 \end{lemma}
+
+Since $\Sigma_1 = \Sigma_2$, we know that $M = \hat{v}\Sigma_1^{1/2}\Sigma_2^{-1/2} = \hat{v} \id$.
+Using Lemma \ref{lem_minv} and \ref{lem_cov_shift}, we can track the change of variance from $\hat{\beta}_t^{\MTL}$ to $\hat{\beta}_t^{\STL}$ as follows
+\begin{align}
+	\Delta_{\vari} \define \sigma^2 \bigbrace{ - \frac{1}{c_2 - 1}},
+\end{align}
+where we solve equation \eqref{eq_a12} to obtain $a_1 = $ and $a_2 = $.
+
+
 
 \begin{proof}[Proof of Proposition \ref{prop_dist_transition}, upper bound]
 \end{proof}
