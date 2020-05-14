@@ -4,7 +4,7 @@ We illustrate our main results (to be presented in Section \ref{sec_main}) by co
 We show that our results explain several phenomenon that cannot be explained before.
 \todo{list those here}
 
-\subsection{Model Distance}
+\subsection{Task Model Similarities}
 
 We compare the test error of $\hat{\beta}_t^{\MTL}$ to that of $\hat{\beta}_t^{\STL}$.
 For a simple example, we show that whether $\hat{\beta}_t^{\MTL}$ performs better than $\hat{\beta}_t^{\STL}$ is determined by the distance of the task models.
@@ -12,8 +12,8 @@ We derive a sharp threshold when positive transfer transitions to negative trans
 
 \textbf{Example.}
 	Consider a setting where $\Sigma_1 = \Sigma_2 = \id$, in other words there is no covariate shift between the two tasks.
-	For the task models, suppose that $\beta_t$ has i.i.d. entries with mean zero and variance $\kappa^2$ and $\beta_s - \beta_t$ also has i.i.d. entries with mean $0$ and variance $d^2$.
-	We have $n = c \cdot p$ data points from each task.
+	For the task models, suppose that $\beta_2$ has i.i.d. entries with mean zero and variance $\kappa^2$ and $\beta_1 - \beta_2$ also has i.i.d. entries with mean $0$ and variance $d^2$.
+	We have $n_i = c_i \cdot p$ data points from each task, for $i = 1, 2$.
 
 	We illustrate the example in a synthetic setting.
 	We demonstrate our result with a simulation. (\todo {uses the tighter bound Proposition \ref{prop_model_shift_tight}?})
@@ -25,19 +25,19 @@ We derive a sharp threshold when positive transfer transitions to negative trans
 
 Specifically, the transition threshold is derived in the following proposition.
 \begin{proposition}\label{prop_dist_transition}
-	In the example described above, assume that $c > 50$ is a fixed constant.
+	In the example described above, assume that $c > 100$ is a fixed constant.
 	Whether $\te(\hat{\beta}_t^{\MTL})$ is lower than $\te(\hat{\beta}_t^{\STL})$ is determined by the ratio between the model distance and the noise level:
 	\begin{itemize}
-		\item If ${p\cdot d^2}/{\sigma^2} < \frac 1 4 \frac{(2c-1)^2}{(c-1)c^2} - o(1)$, then whp we have that $\te(\hat{\beta}_t^{\MTL}) < \te(\hat{\beta}_t^{\STL})$.
-		\item If ${p\cdot d^2}/{\sigma^2} \ge \frac{(2c-1)^2}{(c-1)c^2} + o(1)$, then whp we have that $\te(\hat{\beta}_t^{\MTL}) \ge \te(\hat{\beta}_t^{\STL})$.
+		\item If ${p\cdot d^2}/{\sigma^2} < \frac 2 3 \frac{(c_1 + c_2 -1)^2}{c_1 (c_1 + c_2)(c_2 - 1)} - o(1)$, then whp we have that $\te(\hat{\beta}_t^{\MTL}) < \te(\hat{\beta}_t^{\STL})$.
+		\item If ${p\cdot d^2}/{\sigma^2} \ge \frac 3 2 \frac{(c_1 + c_2 -1)^2}{c_1(c_1 + c_2)(c_2 - 1)} + o(1)$, then whp we have that $\te(\hat{\beta}_t^{\MTL}) \ge \te(\hat{\beta}_t^{\STL})$.
 	\end{itemize}
 \end{proposition}
 
-We obtain the following insight from Proposition \ref{prop_dist_transition}.
-First, adding the source task has the effect of reducing the variance of the estimator, independent of the model shift.
-On the other hand, model shift introduces an additional bias term, which scales with $d^2$, the distance of the two task models.
-Hence, the type of transfer is determined by the trade-off between the bias caused by model shift and the reduction of variance.
-
+The proof of Proposition \ref{prop_dist_transition} involves two parts.
+First, adding the source task has a positive effect of reducing the variance of the estimator, which scales with $n_1 = c_1 p$, the number of source task data points.
+Second, the difference between task models $\beta_1$ and $\beta_2$ introduces an additional bias term, which scales with $pd^2$, the distance between $\beta_1$ and $\beta_2$.
+Hence, the type of transfer is determined by the trade-off between model shift bias and the reduction of variance.
+The proof can be found in Appendix \ref{app_proof_31}, which is based on our main result described later in Theorem \ref{thm_model_shift}.
 
 \begin{figure}
 	\centering
@@ -46,13 +46,13 @@ Hence, the type of transfer is determined by the trade-off between the bias caus
 	\label{fig_model_shift_phasetrans}
 \end{figure}
 
+\textbf{Implications.} \todo{add connection to tasksonomy}
+
+\subsection{Data Efficiency}
 
 
-\subsection{Data Ratio}
 
-
-
-\subsection{Covariate Shift}
+\subsection{Covariance Alignment}
 
 %\subsubsection{Gains over Single-Task Training}
 
