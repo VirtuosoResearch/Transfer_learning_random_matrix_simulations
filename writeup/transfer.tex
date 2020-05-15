@@ -4,32 +4,33 @@ We illustrate our main results (to be presented in Section \ref{sec_main}) by co
 We show that our results explain several phenomenon that cannot be explained before.
 \todo{list those here}
 
-\subsection{Task Model Similarities}
+\subsection{Task Model Similarities versus Noise}
 
 We compare the test error of $\hat{\beta}_t^{\MTL}$ to that of $\hat{\beta}_t^{\STL}$.
 For a simple example, we show that whether $\hat{\beta}_t^{\MTL}$ performs better than $\hat{\beta}_t^{\STL}$ is determined by the distance of the task models.
 We derive a sharp threshold when positive transfer transitions to negative transfer, as a ratio between the model distance and the noise level.
 
-\textbf{Example.}
+\begin{example}\label{ex_basic}
 	Consider a setting where $\Sigma_1 = \Sigma_2 = \id$, in other words there is no covariate shift between the two tasks.
 	For the task models, suppose that $\beta_2$ has i.i.d. entries with mean zero and variance $\kappa^2$ and $\beta_1 - \beta_2$ also has i.i.d. entries with mean $0$ and variance $d^2$.
 	We have $n_i = c_i \cdot p$ data points from each task, for $i = 1, 2$.
+\end{example}
 
-	We illustrate the example in a synthetic setting.
-	We demonstrate our result with a simulation. (\todo {uses the tighter bound Proposition \ref{prop_model_shift_tight}?})
-	We consider a setting where $p = 200$, $n_1 = 90p$, $n_2 = 30p$.
+We illustrate the example in a synthetic setting.
+We demonstrate our result with a simulation. (\todo {uses the tighter bound Proposition \ref{prop_model_shift_tight}?})
+We consider a setting where $p = 200$, $n_1 = 90p$, $n_2 = 30p$.
 	\todo{Fill in other params.}
-	We fix the target task and vary the source task, by varying the task model distance parameter $d$.
-	We show that Theorem \ref{thm_model_shift} predicts whether we can get positive or negative transfer.
-	Figure \ref{fig_model_shift_phasetrans} shows the result.
+We fix the target task and vary the source task, by varying the task model distance parameter $d$.
+We show that Theorem \ref{thm_model_shift} predicts whether we can get positive or negative transfer.
+Figure \ref{fig_model_shift_phasetrans} shows the result.
 
 Specifically, the transition threshold is derived in the following proposition.
 \begin{proposition}\label{prop_dist_transition}
-	In the example described above, assume that $c > 100$ is a fixed constant.
+	In the setting of Example \ref{ex_basic}, assume that $c > 100$ is a fixed constant.
 	Whether $\te(\hat{\beta}_t^{\MTL})$ is lower than $\te(\hat{\beta}_t^{\STL})$ is determined by the ratio between the model distance and the noise level:
 	\begin{itemize}
-		\item If ${p\cdot d^2}/{\sigma^2} < \frac 2 3 \frac{(c_1 + c_2 -1)^2}{c_1 (c_1 + c_2)(c_2 - 1)} - o(1)$, then whp we have that $\te(\hat{\beta}_t^{\MTL}) < \te(\hat{\beta}_t^{\STL})$.
-		\item If ${p\cdot d^2}/{\sigma^2} \ge \frac 3 2 \frac{(c_1 + c_2 -1)^2}{c_1(c_1 + c_2)(c_2 - 1)} + o(1)$, then whp we have that $\te(\hat{\beta}_t^{\MTL}) \ge \te(\hat{\beta}_t^{\STL})$.
+		\item If ${d^2} < \frac {2\sigma^2} {3p} \frac{(c_1 + c_2 -1)^2}{c_1 (c_1 + c_2)(c_2 - 1)} - o(1)$, then whp we have that $\te(\hat{\beta}_t^{\MTL}) < \te(\hat{\beta}_t^{\STL})$.
+		\item If ${d^2} \ge \frac {3\sigma^2} {2p} \frac{(c_1 + c_2 -1)^2}{c_1(c_1 + c_2)(c_2 - 1)} + o(1)$, then whp we have that $\te(\hat{\beta}_t^{\MTL}) \ge \te(\hat{\beta}_t^{\STL})$.
 	\end{itemize}
 \end{proposition}
 
@@ -46,10 +47,31 @@ The proof can be found in Appendix \ref{app_proof_31}, which is based on our mai
 	\label{fig_model_shift_phasetrans}
 \end{figure}
 
+
+\begin{example} \todo{Add transfer from low accuracy to high accuracy}
+\end{example}
+
 \textbf{Implications.} \todo{add connection to tasksonomy}
 
-\subsection{Data Efficiency}
+\subsection{Data Size and Efficiency}
 
+In classical Rademacher or VC based theory of multi-task learning, adding more labeled data improves the generalization performance of a model.
+On the other hand, we have observed that adding more labeled data does not always improve performance in multi-task learning.
+Using Example \ref{ex_basic}, we analyze the effect of varying the source task data size.
+
+\begin{proposition}\label{prop_data_size}
+	In the setting of Example \ref{ex_basic}, assume that $c_1 > ??$ and $c_2  > ??$ are fixed constants.
+	We have the following conditions to determine whether $\te(\hat{\beta}_t^{\MTL})$ is lower than $\te(\hat{\beta}_t^{\STL})$:
+	\begin{itemize}
+		\item If $d^2 < \frac{\sigma^2}{(c_2 - 1) p}$, then whp $\te(\hat{\beta}_t^{\MTL}) < \te(\hat{\beta}_t^{\STL})$, for any $c_1$ larger than $??$.
+		\item If $d^2 > \frac{\sigma^2}{(c_2 - 1) p}$, then we have the following transition depending on $c_1$:
+		\begin{itemize}
+			\item If $?? < c_1 < \frac{c_2 \sigma^2}{(c_2 - 1) pd^2 - \sigma^2}$, then whp $\te(\hat{\beta}_t^{\MTL}) < \te(\hat{\beta}_t^{\STL})$.
+			\item If $c_1 > \frac{c_2 \sigma^2}{(c_2 - 1)p d^2 - \sigma^2}$, then whp $\te(\hat{\beta}_t^{\MTL}) > \te(\hat{\beta}_t^{\STL})$.
+		\end{itemize}
+	\end{itemize}
+	Furthermore, as a function of $c_1$ over the range $[??, \infty]$, the maximum of $\te(\hat{\beta}_t^{\STL}) - \te(\hat{\beta}_t^{\MTL})$ is attained when $c_1 = {c_2\sigma^2}/{\max(2(c_2 - 1)pd^2 -\sigma^2, 0)}$.
+\end{proposition}
 
 
 \subsection{Covariance Alignment}
