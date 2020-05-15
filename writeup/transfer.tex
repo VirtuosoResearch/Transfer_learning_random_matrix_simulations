@@ -4,7 +4,7 @@ We illustrate our main results (to be presented in Section \ref{sec_main}) by co
 We show that our results explain several phenomenon that cannot be explained before.
 \todo{list those here}
 
-\subsection{Task Model Similarities versus Noise}
+\subsection{Task Model Similarity versus Noise}
 
 We compare the test error of $\hat{\beta}_t^{\MTL}$ to that of $\hat{\beta}_t^{\STL}$.
 For a simple example, we show that whether $\hat{\beta}_t^{\MTL}$ performs better than $\hat{\beta}_t^{\STL}$ is determined by the distance of the task models.
@@ -78,105 +78,9 @@ Using Example \ref{ex_basic}, we analyze the effect of varying the source task d
 
 \subsection{Covariance Alignment}
 
-%\subsubsection{Gains over Single-Task Training}
 
-Note that for the case of $k$ tasks with the same covariates, since there is no covariate shift and the data ratio is always equal to one, the main factor is model distance. 
-
-\paragraph{A precise bound when there is no model shift.}
-As Proposition \ref{prop_monotone} shows, if $\beta_s$ and $\beta_t$ are equal, then adding the source task dataset always helps learn the target task.
-The goal of this section is to understand how covariate shift affects the rate of transfer. \todo{add conceptual msg}
-
-%The key quantity is to look at:
-%The estimator using the source and target together from minimizing \eqref{eq_mtl_basic} is
-%\[ \hat{\beta}_{s,t} = (X_1^{\top} X_1 + X_2^{\top} X_2)^{-1} (X_1^{\top}Y_1 + X_2^{\top}Y_2)\]
-%The estimation error of $\hat{\beta}_{s,t}$ is
-%\begin{align}\label{eq_two_task}
-%  \err(\hat{\beta}_{s,t}) = \sigma^2 \cdot \tr[(X_1^{\top}X_1 + X_2^{\top} X_2)^{-1}].
-%\end{align}
-%The estimation error using the target alone is
-%\begin{align}\label{eq_target_task}
-%	\err(\hat{\beta}_t) = \sigma^2 \cdot \tr[(X_2^{\top} X_2)^{-1}].
-%\end{align}
-%The improvement of estimation error from adding the source task is then given by
-%$\err(\hat{\beta}_t) - \err(\hat{\beta}_{s,t})$.
-%For the test error on the target task, the improvement from adding the source task is
-%\[ \te(\hat{\beta}_t) - \te(\hat{\beta}_{s,t}) = \sigma^2\cdot\bigtr{\bigbrace{(X_2^{\top}X_2)^{-1} - (X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}}\cdot\Sigma_2}. \]
-
-%We calculate the amount of improvement by comparing equation \eqref{eq_two_task} to equation \eqref{eq_target_task}.
-A simple observation here is that when $\beta_s = \beta_t$, the optimal $\hat{w}$ for minimizing equation \eqref{eq_te_mtl} is equal to $1$.
-Based on this observation, we can get a more precise result than Theorem \ref{thm_model_shift} on the improvement of adding the source task data that only depends on the covariance matrices $\Sigma_1, \Sigma_2$ and the number of data points $n_1, n_2$. 
-
-
-
-\begin{proposition}[Transfer rate without model shift]\label{thm_cov_shift}
-Suppose $\beta_s = \beta_t$ and $\|\beta_t\|_2^2\sim p\sigma^2$ (i.e. the $l^2$-norm of the vector $\beta_t$ is of the same order as that of the error vector). Assume that the condition numbers of $\Sigma_1$, $\Sigma_2$ and $M:=\Sigma_1^{1/2}\Sigma_2^{-1/2}$ are all bounded by a constant $C>0$. Then we have that the optimal ratio for $W_1/W_2$ in equation \eqref{eq_te_mtl} satisfies
-	$$1\le \hat{w} \le 1+\OO(p^{-1}).$$%is $\hat{w} = 1 \pm \bigo{\frac 1 {n_1+n_2}}$ \todo{(figure out the constants)}
-	%where $M:=\Sigma_1^{1/2}\Sigma_2^{-1/2}$.
-Moreover, we have
-	\begin{align}\label{tehatw1}
-		%\err(\hat{\beta}^{\TL}_{s,t}) &= \sigma^2 \cdot \bigtr{\frac 1 {(n_1 + n_2)a_1\Sigma_1 + (n_1 + n_2)a_2\Sigma_2}} \\
-		\te(\hat{\beta}^{\TL}_{t}) &= \sigma^2 \cdot \bigtr{\bigbrace{(n_1 + n_2)a_1 M^\top M  + (n_1 + n_2)a_2\id}^{-1}} \cdot \left(1+ \bigo{p^{-1}}\right),
-	\end{align}
-where $a_1, a_2$ are the solutions to equations \eqref{eq_a2}. %\cor $w_0$ is close to 1 if the signal strength $\beta_t$ is much larger than the noise strength \nc
-\end{proposition}
-
-
-\begin{proof}
-We abbreviate $\val(w_2\hat{B}(w)):=\val(w)$. Note that $\val(w)\le \val(-w)$ for $w\ge 0$. Hence we have $\hat w\ge 0$. Moreover, we notice that $\val (w) < \val (1)$ for all $0\le w < 1$. Thus we have $\hat w\ge 1$. It suffices to consider the case with $w> 1$. Under the assumption on $\beta_s$ and $\beta_t$, we can write
-\begin{align}
-	\val(w) =&~  \left( 1-\frac1w\right)^2 \left\|( M^\top Z_1^{\top}Z_1 M + w^{-2}Z_2^{\top}Z_2)^{-1} M^\top Z_1^{\top} Z_1 \Sigma_1^{1/2}\beta_t \right\|^2 \nonumber \\
-			&~ + \frac{\sigma^2}{w^2} \cdot \bigtr{( M^\top Z_1^{\top}Z_1 M + w^{-2}Z_2^{\top}Z_2)^{-1} }. \nonumber
-\end{align}
-Since
-\begin{align*}
-&\left\|( M^\top Z_1^{\top}Z_1 M + w^{-2}Z_2^{\top}Z_2)^{-1} M^\top Z_1^{\top} Z_1 \Sigma_1^{1/2}\beta_t \right\|^2 \\
-&= \tr \left[ ( M^\top Z_1^{\top}Z_1 M + w^{-2}Z_2^{\top}Z_2)^{-2}M^\top Z_1^{\top} Z_1 \Sigma_1^{1/2}\beta_t\beta_t^\top \Sigma_1^{1/2}Z_1^{\top} Z_1  M\right]
-\end{align*}
-is increasing with respect to $w$, then the derivative of $\val(w)$ can be bounded from below as
-\begin{align*}
-\val'(w) \ge &~ 2\frac{w-1}{w^3} \left\|( M^\top Z_1^{\top}Z_1 M + w^{-2}Z_2^{\top}Z_2)^{-1} M^\top Z_1^{\top} Z_1 \Sigma_1^{1/2}\beta_t \right\|^2   \\
-			&~ - 2 \frac{\sigma^2}{w^3} \cdot \bigtr{(M^\top Z_1^{\top}Z_1 M +w^{-2}  Z_2^{\top}Z_2)^{-1} M^\top Z_1^{\top}Z_1 M (M^\top Z_1^{\top}Z_1 M + w^{-2} Z_2^{\top}Z_2)^{-1}} \\
-\ge &~ 2\frac{w-1}{w^3} \left\|( M^\top Z_1^{\top}Z_1 M +  Z_2^{\top}Z_2)^{-1} M^\top Z_1^{\top} Z_1 \Sigma_1^{1/2}\beta_t \right\|^2   - 2 \frac{\sigma^2}{w^3} \cdot \bigtr{(M^\top Z_1^{\top}Z_1 M)^{-1}}.
-			%\\ =& ~ 2\frac{d^2}{w^3} \tr\left[( M^\top Z_1^{\top}Z_1 M + w^{-2}Z_2^{\top}Z_2)^{-1} M^\top Z_1^{\top} \left[\left( w-1\right)\left(Z_1 \Sigma_1 Z_1^{\top}\right) - \frac{\sigma^2}{d^2}\id \right] Z_1 M ( M^\top Z_1^{\top}Z_1 M + w^{-2}Z_2^{\top}Z_2)^{-1}\right]  .
-\end{align*}
-Hence $\val'(w)\ge 0$ if $w>1+ \e_0$, where
-$$\e_0:= \frac{\sigma^2  \bigtr{(M^\top Z_1^{\top}Z_1 M)^{-1}} }{\left\|( M^\top Z_1^{\top}Z_1 M + Z_2^{\top}Z_2)^{-1} M^\top Z_1^{\top} Z_1 \Sigma_1^{1/2}\beta_t \right\|^2}.$$
-In other words, $\val(w)$ is strictly increasing function on $[1+\e_0,\infty]$. Thus we get that $\hat w$ satisfies 
-\be\label{hatw1}1\le w \le 1+\e_0.\ee Using \eqref{eq_isometric}, we get that
-$$\e_0=\OO(\sigma^2/\|\beta_t\|_2^2)=\OO(p^{-1}).$$
-
-Finally, plugging \eqref{hatw1} into the expression $\te(\hat{\beta}^{\TL}_{t}) $, we obtain \eqref{tehatw1}.
-%$$1\le \hat{w} \le w_0:=1 +\frac{\sigma^2  \bigtr{(M^\top Z_1^{\top}Z_1 M)^{-1}} }{\left\|( M^\top Z_1^{\top}Z_1 M + Z_2^{\top}Z_2)^{-1} M^\top Z_1^{\top} Z_1 \Sigma_1^{1/2}\beta_t \right\|^2},$$
-\end{proof}
-
-
-
-As a remark, we see that Proposition \ref{prop_monotone} follows from Theorem \ref{thm_cov_shift}.
-The amount of reduction on test error for the target task is given as
-	\begin{align*}
-%		\err(\hat{\beta}_t) - \err(\hat{\beta}_{s,t})
-%		&= \sigma^2 p \cdot \bigtr{\frac 1 {(n_2 - p) \Sigma_2} - \frac 1 {(n_1 + n_2)a_1 \Sigma_1 + (n_1 + n_2)a_2 \Sigma_2}}, \\
-		\te(\hat{\beta}_t) - \te(\hat{\beta}_{s,t})
-		&= \sigma^2 \cdot \bigbrace{\frac p {n_2 - p} -  \bigtr{\bigbrace{(n_1 + n_2)a_1\Sigma_2^{-1/2}\Sigma_1\Sigma_2^{-1/2} + (n_1 + n_2)a_2\id}^{-1}}}.
-	\end{align*}
-Because
-\begin{align*}
-	\te(\hat{\beta}_{s,t}) \le \te(\hat{\beta}_t)
-	\Leftarrow~ & (n_2 - p)\Sigma_2 \preceq (n_1 + n_2) a_1 \Sigma_1 + (n_1 + n_2)a_2 \Sigma_2 \\
-	\Leftrightarrow~ & \zeroMatrix \preceq (n_1 + n_2) a_1 \Sigma_1 + (n_1 - (n_1 + n_2)\cdot a_1) \Sigma_2,
-\end{align*}
-which is true since $a_1 \le n_1 / (n_1 + n_2)$ by equation \eqref{eq_a2}.
-The proof for $\te(\hat{\beta}_{s,t}) \le \te(\hat{\beta}_t)$ follows by multiplying $\Sigma_2^{-1/2}$ on both sides of the inequalities above.
-
-\medskip
 Now we apply Theorem \ref{thm_cov_shift} to show how covariate shift affects the rate of transfer.
 
-%\begin{example}[\textbf{When $\Sigma_1 = \Sigma_2$}]
-%In this case, we have $\lambda_i = 1$ for all $1\le i\le p$.
-%And $a_1 + a_2 = 1 - p / (n_1 + n_2)$.
-%Hence
-%\[ \te(\hat{\beta}_{s,t}) = \frac{\sigma^2 p^2}{n_1 + n_2 - p} \text{ and } \err(\hat{\beta}_{s,t}) = \frac {\sigma^2 p} {n_1 + n_2 - p} \bigtr{\Sigma_2^{-1}}. \]
-%\end{example}
 
 \smallskip
 \begin{example}[\textbf{When $\Sigma_1 = \Sigma_2 / \lambda$}]
@@ -247,17 +151,7 @@ From the above proposition, we see that when $n_1\gg n_2$, we have that the test
 
 %then the choice $M^\top M = a^{1/p}\id $ achieves the smallest test error. In fact, for sufficiently large $n_1$, we have $a_1\approx 1-\gamma$ and $a_2\approx 0$.
 
-
-
-
 \begin{figure}
-	\centering
-	\begin{minipage}{0.48\textwidth}
-		\centering
-		\includegraphics[width=0.9\textwidth]{figures/scaling.eps}
-		\caption{When $\Sigma_1 = \Sigma_2 / \lambda$.}
-		\label{fig_te_scaling}
-	\end{minipage}\hfill
 	\begin{minipage}{0.48\textwidth}
 		\centering
 		\includegraphics[width=0.9\textwidth]{figures/complementary.eps}
@@ -267,10 +161,4 @@ From the above proposition, we see that when $n_1\gg n_2$, we have that the test
 \end{figure}
 
 
-\paragraph{Extending the intuition to the general case.}
-When there is model shift, i.e. $\beta_s = \beta_t$, we can still use Theorem \ref{thm_model_shift} (and Proposition \ref{prop_model_shift_tight}) to get the result.
-\begin{itemize}
-	\item \textbf{The effect of covariate shift:}
-	\item \textbf{The effect of data ratio:}
-\end{itemize}
 
