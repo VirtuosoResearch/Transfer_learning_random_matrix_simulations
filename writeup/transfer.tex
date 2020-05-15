@@ -13,6 +13,7 @@ We derive a sharp threshold when positive transfer transitions to negative trans
 \begin{example}\label{ex_basic}
 	Consider a setting where $\Sigma_1 = \Sigma_2 = \id$, in other words there is no covariate shift between the two tasks.
 	For the task models, suppose that $\beta_2$ has i.i.d. entries with mean zero and variance $\kappa^2$ and $\beta_1 - \beta_2$ also has i.i.d. entries with mean $0$ and variance $d^2$.
+	%The noise level for both tasks is equal to $\sigma > 0$.
 	We have $n_i = c_i \cdot p$ data points from each task, for $i = 1, 2$.
 \end{example}
 
@@ -26,7 +27,7 @@ Figure \ref{fig_model_shift_phasetrans} shows the result.
 
 Specifically, the transition threshold is derived in the following proposition.
 \begin{proposition}\label{prop_dist_transition}
-	In the setting of Example \ref{ex_basic}, assume that $c > 100$ is a fixed constant.
+	In the setting of Example \ref{ex_basic} with $\sigma_1 = \sigma_2 = \sigma$, assume that $c > 100$ is a fixed constant.
 	Whether $\te(\hat{\beta}_t^{\MTL})$ is lower than $\te(\hat{\beta}_t^{\STL})$ is determined by the ratio between the model distance and the noise level:
 	\begin{itemize}
 		\item If ${d^2} < \frac {2\sigma^2} {3p} \frac{(c_1 + c_2 -1)^2}{c_1 (c_1 + c_2)(c_2 - 1)} - o(1)$, then whp we have that $\te(\hat{\beta}_t^{\MTL}) < \te(\hat{\beta}_t^{\STL})$.
@@ -48,8 +49,16 @@ The proof can be found in Appendix \ref{app_proof_31}, which is based on our mai
 \end{figure}
 
 
-\begin{example} \todo{Add transfer from low accuracy to high accuracy}
-\end{example}
+Consider a more general setting where the noise level $\sigma_1$ of task $1$ differs from the noise level $\sigma_2$ of task $2$.
+We derive a sharp transition similar to Proposition \ref{prop_dist_transition}.
+
+\begin{proposition}\label{prop_var_transition}
+	In the setting of Example \ref{ex_basic} with $d$ being fixed but $\sigma_1$ varies, we derive the following transition as a parameter of $\sigma_1$:
+	\begin{itemize}
+		\item If $\sigma_1^2 \le p d^2 \cdot c_1 + \frac{(c_1 + c_2 - 1)^2}{(c_1 + c_2) (c_2 - 1)}\cdot\sigma_2^2$, then whp $\te(\hat{\beta}_t^{\MTL}) < \te(\hat{\beta}_t^{\STL})$.
+		\item If $\sigma_1^2 > p d^2 \cdot c_1 + \frac{(c_1 + c_2 - 1)^2}{(c_1 + c_2) (c_2 - 1)} \cdot \sigma_2^2$, then whp $\te(\hat{\beta}_t^{\MTL}) > \te(\hat{\beta}_t^{\STL})$.
+	\end{itemize}
+\end{proposition}
 
 \textbf{Implications.} \todo{add connection to tasksonomy}
 
