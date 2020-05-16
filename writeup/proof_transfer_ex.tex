@@ -102,7 +102,8 @@ For the minimizer $\hat w$ of $\val(w)$, we have a similar result as in Proposit
 
 \begin{lemma}\label{lem_hat_v}
 Suppose the assumptions of Proposition \ref{prop_model_shift_tight} hold. Assume that $ \kappa^2 \sim pd^2 \sim \sigma^2$ are of the same order. Then we have that the optimal ratio for $\val(w)$ satisfies
-	$$|\hat w -1|=\OO(p^{-1}).$$%is $\hat{w} = 1 \pm \bigo{\frac 1 {n_1+n_2}}$ \todo{(figure out the constants)}
+	\be\label{hatw_add1}|\hat w -1|=\OO(p^{-1}).\ee
+	%is $\hat{w} = 1 \pm \bigo{\frac 1 {n_1+n_2}}$ \todo{(figure out the constants)}
 \end{lemma}
 \begin{proof}
 The proof is also similar to the one for Proposition \ref{thm_cov_shift}. First it is easy to observe that $\val(w)\le \val(-w)$ for $w\ge 0$. Hence it suffices to consider the $w\ge 0$ case.
@@ -188,14 +189,52 @@ Based on Lemma \ref{lem_hat_v}, we can prove Proposition \ref{prop_dist_transiti
 	The result follows by taking $c_1 = c_2 = c$ for the above equation.
 \end{proof}
 
+\begin{proof}[Proof of Proposition \ref{prop_var_transition}]
+
+Under the setting of Proposition \ref{prop_var_transition}, we have
+\begin{align*}
+	\te(\hat{\beta}_t^{\MTL}) &=~ \hat{v}^2 \bignorm{ (\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} X_1^{\top}X_1 (\beta_s - \hat{v} \beta_t)}^2 \nonumber \\
+			&~ + \sigma_2^2 \cdot \bigtr{(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} } + (\sigma_1^2 -\sigma_2^2)\hat v^2  \cdot \bigtr{(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-2} X_1^\top X_1}.
+\end{align*}
+Using concentration of random vector with i.i.d. Gaussian entries, Lemma \ref{largedeviation}, we obtain that
+\begin{align*}
+	\te(\hat{\beta}_t^{\MTL}) &=~ \hat{v}^2 \left[d^2 +\left( w-1\right)^2\kappa^2\right]\bigtr{ (\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2} \cdot \left(1+\OO(p^{-1/2})\right)\nonumber \\
+	& + (\sigma_1^2 -\sigma_2^2)\hat v^2  \cdot \bigtr{(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-2} X_1^\top X_1} + \sigma_2^2 \cdot \bigtr{(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} }.
+\end{align*}
+In the setting of Proposition \ref{prop_var_transition}, we can also obtain that
+$$|\hat w-1|=\OO(p^{-1}).$$
+as in \eqref{hatw_add1}. We omit the details of the proof, since it is almost the same as the one in the proof of Lemma \ref{lem_hat_v}. Thus $\te(\hat{\beta}_t^{\MTL}) $ can be reduced to 
+$$	\te(\hat{\beta}_t^{\MTL}) = \left[\Delta_\beta + \Delta_{diff}+  \sigma_2^2 \cdot \tr(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} \right]\cdot \left(1+\OO(p^{-1/2})\right), $$
+where $\Delta_\beta:= \sigma_2^2 \cdot \bigtr{(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} }$ has been estimated in \eqref{Deltabeta} and $\Delta_{diff}$ is
+\begin{align*}	
+	\Delta_{diff}:=(\sigma_1^2 -\sigma_2^2) \cdot \bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-2} X_1^\top X_1} .
+\end{align*}
+Using \eqref{eq_isometric} and Lemma \ref{lem_cov_derivative}, a similar bound holds for $\Delta_{diff}$ as in \eqref{Deltabeta}:
+$$\bigbrace{1 - \sqrt{\frac{1}{c_1}}}^2\le \frac{\Delta_{diff}}{\sigma_1^2 -\sigma_2^2}\cdot \left( \frac{c_1 (c_1+c_2)}{(c_1+c_2-1)^3} + \OO(p^{-1/2+\e})\right)^{-1}\le \bigbrace{1 + \sqrt{\frac{1}{c_1}}}^2.$$
+
+Next we compare $\Delta_{\var}$ with $\Delta_\beta + \Delta_{diff}$. Under the condition $d^2 < \frac {2\sigma^2} {3p} \frac{(c_1 + c_2 -1)^2}{c_1 (c_1 + c_2)(c_2 - 1)}$, if $\sigma_1^2\le \sigma_2^2$ then we always have that $\Delta_{\vari} > \Delta_{\beta}$ and hence $\te(\hat{\beta}_t^{\MTL})$ is smaller than $\te(\hat{\beta}_t^{\STL})$. It remains to consider the case $\sigma_1^2 \ge \sigma_2^2$. If 
+\begin{align} 
+&\sigma_2^2  \frac{c_1}{(c_2-1)(c_1 + c_2 -1)}\left(1 + \bigo{p^{-1/2 + \varepsilon}}\right) \label{cond sigma1}\\
+&> \left[\frac{c_1^2 (c_1+c_2)}{(c_1+c_2-1)^3} + \bigo{p^{-1/2 + \varepsilon}}\right]\left[pd^2 \bigbrace{1 + \sqrt{\frac{1}{c_1}}}^4 + \frac{\sigma_1^2-\sigma_2^2}{c_1} \bigbrace{1 + \sqrt{\frac{1}{c_1}}}^2\right] ,\nonumber
+\end{align}
+then we have $\Delta_{\vari} > \Delta_{\beta}$ and we have $\te(\hat{\beta}_t^{\MTL})$ is smaller than $\te(\hat{\beta}_t^{\STL})$. For $c_1\ge 100$, we see that \eqref{cond sigma1} is implied by the following condition
+$$\sigma_1^2 \le pd^2 \cdot c_1 + \left[ 1+ \frac23\frac{(c_1 + c_2 - 1)^2}{(c_1 + c_2) (c_2 - 1)} \right]\sigma_2^2$$
+as long as $p$ is large enough. On the other hand, if 
+\begin{align} 
+&\sigma_2^2  \frac{c_1}{(c_2-1)(c_1 + c_2 -1)}\left(1 + \bigo{p^{-1/2 + \varepsilon}}\right) \label{cond sigma12}\\
+&< \left[\frac{c_1^2 (c_1+c_2)}{(c_1+c_2-1)^3} + \bigo{p^{-1/2 + \varepsilon}}\right]\left[pd^2 \bigbrace{1 - \sqrt{\frac{1}{c_1}}}^4 + \frac{\sigma_1^2-\sigma_2^2}{c_1} \bigbrace{1 - \sqrt{\frac{1}{c_1}}}^2\right] ,\nonumber
+\end{align}
+then we have $\Delta_{\vari} < \Delta_{\beta}$ and we have $\te(\hat{\beta}_t^{\MTL})$ is larger than $\te(\hat{\beta}_t^{\STL})$. For $c_1\ge 100$, we see that \eqref{cond sigma12} is implied by the following condition
+$$\sigma_1^2 \ge  pd^2 \cdot c_1 + \left[ 1+ \frac32\frac{(c_1 + c_2 - 1)^2}{(c_1 + c_2) (c_2 - 1)} \right]\sigma_2^2.$$
+\end{proof}
 
 \subsection{Proof of Proposition \ref{prop_data_size}}
 
 
 Recall that under the setting of Example \ref{ex_basic}, \eqref{Deltavar} and \eqref{Deltabeta} hold.  Then we get that $\te(\hat{\beta}_t^{\MTL})< \te(\hat{\beta}_t^{\STL})$ whp if
-\be\label{pos1}\left(pd^2 \cdot \frac{c_1(c_1+c_2)(c_2-1)}{(c_1+c_2-1)^2} + \bigo{p^{1/2+\e}d^2} \right)\cdot \bigbrace{1 + \sqrt{\frac{1}{c_1}}}^4 <  \sigma^2 \bigbrace{1 + \bigo{p^{-1/2 + \varepsilon}}};\ee
+\be\label{pos1}\left(pd^2 \frac{c_1(c_1+c_2)(c_2-1)}{(c_1+c_2-1)^2} + \bigo{p^{1/2+\e}d^2} \right)\bigbrace{1 + \sqrt{\frac{1}{c_1}}}^4 <  \sigma^2 \bigbrace{1 + \bigo{p^{-1/2 + \varepsilon}}};\ee
 otherwise if
-\be\label{neg1}\left(pd^2 \cdot \frac{c_1(c_1+c_2)(c_2-1)}{(c_1+c_2-1)^2} + \bigo{p^{1/2+\e}d^2} \right)\cdot \bigbrace{1 - \sqrt{\frac{1}{c_1}}}^4 >  \sigma^2 \bigbrace{1 + \bigo{p^{-1/2 + \varepsilon}}},\ee
+\be\label{neg1}\left(pd^2 \frac{c_1(c_1+c_2)(c_2-1)}{(c_1+c_2-1)^2} + \bigo{p^{1/2+\e}d^2} \right)\bigbrace{1 - \sqrt{\frac{1}{c_1}}}^4 >  \sigma^2 \bigbrace{1 + \bigo{p^{-1/2 + \varepsilon}}},\ee
 then we have $\te(\hat{\beta}_t^{\MTL})> \te(\hat{\beta}_t^{\STL})$ whp.
 
 Now we prove the first statement of Proposition \ref{prop_data_size}. Notice that the function
