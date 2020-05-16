@@ -155,18 +155,18 @@ Based on Lemma \ref{lem_hat_v}, we can prove Proposition \ref{prop_dist_transiti
 \begin{proof}[Proof of Proposition \ref{prop_dist_transition}]
 	Since $\Sigma_1 = \Sigma_2$, we know that $M = \Sigma_1^{1/2}\Sigma_2^{-1/2} = \hat{v} \id$.
 	Using Lemma \ref{lem_minv} and \ref{lem_cov_shift}, we can track the reduction of variance from $\hat{\beta}_t^{\MTL}$ to $\hat{\beta}_t^{\STL}$ as whp
-	\begin{align*}
-		\Delta_{\vari} &\define \sigma^2 \bigbrace{\frac{1}{c_2 - 1} - \frac{1}{c_1 + c_2}\cdot\frac{1}{a_1\hat{v}^2 + a_2} + \bigo{p^{-1/2+\varepsilon}}} \\
-		&= \sigma^2 \bigbrace{\frac{c_1}{(c_2-1)(c_1 + c_2 -1)} + \bigo{p^{-1/2 + \varepsilon}}},
-	\end{align*}
+	\begin{align}
+		\Delta_{\vari} &\define \sigma^2 \bigbrace{\frac{1}{c_2 - 1} - \frac{1}{c_1 + c_2}\cdot\frac{1}{a_1\hat{v}^2 + a_2} + \bigo{p^{-1/2+\varepsilon}}} \nonumber\\
+		&= \sigma^2 \bigbrace{\frac{c_1}{(c_2-1)(c_1 + c_2 -1)} + \bigo{p^{-1/2 + \varepsilon}}},\label{Deltavar}
+	\end{align}
 	where we use equation \eqref{eq_a12} and Lemma \ref{lem_hat_v}.
 	Next we consider the model shift bias
 	\begin{align*}
 		\Delta_{\beta} &\define \hat{v}^2 \bignorm{(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} X_1^{\top}X_1 (\beta_s - \hat{v}\beta_t)}^2 \\
-		&= d^2 \cdot \bignormFro{(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}X_1^{\top}X_1}^2 + \bigo{p^{-1/2 + \varepsilon}}
+		&= d^2 \cdot \bignormFro{(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}X_1^{\top}X_1}^2 + \bigo{p^{-1/2 + \varepsilon}d^2}
 	\end{align*}
 	Using Lemma \ref{prop_model_shift_tight}, we get an upper and lower bound on $\Delta_{\beta}$ as
-	\[ \bigbrace{1 - \sqrt{\frac{1}{c_1}}}^4 \le \Delta_{\beta} / \bigbrace{p\cdot d^2 \cdot \frac{c_1^2}{(c_1+c_2)^2} \cdot \frac{1 + a_3 + a_4}{(a_1 + a_2)^2} + \bigo{\frac 1 p} } \le \bigbrace{1 + \sqrt{\frac{1}{c_1}}}^4. \]
+	\be\label{Deltabeta} \bigbrace{1 - \sqrt{\frac{1}{c_1}}}^4 \le \Delta_{\beta} / \bigbrace{p\cdot d^2 \cdot \frac{c_1^2}{(c_1+c_2)^2} \cdot \frac{1 + a_3 + a_4}{(a_1 + a_2)^2} + \bigo{p^{1/2+\e}d^2} } \le \bigbrace{1 + \sqrt{\frac{1}{c_1}}}^4. \ee
 	By solving equations \eqref{eq_a12}, \eqref{eq_a3} and \eqref{eq_a4}, we get
 	\begin{align*}
 		& a_1 = \frac{c_1(c_1 + c_2 - 1)}{(c_1 + c_2)^2} + O(p^{-1/2 + \varepsilon}),
@@ -190,6 +190,34 @@ Based on Lemma \ref{lem_hat_v}, we can prove Proposition \ref{prop_dist_transiti
 
 
 \subsection{Proof of Proposition \ref{prop_data_size}}
+
+
+Recall that under the setting of Example \ref{ex_basic}, \eqref{Deltavar} and \eqref{Deltabeta} hold.  Then we get that $\te(\hat{\beta}_t^{\MTL})< \te(\hat{\beta}_t^{\STL})$ whp if
+\be\label{pos1}\left(pd^2 \cdot \frac{c_1(c_1+c_2)(c_2-1)}{(c_1+c_2-1)^2} + \bigo{p^{1/2+\e}d^2} \right)\cdot \bigbrace{1 + \sqrt{\frac{1}{c_1}}}^4 <  \sigma^2 \bigbrace{1 + \bigo{p^{-1/2 + \varepsilon}}};\ee
+otherwise if
+\be\label{neg1}\left(pd^2 \cdot \frac{c_1(c_1+c_2)(c_2-1)}{(c_1+c_2-1)^2} + \bigo{p^{1/2+\e}d^2} \right)\cdot \bigbrace{1 - \sqrt{\frac{1}{c_1}}}^4 >  \sigma^2 \bigbrace{1 + \bigo{p^{-1/2 + \varepsilon}}},\ee
+then we have $\te(\hat{\beta}_t^{\MTL})> \te(\hat{\beta}_t^{\STL})$ whp.
+
+Now we prove the first statement of Proposition \ref{prop_data_size}. Notice that the function
+$$ \frac{c_1(c_1+c_2)(c_2-1)}{(c_1+c_2-1)^2} =(c_2-1) \left(1 +\frac{c_2-2}{c_1}+\frac{1}{c_1(c_1+c_2)}\right)^{-1} $$
+is strictly increasing with respect to $c_1$ as long as $c_2\ge 3$. In particular, for $c_1\ge 100$, we get the bound by taking $c_1\to \infty$:
+$$\frac{c_1(c_1+c_2)(c_2-1)}{(c_1+c_2-1)^2} \cdot \bigbrace{1 + \sqrt{\frac{1}{c_1}}}^4 < 1.1^4 (c_2-1).$$
+ Hence we conclude that for $c_1\ge 100$, we always have $\te(\hat{\beta}_t^{\MTL}) < \te(\hat{\beta}_t^{\STL})$ whp as long as $pd^2 \le \frac{2\sigma^2}{3(c_2-1)}$. This gives the first statement. 
+
+The second statement can be proved in a similar way. Suppose $c_1 \ge 110$ and $pd^2 > \frac{3\sigma^2}{2(c_2-1)}$. If $c_1 > \frac{(c_2-2) \sigma^2}{2(c_2 - 1) pd^2/3 - \sigma^2}$, we have
+\begin{align*}
+ pd^2 \cdot \frac{c_1(c_1+c_2)(c_2-1)}{(c_1+c_2-1)^2}  \cdot \bigbrace{1 - \sqrt{\frac{1}{c_1}}}^4 > \frac{2}{3} pd^2(c_2-1)\cdot \frac{c_1 }{c_1+(c_2-2)}  >\sigma^2, 
+ \end{align*}
+ where in the first step we used that 
+ $$ \frac{(c_1+c_2)(c_1+c_2-2)}{(c_1+c_2-1)^2}  \cdot \bigbrace{1 - \sqrt{\frac{1}{c_1}}}^4 > \frac23$$
+ for $c_1 \ge 110$. This shows that \eqref{neg1} holds as long as $p$ is large enough, and hence $\te(\hat{\beta}_t^{\MTL})> \te(\hat{\beta}_t^{\STL})$ holds. On the other hand, if $100\le c_1 \le \frac{(c_2-2) \sigma^2}{3(c_2 - 1) pd^2/2 - \sigma^2}$, then we have 
+ \begin{align*}
+ pd^2 \cdot \frac{c_1(c_1+c_2)(c_2-1)}{(c_1+c_2-1)^2}  \cdot \bigbrace{1 + \sqrt{\frac{1}{c_1}}}^4 < \frac{3}{2} pd^2(c_2-1)\cdot \frac{c_1 }{c_1+(c_2-2)}  < \sigma^2, 
+ \end{align*}
+ where in the first step we used that 
+ $$ \frac{(c_1+c_2)(c_1+c_2-2)}{(c_1+c_2-1)^2}  \cdot \bigbrace{1 + \sqrt{\frac{1}{c_1}}}^4 < \frac32$$
+ for $c_1 \ge 100$. This shows that \eqref{pos1} holds as long as $p$ is large enough, and hence $\te(\hat{\beta}_t^{\MTL})< \te(\hat{\beta}_t^{\STL})$ holds.
+ 
 
 
 
