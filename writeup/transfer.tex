@@ -90,7 +90,10 @@ ii) Otherwise, as we increase the number of source task data points, the transfe
 
 \textbf{Implications.} We use our tools to explain a key result of taskonomy \cite{ZSSGM18}, which shows that by learning from multiple related tasks, one can reduce the amount of labeled data from each task.
 This is formalized by a metric called the data efficiency ratio as follows.
-Given several tasks, let $\alpha$ be the largest factors such that the total number of labeled datapoints needed for solving all the tasks can be reduced by an $\alpha$ factor (compared to training independently) while keeping the performance nearly the same.
+Given several tasks, let $\alpha^{\star}$ be the largest factors such that the total number of labeled datapoints needed for solving all the tasks can be reduced by an $\alpha^{\star}$ factor (compared to training independently) while keeping the performance nearly the same.
+More precisely, suppose we have $n_i$ datapoints for each task, for $i= 1, 2$.
+If we only use $\alpha n_i$ datapoints from every task to train the multi-task learning estimator $\hat{\beta}(\alpha)$, then $\alpha \in (0, 1)$ will be the smallest number such that
+\[ \alpha^{\star} \define\argmin_{\alpha\in(0, 1)} ~~ \te_1(\hat{\beta}(\alpha)) + \te_2(\hat{\beta}(\alpha))\le \te_1(\hat{\beta}_t^{\STL}) + \te_2(\hat{\beta}_t^{\STL}). \]
 We quantify the data efficiency ratio of $\hat{\beta}_t^{\MTL}$ for Example \ref{ex_basic} as follows.
 
 \begin{proposition}\label{prop_data_efficiency}
