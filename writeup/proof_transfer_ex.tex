@@ -264,7 +264,30 @@ The second statement can be proved in a similar way. Suppose $c_1 \ge 110$ and $
 
 \textbf{Remark.} Furthermore, as a function of $c_1$ over the range $[??, \infty]$, the maximum of $\te(\hat{\beta}_t^{\STL}) - \te(\hat{\beta}_t^{\MTL})$ is attained when $c_1 = {c_2\sigma^2}/{\max(2(c_2 - 1)pd^2 -\sigma^2, 0)}$. {\cor (cannot get this because we only have some bounds. If we let $c_1\to \infty$, then the curve of $\te(\hat{\beta}_t^{\STL}) - \te(\hat{\beta}_t^{\MTL})$ already becomes flat, and it is meaningless to discuss the minimum of this function at this point?)}
 
-\subsection{Proof of ???}
+\subsection{Proofs of Proposition \ref{prop_covariate}}
+
+
+	We have that the test error satisfies
+\be\label{approxteM}  te(M)\left(1 -  \frac{n_2}{n_1-p} \frac{1}{\lambda_p^2 + \frac{n_2}{n_1-p}}\right)  \le  \frac{\sigma^2}{n_1+n_2}\tr\left( \frac{1}{a_1M^\top M + a_2}\right) \le te(M),\ee
+where $\lambda_p$ is the smallest singular value of $p$ and
+$$te(M):= \frac{\sigma^2}{a_1(n_1+n_2)}\tr\left( \frac{1}{M^\top M}\right) .$$
+Moreover, for all $M$ satisfying \eqref{GMcons}, the minimum of $te(M)$ is attained when $M= a\id$.
+
+\begin{proof}
+From equation \eqref{eq_a2}, we get
+$$a_1\ge \frac{n_1-p}{n_1+n_2},\quad a_2\le \frac{n_2}{n_1+n_2}.$$
+With these two bounds, we can easily conclude \eqref{approxteM}.
+
+For the second statement, we find that we need to minimize
+$$\tr\left( \frac{1}{M^\top M}\right) = \sum_{i=1}^p\frac{1}{\lambda_i},\quad \text{under}\ \ \prod_{i=1}^p\lambda_i=a^p.$$
+Then using AM-GM inequality, we conclude that the sum $\sum_{i=1}^p\lambda_i^{-1}$ is smallest when $\lambda_1=\cdots=\lambda_p = a$.
+\end{proof}
+
+
+
+
+
+\iffalse
 Note that for the case of $k$ tasks with the same covariates, since there is no covariate shift and the data ratio is always equal to one, the main factor is model distance.
 
 \paragraph{A precise bound when there is no model shift.}
@@ -354,3 +377,4 @@ which is true since $a_1 \le n_1 / (n_1 + n_2)$ by equation \eqref{eq_a2}.
 The proof for $\te(\hat{\beta}_{s,t}) \le \te(\hat{\beta}_t)$ follows by multiplying $\Sigma_2^{-1/2}$ on both sides of the inequalities above.
 
 \medskip
+\fi

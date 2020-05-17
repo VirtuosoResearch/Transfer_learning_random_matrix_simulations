@@ -110,7 +110,41 @@ The proof of Proposition \ref{prop_data_efficiency} can be found in Appendix \re
 
 \subsection{Covariate Shift}
 
-Now we apply Theorem \ref{thm_cov_shift} to show how covariate shift affects the rate of transfer.
+So far we have considered settings where $\Sigma_1 = \Sigma_2$.
+This setting is relevant for multi-class image classification settings, where different tasks share the same input features.
+In general, the covariance matrices of the two tasks may be different, e.g. in text classification.
+In this part, we use our tools to provide a case study on the effect of applying multi-task learning for two tasks when $\Sigma_1 \neq \Sigma_2$.
+
+For this setting, covariate shift is captured by the matrix $M = \Sigma_1^{1/2} \Sigma_2^{-1/2}$.
+We ask: is it better to have $M$ as being close to identity, or should $M$ involve varying levels of singular values?
+Understanding this question has implications for applying normalization methods in multi-task learning \cite{LV19,CBLR18,YKGLHF20}.
+Our result shows that if $n_1$ is much larger than $n_2$, then the optimal $M$ matrix is equal to identity, under certain assumptions on its range of singular values (to be formulated in Proposition \ref{prop_covariate}).
+On the other hand, if $n_1$ is comparable or even smaller than $n_2$, we show an example where having ``complementary'' covariance matrices is better performing than having the same covariance matrices.
+
+\begin{example}
+	To compare different choices of $M$ on the performance of $\hat{\beta}_t^{\MTL}$, we assume an upper bound on the scale of $M$.
+	%, because otherwise $aM$ always achieves a smaller error than $M$ for $a>1$. For this purpose, we introduce the following condition
+	Consider the following family of matrices
+	\begin{align*}
+		\cS_{\mu}\define\bigset{M \mid \det\bigbrace{\frac{1}{p}M^\top M} \le \mu}.
+	\end{align*}
+	We assume that $\beta_2$ has i.i.d. entries with mean zero and variance $\kappa^2$ and $\beta_1 - \beta_2$ has i.i.d. entries with mean $0$ and variance $d^2$.
+%	for some constant $a>0$, and compare different choices of $M$ under this constraint. The next proposition shows that, roughly speaking, as long as there are sufficiently many source task datas, then $M=a\id$ always gives (approximately) the smallest test error.
+	The following proposition shows that when $n_1$ is large enough compared to $n_2$, $\te(\hat{\beta}^{\MTL})$ is minimized within the family of $\cS_{\mu}$ when $M = \mu\id$.
+\end{example}
+
+\begin{proposition}\label{prop_covariate}
+	In the setting of Example \ref{ex_basic}, assume that $c_1 > ??$.
+	As a parameter of $M \in \cS_{\mu}$, we have that $\te(\hat{\beta}_t^{\MTL})$ is minimized when $M = \mu\id$.
+\end{proposition}
+
+
+
+From the above proposition, we see that when $n_1\gg n_2$, we have that the test error is approximately given by $te(M)$ (as long as we impose a proper lower bound on $\lambda_p$). Moreover, $te(M)$ is minimized when $\Sigma_1$ and $\Sigma_2$ are proportional to each other, i.e. there is no covariate shift between the source task data and target task data. This provides a theoretical evidence that in general covariate shift is unfavored in transfer learning if we have enough source task data, although Example \ref{example comple} show that this may not be true when the number of source task data is small.
+
+%then the choice $M^\top M = a^{1/p}\id $ achieves the smallest test error. In fact, for sufficiently large $n_1$, we have $a_1\approx 1-\gamma$ and $a_2\approx 0$.
+
+
 
 \smallskip
 \begin{example}[\textbf{When $\Sigma_1 = \Sigma_2 / \lambda$}]
@@ -157,29 +191,7 @@ If $n_1>n_2$, we have $a_1>(1-\gamma)/2$ (because $a_1>a_2$ as observed from the
 
 \end{example}
 
-We can extend the above observation for Example \ref{example comple} to more general cases with arbitrary covariate shift. To compare different choices of $M$, we need to fix a scaling for them, because otherwise $aM$ always achieves a smaller error than $M$ for $a>1$. For this purpose, we introduce the following condition
-\be\label{GMcons}\det(M^\top M)= a^p \Leftrightarrow \prod_{i=1}^p \lambda_i = a^p\ee
-for some constant $a>0$, and compare different choices of $M$ under this constraint. The next proposition shows that, roughly speaking, as long as there are sufficiently many source task datas, then $M=a\id$ always gives (approximately) the smallest test error.
-\begin{proposition}
-We have that the test error satisfies
-\be\label{approxteM}  te(M)\left(1 -  \frac{n_2}{n_1-p} \frac{1}{\lambda_p^2 + \frac{n_2}{n_1-p}}\right)  \le  \frac{\sigma^2}{n_1+n_2}\tr\left( \frac{1}{a_1M^\top M + a_2}\right) \le te(M),\ee
-where $\lambda_p$ is the smallest singular value of $p$ and
-$$te(M):= \frac{\sigma^2}{a_1(n_1+n_2)}\tr\left( \frac{1}{M^\top M}\right) .$$
-Moreover, for all $M$ satisfying \eqref{GMcons}, the minimum of $te(M)$ is attained when $M= a\id$.
-\end{proposition}
-\begin{proof}
-From equation \eqref{eq_a2}, we get
-$$a_1\ge \frac{n_1-p}{n_1+n_2},\quad a_2\le \frac{n_2}{n_1+n_2}.$$
-With these two bounds, we can easily conclude \eqref{approxteM}.
 
-For the second statement, we find that we need to minimize
-$$\tr\left( \frac{1}{M^\top M}\right) = \sum_{i=1}^p\frac{1}{\lambda_i},\quad \text{under}\ \ \prod_{i=1}^p\lambda_i=a^p.$$
-Then using AM-GM inequality, we conclude that the sum $\sum_{i=1}^p\lambda_i^{-1}$ is smallest when $\lambda_1=\cdots=\lambda_p = a$.
-\end{proof}
-
-From the above proposition, we see that when $n_1\gg n_2$, we have that the test error is approximately given by $te(M)$ (as long as we impose a proper lower bound on $\lambda_p$). Moreover, $te(M)$ is minimized when $\Sigma_1$ and $\Sigma_2$ are proportional to each other, i.e. there is no covariate shift between the source task data and target task data. This provides a theoretical evidence that in general covariate shift is unfavored in transfer learning if we have enough source task data, although Example \ref{example comple} show that this may not be true when the number of source task data is small.
-
-%then the choice $M^\top M = a^{1/p}\id $ achieves the smallest test error. In fact, for sufficiently large $n_1$, we have $a_1\approx 1-\gamma$ and $a_2\approx 0$.
 
 \begin{figure}
 	\begin{minipage}{0.48\textwidth}
