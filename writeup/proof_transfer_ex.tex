@@ -264,7 +264,7 @@ The second statement can be proved in a similar way. Suppose $c_1 \ge 110$ and $
 
 \textbf{Remark.} Furthermore, as a function of $c_1$ over the range $[??, \infty]$, the maximum of $\te(\hat{\beta}_t^{\STL}) - \te(\hat{\beta}_t^{\MTL})$ is attained when $c_1 = {c_2\sigma^2}/{\max(2(c_2 - 1)pd^2 -\sigma^2, 0)}$. {\cor (cannot get this because we only have some bounds. If we let $c_1\to \infty$, then the curve of $\te(\hat{\beta}_t^{\STL}) - \te(\hat{\beta}_t^{\MTL})$ already becomes flat, and it is meaningless to discuss the minimum of this function at this point?)}
 
-\subsection{Proofs of Proposition \ref{prop_covariate}}
+\subsection{Proofs of Proposition \ref{prop_covariate}}\label{app_covariate}
 
 
 	We have that the test error satisfies
@@ -290,14 +290,9 @@ It's not hard to verify that there is only one valid solution $(a_1,a_2)$ to \eq
 \be\label{testcomple}
 te(\lambda)=\frac{p}{2(n_1 + n_2)} \cdot \bigbrace{\frac{1}{\frac{a_1}{\lambda^2} + a_2} + \frac{1}{a_1\lambda^2 + a_2}}.\ee
 
-In Figure \ref{fig_te_complement}, we plot the test error of the target task for $n_2 = 4p$ and $n_1$ ranging from $p$ to $20p$. First we notice that the curves in Figure \ref{fig_te_complement} all cross at the point $n_1=n_2$. In fact, if $n_1=n_2$, then it is easy to observe that $a_1=a_2=(1-\gamma)/2$ is the solution to equation \eqref{compleeq}, where we denote $ \gamma=p/(n_1+n_2)$. Then for any $\lambda$, the test error in \eqref{testcomple} takes the value
+First we notice that the curves in Figure \ref{fig_te_complement} all cross at the point $n_1=n_2$. In fact, if $n_1=n_2$, then it is easy to observe that $a_1=a_2=(1-\gamma)/2$ is the solution to equation \eqref{compleeq}, where we denote $ \gamma=p/(n_1+n_2)$. Then for any $\lambda$, the test error in \eqref{testcomple} takes the value
 $$te(\lambda)= \frac{\gamma}{2}\frac{1}{(1-\gamma)/2}=\frac{p}{n_1+n_2-p}.$$
 
-Second, we observe the following two phases as we increase $n_1 / p$.
-\begin{itemize}
-	\item When $n_1 \le n_2$, having complementary covariance matrices leads to lower test error compared to the case when $\Sigma_1 = \Sigma_2$.
-	\item When $n_1 > n_2$, having complementary covariance matrices leads to higher test error compared to the case when $\Sigma_1 = \Sigma_2$.
-\end{itemize}
 %Second, from Figure \ref{fig_te_complement} we observe that the complementary cases with $\lambda>1$ is better than the case without covariate shift (i.e. $M=\id$ case) when $n_1<n_2$. On the other hand, if we have enough source task data such that $n_1>n_2$, then it is always better to have no covariate shift.
 This phenomenon can be also explained using our theory. With \eqref{compleeq}, we can write
 $$te(\lambda)=\frac{\gamma}{2} \cdot \bigbrace{\frac{1}{\frac{a_1}{\lambda^2} + (1-\gamma - a_1)} + \frac{1}{a_1\lambda^2 + (1-\gamma - a_1)}}.$$

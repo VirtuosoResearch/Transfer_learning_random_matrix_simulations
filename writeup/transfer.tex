@@ -121,7 +121,7 @@ Understanding this question has implications for applying normalization methods 
 Our result shows that if $n_1$ is much larger than $n_2$, then the optimal $M$ matrix is equal to identity, under certain assumptions on its range of singular values (to be formulated in Proposition \ref{prop_covariate}).
 On the other hand, if $n_1$ is comparable or even smaller than $n_2$, we show an example where having ``complementary'' covariance matrices is better performing than having the same covariance matrices.
 
-\begin{example}
+\begin{example}\label{ex_cov_family}
 	To compare different choices of $M$ on the performance of $\hat{\beta}_t^{\MTL}$, we assume an upper bound on the scale of $M$.
 	Consider the following family of matrices
 	\begin{align*}
@@ -143,17 +143,26 @@ This provides evidence that covariate shift is unfavorable when there are many s
 To complement the result, we show an example when the statement is not true if $n_1 \le n_2$.
 
 \begin{example}\label{ex_covariate}
-	We now consider another case when $\Sigma_1$ and $\Sigma_2$ have complementary eigenspaces. Suppose $\Sigma_1$ and $\Sigma_2$ have the eigendecomposition
-$$\Sigma_1^{1/2} = 1+ U\Lambda U^\top, \quad \Sigma_2^{1/2} = 1+ V\Lambda V,$$
-where
-$$\Lambda = \diag(\wt\lambda_1,\cdots, \wt\lambda_{p/2}), \quad U= (u_1,\cdots, u_{p/2}), \quad V= (v_1,\cdots, v_{p/2}).$$
-If $V=U_\perp$, i.e. the vectors $v_1,\cdots, v_{p/2}$ are perpendicular to the vectors $u_1,\cdots, u_{p/2}$, then
-$$M=\Sigma_1^{1/2} \Sigma_2^{-1/2}=(1+\Lambda)UU^\top + (1+\Lambda)^{-1}V V^\top .$$
+	Within the setting of Example \ref{ex_cov_family}, we compare two cases: (i) when $M = \id$; (ii) when $M$ has $p/2$ singular values that are equal to $\lambda$ and $p/2$ singular values that are equal to $1 / \lambda$.
+	For simplicity, we assume that $d = 0$.
+	Hence the two tasks have the same model parameters.
+%	now consider another case when $\Sigma_1$ and $\Sigma_2$ have complementary eigenspaces. Suppose $\Sigma_1$ and $\Sigma_2$ have the eigendecomposition
+%$$\Sigma_1^{1/2} = 1+ U\Lambda U^\top, \quad \Sigma_2^{1/2} = 1+ V\Lambda V,$$
+%where
+%$$\Lambda = \diag(\wt\lambda_1,\cdots, \wt\lambda_{p/2}), \quad U= (u_1,\cdots, u_{p/2}), \quad V= (v_1,\cdots, v_{p/2}).$$
+%If $V=U_\perp$, i.e. the vectors $v_1,\cdots, v_{p/2}$ are perpendicular to the vectors $u_1,\cdots, u_{p/2}$, then
+%$$M=\Sigma_1^{1/2} \Sigma_2^{-1/2}=(1+\Lambda)UU^\top + (1+\Lambda)^{-1}V V^\top .$$
+%	As a concrete example we consider the case where $\wt \lambda_1=\cdots=\wt\lambda_{p/2}$ and we denote $\lambda:=1+\wt\lambda_1$. Thus for $M$, the first $p/2$ singular values are equal to $\lambda$ and the rest ones are equal to $\lambda^{-1}$.
 
-As a concrete example we consider the case where $\wt \lambda_1=\cdots=\wt\lambda_{p/2}$ and we denote $\lambda:=1+\wt\lambda_1$. Thus for $M$, the first $p/2$ singular values are equal to $\lambda$ and the rest ones are equal to $\lambda^{-1}$.
+	In Figure \ref{fig_te_complement}, we plot the test error of the target task for $n_2 = 4p$ and $n_1$ ranging from $p$ to $20p$.
+	Second, we observe the following two phases as we increase $n_1 / p$.
+	\begin{itemize}
+		\item When $n_1 \le n_2$, having complementary covariance matrices leads to lower test error compared to the case when $\Sigma_1 = \Sigma_2$.
+		\item When $n_1 > n_2$, having complementary covariance matrices leads to higher test error compared to the case when $\Sigma_1 = \Sigma_2$.
+	\end{itemize}
 \end{example}
 
-
+A theoretical justification of Example \ref{ex_covariate} can be found in Appendix \ref{app_covariate}.
 
 \begin{figure}
 	\begin{minipage}{0.48\textwidth}
@@ -164,5 +173,5 @@ As a concrete example we consider the case where $\wt \lambda_1=\cdots=\wt\lambd
 	\end{minipage}
 \end{figure}
 
-
+\textbf{Implications.}
 
