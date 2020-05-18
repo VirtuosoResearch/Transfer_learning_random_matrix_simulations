@@ -1,8 +1,17 @@
 \section{Technical Tools: Quantifying Model Shift Bias versus Variance Trade-off}\label{sec_main}
 
-In this part, we consider the case of two tasks to show  establish the intuition that adding more data helps in multi-task learning by reducing the variance of the estimator.
-We achieve this through tight generalization bounds obtained from random matrix theory.
-For the case of two tasks, we identify three factors that determine the type of transfer between tasks: model distance, covariate shift matrix, and data ratio.
+%In this part, we consider the case of two tasks to show  establish the intuition that adding more data helps in multi-task learning by reducing the variance of the estimator.
+%We achieve this through tight generalization bounds obtained from random matrix theory.
+%For the case of two tasks, we identify three factors that determine the type of transfer between tasks: model distance, covariate shift matrix, and data ratio.
+We begin by observing that the test error of $\hat{\beta}_t^{\MTL}$ consists of two parts.
+One part captures how similar the task models are and the other part captures the variance of $\hat{\beta}_t^{\MTL}$.
+Compared with $\hat{\beta}_t^{\STL}$, we observe that the variance part of $\hat{\beta}_t^{\MTL}$ gets reduced, since more data is added from source tasks.
+The bias part of $\hat{\beta}_t^{\MTL}$, which we term as \textit{model shift bias}, affects performance negatively.
+We derive the asympotic limit of $\te(\hat{\beta}_t^{\MTL})$ as $p$ approaches infinity.
+We compare it with the asympotic limit of $\te(\hat{\beta}_t{\STL})$, for settings where the target data size is limited.
+We show sharp generalization bounds for two settings: i) two tasks with general covaraites; ii) many tasks with the same covariates.
+
+\subsection{Two Tasks with General Covariance Matrices}
 
 Recall that the test error of $\hat{\beta}_{t}^{\MTL}$ consists of two parts
 \begin{align}
@@ -76,7 +85,7 @@ Theorem \ref{thm_model_shift} shows upper and lower bounds that guarantee positi
 The bounds get tighter and tighter as $n_1 / p$ increases.
 
 
-\subsection{Extension to Many Tasks of the Same Covariates}
+\subsection{Many Tasks with the Same Covariates}
 
 In this section we consider the setting with $k$ many that have the same covariates.
 Since every task has the same number of data points as well as the same covariance, the only differences between different tasks are their models $\set{\beta_i}_{i=1}^k$.
