@@ -13,27 +13,32 @@ We show sharp generalization bounds for two settings: i) two tasks with general 
 
 \subsection{Two Tasks with General Covariance Matrices}
 
-Recall that the test error of $\hat{\beta}_{t}^{\MTL}$ consists of two parts
+For the case of two tasks, we decompose the test error of $\hat{\beta}_{t}^{\MTL}$ on the targe task into two parts
 \begin{align}
-	\te(\hat{\beta}_t^{\MTL}) = \hat{w}^2 \bignorm{\Sigma_2^{1/2} (\hat{w}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}X_1^{\top}X_1 (\beta_s - \hat{w}\beta_t)}^2 + \sigma^2\cdot \bigtr{(\hat{w}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2}. \label{eq_te_model_shift}
+	\te(\hat{\beta}_t^{\MTL}) =& \hat{v}^2 \bignorm{\Sigma_2^{1/2} (\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}X_1^{\top}X_1 (\beta_s - \hat{v}\beta_t)}^2 \nonumber \\
+	&+ \sigma^2\cdot \bigtr{(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2}, \label{eq_te_model_shift}
 \end{align}
-It is not hard to show that the variance of $\hat{\beta}_t^{\MTL}$ is reduced compared to $\hat{\beta}_t^{\STL}$ (following the argument of Proposition \ref{prop_monotone}), i.e.
-\[ \sigma^2\cdot \bigtr{(\hat{w}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2} \le \sigma^2\cdot \bigtr{(X_2^{\top}X_2)^{-1}\Sigma_2}. \]
-Because of model shift however, i.e. $\beta_s \neq \beta_t$.
-We can no longer guarantee that $\te(\hat{\beta}_{t}^{\MTL}) \le \te(\hat{\beta}_t^{\STL})$.
-The main result of this part show deterministic conditions under which we get positive or negative transfer.
-And the conditions depend only on the covariate shift matrix $M$, the difference of the task models, and the number of per-task data points.
-In order to characterize $\te(\hat{\beta}_t^{\MTL})$ and $\te(\hat{\beta}_t^{\STL})$, the technical crux of our approach relies on deriving the limit of the trace of matrix inverse in the high-dimensional setting.
-To illustrate the idea, we observe that by using Lemma \ref{lem_minv}, we have that
-\[ \te(\hat{\beta}_t^{\STL}) = \frac{\sigma^2}{n_2 - p}\bigtr{\Sigma_2^{-1}}. \]
-We shall also derive the limit of $\te(\hat{\beta}_t^{\MTL})$.
-\todo{write a brief technical overview}
+where $\hat{v}$ denotes the ratio of the output layer weights (to be defined more precisely in Appendix \ref{app_proof_main}).
+It is not hard to show that the variance of $\hat{\beta}_t^{\MTL}$ is reduced compared to $\hat{\beta}_t^{\STL}$, i.e. %(following the argument of Proposition \ref{prop_monotone}), i.e.
+\[ \bigtr{(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2} \le \bigtr{(X_2^{\top}X_2)^{-1}\Sigma_2}. \]
+Because of model shift bias, we can no longer guarantee that $\te(\hat{\beta}_{t}^{\MTL}) \le \te(\hat{\beta}_t^{\STL})$.
+%The main result of this section show deterministic conditions under which we get positive or negative transfer.
+%And the conditions depend only on the covariate shift matrix $M$, the difference of the task models, and the number of per-task data points.
+The technical crux of our approach is to derive the asymptotic limit of $\te(\hat{\beta}_t^{\MTL})$ in the high-dimensional setting, when $p$ approaches infinity.
+A key highlight of our approach implies a precise limit on $\bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}}$, which only depends on $\Sigma_1, \Sigma_2$ and $n_1, n_2$ (see Lemma \ref{lem_cov_shift} in Appendix \ref{app_proof_main} for the result).
+
+\begin{theorem}\label{thm_main_informal}
+	Let $X_i \in\real^{n_i \times p}$ and $Y_i = X_i\beta_i + \varepsilon_i$, for $i = 1, 2$.
+	Suppose that $n_1 = c_1 p$ and $n_2 = c_2 p$, where $c_1 > ??$ and $c_2 > 3$ are fixed constants.
+	There exists two deterministic functions $\Delta_{\beta}$ and $\Delta_{\vari}$ that only depends on $\set{\hat{v}, M, n_1, n_2, \beta_1, \beta_2}$ such that
+	\begin{itemize}
+		\item If $\Delta_{\vari} - \Delta_{\beta} \ge \delta$, then whp $\te{\hat{\beta}_t^{\MTL}} < \te(\hat{\beta}_t^{\STL})$.
+		\item If $\Delta_{\vari} - \Delta_{\beta} \le \delta$, then whp $\te(\hat{\beta}_t^{\MTL}) > \te(\hat{\beta}_t^{\STL})$.
+	\end{itemize}
+\end{theorem}
 
 
-
-
-
-Theorem \ref{thm_model_shift} shows upper and lower bounds that guarantee positive transfer, which is determined by the change of variance $\Delta_{\vari}$ and a certain model shift bias parameter $\Delta_{\beta}$ determined by the covariate shift matrix and the model shift.
+Theorem \ref{thm_main_informal} shows upper and lower bounds that guarantee positive transfer, which is determined by the change of variance $\Delta_{\vari}$ and a certain model shift bias parameter $\Delta_{\beta}$ determined by the covariate shift matrix and the model shift.
 The bounds get tighter and tighter as $n_1 / p$ increases.
 
 
