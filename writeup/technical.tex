@@ -32,7 +32,7 @@ A key highlight of our approach implies a precise limit on $\bigtr{(X_1^{\top}X_
 	Suppose that $n_1 = c_1 p$ and $n_2 = c_2 p$, where $c_1 > ??$ and $c_2 > 3$ are fixed constants.
 	There exists two deterministic functions $\Delta_{\beta}$ and $\Delta_{\vari}$ that only depends on $\set{\hat{v}, M, n_1, n_2, \beta_1, \beta_2}$ such that
 	\begin{itemize}
-		\item If $\Delta_{\vari} - \Delta_{\beta} \ge \delta$, then whp $\te{\hat{\beta}_t^{\MTL}} < \te(\hat{\beta}_t^{\STL})$.
+		\item If $\Delta_{\vari} - \Delta_{\beta} \ge \delta$, then whp $\te(\hat{\beta}_t^{\MTL}) < \te(\hat{\beta}_t^{\STL})$.
 		\item If $\Delta_{\vari} - \Delta_{\beta} \le \delta$, then whp $\te(\hat{\beta}_t^{\MTL}) > \te(\hat{\beta}_t^{\STL})$.
 	\end{itemize}
 \end{theorem}
@@ -44,10 +44,27 @@ The bounds get tighter and tighter as $n_1 / p$ increases.
 
 \subsection{Many Tasks with the Same Covariates}
 
-In this section we consider the setting with $k$ many that have the same covariates.
-Since every task has the same number of data points as well as the same covariance, the only differences between different tasks are their models $\set{\beta_i}_{i=1}^k$.
-For this setting, we derive solutions for the multi-task training and the transfer learning setting that match our insights qualitatively from Section \ref{sec_denoise}.
+We extend the above result to any number of tasks that have the same covariates.
+%In this section we consider the setting with $k$ many that have the same covariates.
+Since the tasks all have the same number of datapoints and covariance matrix, the trade-off between model shift bias and variance will be captured by their task models $\set{\beta_i}_{i=1}^k$.
+%For this setting, we derive solutions for the multi-task training and the transfer learning setting that match our insights qualitatively from Section \ref{sec_denoise}.
+Let $B^{\star} = [\beta_1, \beta_2, \dots, \beta_k] \in\real^{p\times k}$ denote the underlying task model parameters.
+We derive the model shift bias and variance in the following result.
 
+\begin{theorem}\label{thm_many_tasks}
+	Let $n = c \cdot p$.
+	Let $X\in\real^{n\times p}$ and $Y_i = X\beta_i + \varepsilon_i$, for $i = 1,\dots,k$.
+	Let $U_r U_r^{\top}$ denote the best rank-$r$ approximation subspace of $B^{\star}\Sigma B^{\star}$, where $U_r\in\real^{k\times r}$.
+	Let $U_r(i)$ denote the $i$-th row vector of $U_r$.
+	We have the following
+	\begin{itemize}
+		\item If $(1 - \norm{U_r(i)}^2)\cdot \frac{\sigma^2}{c - 1} \ge \norm{\Sigma (B^{\star} U_r U_r(i) - \beta_i)}^2$, then whp $\te(\hat{\beta}_t^{\MTL}) < \te(\hat{\beta}_t^{\STL})$.
+		\item If $(1 - \norm{U_r(i)}^2)\cdot \frac{\sigma^2}{c - 1} < \norm{\Sigma(B^{\star} U_r U_r(i) - \beta_i)}^2$, then whp $\te(\hat{\beta}_t^{\MTL}) > \te(\hat{\beta}_t^{\STL})$.
+	\end{itemize}
+\end{theorem}
+As a remark, since the spectral norm of $U_r$ is less than $1$, we have that $\norm{U_r(i)} < 1$, for any $1 \le i \le k$.
+Compared to Theorem \ref{thm_main_informal}, we can get a simple expression for the two functions $\Delta_{vari}$ and $\Delta_{\beta}$.
+The proof of Theorem \ref{thm_many_tasks} can be found in Appendix \ref{app_proof_many_tasks}.
 
 \section{Extension to Transfer Learning}
 
