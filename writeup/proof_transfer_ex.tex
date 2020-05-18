@@ -232,9 +232,9 @@ $$\sigma_1^2 \ge  pd^2 \cdot c_1 + \left[ 1+ \frac32\frac{(c_1 + c_2 - 1)^2}{(c_
 
 
 
-\subsection{Proof of Proposition \ref{prop_data_size}}\label{app_proof_data}
+\subsection{Proof of Proposition \ref{prop_data_size} and Proposition \ref{prop_data_efficiency}}\label{app_proof_data}
 
-
+\begin{proof}[Proof of Proposition \ref{prop_data_size}]
 Recall that under the setting of Example \ref{ex_basic}, \eqref{Deltavar} and \eqref{Deltabeta} hold.  Then we get that $\te(\hat{\beta}_t^{\MTL})< \te(\hat{\beta}_t^{\STL})$ whp if
 \be\label{pos1}\left(pd^2 \frac{c_1(c_1+c_2)(c_2-1)}{(c_1+c_2-1)^2} + \bigo{p^{1/2+\e}d^2} \right)\bigbrace{1 + \sqrt{\frac{1}{c_1}}}^4 <  \sigma^2 \bigbrace{1 + \bigo{p^{-1/2 + \varepsilon}}};\ee
 otherwise if
@@ -260,9 +260,35 @@ The second statement can be proved in a similar way. Suppose $c_1 \ge 110$ and $
  where in the first step we used that 
  $$ \frac{(c_1+c_2)(c_1+c_2-2)}{(c_1+c_2-1)^2}  \cdot \bigbrace{1 + \sqrt{\frac{1}{c_1}}}^4 < \frac32$$
  for $c_1 \ge 100$. This shows that \eqref{pos1} holds as long as $p$ is large enough, and hence $\te(\hat{\beta}_t^{\MTL})< \te(\hat{\beta}_t^{\STL})$ holds.
- 
+ \end{proof}
 
 \textbf{Remark.} Furthermore, as a function of $c_1$ over the range $[??, \infty]$, the maximum of $\te(\hat{\beta}_t^{\STL}) - \te(\hat{\beta}_t^{\MTL})$ is attained when $c_1 = {c_2\sigma^2}/{\max(2(c_2 - 1)pd^2 -\sigma^2, 0)}$. {\cor (cannot get this because we only have some bounds. If we let $c_1\to \infty$, then the curve of $\te(\hat{\beta}_t^{\STL}) - \te(\hat{\beta}_t^{\MTL})$ already becomes flat, and it is meaningless to discuss the minimum of this function at this point?)}
+
+\begin{proof}[Proof of Proposition \ref{prop_data_efficiency}]
+Suppose we have reduced number of datapoints---$\al n_1$ for task 1 and $\al n_2$ for task 2 with $n_1=n_2$. In the setting of Proposition \ref{prop_data_efficiency}, we still have \eqref{hatw_add1}, and by symmetry it suffices to focus on one of tasks, say task 2. Using Lemmas \ref{lem_cov_shift} and \ref{prop_model_shift_tight}, we have that whp,
+\be\label{reduceproof1}
+\begin{split}
+\te_2(\hat \beta(\al)) =\sigma^2\left( \frac{1}{2\al c - 1}+ \bigo{p^{-1/2 + \varepsilon}}\right)+ \Delta^{(2)}_{\beta},
+\end{split}
+\ee
+where $ \Delta^{(2)}_{\beta}$ satisfies 
+\be \nonumber
+\bigbrace{1 - \sqrt{\frac{1}{\al c}}}^4 \le \Delta^{(2)}_{\beta} /  \left( pd^2 \cdot \frac{2\al^3 c^3}{(2\al c-1)^3}+ \bigo{p^{1/2+\e}d^2}\right) \le \bigbrace{1 + \sqrt{\frac{1}{\al c}}}^4. 
+\ee
+On the other hand, using Lemma \ref{lem_minv}, we have whp
+\be\label{reduceproof2} 
+\te_2(\hat{\beta}_t^{\STL}) = \frac{\sigma^2}{c-1} \left( 1+ \bigo{p^{-1/2 + \varepsilon}}\right).
+\ee
+Comparing \eqref{reduceproof1} and \eqref{reduceproof2}, we observe that $\te_2(\hat \beta(\al))  \ge \te_2(\hat{\beta}_t^{\STL}) $ for $\al \le 1/2-\oo(1)$, which gives $\al^* \ge 1/2 - \oo(1)$. 
+
+Now for $c\ge 200$ and $\al \ge 1/2$, we have whp
+\be\label{reduceproof3} \te_2(\hat \beta(\al)) < \sigma^2 \frac{1}{2\al c - 1}+  \frac38 pd^2  \ee
+for large enough $p$. Moreover, if 
+$$\al \ge \al_0:=\frac{1}{2c} + \left(2-\frac{3}{4}c \cdot \frac{pd^2}{\sigma^2} \right)^{-1},$$
+we can check from \eqref{reduceproof3} that $\te_2(\hat \beta(\al))  < \te_2(\hat{\beta}_t^{\STL}) $. By symmetry, we also have $\te_1(\hat \beta(\al))  < \te_1(\hat{\beta}_t^{\STL}) $. Thus we conclude that 
+$$\te_1(\hat{\beta}(\alpha)) + \te_2(\hat{\beta}(\alpha))\le \te_1(\hat{\beta}_t^{\STL}) + \te_2(\hat{\beta}_t^{\STL})$$
+for $\al\ge \al_0$, which shows that $\al^*\le \al_0$.
+\end{proof}
 
 \subsection{Proofs of Proposition \ref{prop_covariate}}\label{app_covariate}
 
