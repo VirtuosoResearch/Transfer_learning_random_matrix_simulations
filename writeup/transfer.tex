@@ -125,16 +125,18 @@ On the other hand, if $n_1$ is comparable or even smaller than $n_2$, we show an
 	To compare different choices of $M$ on the performance of $\hat{\beta}_t^{\MTL}$, we assume an upper bound on the scale of $M$.
 	Consider the following family of matrices
 	\begin{align*}
-		\cS_{\mu}\define\bigset{M \mid \det\bigbrace{\frac{1}{p}M^\top M} \le \mu, \lambda(M) \in [\mu_{\min}, \mu_{\max}]},
+		\cS_{\mu}\define\bigset{M \mid \det\bigbrace{ M^\top M} \le \mu^p, \lambda(M) \in [\mu_{\min}, \mu_{\max}]},
 	\end{align*}
 	where $\mu, \mu_{\min}, \mu_{\max}$ are fixed values that do not grow with $p$.
 	For the task models, we assume that $\beta_2$ has i.i.d. entries with mean zero and variance $\kappa^2$ and $\beta_1 - \beta_2$ has i.i.d. entries with mean $0$ and variance $d^2$.
-	The following proposition shows that when $n_1$ is large enough compared to $n_2$, $\te(\hat{\beta}^{\MTL})$ is minimized within the family of $\cS_{\mu}$ when $M = \mu\id$.
+	The following proposition shows that when $n_1$ is large enough compared to $n_2$, $\te(\hat{\beta}^{\MTL})$ is minimized approximately within the family of $\cS_{\mu}$ when $M = \mu\id$.
 \end{example}
 
 \begin{proposition}\label{prop_covariate}
 	In the setting of Example \ref{ex_basic}, assume that $d^2 < \sigma^2 / (c_1 p)$ and $c_1 > ??$.
-	As a parameter of $M \in \cS_{\mu}$, we have that $\te(\hat{\beta}_t^{\MTL})$ is minimized when $M = \mu\id$.
+	As a parameter of $M \in \cS_{\mu}$, we have that $(\te(\hat{\beta}_t^{\MTL}))(M)$ as a function of $M$ satisfies that 
+$$ (\te(\hat{\beta}_t^{\MTL}))(\mu \id) \le \inf_{M\in \cal S_{\mu}}(\te(\hat{\beta}_t^{\MTL}))(M) + {\cor\text{some errors}}.$$	
+	%is minimized when $M = \mu\id$.
 \end{proposition}
 
 Proposition \ref{prop_covariate} shows that when $n_1\gg n_2$, $te(\hat{\beta}_t^{\MTL})$ is minimized when $\Sigma_1$ and $\Sigma_2$ are proportional to each other.
