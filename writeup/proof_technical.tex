@@ -1,5 +1,49 @@
 \section{Supplementary Materials for Section \ref{sec_main}}
 
+%To illustrate the idea, we observe that by using Lemma \ref{lem_minv}, we have that
+%\[ \te(\hat{\beta}_t^{\STL}) = \frac{\sigma^2}{n_2 - p}\bigtr{\Sigma_2^{-1}}. \]
+%We shall also derive the limit of $\te(\hat{\beta}_t^{\MTL})$.
+%\todo{write a brief technical overview}
+
+
+Let ${M} = \hat{w} \Sigma_1^{1/2}\Sigma_2^{-1/2}$ denote the weighted covariate shift matrix. Denote by ${\lambda}_1\ge {\lambda}_2 \ge \dots \ge {\lambda}_p$ the singular values of ${M}^{\top}{M}$. Let $(a_1, a_2)$ be the solutions to the following system of equations
+	\be
+		 a_1 + a_2 = 1- \frac{p}{n_1 + n_2},~ a_1 + \sum_{i=1}^p \frac{a_1}{(n_1 + n_2)(a_1 + a_2/ \lambda_i^2)} = \frac{n_1}{n_1 + n_2}.\label{eq_a2} \\
+		 \ee
+		 After obtaining $(a_1,a_2)$, we can solve the following linear equations to get $(a_3,a_4)$:
+\begin{gather}
+		\left(\frac{n_2}{a_2^2}- \sum_{i=1}^p \frac{1}{ (a_2 + \lambda_i^2a_1)^2  }\right) a_3 -  \left(\sum_{i=1}^p \frac{  \lambda_i^2 }{ (  a_2 + \lambda_i^2a_1)^2  }\right)a_4
+		= \sum_{i=1}^p \frac{1 }{ (  a_2 + \lambda_i^2a_1)^2  }, \label{eq_a3} \\
+		\left(\frac{n_1}{a_1^2} -  \sum_{i=1}^p \frac{\lambda_i^4   }{  (a_2 + \lambda_i^2a_1)^2  }\right)a_4 -\left(\sum_{i=1}^p \frac{\lambda_i^2  }{  (a_2 + \lambda_i^2a_1)^2  }\right)a_3
+		= \sum_{i=1}^p \frac{\lambda_i^2 }{  (a_2 + \lambda_i^2a_1)^2  }. \label{eq_a4}
+	\end{gather}
+Then we introduce the following matrix
+$$Z = \frac{n_1^2}{(n_1 + n_2)^2}\cdot{M} \frac{(1 + a_3)\id + a_4 {M}^{\top}{M}}{(a_2 + a_1 {M}^{\top}{M})^2} {M}^{\top},$$
+which can be regarded as the asymptotic limit of $\hat w \Sigma_2^{1/2} (\hat{w}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_1^{1/2}$. Finally we introduce
+$$\delta:=\left[\frac{n_1 \lambda_1}{(\sqrt{n_1}-\sqrt{p})^2\lambda_p  +  (\sqrt{n_2}-\sqrt{p})^2}\right]^2\cdot \norm{\Sigma_1^{1/2}(\beta_s - \hat{w}\beta_t)}^2.$$
+{\cor may be able to get a better bound, but the statement will be long}
+
+We now state our main result for two tasks with both covariate and model shift in the following theorem.
+
+\begin{theorem}\label{thm_model_shift}
+	Let $n_1, n_2$ be the number of data points for the source, target task, respectively.
+	Let $\hat{w}$ denote the optimal solution for the ratio $w_1/w_2$ in equation \eqref{eq_val_mtl}.
+	%Let ${M} = \hat{w} \Sigma_1^{1/2}\Sigma_2^{-1/2}$ denote the weighted covariate shift matrix.
+	%Denote by ${\lambda}_1, {\lambda}_2, \dots, {\lambda}_p$ the singular values of ${M}^{\top}{M}$.
+	The information transfer is solely determined by two deterministic quantities $\Delta_{\beta}$ and $\Delta_{\vari}$, which show the change of model shift bias and variace, respectively.
+	With high probability we have
+	\begin{align}
+	 	\te(\hat{\beta}_{t}^{\MTL}) \le \te(\hat{\beta}_t^{\STL}) \text{ when: } &\Delta_{\vari} - \Delta_{\beta} \ge \left(\bigbrace{1 + \sqrt{\frac{p} {n_1}}}^4 - 1 \right) \delta \label{upper}\\
+		\te(\hat{\beta}_t^{\MTL}) \ge \te(\hat{\beta}_t^{\STL}) \text{ when: } &\Delta_{\vari} - \Delta_{\beta} \le -2\bigbrace{2\sqrt{\frac {p}{n_1}} + \frac{p}{n_1}} \delta, \label{lower}
+	\end{align}
+	where
+	\begin{align*} %\bigtr{{\Sigma_2^{-1}}}
+		\Delta_{\vari} &\define {\sigma^2}\bigbrace{\frac{p}{n_2 - p} -  \frac{1}{n_1 + n_2} \bigtr{(a_1 M^{\top}M + a_2\id)^{-1}} } \\
+		\Delta_{\beta} &\define (\beta_s - \hat{w}\beta_t)^{\top} \Sigma_1^{1/2} Z \Sigma_1^{1/2} (\beta_s - \hat{w}\beta_t).
+	\end{align*}
+\end{theorem}
+
+
 
 \subsection{Proof of Theorem \ref{thm_model_shift}}\label{sec pfmain}
 
@@ -103,59 +147,60 @@ the proof for tighter bound ...........
 {\cor add some arguments with $\e$-net.}
 
 
-\subsection{Proof of Theorem ???}
+\subsection{Proof of Theorem \ref{thm_many_tasks}}\label{app_proof_many_tasks}
 
-\paragraph{Extension to Many Tasks of the Same Covariates}
+%In this section we consider the setting with $k$ many that have the same covariates.
+%Since every task has the same number of data points as well as the same covariance, the only differences between different tasks are their models $\set{\beta_i}_{i=1}^k$.
+%For this setting, we derive solutions for the multi-task training and the transfer learning setting that match our insights qualitatively from Section \ref{sec_denoise}.
 
-In this section we consider the setting with $k$ many that have the same covariates.
-Since every task has the same number of data points as well as the same covariance, the only differences between different tasks are their models $\set{\beta_i}_{i=1}^k$.
-For this setting, we derive solutions for the multi-task training and the transfer learning setting that match our insights qualitatively from Section \ref{sec_denoise}.
-
-Concretely we will consider the following problem.
+For this setting, the problem reduces to the following.
 \begin{align}
 	f(B; W_1, \dots, W_k) = \sum_{i=1}^k \bignorm{X B W_i - Y_i}^2. \label{eq_mtl_same_cov}
 \end{align}
-By fixing $W_1, W_2, \dots, W_k$, we can derive a closed form solution for $B$ as
-\begin{align*}
-	\hat{B}(W_1, \dots, W_k) &= (X^{\top}X)^{-1} X^{\top} \bigbrace{\sum_{i=1}^k Y_i W_i^{\top}} (Z Z^{\top})^{-1} \\
-	&= \sum_{i=1}^k \bigbrace{\beta_i W_i^{\top}} (ZZ^{\top})^{-1} + (X^{\top}X)^{-1}X^{\top} \bigbrace{\sum_{i=1}^k \varepsilon_i W_i^{\top}} (ZZ^{\top})^{-1}
-\end{align*}
-where we denote $Z\in\real^{r\times k}$ as the $k$ vectors $W_1, W_2, \dots, W_k$ stacked together.
-%Now we switch $\hat{B}$ back into equation \eqref{eq_mtl_same_cov} to
-Similar to Section \ref{sec_setup}, we consider minimizing the validation loss over $W_1, W_2, \dots, W_k$ provided with $\hat{B}$.
+In order to prove Theorem \ref{thm_many_tasks}, we will derive a closed form solution for equation \eqref{eq_mtl_same_cov}.
 
-\paragraph{Jointly minimizing over all tasks.}
-Denote by $\varepsilon(W) = \sum_{i=1}^k \varepsilon_i W_i^{\top}$.
-We shall decompose the validation loss $\val(\hat{B}; W_1, \dots, W_k)$ into two parts.
-The first part is the model shift bias, which is equal to
-\begin{align*}
-	\sum_{j=1}^k \bigbrace{\bignorm{\Sigma^{1/2}\bigbrace{\sum_{i=1}^k(\beta_i W_i^{\top}) (ZZ^{\top})^{-1} W_j - \beta_j}}^2}
-\end{align*}
-The second part is the variance, which is equal to
-\begin{align*}
-	& \sum_{j=1}^k \exarg{\varepsilon_i, \forall i}{\bigbrace{\bigbrace{\sum_{i=1}^k \varepsilon_i W_i^{\top}} (ZZ^{\top})^{-1} W_j}^2} \cdot {\bigtr{\Sigma(X^{\top}X)^{-1}}} \\
-	=& \sigma^2 \cdot \bigtr{\Sigma (X^{\top}X)^{-1}}.
-\end{align*}
-Therefore we shall focus on the minimizer for the model shift bias since the variance part does not depend the weights.
-Let us denote $Q\in\real^{k\times k}$ where the $(i,j)$-th entry is equal to $W_i^{\top} (ZZ^{\top})^{-1} W_j$, for any $1\le i, j\le k$.
-Let $B^{\star} = [\beta_1, \beta_2, \dots, \beta_k] \in\real^{p \times k}$ denote the true model parameters.
-We can now write the validation loss succinctly as follows.
-\begin{align*}
-	\val(\hat{B}; W_1, \dots, W_k) = \sum_{j=1}^k \bignorm{\Sigma^{1/2} \bigbrace{B^{\star} Q - \beta_j}}^2 + \sigma^2 \cdot \bigtr{\Sigma (X^{\top}X)^{-1}}
-\end{align*}
-From the above we can solve for $Q$ optimally as \todo{this}.
+\begin{proof}[Proof of Theorem \ref{thm_many_tasks}]
+	By fixing $W_1, W_2, \dots, W_k$, we can derive a closed form solution for $B$ as
+	\begin{align*}
+		\hat{B}(W_1, \dots, W_k) &= (X^{\top}X)^{-1} X^{\top} \bigbrace{\sum_{i=1}^k Y_i W_i^{\top}} (Z Z^{\top})^{-1} \\
+		&= \sum_{i=1}^k \bigbrace{\beta_i W_i^{\top}} (ZZ^{\top})^{-1} + (X^{\top}X)^{-1}X^{\top} \bigbrace{\sum_{i=1}^k \varepsilon_i W_i^{\top}} (ZZ^{\top})^{-1}
+	\end{align*}
+	where we denote $Z\in\real^{r\times k}$ as the $k$ vectors $W_1, W_2, \dots, W_k$ stacked together.
+	%Now we switch $\hat{B}$ back into equation \eqref{eq_mtl_same_cov} to
+	Similar to Section \ref{sec_setup}, we consider minimizing the validation loss over $W_1, W_2, \dots, W_k$ provided with $\hat{B}$.
 
-\paragraph{Minimizing over the target task alone.}
-If we only minimize over the the validation loss for the target task, we shall get the following.
-\begin{align*}
-	\val_j(\hat{B} W_j) = \bignorm{\Sigma^{1/2}\bigbrace{\sum_{i=1}^k W_i^{\top} (ZZ^{\top})^{-1}W_j \beta_i - \beta_j}}^2
-	+ \sigma^2 \cdot W_j^{\top} (ZZ^{\top})^{-1} W_j \cdot \bigtr{\Sigma (X^{\top}X)^{-1}}.
-\end{align*}
-
-From the above we can obtain three conceptual insights that are consistent with Section \ref{sec_denoise} and \ref{sec_insight}.
-\begin{itemize}
-	\item The de-noising effect of multi-task learning.
-	\item Multi-task training vs single-task training can be either positive or negative.
-	\item Transfer learning is better than the other two. And the improvement over multi-task training increases as the model distances become larger.
-\end{itemize}
+	Denote by $\varepsilon(W) = \sum_{i=1}^k \varepsilon_i W_i^{\top}$.
+	We shall decompose the validation loss $\val(\hat{B}; W_1, \dots, W_k)$ into two parts.
+	The first part is the model shift bias, which is equal to
+	\begin{align*}
+		\sum_{j=1}^k \bigbrace{\bignorm{\Sigma^{1/2}\bigbrace{\sum_{i=1}^k(\beta_i W_i^{\top}) (ZZ^{\top})^{-1} W_j - \beta_j}}^2}
+	\end{align*}
+	The second part is the variance, which is equal to
+	\begin{align*}
+		& \sum_{j=1}^k \exarg{\varepsilon_i, \forall i}{\bigbrace{\bigbrace{\sum_{i=1}^k \varepsilon_i W_i^{\top}} (ZZ^{\top})^{-1} W_j}^2} \cdot {\bigtr{\Sigma(X^{\top}X)^{-1}}} \\
+		=& \sigma^2 \cdot \bigtr{\Sigma (X^{\top}X)^{-1}}.
+	\end{align*}
+	Therefore we shall focus on the minimizer for the model shift bias since the variance part does not depend the weights.
+	Let us denote $Q = Z^{\top} (ZZ^{\top})^{-1} Z \in\real^{k\times k}$ where the $(i,j)$-th entry is equal to $W_i^{\top} (ZZ^{\top})^{-1} W_j$, for any $1\le i, j\le k$.
+	Let $B^{\star} = [\beta_1, \beta_2, \dots, \beta_k] \in\real^{p \times k}$ denote the true model parameters.
+	We can now write the validation loss succinctly as follows.
+	\begin{align*}
+		\val(\hat{B}; W_1, \dots, W_k) = \bignormFro{\Sigma^{1/2} \bigbrace{B^{\star} Q - B^{\star}}}^2 + \sigma^2 \cdot \bigtr{\Sigma (X^{\top}X)^{-1}}
+	\end{align*}
+	From the above we can solve for $Q$ optimally as $U_{r}U_r^{\top}$.
+	Furthermore, we can solve $\hat{\beta}_i^{\MTL}$ as $B^{\star} U_r U_r(i)$.
+	Now we get that
+	\begin{align*}
+		\te(\hat{\beta}_t^{\MTL}) &= \bignorm{\Sigma^{1/2}\bigbrace{\sum_{i=1}^k W_i^{\top} (ZZ^{\top})^{-1}W_j \beta_i - \beta_j}}^2
+		+ \sigma^2  W_j^{\top} (ZZ^{\top})^{-1} W_j \cdot \bigtr{\Sigma (X^{\top}X)^{-1}} \\
+		&= \bignorm{\Sigma^{1/2} \bigbrace{B^{\star} U_r U_r(i)}}^2 + \sigma^2\norm{U_r(i)}^2 \cdot \bigtr{\Sigma (X^{\top}X)^{-1}}.
+	\end{align*}
+	By using Lemma \ref{lem_minv}, we conclude the proof.
+\end{proof}
+%From the above we can obtain three conceptual insights that are consistent with Section \ref{sec_denoise} and \ref{sec_insight}.
+%\begin{itemize}
+%	\item The de-noising effect of multi-task learning.
+%	\item Multi-task training vs single-task training can be either positive or negative.
+%	\item Transfer learning is better than the other two. And the improvement over multi-task training increases as the model distances become larger.
+%\end{itemize}
 
