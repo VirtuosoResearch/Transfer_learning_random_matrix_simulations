@@ -297,27 +297,64 @@ for $\al\ge \al_0$, which shows that $\al^*\le \al_0$.
 \subsection{Proofs of Proposition \ref{prop_covariate} and Theoretical justification of Example \ref{ex_covariate}}\label{app_covariate}
 
 \begin{proof}[Proof of Proposition \ref{prop_covariate}]
+Let 
+$$M_0:=\argmin_{M\in \cal S_{\mu}}(\te(\hat{\beta}_t^{\MTL}))(M).$$ 
+We now calculate $(\te(\hat{\beta}_t^{\MTL}))(M_0)$. In this case, as in Lemma \ref{lem_hat_v} we also have that 
+\be\label{hatvM}|\hat v-1|=\OO(p^{-1}) \ee 
+in the setting Proposition \ref{prop_covariate}. In fact, Lemma \ref{lem_hat_v} was proved assuming that $M=\id$, but its proof can be easily extended to the case with general $M\in \cal S_{\mu}$ by using that $\lambda(M)\in [\mu_{\min},\mu_{\max}]$. We omit the details here. 
 
-......... We have that the test error satisfies
-\be\label{approxteM}  te(M)\left(1 -  \frac{n_2}{n_1-p} \frac{1}{\lambda_p^2 + \frac{n_2}{n_1-p}}\right)  \le  \frac{\sigma^2}{n_1+n_2}\tr\left( \frac{1}{a_1M^\top M + a_2}\right) \le te(M),\ee
-where $\lambda_p$ is the smallest singular value of $p$ and
-$$te(M):= \frac{\sigma^2}{a_1(n_1+n_2)}\tr\left( \frac{1}{M^\top M}\right) .$$
-Moreover, for all $M$ satisfying \eqref{GMcons}, the minimum of $te(M)$ is attained when $M= a\id$.
-
-
+Now using \eqref{hatvM}, Lemma \ref{lem_cov_shift} and Lemma \ref{prop_model_shift_tight}, we get that whp,
+\begin{align*}
+(\te(\hat{\beta}_t^{\MTL}))(M_0)= \frac{\sigma^2}{c_1+c_2}\cdot \frac1p\tr\left( \frac{1}{a_1M_0^\top M_0 + a_2}\right)  + \Delta_\beta(M_0),
+\end{align*}
+where  $ \Delta_{\beta}(M_0)$ satisfies 
+\be \nonumber
+\begin{split}
+&\left| \Delta_{\beta}(M_0) - \frac{d^2\cdot c_1^2}{(c_1 + c_2)^2} \tr\left[{M_0} \frac{(1 + a_3)\id + a_4 {M_0}^{\top}{M_0}}{(a_2 + a_1 {M_0}^{\top}{M_0})^2} {M_0}^{\top}\right]\right| \\
+&\le \left(\bigbrace{1 + \sqrt{\frac{1}{c_1}}}^4-1\right)\left( \frac{c_1\mu_{\max}}{(\sqrt{c_1}-1)^2 \mu_{\min} + (\sqrt{c_2}-1)^2}\right)^2 \cdot d^2\tr\left(\Sigma_1\right). 
+\end{split}
+\ee
 From equation \eqref{eq_a2}, we get
-$$a_1\ge \frac{n_1-p}{n_1+n_2},\quad a_2\le \frac{n_2}{n_1+n_2}.$$
-With these two bounds, we can easily conclude \eqref{approxteM}. Then solving equations \eqref{eq_a3} and \eqref{eq_a4}, we get that
+$$a_1\ge \frac{c_1-1}{c_1+c_2},\quad a_2\le \frac{c_2}{c_1+c_2}.$$
+Then solving equations \eqref{eq_a3} and \eqref{eq_a4}, we get that
 \begin{align*}
-a_3= \frac{ \frac{1}{n_2}\sum_{i=1}^p \frac{a_2^2 }{ (  a_2 + \lambda_i^2a_1)^2  }\left(1 - \frac{1}{n_1} \sum_{i=1}^p \frac{\lambda_i^4 a_1^2  }{  (a_2 + \lambda_i^2a_1)^2  }\right) +\left( \frac{1}{n_1}\sum_{i=1}^p \frac{\lambda_i^2 a_1^2}{  (a_2 + \lambda_i^2a_1)^2  }\right) \left(\frac{1}{n_2}\sum_{i=1}^p \frac{  \lambda_i^2 a_2^2 }{ (  a_2 + \lambda_i^2a_1)^2  }\right) } {\left(1- \frac1{n_2}\sum_{i=1}^p \frac{a_2^2}{ (a_2 + \lambda_i^2a_1)^2  }\right) \left(1 - \frac{1}{n_1} \sum_{i=1}^p \frac{\lambda_i^4 a_1^2  }{  (a_2 + \lambda_i^2a_1)^2  }\right) - \left(\frac{1}{n_2}\sum_{i=1}^p \frac{  \lambda_i^2 a_2^2 }{ (  a_2 + \lambda_i^2a_1)^2  }\right) \left(\frac{1}{n_1}\sum_{i=1}^p \frac{\lambda_i^2 a_1^2 }{  (a_2 + \lambda_i^2a_1)^2  }\right)} ,
+0\le a_3&= \frac{ \frac{1}{n_2}\sum_{i=1}^p \frac{a_2^2 }{ (  a_2 + \lambda_i^2a_1)^2  }\left(1 - \frac{1}{n_1} \sum_{i=1}^p \frac{\lambda_i^4 a_1^2  }{  (a_2 + \lambda_i^2a_1)^2  }\right) +\left( \frac{1}{n_1}\sum_{i=1}^p \frac{\lambda_i^2 a_1^2}{  (a_2 + \lambda_i^2a_1)^2  }\right) \left(\frac{1}{n_2}\sum_{i=1}^p \frac{  \lambda_i^2 a_2^2 }{ (  a_2 + \lambda_i^2a_1)^2  }\right) } {\left(1- \frac1{n_2}\sum_{i=1}^p \frac{a_2^2}{ (a_2 + \lambda_i^2a_1)^2  }\right) \left(1 - \frac{1}{n_1} \sum_{i=1}^p \frac{\lambda_i^4 a_1^2  }{  (a_2 + \lambda_i^2a_1)^2  }\right) - \left(\frac{1}{n_2}\sum_{i=1}^p \frac{  \lambda_i^2 a_2^2 }{ (  a_2 + \lambda_i^2a_1)^2  }\right) \left(\frac{1}{n_1}\sum_{i=1}^p \frac{\lambda_i^2 a_1^2 }{  (a_2 + \lambda_i^2a_1)^2  }\right)} \\
+&\le \frac{c_2^{-1}}{1-c_1^{-1}-c_2^{-1}}
 \end{align*}
+and
 \begin{align*}
-a_4= \frac{\frac{1}{n_1}\sum_{i=1}^p \frac{\lambda_i^2 a_1^2}{  (a_2 + \lambda_i^2a_1)^2  }}{\left(1- \frac1{n_2}\sum_{i=1}^p \frac{a_2^2}{ (a_2 + \lambda_i^2a_1)^2  }\right) \left(1 - \frac{1}{n_1} \sum_{i=1}^p \frac{\lambda_i^4 a_1^2  }{  (a_2 + \lambda_i^2a_1)^2  }\right) - \left(\frac{1}{n_2}\sum_{i=1}^p \frac{  \lambda_i^2 a_2^2 }{ (  a_2 + \lambda_i^2a_1)^2  }\right) \left(\frac{1}{n_1}\sum_{i=1}^p \frac{\lambda_i^2 a_1^2 }{  (a_2 + \lambda_i^2a_1)^2  }\right)} ,
+0\le a_4&= \frac{\frac{1}{n_1}\sum_{i=1}^p \frac{\lambda_i^2 a_1^2}{  (a_2 + \lambda_i^2a_1)^2  }}{\left(1- \frac1{n_2}\sum_{i=1}^p \frac{a_2^2}{ (a_2 + \lambda_i^2a_1)^2  }\right) \left(1 - \frac{1}{n_1} \sum_{i=1}^p \frac{\lambda_i^4 a_1^2  }{  (a_2 + \lambda_i^2a_1)^2  }\right) - \left(\frac{1}{n_2}\sum_{i=1}^p \frac{  \lambda_i^2 a_2^2 }{ (  a_2 + \lambda_i^2a_1)^2  }\right) \left(\frac{1}{n_1}\sum_{i=1}^p \frac{\lambda_i^2 a_1^2 }{  (a_2 + \lambda_i^2a_1)^2  }\right)} \\
+&\le  \frac{c_1^{-1}\cdot \mu_{\min}^{-2}}{1-c_1^{-1}-c_2^{-1}},
 \end{align*}
+where we also used that 
+$$\left(\sum_{i=1}^p \frac{\lambda_i^2  }{  (a_2 + \lambda_i^2a_1)^2  }\right)^2 \le \sum_{i=1}^p \frac{\lambda_i^4 }{  (a_2 + \lambda_i^2a_1)^2  }\cdot \sum_{i=1}^p \frac{1}{  (a_2 + \lambda_i^2a_1)^2  }$$
+by Cauchy-Schwarz inequality.
 
-For the second statement, we find that we need to minimize
-$$\tr\left( \frac{1}{M^\top M}\right) = \sum_{i=1}^p\frac{1}{\lambda_i},\quad \text{under}\ \ \prod_{i=1}^p\lambda_i=a^p.$$
-Then using AM-GM inequality, we conclude that the sum $\sum_{i=1}^p\lambda_i^{-1}$ is smallest when $\lambda_1=\cdots=\lambda_p = a$.
+Combining the above estimates, we get that 
+\begin{align}\label{approximateteM}
+(\te(\hat{\beta}_t^{\MTL}))(M_0) =  \te(M_0) + \cal E,
+\end{align}
+where
+$$\te(M_0):=\frac{\sigma^2}{c_1+c_2}\cdot \frac1p\tr\left( \frac{1}{a_1M_0^\top M_0}\right)  +\frac{d^2\cdot c_1^2}{(c_1 + c_2)^2} \tr\left(\frac{1 + a_3}{a_1^2 M_0^{\top}{M_0}} \right),$$
+and the error satisfies
+$$|\cal E|\le C\left( \frac{c_2}{c_1} +c_1^{-1/2}\right)\te(M_0),$$
+Here the constant $C>0$ depends only on $\mu_{\max}$, $\mu_{\min}$ and $\|\Sigma_1\|$, but otherwise does not depend on $c_1$ and $c_2$. 
+
+%With these two bounds, we can easily conclude \eqref{approxteM}. 
+%
+%We have that the test error satisfies
+%\be\label{approxteM}  te(M)\left(1 -  \frac{n_2}{n_1-p} \frac{1}{\lambda_p^2 + \frac{n_2}{n_1-p}}\right)  \le  \frac{\sigma^2}{n_1+n_2}\tr\left( \frac{1}{a_1M^\top M + a_2}\right) \le te(M),\ee
+%where $\lambda_p$ is the smallest singular value of $p$ and
+%$$te(M):= \frac{\sigma^2}{a_1(n_1+n_2)}\tr\left( \frac{1}{M^\top M}\right) .$$
+%Moreover, for all $M$ satisfying \eqref{GMcons}, the minimum of $te(M)$ is attained when $M= a\id$.
+
+
+Finally using AM-GM inequality, we observe that 
+$$\tr\left( \frac{1}{M^\top M}\right) = \sum_{i=1}^p\frac{1}{\lambda_i}$$
+is minimized when $\lambda_1 = \cdots\lambda_p=\mu$ under the restriction $\prod_{i=1}^p\lambda_i\le \mu^p$. Hence we get that 
+$$ \te (M_0)\le \te(\mu \id).$$
+Together with \eqref{approximateteM}, we conclude \eqref{formular_covariate0}.
+%, we conclude that the sum $\sum_{i=1}^p\lambda_i^{-1}$ is smallest when $\lambda_1=\cdots=\lambda_p = a$.
 \end{proof}
 
 \begin{proof}[Theoretical justification of Example \ref{ex_covariate}]
