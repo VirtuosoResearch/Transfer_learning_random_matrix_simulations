@@ -4,7 +4,7 @@ We illustrate our main results (to be presented in Section \ref{sec_main}) by co
 We show that our results explain several phenomenon that cannot be explained before.
 \todo{list those here}
 
-\subsection{Task Model Similarity versus Noise}
+\subsection{Task Model Similarity versus Noise}\label{sec_dist}
 
 We compare the test error of $\hat{\beta}_t^{\MTL}$ to that of $\hat{\beta}_t^{\STL}$.
 For a simple example, we show that whether $\hat{\beta}_t^{\MTL}$ performs better than $\hat{\beta}_t^{\STL}$ is determined by the distance of the task models.
@@ -49,15 +49,15 @@ The proof can be found in Appendix \ref{app_proof_31}, which is based on our mai
 	\end{subfigure}\hfill
 	\begin{subfigure}[b]{0.31\textwidth}
 		\centering
-		\includegraphics[width=0.98\textwidth]{figures/model_shift_phase_transition.eps}
-		\caption{Source task noise level}
+		\includegraphics[width=0.98\textwidth]{figures/datapoints_phase_transition.eps}
+		\caption{\# Source task datapoints}
 	\end{subfigure}\hfill
 	\begin{subfigure}[b]{0.31\textwidth}
 		\centering
-		\includegraphics[width=0.98\textwidth]{figures/datapoints_phase_transition.eps}
-		\caption{\# Source task datapoints}
+		\includegraphics[width=0.98\textwidth]{figures/complementary.eps}
+		\caption{Same vs. Diff. covariances}
 	\end{subfigure}
-	\caption{Comparing the test error of multi-task learning to single-task learning: we observe transitions from positive to negative transfer as a parameter of: (a) Task model similarities (Proposition \ref{prop_dist_transition}); (b) Source task noise level (Proposition \ref{prop_var_transition}); (c) Source task datapoints (Proposition \ref{prop_data_size}).}
+	\caption{Comparing the test error of multi-task learning to single-task learning: we observe transitions from positive to negative transfer. (a) Section \ref{sec_dist}: Task model similarities; (b) Section \ref{sec_data}: Source task noise level; (c) Section \ref{sec_covariate}: \todo{covariate shift}.}
 	\label{fig_model_shift_phasetrans}
 \end{figure}
 
@@ -75,7 +75,7 @@ We derive a sharp transition similar to Proposition \ref{prop_dist_transition}.
 
 \textbf{Implications.} \todo{add connection to tasksonomy}
 
-\subsection{Data Size and Efficiency}
+\subsection{Data Size and Efficiency}\label{sec_data}
 
 In classical Rademacher or VC based theory of multi-task learning, adding more labeled data improves the generalization performance of a model.
 On the other hand, we have observed that adding more labeled data does not always improve performance in multi-task learning.
@@ -121,7 +121,7 @@ The proof of Proposition \ref{prop_data_efficiency} can be found in Appendix \re
 
 
 
-\subsection{Covariate Shift}
+\subsection{Covariate Shift}\label{sec_covariate}
 
 So far we have considered settings where $\Sigma_1 = \Sigma_2$.
 This setting is relevant for multi-class image classification settings, where different tasks share the same input features.
@@ -180,14 +180,14 @@ To complement the result, we show an example when the statement is not true if $
 
 A theoretical justification of Example \ref{ex_covariate} can be found in Appendix \ref{app_covariate}.
 
-\begin{figure}
-	\begin{minipage}{0.48\textwidth}
-		\centering
-		\includegraphics[width=0.9\textwidth]{figures/complementary.eps}
-		\caption{When $\Sigma_1$ and $\Sigma_2$ are complementary. The number of target task data points is $n_2 = 4p$.}
-		\label{fig_te_complement}
-	\end{minipage}
-\end{figure}
+%\begin{figure}
+%	\begin{minipage}{0.48\textwidth}
+%		\centering
+%		\includegraphics[width=0.9\textwidth]{figures/complementary.eps}
+%		\caption{When $\Sigma_1$ and $\Sigma_2$ are complementary. The number of target task data points is $n_2 = 4p$.}
+%		\label{fig_te_complement}
+%	\end{minipage}
+%\end{figure}
 
 \textbf{Implications.}
 
