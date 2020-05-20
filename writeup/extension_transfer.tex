@@ -1,3 +1,4 @@
+
 \section{Extension to Transfer Learning}
 
 We study the transfer function of taskonomy \cite{ZSSGM18}.
@@ -6,3 +7,51 @@ First, we obtain the single-task estimator $\hat{\beta}_i$ from every task, for 
 This forms the shared representation $B$ in Algorithm \ref{alg_estimator}.
 Then, we learn the output layer on the target task.
 We use our tools to analyze this setting as follows.
+
+The projection of $\beta_t$ onto the subspace spanned by $(\beta_1,\cdots, \beta_k)$ is 
+$$\hat \beta_t = \sum_{i=1}^k\frac{\beta_t^\top \beta_i}{\|\beta_i\|} \beta_i .$$
+On the other hand, the single task estimator $\hat\beta_i$ is given by 
+$$\hat \beta_i = \beta_i + (X_i^\top X_i)^{-1}X_i \e_i.$$
+Then the projection of $\beta_t$ onto the subspace spanned by $(\hat\beta_1,\cdots, \hat\beta_k)$ is 
+$$ \hat \beta_t'= \sum_{i=1}^k\frac{\beta_t^\top \hat \beta_i}{\|\hat \beta_i\|} \hat \beta_i .$$
+We now calculate the estimation error $ \exarg{\varepsilon_i, \forall 1\le i\le k} {\|\hat \beta_t - \hat\beta_t'\|^2}.$ Without loss of generality, we assume that $\|\beta_i\|^2 \sim 1$ for all $1\le i \le k$ and $\sigma^2\le n^{-c}$ for some constant $c>0$. Then we calculate that
+\begin{align*}
+\|\hat\beta_i\|^2 &= \|\beta_i\|^2 + 2\beta_t^\top\cdot (X_i^\top X_i)^{-1}X_i \e_i + \|(X_i^\top X_i)^{-1}X_i \e_i \|^2 .
+\end{align*}
+We can use concentration of random vector with independent entries, Lemma \ref{largedeviation}, to get that for any $\e>0$,
+\be\label{largebetae}
+\beta_t^\top (X_i^\top X_i)^{-1}X_i \e_i  \le p^{\e/2}\cdot \sigma \left[\beta_t^\top (X_i^\top X_i)^{-1}\beta_t \right]^{1/2}\le \sigma p^{-1/2+\e},  
+\ee
+with high probability, and 
+\be\label{largebetae2}
+\begin{split}
+ \|(X_i^\top X_i)^{-1}X_i \e_i \|^2 - \sigma^2 \tr\left( (X_i^\top X_i)^{-1} \right)   \le p^{\e/2}\cdot \sigma^2 \left\{\tr\left[X_i^\top (X_i^\top X_i)^{-2}X_i\right]^2\right\}^{1/2} \\
+ = p^{\e/2}\cdot \sigma^2 \left[ \tr (X_i^\top X_i)^{-2} \right]^{1/2} \le \sigma^2 p^{-1/2+\e},  
+ \end{split}
+\ee
+with high probability, where we used Theorem \ref{LEM_SMALL} to get that
+$$\beta_t^\top (X_i^\top X_i)^{-1}\beta_t  \le p^{-1+\e/2} \quad \text{and}\quad \tr \left[ (X_i^\top X_i)^{-2} \right]  \le p^{-1+\e/2} \quad \text{whp}.$$
+Thus we get that with high probability,
+\begin{align}
+\|\hat\beta_i\|^2&= \|\beta_i\|^2 + \sigma^2\cdot \tr \left( (X_i^\top X_i)^{-1}\right) +\OO(\sigma p^{-1/2+\e}) \nonumber\\
+&=  \|\beta_i\|^2 + \frac{\sigma^2}{c_i-1}\cdot \frac1p\tr \left(\Sigma_i^{-1}\right) +\OO(\sigma p^{-1/2+\e}) ,\label{betanormi}
+\end{align}
+where in the second step we used Lemma \ref{lem_minv}.
+
+For simplicity we abbreviate $v_i:=(X_i^\top X_i)^{-1}X_i \e_i$. Then using \eqref{largebetae} and \eqref{betanormi} we can calculate that whp,
+\begin{align*}
+&\|\hat \beta_t - \hat\beta_t'\|^2= \left\|\sum_{i=1}^k\frac{\beta_t^\top \beta_i}{\|\beta_i\|} \beta_i - \sum_{i=1}^k\frac{\beta_t^\top (\beta_i + v_i)}{ \|\beta_i +v_i\| }(\beta_i + v_i) \right\|^2 \\
+&=  \left\|\sum_{i=1}^k\left(\frac{\beta_t^\top \beta_i}{\|\beta_i\|}-\frac{\beta_t^\top \beta_i}{\|\beta_i+v_i\|} \right)\beta_i - \sum_{i=1}^k\frac{\beta_t^\top \beta_i }{ \|\beta_i+v_i\| } v_i - \sum_{i=1}^k\frac{\beta_t^\top v_i}{ \|\beta_i +v_i\| } (\beta_i+v_i) \right\|^2 \\
+%& = \left\|\sum_{i=1}^k\frac{\beta_t^\top \beta_i}{\|\beta_i\|}\left(1-\frac{\|\beta_i\|}{(\|\beta_i\|^2 + 2\beta_i^\top v_i + \|v_i\|^2)^{1/2}} \right)\beta_i - \sum_{i=1}^k\frac{\beta_t^\top \beta_i }{ \|\beta_i\|+\OO(\sigma^2 + \sigma p^{-1/2+\e}) } v_i\right\|^2 + \OO\left(\sigma^2 p^{-1+2\e}\right) \\
+%&= \left\|\sum_{i=1}^k\frac{\beta_t^\top \beta_i}{\|\beta_i\|}\frac{2\beta_i^\top v_i + \|v_i\|^2}{2\|\beta_i\|^2}\beta_i \right\|^2+\left\| \sum_{i=1}^k\frac{\beta_t^\top \beta_i }{ \|\beta_i\|} v_i\right\|^2 + \OO\left(\sigma^4+\sigma^2 p^{-1+2\e}\right)
+&= \left\| \sum_{i=1}^k\frac{\beta_t^\top \beta_i }{ \|\beta_i\|} v_i\right\|^2 + \OO\left(\sigma^4+\sigma^2 p^{-1+2\e}\right).
+\end{align*}
+Thus taking expectation, we get that 
+\begin{align*}
+\exarg{\varepsilon_i, \forall 1\le i\le k} {\|\hat \beta_t - \hat\beta_t'\|^2}&=   \sum_{i=1}^k\frac{\left|\beta_t^\top \beta_i \right|^2}{ \|\beta_i\|^2 } \cdot \sigma^2 \tr \left( (X_i^\top X_i)^{-1}\right) + \OO\left(\sigma^4+\sigma^2 p^{-1+2\e}\right) \\
+ &= \sum_{i=1}^k\frac{\left|\beta_t^\top \beta_i \right|^2}{ \|\beta_i\|^2 } \cdot \frac{\sigma^2}{c_i-1}\cdot \frac1p\tr \left(\Sigma_i^{-1}\right) + \OO\left(\sigma^4+\sigma^2 p^{-1/2+2\e}\right) .
+\end{align*}
+Note the first term is of order $\sigma^2$, and hence the second stem is an error term.
+
+
+
