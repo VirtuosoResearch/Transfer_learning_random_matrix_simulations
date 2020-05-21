@@ -11,10 +11,10 @@ For a simple example, we show that whether $\hat{\beta}_t^{\MTL}$ performs bette
 We derive a sharp threshold when positive transfer transitions to negative transfer, as a ratio between the model distance and the noise level.
 
 \begin{example}\label{ex_basic}
-	Consider a setting where $\Sigma_1 = \Sigma_2 = \id$, in other words there is no covariate shift between the two tasks.
+	Consider a setting where $\Sigma_1 = \Sigma_2 = \id$, in other words there is no covariate shift between the two tasks. For the noises, we assume that $\e_i$ has i.i.d. entries with mean zero and variances $\sigma_i^2$, $i=1,2$. 
 	For the task models, suppose that $\beta_2$ has i.i.d. entries with mean zero and variance $\kappa^2$ and $\beta_1 - \beta_2$ also has i.i.d. entries with mean $0$ and variance $d^2$.
 	%The noise level for both tasks is equal to $\sigma > 0$.
-	We have $n_i = c_i \cdot p$ data points from each task, for $i = 1, 2$.
+	We have $n_i = c_i \cdot p$ data points from each task, for $i = 1, 2$. For simplicity, we assume that all the random variables have subexponential decay, while keeping in mind that our results can be applied under weaker moments assumptions as shown in the supplementary material. 
 \end{example}
 
 We illustrate the example in a synthetic setting.
@@ -27,13 +27,15 @@ Figure \ref{fig_model_shift_phasetrans} shows the result.
 
 Specifically, the transition threshold is derived in the following proposition.
 \begin{proposition}\label{prop_dist_transition}
-	In the setting of Example \ref{ex_basic} with $\sigma_1 = \sigma_2 = \sigma$, assume that $c_1 > 100$ is a fixed constant.
+	In the setting of Example \ref{ex_basic} with $\sigma_1 = \sigma_2 = \sigma$, assume that $c_1 > 110$ is a fixed constant.
 	Whether $\te(\hat{\beta}_t^{\MTL})$ is lower than $\te(\hat{\beta}_t^{\STL})$ is determined by the ratio between the model distance and the noise level:
 	\begin{itemize}
 		\item If ${d^2} < \frac {2\sigma^2} {3p} \frac{(c_1 + c_2 -1)^2}{c_1 (c_1 + c_2)(c_2 - 1)}$, then whp we have that $\te(\hat{\beta}_t^{\MTL}) < \te(\hat{\beta}_t^{\STL})$.
 		\item If ${d^2} \ge \frac {3\sigma^2} {2p} \frac{(c_1 + c_2 -1)^2}{c_1(c_1 + c_2)(c_2 - 1)} $, then whp we have that $\te(\hat{\beta}_t^{\MTL}) \ge \te(\hat{\beta}_t^{\STL})$.
 	\end{itemize}
 \end{proposition}
+
+Here the constants $\frac23$ and $\frac32$ in this proposition (and the following ones) can be replaced with $(1+c_1^{-1/2})^{-4}$ and $(1-c_1^{-1/2})^{-4}$. In particular, these bounds becomes tighter as $c_1$ increases.
 
 The proof of Proposition \ref{prop_dist_transition} involves two parts.
 First, adding the source task has a positive effect of reducing the variance of the estimator, which scales with $n_1 = c_1 p$, the number of source task data points.
@@ -66,7 +68,7 @@ Consider a more general setting where the noise level $\sigma_1$ of task $1$ dif
 We derive a sharp transition similar to Proposition \ref{prop_dist_transition}.
 
 \begin{proposition}\label{prop_var_transition}
-	In the setting of Example \ref{ex_basic} with $d$ being fixed but $\sigma_1$ varies, assume that $c_1 > 100$ is a fixed constant and $d^2 < \frac {2\sigma^2} {3p} \frac{(c_1 + c_2 -1)^2}{c_1 (c_1 + c_2)(c_2 - 1)}$. Then we derive the following transition as a parameter of $\sigma_1$:
+	In the setting of Example \ref{ex_basic} with $d$ being fixed but $\sigma_1$ varies, assume that $c_1 > 110$ is a fixed constant and $d^2 < \frac {2\sigma_2^2} {3p} \frac{(c_1 + c_2 -1)^2}{c_1 (c_1 + c_2)(c_2 - 1)}$, i.e. we have positive transfer when $\sigma_1=\sigma_2$. Then we derive the following transition as a parameter of $\sigma_1$:
 	\begin{itemize}
 		\item If $\sigma_1^2 \le p d^2 \cdot c_1 +\left[1+ \frac23\frac{(c_1 + c_2 - 1)^2}{(c_1 + c_2) (c_2 - 1)}\right]\cdot\sigma_2^2$, then whp $\te(\hat{\beta}_t^{\MTL}) < \te(\hat{\beta}_t^{\STL})$.
 		\item If $\sigma_1^2 > p d^2 \cdot c_1 +\left[1+ \frac32\frac{(c_1 + c_2 - 1)^2}{(c_1 + c_2) (c_2 - 1)}\right] \cdot \sigma_2^2$, then whp $\te(\hat{\beta}_t^{\MTL}) > \te(\hat{\beta}_t^{\STL})$.
@@ -86,7 +88,7 @@ Using Example \ref{ex_basic}, we analyze the effect of varying the source task d
 	\begin{itemize}
 \item If $d^2 \le (1 + a^{-1/2})^{-4}\frac{\sigma^2}{p(c_2-1)}$, then whp $\te(\hat{\beta}_t^{\MTL}) < \te(\hat{\beta}_t^{\STL})$. 
 		 
-\item If $d^2 > (1 - a^{-1/2})^{-4}\frac{\sigma^2}{p (c_2 - 1)}$, then we have the following transition depending on $c_1$:
+\item If $d^2 > (1 - a^{-1/2})^{-4}(1-(a+c_2-2)^{-2})^{-1}\frac{\sigma^2}{p (c_2 - 1)}$, then we have the following transition depending on $c_1$:
 		\begin{itemize}
 			\item If $c_1 < \frac{(c_2-2)\sigma^2}{(1+a^{-1/2})^4(c_2 - 1) pd^2 - \sigma^2}$, then whp $\te(\hat{\beta}_t^{\MTL}) < \te(\hat{\beta}_t^{\STL})$.
 			\item If $c_1 > \frac{(c_2-2) \sigma^2}{(1-a^{-1/2})^4(1-(a+c_2-2)^{-2})(c_2 - 1) pd^2 - \sigma^2}$, then whp $\te(\hat{\beta}_t^{\MTL}) > \te(\hat{\beta}_t^{\STL})$.
@@ -131,7 +133,7 @@ In this part, we use our tools to provide a case study on the effect of applying
 For this setting, covariate shift is captured by the matrix $M = \Sigma_1^{1/2} \Sigma_2^{-1/2}$.
 We ask: is it better to have $M$ as being close to identity, or should $M$ involve varying levels of singular values?
 Understanding this question has implications for applying normalization methods in multi-task learning \cite{LV19,CBLR18,YKGLHF20}.
-Our result shows that if $n_1$ is much larger than $n_2$, then the optimal $M$ matrix is equal to identity, under certain assumptions on its range of singular values (to be formulated in Proposition \ref{prop_covariate}).
+Our result shows that if $n_1$ is much larger than $n_2$, then the optimal $M$ matrix should be proportional to identity, under certain assumptions on its range of singular values (to be formulated in Proposition \ref{prop_covariate}).
 On the other hand, if $n_1$ is comparable or even smaller than $n_2$, we show an example where having ``complementary'' covariance matrices is better performing than having the same covariance matrices.
 
 \begin{example}\label{ex_cov_family}
@@ -147,7 +149,8 @@ On the other hand, if $n_1$ is comparable or even smaller than $n_2$, we show an
 
 \begin{proposition}\label{prop_covariate}
 	In the setting of Example \ref{ex_basic}, assume that $c_1 > 3$ and $c_2>3$,
-and $\|\Sigma_1\|\le C_1$ for some constant $C_1>0$. As a parameter of $M \in \cS_{\mu}$, we have that $(\te(\hat{\beta}_t^{\MTL}))(M)$ as a function of $M$ satisfies that 
+and $\|\Sigma_1\|\le C_1$ for some constant $C_1>0$. %As a parameter of $M \in \cS_{\mu}$, 
+We have that $(\te(\hat{\beta}_t^{\MTL}))(M)$ as a function of $M\in \cS_{\mu}$ satisfies that 
 \be\label{formular_covariate0} (\te(\hat{\beta}_t^{\MTL}))(\mu \id) \le \left[1+ C\left(c_2c_1^{-1} + c_1^{-1/2}\right)\right]\cdot\min_{M\in \cal S_{\mu}}(\te(\hat{\beta}_t^{\MTL}))(M) ,\ee
 where the constant $C>0$ depends only on $\mu_{\max}$, $\mu_{\min}$ and $C_1$, but otherwise does not depend on $c_1$ and $c_2$. 
 	%is minimized when $M = \mu\id$.

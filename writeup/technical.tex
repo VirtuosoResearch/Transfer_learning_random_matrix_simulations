@@ -8,7 +8,7 @@ One part captures how similar the task models are and the other part captures th
 Compared with $\hat{\beta}_t^{\STL}$, we observe that the variance part of $\hat{\beta}_t^{\MTL}$ gets reduced, since more data is added from source tasks.
 The bias part of $\hat{\beta}_t^{\MTL}$, which we term as \textit{model shift bias}, affects performance negatively.
 We derive the asympotic limit of $\te(\hat{\beta}_t^{\MTL})$ as $p$ approaches infinity.
-We compare it with the asympotic limit of $\te(\hat{\beta}_t{\STL})$, for settings where the target data size is limited.
+We compare it with the asympotic limit of $\te(\hat{\beta}_t^{\STL})$, for settings where the target data size is limited.
 We show sharp generalization bounds for two settings: i) two tasks with general covaraites; ii) many tasks with the same covariates.
 
 \subsection{Two Tasks with General Covariance Matrices}
@@ -19,7 +19,7 @@ For the case of two tasks, we decompose the test error of $\hat{\beta}_{t}^{\MTL
 	&+ \sigma^2\cdot \bigtr{(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2}, \label{eq_te_model_shift}
 \end{align}
 where $\hat{v}$ denotes the ratio of the output layer weights (to be defined more precisely in Appendix \ref{app_proof_main}).
-It is not hard to show that the variance of $\hat{\beta}_t^{\MTL}$ is reduced compared to $\hat{\beta}_t^{\STL}$, i.e. %(following the argument of Proposition \ref{prop_monotone}), i.e.
+It is not hard to see that the variance of $\hat{\beta}_t^{\MTL}$ is reduced compared to $\hat{\beta}_t^{\STL}$, i.e. %(following the argument of Proposition \ref{prop_monotone}), i.e.
 \[ \bigtr{(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2} \le \bigtr{(X_2^{\top}X_2)^{-1}\Sigma_2}. \]
 Because of model shift bias, we can no longer guarantee that $\te(\hat{\beta}_{t}^{\MTL}) \le \te(\hat{\beta}_t^{\STL})$.
 %The main result of this section show deterministic conditions under which we get positive or negative transfer.
@@ -30,7 +30,7 @@ A key highlight of our approach implies a precise limit on $\bigtr{(X_1^{\top}X_
 \begin{theorem}\label{thm_main_informal}
 	Let $X_i \in\real^{n_i \times p}$ and $Y_i = X_i\beta_i + \varepsilon_i$, for $i = 1, 2$.
 	Suppose that $n_1 = c_1 p$ and $n_2 = c_2 p$, where $c_1>1$ and $c_2 >1$ are fixed constants.
-	There exists two deterministic functions $\Delta_{\beta}$ and $\Delta_{\vari}$ that only depends on $\set{\hat{v}, M, n_1, n_2, \beta_1, \beta_2}$ such that
+	There exists two deterministic functions $\Delta_{\beta}$ and $\Delta_{\vari}$ and a small deterministic error $\delta$ that only depend on $\set{\hat{v}, M, n_1, n_2, \beta_1, \beta_2}$ such that
 	\begin{itemize}
 		\item If $\Delta_{\vari} - \Delta_{\beta} \ge \delta$, then whp $\te(\hat{\beta}_t^{\MTL}) < \te(\hat{\beta}_t^{\STL})$.
 		\item If $\Delta_{\vari} - \Delta_{\beta} \le \delta$, then whp $\te(\hat{\beta}_t^{\MTL}) > \te(\hat{\beta}_t^{\STL})$.
