@@ -2,29 +2,37 @@
 
 %Multi-task learning is an inductive learning mechanism to improve generalization performance using related task data.
 %Many state-of-the-art results in computer vision and natural language processing are obtained using multi-task learning.
-In multi-task learning, having related task data is fundamental to its performance.
-Multi-task learning is particularly powerful when there is limited labeled data for a task to be solved, meanwhile more labeled data from different but related tasks is available.
-For example, many applications in computer vision \cite{ZSSGM18}, natural language processing \cite{MTDNN19}, and many other areas have been achieved by learning from multiple tasks together.
-In spite of these promising empirical results, multi-task learning is not well-understood because of the prevalence of \textit{negative transfer} -- when the trained multi-task model performs worse than single-task learning for the target task.
-\todo{transition}
-In this work, we present a theoretical study to better understand when multi-task learning works better than single-task learning. % for learning from multiple linear regression tasks.
-\todo{practical insight}
+Multi-task learning has recently found many applications in computer vision \cite{chexnet17,ZSSGM18}, natural language processing \cite{MTDNN19} and numerous other areas \cite{R17,ZY17}.
+%In multi-task learning, having related task data is fundamental to its performance.
+%Multi-task learning is particularly powerful when there is limited labeled data for a task to be solved, meanwhile more labeled data from different but related tasks is available.
+By learning from related information sources, models that are trained using multi-task learning can share information across different data \cite{C97}.
+%For example, many applications in , and many other areas have been achieved by learning from multiple tasks together.
+At the same time, negative results have also been reported in the literature \cite{AP16,BS17}, where training a multi-task model performs worse for predicting a task compared to learning the task in isolation (single-task learning).
+This phenomenon, known as \textit{negative transfer}, is fundamental to the understanding of multi-task learning.
+%\todo{transition}
+In this work, we provide a formal study to better understand when and why negative transfer happens for learning multiple high-dimensional linear regression tasks. % for learning from multiple linear regression tasks.
+Based on the theory, we develop practical insights to detect negative transfer and guide multi-task training.
 %We consider a setting where the target task has limited labeled data and show
 %On the other hand, unless the structures across task data are well-understood, applying multi-task learning on several different datasets often result in suboptimal models (or negative transfer in more technical terms).
 
-The technical challenge to develop a theory for multi-task learning is how to capture generalization performance that scales tightly with the amount of labeled data, in particular when the size of the training set is small.
-Prior generalization theory using uniform stability \cite{LTSM16}, Rademacher complexity \cite{BS03,BBCKP10} is unable to explain the phenomenon of negative transfer because there is no tight bound on test error that scales with the amount of labeled data.
-In particular in Figure \ref{fig_motivation}, we observe a shift from positive transfer to negative transfer as a parameter of task relatedness.
-The theory we develop will provide a precise explanation to such a phenomenon.
+Comparing the performance of multi-task learning to single-task learning requires developing generalization bounds that scale tightly with the qualities of task data, such as the number of datapoints.
+Previous work has shown the benefit of multi-task learning for learning certain half-spaces \cite{MPR16} and sparse regression where the parameter vectors have the same support \cite{LPVT11}. \todo{unpack}
+Furthermore, classical Rademacher or VC based theory of multi-task learning, the generalization bounds are usually presented in a way so that the error goes down as more labeled data is added \cite{M06}.
+On the other hand, we have observed that adding more labeled data does not always improve performance in multi-task learning.
 
-\textbf{Setup.} To gain insight into the working of multi-task learning, we consider a simplified setting for learning multiple high-dimensional linear regression tasks.
+%The technical challenge to develop a theory for multi-task learning is how to capture generalization performance that scales tightly with the amount of labeled data, in particular when the size of the training set is small.
+%Prior generalization theory using uniform stability \cite{LTSM16}, Rademacher complexity \cite{BS03,BBCKP10} is unable to explain the phenomenon of negative transfer because there is no tight bound on test error that scales with the amount of labeled data.
+%In particular in Figure \ref{fig_motivation}, we observe a shift from positive transfer to negative transfer as a parameter of task relatedness.
+%The theory we develop will provide a precise explanation to such a phenomenon.
+
+%To gain insight into the working of multi-task learning, we consider a simplified setting for learning multiple high-dimensional linear regression tasks.
 %A typical process to do multi-task learning involves two steps:
 %(i) Jointly learn a shared representation for all the tasks;
 %(ii) Fine-tune the learnt model on a specific target task.
-We focus on a hard parameter sharing model proposed in \cite{R17,WZR20} and identify conditions on when multi-task and transfer learning works, and when it doesn't.
-The high-dimensional linear regression setting where the target task data size is limited captures the intuition that the target task only contains limited labeled data.
+%We focus on a hard parameter sharing model proposed in \cite{R17,WZR20} and identify conditions on when multi-task and transfer learning works, and when it doesn't.
+%The high-dimensional linear regression setting where the target task data size is limited captures the intuition that the target task only contains limited labeled data.
 
-Concretely, our input consists of $k$ tasks $(X_1, Y_1)$, $(X_2, Y_2)$, $\dots$, $(X_k, Y_k)$.
+\textbf{Setup.} Concretely, our input consists of $k$ tasks $(X_1, Y_1)$, $(X_2, Y_2)$, $\dots$, $(X_k, Y_k)$.
 We shall assume that each task data follows a linear model, i.e. $y_i = X_i \beta_i + \varepsilon_i$, $1\le i\le k$.
 Here $\beta_i\in\real^p$ is the model parameter for the $i$-th task.
 Each row of $X_i\in\real^{n_i\times p}$ is assumed to be drawn i.i.d. from a fixed distribution with covariance matrix $\Sigma_i$.
@@ -70,7 +78,7 @@ We compare the test performance of these estimators to the single-task baseline.
 %	\end{algorithmic}
 %\end{algorithm}
 
-{\bf Quantifying model shift bias versus variance trade-off.}
+{\bf Main Results.}
 	We show that the benefit from doing multi-task or transfer learning stems from reducing the variance of the estimator for the target task through newly added source task data.
 	We derive this result for the setting of two tasks with general inputs and $k$ tasks with the same covariates for any $k \ge 2$.
 	The latter setting is prevalent in applications of multi-task learning to image classification, where there are multiple prediction labels/tasks for every image \cite{EA20}.
@@ -80,7 +88,7 @@ We compare the test performance of these estimators to the single-task baseline.
 
 	A crucial technical tool that we develop is the asymptotic limit of the trace of the inverse of the sum of two independent sample covariance matrices. Our result not only extends the well-known Marchenko–Pastur law in random matrix theory to the sum of two independent sample covariance matrices with general covariance matrices, but also gives an almost optimal error bound, which may be of independent interest.
 
-\textbf{How task data affects transfer.}
+\textbf{Quantitative insights.}
 	We identify three factors: task model similarities and their noise level, data size and covariate shift \cite{PY09,K18}.
 	These are achieved through tight generalization bounds established in the high-dimensional regression setting.
 	Using these tools, we can explain several phenomena that are not explained by the techniques of \cite{WZR20}.
