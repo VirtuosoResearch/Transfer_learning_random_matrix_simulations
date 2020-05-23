@@ -91,8 +91,8 @@ Our goal is to compare the test error of $\hat{\beta}_t^{\MTL}$, denoted as $\te
 	We begin by observing that $\te(\hat{\beta}_t^{\MTL})$ can be decomposed into two parts, a variance part that is reduced from $\te(\hat{\beta}_t^{\STL})$, and a bias part that captures the difference between $\beta_t$ and the rest of $\beta$'s.
 	We term the bias part as \textit{model shift bias}.
 	Intuitively, whether $\te(\hat{\beta}_t^{\MTL})$ is lower than $\te(\hat{\beta}_t^{\STL})$ depends on the trade-off between the amount of variance reduced and the model shift bias part.
-	For the high-dimensional regime when $p$ goes to infinity, we derive the asymptotic limit of $\te(\hat{\beta}_t^{\MTL}) - \te(\hat{\beta}_t^{\STL})$ as a function of the number of datapoints $\set{n_1, n_2}$, the covariance matrices $\set{\Sigma_1, \Sigma_2}$, the ground truth parameters $\set{\beta_1, \beta_2}$, and a certain fixed value derived from solving equation \eqref{eq_mtl}.
-	Then, we show a similar result for any number of tasks that have the same covariates, i.e. $X_i = X_j$ for any $i \neq j$.
+	For the high-dimensional regime when $p$ goes to infinity, we derive the asymptotic limit of $\te(\hat{\beta}_t^{\MTL}) - \te(\hat{\beta}_t^{\STL})$ as a function of the number of datapoints $\set{n_1, n_2}$, the covariance matrices $\set{\Sigma_1, \Sigma_2}$, the ground truth parameters $\set{\beta_1, \beta_2}$, and a certain fixed value derived from solving equation \eqref{eq_mtl} (see Theorem \ref{thm_main_informal} for the statement).
+	Then, we show a similar result for any number of tasks that have the same covariates, i.e. the $X_i$'s are equal to each other in Theorem \ref{thm_many_tasks}.
 	This setting is prevalent in applications of multi-task learning to image classification, where there are multiple prediction labels/tasks for every image \cite{chexnet17,EA20}.
 
 %the benefit from doing multi-task or transfer learning stems from reducing the variance of the estimator for the target task through newly added source task data.
@@ -101,20 +101,21 @@ Our goal is to compare the test error of $\hat{\beta}_t^{\MTL}$, denoted as $\te
 	%On the other hand,  task models causes a negative effect that we call the \textit{model shift bias}.
 	%We show bounds on the trade-off between the amount of variance reduced and the amount of model shift bias incurred, which become tighter and tighter as the number of source task data points increases.
 
-	We identify three factors: task model similarities and their noise level, data size and covariate shift \cite{PY09,K18}.
-	These are achieved through tight generalization bounds established in the high-dimensional regression setting.
-	Using these tools, we can explain several phenomena that are not explained by the techniques of \cite{WZR20}.
-	\begin{itemize}
-		\item We provide a sharp transition to show that task model similarities can determine whether there is positive transfer.
+	Next, we use our technical tools to show how to determine negative transfer based on task data.
+%	These are achieved through tight generalization bounds established in the high-dimensional regression setting.
+%	Using these tools, we can explain several phenomena that are not explained by the techniques of \cite{WZR20}.
+%	\begin{itemize}
+Our first theoretical insight is we provide a sharp transition to show that task model similarities can determine whether there is positive transfer.
 		For settings where tasks are similar, we further show that the transfer effect depends on the single-task accuracy of the source task.
-		\item We show how source task data size can also determine transfer by providing a sharp transition.
+
+Our second theoretical insight is we show how source task data size can also determine transfer by providing a sharp transition.
 		We use our tools to explain the result of taskonomy \cite{ZSSGM18}, regarding the data efficiency of multi-task learning.
-		\item Our result has implications on the following question.
+
+Our third theoretical insight is has implications on the following question.
 	Is it better for two tasks to have the same covariance matrix or complementary covariance matrices?
 	For our setting, we show that when the data ratio is large, having the same covariance matrix provably yields the lowest test performance on the target task.
 	On the other hand, when data ratio is small, we find that there are cases when having complementary covariance matrices is better.
-	The result provides insight into why the covariance alignment algorithm can help improve performance in \cite{WZR20}.
-	\end{itemize}
+%	The result provides insight into why the covariance alignment algorithm can help improve performance in \cite{WZR20}.
 
 
 Finally, we extend our reuslts to study the transfer functions used in taskonomy \cite{ZSSGM18}.
@@ -148,9 +149,8 @@ A crucial technical tool that we develop is the asymptotic limit of the trace of
 
 %	\textit{Insight 3}: $\hat{\beta}_t^{\TL}$ vs $\hat{\beta}_t^{\STL}$.
 \textbf{Experimental results.} We provide practical implications to validate our theory.
-\begin{itemize}
-	\item We validate on text and image classification tasks that comparing single-task accuracies can help determine whether multi-task learning performs better than single-task learning.
-	\item We show that when the number of source task datapoints is large compared to the target task, then aligning task covariances always improves performance.
+	First, we validate on text and image classification tasks that comparing single-task accuracies can help determine whether multi-task learning performs better than single-task learning.
+	\todo{Second}
+	Finally, We show that when the number of source task datapoints is large compared to the target task, then aligning task covariances always improves performance.
 	On the other hand, if the number of source task datapoints is comparable to the target task, aligning task covariances may hurt performance.
-\end{itemize}
 
