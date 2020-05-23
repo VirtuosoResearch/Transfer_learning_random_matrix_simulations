@@ -2,23 +2,26 @@
 
 %Multi-task learning is an inductive learning mechanism to improve generalization performance using related task data.
 %Many state-of-the-art results in computer vision and natural language processing are obtained using multi-task learning.
-Multi-task learning has recently found many applications in computer vision \cite{chexnet17,ZSSGM18}, natural language processing \cite{MTDNN19} and numerous other areas \cite{R17,ZY17}.
+Multi-task learning has recently become a powerful paradigm to solve complex prediction tasks in computer vision \cite{chexnet17,ZSSGM18}, natural language processing \cite{GLUE,superglue} and numerous other areas \cite{ZY17}.
 %In multi-task learning, having related task data is fundamental to its performance.
 %Multi-task learning is particularly powerful when there is limited labeled data for a task to be solved, meanwhile more labeled data from different but related tasks is available.
-By learning from related information sources, models that are trained using multi-task learning can share information across different data \cite{C97}.
+By combining multiple information sources, multi-task learning allows new information to be shared across different sources in a model \cite{C97}.
 %For example, many applications in , and many other areas have been achieved by learning from multiple tasks together.
-At the same time, negative results have also been reported in the literature \cite{AP16,BS17}, where training a multi-task model performs worse for predicting a task compared to learning the task in isolation (single-task learning).
-This phenomenon, known as \textit{negative transfer}, is fundamental to the understanding of multi-task learning.
-%\todo{transition}
-In this work, we provide a formal study to better understand when and why negative transfer happens for learning multiple high-dimensional linear regression tasks. % for learning from multiple linear regression tasks.
-Based on the theory, we develop practical insights to detect negative transfer and guide multi-task training.
+At the same time, it is well-known that the performance of multi-task learning methods depends on the relationship between the information sources.
+\textit{Negative transfer}, the phenomenon where for a particular prediction task, multi-task learning performs worse than single-task learning, is prevalent when the information sources are heterogeneous \cite{AP16,BS17}.
+While numerous studies have sought to alleviate negative transfer when it occurs \cite{YKGLHF20}, a rigorous understanding to the contributing causes of negative transfer has remained elusive in the literature \cite{R17}.
+%This phenomenon, known as \textit{negative transfer}, is fundamental to the understanding of multi-task learning.
+In this work, we consider learning multiple high-dimensional linear regression tasks to better understand when and why negative transfer happens. % for learning from multiple linear regression tasks.
+We provide theoretical and practical insights to show how task data affects the transfer of information.
 %We consider a setting where the target task has limited labeled data and show
 %On the other hand, unless the structures across task data are well-understood, applying multi-task learning on several different datasets often result in suboptimal models (or negative transfer in more technical terms).
 
-Comparing the performance of multi-task learning to single-task learning requires developing generalization bounds that scale tightly with the qualities of task data, such as the number of datapoints.
-Previous work has shown the benefit of multi-task learning for learning certain half-spaces \cite{MPR16} and sparse regression where the parameter vectors have the same support \cite{LPVT11}. \todo{unpack}
-Furthermore, classical Rademacher or VC based theory of multi-task learning, the generalization bounds are usually presented in a way so that the error goes down as more labeled data is added \cite{M06}.
+Identifying when negative transfer occurs requires comparing the performance of multi-task learning directly to single-task learning.
+The technical challenge is to develop generalization bounds that are able to scale tightly with the qualities of task data, such as the number of datapoints.
+In classical Rademacher or VC based theory of multi-task learning \cite{B00,AZ05,M06}, the generalization bounds are usually presented in a way so that the error goes down as more labeled data is added.
 On the other hand, we have observed that adding more labeled data does not always improve performance in multi-task learning.
+More recent work has shown the benefit of learning multi-task representations for certain half-spaces \cite{MPR16} and multipl sparse regressions \cite{LPTV09,LPVT11}.
+
 
 %The technical challenge to develop a theory for multi-task learning is how to capture generalization performance that scales tightly with the amount of labeled data, in particular when the size of the training set is small.
 %Prior generalization theory using uniform stability \cite{LTSM16}, Rademacher complexity \cite{BS03,BBCKP10} is unable to explain the phenomenon of negative transfer because there is no tight bound on test error that scales with the amount of labeled data.
@@ -32,34 +35,36 @@ On the other hand, we have observed that adding more labeled data does not alway
 %We focus on a hard parameter sharing model proposed in \cite{R17,WZR20} and identify conditions on when multi-task and transfer learning works, and when it doesn't.
 %The high-dimensional linear regression setting where the target task data size is limited captures the intuition that the target task only contains limited labeled data.
 
-
-\todo{One paragraph summarize conceptual finding}
-
-\textbf{Setup.} Concretely, our input consists of $k$ tasks $(X_1, Y_1)$, $(X_2, Y_2)$, $\dots$, $(X_k, Y_k)$.
-We shall assume that each task data follows a linear model, i.e. $y_i = X_i \beta_i + \varepsilon_i$, $1\le i\le k$.
-Here $\beta_i\in\real^p$ is the model parameter for the $i$-th task.
-Each row of $X_i\in\real^{n_i\times p}$ is assumed to be drawn i.i.d. from a fixed distribution with covariance matrix $\Sigma_i$.
-We use a shared body $B\in\real^{p\times r}$ for all tasks and a separate prediction head $\set{W_i \in \real^{r}}_{i=1}^k$ for each task.
+In this work, we consider multiple high-dimensional linear regression tasks as input and focus on predicting a particular task that only has limited amount of labeled data.
+Concretely, each task consists of $n_i$ datapoints in space $\real^p$ organized as matrix $X_i\in\real^{n_i\times p}$, for $1\le i\le p$.
+The labels of $X_i$ are given by $Y_i = X_i\beta_i + \varepsilon_i$, where $\beta_i$ denotes the ground truth parameters for task $i$ and $\varepsilon_i$ denotes i.i.d. random noise with mean zero and variance $\sigma^2$.
+Importantly, we assume that the number of datapoints $n_i$ is a small constant $\rho_i$ times $p$ and that $p$ is large. \todo{rational}
+%We shall assume that each task data follows a linear model, i.e. $y_i = X_i \beta_i + \varepsilon_i$, $1\le i\le k$.
+%Here $\beta_i\in\real^p$ is the model parameter for the $i$-th task.
+%Each row of $X_i\in\real^{n_i\times p}$ is assumed to be drawn i.i.d. from a fixed
+%distribution with covariance matrix $\Sigma_i$.
+We use a hard parameter sharing architecture that contains a shared body $B\in\real^{p\times r}$ for all tasks and a separate prediction head $\set{W_i \in \real^{r}}_{i=1}^k$ for each task \cite{R17,MTDNN19}.
 %    \paragraph{Different covariates:}
 This corresponds to minimizing the following optimization objective.
 \begin{align}
 	\label{eq_mtl}
 	f(B; W_1, \dots, W_k) = \sum_{i=1}^k \norm{X_i B W_i - Y_i}^2.
 \end{align}
-Note that we consider the natural parameterization without reweighting the tasks above.
-The shared body $B$ plays an important role because it allows information transfer between different task data.
-This is known as the hard parameter sharing architecture in the literature, where we control the capacity $r$ of $B$, e.g. \cite{KD12,WZR20}.
-We focus on comparing the test performance on a target task using estimators from doing multi-task training and transfer learning.
-We compare the test performance of these estimators to the single-task baseline.
+%Note that we consider the natural parameterization without reweighting the tasks above.
+%The shared body $B$ plays an important role because it allows information transfer between different task data.
+%This is known as the hard parameter sharing architecture in the literature, where we control the capacity $r$ of $B$, e.g. \cite{KD12,WZR20}.
+%We focus on comparing the test performance on a particular task solved with equation \eqref{eq_mtl} to single-task learning.
 %The details are described in Algorithm \ref{alg_estimator}.
+Let $\hat{\beta}_t^{\MTL} = B W_t$ denote the optimal predictor obtained from solving equation \eqref{eq_mtl} for task $t$.
+Our goal is to compare the test error of $\hat{\beta}_t^{\MTL}$, denoted as $\te(\hat{\beta}_t^{\MTL})$, to $\te(\hat{\beta}_t^{\STL})$, where $\hat{\beta}_t^{\STL}$ is likewise obtained from equation \eqref{eq_mtl} but with task $t$ in isolation.
 
 
-\begin{figure}[!t]
-	\centering
-	\includegraphics[width=0.8\textwidth]{figures/model_distance_motivation.pdf}
-	\caption{Positive to negative transfer as the source task rotates further away from the target task (left to right).}
-	\label{fig_motivation}
-\end{figure}
+%\begin{figure}[!t]
+%	\centering
+%	\includegraphics[width=0.8\textwidth]{figures/model_distance_motivation.pdf}
+%	\caption{Positive to negative transfer as the source task rotates further away from the target task (left to right).}
+%	\label{fig_motivation}
+%\end{figure}
 
 
 %We formulate the heterogeneity between different task data under covariate and model shifts .
@@ -82,17 +87,20 @@ We compare the test performance of these estimators to the single-task baseline.
 %	\end{algorithmic}
 %\end{algorithm}
 
-{\bf Main Results.}
-	We show that the benefit from doing multi-task or transfer learning stems from reducing the variance of the estimator for the target task through newly added source task data.
-	We derive this result for the setting of two tasks with general inputs and $k$ tasks with the same covariates for any $k \ge 2$.
-	The latter setting is prevalent in applications of multi-task learning to image classification, where there are multiple prediction labels/tasks for every image \cite{EA20}.
+	\textbf{Main results.}
+	We begin by observing that $\te(\hat{\beta}_t^{\MTL})$ can be decomposed into two parts, a variance part that is reduced from $\te(\hat{\beta}_t^{\STL})$, and a bias part that captures the difference between $\beta_t$ and the rest of $\beta$'s.
+	We term the bias part as \textit{model shift bias}.
+	Intuitively, whether $\te(\hat{\beta}_t^{\MTL})$ is lower than $\te(\hat{\beta}_t^{\STL})$ depends on the trade-off between the amount of variance reduced and the model shift bias part.
+	For the high-dimensional regime when $p$ goes to infinity, we derive the asymptotic limit of $\te(\hat{\beta}_t^{\MTL}) - \te(\hat{\beta}_t^{\STL})$ as a function of the number of datapoints $\set{n_1, n_2}$, the covariance matrices $\set{\Sigma_1, \Sigma_2}$, the ground truth parameters $\set{\beta_1, \beta_2}$, and a certain fixed value derived from solving equation \eqref{eq_mtl}.
+	Then, we show a similar result for any number of tasks that have the same covariates, i.e. $X_i = X_j$ for any $i \neq j$.
+	This setting is prevalent in applications of multi-task learning to image classification, where there are multiple prediction labels/tasks for every image \cite{chexnet17,EA20}.
+
+%the benefit from doing multi-task or transfer learning stems from reducing the variance of the estimator for the target task through newly added source task data.
+%	We derive this result for the setting of two tasks with general inputs
 %	First, we provide a precise analysis for performing multi-task learning over two tasks under covariate and model shifts.
-	On the other hand, the difference between task models causes a negative effect that we call the \textit{model shift bias}.
-	We show bounds on the trade-off between the amount of variance reduced and the amount of model shift bias incurred, which become tighter and tighter as the number of source task data points increases.
+	%On the other hand,  task models causes a negative effect that we call the \textit{model shift bias}.
+	%We show bounds on the trade-off between the amount of variance reduced and the amount of model shift bias incurred, which become tighter and tighter as the number of source task data points increases.
 
-	A crucial technical tool that we develop is the asymptotic limit of the trace of the inverse of the sum of two independent sample covariance matrices. Our result not only extends the well-known Marchenko–Pastur law in random matrix theory to the sum of two independent sample covariance matrices with general covariance matrices, but also gives an almost optimal error bound, which may be of independent interest.
-
-\textbf{Quantitative insights.}
 	We identify three factors: task model similarities and their noise level, data size and covariate shift \cite{PY09,K18}.
 	These are achieved through tight generalization bounds established in the high-dimensional regression setting.
 	Using these tools, we can explain several phenomena that are not explained by the techniques of \cite{WZR20}.
@@ -108,7 +116,12 @@ We compare the test performance of these estimators to the single-task baseline.
 	The result provides insight into why the covariance alignment algorithm can help improve performance in \cite{WZR20}.
 	\end{itemize}
 
+
 Finally, we extend our reuslts to study the transfer functions used in taskonomy \cite{ZSSGM18}.
+
+A crucial technical tool that we develop is the asymptotic limit of the trace of the inverse of the sum of two independent sample covariance matrices. Our result not only extends the well-known Marchenko–Pastur law in random matrix theory to the sum of two independent sample covariance matrices with general covariance matrices, but also gives an almost optimal error bound, which may be of independent interest.
+
+
 %	{\it Insight 1}: $\hat{\beta}_t^{\MTL}$ vs $\hat{\beta}_t^{\STL}$.
 %	With multi-task training, since the training objective balances the losses from both the source and target tasks, the trained model can have worse performance for the target task.
 %	In particular, if model shift is too large, we get negative transfer from multi-task training.
