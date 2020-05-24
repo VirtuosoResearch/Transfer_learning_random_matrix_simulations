@@ -4,7 +4,73 @@ We illustrate our main results (to be presented in Section \ref{sec_main}) by co
 We show that our results explain several phenomenon that cannot be explained before.
 \todo{list those here}
 
-\subsection{Task Model Similarity versus Noise}\label{sec_dist}
+
+\subsection{Model Shift Bias versus Variance Trade-off}\label{sec_main}
+
+%In this part, we consider the case of two tasks to show  establish the intuition that adding more data helps in multi-task learning by reducing the variance of the estimator.
+%We achieve this through tight generalization bounds obtained from random matrix theory.
+%For the case of two tasks, we identify three factors that determine the type of transfer between tasks: model distance, covariate shift matrix, and data ratio.
+We begin by observing that the test error of $\hat{\beta}_t^{\MTL}$ consists of two parts.
+One part captures how similar the task models are and the other part captures the variance of $\hat{\beta}_t^{\MTL}$.
+Compared with $\hat{\beta}_t^{\STL}$, we observe that the variance part of $\hat{\beta}_t^{\MTL}$ gets reduced, since more data is added from source tasks.
+The bias part of $\hat{\beta}_t^{\MTL}$, which we term as \textit{model shift bias}, affects performance negatively.
+We derive the asympotic limit of $\te(\hat{\beta}_t^{\MTL})$ as $p$ approaches infinity.
+We compare it with the asympotic limit of $\te(\hat{\beta}_t^{\STL})$, for settings where the target data size is limited.
+We show sharp generalization bounds for two settings: i) two tasks with general covaraites; ii) many tasks with the same covariates.
+
+\textbf{Two Tasks with General Covariance Matrices.}
+For the case of two tasks, we decompose the test error of $\hat{\beta}_{t}^{\MTL}$ on the targe task into two parts
+\begin{align}
+	\te(\hat{\beta}_t^{\MTL}) =& \hat{v}^2 \bignorm{\Sigma_2^{1/2} (\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}X_1^{\top}X_1 (\beta_s - \hat{v}\beta_t)}^2 \nonumber \\
+	&+ \sigma^2\cdot \bigtr{(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2}, \label{eq_te_model_shift}
+\end{align}
+where $\hat{v}$ denotes the ratio of the output layer weights (to be defined more precisely in Appendix \ref{app_proof_main}).
+It is not hard to see that the variance of $\hat{\beta}_t^{\MTL}$ is reduced compared to $\hat{\beta}_t^{\STL}$, i.e. %(following the argument of Proposition \ref{prop_monotone}), i.e.
+\[ \bigtr{(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2} \le \bigtr{(X_2^{\top}X_2)^{-1}\Sigma_2}. \]
+Because of model shift bias, we can no longer guarantee that $\te(\hat{\beta}_{t}^{\MTL}) \le \te(\hat{\beta}_t^{\STL})$.
+%The main result of this section show deterministic conditions under which we get positive or negative transfer.
+%And the conditions depend only on the covariate shift matrix $M$, the difference of the task models, and the number of per-task data points.
+The technical crux of our approach is to derive the asymptotic limit of $\te(\hat{\beta}_t^{\MTL})$ in the high-dimensional setting, when $p$ approaches infinity.
+A key highlight of our approach implies a precise limit on $\bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}}$, which only depends on $\Sigma_1, \Sigma_2$ and $n_1, n_2$ (see Lemma \ref{lem_cov_shift} in Appendix \ref{app_proof_main} for the result).
+
+\begin{theorem}\label{thm_main_informal}
+	Let $X_i \in\real^{n_i \times p}$ and $Y_i = X_i\beta_i + \varepsilon_i$, for $i = 1, 2$.
+	Suppose that $n_1 = c_1 p$ and $n_2 = c_2 p$, where $c_1>1$ and $c_2 >1$ are fixed constants.
+	There exists two deterministic functions $\Delta_{\beta}$ and $\Delta_{\vari}$ and a small deterministic error $\delta$ that only depend on $\set{\hat{v}, M, n_1, n_2, \beta_1, \beta_2}$ such that
+	\begin{itemize}
+		\item If $\Delta_{\vari} - \Delta_{\beta} \ge \delta$, then whp $\te(\hat{\beta}_t^{\MTL}) < \te(\hat{\beta}_t^{\STL})$.
+		\item If $\Delta_{\vari} - \Delta_{\beta} \le \delta$, then whp $\te(\hat{\beta}_t^{\MTL}) > \te(\hat{\beta}_t^{\STL})$.
+	\end{itemize}
+\end{theorem}
+
+
+Theorem \ref{thm_main_informal} shows upper and lower bounds that guarantee positive transfer, which is determined by the change of variance $\Delta_{\vari}$ and a certain model shift bias parameter $\Delta_{\beta}$ determined by the covariate shift matrix and the model shift.
+The bounds get tighter and tighter as $n_1 / p$ increases.
+
+
+\textbf{Many Tasks with the Same Covariates.}
+We extend the above result to any number of tasks that have the same covariates.
+%In this section we consider the setting with $k$ many that have the same covariates.
+Since the tasks all have the same number of datapoints and covariance matrix, the trade-off between model shift bias and variance will be captured by their task models $\set{\beta_i}_{i=1}^k$.
+%For this setting, we derive solutions for the multi-task training and the transfer learning setting that match our insights qualitatively from Section \ref{sec_denoise}.
+Let $B^{\star} = [\beta_1, \beta_2, \dots, \beta_k] \in\real^{p\times k}$ denote the underlying task model parameters.
+We derive the model shift bias and variance in the following result.
+
+\begin{theorem}\label{thm_many_tasks}
+	Let $n = c \cdot p$.
+	Let $X\in\real^{n\times p}$ and $Y_i = X\beta_i + \varepsilon_i$, for $i = 1,\dots,k$.
+	Let $U_r U_r^{\top}$ denote the best rank-$r$ approximation subspace of $B^{\star}\Sigma B^{\star}$, where $U_r\in\real^{k\times r}$.
+	Let $U_r(i)$ denote the $i$-th row vector of $U_r$.
+	We have the following
+	\begin{itemize}
+		\item If $(1 - \norm{U_r(i)}^2)\cdot \frac{\sigma^2}{c - 1} \ge \norm{\Sigma (B^{\star} U_r U_r(i) - \beta_i)}^2$, then whp $\te(\hat{\beta}_t^{\MTL}) < \te(\hat{\beta}_t^{\STL})$.
+		\item If $(1 - \norm{U_r(i)}^2)\cdot \frac{\sigma^2}{c - 1} < \norm{\Sigma(B^{\star} U_r U_r(i) - \beta_i)}^2$, then whp $\te(\hat{\beta}_t^{\MTL}) > \te(\hat{\beta}_t^{\STL})$.
+	\end{itemize}
+\end{theorem}
+As a remark, since the spectral norm of $U_r$ is less than $1$, we have that $\norm{U_r(i)} < 1$, for any $1 \le i \le k$. Compared to Theorem \ref{thm_main_informal}, we can get a simple expression for the two functions $\Delta_{vari}$ and $\Delta_{\beta}$. The proof of Theorem \ref{thm_many_tasks} can be found in Appendix \ref{app_proof_many_tasks}.
+
+
+\subsection{Task Model Similarity}\label{sec_dist}
 
 We compare the test error of $\hat{\beta}_t^{\MTL}$ to that of $\hat{\beta}_t^{\STL}$.
 For a simple example, we show that whether $\hat{\beta}_t^{\MTL}$ performs better than $\hat{\beta}_t^{\STL}$ is determined by the distance of the task models.
@@ -186,3 +252,11 @@ A theoretical justification of Example \ref{ex_covariate} can be found in Append
 
 \textbf{Implications.}
 
+\section{Extension to the Transfer Function of Taskonomy}
+
+We study the transfer function of taskonomy \cite{ZSSGM18}.
+The algorithm is as follows.
+First, we obtain the single-task estimator $\hat{\beta}_i$ from every task, for $1\le i \le k$.
+This forms the shared representation $B$ in Algorithm \ref{alg_estimator}.
+Then, we learn the output layer on the target task.
+We use our tools to analyze this setting as follows.
