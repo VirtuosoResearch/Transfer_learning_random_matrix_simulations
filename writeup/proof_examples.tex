@@ -1,90 +1,4 @@
-\section{Supplementary Materials for Section \ref{sec_insight}}\label{app_proof_main}
-
-From \cite{WZR20}, we know that we need to explicitly restrict the capacity $r$ of $B$ so that there is transfer between the two tasks.
-for the rest of the section, we shall consider the case when $r=1$ we are considering the case of two tasks.
-Here, equation \eqref{eq_mtl} simplifies to the following
-\begin{align}\label{eq_mtl_2task}
-	f(B; w_1, w_2) = \bignorm{X_1 B w_1 - Y_1}^2 + \bignorm{X_2 B w_2 - Y_2}^2,
-\end{align}
-where $B\in\real^p$ and $w_1, w_2$ are both real numbers.
-To solve the above, suppose that $w_1, w_2$ are fixed, by local optimality, we solve $B$ as
-\begin{align*}
-	& \hat{B}(w_1, w_2) \\
-	=& (w_1^2 X_1^{\top}X_1 + w_2^2 X_2^{\top}X_2)^{-1} (w_1 X_1^{\top}Y_1 + w_2 X_2^{\top}Y_2) \\
-	=& \frac{1}{w_2} ((\frac{w_1}{w_2})^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} (\frac{w_1}{w_2} X_1^{\top}Y_1 + X_2^{\top}Y_2) \\
-	=& \frac{1}{w_2}\bigbrace{\beta_t + ((\frac{w_1}{w_2})^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\bigbrace{X_1^{\top}X_1(\frac{w_1}{w_2}\beta_s - w^2\beta_t) + (\frac{w_1}{w_2} X_1^{\top}\varepsilon_1 + X_2^{\top}\varepsilon_2)}}.
-\end{align*}
-As a remark, when $w_1 = w_2 = 1$, we recover the linear regression estimator.
-The advantage of using $f(B; w_1, w_2)$ is that if $\theta_1$ is a scaling of $\theta_2$, then this case can be solved optimally using equation \eqref{eq_mtl_2task} \cite{KD12}.
-
-\textbf{Defining the multi-task learning estimator.}
-Using a validation set that is sub-sampled from the original training dataset, we get a validation loss as follows
-\begin{align}
-		\val(\hat{B}; w_1, w_2)
-	= & n_1 \cdot \bignorm{\Sigma_1^{1/2}((\frac{w_1}{w_2})^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}X_2^{\top}X_2(\beta_s - \frac{w_1}{w_2}\beta_t)}^2 \nonumber \\
-		&+ n_1 \sigma^2 \cdot \bigtr{((\frac{w_1}{w_2})^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_1} \nonumber \\
-		&+ n_2 \cdot w^2\bignorm{\Sigma_2^{1/2}((\frac{w_1}{w_2})^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}X_1^{\top}X_1(\beta_s - \frac{w_1}{w_2}\beta_t)}^2 \nonumber \\
-		&+ n_2 \cdot \sigma^2 \cdot \bigtr{((\frac{w_1}{w_2})^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2}. \label{eq_val_mtl}
-\end{align}
-Let $\hat{w_1}/\hat{w_2}$ be the global minimizer of $\val(\hat{B}; w_1, w_2)$.
-We will define the multi-task learning estimator for the target task as
-	\[ \hat{\beta}_t^{\MTL} = \hat{w}_{2}\hat{B}(\hat{w}_1, \hat{w}_2). \]
-
-The intuition for deriving $\hat{\beta}_t^{\MTL}$ is akin to performing multi-task training in practice.
-Let $\hat{v} = \hat{w_1} / \hat{w_2}$ for the simplicity of notation.
-The test loss of using $\hat{\beta}_t^{\MTL}$ for the target task is
-\begin{align}
-	\te(\hat{\beta}_t^{\MTL}) =&~ \hat{v}^2 \bignorm{\Sigma_2^{1/2}(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} X_1^{\top}X_1 (\beta_s - \hat{v} \beta_t)}^2 \nonumber \\
-			&~ + \sigma^2 \cdot \bigtr{(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} \Sigma_2}. \label{eq_te_mtl_2task}
-\end{align}
-
-Our goal is to study under model and covariate shifts, whether multi-task learning helps learn the target task better than single-task learning.
-The baseline where we solve the target task with its own data is
-\begin{align*}
-	te(\hat{\beta}_t^{\STL}) = \sigma^2 \cdot \bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}}, \text{ where } \hat{\beta}_t^{\STL} = (X_2^{\top}X_2)^{-1} X_2^{\top}Y_2.
-\end{align*}
-%Clearly, whether $\hat{\beta}_t^{\MTL}$ outperforms $\hat{\beta}_t^{\STL}$ depends on the covariate matrices, the difference of the task models, and the number of per-task data points.
-
-We state several helper lemmas to get a bound on the variance of $\hat{\beta}_t^{\STL}$ and $\hat{\beta}_t^{\MTL}$.
-The first lemma, which is a folklore result in random matrix theory, helps determine the asymptotic limit of $\te(\hat{\beta}_t^{\STL})$, as $p$ goes to infinity.
-
-\begin{lemma}\label{lem_minv}[\todo{ref?}]
-	Let $X\in\real^{n\times p}$ be a random matrix that contains i.i.d. row vectors with mean $0$ and covariance $\Sigma\in\real^{p\times p}$. Let $A$ be a $p\times p$ matrix that is independent of $X$ and satisfies $\|A\|=\OO(1)$. 
-	In the setting when $n = c p$ we have that  
-	\[  \bigtr{(X^{\top}X)^{-1}A} = \frac{1}{c - 1} \frac1p\tr(A\Sigma^{-1}) +\bigo{ p^{-1/2+\epsilon}} \]
-for any constant $\e>0$.
-\end{lemma}
-
-The second lemma, which deals the inverse of the sum of two random matrices, can be viewed as a special case of Theorem \ref{thm_model_shift}.
-
-\begin{lemma}\label{lem_cov_shift}
-	Let $X_i\in\real^{n_i\times p}$ be a random matrix that contains i.i.d. row vectors with mean $0$ and variance $\Sigma_i\in\real^{p\times p}$, for $i = 1, 2$.
-	Denote by $M = \Sigma_1^{1/2}\Sigma_2^{-1/2}$ and let $\lambda_1, \lambda_2, \dots, \lambda_p$ be the singular values of $M^{\top}M$ in decreasing order.
-	When $n_1 = c_1 p$ and $n_2 = c_2 p$, we have that with high probability over the randomness of $X_1$ and $X_2$, the following equation holds
-	\begin{align}%\label{lem_cov_shift_eq}
-		\bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2} = \frac{1}{c_1+c_2}\cdot \bigtr{ \frac{1}{p}\cdot(a_1 M^\top M + a_2)^{-1}} +\bigo{ n^{-1/2+\epsilon}},
-	\end{align}
-	for any constant $\epsilon>0$, where $a_1, a_2$ are solutions to the following deterministic equations:
-	\begin{align}
-		a_1 + a_2 = 1- \frac{1}{c_1 + c_2},~ a_1 + \frac{1}{p}\cdot\sum_{i=1}^p \frac{a_1}{(c_1 + c_2)(a_1 + a_2/ \lambda_i^2)} = \frac{c_1}{c_1 + c_2}. \label{eq_a12}
-	\end{align}
-\end{lemma}
-We will give the proof of Lemma \ref{lem_cov_shift} in Section \ref{sec_maintools}.
-
-Finally, we can get a bound tighter than Theorem \ref{thm_model_shift} as follows.
-\todo{restate this}
-\begin{lemma}\label{prop_model_shift_tight}
-		In the setting of Theorem \ref{thm_model_shift}, assume that $\Sigma_1 =\id$,
-		$\beta_t$ is i.i.d. with mean $0$ and variance $\kappa^2$ and $\beta_s - \beta_t$ is i.i.d. with mean $0$ and variance $d^2$.
-		We set $\Delta_{\beta} = \bigbrace{(1 - \hat{w})^2 \kappa^2 + d^2)} \bigtr{Z}$
-		and we have
-		\begin{align*}
-			\te(\hat{\beta}_t^{\MTL}) \le \te(\hat{\beta}_t^{\STL}) \text{ when: } & \Delta_{\vari} \ge \bigbrace{1 + \sqrt{\frac{p}{n_1}}}^4 \Delta_{\beta}, \\
-			\te(\hat{\beta}_t^{\MTL}) \ge \te(\hat{\beta}_t^{\STL}) \text{ when: } & \Delta_{\vari} \le \bigbrace{1 - \sqrt{\frac{p}{n_1}}}^4 \Delta_{\beta}.
-		\end{align*}
-\end{lemma}
-
-\subsection{Proof of Proposition \ref{prop_dist_transition} and Proposition \ref{prop_var_transition}}\label{app_proof_31}
+\subsection{Proofs for Section \ref{sec_similarity}}\label{app_proof_31}
 
 The proof will consist of two main steps.
 \begin{itemize}
@@ -235,7 +149,7 @@ $$\sigma_1^2 \ge  pd^2 \cdot c_1 + \left[ 1+ \frac32\frac{(c_1 + c_2 - 1)^2}{(c_
 
 
 
-\subsection{Proof of Proposition \ref{prop_data_size} and Proposition \ref{prop_data_efficiency}}\label{app_proof_data}
+\subsection{Proofs for Section \ref{sec_data_size}}\label{app_proof_data}
 
 \begin{proof}[Proof of Proposition \ref{prop_data_size}]
 Recall that under the setting of Example \ref{ex_basic}, \eqref{Deltavar} and \eqref{Deltabeta} hold.  Then we get that $\te(\hat{\beta}_t^{\MTL})< \te(\hat{\beta}_t^{\STL})$ whp if
@@ -295,7 +209,9 @@ $$\te_1(\hat{\beta}(\alpha)) + \te_2(\hat{\beta}(\alpha))\le \te_1(\hat{\beta}_t
 for $\al\ge \al_0$, which shows that $\al^*\le \al_0$.
 \end{proof}
 
-\subsection{Proofs of Proposition \ref{prop_covariate} and Theoretical justification of Example \ref{ex_covariate}}\label{app_covariate}
+
+
+\subsection{Proofs for Section \ref{sec_covariate}}\label{app_covariate}
 
 \begin{proof}[Proof of Proposition \ref{prop_covariate}]
 Let 
