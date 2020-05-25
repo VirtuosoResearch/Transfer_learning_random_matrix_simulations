@@ -3,9 +3,13 @@
 We study the transfer function of taskonomy \cite{ZSSGM18}.
 The algorithm is as follows.
 First, we obtain the single-task estimator $\hat{\beta}_i$ from every task, for $1\le i \le k$.
-This forms the shared representation $B$ in Algorithm \ref{alg_estimator}.
-Then, we learn the output layer on the target task by solving equation \eqref{eq_mtl}.
-We use our tools to compare the estimator of this setting to single-task learning.
+This forms the shared representation $B = [\hat{\beta}_1,\hat{\beta}_2,\dots,\hat{\beta}_{k-1}]$.
+Then, we learn the output layer $W_k$ on the target task by solving equation:
+\begin{align}
+	\bignorm{X_k B W_k - Y_k}^2
+\end{align}
+After getting $W_k$, we use $B W_k$ as estimator and $\te(B W_k)$ is the test error of the estimator
+We use our tools to compare $\te(B W_k)$ to $\te(\beta_k^{\STL})$.
 
 The projection of $\beta_t$ onto the subspace spanned by $(\beta_1,\cdots, \beta_k)$ is 
 $$\hat \beta_t = \sum_{i=1}^k\frac{\beta_t^\top \beta_i}{\|\beta_i\|} \beta_i .$$
