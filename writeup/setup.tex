@@ -5,35 +5,12 @@ We also write $x = \Sigma_i^{1/2} z_i$, where $z_i$ is a random vector that has 
 We will designate the $k$-th task as the target.
 Our goal is to come up with an estimator $\hat{\beta}$ to provide accurate predictions for the target task, provided with the other auxiliary task data.
 Concretely, we focus on the test error for the target task:
-		\begin{align*}
-			\te_k(\hat{\beta}) &\define \exarg{x \sim \Sigma_k}{\exarg{{\varepsilon_i, \forall 1\le i\le k}}{(x^{\top}\hat{\beta} - x^{\top}\beta_t)^2}} \\
-			&= \exarg{\varepsilon_i, \forall 1\le i\le k}{(\hat{\beta} - \beta_t)^{\top}\Sigma_k(\hat{\beta} - \beta_t)}.
-		\end{align*}
-%\end{itemize}
-
-\todo{show that $\te_k(\hat{\beta}_t^{\TL})$ is less than both $\te_k(\hat{\beta}_t^{\MTL})$ and $\te_k(\hat{\beta}_t^{\STL})$.}
-
-%\paragraph{Hypothesis on Heterogeneous Task Data}
-
-%Our hypothesis is that the heterogeneity among the multiple tasks can be categorized into two classes, \textit{covariate shift} and \textit{model shift}. %\todo{Add some references to add spice on these takes.}
-%We consider two natural questions within each category.
-%\begin{itemize}
-%	\item \textbf{Model shift.}
-%	In general the single-task models can also be different across different tasks.
-%We shall argue that in addition to the bias and variance terms of generalization error, model shift introduces a third term which is the bias caused by model shift.
-
-%	Under model shift, when do we get positive vs. negative transfer?
-%	How does the type of transfer depend on the number of data points, the distance of the task models etc?
-%	\item \textbf{Covariate shift.}
-%	The covariance matrices $\Sigma_i$ may be be different across tasks, i.e. having different spectrum or singular vectors.
-%This is also known as covariate shift in the literature.
-%	How does covariate shift affect the rate of information transfer?
-%	For example, is it better to have the same covariance matrix or not?
-%\end{itemize}
+	\begin{align*}
+		\te_k(\hat{\beta}) &\define \exarg{x \sim \Sigma_k}{\exarg{{\varepsilon_i, \forall 1\le i\le k}}{(x^{\top}\hat{\beta} - x^{\top}\beta_t)^2}} \\
+		&= \exarg{\varepsilon_i, \forall 1\le i\le k}{(\hat{\beta} - \beta_t)^{\top}\Sigma_k(\hat{\beta} - \beta_t)}.
+	\end{align*}
 
 
-\paragraph{The High-Dimensional Setting.}
-%\todo{setup motivation and notations}
 We would like to get insight on how covariate and model shifts affect the rate of transfer.
 We will consider the high-dimensional setting where for the target task, its number of data points is a small constant times $p$.
 This setting captures a wide range of applications of multi-task learning where we would like to use auxiliary task data to help train tasks with limited labeled data.
@@ -47,4 +24,26 @@ We introduce the following notations for the high-dimensional setting
 for some constants $c_1, c_2 \in (1,\infty)$.
 A crucial quantity is what we call the \textit{covariate shift} matrix $M = \Sigma_1^{1/2}\Sigma_2^{-1/2}$.
 Let $\lambda_1, \lambda_2, \dots, \lambda_p$ denote the singular values of $M$.
-% \gamma_n:= \frac{p} {n_1 + n_2} \to \gamma,
+%
+
+\textbf{Model shift bias.}
+
+We begin by observing that the test error of $\hat{\beta}_t^{\MTL}$ consists of two parts.
+One part captures how similar the task models are and the other part captures the variance of $\hat{\beta}_t^{\MTL}$.
+Compared with $\hat{\beta}_t^{\STL}$, we observe that the variance part of $\hat{\beta}_t^{\MTL}$ gets reduced, since more data is added from source tasks.
+The bias part of $\hat{\beta}_t^{\MTL}$, which we term as \textit{model shift bias}, affects performance negatively.
+We derive the asympotic limit of $\te(\hat{\beta}_t^{\MTL})$ as $p$ approaches infinity.
+We compare it with the asympotic limit of $\te(\hat{\beta}_t^{\STL})$, for settings where the target data size is limited.
+We show sharp generalization bounds for two settings: i) two tasks with general covaraites; ii) many tasks with the same covariates.
+
+\textbf{Variance reduction.}
+
+For the case of two tasks, we decompose the test error of $\hat{\beta}_{t}^{\MTL}$ on the targe task into two parts
+\begin{align}
+	\te(\hat{\beta}_t^{\MTL}) =& \hat{v}^2 \bignorm{\Sigma_2^{1/2} (\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}X_1^{\top}X_1 (\beta_s - \hat{v}\beta_t)}^2 \nonumber \\
+	&+ \sigma^2\cdot \bigtr{(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2}, \label{eq_te_model_shift}
+\end{align}
+where $\hat{v}$ denotes the ratio of the output layer weights (to be defined more precisely in Appendix \ref{app_proof_main}).
+It is not hard to see that the variance of $\hat{\beta}_t^{\MTL}$ is reduced compared to $\hat{\beta}_t^{\STL}$, i.e. %(following the argument of Proposition \ref{prop_monotone}), i.e.
+\[ \bigtr{(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2} \le \bigtr{(X_2^{\top}X_2)^{-1}\Sigma_2}. \]
+Because of model shift bias, we can no longer guarantee that $\te(\hat{\beta}_{t}^{\MTL}) \le \te(\hat{\beta}_t^{\STL})$.

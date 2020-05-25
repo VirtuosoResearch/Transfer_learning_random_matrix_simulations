@@ -282,3 +282,58 @@ When there is model shift, i.e. $\beta_s = \beta_t$, we can still use Theorem \r
 %We show that our results explain several phenomenon that cannot be explained before.
 %\todo{list those here}
 
+
+We assume that for every row $x^\top$ of $X_i$, we have $\ex{xx^{\top}} = \Sigma_i.$
+We also write $x = \Sigma_i^{1/2} z_i$, where $z_i$ is a random vector that has i.i.d. entries with mean $0$ and variance $1$.
+We will designate the $k$-th task as the target.
+Our goal is to come up with an estimator $\hat{\beta}$ to provide accurate predictions for the target task, provided with the other auxiliary task data.
+Concretely, we focus on the test error for the target task:
+		\begin{align*}
+			\te_k(\hat{\beta}) &\define \exarg{x \sim \Sigma_k}{\exarg{{\varepsilon_i, \forall 1\le i\le k}}{(x^{\top}\hat{\beta} - x^{\top}\beta_t)^2}} \\
+			&= \exarg{\varepsilon_i, \forall 1\le i\le k}{(\hat{\beta} - \beta_t)^{\top}\Sigma_k(\hat{\beta} - \beta_t)}.
+		\end{align*}
+%\end{itemize}
+
+\todo{show that $\te_k(\hat{\beta}_t^{\TL})$ is less than both $\te_k(\hat{\beta}_t^{\MTL})$ and $\te_k(\hat{\beta}_t^{\STL})$.}
+
+%\paragraph{Hypothesis on Heterogeneous Task Data}
+
+%Our hypothesis is that the heterogeneity among the multiple tasks can be categorized into two classes, \textit{covariate shift} and \textit{model shift}. %\todo{Add some references to add spice on these takes.}
+%We consider two natural questions within each category.
+%\begin{itemize}
+%	\item \textbf{Model shift.}
+%	In general the single-task models can also be different across different tasks.
+%We shall argue that in addition to the bias and variance terms of generalization error, model shift introduces a third term which is the bias caused by model shift.
+
+%	Under model shift, when do we get positive vs. negative transfer?
+%	How does the type of transfer depend on the number of data points, the distance of the task models etc?
+%	\item \textbf{Covariate shift.}
+%	The covariance matrices $\Sigma_i$ may be be different across tasks, i.e. having different spectrum or singular vectors.
+%This is also known as covariate shift in the literature.
+%	How does covariate shift affect the rate of information transfer?
+%	For example, is it better to have the same covariance matrix or not?
+%\end{itemize}
+
+
+\paragraph{The High-Dimensional Setting.}
+%\todo{setup motivation and notations}
+We would like to get insight on how covariate and model shifts affect the rate of transfer.
+We will consider the high-dimensional setting where for the target task, its number of data points is a small constant times $p$.
+This setting captures a wide range of applications of multi-task learning where we would like to use auxiliary task data to help train tasks with limited labeled data.
+Furthermore, this setting is particularly suited to our study since there is need for adding more data to help learn the target task.
+
+For the case of two tasks, we can get precise rates using random matrix theory.
+For the sake of clarity, we call task 1 the source task and task 2 the target task,
+i.e. $\beta_1 = \beta_s$ and $\beta_2 = \beta_t$.
+We introduce the following notations for the high-dimensional setting
+\[ c_{n_1} \define \frac{n_1}{p} \to c_1, \quad c_{n_2} \define \frac{n_2}p \to c_2, \quad \text{as } \ n_1, n_2\to \infty, \]
+for some constants $c_1, c_2 \in (1,\infty)$.
+A crucial quantity is what we call the \textit{covariate shift} matrix $M = \Sigma_1^{1/2}\Sigma_2^{-1/2}$.
+Let $\lambda_1, \lambda_2, \dots, \lambda_p$ denote the singular values of $M$.
+% \gamma_n:= \frac{p} {n_1 + n_2} \to \gamma,
+
+%The main result of this section show deterministic conditions under which we get positive or negative transfer.
+%And the conditions depend only on the covariate shift matrix $M$, the difference of the task models, and the number of per-task data points.
+
+
+%\todo{show that $\te_k(\hat{\beta}_t^{\TL})$ is less than both $\te_k(\hat{\beta}_t^{\MTL})$ and $\te_k(\hat{\beta}_t^{\STL})$.}

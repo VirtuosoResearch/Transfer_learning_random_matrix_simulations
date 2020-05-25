@@ -2,71 +2,21 @@
 \label{sec_insight}
 
 We revisit the classical bias-variance trade-off in the context of multi-task learning for linear regressions, in particular the setup of equation \eqref{eq_mtl}.
-For the high-dimensional setting where the data size of the target task is a small constant times dimension $p$, we quantify the trade-off as a function of the task models $\set{\beta_i}_{i=1}^k$, covariance matrices $\set{\Sigma_i}_{i=1}^k$, and number of data points $\set{n_i}_{i=1}^k$.
+For the high-dimensional setting where the data size of the target task is a small constant times dimension $p$, we quantify the trade-off as a function of the task models $\set{\beta_i}_{i=1}^t$, data size $\set{n_i}_{i=1}^t$, and covariance matrices $\set{\Sigma_i}_{i=1}^t$.
 After describing this technical result, we provide theoretical insights over when multi-task learning performs better than single-task learning.
 Our analysis reveals three contributing causes of negative transfer, including task model \textit{dissimilarity}, \textit{unbalanced} data size, and \textit{covariate shift}, which we describe in detail for the rest of the section.
 
 
-\subsection{Two Effects: Model Shift Bias and Variance Reduction}\label{sec_main}
+\subsection{Determining Positive versus Negative Transfer}\label{sec_main}
 
-\textbf{Notations.}
-We assume that for every row $x^\top$ of $X_i$, we have $\ex{xx^{\top}} = \Sigma_i.$
-We also write $x = \Sigma_i^{1/2} z_i$, where $z_i$ is a random vector that has i.i.d. entries with mean $0$ and variance $1$.
-We will designate the $k$-th task as the target.
-Our goal is to come up with an estimator $\hat{\beta}$ to provide accurate predictions for the target task, provided with the other auxiliary task data.
-Concretely, we focus on the test error for the target task:
-	\begin{align*}
-		\te_k(\hat{\beta}) &\define \exarg{x \sim \Sigma_k}{\exarg{{\varepsilon_i, \forall 1\le i\le k}}{(x^{\top}\hat{\beta} - x^{\top}\beta_t)^2}} \\
-		&= \exarg{\varepsilon_i, \forall 1\le i\le k}{(\hat{\beta} - \beta_t)^{\top}\Sigma_k(\hat{\beta} - \beta_t)}.
-	\end{align*}
-%\end{itemize}
 
-%\todo{show that $\te_k(\hat{\beta}_t^{\TL})$ is less than both $\te_k(\hat{\beta}_t^{\MTL})$ and $\te_k(\hat{\beta}_t^{\STL})$.}
-
-%\textbf{The High-Dimensional Setting.}
-%\todo{setup motivation and notations}
-We would like to get insight on how covariate and model shifts affect the rate of transfer.
-We will consider the high-dimensional setting where for the target task, its number of data points is a small constant times $p$.
-This setting captures a wide range of applications of multi-task learning where we would like to use auxiliary task data to help train tasks with limited labeled data.
-Furthermore, this setting is particularly suited to our study since there is need for adding more data to help learn the target task.
-
-For the case of two tasks, we can get precise rates using random matrix theory.
-For the sake of clarity, we call task 1 the source task and task 2 the target task,
-i.e. $\beta_1 = \beta_s$ and $\beta_2 = \beta_t$.
-We introduce the following notations for the high-dimensional setting
-\[ c_{n_1} \define \frac{n_1}{p} \to c_1, \quad c_{n_2} \define \frac{n_2}p \to c_2, \quad \text{as } \ n_1, n_2\to \infty, \]
-for some constants $c_1, c_2 \in (1,\infty)$.
-A crucial quantity is what we call the \textit{covariate shift} matrix $M = \Sigma_1^{1/2}\Sigma_2^{-1/2}$.
-Let $\lambda_1, \lambda_2, \dots, \lambda_p$ denote the singular values of $M$.
-%
-
-%In this part, we consider the case of two tasks to show  establish the intuition that adding more data helps in multi-task learning by reducing the variance of the estimator.
-%We achieve this through tight generalization bounds obtained from random matrix theory.
-%For the case of two tasks, we identify three factors that determine the type of transfer between tasks: model distance, covariate shift matrix, and data ratio.
-We begin by observing that the test error of $\hat{\beta}_t^{\MTL}$ consists of two parts.
-One part captures how similar the task models are and the other part captures the variance of $\hat{\beta}_t^{\MTL}$.
-Compared with $\hat{\beta}_t^{\STL}$, we observe that the variance part of $\hat{\beta}_t^{\MTL}$ gets reduced, since more data is added from source tasks.
-The bias part of $\hat{\beta}_t^{\MTL}$, which we term as \textit{model shift bias}, affects performance negatively.
-We derive the asympotic limit of $\te(\hat{\beta}_t^{\MTL})$ as $p$ approaches infinity.
-We compare it with the asympotic limit of $\te(\hat{\beta}_t^{\STL})$, for settings where the target data size is limited.
-We show sharp generalization bounds for two settings: i) two tasks with general covaraites; ii) many tasks with the same covariates.
-
-\textbf{Setting one: Two tasks with general covariance matrices.}
-For the case of two tasks, we decompose the test error of $\hat{\beta}_{t}^{\MTL}$ on the targe task into two parts
-\begin{align}
-	\te(\hat{\beta}_t^{\MTL}) =& \hat{v}^2 \bignorm{\Sigma_2^{1/2} (\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}X_1^{\top}X_1 (\beta_s - \hat{v}\beta_t)}^2 \nonumber \\
-	&+ \sigma^2\cdot \bigtr{(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2}, \label{eq_te_model_shift}
-\end{align}
-where $\hat{v}$ denotes the ratio of the output layer weights (to be defined more precisely in Appendix \ref{app_proof_main}).
-It is not hard to see that the variance of $\hat{\beta}_t^{\MTL}$ is reduced compared to $\hat{\beta}_t^{\STL}$, i.e. %(following the argument of Proposition \ref{prop_monotone}), i.e.
-\[ \bigtr{(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2} \le \bigtr{(X_2^{\top}X_2)^{-1}\Sigma_2}. \]
-Because of model shift bias, we can no longer guarantee that $\te(\hat{\beta}_{t}^{\MTL}) \le \te(\hat{\beta}_t^{\STL})$.
-%The main result of this section show deterministic conditions under which we get positive or negative transfer.
-%And the conditions depend only on the covariate shift matrix $M$, the difference of the task models, and the number of per-task data points.
 The technical crux of our approach is to derive the asymptotic limit of $\te(\hat{\beta}_t^{\MTL})$ in the high-dimensional setting, when $p$ approaches infinity.
 A key highlight of our approach implies a precise limit on $\bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}}$, which only depends on $\Sigma_1, \Sigma_2$ and $n_1, n_2$ (see Lemma \ref{lem_cov_shift} in Appendix \ref{app_proof_main} for the result).
 
-\begin{theorem}\label{thm_main_informal}
+
+\textbf{First setting: Two tasks with general covariance matrices.}
+
+\begin{theorem}[Informal]\label{thm_main_informal}
 	Let $X_i \in\real^{n_i \times p}$ and $Y_i = X_i\beta_i + \varepsilon_i$, for $i = 1, 2$.
 	Suppose that $n_1 = c_1 p$ and $n_2 = c_2 p$, where $c_1>1$ and $c_2 >1$ are fixed constants.
 	There exists two deterministic functions $\Delta_{\beta}$ and $\Delta_{\vari}$ and a small deterministic error $\delta$ that only depend on $\set{\hat{v}, M, n_1, n_2, \beta_1, \beta_2}$ such that
@@ -81,7 +31,7 @@ Theorem \ref{thm_main_informal} shows upper and lower bounds that guarantee posi
 The bounds get tighter and tighter as $n_1 / p$ increases.
 
 
-\textbf{Setting two: Many tasks with the same covariates.}
+\textbf{Second setting: Many tasks with the same covariates.}
 We extend the above result to any number of tasks that have the same covariates.
 %In this section we consider the setting with $k$ many that have the same covariates.
 Since the tasks all have the same number of datapoints and covariance matrix, the trade-off between model shift bias and variance will be captured by their task models $\set{\beta_i}_{i=1}^k$.
