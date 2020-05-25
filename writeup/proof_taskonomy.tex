@@ -11,24 +11,24 @@ Then, we learn the output layer $W_k$ on the target task by solving equation:
 After getting $W_k$, we use $B W_k$ as estimator and $\te(B W_k)$ is the test error of the estimator
 We use our tools to compare $\te(B W_k)$ to $\te(\beta_k^{\STL})$.
 
-The projection of $\beta_t$ onto the subspace spanned by $(\beta_1,\cdots, \beta_k)$ is 
-$$\hat \beta_t = \sum_{i=1}^k\frac{\beta_t^\top \beta_i}{\|\beta_i\|} \beta_i .$$
-On the other hand, the single task estimator $\hat\beta_i$ is given by 
-$$\hat \beta_i = \beta_i + (X_i^\top X_i)^{-1}X_i \e_i.$$
-Then the projection of $\beta_t$ onto the subspace spanned by $(\hat\beta_1,\cdots, \hat\beta_k)$ is 
-$$ \hat \beta_t'= \sum_{i=1}^k\frac{\beta_t^\top \hat \beta_i}{\|\hat \beta_i\|} \hat \beta_i .$$
-We now calculate the estimation error $ \exarg{\varepsilon_i, \forall 1\le i\le k} {\|\hat \beta_t - \hat\beta_t'\|^2}.$ Without loss of generality, we assume that $\|\beta_i\|^2 \sim 1$ for all $1\le i \le k$ and $\sigma^2\le n^{-c}$ for some constant $c>0$. Then we calculate that
+For each task $i$, $1\le i \le k-1$, we can find that  
+$$\hat \beta_i = \beta_i + (X_i^\top X_i)^{-1}X_i^\top \e_i.$$
+We assume that $\sigma^2=\OO(1)$, $\|\beta_i\|^2 =\OO(1)$ for all $1\le i \le k$ and %$\sigma^2\ll 1$, i.e. the error is sufficiently small. Moreover, we make the extra assumption that 
+\be\label{BTBassm}
+\|(B_0^\top B_0)^{-1}\|\le C,\quad B_0: = [{\beta}_1,{\beta}_2,\dots,{\beta}_{k-1}], 
+\ee
+for some constant $C>0$. Then we calculate that
 \begin{align*}
-\|\hat\beta_i\|^2 &= \|\beta_i\|^2 + 2\beta_t^\top\cdot (X_i^\top X_i)^{-1}X_i \e_i + \|(X_i^\top X_i)^{-1}X_i \e_i \|^2 .
+\|\hat\beta_i\|^2 &= \|\beta_i\|^2 + 2\beta_i^\top\cdot (X_i^\top X_i)^{-1}X_i^\top \e_i + \|(X_i^\top X_i)^{-1}X_i^\top \e_i \|^2 .
 \end{align*}
 We can use concentration of random vector with independent entries, Lemma \ref{largedeviation}, to get that for any $\e>0$,
 \be\label{largebetae}
-\beta_t^\top (X_i^\top X_i)^{-1}X_i \e_i  \le p^{\e/2}\cdot \sigma \left[\beta_t^\top (X_i^\top X_i)^{-1}\beta_t \right]^{1/2}\le \sigma p^{-1/2+\e},  
+\beta_t^\top (X_i^\top X_i)^{-1}X_i^\top \e_i  \le p^{\e/2}\cdot \sigma \left[\beta_t^\top (X_i^\top X_i)^{-1}\beta_t \right]^{1/2}\le \sigma p^{-1/2+\e},  
 \ee
 with high probability, and 
 \be\label{largebetae2}
 \begin{split}
- \|(X_i^\top X_i)^{-1}X_i \e_i \|^2 - \sigma^2 \tr\left( (X_i^\top X_i)^{-1} \right)   \le p^{\e/2}\cdot \sigma^2 \left\{\tr\left[X_i^\top (X_i^\top X_i)^{-2}X_i\right]^2\right\}^{1/2} \\
+ \left|\|(X_i^\top X_i)^{-1}X_i^\top \e_i \|^2 - \sigma^2 \tr\left( (X_i^\top X_i)^{-1} \right)\right|   \le p^{\e/2}\cdot \sigma^2 \left\{\tr\left[X_i (X_i^\top X_i)^{-2}X_i^\top\right]^2\right\}^{1/2} \\
  = p^{\e/2}\cdot \sigma^2 \left[ \tr (X_i^\top X_i)^{-2} \right]^{1/2} \le \sigma^2 p^{-1/2+\e},  
  \end{split}
 \ee
@@ -37,24 +37,56 @@ $$\beta_t^\top (X_i^\top X_i)^{-1}\beta_t  \le p^{-1+\e/2} \quad \text{and}\quad
 Thus we get that with high probability,
 \begin{align}
 \|\hat\beta_i\|^2&= \|\beta_i\|^2 + \sigma^2\cdot \tr \left( (X_i^\top X_i)^{-1}\right) +\OO(\sigma p^{-1/2+\e}) \nonumber\\
-&=  \|\beta_i\|^2 + \frac{\sigma^2}{c_i-1}\cdot \frac1p\tr \left(\Sigma_i^{-1}\right) +\OO(\sigma p^{-1/2+\e}) ,\label{betanormi}
+&=  \|\beta_i\|^2 + \frac{\sigma^2}{\rho_i-1}\cdot \frac1p\tr \left(\Sigma_i^{-1}\right) +\OO(\sigma p^{-1/2+\e}) ,\label{betanormi}
 \end{align}
-where in the second step we used Lemma \ref{lem_minv}.
+where in the second step we used Lemma \ref{lem_minv}. Similarly, we have
+\begin{align}\label{betanormij}
+\hat\beta_i^\top \hat \beta_j &=  \hat\beta_i^\top \hat\beta_j + \OO(\sigma p^{-1/2+\e})  ,
+\end{align}
+using \eqref{largebetae} and the concentration bound
+\be\nonumber%\label{largebetae3}
+\begin{split}
+\left| \e_j^\top X_j (X_j^\top X_j)^{-1}(X_i^\top X_i)^{-1}X_i^\top \e_i \right| \le   p^{\e/2}\cdot \sigma^2 \left\{ \tr \left[(X_i^\top X_i)^{-1}(X_j^\top X_j)^{-1}\right] \right\}^{1/2} \le \sigma^2 p^{-1/2+\e},  
+ \end{split}
+\ee
+by Lemma \ref{largedeviation}. With \eqref{betanormi} and \eqref{betanormij}, we obtain that with high probability,
+\be\label{BTB}
+B^\top B=  B_0^\top B_0 + \cal M +\OO(\sigma p^{-1/2+\e}),
+\ee
+where $\cal M$ is a diagonal matrix with $\cal M_{ii}=\frac{\sigma^2}{c_i-1}\cdot \frac1p\tr \left(\Sigma_i^{-1}\right)$ and $\OO(\sigma p^{-1/2+\e})$ means a $(k-1)\times (k-1)$ matrix, say $\cal E$, satisfying $\|\cal E\|\le C\sigma p^{-1/2+\e}$. Notice that by \eqref{BTBassm}, we also have
+$$\|(B^\top B)^{-1}\|\lesssim 1.$$
+Finally, using \eqref{largebetae} we can get that
+\be\label{BTBeta}
+B^\top \beta =  B_0^\top \beta + \OO(\sigma p^{-1/2+\e}),
+\ee
+for any deterministic vector $\|\beta\|$ of order 1.
 
-For simplicity we abbreviate $v_i:=(X_i^\top X_i)^{-1}X_i \e_i$. Then using \eqref{largebetae} and \eqref{betanormi} we can calculate that whp,
+For the $k$-th target model, by optimizing over $W_k$ we get
+$$\hat W_k= (B^\top X_k^\top X_k B)^{-1} B^\top X_k^\top Y_k =(B^\top X_k^\top X_k B)^{-1} B^\top X_k^\top (X_k \beta_k + \e_k) .$$
+We then calculate that 
+\be
+\begin{split}
+\exarg{\varepsilon_k} {\left\|\Sigma_k^{1/2}(B\hat W_k -\beta_k)\right\|^2} &= \left\| \Sigma_k^{1/2}\left[\id - B(B^\top X_k^\top X_k B)^{-1} B^\top X_k^\top X_k\right] \beta_k \right\|^2 \\
+&+\sigma^2\cdot \tr \left[\Sigma_k (B^\top X_k^\top X_k B)^{-1}\right]. \label{EBWk}
+%\\&= \sigma^2\cdot \tr (B^\top X_k^\top X_k B)^{-1} + \left\|\beta_k\right\|^2 - 2 \beta_k^\top B(B^\top X_k^\top X_k B)^{-1} B^\top X_k^\top X_k \beta_k \nonumber\\
+%&+ \beta_k^\top X_k^\top X_k B(B^\top X_k^\top X_k B)^{-1}B^\top B (B^\top X_k^\top X_k B)^{-1}B^\top X_k^\top X_k \beta_k.\label{EBWk}
+\end{split}
+\ee
+By the concentration of random vector with independent entries or the restricted isometry property for $X_k B$, we have with high probability, 
+$$ B^\top X_k^\top X_k B = n_k B^\top B\cdot \left( 1 + \OO(p^{-1/2+\e})\right),\quad B^\top X_k^\top X_k \beta_k = n_k B^\top \beta_k \cdot \left( 1 + \OO(p^{-1/2+\e})\right).$$
+Together with \eqref{BTB} and \eqref{BTBeta}, we can simplify the right-hand side of \eqref{EBWk} as
 \begin{align*}
-&\|\hat \beta_t - \hat\beta_t'\|^2= \left\|\sum_{i=1}^k\frac{\beta_t^\top \beta_i}{\|\beta_i\|} \beta_i - \sum_{i=1}^k\frac{\beta_t^\top (\beta_i + v_i)}{ \|\beta_i +v_i\| }(\beta_i + v_i) \right\|^2 \\
-&=  \left\|\sum_{i=1}^k\left(\frac{\beta_t^\top \beta_i}{\|\beta_i\|}-\frac{\beta_t^\top \beta_i}{\|\beta_i+v_i\|} \right)\beta_i - \sum_{i=1}^k\frac{\beta_t^\top \beta_i }{ \|\beta_i+v_i\| } v_i - \sum_{i=1}^k\frac{\beta_t^\top v_i}{ \|\beta_i +v_i\| } (\beta_i+v_i) \right\|^2 \\
-%& = \left\|\sum_{i=1}^k\frac{\beta_t^\top \beta_i}{\|\beta_i\|}\left(1-\frac{\|\beta_i\|}{(\|\beta_i\|^2 + 2\beta_i^\top v_i + \|v_i\|^2)^{1/2}} \right)\beta_i - \sum_{i=1}^k\frac{\beta_t^\top \beta_i }{ \|\beta_i\|+\OO(\sigma^2 + \sigma p^{-1/2+\e}) } v_i\right\|^2 + \OO\left(\sigma^2 p^{-1+2\e}\right) \\
-%&= \left\|\sum_{i=1}^k\frac{\beta_t^\top \beta_i}{\|\beta_i\|}\frac{2\beta_i^\top v_i + \|v_i\|^2}{2\|\beta_i\|^2}\beta_i \right\|^2+\left\| \sum_{i=1}^k\frac{\beta_t^\top \beta_i }{ \|\beta_i\|} v_i\right\|^2 + \OO\left(\sigma^4+\sigma^2 p^{-1+2\e}\right)
-&= \left\| \sum_{i=1}^k\frac{\beta_t^\top \beta_i }{ \|\beta_i\|} v_i\right\|^2 + \OO\left(\sigma^4+\sigma^2 p^{-1+2\e}\right).
+\exarg{\varepsilon_k} {\left\|\Sigma_k^{1/2} (B\hat W_k -\beta_k)\right\|^2} &=\left\|\Sigma_k^{1/2} \beta_k - \Sigma_k^{1/2} B(B^\top B)^{-1} B^\top \beta_k \right\|^2 + \OO(p^{-1/2+\e}) \\
+&=\left\|\Sigma_k^{1/2} \beta_k - \Sigma_k^{1/2} B(B_0^\top B_0 +\cal M)^{-1} B_0^\top \beta_k \right\|^2 + \OO(p^{-1/2+\e}). 
 \end{align*}
-Thus taking expectation, we get that 
+As in \eqref{BTB}, we can show by concentration that 
+\be\label{BTB2}
+B^\top \Sigma_k B=  B_0^\top \Sigma_k B_0 +\wt{ \cal M} +\OO(\sigma p^{-1/2+\e}),
+\ee
+where $\wt{\cal M}$ is a diagonal matrix with $\wt{\cal M}_{ii}=\frac{\sigma^2}{c_i-1}\cdot \frac1p\tr \left(\Sigma_i^{-1}\Sigma_k\right)$. Together with \eqref{BTB} and \eqref{BTBeta}, we can further simplify that
 \begin{align*}
-\exarg{\varepsilon_i, \forall 1\le i\le k} {\|\hat \beta_t - \hat\beta_t'\|^2}&=   \sum_{i=1}^k\frac{\left|\beta_t^\top \beta_i \right|^2}{ \|\beta_i\|^2 } \cdot \sigma^2 \tr \left( (X_i^\top X_i)^{-1}\right) + \OO\left(\sigma^4+\sigma^2 p^{-1+2\e}\right) \\
- &= \sum_{i=1}^k\frac{\left|\beta_t^\top \beta_i \right|^2}{ \|\beta_i\|^2 } \cdot \frac{\sigma^2}{c_i-1}\cdot \frac1p\tr \left(\Sigma_i^{-1}\right) + \OO\left(\sigma^4+\sigma^2 p^{-1/2+2\e}\right) .
+&\exarg{\varepsilon_i, \forall 1\le i\le k} {\left\|\Sigma_k^{1/2} (B\hat W_k -\beta_k)\right\|^2}= \left\|\Sigma_k^{1/2} \beta_k\right\|^2 - 2\beta_k^\top \Sigma_k B_0 (B_0^\top B_0 +\cal M)^{-1} B_0^\top \beta_k  \\
+&+ \beta_k^\top B_0 (B_0^\top B_0 +\cal M)^{-1} \left(B_0^\top \Sigma_k B_0 + \wt{\cal M}\right) (B_0^\top B_0 + {\cal M})^{-1}  B_0^\top \beta_k+ \OO(p^{-1/2+\e})\\
+& = \left\|\Sigma_k^{1/2} \beta_k - \Sigma_k^{1/2} B_0(B_0^\top B_0 +\cal M)^{-1} B_0^\top \beta_k \right\|^2  + \left\|\wt{\cal M}^{1/2}(B_0^\top B_0 + {\cal M})^{-1}  B_0^\top \beta_k \right\|^2+ \OO(p^{-1/2+\e}).
 \end{align*}
-Note the first term is of order $\sigma^2$, and hence the second stem is an error term.
-
-
 
