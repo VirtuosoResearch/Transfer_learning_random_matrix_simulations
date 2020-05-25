@@ -36,19 +36,19 @@ More recent work has shown the benefit of learning multi-task representations fo
 %The high-dimensional linear regression setting where the target task data size is limited captures the intuition that the target task only contains limited labeled data.
 
 In this work, we consider multiple high-dimensional linear regression tasks as input and focus on predicting a particular task that only has limited amount of labeled data.
-Concretely, each task consists of $n_i$ datapoints in space $\real^p$ organized as matrix $X_i\in\real^{n_i\times p}$, for $1\le i\le p$.
+Concretely, each task consists of $n_i$ datapoints in space $\real^p$ organized as matrix $X_i\in\real^{n_i\times p}$, for $1\le i\le t$.
 The labels of $X_i$ are given by $Y_i = X_i\beta_i + \varepsilon_i$, where $\beta_i$ denotes the ground truth parameters for task $i$ and $\varepsilon_i$ denotes i.i.d. random noise with mean zero and variance $\sigma^2$.
 Importantly, we assume that the number of datapoints $n_i$ is a small constant $\rho_i$ times $p$ and that $p$ is large. \todo{rational}
 %We shall assume that each task data follows a linear model, i.e. $y_i = X_i \beta_i + \varepsilon_i$, $1\le i\le k$.
 %Here $\beta_i\in\real^p$ is the model parameter for the $i$-th task.
 %Each row of $X_i\in\real^{n_i\times p}$ is assumed to be drawn i.i.d. from a fixed
 %distribution with covariance matrix $\Sigma_i$.
-We use a hard parameter sharing architecture that contains a shared body $B\in\real^{p\times r}$ for all tasks and a separate prediction head $\set{W_i \in \real^{r}}_{i=1}^k$ for each task \cite{R17,MTDNN19}.
+We use a hard parameter sharing architecture that contains a shared body $B\in\real^{p\times r}$ for all tasks and a separate prediction head $\set{W_i \in \real^{r}}_{i=1}^t$ for each task \cite{R17,MTDNN19}.
 %    \paragraph{Different covariates:}
 This corresponds to minimizing the following optimization objective.
 \begin{align}
 	\label{eq_mtl}
-	f(B; W_1, \dots, W_k) = \sum_{i=1}^k \norm{X_i B W_i - Y_i}^2.
+	f(B; W_1, \dots, W_t) = \sum_{i=1}^t \norm{X_i B W_i - Y_i}^2.
 \end{align}
 %Note that we consider the natural parameterization without reweighting the tasks above.
 %The shared body $B$ plays an important role because it allows information transfer between different task data.
