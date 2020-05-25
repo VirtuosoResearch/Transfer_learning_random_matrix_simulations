@@ -14,38 +14,37 @@ The bias-variance trade-off \cite{HTF09} says that
 	\[ \te_t(\hat{\beta}) =
 		\bignorm{\exarg{\varepsilon_t}{\hat{\beta}} - \beta_t}^2 + \exarg{\varepsilon_t}{\hat{\beta} - \exarg{\varepsilon_t}{\hat{\beta}}}. \]
 Recall that we assume $n_i > p$ for every $1\le i\le t$.
-Hence the bias of $\te_t(\hat{\beta}_t^{\STL})$ is zero and its test error is equal to variance, given by $\sigma^2 \cdot \tr{(X_i^{\top}X_i)^{-1}\Sigma_i}$.
+Hence the bias of $\te_t(\hat{\beta}_t^{\STL})$ is zero and its test error is equal to variance, given by $\sigma^2 \cdot \tr[(X_i^{\top}X_i)^{-1}\Sigma_i]$.
+We focus on a setting where the data size $n_t$ of the target task is equal to a small constant $\rho_t > 1$ times $p$.
+This setting captures the need for adding more labeled data to reduce the test error of the target task.
 
-For the case of two tasks, we decompose the test error of $\hat{\beta}_{t}^{\MTL}$ on the targe task into two parts
+To illustrate our intuition, we begin by considering the multi-task learning setting with one source task.
+Recall that $\hat{\beta}_t^{\MTL}$ is defined as $BW_t$ after solving equation \eqref{eq_mtl}.
+We decompose the test error of $\hat{\beta}_{t}^{\MTL}$ on the targe task into two parts (to be derived in Appendix \ref{app_proof_main})
 \begin{align}
-	\te(\hat{\beta}_t^{\MTL}) =& \hat{v}^2 \bignorm{\Sigma_2^{1/2} (\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}X_1^{\top}X_1 (\beta_s - \hat{v}\beta_t)}^2 \nonumber \\
-	&+ \sigma^2\cdot \bigtr{(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2}, \label{eq_te_model_shift}
+	\te_t(\hat{\beta}_t^{\MTL}) =& ~ \hat{v}^2 \bignorm{\Sigma_2^{1/2} (\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}X_1^{\top}X_1 (\beta_1 - \hat{v}\beta_2)}^2 \label{eq_te_model_shift} \\
+	&+ \sigma^2\cdot \bigtr{(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2}, \label{eq_te_var}
 \end{align}
-where $\hat{v}$ denotes the ratio of the output layer weights (to be defined more precisely in Appendix \ref{app_proof_main}).
+where $\hat{v} = W_2 / W_1$ denotes the ratio of the output layer weights.
+By comparing the bias and variance of $\te_t(\hat{\beta}_t^{\MTL})$ to $\te_t(\hat{\beta}_t^{\STL})$, we observe the following two effects, respectively.
 
-For the case of two tasks, we can get precise rates using random matrix theory.
-For the sake of clarity, we call task 1 the source task and task 2 the target task,
-i.e. $\beta_1 = \beta_s$ and $\beta_2 = \beta_t$.
-We introduce the following notations for the high-dimensional setting
-\[ c_{n_1} \define \frac{n_1}{p} \to c_1, \quad c_{n_2} \define \frac{n_2}p \to c_2, \quad \text{as } \ n_1, n_2\to \infty, \]
-for some constants $c_1, c_2 \in (1,\infty)$.
-A crucial quantity is what we call the \textit{covariate shift} matrix $M = \Sigma_1^{1/2}\Sigma_2^{-1/2}$.
-Let $\lambda_1, \lambda_2, \dots, \lambda_p$ denote the singular values of $M$.
-%
 
-\textbf{Model shift bias.}
-
-We begin by observing that the test error of $\hat{\beta}_t^{\MTL}$ consists of two parts.
-One part captures how similar the task models are and the other part captures the variance of $\hat{\beta}_t^{\MTL}$.
-Compared with $\hat{\beta}_t^{\STL}$, we observe that the variance part of $\hat{\beta}_t^{\MTL}$ gets reduced, since more data is added from source tasks.
-The bias part of $\hat{\beta}_t^{\MTL}$, which we term as \textit{model shift bias}, affects performance negatively.
-We derive the asympotic limit of $\te(\hat{\beta}_t^{\MTL})$ as $p$ approaches infinity.
-We compare it with the asympotic limit of $\te(\hat{\beta}_t^{\STL})$, for settings where the target data size is limited.
-We show sharp generalization bounds for two settings: i) two tasks with general covaraites; ii) many tasks with the same covariates.
+\textbf{Model-shift bias.}
+%We begin by observing that the test error of $\hat{\beta}_t^{\MTL}$ consists of two parts.
+We term equation \eqref{eq_te_model_shift} as \textit{model-shift bias}, which captures how similar $\beta_1$ and $\beta_2$ are.
+This part introduces a negative effect to multi-task learning.
+The scaling term $\hat{v}$ corresponds to the intuition that the shared module $B$ learns a subspace for both tasks.
+The output layer of each task scales the direction of $B$ suitably to fit the task.
 
 \textbf{Variance reduction.}
+Next, it is not hard to verify that equation \eqref{eq_te_var}, the variance of $\hat{\beta}_t^{\MTL}$, is always smaller than the variance of $\hat{\beta}_t^{\STL}$.
+This part introduces a positive variance reduction effect to performing multi-task learning.
+Hence, whether $\te(\hat{\beta}_t^{\MTL})$ is lower than $\te(\hat{\beta}_t^{\STL})$ is determined by the trade-off between two effects:
+(i) the positive effect from variance reduction;
+(ii) the negative effect from model shift bias.
 
+%, i.e. %(following the argument of Proposition \ref{prop_monotone}), i.e.
+%\[ \bigtr{(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2} \le \bigtr{(X_2^{\top}X_2)^{-1}\Sigma_2}. \]
+%Because of model shift bias, we can no longer guarantee that $\te(\hat{\beta}_{t}^{\MTL}) \le \te(\hat{\beta}_t^{\STL})$.
 
-It is not hard to see that the variance of $\hat{\beta}_t^{\MTL}$ is reduced compared to $\hat{\beta}_t^{\STL}$, i.e. %(following the argument of Proposition \ref{prop_monotone}), i.e.
-\[ \bigtr{(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2} \le \bigtr{(X_2^{\top}X_2)^{-1}\Sigma_2}. \]
-Because of model shift bias, we can no longer guarantee that $\te(\hat{\beta}_{t}^{\MTL}) \le \te(\hat{\beta}_t^{\STL})$.
+\textbf{Notations.} For the sake of clarity, we denote the first task as the source task and last ($t$-th) task as the target task.
