@@ -36,7 +36,7 @@ The bounds get tighter and tighter as $\rho_1$ increases.
 A formal version of Theorem \ref{thm_main_informal} is presented in Theorem \ref{thm_model_shift} and its proof is presented in Appendix \ref{sec_pfmain}.
 
 
-Our second result applies to the set setting of many tasks with the same covariates.
+Our second result applies to the setting of any number of tasks with the same covariates.
 %We extend the above result to any number of tasks that have the same covariates.
 %In this section we consider the setting with $k$ many that have the same covariates.
 Since the tasks all have the same number of datapoints and covariance matrix, the trade-off between model shift bias and variance will be captured by their task models $\set{\beta_i}_{i=1}^k$.
@@ -231,3 +231,15 @@ A theoretical justification of Example \ref{ex_covariate} can be found in Append
 \textbf{Implications.}
 
 
+\section{Extending the Bias-Variance Trade-off to Transfer Learning}\label{sec_taskonomy}
+
+We study the transfer function of taskonomy \cite{ZSSGM18}.
+The algorithm is as follows.
+First, we obtain the single-task estimator $\hat{\beta}_i$ from every task, for $1\le i \le t$.
+This forms the shared representation $B = [\hat{\beta}_1,\hat{\beta}_2,\dots,\hat{\beta}_{t-1}]$.
+Then, we learn the output layer $W_t$ on the target task by solving equation:
+\begin{align}
+	\bignorm{X_t B W_t - Y_t}^2
+\end{align}
+After getting $W_t$, we use $B W_t$ as estimator and $\te(B W_t)$ is the test error of the estimator.
+We use our tools to compare $\te(B W_t)$ to $\te(\beta_t^{\STL})$.
