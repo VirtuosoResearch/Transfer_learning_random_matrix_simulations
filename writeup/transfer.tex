@@ -9,26 +9,31 @@ Our analysis reveals three contributing causes of negative transfer, including t
 
 \subsection{Determining Positive versus Negative Transfer}\label{sec_main}
 
+In order to study the trade-off between model-shift bias and variance reduction, we need tight concentration bounds to quantify both effects.
+For this purpose, we consider the high-dimensional setting where $p$ goes to infinity.
+A well-known result for this setting states that the asymptotic limit of $\te(\hat{\beta}_t^{\STL})$ is $\frac {\sigma^2} {\rho_t - 1}$ (e.g. Chapter 6 of \cite{S07}), which scales with the data size and noise level of the target task.
+However, this result only applies to the single-task setting.
+Therefore, we focus on deriving the asymptotic limit of $\te(\hat{\beta}_t^{\MTL})$ when $p$ goes to infinity.
 
-The technical crux of our approach is to derive the asymptotic limit of $\te(\hat{\beta}_t^{\MTL})$ in the high-dimensional setting, when $p$ approaches infinity.
-A key highlight of our approach implies a precise limit on $\bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}}$, which only depends on $\Sigma_1, \Sigma_2$ and $n_1, n_2$ (see Lemma \ref{lem_cov_shift} in Appendix \ref{app_proof_main} for the result).
-
-
-\textbf{First setting: Two tasks with general covariance matrices.}
+Our first result applies to the setting of two tasks where their covariance matrices may be arbitrarily different.
+%The technical crux of our approach is to derive the asymptotic limit of $\te(\hat{\beta}_t^{\MTL})$ in the high-dimensional setting, when $p$ approaches infinity.
+We derive a precise limit of $\bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2}$, which is a deterministic function that only depends on $\Sigma_1, \Sigma_2$ and $n_1/p, n_2/p$ (see Lemma \ref{lem_cov_shift} in Appendix \ref{app_proof_main} for the result).
+Based on the result, we show how to determine positive versus negative transfer as follows.
 
 \begin{theorem}[Informal]\label{thm_main_informal}
 	Let $X_i \in\real^{n_i \times p}$ and $Y_i = X_i\beta_i + \varepsilon_i$, for $i = 1, 2$.
-	Suppose that $n_1 = c_1 p$ and $n_2 = c_2 p$, where $c_1>1$ and $c_2 >1$ are fixed constants.
-	There exists two deterministic functions $\Delta_{\beta}$ and $\Delta_{\vari}$ and a small deterministic error $\delta$ that only depend on $\set{\hat{v}, M, n_1, n_2, \beta_1, \beta_2}$ such that
+	Suppose that $n_1 = \rho_1 p$ and $n_2 = \rho_2 p$, where $\rho_1>1$ and $\rho_2 >1$ are fixed constants.
+	There exists two deterministic functions $\Delta_{\beta}$ and $\Delta_{\vari}$ and a small deterministic error $\delta$ that only depend on $\set{\hat{v}, \Sigma_1^{}, n_1, n_2, \beta_1, \beta_2}$ such that
 	\begin{itemize}
 		\item If $\Delta_{\vari} - \Delta_{\beta} \ge \delta$, then whp $\te(\hat{\beta}_t^{\MTL}) < \te(\hat{\beta}_t^{\STL})$.
 		\item If $\Delta_{\vari} - \Delta_{\beta} \le \delta$, then whp $\te(\hat{\beta}_t^{\MTL}) > \te(\hat{\beta}_t^{\STL})$.
 	\end{itemize}
 \end{theorem}
 
-
-Theorem \ref{thm_main_informal} shows upper and lower bounds that guarantee positive transfer, which is determined by the change of variance $\Delta_{\vari}$ and a certain model shift bias parameter $\Delta_{\beta}$ determined by the covariate shift matrix and the model shift.
-The bounds get tighter and tighter as $n_1 / p$ increases.
+Theorem \ref{thm_main_informal} shows nearly tight bounds on the trade-off between model-shift bias and variance reduction.
+%determined by the covariate shift matrix and the model shift.
+The bounds get tighter and tighter as $\rho_1$ increases.
+A formal version of Theorem \ref{thm_main_informal} is presented in Theorem \ref{thm_model_shift} and its proof is presented in Appendix \ref{app_proof_main}.
 
 
 \textbf{Second setting: Many tasks with the same covariates.}
