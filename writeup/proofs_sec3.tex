@@ -45,15 +45,16 @@ The baseline where we solve the target task with its own data is
 \end{align*}
 %Clearly, whether $\hat{\beta}_t^{\MTL}$ outperforms $\hat{\beta}_t^{\STL}$ depends on the covariate matrices, the difference of the task models, and the number of per-task data points.
 
-We state several helper lemmas to get a bound on the variance of $\hat{\beta}_t^{\STL}$ and $\hat{\beta}_t^{\MTL}$.
-The first lemma, which is a folklore result in random matrix theory, helps determine the asymptotic limit of $\te(\hat{\beta}_t^{\STL})$, as $p$ goes to infinity.
+We state several helper lemmas to get a bound on the variance of $\hat{\beta}_t^{\STL}$ and $\hat{\beta}_t^{\MTL}$. The first lemma, which is a folklore result in random matrix theory, helps determine the asymptotic limit of $\te(\hat{\beta}_t^{\STL})$, as $p$ goes to infinity. When the entries of $X$ are multivariate Gaussian, this lemma recovers the classical result for the mean of inverse Wishart distribution \cite{anderson1958introduction}. For general non-Gaussian random matrices, it can be obtained from Stieltjes transform method; see e.g., Lemma 3.11 of \cite{bai2009spectral}. Here we shall state a result that is a consequence of Theorem 2.4 in \cite{isotropic}, which gives an almost sharp error bound. 
 
-\begin{lemma}\label{lem_minv}[\todo{ref?}]
-	Let $X\in\real^{n\times p}$ be a random matrix that contains i.i.d. row vectors with mean $0$ and covariance $\Sigma\in\real^{p\times p}$. Let $A$ be a $p\times p$ matrix that is independent of $X$ and satisfies $\|A\|=\OO(1)$.
-	In the setting when $n = c p$ we have that
-	\[  \bigtr{(X^{\top}X)^{-1}A} = \frac{1}{c - 1} \frac1p\tr(A\Sigma^{-1}) +\bigo{ p^{-1/2+\epsilon}} \]
+\begin{lemma}\label{lem_minv} 
+	Let $X = \Sigma^{1/2} Z\in\real^{n\times p}$ be a random matrix that contains i.i.d. row vectors with mean $0$ and covariance $\Sigma\in\real^{p\times p}$. Suppose the entries of $Z$ have finite moments up to any order. Let $A$ be a $p\times p$ matrix that is independent of $X$ and satisfies $\|A\|=\OO(1)$.
+	In the setting when $n = \rho p$ for some constant $\rho>1$, we have that with high probability,
+	\be\label{XXA}  \bigtr{(X^{\top}X)^{-1}A} = \frac{1}{\rho - 1} \frac1p\tr(A\Sigma^{-1}) +\bigo{ p^{-1/2+\epsilon}} \ee
 for any constant $\e>0$.
 \end{lemma}
+
+In this section, we will always consider random variables with finite moments up to any order. On the other hand, if the entries of $Z$ have finite $a$-th moment for some constant $a>4$, then \eqref{XXA} still holds except that the error bound becomes  $\OO( p^{-\frac12+\frac2a +\epsilon})$; see our Corollary \ref{main_cor} below.
 
 The second lemma, which deals the inverse of the sum of two random matrices, can be viewed as a special case of Theorem \ref{thm_model_shift}.
 
