@@ -34,7 +34,7 @@ Theorem \ref{thm_main_informal} shows nearly tight bounds on the trade-off betwe
 %determined by the covariate shift matrix and the model shift.
 The bounds get tighter and tighter as $\rho_1$ increases.
 A formal version of Theorem \ref{thm_main_informal} is presented in Theorem \ref{thm_model_shift} and its proof is presented in Appendix \ref{sec_pfmain}.
-
+While the general form of $\Delta_{\vari}$ and $\Delta_{\beta}$ can be quite complex, we show that they provide nice interpretation for several simple settings in the rest of the section.
 
 Our second result applies to the setting of any number of tasks with the same covariates.
 %We extend the above result to any number of tasks that have the same covariates.
@@ -48,9 +48,10 @@ The formal statement is stated in Theorem \ref{thm_many_tasks} and its proof can
 
 \subsection{Task Model Similarity}\label{sec_similarity}
 
-We compare the test error of $\hat{\beta}_t^{\MTL}$ to that of $\hat{\beta}_t^{\STL}$.
-For a simple example, we show that whether $\hat{\beta}_t^{\MTL}$ performs better than $\hat{\beta}_t^{\STL}$ is determined by the distance of the task models.
-We derive a sharp threshold when positive transfer transitions to negative transfer, as a ratio between the model distance and the noise level.
+A folklore intuition since the seminal work of Caruana \cite{C97} is that task relatedness determines how well multi-task learning performs.
+We formalize the intuition using our setup and technical tools.
+For a simple example of two tasks, we show that whether $\hat{\beta}_t^{\MTL} \le \hat{\beta}_t^{\STL}$ is determined by $\norm{\beta_1 - \beta_2}^2$, the distance of the task models.
+We derive a sharp threshold when positive transfer transitions to negative transfer, as a function of model distance $\norm{\beta_1 - \beta_2}^2$, data size $n_1$ abd $n_2$ and the noise level $\sigma$.
 
 \begin{example}\label{ex_basic}
 	Consider a setting where $\Sigma_1 = \Sigma_2 = \id$, in other words there is no covariate shift between the two tasks. For the noises, we assume that $\e_i$ has i.i.d. entries with mean zero and variances $\sigma_i^2$, $i=1,2$. 
@@ -60,68 +61,75 @@ We derive a sharp threshold when positive transfer transitions to negative trans
 	For simplicity, we assume that all the random variables have subexponential decay, while keeping in mind that our results can be applied under weaker moments assumptions as shown in the supplementary material.
 \end{example}
 
-We illustrate the example in a synthetic setting.
-We demonstrate our result with a simulation. (\todo {uses the tighter bound Proposition \ref{prop_model_shift_tight}?})
+We illustrate the example with a simulation.
 We consider a setting where $p = 200$, $n_1 = 90p$, $n_2 = 30p$.
-	\todo{Fill in other params.}
-We fix the target task and vary the source task, by varying the task model distance parameter $d$.
-We show that Theorem \ref{thm_model_shift} predicts whether we can get positive or negative transfer.
-Figure \ref{fig_model_shift_phasetrans} shows the result.
+We fix the target task and vary the source task, in particular the parameter $d$ which determines $\norm{\beta_1 - \beta_2}$.
+Figure \ref{fig_model_shift} shows the result.
+Based on Theorem \ref{thm_model_shift}, we derive the transition threshold in the following proposition.
+Define the following function
+\begin{align*}
+	\Phi(\rho_1, \rho_2) = \frac{(\rho_1 + \rho_2 - 1)^2}{\rho_1 (\rho_1 + \rho_2) (\rho_2 - 1)}.
+\end{align*}
 
-Specifically, the transition threshold is derived in the following proposition.
 \begin{proposition}\label{prop_dist_transition}
-	In the setting of Example \ref{ex_basic} with $\sigma_1 = \sigma_2 = \sigma$, assume that $c_1 > 110$ is a fixed constant.
+	In the setting of Example \ref{ex_basic} with $\sigma_1 = \sigma_2 = \sigma$, assume that $\rho_1 > 110$ is a fixed constant.
 	Whether $\te(\hat{\beta}_t^{\MTL})$ is lower than $\te(\hat{\beta}_t^{\STL})$ is determined by the ratio between the model distance and the noise level:
 	\begin{itemize}
-		\item If ${d^2} < \frac {2\sigma^2} {3p} \frac{(c_1 + c_2 -1)^2}{c_1 (c_1 + c_2)(c_2 - 1)}$, then whp we have that $\te(\hat{\beta}_t^{\MTL}) < \te(\hat{\beta}_t^{\STL})$.
-		\item If ${d^2} \ge \frac {3\sigma^2} {2p} \frac{(c_1 + c_2 -1)^2}{c_1(c_1 + c_2)(c_2 - 1)} $, then whp we have that $\te(\hat{\beta}_t^{\MTL}) \ge \te(\hat{\beta}_t^{\STL})$.
+		\item If ${d^2} < \frac {2\sigma^2} {3p} \cdot \Phi(\rho_1, \rho_2)$, then whp we have that $\te(\hat{\beta}_t^{\MTL}) < \te(\hat{\beta}_t^{\STL})$.
+		\item If ${d^2} \ge \frac {3\sigma^2} {2p} \cdot \Phi(\rho_1, \rho_2)$, then whp we have that $\te(\hat{\beta}_t^{\MTL}) \ge \te(\hat{\beta}_t^{\STL})$.
 	\end{itemize}
 \end{proposition}
 
-Here the constants $\frac23$ and $\frac32$ in this proposition (and the following ones) can be replaced with $(1+c_1^{-1/2})^{-4}$ and $(1-c_1^{-1/2})^{-4}$. In particular, these bounds becomes tighter as $c_1$ increases.
+We remark that the constants $\frac23$ and $\frac32$ in the statement above are chosen for the simplicity of presentation.
+In general we can close the gap between the two constants by increasing $\rho_1$.
+While the statement of Theorem \ref{thm_main_informal} only applies to the asymptotic regime of $p$ going to infinity, Proposition \ref{prop_dist_transition} explains most of the observations in Figure \ref{fig_model_shift} when $p = 200$.
+%in this proposition (and the following ones) can be replaced with $(1+c_1^{-1/2})^{-4}$ and $(1-c_1^{-1/2})^{-4}$. In particular, these bounds becomes tighter as $c_1$ increases.
 
 The proof of Proposition \ref{prop_dist_transition} involves two parts.
-First, adding the source task has a positive effect of reducing the variance of the estimator, which scales with $n_1 = c_1 p$, the number of source task data points.
-Second, the difference between task models $\beta_1$ and $\beta_2$ introduces an additional bias term, which scales with $pd^2$, the distance between $\beta_1$ and $\beta_2$.
-Hence, the type of transfer is determined by the trade-off between model shift bias and the reduction of variance.
-The proof can be found in Appendix \ref{app_proof_31}, which is based on our main result described later in Theorem \ref{thm_model_shift}.
+First, in equation \eqref{eq_te_var}, the positive variance reduction effect scales with $n_1 = \rho_1 p$, the number of source task data points.
+Second, we show that the negative effect of model-shift bias scales with $pd^2$, which is the expectation of $\norm{\beta_1 - \beta_2}^2$.
+The proof, which is based on Theorem \ref{thm_main_informal}, can be found in Appendix \ref{app_proof_31}. %, which is based on our main result described later in Theorem \ref{thm_model_shift}.
 
 \begin{figure}
-	\begin{subfigure}[b]{0.31\textwidth}
+	\begin{subfigure}[b]{0.32\textwidth}
 		\centering
 		\includegraphics[width=0.98\textwidth]{figures/model_shift_phase_transition.eps}
 		\caption{Task model similarity}
+		\label{fig_model_shift}
 	\end{subfigure}\hfill
-	\begin{subfigure}[b]{0.31\textwidth}
+	\begin{subfigure}[b]{0.32\textwidth}
 		\centering
 		\includegraphics[width=0.98\textwidth]{figures/datapoints_phase_transition.eps}
 		\caption{Data size}
 	\end{subfigure}\hfill
-	\begin{subfigure}[b]{0.31\textwidth}
+	\begin{subfigure}[b]{0.32\textwidth}
 		\centering
 		\includegraphics[width=0.98\textwidth]{figures/complementary.eps}
 		\caption{Covariate shift}
 	\end{subfigure}
-	\caption{Comparing the test error of multi-task learning to single-task learning: we observe transitions from positive to negative transfer. (a) Section \ref{sec_dist}: Task model similarities; (b) Section \ref{sec_data}: Source task noise level; (c) Section \ref{sec_covariate}: \todo{same vs. different covariance matrices}.}
+	\caption{Comparing the test error of multi-task learning to single-task learning: (a) positive to negative transfer as the task model dissimilarity increases (cf. Proposition \ref{prop_dist_transition}) (b) positive to negative transfer as the source task data size increases (cf. Proposition \ref{prop_data_size}); (c) }
 	\label{fig_model_shift_phasetrans}
 \end{figure}
 
-
-Consider a more general setting where the noise level $\sigma_1$ of task $1$ differs from the noise level $\sigma_2$ of task $2$.
-We derive a sharp transition similar to Proposition \ref{prop_dist_transition}.
+\textbf{Implications.}
+We further show that multi-task learning is particular powerful when the labeled data of the source task is less noisy compared to the target task.
+Consider a more general setting of Proposition \ref{prop_dist_transition} where the noise level $\sigma_1$ of task $1$ differs from the noise level $\sigma_2$ of task $2$.
+We derive a sharp transition from positive to negative transfer as a parameter of $\sigma_1^2$.
 
 \begin{proposition}\label{prop_var_transition}
-	In the setting of Example \ref{ex_basic} with $d$ being fixed but $\sigma_1$ varies, assume that $c_1 > 110$ is a fixed constant and $d^2 < \frac {2\sigma_2^2} {3p} \frac{(c_1 + c_2 -1)^2}{c_1 (c_1 + c_2)(c_2 - 1)}$, i.e. we have positive transfer when $\sigma_1=\sigma_2$. Then we derive the following transition as a parameter of $\sigma_1$:
+	In the setting of Example \ref{ex_basic} with $d$ being fixed but $\sigma_1$ varies, assume that $\rho_1 > 110$ is a fixed constant and $d^2 < \frac {2\sigma_2^2} {3p} \cdot \Phi(\rho_1, \rho_2)$.
+	We derive the following transition as a parameter of $\sigma_1^2$:
 	\begin{itemize}
-		\item If $\sigma_1^2 \le p d^2 \cdot c_1 +\left[1+ \frac23\frac{(c_1 + c_2 - 1)^2}{(c_1 + c_2) (c_2 - 1)}\right]\cdot\sigma_2^2$, then whp $\te(\hat{\beta}_t^{\MTL}) < \te(\hat{\beta}_t^{\STL})$.
-		\item If $\sigma_1^2 > p d^2 \cdot c_1 +\left[1+ \frac32\frac{(c_1 + c_2 - 1)^2}{(c_1 + c_2) (c_2 - 1)}\right] \cdot \sigma_2^2$, then whp $\te(\hat{\beta}_t^{\MTL}) > \te(\hat{\beta}_t^{\STL})$.
+		\item If $\sigma_1^2 \le p d^2 \cdot c_1 +\left(1+ \frac23 \cdot \Phi(\rho_1, \rho_2)\right)\cdot\sigma_2^2$, then whp $\te(\hat{\beta}_t^{\MTL}) < \te(\hat{\beta}_t^{\STL})$.
+		\item If $\sigma_1^2 > p d^2 \cdot c_1 +\left(1+ \frac32\Phi(\rho_1, \rho_2)\right) \cdot \sigma_2^2$, then whp $\te(\hat{\beta}_t^{\MTL}) > \te(\hat{\beta}_t^{\STL})$.
 	\end{itemize}
 \end{proposition}
+As a corollary, if $\sigma_1^2 \le \sigma_2^2$, then we always get positive transfer.
+The proof of Proposition \ref{prop_var_transition} is similar to Proposition \ref{prop_dist_transition}.
+The details can be found in Appendix \ref{app_proof_31}.
 
-\textbf{Implications.}
 
-
-\subsection{Data Size and Efficiency}\label{sec_data_size}
+\subsection{Data Size}\label{sec_data_size}
 
 In classical Rademacher or VC based theory of multi-task learning, adding more labeled data improves the generalization performance of a model.
 On the other hand, we have observed that adding more labeled data does not always improve performance in multi-task learning.
@@ -233,13 +241,19 @@ A theoretical justification of Example \ref{ex_covariate} can be found in Append
 
 \section{Extending the Bias-Variance Trade-off to Transfer Learning}\label{sec_taskonomy}
 
-We study the transfer function of taskonomy \cite{ZSSGM18}.
-The algorithm is as follows.
-First, we obtain the single-task estimator $\hat{\beta}_i$ from every task, for $1\le i \le t$.
-This forms the shared representation $B = [\hat{\beta}_1,\hat{\beta}_2,\dots,\hat{\beta}_{t-1}]$.
-Then, we learn the output layer $W_t$ on the target task by solving equation:
+While our focus is on multi-task learning, we show that our results extend to transfer learning settings naturally.
+We provide an analysis of the transfer function of Taskonomy (Figure 4 in \cite{ZSSGM18}) using our setup.
+Specifically, the source task encoder consists of the representations learnt from one or more source tasks.
+The transfer function then tries to fix the target task data to the source task encoder.
+
+We map the procedure to our setup as follows.
+First, we obtain the single-task estimator $\hat{\beta}_i$ from the source tasks, for $1\le i \le t-1$.
+This forms the shared representation $B^{\star}_{t-1} = [\hat{\beta}_1,\hat{\beta}_2,\dots,\hat{\beta}_{t-1}]$.
+Then, we learn the output layer $W_t$ on the target task by minimizing the following objective
 \begin{align}
-	\bignorm{X_t B W_t - Y_t}^2
+	g(W_t) = \bignorm{X_t B W_t - Y_t}^2.
 \end{align}
-After getting $W_t$, we use $B W_t$ as estimator and $\te(B W_t)$ is the test error of the estimator.
-We use our tools to compare $\te(B W_t)$ to $\te(\beta_t^{\STL})$.
+After solving $W_t$, we use $\hat{\beta}_t^{\TL} = B W_t$ as the estimator for the target task.
+By comparing $\te(\hat{\beta}_t^{\TL})$ to $\te(\hat{\beta}_t^{\STL})$, we observe a similar trade-off between model-shift bias and variance reduction for this setting.
+%We use our tools to compare $\te(B W_t)$ to $\te(\beta_t^{\STL})$.
+The formal statement is presented in Theorem \ref{prop_taskonomy} and its proof in Appendix \ref{app_proof_sec4}.
