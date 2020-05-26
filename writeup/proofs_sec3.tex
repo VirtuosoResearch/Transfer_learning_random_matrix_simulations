@@ -6,13 +6,12 @@ Here, equation \eqref{eq_mtl} simplifies to the following
 \begin{align}\label{eq_mtl_2task}
 	f(B; w_1, w_2) = \bignorm{X_1 B w_1 - Y_1}^2 + \bignorm{X_2 B w_2 - Y_2}^2,
 \end{align}
-where $B\in\real^p$ and $w_1, w_2$ are both real numbers.
-To solve the above, suppose that $w_1, w_2$ are fixed, by local optimality, we solve $B$ as
+where $B\in\real^p$ and $w_1, w_2$ are both real numbers. To solve the above problem, suppose that $w_1, w_2$ are fixed, by local optimality, we find the optimal $B$ as
 \begin{align*}
 	& \hat{B}(w_1, w_2) \\
 	=& (w_1^2 X_1^{\top}X_1 + w_2^2 X_2^{\top}X_2)^{-1} (w_1 X_1^{\top}Y_1 + w_2 X_2^{\top}Y_2) \\
-	=& \frac{1}{w_2} ((\frac{w_1}{w_2})^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} (\frac{w_1}{w_2} X_1^{\top}Y_1 + X_2^{\top}Y_2) \\
-	=& \frac{1}{w_2}\bigbrace{\beta_t + ((\frac{w_1}{w_2})^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\bigbrace{X_1^{\top}X_1(\frac{w_1}{w_2}\beta_s - w^2\beta_t) + (\frac{w_1}{w_2} X_1^{\top}\varepsilon_1 + X_2^{\top}\varepsilon_2)}}.
+	=& \frac{1}{w_2} \left( \frac{w_1^2}{w_2^2}  X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1} \left(\frac{w_1}{w_2} X_1^{\top}Y_1 + X_2^{\top}Y_2\right) \\
+	=& \frac{1}{w_2}\bigbrace{\beta_t + \left(\frac{w_1^2}{w_2^2} X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1}\bigbrace{X_1^{\top}X_1\left(\frac{w_1}{w_2}\beta_s - \frac{w_1^2}{w_2^2} \beta_t\right) + \left(\frac{w_1}{w_2} X_1^{\top}\varepsilon_1 + X_2^{\top}\varepsilon_2\right)}}.
 \end{align*}
 As a remark, when $w_1 = w_2 = 1$, we recover the linear regression estimator.
 The advantage of using $f(B; w_1, w_2)$ is that if $\theta_1$ is a scaling of $\theta_2$, then this case can be solved optimally using equation \eqref{eq_mtl_2task} \cite{KD12}.
@@ -21,10 +20,10 @@ The advantage of using $f(B; w_1, w_2)$ is that if $\theta_1$ is a scaling of $\
 Using a validation set that is sub-sampled from the original training dataset, we get a validation loss as follows
 \begin{align}
 		\val(\hat{B}; w_1, w_2)
-	= & n_1 \cdot \bignorm{\Sigma_1^{1/2}((\frac{w_1}{w_2})^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}X_2^{\top}X_2(\beta_s - \frac{w_1}{w_2}\beta_t)}^2 \nonumber \\
-		&+ n_1 \sigma^2 \cdot \bigtr{((\frac{w_1}{w_2})^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_1} \nonumber \\
-		&+ n_2 \cdot w^2\bignorm{\Sigma_2^{1/2}((\frac{w_1}{w_2})^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}X_1^{\top}X_1(\beta_s - \frac{w_1}{w_2}\beta_t)}^2 \nonumber \\
-		&+ n_2 \cdot \sigma^2 \cdot \bigtr{((\frac{w_1}{w_2})^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2}. \label{eq_val_mtl}
+	&=  n_1 \cdot \bignorm{\Sigma_1^{1/2}\left(\frac{w_1^2}{w_2^2} X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1}X_2^{\top}X_2\left (\beta_s - \frac{w_1}{w_2}\beta_t\right)}^2 \nonumber \\
+		&+ n_1 \sigma^2 \cdot \frac{w_1^2}{w_2^2} \bigtr{\left(\frac{w_1^2}{w_2^2}  X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1}\Sigma_1} \nonumber \\
+		&+ n_2 \cdot \frac{w_1^2}{w_2^2}\bignorm{\Sigma_2^{1/2}\left(\frac{w_1^2}{w_2^2} X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1}X_1^{\top}X_1\left(\beta_s - \frac{w_1}{w_2}\beta_t\right)}^2 \nonumber \\
+		&+ n_2 \sigma^2 \cdot \bigtr{\left(\frac{w_1^2}{w_2^2} X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1}\Sigma_2}. \label{eq_val_mtl}
 \end{align}
 Let $\hat{w_1}/\hat{w_2}$ be the global minimizer of $\val(\hat{B}; w_1, w_2)$.
 We will define the multi-task learning estimator for the target task as
@@ -34,8 +33,8 @@ The intuition for deriving $\hat{\beta}_t^{\MTL}$ is akin to performing multi-ta
 Let $\hat{v} = \hat{w_1} / \hat{w_2}$ for the simplicity of notation.
 The test loss of using $\hat{\beta}_t^{\MTL}$ for the target task is
 \begin{align}
-	\te(\hat{\beta}_t^{\MTL}) =&~ \hat{v}^2 \bignorm{\Sigma_2^{1/2}(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} X_1^{\top}X_1 (\beta_s - \hat{v} \beta_t)}^2 \nonumber \\
-			&~ + \sigma^2 \cdot \bigtr{(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} \Sigma_2}. \label{eq_te_mtl_2task}
+	\te(\hat{\beta}_t^{\MTL}) &=~ \hat{v}^2 \bignorm{\Sigma_2^{1/2}(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} X_1^{\top}X_1 (\beta_s - \hat{v} \beta_t)}^2 \nonumber \\
+			&+~  \sigma^2 \cdot \bigtr{(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} \Sigma_2}. \label{eq_te_mtl_2task}
 \end{align}
 
 Our goal is to study under model and covariate shifts, whether multi-task learning helps learn the target task better than single-task learning.
@@ -45,44 +44,45 @@ The baseline where we solve the target task with its own data is
 \end{align*}
 %Clearly, whether $\hat{\beta}_t^{\MTL}$ outperforms $\hat{\beta}_t^{\STL}$ depends on the covariate matrices, the difference of the task models, and the number of per-task data points.
 
-We state several helper lemmas to get a bound on the variance of $\hat{\beta}_t^{\STL}$ and $\hat{\beta}_t^{\MTL}$. The first lemma, which is a folklore result in random matrix theory, helps determine the asymptotic limit of $\te(\hat{\beta}_t^{\STL})$, as $p$ goes to infinity. When the entries of $X$ are multivariate Gaussian, this lemma recovers the classical result for the mean of inverse Wishart distribution \cite{anderson1958introduction}. For general non-Gaussian random matrices, it can be obtained from Stieltjes transform method; see e.g., Lemma 3.11 of \cite{bai2009spectral}. Here we shall state a result that is a consequence of Theorem 2.4 in \cite{isotropic}, which gives an almost sharp error bound. 
+We now state several helper lemmas to get a bound on the variance of $\hat{\beta}_t^{\STL}$ and $\hat{\beta}_t^{\MTL}$. Before that, we first need to fix the setting for the discussions in this section.
+
+\begin{assumption}\label{assm_secA1}
+We will consider two $n\times p$ random matrices of the form $X=Z\Sigma^{1/2}$, where $\Sigma$  is a $p\times p$ deterministic positive definite symmetric matrices, and $Z=(z_{ij})$ is an $n\times p$ random matrix with real i.i.d. entries with mean zero and variance 1. Note that the rows of $X$ are i.i.d. centered random vectors with covariance matrix $\Sigma$. For simplicity, we assume that all the moments of $z_{ij}$ exists, that is, for any $k\in \N$,
+\begin{equation}\label{assmAhigh}
+\mathbb{E} |z_{ij}|^k \le C_k ,\quad 1\le i \le n, 1\le j \le p,
+\end{equation}
+for some constant $C_k>0$. We assume that $n=\rho p$ for some fixed constant $\rho>1$. Without loss of generality, after a rescaling we can assume that the norm of $\Sigma$ is bounded by a constant $C>0$. Moreover, we assume that $\Sigma$ is well-conditioned: $\kappa(\Sigma)\le C$, where $\kappa(\cdot)$ denotes the condition number. 
+\end{assumption}
+
+Here we have assumed that \eqref{assmAhigh} holds solely for simplicity of representation.  On the other hand, if the entries of $Z$ only have finite $a$-th moment for some $a>4$, then all the results below still hold except that we need to replace $\OO(p^{-1/2+\e})$ with $\OO( p^{-\frac12+\frac2a +\epsilon})$ in the error bounds. We will not get deeper into this issues in this section, but refer the reader to Corollary \ref{main_cor} below. 
+
+
+The first lemma, which is a folklore result in random matrix theory, helps to determine the asymptotic limit of $\te(\hat{\beta}_t^{\STL})$, as $p\to \infty$. When the entries of $X$ are multivariate Gaussian, this lemma recovers the classical result for the mean of inverse Wishart distribution \cite{anderson1958introduction}. For general non-Gaussian random matrices, it can be obtained from Stieltjes transform method; see e.g., Lemma 3.11 of \cite{bai2009spectral}. Here we shall state a result obtained from Theorem 2.4 in \cite{isotropic}, which gives an almost sharp error bound. Throughout the rest of this section, we shall say an event $\Xi$ holds with high probability (whp) if $\P(\Xi)\to 1$ as $p\to \infty$.
 
 \begin{lemma}\label{lem_minv} 
-	Let $X = \Sigma^{1/2} Z\in\real^{n\times p}$ be a random matrix that contains i.i.d. row vectors with mean $0$ and covariance $\Sigma\in\real^{p\times p}$. Suppose the entries of $Z$ have finite moments up to any order. Let $A$ be a $p\times p$ matrix that is independent of $X$ and satisfies $\|A\|=\OO(1)$.
-	In the setting when $n = \rho p$ for some constant $\rho>1$, we have that with high probability,
-	\be\label{XXA}  \bigtr{(X^{\top}X)^{-1}A} = \frac{1}{\rho - 1} \frac1p\tr(A\Sigma^{-1}) +\bigo{ p^{-1/2+\epsilon}} \ee
-for any constant $\e>0$.
+Suppose $X$ satisfies assumption \ref{assm_secA1}. Let $A$ be any $p\times p$ matrix that is independent of $X$. We have that for any constant $\e>0$,
+	\be\label{XXA}  \bigtr{(X^{\top}X)^{-1}A} = \frac{1}{\rho - 1} \frac1p\tr(A\Sigma^{-1}) +\bigo{ \|A\|p^{-1/2+\epsilon}} \ee
+with high probability.
 \end{lemma}
 
-In this section, we will always consider random variables with finite moments up to any order. On the other hand, if the entries of $Z$ have finite $a$-th moment for some constant $a>4$, then \eqref{XXA} still holds except that the error bound becomes  $\OO( p^{-\frac12+\frac2a +\epsilon})$; see our Corollary \ref{main_cor} below.
 
-The second lemma, which deals the inverse of the sum of two random matrices, can be viewed as a special case of Theorem \ref{thm_model_shift}.
+We shall refer to random matrices of the form $X^\top X$ as sample covariance matrices following the standard notations in high-dimensional statistics. The second lemma extends Lemma \ref{lem_minv} for a single sample covariance matrices to the sum of two independent sample covariance matrices. It is the main random matrix theoretical input of this paper. 
+%which deals with the inverse of the sum of two random matrices, which 
+%any is can be viewed as a special case of Theorem \ref{thm_model_shift}.
 
 \begin{lemma}\label{lem_cov_shift}
-	Let $X_i\in\real^{n_i\times p}$ be a random matrix that contains i.i.d. row vectors with mean $0$ and variance $\Sigma_i\in\real^{p\times p}$, for $i = 1, 2$.
-	Denote by $M = \Sigma_1^{1/2}\Sigma_2^{-1/2}$ and let $\lambda_1, \lambda_2, \dots, \lambda_p$ be the singular values of $M^{\top}M$ in decreasing order.
-	When $n_1 = c_1 p$ and $n_2 = c_2 p$, we have that with high probability over the randomness of $X_1$ and $X_2$, the following equation holds
-	\begin{align}%\label{lem_cov_shift_eq}
-		\bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2} = \frac{1}{c_1+c_2}\cdot \bigtr{ \frac{1}{p}\cdot(a_1 M^\top M + a_2)^{-1}} +\bigo{ n^{-1/2+\epsilon}},
+	%Let $X_i\in\real^{n_i\times p}$ be a random matrix that contains i.i.d. row vectors with mean $0$ and variance $\Sigma_i\in\real^{p\times p}$, for $i = 1, 2$.
+	Suppose $X_1=Z_1\Sigma_1^{1/2}\in \R^{n_1\times p}$ and $X_2=Z_2\Sigma_2^{1/2}\in \R^{n_2\times p}$ satisfy Assumption \ref{assm_secA1} with $\rho_1:=n_1/p>1$ and $\rho_2:=n_2/p>1$. 
+	Denote by $M = \Sigma_1^{1/2}\Sigma_2^{-1/2}$ and let $\lambda_1, \lambda_2, \dots, \lambda_p$ be the singular values of $M^{\top}M$ in descending order. Let $A$ be any $p\times p$ matrix that is independent of $X_1$ and $X_2$. We have that for any constant $\e>0$,
+	%When $n_1 = c_1 p$ and $n_2 = c_2 p$, we have that with high probability over the randomness of $X_1$ and $X_2$, the following equation holds
+	\begin{align}\label{lem_cov_shift_eq}
+		\bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}A} = \frac{1}{\rho_1+\rho_2}\cdot \frac1p\bigtr{ (a_1 \Sigma_1 + a_2\Sigma_2)^{-1} A} +\bigo{\|A\| p^{-1/2+\epsilon}},
 	\end{align}
-	for any constant $\epsilon>0$, where $a_1, a_2$ are solutions to the following deterministic equations:
-	\begin{align}
+with high probability, where $a_1, a_2$ are solutions to the following deterministic equations:
+	\begin{align*}
 		a_1 + a_2 = 1- \frac{1}{c_1 + c_2},~ a_1 + \frac{1}{p}\cdot\sum_{i=1}^p \frac{a_1}{(c_1 + c_2)(a_1 + a_2/ \lambda_i^2)} = \frac{c_1}{c_1 + c_2}. \label{eq_a12}
-	\end{align}
+	\end{align*}
 \end{lemma}
-We will give the proof of Lemma \ref{lem_cov_shift} in Section \ref{sec_maintools}.
-
-Finally, we can get a bound tighter than Theorem \ref{thm_model_shift} as follows.
-\todo{restate this}
-\begin{lemma}\label{prop_model_shift_tight}
-		In the setting of Theorem \ref{thm_model_shift}, assume that $\Sigma_1 =\id$,
-		$\beta_t$ is i.i.d. with mean $0$ and variance $\kappa^2$ and $\beta_s - \beta_t$ is i.i.d. with mean $0$ and variance $d^2$.
-		We set $\Delta_{\beta} = \bigbrace{(1 - \hat{w})^2 \kappa^2 + d^2)} \bigtr{Z}$
-		and we have
-		\begin{align*}
-			\te(\hat{\beta}_t^{\MTL}) \le \te(\hat{\beta}_t^{\STL}) \text{ when: } & \Delta_{\vari} \ge \bigbrace{1 + \sqrt{\frac{p}{n_1}}}^4 \Delta_{\beta}, \\
-			\te(\hat{\beta}_t^{\MTL}) \ge \te(\hat{\beta}_t^{\STL}) \text{ when: } & \Delta_{\vari} \le \bigbrace{1 - \sqrt{\frac{p}{n_1}}}^4 \Delta_{\beta}.
-		\end{align*}
-\end{lemma}
+The proof of Lemma \ref{lem_cov_shift} is a main focus of Section \ref{sec_maintools}. We remark that one can probably derive the same asymptotic result using free probability theory (see e.g. \cite{nica2006lectures}), but our result \eqref{lem_cov_shift_eq} also gives an almost sharp error bound $\bigo{ p^{-1/2+\epsilon}}$.
 
 
