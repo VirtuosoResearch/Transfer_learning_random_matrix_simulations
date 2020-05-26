@@ -18,30 +18,6 @@ Hence the bias of $\te_t(\hat{\beta}_t^{\STL})$ is zero and its test error is eq
 We focus on a setting where the data size $n_t$ of the target task is equal to a small constant $\rho_t > 1$ times $p$.
 This setting captures the need for adding more labeled data to reduce the test error of the target task.
 
-To illustrate our intuition, we begin by considering the multi-task learning setting with one source task.
-Recall that $\hat{\beta}_t^{\MTL}$ is defined as $BW_t$ after solving equation \eqref{eq_mtl}.
-We decompose the test error of $\hat{\beta}_{t}^{\MTL}$ on the targe task into two parts (to be derived in Appendix \ref{app_proof_main})
-\begin{align}
-	\te_t(\hat{\beta}_t^{\MTL}) =& ~ \hat{v}^2 \bignorm{\Sigma_2^{1/2} (\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}X_1^{\top}X_1 (\beta_1 - \hat{v}\beta_2)}^2 \label{eq_te_model_shift} \\
-	&+ \sigma^2\cdot \bigtr{(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2}, \label{eq_te_var}
-\end{align}
-where $\hat{v} = W_2 / W_1$ denotes the ratio of the output layer weights.
-By comparing the bias and variance of $\te_t(\hat{\beta}_t^{\MTL})$ to $\te_t(\hat{\beta}_t^{\STL})$, we observe the following two effects, respectively.
-
-
-\textbf{Model-shift bias.}
-%We begin by observing that the test error of $\hat{\beta}_t^{\MTL}$ consists of two parts.
-We term equation \eqref{eq_te_model_shift} as \textit{model-shift bias}, which captures how similar $\beta_1$ and $\beta_2$ are.
-This part introduces a negative effect to multi-task learning.
-The scaling term $\hat{v}$ corresponds to the intuition that the shared module $B$ learns a subspace for both tasks.
-The output layer of each task scales the direction of $B$ suitably to fit the task.
-
-\textbf{Variance reduction.}
-Next, it is not hard to verify that equation \eqref{eq_te_var}, the variance of $\hat{\beta}_t^{\MTL}$, is always smaller than the variance of $\hat{\beta}_t^{\STL}$.
-This part introduces a positive variance reduction effect to performing multi-task learning.
-Hence, whether $\te(\hat{\beta}_t^{\MTL})$ is lower than $\te(\hat{\beta}_t^{\STL})$ is determined by the trade-off between two effects:
-(i) the positive effect from variance reduction;
-(ii) the negative effect from model shift bias.
 
 %, i.e. %(following the argument of Proposition \ref{prop_monotone}), i.e.
 %\[ \bigtr{(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2} \le \bigtr{(X_2^{\top}X_2)^{-1}\Sigma_2}. \]
