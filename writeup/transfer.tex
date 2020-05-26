@@ -1,41 +1,10 @@
-\section{A Technical Tool for Determining Positive versus Negative Transfer}
+\section{A Technical Tool to Quantify the Trade-off}
 \label{sec_main}
 
 We revisit the classical bias-variance trade-off in the context of multi-task learning for linear regressions, in particular the setup of equation \eqref{eq_mtl}.
 For the high-dimensional setting where the data size of the target task is a small constant times dimension $p$, we quantify the trade-off as a function of the task models $\set{\beta_i}_{i=1}^t$, data size $\set{n_i}_{i=1}^t$, and covariance matrices $\set{\Sigma_i}_{i=1}^t$.
 
-To illustrate our intuition, we begin by considering the multi-task learning setting with one source task.
-Recall that $\hat{\beta}_t^{\MTL}$ is defined as $BW_t$ after solving equation \eqref{eq_mtl}.
-We decompose the test error of $\hat{\beta}_{t}^{\MTL}$ on the targe task into two parts (to be derived in Appendix \ref{app_proof_main})
-\begin{align}
-	\te_t(\hat{\beta}_t^{\MTL}) =& ~ \hat{v}^2 \bignorm{\Sigma_2^{1/2} (\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}X_1^{\top}X_1 (\beta_1 - \hat{v}\beta_2)}^2 \label{eq_te_model_shift} \\
-	&+ \sigma^2\cdot \bigtr{(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2}, \label{eq_te_var}
-\end{align}
-where $\hat{v} = W_2 / W_1$ denotes the ratio of the output layer weights.
-By comparing the bias and variance of $\te_t(\hat{\beta}_t^{\MTL})$ to $\te_t(\hat{\beta}_t^{\STL})$, we observe the following two effects, respectively.
-
-
-\textbf{Model-shift bias.}
-%We begin by observing that the test error of $\hat{\beta}_t^{\MTL}$ consists of two parts.
-We term equation \eqref{eq_te_model_shift} as \textit{model-shift bias}, which captures how similar $\beta_1$ and $\beta_2$ are.
-This part introduces a negative effect to multi-task learning.
-The scaling term $\hat{v}$ corresponds to the intuition that the shared module $B$ learns a subspace for both tasks.
-The output layer of each task scales the direction of $B$ suitably to fit the task.
-
-\textbf{Variance reduction.}
-Next, it is not hard to verify that equation \eqref{eq_te_var}, the variance of $\hat{\beta}_t^{\MTL}$, is always smaller than the variance of $\hat{\beta}_t^{\STL}$.
-This part introduces a positive variance reduction effect to performing multi-task learning.
-Hence, whether $\te(\hat{\beta}_t^{\MTL})$ is lower than $\te(\hat{\beta}_t^{\STL})$ is determined by the trade-off between two effects:
-(i) the positive effect from variance reduction;
-(ii) the negative effect from model shift bias.
-
-In order to study the trade-off between model-shift bias and variance reduction, we need tight concentration bounds to quantify both effects.
-For this purpose, we consider the high-dimensional setting where $p$ goes to infinity.
-A well-known result for this setting states that the asymptotic limit of $\te(\hat{\beta}_t^{\STL})$ is $\frac {\sigma^2} {\rho_t - 1}$ (e.g. Chapter 6 of \cite{S07}), which scales with the data size and noise level of the target task.
-However, this result only applies to the single-task setting.
-Therefore, we focus on deriving the asymptotic limit of $\te(\hat{\beta}_t^{\MTL})$ when $p$ goes to infinity.
-
-Our first result applies to the setting of two tasks where their covariance matrices may be arbitrarily different.
+\textbf{Multi-task learning.} Our first result applies to the setting of two tasks where their covariance matrices may be arbitrarily different.
 %The technical crux of our approach is to derive the asymptotic limit of $\te(\hat{\beta}_t^{\MTL})$ in the high-dimensional setting, when $p$ approaches infinity.
 We derive a precise limit of $\bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2}$, which is a deterministic function that only depends on $\Sigma_1, \Sigma_2$ and $n_1/p, n_2/p$ (see Lemma \ref{lem_cov_shift} in Appendix \ref{app_proof_main} for the result).
 Based on the result, we show how to determine positive versus negative transfer as follows.
@@ -56,6 +25,19 @@ The bounds get tighter and tighter as $\rho_1$ increases.
 A formal version of Theorem \ref{thm_main_informal} is presented in Theorem \ref{thm_model_shift} and its proof is presented in Appendix \ref{sec_pfmain}.
 While the general form of $\Delta_{\vari}$ and $\Delta_{\beta}$ can be quite complex, we show that they provide nice interpretation for several simple settings in the rest of the section.
 
+\textit{Proof overview.} By comparing the bias and variance of $\te_t(\hat{\beta}_t^{\MTL})$ to $\te_t(\hat{\beta}_t^{\STL})$, we observe the following two effects, respectively.
+%We begin by observing that the test error of $\hat{\beta}_t^{\MTL}$ consists of two parts.
+We term equation \eqref{eq_te_model_shift} as \textit{model-shift bias}, which captures how similar $\beta_1$ and $\beta_2$ are.
+This part introduces a negative effect to multi-task learning.
+The scaling term $\hat{v}$ corresponds to the intuition that the shared module $B$ learns a subspace for both tasks.
+The output layer of each task scales the direction of $B$ suitably to fit the task.
+
+Next, it is not hard to verify that equation \eqref{eq_te_var}, the variance of $\hat{\beta}_t^{\MTL}$, is always smaller than the variance of $\hat{\beta}_t^{\STL}$.
+This part introduces a positive variance reduction effect to performing multi-task learning.
+Hence, whether $\te(\hat{\beta}_t^{\MTL})$ is lower than $\te(\hat{\beta}_t^{\STL})$ is determined by the trade-off between two effects:
+(i) the positive effect from variance reduction;
+(ii) the negative effect from model shift bias.
+
 Our second result applies to the setting of any number of tasks with the same covariates.
 %We extend the above result to any number of tasks that have the same covariates.
 %In this section we consider the setting with $k$ many that have the same covariates.
@@ -65,27 +47,47 @@ Let $B^{\star} = [\beta_1, \beta_2, \dots, \beta_k] \in\real^{p\times k}$ denote
 We can also derive a tight trade-off between model shift bias and variance reduction for this setting.
 The formal statement is stated in Theorem \ref{thm_many_tasks} and its proof can be found in Appendix \ref{app_proof_many_tasks}.
 
+\textbf{Extensions to transfer learning.}
+While our focus is on multi-task learning, we show that our results extend to transfer learning settings naturally.
+We provide an analysis of the transfer function of Taskonomy \cite{ZSSGM18} using our setup.
+Specifically, the source task encoder consists of the representations learnt from one or more source tasks.
+The transfer function then tries to fit the target task data to the source task encoder.
+For more details, we refer the reader to Figure 4 in Taskonomy.
+
+We map the procedure to our setup as follows.
+First, we obtain the single-task estimator $\hat{\beta}_i$ from the source tasks, for $1\le i \le t-1$.
+This forms the shared representation $B^{\star}_{t-1} = [\hat{\beta}_1,\hat{\beta}_2,\dots,\hat{\beta}_{t-1}]$.
+Then, we learn the output layer $W_t$ on the target task by minimizing the following objective
+\begin{align}
+	g(W_t) = \bignorm{X_t B W_t - Y_t}^2.
+\end{align}
+After solving $W_t$, we use $\hat{\beta}_t^{\TL} = B W_t$ as the estimator for the target task.
+By comparing $\te(\hat{\beta}_t^{\TL})$ to $\te(\hat{\beta}_t^{\STL})$, we observe a similar trade-off between model-shift bias and variance reduction for this setting.
+%We use our tools to compare $\te(B W_t)$ to $\te(\beta_t^{\STL})$.
+The formal statement is presented in Theorem \ref{prop_taskonomy} and its proof in Appendix \ref{app_proof_sec4}.
+
+
 
 \section{Theoretical Implications}
 \label{sec_insight}
+
 After describing this technical result, we provide theoretical insights over when multi-task learning performs better than single-task learning.
 Our analysis reveals three contributing causes of negative transfer, including task model \textit{dissimilarity}, \textit{unbalanced} data size, and \textit{covariate shift}, which we describe in detail for the rest of the section.
 
 
-\subsection{Task Model Similarity}\label{sec_similarity}
+\subsection{De-noising by Transferring from a Source Task}\label{sec_similarity}
 
 A folklore intuition since the seminal work of Caruana \cite{C97} is that task relatedness determines how well multi-task learning performs.
 We formalize the intuition using our setup and technical tools.
 For a simple example of two tasks, we show that whether $\hat{\beta}_t^{\MTL} \le \hat{\beta}_t^{\STL}$ is determined by $\norm{\beta_1 - \beta_2}^2$, the distance of the task models.
 We derive a sharp threshold when positive transfer transitions to negative transfer, as a function of model distance $\norm{\beta_1 - \beta_2}^2$, data size $n_1$ abd $n_2$ and the noise level $\sigma$.
 
-\begin{example}\label{ex_basic}
+\textit{A simplifying setting.}\label{ex_basic}
 	Consider a setting where $\Sigma_1 = \Sigma_2 = \id$, in other words there is no covariate shift between the two tasks. For the noises, we assume that $\e_i$ has i.i.d. entries with mean zero and variances $\sigma_i^2$, $i=1,2$. 
 	For the task models, suppose that $\beta_2$ has i.i.d. entries with mean zero and variance $\kappa^2$ and $\beta_1 - \beta_2$ also has i.i.d. entries with mean $0$ and variance $d^2$.
 	%The noise level for both tasks is equal to $\sigma > 0$.
 	We have $n_i = c_i \cdot p$ data points from each task, for $i = 1, 2$.
 	For simplicity, we assume that all the random variables have subexponential decay, while keeping in mind that our results can be applied under weaker moments assumptions as shown in the supplementary material.
-\end{example}
 
 We illustrate the example with a simulation.
 We consider a setting where $p = 200$, $n_1 = 90p$, $n_2 = 30p$.
@@ -156,7 +158,7 @@ The proof of Proposition \ref{prop_var_transition} is similar to Proposition \re
 The details can be found in Appendix \ref{app_proof_31}.
 
 
-\subsection{Data Size}\label{sec_data_size}
+\subsection{Improving Labeled Data Efficiency}\label{sec_data_size}
 
 In classical Rademacher or VC based theory of multi-task learning, adding more labeled data improves the generalization performance of a model.
 On the other hand, we have observed that adding more labeled data does not always improve performance in multi-task learning.
@@ -203,7 +205,7 @@ The proof of Proposition \ref{prop_data_efficiency} can be found in Appendix \re
 
 
 
-\subsection{Covariate Shift}\label{sec_covariate}
+\subsection{When to Align Task Covariances under Covariate Shift}\label{sec_covariate}
 
 So far we have considered settings where $\Sigma_1 = \Sigma_2$.
 This setting is relevant for multi-class image classification settings, where different tasks share the same input features.
@@ -257,22 +259,4 @@ To complement the result, we show an example when the statement is not true if $
 \textbf{Implications.}
 
 
-\subsection{Extension to Transfer Learning}\label{sec_taskonomy}
-
-While our focus is on multi-task learning, we show that our results extend to transfer learning settings naturally.
-We provide an analysis of the transfer function of Taskonomy \cite{ZSSGM18} using our setup.
-Specifically, the source task encoder consists of the representations learnt from one or more source tasks.
-The transfer function then tries to fit the target task data to the source task encoder.
-For more details, we refer the reader to Figure 4 in Taskonomy.
-
-We map the procedure to our setup as follows.
-First, we obtain the single-task estimator $\hat{\beta}_i$ from the source tasks, for $1\le i \le t-1$.
-This forms the shared representation $B^{\star}_{t-1} = [\hat{\beta}_1,\hat{\beta}_2,\dots,\hat{\beta}_{t-1}]$.
-Then, we learn the output layer $W_t$ on the target task by minimizing the following objective
-\begin{align}
-	g(W_t) = \bignorm{X_t B W_t - Y_t}^2.
-\end{align}
-After solving $W_t$, we use $\hat{\beta}_t^{\TL} = B W_t$ as the estimator for the target task.
-By comparing $\te(\hat{\beta}_t^{\TL})$ to $\te(\hat{\beta}_t^{\STL})$, we observe a similar trade-off between model-shift bias and variance reduction for this setting.
-%We use our tools to compare $\te(B W_t)$ to $\te(\beta_t^{\STL})$.
-The formal statement is presented in Theorem \ref{prop_taskonomy} and its proof in Appendix \ref{app_proof_sec4}.
+%\subsection{Extension to Transfer Learning}\label{sec_taskonomy}

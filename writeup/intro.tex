@@ -20,7 +20,7 @@ Identifying when negative transfer occurs requires comparing the performance of 
 The technical challenge is to develop generalization bounds that are able to scale tightly with the qualities of task data, such as the number of datapoints.
 In classical Rademacher or VC based theory of multi-task learning \cite{B00,AZ05,M06}, the generalization bounds are usually presented in a way so that the error goes down as more labeled data is added.
 On the other hand, we have observed that adding more labeled data does not always improve performance in multi-task learning.
-More recent work has shown the benefit of learning multi-task representations for certain half-spaces \cite{MPR16} and multipl sparse regressions \cite{LPTV09,LPVT11}.
+More recent work has shown the benefit of learning multi-task representations for certain half-spaces \cite{MPR16} and multiple sparse regressions \cite{LPTV09,LPVT11}.
 
 
 %The technical challenge to develop a theory for multi-task learning is how to capture generalization performance that scales tightly with the amount of labeled data, in particular when the size of the training set is small.
@@ -74,34 +74,39 @@ Our goal is to compare the test error of $\hat{\beta}_t^{\MTL}$, denoted as $\te
 	For the high-dimensional regime when $p$ goes to infinity, we derive the asymptotic limit of $\te(\hat{\beta}_t^{\MTL}) - \te(\hat{\beta}_t^{\STL})$ as a function of the number of datapoints $\set{n_1, n_2}$, the covariance matrices $\set{\Sigma_1, \Sigma_2}$, the ground truth parameters $\set{\beta_1, \beta_2}$, and a certain fixed value derived from solving equation \eqref{eq_mtl} (see Theorem \ref{thm_main_informal} for the statement).
 	Then, we show a similar result for any number of tasks that have the same covariates, i.e. the $X_i$'s are equal to each other.
 	This setting is prevalent in applications of multi-task learning to image classification, where there are multiple prediction labels/tasks for every image \cite{chexnet17,EA20}.
-	Based on the technical result, we provide theoretical insights over when multi-task learning performs better than single-task learning.
 
-Our first theoretical insight is to explain a sharp transition from positive to negative transfer as a parameter of \textit{task model dissimilarity} $\norm{\beta_1 - \beta_2}^2$.
+	While our focus is multi-task learning, our setup and technical tools are also applicable to transfer learning settings.
+	In Section \ref{sec_taskonomy}, we provide a case study of the transfer function used in Taskonomy \cite{ZSSGM18}.
+	We observe a similar trade-off between model-shift bias and variance for this setting.
+
+	Based on the technical result, we provide theoretical insights over when multi-task learning performs better than single-task learning.
+	\begin{itemize}
+		\item First, we explain a sharp transition from positive to negative transfer as a parameter of \textit{task model dissimilarity} $\norm{\beta_1 - \beta_2}^2$.
 	In Proposition \ref{prop_dist_transition}, we provide the trade-off between $\norm{\beta_1 - \beta_2}^2$ and a certain function $\Phi(\rho_1, \rho_2)$ to determine the type of transfer.
 
-Our second theoretical insight is to show that performing multi-task learning reduces the need for labeled data, which is a key finding of Taskonomy \cite{ZSSGM18}.
+		First, we provide a metric to determine positive versus negative transfer by comparing the test accuracies of single-task models.
+		\item Second, we show that performing multi-task learning reduces the need for labeled data, which is a key finding of Taskonomy \cite{ZSSGM18}.
 	We define the \textit{data efficiency ratio} as the smallest $\alpha\in(0, 1)$ such that if we only use an $\alpha$ fraction of labeled data, then the test error of $\hat{\beta}_t^{\MTL}$ matches that of the $\hat{\beta}_t^{\STL}$ on the entire set.
 	In Proposition \ref{prop_data_efficiency}, we show that the data efficiency ratio of an illustrative example is at most $\alert{\frac {1}{2\rho_t}}$.
 
-Our third theoretical insight is that as the data size becomes more imbalanced between the source and target task, having mis-aligned task covariance matrices can result in suboptimal performance.
-	In Proposition \ref{prop_covariate}, we show that as $n_1 / n_2$ becomes large, the best performing source task has have the same covariance matrix as the target task.
-	On the other hand, when $n_1 / n_2$ is small, there are counter examples where having the same covariance matrix is not necessarily the optimal choice.
-
-
-Finally, while our focus is multi-task learning, our setup and technical tools are also applicable to transfer learning settings.
-In Section \ref{sec_taskonomy}, we provide a case study of the transfer function used in Taskonomy \cite{ZSSGM18}.
-We observe a similar trade-off between model-shift bias and variance for this setting.
-
-A crucial technical tool that we develop for showing Theorem \ref{thm_main_informal} is the asymptotic limit of the trace of $(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}$ (for the setting of two tasks), which may be of independent interest.
-The result extends a well-known result on the trace of $(X_1^{\top}X_1)^{-1}$ \cite{S07}
-Furthermore, the error bound for the asymptotic limit is nearly optimal.
-
-\textbf{Experimental results.} We show practical implications of our theoretical insights on text and image classification tasks.
-	First, we provide a metric to determine positive versus negative transfer by comparing the test accuracies of single-task models.
-	%validate on text and image classification tasks that comparing single-task accuracies can help determine whether multi-task learning performs better than single-task learning.
-	Second, we validate that performing multi-task learning can reduce the need for labeled data.
+			Second, we validate that performing multi-task learning can reduce the need for labeled data.
 	On 6 sentiment analysis tasks, we observe that just by using \alert{40\%} of the labeled data, the overall accuracy of multi-task learning matches that of learning every task in isolation.
-	Finally, we show that as the data size between the source and target task becomes more imbalanced, aligning the covariances of the tasks becomes more beneficial.
+		\item Finally, as the data size becomes more imbalanced between the source and target task, having mis-aligned task covariance matrices can result in suboptimal performance.
+		In Proposition \ref{prop_covariate}, we show that as $n_1 / n_2$ becomes large, the best performing source task has have the same covariance matrix as the target task.
+		On the other hand, when $n_1 / n_2$ is small, there are counter examples where having the same covariance matrix is not necessarily the optimal choice.
+
+		Finally, we show that as the data size between the source and target task becomes more imbalanced, aligning the covariances of the tasks becomes more beneficial.
+	\end{itemize}
+
+	A crucial technical tool that we develop for showing Theorem \ref{thm_main_informal} is the asymptotic limit of the trace of $(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}$ (for the setting of two tasks), which may be of independent interest.
+	The result extends a well-known result on the trace of $(X_1^{\top}X_1)^{-1}$ \cite{S07}
+	Furthermore, the error bound for the asymptotic limit is nearly optimal.
+
+%\textbf{Experimental results.} We show practical implications of our theoretical insights on text and image classification tasks.
+
+	%validate on text and image classification tasks that comparing single-task accuracies can help determine whether multi-task learning performs better than single-task learning.
+
+
 %	On the other hand, if the number of source task datapoints is comparable to the target task, aligning task covariances may hurt performance.
 
 
