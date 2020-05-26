@@ -72,15 +72,15 @@ Define the following function
 \end{align*}
 
 \begin{proposition}\label{prop_dist_transition}
-	In the setting of Example \ref{ex_basic} with $\sigma_1 = \sigma_2 = \sigma$, assume that $\rho_1 > 110$ is a fixed constant.
+	In the setting of Example \ref{ex_basic} with $\sigma_1 = \sigma_2 = \sigma$, assume that $\rho_1 > 40$ is a fixed constant.
 	Whether $\te(\hat{\beta}_t^{\MTL})$ is lower than $\te(\hat{\beta}_t^{\STL})$ is determined by the ratio between the model distance and the noise level:
 	\begin{itemize}
-		\item If ${d^2} < \frac {2\sigma^2} {3p} \cdot \Phi(\rho_1, \rho_2)$, then whp we have that $\te(\hat{\beta}_t^{\MTL}) < \te(\hat{\beta}_t^{\STL})$.
-		\item If ${d^2} \ge \frac {3\sigma^2} {2p} \cdot \Phi(\rho_1, \rho_2)$, then whp we have that $\te(\hat{\beta}_t^{\MTL}) \ge \te(\hat{\beta}_t^{\STL})$.
+		\item If ${d^2} < \frac {\sigma^2} {2p} \cdot \Phi(\rho_1, \rho_2)$, then whp we have that $\te(\hat{\beta}_t^{\MTL}) < \te(\hat{\beta}_t^{\STL})$.
+		\item If ${d^2} \ge \frac {2\sigma^2} {p} \cdot \Phi(\rho_1, \rho_2)$, then whp we have that $\te(\hat{\beta}_t^{\MTL}) \ge \te(\hat{\beta}_t^{\STL})$.
 	\end{itemize}
 \end{proposition}
 
-We remark that the constants $\frac23$ and $\frac32$ in the statement above are chosen for the simplicity of presentation.
+We remark that the constants $1/2$ and $2$ in the statement above are chosen for the simplicity of presentation.
 In general we can close the gap between the two constants by increasing $\rho_1$.
 While the statement of Theorem \ref{thm_main_informal} only applies to the asymptotic regime of $p$ going to infinity, Proposition \ref{prop_dist_transition} explains most of the observations in Figure \ref{fig_model_shift} when $p = 200$.
 %in this proposition (and the following ones) can be replaced with $(1+c_1^{-1/2})^{-4}$ and $(1-c_1^{-1/2})^{-4}$. In particular, these bounds becomes tighter as $c_1$ increases.
@@ -117,11 +117,11 @@ Consider a more general setting of Proposition \ref{prop_dist_transition} where 
 We derive a sharp transition from positive to negative transfer as a parameter of $\sigma_1^2$.
 
 \begin{proposition}\label{prop_var_transition}
-	In the setting of Example \ref{ex_basic} with $d$ being fixed but $\sigma_1$ varies, assume that $\rho_1 > 110$ is a fixed constant and $d^2 < \frac {2\sigma_2^2} {3p} \cdot \Phi(\rho_1, \rho_2)$.
+	In the setting of Example \ref{ex_basic} with $d$ being fixed but $\sigma_1$ varies, assume that $\rho_1 > 40$ is a fixed constant and $d^2 < \frac {2\sigma_2^2} {3p} \cdot \Phi(\rho_1, \rho_2)$.
 	We derive the following transition as a parameter of $\sigma_1^2$:
 	\begin{itemize}
-		\item If $\sigma_1^2 \le p d^2 \cdot \rho_1 +\left(1+ \frac23 \cdot \Phi(\rho_1, \rho_2)\right)\cdot\sigma_2^2$, then whp $\te(\hat{\beta}_t^{\MTL}) < \te(\hat{\beta}_t^{\STL})$.
-		\item If $\sigma_1^2 > p d^2 \cdot \rho_1 +\left(1+ \frac32\Phi(\rho_1, \rho_2)\right) \cdot \sigma_2^2$, then whp $\te(\hat{\beta}_t^{\MTL}) > \te(\hat{\beta}_t^{\STL})$.
+		\item If $\sigma_1^2 \le p d^2 \cdot \rho_1 +\left(1+ \frac12 \cdot \Phi(\rho_1, \rho_2)\right)\cdot\sigma_2^2$, then whp $\te(\hat{\beta}_t^{\MTL}) < \te(\hat{\beta}_t^{\STL})$.
+		\item If $\sigma_1^2 > p d^2 \cdot \rho_1 +\left(1+ 2\Phi(\rho_1, \rho_2)\right) \cdot \sigma_2^2$, then whp $\te(\hat{\beta}_t^{\MTL}) > \te(\hat{\beta}_t^{\STL})$.
 	\end{itemize}
 \end{proposition}
 As a corollary, if $\sigma_1^2 \le \sigma_2^2$, then we always get positive transfer.
@@ -136,14 +136,15 @@ On the other hand, we have observed that adding more labeled data does not alway
 Using Example \ref{ex_basic}, we analyze the effect of varying the source task data size.
 
 \begin{proposition}\label{prop_data_size}
-	In the setting of Example \ref{ex_basic}, assume that $c_2  \ge 3$ is fixed and $c_1 > a$ for some fixed integer $a$.	We have the following conditions to determine whether $\te(\hat{\beta}_t^{\MTL})$ is lower than $\te(\hat{\beta}_t^{\STL})$:
+	In the setting of Example \ref{ex_basic}, assume that $\rho_1 > 40$ and $\rho_2 > 500$ are fixed constants.
+	We have the following conditions to determine whether $\te(\hat{\beta}_t^{\MTL})$ is lower than $\te(\hat{\beta}_t^{\STL})$:
 	\begin{itemize}
-\item If $d^2 \le (1 + a^{-1/2})^{-4}\frac{\sigma^2}{p(c_2-1)}$, then whp $\te(\hat{\beta}_t^{\MTL}) < \te(\hat{\beta}_t^{\STL})$. 
+\item If $d^2 \le \frac{\sigma^2}{2p(\rho_2-1)}$, then whp $\te(\hat{\beta}_t^{\MTL}) < \te(\hat{\beta}_t^{\STL})$.
 		 
-\item If $d^2 > (1 - a^{-1/2})^{-4}(1-(a+c_2-2)^{-2})^{-1}\frac{\sigma^2}{p (c_2 - 1)}$, then we have the following transition depending on $c_1$:
+\item If $d^2 > \frac{2\sigma^2}{p (\rho_2 - 1)}$, then we have the following transition depending on $\rho_1$:
 		\begin{itemize}
-			\item If $c_1 < \frac{(c_2-2)\sigma^2}{(1+a^{-1/2})^4(c_2 - 1) pd^2 - \sigma^2}$, then whp $\te(\hat{\beta}_t^{\MTL}) < \te(\hat{\beta}_t^{\STL})$.
-			\item If $c_1 > \frac{(c_2-2) \sigma^2}{(1-a^{-1/2})^4(1-(a+c_2-2)^{-2})(c_2 - 1) pd^2 - \sigma^2}$, then whp $\te(\hat{\beta}_t^{\MTL}) > \te(\hat{\beta}_t^{\STL})$.
+			\item If $\rho_1 < \frac{(\rho_2-2)\sigma^2}{(1 + {\rho_1}^{-0.5})^4(\rho_2 - 1) pd^2 - \sigma^2}$, then whp $\te(\hat{\beta}_t^{\MTL}) < \te(\hat{\beta}_t^{\STL})$.
+			\item If $\rho_1 > \frac{(\rho_2-2) \sigma^2}{(1 - {\rho_1}^{-0.5})^4 (\rho_2 - 3) pd^2 - \sigma^2}$, then whp $\te(\hat{\beta}_t^{\MTL}) > \te(\hat{\beta}_t^{\STL})$.
 		\end{itemize}
 	\end{itemize}
 \end{proposition}
@@ -164,10 +165,10 @@ If we only use $\alpha n_i$ datapoints from every task to train the multi-task l
 We quantify the data efficiency ratio of $\hat{\beta}_t^{\MTL}$ for Example \ref{ex_basic} as follows.
 
 \begin{proposition}\label{prop_data_efficiency}
-	In the setting of Example \ref{ex_basic}, assume that $c_1 = c_2 = c \ge 200$ and $d^2 < {8\sigma^2} /{(3p c)}$.
-	Then the data efficiency ratio is at most $\frac{1}{2c} + \frac{\sigma^2}{2\sigma^2 - 3p d^2 c / 4}$.
+	In the setting of Example \ref{ex_basic}, assume that $\rho_1 = \rho_2 = \rho \ge 200$ and $d^2 < {8\sigma^2} /{(3p \rho)}$.
+	Then the data efficiency ratio is at most $\frac{1}{2\rho} + \frac{\sigma^2}{2\sigma^2 - 3p d^2 \rho / 4}$.
 \end{proposition}
-Note that we have stated the result assuming that $c_1 = c_2$.
+Note that we have stated the result assuming that $\rho_1 = \rho_2$.
 Similar results can also be obtained when they are different.
 We omit the details.
 The proof of Proposition \ref{prop_data_efficiency} can be found in Appendix \ref{app_proof_data}.
@@ -203,7 +204,7 @@ On the other hand, if $n_1$ is comparable or even smaller than $n_2$, we show an
 	In the setting of Example \ref{ex_basic}, assume that $c_1 > 3$ and $c_2>3$,
 and $\|\Sigma_1\|\le C_1$ for some constant $C_1>0$. %As a parameter of $M \in \cS_{\mu}$, 
 We have that $(\te(\hat{\beta}_t^{\MTL}))(M)$ as a function of $M\in \cS_{\mu}$ satisfies that 
-\be\label{formular_covariate0} (\te(\hat{\beta}_t^{\MTL}))(\mu \id) \le \left[1+ C\left(c_2c_1^{-1} + c_1^{-1/2}\right)\right]\cdot\min_{M\in \cal S_{\mu}}(\te(\hat{\beta}_t^{\MTL}))(M) ,\ee
+\be\label{formular_covariate0} (\te(\hat{\beta}_t^{\MTL}))(\mu \id) \le \left[1+ C\left(\frac{\rho_2}{\rho_1} + \frac{1}{\sqrt {\rho_1}}\right)\right]\cdot\min_{M\in \cal S_{\mu}}(\te(\hat{\beta}_t^{\MTL}))(M) ,\ee
 where the constant $C>0$ depends only on $\mu_{\max}$, $\mu_{\min}$ and $C_1$, but otherwise does not depend on $c_1$ and $c_2$. 
 	%is minimized when $M = \mu\id$.
 \end{proposition}
