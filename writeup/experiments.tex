@@ -1,4 +1,4 @@
-\section{Practical Implications}
+\section{Practical Implications for Multi-Task Learning}
 
 \subsection{Experimental Setup}
 
@@ -20,11 +20,9 @@ This is a 14-task multi-label image classification problem.
 
 For all models, we share the main module across all tasks and assign a separate regression or classification layer on top of the shared module for each tasks.
 
+\subsection{Detecting and Improving Negative Effects}
 
-
-\subsection{Results and Analysis}
-
-\textbf{A metric to determine positive versus negative transfer.}
+\textbf{A Metric to Determine Positive or Negative Transfer}
 We propose a simple metric to determine whether multi-task learning performs better than single-task learning.
 The metric is as follows.
 First, we train 2 single-task models on 2 separate tasks.
@@ -53,11 +51,8 @@ Table \ref{tab:mtl_better_than_stl} shows the results on a sentiment analysis an
 \label{tab:mtl_better_than_stl}
 \end{table}
 
-\textbf{Multi-task learning provides labeled data efficiency.}
-We measure the data efficiency ratio on text classification tasks.
-We find that by performing multi-task learning, only 40$\%$ of the data is needed to achieve comparable performance to single-task learning over all six tasks.
 
-\textbf{Covariance alignment provides more improvement when data size is imbalanced.}
+\textbf{Covariance Alignment for Imbalanced Tasks with Covariate Shift.}
 We validate that the performance of aligning task covariances depends on the size of source task data.
 Recall that the covariance alignment procedure in \cite{WZR20} adds an additional module between the word embedding representation and the shared module.
 
@@ -83,6 +78,22 @@ In Figure \ref{fig_covariate}, we observe that the benefit from aligning task co
 	\caption{The performance of aligning task covariances depends on data size. As the ratio between source task data size and target task data size increases, the performance improvement from aligning task covariances increases.}
 	\label{fig_covariate}
 \end{figure}
+
+
+\subsection{Validating Theoretical Observations}
+
+\textbf{Benefits of multi-task learning.}
+
+
+\textit{Improving labeled data efficiency.}
+We measure the data efficiency ratio on text classification tasks.
+We find that by performing multi-task learning, only 40$\%$ of the data is needed to achieve comparable performance to single-task learning over all six tasks.
+
+\textit{Transferring from a high accuracy to low accuracy.}
+
+\textbf{Causes of negative transfer.}
+
+
 
 %\begin{figure}
 %	\centering
