@@ -2,74 +2,90 @@
 
 \subsection{Proofs for Section \ref{sec_similarity}}\label{app_proof_31}
 
-The proof will consist of two main steps.
-\begin{itemize}
-	\item First, we show that $\hat{v}$ is close to $1$.
-	\item Second, we plug $\hat{v}$ back into $\te(\hat{\beta}_t^{\MTL})$ to show the result.
-\end{itemize}
-
-We denote
+For the ratio $w=w_1/w_2$, we define the function
 \begin{align}
 	\val(w) &= n_1\left[d^2 +\left( w-1\right)^2\kappa^2\right]\cdot \tr\left[( w^2X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_2^{\top}X_2)^2\right] \nonumber \\
 	& + n_2w^2\left[d^2 +\left( w-1\right)^2\kappa^2\right]\cdot \tr\left[( w^2X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right] \nonumber\\
-			& + (n_1+n_2)\sigma^2 \cdot \bigtr{(w^2X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} }. \nonumber
+			& + (n_1 w^2 +n_2)\sigma^2 \cdot \bigtr{(w^2X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} }. \nonumber
 \end{align}
-Under the setting of Proposition \ref{prop_model_shift_tight}, using concentration of random vector with i.i.d. Gaussian entries, Lemma \ref{largedeviation}, we have that
-$$\val(\hat{B}; w_1, w_2)= \val(w) \left( 1+\OO(p^{-1/2})\right)\quad \text{with probability }1-\oo(1).$$
-Thus it suffices to study the behavior of $\val (w)$.
-For the minimizer $\hat w$ of $\val(w)$, we have a similar result as in Proposition \ref{thm_cov_shift}.
-
+Under the setting of Lemma \ref{prop_model_shift_tight}, again using concentration for random vectors with i.i.d. entries, Lemma \ref{largedeviation}, we can obtain that for the validation loss in \eqref{eq_val_mtl},
+\be\label{boundv-w}\val(\hat{B}; w_1, w_2)= \val(w) \left( 1+\OO(p^{-1/2+\e})\right)\ee
+with high probability for any constant $\e>0$. Thus for the following discussions, it suffices focus on the behavior of $\val (w)$. Let $\hat w$ the minimizer of $\val(w)$. The proof will consist of two main steps.
+\begin{itemize}
+	\item First, we show that the optimal ratio $\hat{w}$ is close to $1$. Then \eqref{boundv-w} gives that $|\hat v - \hat w|=\OO(p^{-1/2+\e})$ whp.
+	\item Second, we plug $\hat{v}$ back into $\te(\hat{\beta}_t^{\MTL})$ and use Lemma \ref{prop_model_shift_tight} to show the result.
+\end{itemize}
+%For the minimizer $\hat w$ of $\val(w)$, we have a similar result as in Proposition \ref{thm_cov_shift}.
+For the first step, we will prove the following result.
 \begin{lemma}\label{lem_hat_v}
-Suppose the assumptions of Proposition \ref{prop_model_shift_tight} hold. Assume that $ \kappa^2 \sim pd^2 \sim \sigma^2$ are of the same order. Then we have that the optimal ratio for $\val(w)$ satisfies
-	\be\label{hatw_add1}|\hat w -1|=\OO(p^{-1}).\ee
+%Suppose the assumptions of Lemma \ref{prop_model_shift_tight} hold. Assume that $ \kappa^2 \sim pd^2 \sim \sigma^2$ are of the same order. 
+We have that the minimizer for $\val(w)$ satisfies
+	\be\label{hatw_add1}|\hat w -1|\le C\left(\frac{d^2}{\kappa^2} + \frac{\sigma^2}{p\kappa^2}\right)\ee
+	for some constant $C>0$.
 	%is $\hat{w} = 1 \pm \bigo{\frac 1 {n_1+n_2}}$ \todo{(figure out the constants)}
 \end{lemma}
 \begin{proof}
-The proof is also similar to the one for Proposition \ref{thm_cov_shift}. First it is easy to observe that $\val(w)\le \val(-w)$ for $w\ge 0$. Hence it suffices to consider the $w\ge 0$ case.
+First it is easy to observe that $\val(w)< \val(-w)$ for $w> 0$. Hence it suffices to assume that $w\ge 0$.
 
 We first consider the case $w\ge 1$. We write
 \begin{align}
 	\val(w) &= n_1\left[\frac{d^2}{w^4} +\frac{\left( w-1\right)^2}{w^4}\kappa^2\right]\cdot \tr\left[( X_1^{\top}X_1 +w^{-2}X_2^{\top}X_2)^{-2} (X_2^{\top}X_2)^2\right] \nonumber \\
 	& + n_2\left[\frac{d^2}{w^2} +\frac{\left( w-1\right)^2}{w^2}\kappa^2\right]\cdot \tr\left[( X_1^{\top}X_1 +w^{-2}X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right] \nonumber\\
-			& + \sigma^2(n_1+n_2) \cdot \bigtr{(w^{2}X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} } .\nonumber%+  \sigma^2n_2 \cdot \bigtr{(X_1^{\top}X_1  + w^{-2}X_2^{\top}X_2)^{-1} }. \nonumber
+			& + n_1\sigma^2  \cdot \bigtr{(X_1^{\top}X_1  + w^{-2}X_2^{\top}X_2)^{-1} }+ n_2\sigma^2 \cdot \bigtr{(w^2X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} }.\nonumber%+  \sigma^2n_2 \cdot \bigtr{(X_1^{\top}X_1  + w^{-2}X_2^{\top}X_2)^{-1} }. \nonumber
 \end{align}
-
-Taking derivative of $\val(w)$ with respect to $w$, we obtain that
+Notice that 
+$$\tr\left[( X_1^{\top}X_1 +w^{-2}X_2^{\top}X_2)^{-2} (X_i^{\top}X_i)^2\right],\ i=1,2, \quad \text{and} \quad \bigtr{(X_1^{\top}X_1  + w^{-2}X_2^{\top}X_2)^{-1} }$$
+are increasing functions in $w$. Hence taking derivative of $\val(w)$ with respect to $w$, we obtain that
 \begin{align*}
 \val'(w) \ge &~ n_1\left[ \frac{2(w-1)(2-w)}{w^5}\kappa^2 - \frac{4d^2}{w^5}\right] \tr\left[( X_1^{\top}X_1 +w^{-2}X_2^{\top}X_2)^{-2} (X_2^{\top}X_2)^2\right]   \\
 +&~ n_2\left[\frac{2\left( w-1\right)}{w^3}\kappa^2 - \frac{2d^2}{w^3} \right]\cdot \tr\left[( X_1^{\top}X_1 +w^{-2}X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right] \nonumber\\
-		-&~ 2(n_1+n_2) \frac{\sigma^2}{w^3} \cdot \bigtr{(X_1^{\top}X_1 + w^{-2}X_2^{\top}X_2)^{-2} X_1^\top X_1  } = n_1 \bigtr{(X_1^{\top}X_1 + w^{-2}X_2^{\top}X_2)^{-2} \cal A },
+		-&~ 2 n_2 \frac{\sigma^2}{w^3} \cdot \bigtr{(X_1^{\top}X_1 + w^{-2}X_2^{\top}X_2)^{-2} X_1^\top X_1  } = n_2 \bigtr{(X_1^{\top}X_1 + w^{-2}X_2^{\top}X_2)^{-2} \cal A },
 \end{align*}
 where the matrix $\cal A$ is
 \begin{align*}
-\cal A :&= \left[ \frac{2(w-1)(2-w)}{w^5}\kappa^2 - \frac{4d^2}{w^5}\right](X_2^{\top}X_2)^2 + \frac{n_2}{n_1} \left[\frac{2\left( w-1\right)}{w^3}\kappa^2 - \frac{2d^2}{w^3} \right](X_1^{\top}X_1)^2. - 2\frac{n_1+n_2}{n_1}\frac{\sigma^2}{w^3}X_1^\top X_1
+\cal A :&= \frac{n_1}{n_2}\left[ \frac{2(w-1)(2-w)}{w^5}\kappa^2 - \frac{4d^2}{w^5}\right](X_2^{\top}X_2)^2 + \left[\frac{2\left( w-1\right)}{w^3}\kappa^2 - \frac{2d^2}{w^3} \right](X_1^{\top}X_1)^2 - 2 \frac{\sigma^2}{w^3}X_1^\top X_1.
 \end{align*}
 Using the estimate \eqref{eq_isometric}, we get that $\cal A$ is lower bounded as
 \begin{align*}
-\cal A \succeq - \frac{4d^2}{w^5}(\sqrt{n_2}+\sqrt{p})^4 + \frac{n_2}{n_1} \left[\frac{2\left( w-1\right)}{w^3}\kappa^2 - \frac{2d^2}{w^3} \right](\sqrt{n_1}-\sqrt{p})^4 - 2\frac{n_1+n_2}{n_1}\frac{\sigma^2}{w^3}(\sqrt{n_1}+\sqrt{p})^2\succ 0,
+\cal A \succeq&~ - \frac{4d^2}{w^5}n_1n_2 (\al_+(\rho_2)+\oo(1))^2 + \left[\frac{2\left( w-1\right)}{w^3}\kappa^2 - \frac{2d^2}{w^3} \right]n_1^2 (\al_-(\rho_1)-\oo(1))^2 \\
+&~ - 2 \frac{\sigma^2}{w^3}n_1(\al_{+}(\rho_1)+\oo(1)) \succ 0,
 \end{align*}
 as long as
-$$w> w_1:=1 +\frac{d^2}{\kappa^2}+ \frac{\sigma^2}{\kappa^2}\frac{(n_1+n_2)(\sqrt{n_1}+\sqrt{p})^2}{n_2(\sqrt{n_1}-\sqrt{p})^4}+ \frac{2d^2}{\kappa^2}\frac{n_1(\sqrt{n_2}+\sqrt{p})^4}{n_2(\sqrt{n_1}-\sqrt{p})^4}.$$
-Hence $\val'(w)>0$ on $(w_1,\infty)$, i.e. $\val(w)$ is strictly increasing for $w>w_1$. Hence we must have $\hat w\le w_1$. Note that under our assumptions, we have $w_1=1+\OO(p^{-1})$.
+$$w> w_1:=1 +\frac{d^2}{\kappa^2}+ \frac{\sigma^2}{n_1\kappa^2}\frac{\al_{+}(\rho_1)+\oo(1)}{\al_{-}^2(\rho_1)} + \frac{2d^2}{\kappa^2}\frac{\rho_2(\al_+^2(\rho_2)+\oo(1))}{\rho_1\al_-^2(\rho_1) }.$$
+Hence $\val'(w)>0$ on $(w_1,\infty)$, i.e. $\val(w)$ is strictly increasing for $w>w_1$. Hence we must have $\hat w\le w_1$. 
 
-Then we consider the case $w\le 1$. Taking derivative of $\val(w)$ with respect to $w$, we obtain that
+Then we consider the case $w\le 1$, and the proof is similar as above. Taking derivative of $\val(w)$, we obtain that
 \begin{align}
 	\val'(w) &\le n_1 \left[2\left( w-1\right) \kappa^2\right]\cdot \tr\left[( w^2X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_2^{\top}X_2)^2\right] \nonumber \\
-	& + n_2\left[2d^2w +2w\left( w-1\right)(2w-1)\kappa^2\right]\cdot \tr\left[( w^2X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right] \nonumber\\
+	& + n_2\left[2wd^2 +2w\left( w-1\right)(2w-1)\kappa^2\right]\cdot \tr\left[( w^2X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right] \nonumber\\
+	&~ + n_1(2 w\sigma^2) \cdot \bigtr{(w^2X_1^{\top}X_1 + X_2^{\top}X_2)^{-2} X_2^\top X_2  }\\
 			& = n_1 \bigtr{(w^2X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} \cal B} , \nonumber
 \end{align}
 where the matrix $\cal B$ is
-$$\cal B= 2\left( w-1\right) \kappa^2  (X_2^{\top}X_2)^2+\frac{n_2}{n_1}\left[2d^2w +2w\left( w-1\right)(2w-1)\kappa^2\right](X_1^{\top}X_1)^2.$$
+$$\cal B= 2\left( w-1\right) \kappa^2  (X_2^{\top}X_2)^2+\frac{n_2}{n_1}\left[2wd^2 +2w\left( w-1\right)(2w-1)\kappa^2\right](X_1^{\top}X_1)^2 + 2 w\sigma^2 X_2^\top X_2 .$$
 Using the estimate \eqref{eq_isometric}, we get that $\cal B$ is upper bounded as
 \begin{align*}
-\cal B \preceq - 2(1-w)\kappa^2(\sqrt{n_2}-\sqrt{p})^4 +2d^2 w\frac{n_2}{n_1}(\sqrt{n_1}+\sqrt{p})^4 \prec 0,
+\cal B \preceq - 2(1-w)\kappa^2 n_2^2 (\al_-(\rho_2) -\oo(1))^2 +2w d^2 n_1n_2 (\al_+(\rho_1) +\oo(1))^2 + 2w\sigma^2 n_2 (\al_+(\rho_2)+\oo(1)) \prec 0,
 \end{align*}
 as long as
-$$w< w_2:=1 -   \frac{d^2}{\kappa^2}\frac{n_2(\sqrt{n_1}+\sqrt{p})^4}{n_1(\sqrt{n_2}-\sqrt{p})^4}.$$
-Hence $\val'(w)<0$ on $[0,w_2)$, i.e. $\val(w)$ is strictly increasing for $w<w_2$. Hence we must have $\hat w\le w_2$. Note that under our assumptions, we have $w_2=1-\OO(p^{-1})$.
+$$w< w_2:=1 -   \frac{d^2}{\kappa^2}\frac{\rho_1(\al_+(\rho_1) +\oo(1))^2}{\rho_2 \al_-^2(\rho_2) } -  \frac{\sigma^2}{n_2\kappa^2}\frac{\al_{+}(\rho_2)+\oo(1)}{\al_{-}^2(\rho_2)} .$$
+Hence $\val'(w)<0$ on $[0,w_2)$, i.e. $\val(w)$ is strictly decreasing for $w<w_2$. Hence we must have $\hat w\le w_2$. 
+
+In sum, we obtain that $w_2\le w\le w_1$. Note that under our assumptions, we have 
+$$\max(|w_1 -1|, |w_2 -1|) =\OO\left(\frac{d^2}{\kappa^2} + \frac{\sigma^2}{p\kappa^2}\right),$$
+which concludes the proof.
 \end{proof}
 
-
+Combining \eqref{hatw_add1} and \eqref{boundv-w}, we obtain that whp,
+\be\label{hatv_add1} 
+|\hat v - 1|= \OO\left(\cal E\right), \quad \cal E:=\frac{d^2}{\kappa^2} + \frac{\sigma^2}{p\kappa^2} + p^{-1/2+\e} 
+\ee
+Inserting it into \eqref{eq_te_mtl_2task} and using a similar concentration result as in \eqref{boundv-w}, we get whp,
+\begin{align}
+\te(\hat{\beta}_t^{\MTL})&=(1+\OO(\cal E))\cdot \left[d^2 + \OO\left(\cal E^2 \kappa^2\right)\right] \tr\left[(X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right]\nonumber\\ 
+&+(1+\OO(\cal E))\cdot \sigma^2  \bigtr{(w^2X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} }. \nonumber
+\end{align}
+{\cor add about the choice of parameters}
 
 Based on Lemma \ref{lem_hat_v}, we can prove Proposition \ref{prop_dist_transition}.
 \begin{proof}[Proof of Proposition \ref{prop_dist_transition}]
