@@ -1,0 +1,42 @@
+\section{Preliminaries}\label{sec_setup}
+
+Recall that we have $t$ labeled tasks available, denoted by $(X_1, Y_1), (X_2, Y_2), \dots, (X_t, Y_t)$.
+Following \cite{HMRT19,BLLT20}, we assume that for each task $i = 1,2,\dots,t$,  every feature vector is generated as $x = \Sigma_i^{1/2} z$, where $z\in\real^p$ is a random vector with i.i.d. entries of mean zero and unit variance and $\Sigma_i\in\real^{p\times p}$ is a positive semidefinite matrix.
+Without loss of generality, let the $t$-th task denote the target task.
+For an estimator $\hat{\beta}\in\real^p$, the test error of the target task is defined as
+	\begin{align*}
+		\te_t(\hat{\beta}) \define \exarg{z}{\exarg{\varepsilon_t}{({(\Sigma_t^{1/2} z)}^{\top}\hat{\beta} - {(\Sigma_t^{1/2})}^{\top}\beta_t)^2}}
+		= \exarg{\varepsilon_t}{(\hat{\beta} - \beta_t)^{\top}\Sigma_t(\hat{\beta} - \beta_t)}.
+	\end{align*}
+
+Let $\hat{\beta}_t^{\STL} = (X_t^{\top}X_t)^{-1}X_t^{\top}Y_t$ denote the linear regression estimator, which can be also be obtained from equation \eqref{eq_mtl} by using the target task alone.
+The bias-variance trade-off \cite{HTF09} says that
+	\[ \te_t(\hat{\beta}) =
+		\bignorm{\exarg{\varepsilon_t}{\hat{\beta}} - \beta_t}^2 + \exarg{\varepsilon_t}{\hat{\beta} - \exarg{\varepsilon_t}{\hat{\beta}}}. \]
+Recall that $n_i = \rho_i \cdot p$ where $\rho_i > 1$ is a fixed constant for every $1\le i\le t$.
+Hence the bias of $\te_t(\hat{\beta}_t^{\STL})$ is zero and its test error is equal to variance, given by $\sigma^2 \cdot \tr[(X_i^{\top}X_i)^{-1}\Sigma_i]$.
+We focus on a setting where the data size $n_t$ of the target task is equal to a small constant $\rho_t > 1$ times $p$.
+This setting captures the need for adding more labeled data to reduce the test error of the target task.
+
+In order to study the trade-off between model-shift bias and variance reduction, we need tight concentration bounds to quantify both effects.
+For this purpose, we consider the high-dimensional setting where $p$ goes to infinity.
+A well-known result for this setting states that the asymptotic limit of $\te(\hat{\beta}_t^{\STL})$ is $\frac {\sigma^2} {\rho_t - 1}$ (e.g. Chapter 6 of \cite{S07}), which scales with the data size and noise level of the target task.
+However, this result only applies to the single-task setting.
+Therefore, we focus on deriving the asymptotic limit of $\te(\hat{\beta}_t^{\MTL})$ when $p$ goes to infinity.
+%, i.e. %(following the argument of Proposition \ref{prop_monotone}), i.e.
+%\[ \bigtr{(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2} \le \bigtr{(X_2^{\top}X_2)^{-1}\Sigma_2}. \]
+%Because of model shift bias, we can no longer guarantee that $\te(\hat{\beta}_{t}^{\MTL}) \le \te(\hat{\beta}_t^{\STL})$.
+
+To illustrate our intuition, we begin by considering the multi-task learning setting with one source task.
+Recall that $\hat{\beta}_t^{\MTL}$ is defined as $BW_t$ after solving equation \eqref{eq_mtl}.
+We decompose the test error of $\hat{\beta}_{t}^{\MTL}$ on the targe task into two parts (to be derived in Appendix \ref{app_proof_main})
+\begin{align}
+	\te_t(\hat{\beta}_t^{\MTL}) =& ~ \hat{v}^2 \bignorm{\Sigma_2^{1/2} (\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}X_1^{\top}X_1 (\beta_1 - \hat{v}\beta_2)}^2 \label{eq_te_model_shift} \\
+	&+ \sigma^2\cdot \bigtr{(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2}, \label{eq_te_var}
+\end{align}
+where $\hat{v} = W_2 / W_1$ denotes the ratio of the output layer weights.
+
+\textbf{Notations.} We refer to the last ($t$-th) task as the target task and the first task as the source task when there are only two tasks.
+When there is no ambiguity, we drop the subscript $t$ from $\te_t(\hat{\beta}_t^{\MTL})$ to $\te(\hat{\beta}_t^{\MTL})$ for simplicity.
+We call $M = \Sigma_1^{1/2}\Sigma_2^{-1/2}$ the covariate shift matrix.
+%Same for $\hat{\beta}_t^{\STL}$.
