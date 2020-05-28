@@ -22,7 +22,7 @@ Based on the result, we show how to determine positive versus negative transfer 
 Theorem \ref{thm_main_informal} shows nearly tight bounds on the trade-off between model-shift bias and variance reduction.
 %determined by the covariate shift matrix and the model shift.
 The bounds get tighter and tighter as $\rho_1$ increases.
-A formal version of Theorem \ref{thm_main_informal} is presented in Theorem \ref{thm_model_shift} and its proof is presented in Appendix \ref{sec_pfmain}.
+A formal version of Theorem \ref{thm_main_informal} is presented in Theorem \ref{thm_model_shift} and its proof is presented in Appendix \ref{app_proof_main}.
 While the general form of $\Delta_{\vari}$ and $\Delta_{\beta}$ can be quite complex, we show that they provide nice interpretation for several simple settings in the rest of the section.
 
 \textit{Proof overview.} By comparing the bias and variance of $\te_t(\hat{\beta}_t^{\MTL})$ to $\te_t(\hat{\beta}_t^{\STL})$, we observe the following two effects, respectively.
@@ -90,7 +90,7 @@ We derive a sharp threshold when positive transfer transitions to negative trans
 	Consider a setting where $\Sigma_1 = \Sigma_2 = \id$, in other words there is no covariate shift between the two tasks. For the noises, we assume that $\e_i$ has i.i.d. entries with mean zero and variances $\sigma_i^2$, $i=1,2$.
 	For the task models, suppose that $\beta_2$ has i.i.d. entries with mean zero and variance $\kappa^2$ and $\beta_1 - \beta_2$ also has i.i.d. entries with mean $0$ and variance $d^2$.
 	%The noise level for both tasks is equal to $\sigma > 0$.
-	We have $n_i = c_i \cdot p$ data points from each task, for $i = 1, 2$.
+	We have $n_i = \rho_i \cdot p$ data points from each task, for $i = 1, 2$.
 	For simplicity, we assume that all the random variables have subexponential decay, while keeping in mind that our results can be applied under weaker moments assumptions as shown in the supplementary material.
 
 We illustrate the example with a simulation.
@@ -104,7 +104,7 @@ Define the following function
 \end{align*}
 
 \begin{proposition}\label{prop_dist_transition}
-	In the setting of Example \ref{ex_basic} with $\sigma_1 = \sigma_2 = \sigma$, assume that $\rho_1 > 40$ is a fixed constant.
+	In the simplifying setting with $\sigma_1 = \sigma_2 = \sigma$, assume that $\rho_1 > 40$ is a fixed constant.
 	Whether $\te(\hat{\beta}_t^{\MTL})$ is lower than $\te(\hat{\beta}_t^{\STL})$ is determined by the ratio between the model distance and the noise level:
 	\begin{itemize}
 		\item If ${d^2} < \frac {\sigma^2} {2p} \cdot \Phi(\rho_1, \rho_2)$, then whp we have that $\te(\hat{\beta}_t^{\MTL}) < \te(\hat{\beta}_t^{\STL})$.
