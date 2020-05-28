@@ -1,4 +1,4 @@
-\section{Experiments}
+\section{Practical Implications for Multi-Task Learning}
 
 \subsection{Experimental Setup}
 
@@ -7,7 +7,7 @@
 {\it Sentiment Analysis:} This dataset includes six tasks: movie review sentiment (MR), sentence subjectivity (SUBJ), customer reviews polarity (CR), question type (TREC), opinion polarity (MPQA), and the Stanford sentiment treebank (SST) tasks.
 
 {For each task, the goal is to categorize sentiment opinions expressed in the text.
-We use an embedding layer (with GloVe embeddings\footnote{http://nlp.stanford.edu/data/wordvecs/glove.6B.zip}) followed by an LSTM layer proposed by~\cite{lei2018simple}\footnote{We also tested with multi-layer perceptron and CNN. The results are similar (cf. Appendix \ref{label:real_result_details}).}.
+We use an embedding layer (with GloVe embeddings\footnote{http://nlp.stanford.edu/data/wordvecs/glove.6B.zip}) followed by an LSTM layer proposed by~\cite{lei2018simple}.
 }
 %multi-layer perceptron (MLP), LSTM, CNN on all tasks
 %We use this task to verify our theoretical results on model capacity and task covariance in real world.
@@ -20,11 +20,9 @@ This is a 14-task multi-label image classification problem.
 
 For all models, we share the main module across all tasks and assign a separate regression or classification layer on top of the shared module for each tasks.
 
+\subsection{Detecting and Improving Negative Effects}
 
-
-\subsection{Results and Analysis}
-
-\textbf{A metric to determine positive versus negative transfer.}
+\textbf{A Metric to Determine Positive or Negative Transfer}
 We propose a simple metric to determine whether multi-task learning performs better than single-task learning.
 The metric is as follows.
 First, we train 2 single-task models on 2 separate tasks.
@@ -53,11 +51,8 @@ Table \ref{tab:mtl_better_than_stl} shows the results on a sentiment analysis an
 \label{tab:mtl_better_than_stl}
 \end{table}
 
-\textbf{Measuring data efficiency ratio.}
-We measure the data efficiency ratio on text classification tasks.
-We find that by performing multi-task learning, only 40$\%$ of the data is needed to achieve comparable performance to single-task learning over all six tasks.
 
-\textbf{Data size affects covariance alignment.}
+\textbf{Covariance Alignment for Imbalanced Tasks with Covariate Shift.}
 We validate that the performance of aligning task covariances depends on the size of source task data.
 Recall that the covariance alignment procedure in \cite{WZR20} adds an additional module between the word embedding representation and the shared module.
 
@@ -68,21 +63,39 @@ In Figure \ref{fig_covariate}, we observe that the benefit from aligning task co
 	\begin{subfigure}[b]{0.33\textwidth}
 		\centering
 		\includegraphics[width=0.975\textwidth]{figures/ratio_alignment_norm_diff_all.pdf}
-		\caption{LSTM (averaged)}
+		\caption{Averaged}
 	\end{subfigure}\hfill
 	\begin{subfigure}[b]{0.33\textwidth}
 		\centering
-		\includegraphics[width=0.975\textwidth]{figures/ratio_alignment_mr_sst_lstm.pdf}
-		\caption{MLP (averaged)}
+		\includegraphics[width=0.975\textwidth]{figures/ratio_alignment_norm_trec_cr_lstm.pdf}
+		\caption{Task pair TREC and CR}
 	\end{subfigure}\hfill
 		\begin{subfigure}[b]{0.33\textwidth}
 		\centering
 		\includegraphics[width=0.975\textwidth]{figures/ratio_alignment_mr_sst_lstm.pdf}
-		\caption{LSTM for one pair}
+		\caption{Task pair MR and SST}
 	\end{subfigure}
-	\caption{The performance of aligning task covariances depends on data size.}
+	\caption{The performance of aligning task covariances depends on data size. As the ratio between source task data size and target task data size increases, the performance improvement from aligning task covariances increases.}
 	\label{fig_covariate}
 \end{figure}
+
+
+\subsection{Validating Theoretical Implications}
+
+
+\textbf{Causes of negative transfer.}
+
+\textbf{Benefits of multi-task learning.}
+
+
+\textit{Improving labeled data efficiency.}
+We measure the data efficiency ratio on text classification tasks.
+We find that by performing multi-task learning, only 40$\%$ of the data is needed to achieve comparable performance to single-task learning over all six tasks.
+
+\textit{Transferring from a high accuracy to low accuracy.}
+
+
+
 
 %\begin{figure}
 %	\centering

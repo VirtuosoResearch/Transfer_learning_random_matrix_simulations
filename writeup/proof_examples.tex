@@ -1,220 +1,227 @@
+\section{Supplementary Materials for the Theoretical Implications}
+
 \subsection{Proofs for Section \ref{sec_similarity}}\label{app_proof_31}
 
-The proof will consist of two main steps.
-\begin{itemize}
-	\item First, we show that $\hat{v}$ is close to $1$.
-	\item Second, we plug $\hat{v}$ back into $\te(\hat{\beta}_t^{\MTL})$ to show the result.
-\end{itemize}
-
-We denote
+For the ratio $w=w_1/w_2$, we define the function
 \begin{align}
 	\val(w) &= n_1\left[d^2 +\left( w-1\right)^2\kappa^2\right]\cdot \tr\left[( w^2X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_2^{\top}X_2)^2\right] \nonumber \\
 	& + n_2w^2\left[d^2 +\left( w-1\right)^2\kappa^2\right]\cdot \tr\left[( w^2X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right] \nonumber\\
-			& + (n_1+n_2)\sigma^2 \cdot \bigtr{(w^2X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} }. \nonumber
+			& + (n_1 w^2 +n_2)\sigma^2 \cdot \bigtr{(w^2X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} }. \nonumber
 \end{align}
-Under the setting of Proposition \ref{prop_model_shift_tight}, using concentration of random vector with i.i.d. Gaussian entries, Lemma \ref{largedeviation}, we have that
-$$\val(\hat{B}; w_1, w_2)= \val(w) \left( 1+\OO(p^{-1/2})\right)\quad \text{with probability }1-\oo(1).$$
-Thus it suffices to study the behavior of $\val (w)$.
-For the minimizer $\hat w$ of $\val(w)$, we have a similar result as in Proposition \ref{thm_cov_shift}.
-
+Under the setting of Lemma \ref{prop_model_shift_tight}, again using concentration for random vectors with i.i.d. entries, Lemma \ref{largedeviation}, we can obtain that for the validation loss in \eqref{eq_val_mtl},
+\be\label{boundv-w}\val(\hat{B}; w_1, w_2)= \val(w) \left( 1+\OO(p^{-1/2+\e})\right)\ee
+with high probability for any constant $\e>0$. Thus for the following discussions, it suffices focus on the behavior of $\val (w)$. Let $\hat w$ the minimizer of $\val(w)$. The proof will consist of two main steps.
+\begin{itemize}
+	\item First, we show that the optimal ratio $\hat{w}$ is close to $1$. Then \eqref{boundv-w} gives that $|\hat v - \hat w|=\OO(p^{-1/2+\e})$ whp.
+	\item Second, we plug $\hat{v}$ back into $\te(\hat{\beta}_t^{\MTL})$ and use Lemma \ref{prop_model_shift_tight} to show the result.
+\end{itemize}
+%For the minimizer $\hat w$ of $\val(w)$, we have a similar result as in Proposition \ref{thm_cov_shift}.
+For the first step, we will prove the following result.
 \begin{lemma}\label{lem_hat_v}
-Suppose the assumptions of Proposition \ref{prop_model_shift_tight} hold. Assume that $ \kappa^2 \sim pd^2 \sim \sigma^2$ are of the same order. Then we have that the optimal ratio for $\val(w)$ satisfies
-	\be\label{hatw_add1}|\hat w -1|=\OO(p^{-1}).\ee
+%Suppose the assumptions of Lemma \ref{prop_model_shift_tight} hold. Assume that $ \kappa^2 \sim pd^2 \sim \sigma^2$ are of the same order. 
+We have that the minimizer for $\val(w)$ satisfies
+	\be\label{hatw_add1}|\hat w -1|\le C\left(\frac{d^2}{\kappa^2} + \frac{\sigma^2}{p\kappa^2}\right)\ee
+	for some constant $C>0$.
 	%is $\hat{w} = 1 \pm \bigo{\frac 1 {n_1+n_2}}$ \todo{(figure out the constants)}
 \end{lemma}
 \begin{proof}
-The proof is also similar to the one for Proposition \ref{thm_cov_shift}. First it is easy to observe that $\val(w)\le \val(-w)$ for $w\ge 0$. Hence it suffices to consider the $w\ge 0$ case.
+First it is easy to observe that $\val(w)< \val(-w)$ for $w> 0$. Hence it suffices to assume that $w\ge 0$.
 
 We first consider the case $w\ge 1$. We write
 \begin{align}
 	\val(w) &= n_1\left[\frac{d^2}{w^4} +\frac{\left( w-1\right)^2}{w^4}\kappa^2\right]\cdot \tr\left[( X_1^{\top}X_1 +w^{-2}X_2^{\top}X_2)^{-2} (X_2^{\top}X_2)^2\right] \nonumber \\
 	& + n_2\left[\frac{d^2}{w^2} +\frac{\left( w-1\right)^2}{w^2}\kappa^2\right]\cdot \tr\left[( X_1^{\top}X_1 +w^{-2}X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right] \nonumber\\
-			& + \sigma^2(n_1+n_2) \cdot \bigtr{(w^{2}X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} } .\nonumber%+  \sigma^2n_2 \cdot \bigtr{(X_1^{\top}X_1  + w^{-2}X_2^{\top}X_2)^{-1} }. \nonumber
+			& + n_1\sigma^2  \cdot \bigtr{(X_1^{\top}X_1  + w^{-2}X_2^{\top}X_2)^{-1} }+ n_2\sigma^2 \cdot \bigtr{(w^2X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} }.\nonumber%+  \sigma^2n_2 \cdot \bigtr{(X_1^{\top}X_1  + w^{-2}X_2^{\top}X_2)^{-1} }. \nonumber
 \end{align}
-
-Taking derivative of $\val(w)$ with respect to $w$, we obtain that
+Notice that 
+$$\tr\left[( X_1^{\top}X_1 +w^{-2}X_2^{\top}X_2)^{-2} (X_i^{\top}X_i)^2\right],\ i=1,2, \quad \text{and} \quad \bigtr{(X_1^{\top}X_1  + w^{-2}X_2^{\top}X_2)^{-1} }$$
+are increasing functions in $w$. Hence taking derivative of $\val(w)$ with respect to $w$, we obtain that
 \begin{align*}
 \val'(w) \ge &~ n_1\left[ \frac{2(w-1)(2-w)}{w^5}\kappa^2 - \frac{4d^2}{w^5}\right] \tr\left[( X_1^{\top}X_1 +w^{-2}X_2^{\top}X_2)^{-2} (X_2^{\top}X_2)^2\right]   \\
 +&~ n_2\left[\frac{2\left( w-1\right)}{w^3}\kappa^2 - \frac{2d^2}{w^3} \right]\cdot \tr\left[( X_1^{\top}X_1 +w^{-2}X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right] \nonumber\\
-		-&~ 2(n_1+n_2) \frac{\sigma^2}{w^3} \cdot \bigtr{(X_1^{\top}X_1 + w^{-2}X_2^{\top}X_2)^{-2} X_1^\top X_1  } = n_1 \bigtr{(X_1^{\top}X_1 + w^{-2}X_2^{\top}X_2)^{-2} \cal A },
+		-&~ 2 n_2 \frac{\sigma^2}{w^3} \cdot \bigtr{(X_1^{\top}X_1 + w^{-2}X_2^{\top}X_2)^{-2} X_1^\top X_1  } = n_2 \bigtr{(X_1^{\top}X_1 + w^{-2}X_2^{\top}X_2)^{-2} \cal A },
 \end{align*}
 where the matrix $\cal A$ is
 \begin{align*}
-\cal A :&= \left[ \frac{2(w-1)(2-w)}{w^5}\kappa^2 - \frac{4d^2}{w^5}\right](X_2^{\top}X_2)^2 + \frac{n_2}{n_1} \left[\frac{2\left( w-1\right)}{w^3}\kappa^2 - \frac{2d^2}{w^3} \right](X_1^{\top}X_1)^2. - 2\frac{n_1+n_2}{n_1}\frac{\sigma^2}{w^3}X_1^\top X_1
+\cal A :&= \frac{n_1}{n_2}\left[ \frac{2(w-1)(2-w)}{w^5}\kappa^2 - \frac{4d^2}{w^5}\right](X_2^{\top}X_2)^2 + \left[\frac{2\left( w-1\right)}{w^3}\kappa^2 - \frac{2d^2}{w^3} \right](X_1^{\top}X_1)^2 - 2 \frac{\sigma^2}{w^3}X_1^\top X_1.
 \end{align*}
 Using the estimate \eqref{eq_isometric}, we get that $\cal A$ is lower bounded as
 \begin{align*}
-\cal A \succeq - \frac{4d^2}{w^5}(\sqrt{n_2}+\sqrt{p})^4 + \frac{n_2}{n_1} \left[\frac{2\left( w-1\right)}{w^3}\kappa^2 - \frac{2d^2}{w^3} \right](\sqrt{n_1}-\sqrt{p})^4 - 2\frac{n_1+n_2}{n_1}\frac{\sigma^2}{w^3}(\sqrt{n_1}+\sqrt{p})^2\succ 0,
+\cal A \succeq&~ - \frac{4d^2}{w^5}n_1n_2 (\al_+(\rho_2)+\oo(1))^2 + \left[\frac{2\left( w-1\right)}{w^3}\kappa^2 - \frac{2d^2}{w^3} \right]n_1^2 (\al_-(\rho_1)-\oo(1))^2 \\
+&~ - 2 \frac{\sigma^2}{w^3}n_1(\al_{+}(\rho_1)+\oo(1)) \succ 0,
 \end{align*}
 as long as
-$$w> w_1:=1 +\frac{d^2}{\kappa^2}+ \frac{\sigma^2}{\kappa^2}\frac{(n_1+n_2)(\sqrt{n_1}+\sqrt{p})^2}{n_2(\sqrt{n_1}-\sqrt{p})^4}+ \frac{2d^2}{\kappa^2}\frac{n_1(\sqrt{n_2}+\sqrt{p})^4}{n_2(\sqrt{n_1}-\sqrt{p})^4}.$$
-Hence $\val'(w)>0$ on $(w_1,\infty)$, i.e. $\val(w)$ is strictly increasing for $w>w_1$. Hence we must have $\hat w\le w_1$. Note that under our assumptions, we have $w_1=1+\OO(p^{-1})$.
+$$w> w_1:=1 +\frac{d^2}{\kappa^2}+ \frac{\sigma^2}{n_1\kappa^2}\frac{\al_{+}(\rho_1)+\oo(1)}{\al_{-}^2(\rho_1)} + \frac{2d^2}{\kappa^2}\frac{\rho_2(\al_+^2(\rho_2)+\oo(1))}{\rho_1\al_-^2(\rho_1) }.$$
+Hence $\val'(w)>0$ on $(w_1,\infty)$, i.e. $\val(w)$ is strictly increasing for $w>w_1$. Hence we must have $\hat w\le w_1$. 
 
-Then we consider the case $w\le 1$. Taking derivative of $\val(w)$ with respect to $w$, we obtain that
+Then we consider the case $w\le 1$, and the proof is similar as above. Taking derivative of $\val(w)$, we obtain that
 \begin{align}
 	\val'(w) &\le n_1 \left[2\left( w-1\right) \kappa^2\right]\cdot \tr\left[( w^2X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_2^{\top}X_2)^2\right] \nonumber \\
-	& + n_2\left[2d^2w +2w\left( w-1\right)(2w-1)\kappa^2\right]\cdot \tr\left[( w^2X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right] \nonumber\\
+	& + n_2\left[2wd^2 +2w\left( w-1\right)(2w-1)\kappa^2\right]\cdot \tr\left[( w^2X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right] \nonumber\\
+	&~ + n_1(2 w\sigma^2) \cdot \bigtr{(w^2X_1^{\top}X_1 + X_2^{\top}X_2)^{-2} X_2^\top X_2  }\\
 			& = n_1 \bigtr{(w^2X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} \cal B} , \nonumber
 \end{align}
 where the matrix $\cal B$ is
-$$\cal B= 2\left( w-1\right) \kappa^2  (X_2^{\top}X_2)^2+\frac{n_2}{n_1}\left[2d^2w +2w\left( w-1\right)(2w-1)\kappa^2\right](X_1^{\top}X_1)^2.$$
+$$\cal B= 2\left( w-1\right) \kappa^2  (X_2^{\top}X_2)^2+\frac{n_2}{n_1}\left[2wd^2 +2w\left( w-1\right)(2w-1)\kappa^2\right](X_1^{\top}X_1)^2 + 2 w\sigma^2 X_2^\top X_2 .$$
 Using the estimate \eqref{eq_isometric}, we get that $\cal B$ is upper bounded as
 \begin{align*}
-\cal B \preceq - 2(1-w)\kappa^2(\sqrt{n_2}-\sqrt{p})^4 +2d^2 w\frac{n_2}{n_1}(\sqrt{n_1}+\sqrt{p})^4 \prec 0,
+\cal B \preceq - 2(1-w)\kappa^2 n_2^2 (\al_-(\rho_2) -\oo(1))^2 +2w d^2 n_1n_2 (\al_+(\rho_1) +\oo(1))^2 + 2w\sigma^2 n_2 (\al_+(\rho_2)+\oo(1)) \prec 0,
 \end{align*}
 as long as
-$$w< w_2:=1 -   \frac{d^2}{\kappa^2}\frac{n_2(\sqrt{n_1}+\sqrt{p})^4}{n_1(\sqrt{n_2}-\sqrt{p})^4}.$$
-Hence $\val'(w)<0$ on $[0,w_2)$, i.e. $\val(w)$ is strictly increasing for $w<w_2$. Hence we must have $\hat w\le w_2$. Note that under our assumptions, we have $w_2=1-\OO(p^{-1})$.
+$$w< w_2:=1 -   \frac{d^2}{\kappa^2}\frac{\rho_1(\al_+(\rho_1) +\oo(1))^2}{\rho_2 \al_-^2(\rho_2) } -  \frac{\sigma^2}{n_2\kappa^2}\frac{\al_{+}(\rho_2)+\oo(1)}{\al_{-}^2(\rho_2)} .$$
+Hence $\val'(w)<0$ on $[0,w_2)$, i.e. $\val(w)$ is strictly decreasing for $w<w_2$. Hence we must have $\hat w\le w_2$. 
+
+In sum, we obtain that $w_2\le w\le w_1$. Note that under our assumptions, we have 
+$$\max(|w_1 -1|, |w_2 -1|) =\OO\left(\frac{d^2}{\kappa^2} + \frac{\sigma^2}{p\kappa^2}\right),$$
+which concludes the proof.
 \end{proof}
 
-
-
-Based on Lemma \ref{lem_hat_v}, we can prove Proposition \ref{prop_dist_transition}.
-\begin{proof}[Proof of Proposition \ref{prop_dist_transition}]
-	Since $\Sigma_1 = \Sigma_2$, we know that $M = \Sigma_1^{1/2}\Sigma_2^{-1/2} = \hat{v} \id$.
-	Using Lemma \ref{lem_minv} and \ref{lem_cov_shift}, we can track the reduction of variance from $\hat{\beta}_t^{\MTL}$ to $\hat{\beta}_t^{\STL}$ as whp
-	\begin{align}
-		\Delta_{\vari} &\define \sigma^2 \bigbrace{\frac{1}{c_2 - 1} - \frac{1}{c_1 + c_2}\cdot\frac{1}{a_1\hat{v}^2 + a_2} + \bigo{p^{-1/2+\varepsilon}}} \nonumber\\
-		&= \sigma^2 \bigbrace{\frac{c_1}{(c_2-1)(c_1 + c_2 -1)} + \bigo{p^{-1/2 + \varepsilon}}},\label{Deltavar}
-	\end{align}
-	where we use equation \eqref{eq_a12} and Lemma \ref{lem_hat_v}.
-	Next we consider the model shift bias
-	\begin{align*}
-		\Delta_{\beta} &\define \hat{v}^2 \bignorm{(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} X_1^{\top}X_1 (\beta_s - \hat{v}\beta_t)}^2 \\
-		&= d^2 \cdot \bignormFro{(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}X_1^{\top}X_1}^2 + \bigo{p^{-1/2 + \varepsilon}d^2}
-	\end{align*}
-	Using Lemma \ref{prop_model_shift_tight}, we get an upper and lower bound on $\Delta_{\beta}$ as
-	\be\label{Deltabeta} \bigbrace{1 - \sqrt{\frac{1}{c_1}}}^4 \le \Delta_{\beta} / \bigbrace{p\cdot d^2 \cdot \frac{c_1^2}{(c_1+c_2)^2} \cdot \frac{1 + a_3 + a_4}{(a_1 + a_2)^2} + \bigo{p^{1/2+\e}d^2} } \le \bigbrace{1 + \sqrt{\frac{1}{c_1}}}^4. \ee
-	By solving equations \eqref{eq_a12}, \eqref{eq_a3} and \eqref{eq_a4}, we get
-	\begin{align*}
-		& a_1 = \frac{c_1(c_1 + c_2 - 1)}{(c_1 + c_2)^2} + O(p^{-1/2 + \varepsilon}),
-		a_2 = \frac{c_2(c_1 + c_2 - 1)}{(c_1 + c_2)^2} + O(p^{-1/2 + \varepsilon}), \\
-		& a_3 = \frac{c_2}{(c_1 + c_2)(c_1 + c_2 - 1)} + O(p^{-1/2 + \varepsilon}),
-		a_4 = \frac{c_1}{(c_1 + c_2)(c_1 + c_2 - 1)} + O(p^{-1/2 + \varepsilon}).
-	\end{align*}
-	Hence we obtain that
-	\begin{align*}
-		\frac{1 + a_3 + a_4}{(a_1 + a_2)^2}
-		= \frac{(c_1 + c_2)^3}{(c_1 + c_2 - 1)^3} + \bigo{p^{-1/2+\varepsilon}}.
-	\end{align*}
-	To sum up, we have shown that when
-	\[ \frac{p\cdot d^2}{\sigma^2} < \frac{(c_1 + c_2 - 1)^2}{c_1(c_1 + c_2) (c_2 - 1)} \cdot \bigbrace{1 + \sqrt{\frac 1 {c_1}}}^{-4}, \]
-	we have that $\Delta_{\vari} > \Delta_{\beta}$, which implies that $\te(\hat{\beta}_t^{\MTL})$ is lower than $\te(\hat{\beta}_t^{\STL})$.
-	When
-	\[ \frac{p\cdot d^2}{\sigma^2} > \frac{(c_1 + c_2 - 1)^2}{c_1 (c_1 + c_2) (c_2 - 1)} \cdot \bigbrace{1 - \sqrt{\frac 1 {c_1}}}^{-4}, \]
-	we have that $\Delta_{\vari} < \Delta_{\beta}$, which implies that $\te(\hat{\beta}_t^{\MTL})$ is higher than $\te(\hat{\beta}_t^{\STL})$.
-	The result follows by taking $c_1 = c_2 = c$ for the above equation.
-\end{proof}
-
-\begin{proof}[Proof of Proposition \ref{prop_var_transition}]
-
-Under the setting of Proposition \ref{prop_var_transition}, we have
-\begin{align*}
-	\te(\hat{\beta}_t^{\MTL}) &=~ \hat{v}^2 \bignorm{ (\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} X_1^{\top}X_1 (\beta_s - \hat{v} \beta_t)}^2 \nonumber \\
-			&~ + \sigma_2^2 \cdot \bigtr{(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} } + (\sigma_1^2 -\sigma_2^2)\hat v^2  \cdot \bigtr{(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-2} X_1^\top X_1}.
-\end{align*}
-Using concentration of random vector with i.i.d. Gaussian entries, Lemma \ref{largedeviation}, we obtain that
-\begin{align*}
-	\te(\hat{\beta}_t^{\MTL}) &=~ \hat{v}^2 \left[d^2 +\left( w-1\right)^2\kappa^2\right]\bigtr{ (\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2} \cdot \left(1+\OO(p^{-1/2})\right)\nonumber \\
-	& + (\sigma_1^2 -\sigma_2^2)\hat v^2  \cdot \bigtr{(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-2} X_1^\top X_1} + \sigma_2^2 \cdot \bigtr{(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} }.
-\end{align*}
-In the setting of Proposition \ref{prop_var_transition}, we can also obtain that
-$$|\hat w-1|=\OO(p^{-1}).$$
-as in \eqref{hatw_add1}. We omit the details of the proof, since it is almost the same as the one in the proof of Lemma \ref{lem_hat_v}. Thus $\te(\hat{\beta}_t^{\MTL}) $ can be reduced to 
-$$	\te(\hat{\beta}_t^{\MTL}) = \left[\Delta_\beta + \Delta_{diff}+  \sigma_2^2 \cdot \tr(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} \right]\cdot \left(1+\OO(p^{-1/2})\right), $$
-where $\Delta_\beta:= \sigma_2^2 \cdot \bigtr{(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} }$ has been estimated in \eqref{Deltabeta} and $\Delta_{diff}$ is
-\begin{align*}	
-	\Delta_{diff}:=(\sigma_1^2 -\sigma_2^2) \cdot \bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-2} X_1^\top X_1} .
-\end{align*}
-Using \eqref{eq_isometric} and Lemma \ref{lem_cov_derivative}, a similar bound holds for $\Delta_{diff}$ as in \eqref{Deltabeta}:
-$$\bigbrace{1 - \sqrt{\frac{1}{c_1}}}^2\le \frac{\Delta_{diff}}{\sigma_1^2 -\sigma_2^2}\cdot \left( \frac{c_1 (c_1+c_2)}{(c_1+c_2-1)^3} + \OO(p^{-1/2+\e})\right)^{-1}\le \bigbrace{1 + \sqrt{\frac{1}{c_1}}}^2.$$
-
-Next we compare $\Delta_{\var}$ with $\Delta_\beta + \Delta_{diff}$. Under the condition $d^2 < \frac {2\sigma^2} {3p} \frac{(c_1 + c_2 -1)^2}{c_1 (c_1 + c_2)(c_2 - 1)}$, if $\sigma_1^2\le \sigma_2^2$ then we always have that $\Delta_{\vari} > \Delta_{\beta}$ and hence $\te(\hat{\beta}_t^{\MTL})$ is smaller than $\te(\hat{\beta}_t^{\STL})$. It remains to consider the case $\sigma_1^2 \ge \sigma_2^2$. If 
-\begin{align} 
-&\sigma_2^2  \frac{c_1}{(c_2-1)(c_1 + c_2 -1)}\left(1 + \bigo{p^{-1/2 + \varepsilon}}\right) \label{cond sigma1}\\
-&> \left[\frac{c_1^2 (c_1+c_2)}{(c_1+c_2-1)^3} + \bigo{p^{-1/2 + \varepsilon}}\right]\left[pd^2 \bigbrace{1 + \sqrt{\frac{1}{c_1}}}^4 + \frac{\sigma_1^2-\sigma_2^2}{c_1} \bigbrace{1 + \sqrt{\frac{1}{c_1}}}^2\right] ,\nonumber
+Combining \eqref{hatw_add1} and \eqref{boundv-w}, we obtain that whp,
+\be\label{hatv_add1} 
+|\hat v - 1|= \OO\left(\cal E\right), \quad \cal E:=\frac{d^2}{\kappa^2} + \frac{\sigma^2}{p\kappa^2} + p^{-1/2+\e} 
+\ee
+Inserting it into \eqref{eq_te_mtl_2task} and using a similar concentration result as in \eqref{boundv-w}, we get whp,
+\begin{align}
+\te(\hat{\beta}_t^{\MTL})&=(1+\OO(\cal E))\cdot \left[d^2 + \OO\left(\cal E^2 \kappa^2\right)\right] \tr\left[(X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right]\nonumber\\ 
+&+(1+\OO(\cal E))\cdot \sigma^2  \bigtr{(X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} }. \nonumber
 \end{align}
-then we have $\Delta_{\vari} > \Delta_{\beta}$ and we have $\te(\hat{\beta}_t^{\MTL})$ is smaller than $\te(\hat{\beta}_t^{\STL})$. For $c_1\ge 100$, we see that \eqref{cond sigma1} is implied by the following condition
-$$\sigma_1^2 \le pd^2 \cdot c_1 + \left[ 1+ \frac23\frac{(c_1 + c_2 - 1)^2}{(c_1 + c_2) (c_2 - 1)} \right]\sigma_2^2$$
-as long as $p$ is large enough. On the other hand, if 
-\begin{align} 
-&\sigma_2^2  \frac{c_1}{(c_2-1)(c_1 + c_2 -1)}\left(1 + \bigo{p^{-1/2 + \varepsilon}}\right) \label{cond sigma12}\\
-&< \left[\frac{c_1^2 (c_1+c_2)}{(c_1+c_2-1)^3} + \bigo{p^{-1/2 + \varepsilon}}\right]\left[pd^2 \bigbrace{1 - \sqrt{\frac{1}{c_1}}}^4 + \frac{\sigma_1^2-\sigma_2^2}{c_1} \bigbrace{1 - \sqrt{\frac{1}{c_1}}}^2\right] ,\nonumber
-\end{align}
-then we have $\Delta_{\vari} < \Delta_{\beta}$ and we have $\te(\hat{\beta}_t^{\MTL})$ is larger than $\te(\hat{\beta}_t^{\STL})$. For $c_1\ge 100$, we see that \eqref{cond sigma12} is implied by the following condition
-$$\sigma_1^2 \ge  pd^2 \cdot c_1 + \left[ 1+ \frac32\frac{(c_1 + c_2 - 1)^2}{(c_1 + c_2) (c_2 - 1)} \right]\sigma_2^2.$$
-\end{proof}
-
-
-
-
-
-\subsection{Proofs for Section \ref{sec_data_size}}\label{app_proof_data}
-
-\begin{proof}[Proof of Proposition \ref{prop_data_size}]
-Recall that under the setting of Example \ref{ex_basic}, \eqref{Deltavar} and \eqref{Deltabeta} hold.  Then we get that $\te(\hat{\beta}_t^{\MTL})< \te(\hat{\beta}_t^{\STL})$ whp if
-\be\label{pos1}\left(pd^2 \frac{c_1(c_1+c_2)(c_2-1)}{(c_1+c_2-1)^2} + \bigo{p^{1/2+\e}d^2} \right)\bigbrace{1 + \sqrt{\frac{1}{c_1}}}^4 <  \sigma^2 \bigbrace{1 + \bigo{p^{-1/2 + \varepsilon}}};\ee
-otherwise if
-\be\label{neg1}\left(pd^2 \frac{c_1(c_1+c_2)(c_2-1)}{(c_1+c_2-1)^2} + \bigo{p^{1/2+\e}d^2} \right)\bigbrace{1 - \sqrt{\frac{1}{c_1}}}^4 >  \sigma^2 \bigbrace{1 + \bigo{p^{-1/2 + \varepsilon}}},\ee
-then we have $\te(\hat{\beta}_t^{\MTL})> \te(\hat{\beta}_t^{\STL})$ whp.
-
-Now we prove the first statement of Proposition \ref{prop_data_size}. Notice that the function
-$$ \frac{c_1(c_1+c_2)(c_2-1)}{(c_1+c_2-1)^2} =(c_2-1) \left(1 +\frac{c_2-2}{c_1}+\frac{1}{c_1(c_1+c_2)}\right)^{-1} $$
-is strictly increasing with respect to $c_1$ as long as $c_2\ge 3$. In particular, by taking $c_1\to \infty$, we get the bound:
-$$\frac{c_1(c_1+c_2)(c_2-1)}{(c_1+c_2-1)^2} \cdot \bigbrace{1 + \sqrt{\frac{1}{c_1}}}^4 <  (c_2-1) \bigbrace{1 + \sqrt{\frac{1}{c_1}}}^4.$$
- Hence we conclude that $\te(\hat{\beta}_t^{\MTL}) < \te(\hat{\beta}_t^{\STL})$ whp as long as 
- $$pd^2 +\oo(1) \le \bigbrace{1 + \sqrt{\frac{1}{c_1}}}^{-4}\frac{\sigma^2}{c_2-1} .$$ 
- This gives the first statement by taking $c_1 > a$. 
-
-The second statement can be proved in a similar way. Suppose $c_1 > a$ and 
-$pd^2 > (1 - a^{-1/2})^{-4}\frac{\sigma^2}{c_2-1}$. If $c_1 > \frac{(c_2-2) \sigma^2}{(1-a^{-1/2})^4(1-(a+c_2-2)^{-2})(c_2 - 1) pd^2 - \sigma^2}$, we have
-\begin{align*}
- & pd^2 \cdot \frac{c_1(c_1+c_2)(c_2-1)}{(c_1+c_2-1)^2}  \cdot \bigbrace{1 - \sqrt{\frac{1}{c_1}}}^4  \\
- &>  \bigbrace{1 - \sqrt{\frac{1}{c_1}}}^4 \left( 1-\frac{1}{(c_1+c_2-2)^2}\right)\cdot \frac{ pd^2(c_2-1) c_1 }{c_1+(c_2-2)}  >\sigma^2\cdot (1+\oo(1)) , 
- \end{align*}
- where in the first step we used that 
- $$ \frac{(c_1+c_2)(c_1+c_2-2)}{(c_1+c_2-1)^2}   > 1-\frac{1}{(c_1+c_2-2)^2}.$$
-This shows that \eqref{neg1} holds as long as $p$ is large enough, and hence $\te(\hat{\beta}_t^{\MTL})> \te(\hat{\beta}_t^{\STL})$ holds. On the other hand, if $c_1 < \frac{(c_2-2)\sigma^2}{(1+a^{-1/2})^4(c_2 - 1) pd^2 - \sigma^2}$, then we have 
- \begin{align*}
- pd^2 \cdot \frac{c_1(c_1+c_2)(c_2-1)}{(c_1+c_2-1)^2}  \cdot \bigbrace{1 + \sqrt{\frac{1}{c_1}}}^4 < \bigbrace{1 + \sqrt{\frac{1}{c_1}}}^4 \cdot \frac{pd^2(c_2-1) c_1 }{c_1+(c_2-2)}  < \sigma^2\cdot (1-\oo(1)).
- \end{align*}
- This shows that \eqref{pos1} holds as long as $p$ is large enough, and hence $\te(\hat{\beta}_t^{\MTL})< \te(\hat{\beta}_t^{\STL})$ holds.
- \end{proof}
-
-\textbf{Remark.} Furthermore, as a function of $c_1$ over the range $[??, \infty]$, the maximum of $\te(\hat{\beta}_t^{\STL}) - \te(\hat{\beta}_t^{\MTL})$ is attained when $c_1 = {c_2\sigma^2}/{\max(2(c_2 - 1)pd^2 -\sigma^2, 0)}$. {\cor (cannot get this because we only have some bounds. If we let $c_1\to \infty$, then the curve of $\te(\hat{\beta}_t^{\STL}) - \te(\hat{\beta}_t^{\MTL})$ already becomes flat, and it is meaningless to discuss the minimum of this function at this point?)}
-
-\begin{proof}[Proof of Proposition \ref{prop_data_efficiency}]
-Suppose we have reduced number of datapoints---$\al n_1$ for task 1 and $\al n_2$ for task 2 with $n_1=n_2$. In the setting of Proposition \ref{prop_data_efficiency}, we still have \eqref{hatw_add1}, and by symmetry it suffices to focus on one of tasks, say task 2. Using Lemmas \ref{lem_cov_shift} and \ref{prop_model_shift_tight}, we have that whp,
-\be\label{reduceproof1}
+In order to study the phenomenon of bias-variance trade-off, we need the bias term with $d^2$ and the variance term with $\sigma^2$ to be of the same order. With estimate \eqref{eq_isometric}, we see that 
+$$\tr\left[(X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right] \sim p,\quad \bigtr{(X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} } \sim \frac{p}{n_1+n_2}.$$
+Hence we need to choose that $p\cdot d^2 \sim \sigma^2$. On the other hand, we want the error term $\cal E^2 \kappa^2$ to be much smaller than $d^2$, which leads to the condition $p^{-1+2\e}\kappa^2  \ll d^2 \ll \kappa^2$. The above considerations lead to the following choices of parameters: there exists a constant $c>0$ such that
+\be\label{choiceofpara}
+pd^2 \sim \sigma^2 \sim 1,\quad p^{-1+c}\kappa^2  \le d^2 \le p^c \kappa^2.
+\ee
+Under this choice, we can write 
+\be\label{simple1}
 \begin{split}
-\te_2(\hat \beta(\al)) =\sigma^2\left( \frac{1}{2\al c - 1}+ \bigo{p^{-1/2 + \varepsilon}}\right)+ \Delta^{(2)}_{\beta},
+\te(\hat{\beta}_t^{\MTL})&=(1+\OO(n^{-\e}))\cdot d^2 \tr\left[(X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right] \\ 
+&+(1+\OO(n^{-\e}))\cdot \sigma^2  \bigtr{(X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} }  
 \end{split}
 \ee
-where $ \Delta^{(2)}_{\beta}$ satisfies 
-\be \nonumber
-\bigbrace{1 - \sqrt{\frac{1}{\al c}}}^4 \le \Delta^{(2)}_{\beta} /  \left( pd^2 \cdot \frac{2\al^3 c^3}{(2\al c-1)^3}+ \bigo{p^{1/2+\e}d^2}\right) \le \bigbrace{1 + \sqrt{\frac{1}{\al c}}}^4. 
-\ee
-On the other hand, using Lemma \ref{lem_minv}, we have whp
-\be\label{reduceproof2} 
-\te_2(\hat{\beta}_t^{\STL}) = \frac{\sigma^2}{c-1} \left( 1+ \bigo{p^{-1/2 + \varepsilon}}\right).
-\ee
-Comparing \eqref{reduceproof1} and \eqref{reduceproof2}, we observe that $\te_2(\hat \beta(\al))  \ge \te_2(\hat{\beta}_t^{\STL}) $ for $\al \le 1/2-\oo(1)$, which gives $\al^* \ge 1/2 - \oo(1)$. 
+whp for some constant $\e>0$. 
 
-Now for $c\ge 200$ and $\al \ge 1/2$, we have whp
-\be\label{reduceproof3} \te_2(\hat \beta(\al)) < \sigma^2 \frac{1}{2\al c - 1}+  \frac38 pd^2  \ee
-for large enough $p$. Moreover, if 
-$$\al \ge \al_0:=\frac{1}{2c} + \left(2-\frac{3}{4}c \cdot \frac{pd^2}{\sigma^2} \right)^{-1},$$
-we can check from \eqref{reduceproof3} that $\te_2(\hat \beta(\al))  < \te_2(\hat{\beta}_t^{\STL}) $. By symmetry, we also have $\te_1(\hat \beta(\al))  < \te_1(\hat{\beta}_t^{\STL}) $. Thus we conclude that 
-$$\te_1(\hat{\beta}(\alpha)) + \te_2(\hat{\beta}(\alpha))\le \te_1(\hat{\beta}_t^{\STL}) + \te_2(\hat{\beta}_t^{\STL})$$
-for $\al\ge \al_0$, which shows that $\al^*\le \al_0$.
+
+With \eqref{simple1} and Lemma \ref{prop_model_shift_tight}, we can prove Proposition \ref{prop_dist_transition}, which gives a transition threshold with respect to the ratio between the model bias and the noise level. With slight abuse of notations, we shall write $\hat a_i$, $\hat b_k$ and $\hat M$ as $a_i$, $b_k$ and $M$, respectively, throughout the rest of this section. 
+
+
+\begin{proof}[Proof of Proposition \ref{prop_dist_transition}]
+	In the setting of Proposition \ref{prop_dist_transition}, we have $M = \Sigma_1^{1/2}\Sigma_2^{-1/2} = \id$. Then solving equations \eqref{eq_a2} and \eqref{eq_a3} with $\hat \lambda_i=1$, we get that
+	\begin{align}
+		 a_1 = \frac{\rho_1(\rho_1 + \rho_2 - 1)}{(\rho_1 + \rho_2)^2} ,\quad
+		& a_2 = \frac{\rho_2(\rho_1 + \rho_2 - 1)}{(\rho_1 + \rho_2)^2} , \label{simplesovlea12}\\
+		 a_3 = \frac{\rho_2}{(\rho_1 + \rho_2)(\rho_1 + \rho_2 - 1)}, \quad
+		& a_4 = \frac{\rho_1}{(\rho_1 + \rho_2)(\rho_1 + \rho_2 - 1)}.\label{simplesovlea34}
+	\end{align}
+	Using Lemma \ref{lem_minv} and Lemma \ref{lem_cov_shift}, we can track the reduction of variance from $\hat{\beta}_t^{\MTL}$ to $\hat{\beta}_t^{\STL}$ as 
+\be\label{Deltavar}
+\begin{split}
+\delta_{\vari}&:=\sigma^2  \bigtr{(X_2^{\top}X_2)^{-1} }  - (1+\OO(n^{-\e}))\cdot \sigma^2  \bigtr{(X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} } \\
+&=\Delta_{\vari}\cdot (1+\OO(n^{-\e})) 
+\end{split}
+\ee
+with high probability, where 
+	\begin{align*}
+		\Delta_{\vari} &\define \sigma^2 \bigbrace{\frac{1}{\rho_2 - 1} - \frac{1}{\rho_1 + \rho_2}\cdot\frac{1}{a_1+ a_2} } =\sigma^2  \cdot \frac{\rho_1}{(\rho_2-1)(\rho_1 + \rho_2 -1)}.
+	\end{align*}
+	%where we use equation \eqref{eq_a12} and Lemma \ref{lem_hat_v}.
+	Next for the model shift bias
+	$$\delta_\beta:=(1+\OO(n^{-\e}))\cdot d^2 \tr\left[(X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right], $$
+	we can get from Lemma \ref{prop_model_shift_tight} (or rather the proof of Lemma \ref{prop_model_shift_tight}) that
+\be\label{Deltabeta} 
+\al_-^2(\rho_1) - \oo(1)  \le \frac{\delta_\beta}{ \Delta_{\beta}} \le \al_+^2(\rho_1) +  \oo(1) , \ee
+	where 
+	$$\Delta_{\beta}:=pd^2 \cdot \frac{\rho_1^2}{(\rho_1+\rho_2)^2} \cdot \frac{1 + a_3 + a_4}{(a_1 + a_2)^2}= pd^2 \cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3}.$$	
+%\begin{align*}
+%		\Delta_{\beta} &\define \hat{v}^2 \bignorm{(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} X_1^{\top}X_1 (\beta_s - \hat{v}\beta_t)}^2 \\
+%		&= d^2 \cdot \bignormFro{(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}X_1^{\top}X_1}^2 + \bigo{p^{-1/2 + \varepsilon}d^2}
+%	\end{align*}
+%	Using Lemma \ref{prop_model_shift_tight}, we get an upper and lower bound on $\Delta_{\beta}$ as
+%	\be\label{Deltabeta} \bigbrace{1 - \sqrt{\frac{1}{c_1}}}^4 \le \Delta_{\beta} / \bigbrace{p\cdot d^2 \cdot \frac{c_1^2}{(c_1+c_2)^2} \cdot \frac{1 + a_3 + a_4}{(a_1 + a_2)^2} + \bigo{p^{1/2+\e}d^2} } \le \bigbrace{1 + \sqrt{\frac{1}{c_1}}}^4. \ee	
+%	Hence we obtain that
+%	\begin{align*}
+%		\frac{1 + a_3 + a_4}{(a_1 + a_2)^2}
+%		= \frac{(c_1 + c_2)^3}{(c_1 + c_2 - 1)^3} + \bigo{p^{-1/2+\varepsilon}}.
+%	\end{align*}
+Note that 
+ \be\label{var-beta}\te(\hat{\beta}_t^{\STL})-\te(\hat{\beta}_t^{\MTL}) =\delta_{\vari} - \delta_\beta .\ee
+Then we can track its sign using \eqref{Deltavar} and \eqref{Deltabeta}.
+
+\noindent{\bf Positive transfer.} With \eqref{Deltavar} and \eqref{Deltabeta}, we conclude that if
+\be\label{upper101}pd^2 \cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3} \cdot \left( \al_+^2(\rho_1) +  \oo(1) \right) < \sigma^2  \cdot \frac{\rho_1}{(\rho_2-1)(\rho_1 + \rho_2 -1)},\ee
+	we have that $\delta_{\vari} > \delta_{\beta}$, which implies that $\te(\hat{\beta}_t^{\MTL})$ is lower than $\te(\hat{\beta}_t^{\STL})$. We can simplify \eqref{upper101} to
+	\[   pd^2  <  \sigma^2 \Phi(\rho_1, \rho_2)\cdot \left(\bigbrace{1 + \sqrt{\frac 1 {\rho_1}}}^{-4} - \oo(1)\right), \]
+Plugging into $\rho_1>40$, we obtain the first statement of Proposition \ref{prop_dist_transition}.	
+	
+	
+\noindent{\bf Negative transfer.} On the other hand, if
+\be\label{upper102}pd^2 \cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3} \cdot \left( \al_-^2(\rho_1) -  \oo(1) \right) > \sigma^2  \cdot \frac{\rho_1}{(\rho_2-1)(\rho_1 + \rho_2 -1)},\ee
+	we have that $\delta_{\vari} < \delta_{\beta}$, which implies that $\te(\hat{\beta}_t^{\MTL})$ is larger than $\te(\hat{\beta}_t^{\STL})$. We can simplify \eqref{upper102} to
+	\[  p d^2  >  \sigma^2 \Phi(\rho_1, \rho_2) \cdot \left(\bigbrace{1 - \sqrt{\frac 1 {\rho_1}}}^{-4} +\oo(1)\right), \]
+Plugging into $\rho_1>40$, we obtain the second statement of Proposition \ref{prop_dist_transition}.
 \end{proof}
 
+Then we prove Proposition \ref{prop_data_size}, which describes the effect of source task data size on the information transfer. 
+
+\begin{proof}[Proof of Proposition \ref{prop_data_size}]
+Following the above proof of Proposition \ref{prop_dist_transition}, we get from \eqref{upper101} that $\te(\hat{\beta}_t^{\MTL})< \te(\hat{\beta}_t^{\STL})$ whp if
+\be\label{pos1}
+pd^2  \cdot \frac{\rho_1 (\rho_1 + \rho_2) (\rho_2 - 1)}{(\rho_1 + \rho_2 - 1)^2}\bigbrace{1 + \sqrt{\frac{1}{\rho_1}}}^4 <  \sigma^2  \bigbrace{1 - \oo(1)},\ee
+and we get from \eqref{upper102} that $\te(\hat{\beta}_t^{\MTL})>\te(\hat{\beta}_t^{\STL})$ whp if
+\be\label{neg1}pd^2  \cdot \frac{\rho_1 (\rho_1 + \rho_2) (\rho_2 - 1)}{(\rho_1 + \rho_2 - 1)^2}\bigbrace{1 - \sqrt{\frac{1}{\rho_1}}}^4 >  \sigma^2  \bigbrace{1 + \oo(1)}.\ee
+%then we have $\te(\hat{\beta}_t^{\MTL})> \te(\hat{\beta}_t^{\STL})$ whp.
 
 
-\subsection{Proofs for Section \ref{sec_covariate}}\label{app_covariate}
+For the first statement of Proposition \ref{prop_data_size}, we notice that the function
+$$\frac1{ \Phi(\rho_1, \rho_2)}=\frac{\rho_1 (\rho_1 + \rho_2) (\rho_2 - 1)}{(\rho_1 + \rho_2 - 1)^2}=(\rho_2-1) \left(1 +\frac{\rho_2-2}{\rho_1}+\frac{1}{\rho_1(\rho_1+\rho_2)}\right)^{-1} $$
+is strictly increasing with respect to $\rho_1$ as long as $\rho_2> 2$. In particular, by taking $\rho_1\to \infty$, we get the bound:
+$$\frac{\rho_1(\rho_1+\rho_2)(\rho_2-1)}{(\rho_1+\rho_2-1)^2} \cdot \bigbrace{1 + \sqrt{\frac{1}{\rho_1}}}^4 <  (\rho_2-1) \bigbrace{1 + \sqrt{\frac{1}{\rho_1}}}^4.$$
+Hence as long as we take 
+ $$pd^2  \le \bigbrace{1 + \sqrt{\frac{1}{\rho_1}}}^{-4}\frac{\sigma^2}{\rho_2-1}\left(1 -\oo(1)\right),$$ 
+ then \eqref{pos1} holds, which shows that  $\te(\hat{\beta}_t^{\MTL}) < \te(\hat{\beta}_t^{\STL})$ holds whp. Plugging into $\rho_1>50$, we obtain the first statement. 
+
+The two bounds in the second statement follows directly from \eqref{pos1} and \eqref{neg1}. We will use the following trivial inequalities 
+\be\label{trivialphi}
+\frac{(\rho_2-1) \rho_1 }{\rho_1+\rho_2-2}\cdot \left( 1-\frac{1}{(\rho_1+\rho_2-2)^2}\right) \le \frac{\rho_1 (\rho_1 + \rho_2) (\rho_2 - 1)}{(\rho_1 + \rho_2 - 1)^2} \le  \frac{(\rho_2-1) \rho_1 }{\rho_1+\rho_2-2}.
+\ee
+
+%This shows that \eqref{neg1} holds as long as $p$ is large enough, and hence $\te(\hat{\beta}_t^{\MTL})> \te(\hat{\beta}_t^{\STL})$ holds. 
+%
+%If $c_1 > \frac{(c_2-2) \sigma^2}{(1-a^{-1/2})^4(1-(a+c_2-2)^{-2})(c_2 - 1) pd^2 - \sigma^2}$, we have
+%Suppose that
+%$$pd^2 > (1 - a^{-1/2})^{-4}\frac{\sigma^2}{c_2-1}.$$ 
+
+\noindent{\bf Positive transfer.} With \eqref{trivialphi}, we see that \eqref{pos1} is implied by the following inequality
+\begin{align}\label{pos1solv}
+ & pd^2 \cdot \frac{(\rho_2-1) \rho_1 }{\rho_1+\rho_2-2} \bigbrace{1 + \sqrt{\frac{1}{\rho_1}}}^4 <\sigma^2\cdot (1-\oo(1)) .
+ \end{align}
+ then we can solve \eqref{pos1solv} to get
+ $$\rho_1 < \frac{(\rho_2-2) \sigma^2}{pd^2 \cdot (1+\rho_1^{-1/2})^4 (\rho_2 - 1)\cdot (1+\oo(1))  - \sigma^2}  .$$
+ %$$\rho_1 > \frac{(\rho_2-2) \sigma^2}{(1 - {\rho_1}^{-0.5})^4 (\rho_2 - 3) pd^2 - \sigma^2}$$
+ Plugging into $\rho_1>40$ and $\rho_2>500$, we conclude the upper bound for $\rho_1$ in order for positive transfer to hold.
+
+%On the other hand, if $c_1 < \frac{(c_2-2)\sigma^2}{(1+a^{-1/2})^4(c_2 - 1) pd^2 - \sigma^2}$, then we have 
+% \begin{align*}
+% pd^2 \cdot \frac{c_1(c_1+c_2)(c_2-1)}{(c_1+c_2-1)^2}  \cdot \bigbrace{1 + \sqrt{\frac{1}{c_1}}}^4 < \bigbrace{1 + \sqrt{\frac{1}{c_1}}}^4 \cdot \frac{pd^2(c_2-1) c_1 }{c_1+(c_2-2)}  < \sigma^2\cdot (1-\oo(1)).
+% \end{align*}
+% This shows that \eqref{pos1} holds as long as $p$ is large enough, and hence $\te(\hat{\beta}_t^{\MTL})< \te(\hat{\beta}_t^{\STL})$ holds.
+ 
+ \noindent{\bf Negative transfer.} 
+With \eqref{trivialphi}, we see that \eqref{neg1} is implied by the following inequality
+\begin{align}\label{neg1solv}
+ & pd^2 \cdot \frac{(\rho_2-1) \rho_1 }{\rho_1+\rho_2-2}\left( 1-\frac{1}{(\rho_1+\rho_2-2)^2}\right) \bigbrace{1 - \sqrt{\frac{1}{\rho_1}}}^4 >\sigma^2\cdot (1+\oo(1)) .
+ \end{align}
+If the following relation holds,
+$$pd^2 \cdot (1-\rho_1^{-1/2})^4(1-(\rho_1+\rho_2-2)^{-2})(\rho_2 - 1) >  \sigma^2\cdot (1+\oo(1))  , $$
+ then we can solve \eqref{neg1solv} to get
+ $$\rho_1 > \frac{(\rho_2-2) \sigma^2}{pd^2 \cdot (1-\rho_1^{-1/2})^4(1-(\rho_1+\rho_2-2)^{-2})(\rho_2 - 1)\cdot (1-\oo(1))  - \sigma^2}  ,$$
+ %$$\rho_1 > \frac{(\rho_2-2) \sigma^2}{(1 - {\rho_1}^{-0.5})^4 (\rho_2 - 3) pd^2 - \sigma^2}$$
+ Plugging into $\rho_1>40$ and $\rho_2>500$, we conclude the lower bound for $\rho_1$ in order for negative transfer to hold.
+ \end{proof}
+ 
+ Finally, we prove Proposition \ref{prop_covariate}, which shows that $\te(\hat{\beta}^{\MTL})$ is minimized approximately when $M$ is a scalar matrix if there are sufficiently many source datas.
 
 \begin{proof}[Proof of Proposition \ref{prop_covariate}]
-Let 
+........ Let 
 $$M_0:=\argmin_{M\in \cal S_{\mu}}(\te(\hat{\beta}_t^{\MTL}))(M).$$ 
 We now calculate $(\te(\hat{\beta}_t^{\MTL}))(M_0)$. In this case, as in Lemma \ref{lem_hat_v} we also have that 
 \be\label{hatvM}|\hat v-1|=\OO(p^{-1}) \ee 
@@ -387,3 +394,206 @@ The proof for $\te(\hat{\beta}_{s,t}) \le \te(\hat{\beta}_t)$ follows by multipl
 
 \medskip
 \fi
+
+\subsection{Proofs for Section \ref{sec_benefit}}\label{app_proof_data}
+
+With similar techniques, we then show Proposition \ref{prop_var_transition}, which gives a transition threshold with respect to the difference between the noise levels of the two tasks. 
+
+\begin{proof}[Proof of Proposition \ref{prop_var_transition}]
+In the setting of Proposition \ref{prop_var_transition}, the validation loss and the test error become
+\begin{align*}
+		\val(\hat{B}; w_1, w_2)
+	&=  n_1 \cdot \bignorm{\Sigma_1^{1/2}\left(\frac{w_1^2}{w_2^2} X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1}X_2^{\top}X_2\left (\beta_s - \frac{w_1}{w_2}\beta_t\right)}^2 \nonumber \\
+		&+ n_1 \sigma^2 \cdot \frac{w_1^2}{w_2^2} \bigtr{\left(\frac{w_1^2}{w_2^2}  X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-2} \left(\sigma_1^2 \frac{w_1^2}{w_2^2}  X_1^{\top}X_1 + \sigma_2^2  X_2^{\top}X_2\right)} \nonumber \\
+		&+ n_2 \cdot \frac{w_1^2}{w_2^2}\bignorm{\Sigma_2^{1/2}\left(\frac{w_1^2}{w_2^2} X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1}X_1^{\top}X_1\left(\beta_s - \frac{w_1}{w_2}\beta_t\right)}^2 \nonumber \\
+		&+ n_2 \sigma^2 \cdot \bigtr{\left(\frac{w_1^2}{w_2^2} X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-2} \left(\sigma_1^2 \frac{w_1^2}{w_2^2}  X_1^{\top}X_1 + \sigma_2^2  X_2^{\top}X_2\right)}, 
+\end{align*}
+and 
+\begin{align*}
+	\te(\hat{\beta}_t^{\MTL}) &=~ \hat{v}^2 \bignorm{ (\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} X_1^{\top}X_1 (\beta_s - \hat{v} \beta_t)}^2 \nonumber \\
+			&~ + \sigma_2^2 \cdot \bigtr{(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} } + (\sigma_1^2 -\sigma_2^2) \cdot \bigtr{(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-2} \hat v^2 X_1^\top X_1},
+\end{align*}
+where $\hat v=\hat{w_1}/\hat{w_2}$ is the global minimizer of $\val(\hat{B}; w_1, w_2)$. Again using concentration of random vector with i.i.d. entries, Lemma \ref{largedeviation}, we can rewrite $\te(\hat{\beta}_t^{\MTL})$ as
+\begin{align*}
+	\te(\hat{\beta}_t^{\MTL}) &=~ \hat{v}^2 \left[d^2 +\left( w-1\right)^2\kappa^2\right]\bigtr{ (\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2} \cdot \left(1+\OO(p^{-1/2+\e})\right)\nonumber \\
+	& + \sigma_2^2 \cdot \bigtr{(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} } + (\sigma_1^2 -\sigma_2^2)  \cdot \bigtr{(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-2} \hat v^2X_1^\top X_1}
+\end{align*}
+with high probability for any constant $\e>0$. 
+
+
+
+In the current setting, we can also show that  \eqref{hatv_add1}  holds for $\hat v$. 
+Since the proof is almost the same as the one for Lemma \ref{lem_hat_v}, we omit the details. 
+%$$|\hat w-1|=\OO(p^{-1}).$$
+%as in \eqref{hatw_add1}. 
+%We omit the details of the proof, since it is almost the same as the one in the proof of Lemma \ref{lem_hat_v}. 
+Thus under the choice parameters in \eqref{choiceofpara}, $\te(\hat{\beta}_t^{\MTL}) $ can be simplified as in \eqref{simple1}: 
+\be \label{simple2}
+\begin{split}
+\te(\hat{\beta}_t^{\MTL})&=(1+\OO(n^{-\e}))\cdot d^2 \tr\left[(X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right] \\ 
+&+(1+\OO(n^{-\e}))\cdot \sigma_2^2  \bigtr{(X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} }  \\
+&+(1+\OO(n^{-\e}))\cdot (\sigma_1^2-\sigma_2^2)  \bigtr{(X_1^{\top}X_1  + X_2^{\top}X_2)^{-2} X_1^\top X_1} .
+\end{split}
+\ee
+Then we write 
+$$ \te(\hat{\beta}_t^{\STL})-\te(\hat{\beta}_t^{\MTL}) =\delta_{\vari} - \delta_\beta - \delta_{\vari}^{(2)},$$
+where 
+$$\delta_{\vari}:=\sigma_2^2  \bigtr{(X_2^{\top}X_2)^{-1} }  - (1+\OO(n^{-\e}))\cdot \sigma_2^2  \bigtr{(X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} }$$
+satisfies \eqref{Deltavar} but with $\sigma^2$ replaced with $\sigma_2^2$, 
+$$\delta_\beta:=(1+\OO(n^{-\e}))\cdot d^2 \tr\left[(X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right]$$
+satisfies \eqref{Deltabeta}, and 
+\begin{align*}	
+	\delta_{\vari}^{(2)}:=(1+\OO(n^{-\e}))\cdot (\sigma_1^2 -\sigma_2^2) \bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-2} X_1^\top X_1} .
+\end{align*}
+%$$	\te(\hat{\beta}_t^{\MTL}) = \left[\Delta_\beta + \Delta_{diff}+  \sigma_2^2 \cdot \tr(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} \right]\cdot \left(1+\OO(p^{-1/2})\right), $$
+%where $\Delta_\beta:= \sigma_2^2 \cdot \bigtr{(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} }$ has 
+To estimate this new term, we use the same arguments as in the proof of Lemma \ref{prop_model_shift_tight}: we first replace $X_1^\top X_1$ with $n_1\id$ up to some error using \eqref{eq_isometric}, and then apply Lemma \ref{lem_cov_derivative} to calcualte $\bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-2}}$. This process leads to the following estimates on $\delta_{\vari}^{(2)}$:
+\be\label{Deltavar2} 
+\al_-(\rho_1) - \oo(1)  \le \frac{\delta_{\vari}^{(2)}}{ \Delta_{\vari}^{(2)}} \le \al_+(\rho_1) +  \oo(1) , \ee
+where 
+$$ \Delta_{\vari}^{(2)}:=(\sigma_1^2 -\sigma_2^2) \frac{\rho_1 (\rho_1+\rho_2)}{(\rho_1+\rho_2-1)^3}.$$
+Next we compare $\delta_{\vari}$ with $\delta_\beta + \delta_{\vari}^{(2)}$. Our main goal is to see how the extra $\delta_{\vari}^{(2)}$ affects the information transfer in this case.
+
+%Using \eqref{eq_isometric} and Lemma \ref{lem_cov_derivative}, a similar bound holds for $\Delta_{diff}$ as in \eqref{Deltabeta}:
+%$$\bigbrace{1 - \sqrt{\frac{1}{c_1}}}^2\le \frac{\Delta_{diff}}{\sigma_1^2 -\sigma_2^2}\cdot \left( \frac{c_1 (c_1+c_2)}{(c_1+c_2-1)^3} + \OO(p^{-1/2+\e})\right)^{-1}\le \bigbrace{1 + \sqrt{\frac{1}{c_1}}}^2.$$
+
+Note that the condition $d^2 < \frac {\sigma_2^2} {2p} \cdot \Phi(\rho_1, \rho_2)$ means the we have $\delta_{\vari}>\delta_{\beta} $ by Proposition \ref{prop_dist_transition}. Hence if $\sigma_1^2\le \sigma_2^2$, then $\delta_{\vari}^{(2)}<0$ and we always have $\delta_{\vari} > \delta_{\beta}+ \delta_{\vari}^{(2)}$, which gives $\te(\hat{\beta}_t^{\MTL})<\te(\hat{\beta}_t^{\STL})$. 
+
+It remains to consider the case $\sigma_1^2 \ge \sigma_2^2$. 
+
+\noindent{\bf Positive transfer.} By \eqref{Deltavar}, \eqref{Deltabeta} and \eqref{Deltavar2} above, if
+\be\label{cond sigma1}
+\begin{split} 
+&\sigma_2^2  \cdot \frac{\rho_1}{(\rho_2-1)(\rho_1 + \rho_2 -1)} \cdot (1-\oo(1)) \\
+&>pd^2 \cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3}\bigbrace{1 + \sqrt{\frac{1}{\rho_1}}}^4 + (\sigma_1^2 -\sigma_2^2)\cdot \frac{\rho_1 (\rho_1+\rho_2)}{(\rho_1+\rho_2-1)^3} \bigbrace{1 + \sqrt{\frac{1}{\rho_1}}}^2 , 
+\end{split}
+\ee
+then we have $\delta_{\vari} > \delta_{\beta} + \delta_{\vari}^{(2)}$ whp, which gives $\te(\hat{\beta}_t^{\MTL})<\te(\hat{\beta}_t^{\STL})$. We can solve \eqref{cond sigma1} to get
+\begin{align*}
+\sigma_1^2 < - pd^2 \cdot \rho_1\bigbrace{1 + \sqrt{\frac{1}{\rho_1}}}^2 \cdot (1-\oo(1))+\sigma_2^2 \left[ 1+ \rho_1\Phi(\rho_1, \rho_2)\bigbrace{1 + \sqrt{\frac{1}{\rho_1}}}^{-2}\right]\cdot (1-\oo(1)).
+\end{align*}
+Plugging into $\rho_1>50$, we obtain the first claim of Proposition \ref{prop_var_transition} for positive transfer.
+
+
+\noindent{\bf Negative transfer.} On the other hand, if 
+\be\label{cond sigma12}
+\begin{split} 
+&\sigma_2^2 \cdot \frac{\rho_1}{(\rho_2-1)(\rho_1 + \rho_2 -1)}\cdot \left(1 + \oo(1)\right) \\
+&< pd^2 \cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3}\bigbrace{1 - \sqrt{\frac{1}{\rho_1}}}^4 + (\sigma_1^2 -\sigma_2^2)\cdot \frac{\rho_1 (\rho_1+\rho_2)}{(\rho_1+\rho_2-1)^3} \bigbrace{1 - \sqrt{\frac{1}{\rho_1}}}^2 , 
+\end{split}
+\ee
+then we have $\delta_{\vari} < \delta_{\beta} + \delta_{\vari}^{(2)}$ whp, which gives $\te(\hat{\beta}_t^{\MTL})>\te(\hat{\beta}_t^{\STL})$. We can solve \eqref{cond sigma12} to get
+\begin{align*}
+\sigma_1^2 > - pd^2 \cdot \rho_1\bigbrace{1 - \sqrt{\frac{1}{\rho_1}}}^2 \cdot (1+\oo(1))+\sigma_2^2 \left[ 1+ \rho_1\Phi(\rho_1, \rho_2)\bigbrace{1 - \sqrt{\frac{1}{\rho_1}}}^{-2}\right]\cdot (1+\oo(1)).
+\end{align*}
+Plugging into $\rho_1>50$, we obtain the second claim of Proposition \ref{prop_var_transition} for negative transfer.
+\end{proof}
+
+%\textbf{Remark.} Furthermore, as a function of $c_1$ over the range $[??, \infty]$, the maximum of $\te(\hat{\beta}_t^{\STL}) - \te(\hat{\beta}_t^{\MTL})$ is attained when $c_1 = {c_2\sigma^2}/{\max(2(c_2 - 1)pd^2 -\sigma^2, 0)}$. {\cor (cannot get this because we only have some bounds. If we let $c_1\to \infty$, then the curve of $\te(\hat{\beta}_t^{\STL}) - \te(\hat{\beta}_t^{\MTL})$ already becomes flat, and it is meaningless to discuss the minimum of this function at this point?)}
+
+Then we prove Proposition \ref{prop_data_efficiency}, which gives precise upper and lower bounds on the data efficiency ratio.
+
+\begin{proof}[Proof of Proposition \ref{prop_data_efficiency}]
+Suppose we have reduced number of datapoints---$\al n_1$ for task 1 and $\al n_2$ for task 2 with $n_1=\rho_1 p$ and $n_2=\rho_2 p$. 
+%For this proof, we introduce the notations 
+%$$\al_{\pm}^{(1)}\equiv \al_{\pm}^{(1)}(\al) = \left ( 1- (\al\rho_1)^{-1/2}\right)^2,\quad \al_{\pm}^{(2)}\equiv \al_{\pm}^{(2)}(\al) = \left ( 1- (\al\rho_2)^{-1/2}\right)^2.$$
+In the setting of Proposition \ref{prop_data_efficiency}, we still have \eqref{hatw_add1}. 
+%and by symmetry it suffices to focus on one of tasks, say task 2. 
+Then using Lemmas \ref{lem_cov_shift} and \ref{prop_model_shift_tight}, and recalling \eqref{simplesovlea12} and \eqref{simplesovlea34}, we get that whp,
+\be\label{reduceproof1}
+\begin{split}
+\te_i(\hat \beta(\al)) =\sigma^2\left( \frac{1}{\al (\rho_1+\rho_2) - 1}+ \bigo{p^{-1/2 + \varepsilon}}\right)+ \Delta^{(i)}_{\beta}, \quad i=1,2,
+\end{split}
+\ee
+%and
+%\be\label{reduceproof1}
+%\begin{split}
+%\te_2(\hat \beta(\al)) =\sigma^2\left( \frac{1}{\al ( \rho_1+\rho_2) - 1}+ \Delta^{(2)}_{\beta}+ \bigo{p^{-1/2 + \varepsilon}}\right),
+%\end{split}
+%\ee
+where $ \Delta^{(i)}_{\beta}$ satisfies 
+\be \nonumber
+\bigbrace{1 - \sqrt{\frac{1}{\al \rho_i}}}^4 \le \Delta^{(i)}_{\beta} /  \left[ pd^2 \cdot \frac{(\al\rho_i)^2\cdot \al (\rho_1+\rho_2)}{[\al ( \rho_1+\rho_2) - 1]^3}\cdot\left(1+ \bigo{p^{-1/2+\e}}\right)\right] \le \bigbrace{1 + \sqrt{\frac{1}{\al \rho_i}}}^4. 
+\ee
+On the other hand, using Lemma \ref{lem_minv}, we have whp
+\be\label{reduceproof2} 
+\te_i(\hat{\beta}_t^{\STL}) = \frac{\sigma^2}{\rho_i -1} \left( 1+ \bigo{p^{-1/2 + \varepsilon}}\right),\quad i=1,2.
+\ee
+Comparing \eqref{reduceproof1} and \eqref{reduceproof2}, we immediately obtain a trivial lower bound $\al^*\ge \al_l -\oo(1)$, where
+$$\al_l:=\frac1{\rho_1+\rho_2}\left[\frac{2(\rho_1-1)(\rho_2-1)}{\rho_1+\rho_2 -2}+1\right] \ge \frac{\min(\rho_1,\rho_2)}{\rho_1+\rho_2}.$$
+In fact, one can see that if $\al\le \al_l$, then we have 
+$$ \frac{2\sigma^2}{\al (\rho_1+\rho_2) - 1} \ge \frac{\sigma^2}{\rho_1-1}+\frac{\sigma^2}{\rho_2-1},$$
+that is $\te_1(\hat{\beta}(\alpha)) + \te_2(\hat{\beta}(\alpha))$ is larger than $\te_1(\hat{\beta}_t^{\STL}) + \te_2(\hat{\beta}_t^{\STL})$ even if we do not take into account the model shift bias terms $ \Delta^{(i)}_{\beta}$. Next we try to get more precise bounds on $\al^*$. In the following discussions, we only consider $\al$ such that $\al\rho \ge \al_l \rho \ge \min(\rho_1,\rho_2)$.
+
+%Comparing \eqref{reduceproof1} and \eqref{reduceproof2}, we observe that $\te_2(\hat \beta(\al))  \ge \te_2(\hat{\beta}_t^{\STL}) $ for $\al \le 1/2-\oo(1)$, which gives $\al^* \ge 1/2 - \oo(1)$.
+
+\noindent{\bf The upper bound.} From \eqref{reduceproof1} and \eqref{reduceproof2}, we see that $\al^*\le \al$ if $\al$ satisfies
+\be\label{solval1}
+\begin{split}
+&(1+\oo(1)) \cdot \sum_{i=1}^2 pd^2 \frac{(\al\rho_i)^2\cdot \al (\rho_1+\rho_2)}{[\al ( \rho_1+\rho_2) - 1]^3}  \bigbrace{1 + \sqrt{\frac{1}{\al \rho_i}}}^4 \\
+&\le \frac{\sigma^2}{\rho_1 -1}+\frac{\sigma^2}{\rho_2 -1} - \frac{2\sigma^2}{\al (\rho_1+\rho_2) - 1} . 
+\end{split}
+\ee
+For the sum on the left-hand side, we can rewrite it as
+\begin{align*}
+ pd^2 \frac{1}{[1 - (\al \rho)^{-1}]^3} \sum_{i=1}^2 \bigbrace{\sqrt{\frac{\rho_i}{\rho_1+\rho_2}} + \sqrt{\frac{1}{\al \rho}}}^4,
+\end{align*}
+where $\rho:=\rho_1+\rho_2$. 
+
+In order to solve \eqref{solval1}, we now consider the case $\min(\rho_1,\rho_2)\ge 200$. With some basic calculations, one can show that in this case
+$$ \frac{1}{[1 - (\al \rho)^{-1}]^3} \sum_{i=1}^2 \bigbrace{\sqrt{\frac{\rho_i}{\rho_1+\rho_2}} + \sqrt{\frac{1}{\al \rho}}}^4 <  \frac{\rho_1^2 + \rho_2^2}{(\rho_1+\rho_2)^2} + 0.32.$$
+Thus the following inequality implies \eqref{solval1}:
+\be\label{solval1add}
+\begin{split}
+&\left(  \frac{\rho_1^2 + \rho_2^2}{(\rho_1+\rho_2)^2} + 0.32\right) pd^2 < \frac{\sigma^2}{\rho_1 -1}+\frac{\sigma^2}{\rho_2 -1} - \frac{2\sigma^2}{\al (\rho_1+\rho_2) - 1} .
+\end{split}
+\ee
+In particular, if 
+\be\nonumber
+\begin{split}
+&\left(  \frac{\rho_1^2 + \rho_2^2}{(\rho_1+\rho_2)^2} + 0.32\right) pd^2 < \frac{\sigma^2}{\rho_1 -1}+\frac{\sigma^2}{\rho_2 -1} - \frac{2\sigma^2}{(\rho_1+\rho_2) - 1} ,
+\end{split}
+\ee
+that is, we have positive transfer when using all the data, then we can solve from \eqref{solval1add} the following upper bound on $\al^*$:
+\begin{align*}
+\al^* &<  \frac1{\rho_1+\rho_2}\left[\frac{2 }{\frac{1}{\rho_1-1}+\frac1{\rho_2-1}  -  \left(  \frac{\rho_1^2 + \rho_2^2}{(\rho_1+\rho_2)^2} + 0.32\right)\frac{pd^2}{\sigma^2}}+ 1\right] \\
+& < \frac1{\rho_1+\rho_2}\left[\frac{2 }{\frac{1}{\rho_1}+\frac1{\rho_2}  - \left(  \frac{\rho_1^2 + \rho_2^2}{(\rho_1+\rho_2)^2} + \frac13\right)\frac{pd^2}{\sigma^2}}+ 1\right] .
+\end{align*}
+
+
+\noindent{\bf The lower bound.} From \eqref{reduceproof1} and \eqref{reduceproof2}, we see that $\al^*\ge \al$ if $\al$ satisfies
+\be\label{solval2}
+\begin{split}
+&(1-\oo(1)) \cdot \sum_{i=1}^2 pd^2 \frac{(\al\rho_i)^2\cdot \al (\rho_1+\rho_2)}{[\al ( \rho_1+\rho_2) - 1]^3}  \bigbrace{1 - \sqrt{\frac{1}{\al \rho_i}}}^4 \\
+&\ge \frac{\sigma^2}{\rho_1 -1}+\frac{\sigma^2}{\rho_2 -1} - \frac{2\sigma^2}{\al (\rho_1+\rho_2) - 1} . 
+\end{split}
+\ee
+We then follow similar arguments as the above proof for the upper bound.
+
+In order to solve \eqref{solval2}, we consider the case $\min(\rho_1,\rho_2)\ge 200$. With some basic calculations, one can show that the sum on the left-hand side of \eqref{solval2} satisfies 
+$$ \frac{1}{[1 - (\al \rho)^{-1}]^3} \sum_{i=1}^2 \bigbrace{\sqrt{\frac{\rho_i}{\rho_1+\rho_2}} - \sqrt{\frac{1}{\al \rho}}}^4 >  \frac{\rho_1^2 + \rho_2^2}{(\rho_1+\rho_2)^2} -0.26 .$$
+Thus the following inequality implies \eqref{solval2}:
+\be\label{solval2add}
+\begin{split}
+&\left( \frac{\rho_1^2 + \rho_2^2}{(\rho_1+\rho_2)^2} -0.26\right) pd^2 > \frac{\sigma^2}{\rho_1 -1}+\frac{\sigma^2}{\rho_2 -1} - \frac{2\sigma^2}{\al (\rho_1+\rho_2) - 1} .
+\end{split}
+\ee
+There are two cases: if 
+\be\nonumber
+\begin{split}
+&\left( \frac{\rho_1^2 + \rho_2^2}{(\rho_1+\rho_2)^2} -0.26\right) pd^2 \ge \frac{\sigma^2}{\rho_1 -1}+\frac{\sigma^2}{\rho_2 -1},
+\end{split}
+\ee
+then we always have negative transfer for all choice of $0\le \al \le 1$; otherwise, we can solve from \eqref{solval2add} the following lower bound on $\al^*$:
+\begin{align*}
+\al^* &>  \frac1{\rho_1+\rho_2}\left[\frac{2 }{\frac{1}{\rho_1-1}+\frac1{\rho_2-1}  - \left( \frac{\rho_1^2 + \rho_2^2}{(\rho_1+\rho_2)^2} -0.26\right) \frac{pd^2}{\sigma^2}}+ 1\right] \\
+& >\frac1{\rho_1+\rho_2}\left[\frac{2 }{\frac{1}{\rho_1}+\frac1{\rho_2}  - \left( \frac{\rho_1^2 + \rho_2^2}{(\rho_1+\rho_2)^2} -\frac13\right) \frac{pd^2}{\sigma^2}}+ 1\right] .
+\end{align*}
+This concludes the proof.
+\end{proof}
+
+
+
+%\subsection{Proofs for Section \ref{sec_covariate}}\label{app_covariate}
+
+

@@ -1,61 +1,81 @@
-\subsection{Proofs for Section \ref{sec_main}}\label{app_proof_main}
+\subsection{Proof of Two Tasks with General Covariance}\label{app_proof_main}
 
 %To illustrate the idea, we observe that by using Lemma \ref{lem_minv}, we have that
 %\[ \te(\hat{\beta}_t^{\STL}) = \frac{\sigma^2}{n_2 - p}\bigtr{\Sigma_2^{-1}}. \]
 %We shall also derive the limit of $\te(\hat{\beta}_t^{\MTL})$.
 %\todo{write a brief technical overview}
 
+In this section, we state and prove the formal version of Theorem \ref{thm_main_informal}. First, we need to introduce several quantities that will be used in our statement.
 
-Let ${M} = \hat{w} \Sigma_1^{1/2}\Sigma_2^{-1/2}$ denote the weighted covariate shift matrix. Denote by ${\lambda}_1\ge {\lambda}_2 \ge \dots \ge {\lambda}_p$ the singular values of ${M}^{\top}{M}$. Let $(a_1, a_2)$ be the solutions to the following system of equations
+Given the optimal ratio $\hat v$, let $\hat{M} = \hat{v} \Sigma_1^{1/2}\Sigma_2^{-1/2}$ denote the weighted covariate shift matrix. Denote by ${\hat\lambda}_1\ge {\hat\lambda}_2 \ge \dots \ge {\hat\lambda}_p$ the eigenvalues of $\hat{M}^{\top}\hat{M}$. Let $(\hat a_1, \hat a_2)$ be the solutions to the following deterministic equations
 	\be
-		 a_1 + a_2 = 1- \frac{p}{n_1 + n_2},~ a_1 + \sum_{i=1}^p \frac{a_1}{(n_1 + n_2)(a_1 + a_2/ \lambda_i^2)} = \frac{n_1}{n_1 + n_2}.\label{eq_a2} \\
+		 \hat a_1 +  \hat a_2 = 1- \frac{1}{\rho_1 + \rho_2},\quad  \hat a_1 + \frac1{\rho_1 + \rho_2}\cdot \frac1p\sum_{i=1}^p \frac{ \hat \lambda_i^2 \hat a_1}{ \hat \lambda_i^2\hat a_1 +  \hat a_2} = \frac{\rho_1}{\rho_1 + \rho_2}.\label{eq_a2} \\
 		 \ee
-		 After obtaining $(a_1,a_2)$, we can solve the following linear equations to get $(a_3,a_4)$:
+		 After obtaining $(\hat a_1,\hat a_2)$, we can solve the following linear equations to get $(\hat a_3,\hat a_4)$:
 \begin{gather}
-		\left(\frac{n_2}{a_2^2}- \sum_{i=1}^p \frac{1}{ (a_2 + \lambda_i^2a_1)^2  }\right) a_3 -  \left(\sum_{i=1}^p \frac{  \lambda_i^2 }{ (  a_2 + \lambda_i^2a_1)^2  }\right)a_4
-		= \sum_{i=1}^p \frac{1 }{ (  a_2 + \lambda_i^2a_1)^2  }, \label{eq_a3} \\
-		\left(\frac{n_1}{a_1^2} -  \sum_{i=1}^p \frac{\lambda_i^4   }{  (a_2 + \lambda_i^2a_1)^2  }\right)a_4 -\left(\sum_{i=1}^p \frac{\lambda_i^2  }{  (a_2 + \lambda_i^2a_1)^2  }\right)a_3
-		= \sum_{i=1}^p \frac{\lambda_i^2 }{  (a_2 + \lambda_i^2a_1)^2  }. \label{eq_a4}
+		\left(\rho_2 \hat a_2^{-2}- \hat b_0\right)\cdot \hat  a_3 - \hat b_1 \cdot \hat a_4
+		=\hat b_0, \quad \left(\rho_1\hat a_1^{-2} - \hat b_2  \right)\cdot \hat a_4 - \hat b_1 \cdot \hat a_3 =\hat b_1 .\label{eq_a3} 
+%		\left(\frac{n_1}{\hat a_1^2} -  \sum_{i=1}^p \frac{\hat \lambda_i^4   }{  (\hat a_2 + \hat \lambda_i^2\hat a_1)^2  }\right)\hat a_4 -\left(\sum_{i=1}^p \frac{\hat \lambda_i^2  }{  (\hat a_2 + \hat \lambda_i^2\hat a_1)^2  }\right)\hat a_3
+%		= \sum_{i=1}^p \frac{\hat \lambda_i^2 }{  (\hat a_2 + \hat \lambda_i^2\hat a_1)^2  }. \label{eq_a4}
 	\end{gather}
+where we denoted
+$$\hat b_k:= \frac1{p}\sum_{i=1}^p \frac{\hat \lambda_i^{2k}}{ (\hat a_2 +\hat  \lambda_i^2\hat a_1)^2  },\quad k=0,1,2.$$
 Then we introduce the following matrix
-$$Z = \frac{n_1^2}{(n_1 + n_2)^2}\cdot{M} \frac{(1 + a_3)\id + a_4 {M}^{\top}{M}}{(a_2 + a_1 {M}^{\top}{M})^2} {M}^{\top},$$
-which can be regarded as the asymptotic limit of $\hat w \Sigma_2^{1/2} (\hat{w}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_1^{1/2}$. Finally we introduce
-$$\delta:=\left[\frac{n_1 \lambda_1}{(\sqrt{n_1}-\sqrt{p})^2\lambda_p  +  (\sqrt{n_2}-\sqrt{p})^2}\right]^2\cdot \norm{\Sigma_1^{1/2}(\beta_s - \hat{w}\beta_t)}^2.$$
-{\cor may be able to get a better bound, but the statement will be long}
+$$\Pi = \frac{\rho_1^2}{(\rho_1 + \rho_2)^2}\cdot{\hat M} \frac{(1 + \hat a_3)\id +\hat  a_4 \hat {M}^{\top}\hat {M}}{(\hat a_2 +\hat  a_1 \hat {M}^{\top}\hat {M})^2} \hat {M}^{\top},$$
+which is defined in a way such that {\it in certain sense} it is the asymptotic limit of the random matrix 
+$$\hat v\Sigma_1^{1/2} (\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} \Sigma_2 (\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_1^{1/2}.$$ 
+We introduce two factors that will appear often in our statements and discussions:
+$$\al_-(\rho_1):=(1- \rho_1^{-1/2})^2,\quad \al_+(\rho_1):=(1 + \rho_1^{-1/2})^2.$$ 
+In fact, $\al_-^2$ and $\al_+^2$ correspond to the largest and smallest singular values of $Z_1/\sqrt{n_1}$, respectively, as given by the famous Mar{\v c}enko-Pastur law \cite{MP}. In particular, as $\rho_1$ increases, both $\al_-$ and $\al_+$ will converge to 1 and $Z_1/\sqrt{n_1}$ will be more close to an isometry. Finally, we introduce the error term  
+$$\delta:=\frac{\al_+^2(\rho_1) - 1 }{\al_-^{2}(\rho_1)} \cdot \kappa^4(\hat M)\cdot \norm{\Sigma_1^{1/2}(\beta_s - \hat{w}\beta_t)}^2,$$
+where we recall that $\kappa(\hat M)$ is the condition number of $\hat M$. Note that this factor converges to 0 as $\rho_1\to \infty$.
 
-We now state our main result for two tasks with both covariate and model shift in the following theorem.
+%$$\delta:=\left[\frac{n_1 \lambda_1}{(\sqrt{n_1}-\sqrt{p})^2\lambda_p  +  (\sqrt{n_2}-\sqrt{p})^2}\right]^2\cdot \norm{\Sigma_1^{1/2}(\beta_s - \hat{w}\beta_t)}^2.$$
+%{\cor may be able to get a better bound, but the statement will be long}
+
+Now we are ready to state our main result for two tasks with both covariate and model shift. It shows that the information transfer is solely determined by two deterministic quantities $\Delta_{\beta}$ and $\Delta_{\vari}$, which give the change of model shift bias and the change of variance, respectively.
+
+
 
 \begin{theorem}\label{thm_model_shift}
-	Let $n_1, n_2$ be the number of data points for the source, target task, respectively.
-	Let $\hat{w}$ denote the optimal solution for the ratio $w_1/w_2$ in equation \eqref{eq_val_mtl}.
-	%Let ${M} = \hat{w} \Sigma_1^{1/2}\Sigma_2^{-1/2}$ denote the weighted covariate shift matrix.
-	%Denote by ${\lambda}_1, {\lambda}_2, \dots, {\lambda}_p$ the singular values of ${M}^{\top}{M}$.
-	The information transfer is solely determined by two deterministic quantities $\Delta_{\beta}$ and $\Delta_{\vari}$, which show the change of model shift bias and variace, respectively.
-	With high probability we have
+For $i=1,2$, let $Y_i = X_i\beta_i + \varepsilon_i$ be two independent data models, where $X_i=Z_i\Sigma_i^{1/2}\in \R^{n_i\times p}$ satisfy Assumption \ref{assm_secA1} with $\rho_i:=n_i/p>1$ being fixed constants, and $\e_i\in \R^{n_i}$ are  random vectors with i.i.d. entries with mean zero, variance $\sigma^2$ and all moments as in \eqref{assmAhigh}.  
+	Then with high probability, we have
 	\begin{align}
-	 	\te(\hat{\beta}_{t}^{\MTL}) \le \te(\hat{\beta}_t^{\STL}) \text{ when: } &\Delta_{\vari} - \Delta_{\beta} \ge \left(\bigbrace{1 + \sqrt{\frac{p} {n_1}}}^4 - 1 \right) \delta \label{upper}\\
-		\te(\hat{\beta}_t^{\MTL}) \ge \te(\hat{\beta}_t^{\STL}) \text{ when: } &\Delta_{\vari} - \Delta_{\beta} \le -2\bigbrace{2\sqrt{\frac {p}{n_1}} + \frac{p}{n_1}} \delta, \label{lower}
+	 	\te(\hat{\beta}_{t}^{\MTL}) \le \te(\hat{\beta}_t^{\STL}) \quad \text{ when: } \ \ &\Delta_{\vari} - \Delta_{\beta} \ge  \delta \label{upper}\\
+		\te(\hat{\beta}_t^{\MTL}) \ge \te(\hat{\beta}_t^{\STL}) \quad \text{ when: } \ \ &\Delta_{\vari} - \Delta_{\beta} \le -\delta, \label{lower}
 	\end{align}
 	where
-	\begin{align*} %\bigtr{{\Sigma_2^{-1}}}
-		\Delta_{\vari} &\define {\sigma^2}\bigbrace{\frac{p}{n_2 - p} -  \frac{1}{n_1 + n_2} \bigtr{(a_1 M^{\top}M + a_2\id)^{-1}} } \\
-		\Delta_{\beta} &\define (\beta_s - \hat{w}\beta_t)^{\top} \Sigma_1^{1/2} Z \Sigma_1^{1/2} (\beta_s - \hat{w}\beta_t).
-	\end{align*}
+	\begin{align} %\bigtr{{\Sigma_2^{-1}}}
+		\Delta_{\vari} &\define {\sigma^2}\bigbrace{\frac{1}{\rho_2 - 1} -  \frac{1}{\rho_1 + \rho_2}\cdot \frac1p \bigtr{(\hat a_1 \hat M^{\top}\hat M + \hat a_2\id)^{-1}} }  \\
+		\Delta_{\beta} &\define (\beta_s - \hat{v}\beta_t)^{\top} \Sigma_1^{1/2} \Pi \Sigma_1^{1/2} (\beta_s - \hat{v}\beta_t). 
+	\end{align}
 \end{theorem}
 
+Under the simplifying setting in Section \ref{sec_insight}, we actually have an easier and sharper bound than Theorem \ref{thm_model_shift} as follows. 
+\begin{lemma}\label{prop_model_shift_tight}
+		In the setting of Theorem \ref{thm_model_shift}, assume that $\Sigma_1 =\id$,
+		$\beta_t$ is a random vector with i.i.d. entries with mean $0$, variance $\kappa^2$ and all moments, and $\beta_2$ is a random vector such that $\beta_s - \beta_t$ is a random vector with i.i.d. entries with mean $0$, variance $d^2$ and all moments. Denote
+		$\wt \Delta_{\beta} := \bigbrace{(1 - \hat{v})^2 \kappa^2 + d^2)} \bigtr{\Pi}.$
+	Then we have
+		\begin{align*}
+			\te(\hat{\beta}_t^{\MTL}) \le \te(\hat{\beta}_t^{\STL})\quad \text{ when: }\ \  & \Delta_{\vari} \ge  (\al_+^2(\rho_1)+\oo(1))\cdot \wt \Delta_{\beta}, \\
+			\te(\hat{\beta}_t^{\MTL}) \ge \te(\hat{\beta}_t^{\STL})\quad \text{ when: }\ \  & \Delta_{\vari} \le (\al_-^2(\rho_1)-\oo(1))\cdot \wt\Delta_{\beta}.
+		\end{align*}
+\end{lemma}
 
+Now we first give a proof of Theorem \ref{thm_model_shift} based on Lemma \ref{lem_cov_shift}. 
 
-\subsubsection{Proof of Theorem \ref{thm_model_shift}}\label{sec_pfmain}
+\begin{proof}[Proof of Theorem \ref{thm_model_shift}]
+%\noindent
+%To prove Theorem \ref{thm_cov_shift}, we study the spectrum of the random matrix model:
+%$$Q= \Sigma_1^{1/2}  Z_1^{\top} Z_1 \Sigma_1^{1/2}  + \Sigma_2^{1/2}  Z_2^{\top} Z_2 \Sigma_2^{1/2} ,$$
+%where $\Sigma_{1,2}$ are $p\times p$ deterministic covariance matrices, and $X_1=(x_{ij})_{1\le i \le n_1, 1\le j \le p}$ and $X_2=(x_{ij})_{n_1+1\le i \le n_1+n_2, 1\le j \le p}$ are $n_1\times p$ and $n_2 \times p$ random matrices, respectively, where the entries $x_{ij}$, $1 \leq i \leq n_1+n_2\equiv n$, $1 \leq j \leq p$, are real independent random variables satisfying
+%\begin{equation}\label{eq_12moment} %\label{assm1}
+%\mathbb{E} z_{ij} =0, \ \quad \ \mathbb{E} \vert z_{ij} \vert^2  = 1.
+%\end{equation}
+\todo{A proof outline; including the following key lemma.}
 
-\noindent\todo{A proof outline; including the following key lemma.}
-To prove Theorem \ref{thm_cov_shift}, we study the spectrum of the random matrix model:
-$$Q= \Sigma_1^{1/2}  Z_1^{\top} Z_1 \Sigma_1^{1/2}  + \Sigma_2^{1/2}  Z_2^{\top} Z_2 \Sigma_2^{1/2} ,$$
-where $\Sigma_{1,2}$ are $p\times p$ deterministic covariance matrices, and $X_1=(x_{ij})_{1\le i \le n_1, 1\le j \le p}$ and $X_2=(x_{ij})_{n_1+1\le i \le n_1+n_2, 1\le j \le p}$ are $n_1\times p$ and $n_2 \times p$ random matrices, respectively, where the entries $x_{ij}$, $1 \leq i \leq n_1+n_2\equiv n$, $1 \leq j \leq p$, are real independent random variables satisfying
-\begin{equation}\label{eq_12moment} %\label{assm1}
-\mathbb{E} z_{ij} =0, \ \quad \ \mathbb{E} \vert z_{ij} \vert^2  = 1.
-\end{equation}
-
-The proof of Theorem \ref{thm_model_shift} involves two parts.
+The proof is divided into four parts.
 
 \paragraph{Part I: Bounding the bias from model shift.}
 We relate the first term in equation \eqref{eq_te_model_shift} to $\Delta_{\beta}$.
@@ -128,26 +148,24 @@ If we assume the variances of the entries of $Z_1$ are $1$, then we have
 \end{align}
 }
 
-\begin{lemma}\label{lem_cov_derivative}
-	In the setting of Theorem \ref{thm_model_shift}, we have with high probability $1-{\rm o}(1)$,
-\begin{equation}\label{lem_cov_derv_eq}
-\begin{split}
-&\wh w^{2}(n_1+n_2)^2\bignorm{\Sigma_2^{1/2} (\hat{w}X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_1 (\beta_s - {w}\beta_t)}^2 \\
-&= (\beta_s - {w}\beta_t)^{\top} \Sigma_1^{1/2} {M} \frac{(1 + a_3)\id + a_4 {M}^{\top}{M}}{(a_2 + a_1 {M}^{\top}{M})^2} {M}^{\top} \Sigma_1^{1/2} (\beta_s - \hat{w}\beta_t) +\OO(n^{-1/2+\e}),
-\end{split}
-\end{equation}
-	for any constant $\epsilon>0$. %, where $a_{3,4}$ are found using equations in  \eqref{m35reduced}
-\end{lemma}
-We will give the proof of this lemma in Section \ref{sec_maintools}.
 
-\begin{proof}[Proof of Proposition \ref{prop_model_shift_tight}]
+
+\paragraph{Part III: An $\e$-net argument.} 
+
+{\cor add some arguments with $\e$-net.}
+\end{proof}
+
+{\cor add some remarks about the difficulty in random matrix theory}
+
+By applying a tighter bound to Part I of the above proof, we can conclude the proof Lemma \ref{prop_model_shift_tight}.
+
+\begin{proof}[Proof of Lemma \ref{prop_model_shift_tight}]
 the proof for tighter bound ........... 
 \end{proof}
 
-{\cor add some arguments with $\e$-net.}
 
 
-\subsubsection{Proof of Theorem \ref{thm_many_tasks}}\label{app_proof_many_tasks}
+\subsection{Proof of Many Tasks with the Same Covariates}\label{app_proof_many_tasks}
 
 \begin{theorem}\label{thm_many_tasks}
 	Let $n = c \cdot p$.

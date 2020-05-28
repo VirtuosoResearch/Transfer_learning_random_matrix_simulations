@@ -1,53 +1,40 @@
 \section{Preliminaries}\label{sec_setup}
 
-Recall that we have $t$ labeled tasks available, denoted by $(X_1, Y_1), (X_2, Y_2), \dots, (X_t, Y_t)$.
-Following \cite{HMRT19,BLLT20}, we assume that for each task $i = 1,2,\dots,t$,  every feature vector is generated as $x = \Sigma_i^{1/2} z$, where $z\in\real^p$ is a random vector with i.i.d. entries of mean zero and unit variance and $\Sigma_i\in\real^{p\times p}$ is a positive semidefinite matrix.
+We describe the bias-variance tradeoff of our setting as a warmup.
+Recall that we have $t$ labeled tasks available, denoted by $(X_1, Y_1), (X_2, Y_2), \dots, (X_t, Y_t)$, where $X_i\in\real^{n_i\times p}$ and $Y_i\in\real^{n_i}$ for $1\le i\le t$.
+%Following \cite{HMRT19,BLLT20}, we assume that for each task $i = 1,2,\dots,t$,  every feature vector is generated as $x = \Sigma_i^{1/2} z$, where $z\in\real^p$ is a random vector with i.i.d. entries of mean zero and unit variance and $\Sigma_i\in\real^{p\times p}$ is a positive semidefinite matrix.
 Without loss of generality, let the $t$-th task denote the target task.
-For an estimator $\hat{\beta}\in\real^p$, the test error for target task is defined as
+For an estimator $\hat{\beta}\in\real^p$, the test error of the target task is defined as
 	\begin{align*}
 		\te_t(\hat{\beta}) \define \exarg{z}{\exarg{\varepsilon_t}{({(\Sigma_t^{1/2} z)}^{\top}\hat{\beta} - {(\Sigma_t^{1/2})}^{\top}\beta_t)^2}}
 		= \exarg{\varepsilon_t}{(\hat{\beta} - \beta_t)^{\top}\Sigma_t(\hat{\beta} - \beta_t)}.
 	\end{align*}
-
-Let $\hat{\beta}_t^{\STL} = (X_t^{\top}X_t)^{-1}X_t^{\top}Y_t$ denote the linear regression estimator, which can be also be obtained from equation \eqref{eq_mtl} by using the target task alone.
-The bias-variance trade-off \cite{HTF09} says that
+The single-task estimator $\hat{\beta}_t^{\STL}$ is given by $(X_t^{\top}X_t)^{-1}X_t^{\top}Y_t$.
+The bias-variance trade-off \cite{HTF09} says
 	\[ \te_t(\hat{\beta}) =
-		\bignorm{\exarg{\varepsilon_t}{\hat{\beta}} - \beta_t}^2 + \exarg{\varepsilon_t}{\hat{\beta} - \exarg{\varepsilon_t}{\hat{\beta}}}. \]
-Recall that we assume $n_i > p$ for every $1\le i\le t$.
-Hence the bias of $\te_t(\hat{\beta}_t^{\STL})$ is zero and its test error is equal to variance, given by $\sigma^2 \cdot \tr[(X_i^{\top}X_i)^{-1}\Sigma_i]$.
-We focus on a setting where the data size $n_t$ of the target task is equal to a small constant $\rho_t > 1$ times $p$.
-This setting captures the need for adding more labeled data to reduce the test error of the target task.
+		\bignorm{\exarg{\varepsilon_t}{\hat{\beta}} - \beta_t}^2 + \exarg{\varepsilon_t}{\bignorm{\hat{\beta} - \exarg{\varepsilon_t}{\hat{\beta}}}^2}. \]
+In order to study the trade-off between model-shift bias and variance reduction, we need tight concentration bounds to quantify both effects.
+For this purpose, we consider the high-dimensional regime where $n_i$ is a fixed constant $\rho_i > 1$ times $p$ for every $1\le i\le t$, and $p$ is large.
+%Recall that $n_i = \rho_i \cdot p$ and we assume $\rho_i > 1$ is a fixed constant for every $1\le i\le t$.
 
-To illustrate our intuition, we begin by considering the multi-task learning setting with one source task.
+We focus on a setting where $\rho_t$ is a small constant.
+This setting captures the need for adding more labeled data to reduce the test error of the target task.
+A well-known result for this setting states that $\te_t(\hat{\beta}_t^{\STL}) = \sigma^2 \cdot \tr[(X_t^{\top}X_t)^{-1}\Sigma_t]$ is concentrated around $\frac {\sigma^2} {\rho_t - 1}$ (e.g. Chapter 6 of \cite{S07}), which scales with the data size and noise level of the target task.
+However, this result only applies to the single-task setting.
+Therefore, our goal is to extend this result to the multi-task setting.
+
+To illustrate our intuition, we begin by considering the setting of two tasks with general covariance matrices.
 Recall that $\hat{\beta}_t^{\MTL}$ is defined as $BW_t$ after solving equation \eqref{eq_mtl}.
-We decompose the test error of $\hat{\beta}_{t}^{\MTL}$ on the targe task into two parts (to be derived in Appendix \ref{app_proof_main})
+We decompose the test error of $\hat{\beta}_{t}^{\MTL}$ on the target task into two parts (to be derived in Appendix \ref{app_proof_sec3}) as follows
 \begin{align}
 	\te_t(\hat{\beta}_t^{\MTL}) =& ~ \hat{v}^2 \bignorm{\Sigma_2^{1/2} (\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}X_1^{\top}X_1 (\beta_1 - \hat{v}\beta_2)}^2 \label{eq_te_model_shift} \\
 	&+ \sigma^2\cdot \bigtr{(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2}, \label{eq_te_var}
 \end{align}
 where $\hat{v} = W_2 / W_1$ denotes the ratio of the output layer weights.
-By comparing the bias and variance of $\te_t(\hat{\beta}_t^{\MTL})$ to $\te_t(\hat{\beta}_t^{\STL})$, we observe the following two effects, respectively.
+%Hence the bias of $\te_t(\hat{\beta}_t^{\STL})$ is zero and its test error is equal to variance, given by $$.
 
-
-\textbf{Model-shift bias.}
-%We begin by observing that the test error of $\hat{\beta}_t^{\MTL}$ consists of two parts.
-We term equation \eqref{eq_te_model_shift} as \textit{model-shift bias}, which captures how similar $\beta_1$ and $\beta_2$ are.
-This part introduces a negative effect to multi-task learning.
-The scaling term $\hat{v}$ corresponds to the intuition that the shared module $B$ learns a subspace for both tasks.
-The output layer of each task scales the direction of $B$ suitably to fit the task.
-
-\textbf{Variance reduction.}
-Next, it is not hard to verify that equation \eqref{eq_te_var}, the variance of $\hat{\beta}_t^{\MTL}$, is always smaller than the variance of $\hat{\beta}_t^{\STL}$.
-This part introduces a positive variance reduction effect to performing multi-task learning.
-Hence, whether $\te(\hat{\beta}_t^{\MTL})$ is lower than $\te(\hat{\beta}_t^{\STL})$ is determined by the trade-off between two effects:
-(i) the positive effect from variance reduction;
-(ii) the negative effect from model shift bias.
-
-%, i.e. %(following the argument of Proposition \ref{prop_monotone}), i.e.
-%\[ \bigtr{(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2} \le \bigtr{(X_2^{\top}X_2)^{-1}\Sigma_2}. \]
-%Because of model shift bias, we can no longer guarantee that $\te(\hat{\beta}_{t}^{\MTL}) \le \te(\hat{\beta}_t^{\STL})$.
-
-\textbf{Notations.} We refer to the last ($t$-th) task as the target task and the first task as the source task when there are only two tasks.
+\textbf{Notations.}
 When there is no ambiguity, we drop the subscript $t$ from $\te_t(\hat{\beta}_t^{\MTL})$ to $\te(\hat{\beta}_t^{\MTL})$ for simplicity.
+We refer to the first task as the source task when there are only two tasks.
 We call $M = \Sigma_1^{1/2}\Sigma_2^{-1/2}$ the covariate shift matrix.
 %Same for $\hat{\beta}_t^{\STL}$.
