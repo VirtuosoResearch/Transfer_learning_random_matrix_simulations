@@ -1,4 +1,4 @@
-\section{A Technical Tool to Quantify the Trade-off}
+\section{A Technical Tool to Quantify the Bias-Variance Trade-off}
 \label{sec_main}
 
 We revisit the classical bias-variance trade-off in the context of multi-task learning for linear regressions, in particular the setup of equation \eqref{eq_mtl}.
@@ -75,48 +75,6 @@ The formal statement is presented in Theorem \ref{prop_taskonomy} and its proof 
 
 After describing this technical result, we provide theoretical insights over when multi-task learning performs better than single-task learning.
 Our analysis reveals three contributing causes of negative transfer, including task model \textit{dissimilarity}, \textit{unbalanced} data size, and \textit{covariate shift}, which we describe in detail for the rest of the section.
-
-
-
-\subsection{Benefits of Multi-task Learning}
-
-\textbf{De-noising by Transferring from a Source Task}
-We further show that multi-task learning is particular powerful when the labeled data of the source task is less noisy compared to the target task.
-Consider a more general setting of Proposition \ref{prop_dist_transition} where the noise level $\sigma_1$ of task $1$ differs from the noise level $\sigma_2$ of task $2$.
-We derive a sharp transition from positive to negative transfer as a parameter of $\sigma_1^2$.
-
-\begin{proposition}\label{prop_var_transition}
-	In the setting of Example \ref{ex_basic} with $d$ being fixed but $\sigma_1$ varies, assume that $\rho_1 > 40$ is a fixed constant and $d^2 < \frac {2\sigma_2^2} {3p} \cdot \Phi(\rho_1, \rho_2)$.
-	We derive the following transition as a parameter of $\sigma_1^2$:
-	\begin{itemize}
-		\item If $\sigma_1^2 \le p d^2 \cdot \rho_1 +\left(1+ \frac12 \cdot \Phi(\rho_1, \rho_2)\right)\cdot\sigma_2^2$, then whp $\te(\hat{\beta}_t^{\MTL}) < \te(\hat{\beta}_t^{\STL})$.
-		\item If $\sigma_1^2 > p d^2 \cdot \rho_1 +\left(1+ 2\Phi(\rho_1, \rho_2)\right) \cdot \sigma_2^2$, then whp $\te(\hat{\beta}_t^{\MTL}) > \te(\hat{\beta}_t^{\STL})$.
-	\end{itemize}
-\end{proposition}
-As a corollary, if $\sigma_1^2 \le \sigma_2^2$, then we always get positive transfer.
-The proof of Proposition \ref{prop_var_transition} is similar to Proposition \ref{prop_dist_transition}.
-The details can be found in Appendix \ref{app_proof_31}.
-
-
-\textbf{Improving Labeled Data Efficiency}
-We use our tools to explain a key result of taskonomy \cite{ZSSGM18}, which shows that by learning from multiple related tasks, one can reduce the amount of labeled data from each task.
-This is formalized by a metric called the data efficiency ratio as follows.
-Given several tasks, let $\alpha^{\star}$ be the largest factors such that the total number of labeled datapoints needed for solving all the tasks can be reduced by an $\alpha^{\star}$ factor (compared to training independently) while keeping the performance nearly the same.
-More precisely, suppose we have $n_i$ datapoints for each task, for $i= 1, 2$.
-If we only use $\alpha n_i$ datapoints from every task to train the multi-task learning estimator $\hat{\beta}(\alpha)$, then $\alpha \in (0, 1)$ will be the smallest number such that
-\[ \alpha^{\star} \define\argmin_{\alpha\in(0, 1)} ~~ \te_1(\hat{\beta}(\alpha)) + \te_2(\hat{\beta}(\alpha))\le \te_1(\hat{\beta}_t^{\STL}) + \te_2(\hat{\beta}_t^{\STL}). \]
-We quantify the data efficiency ratio of $\hat{\beta}_t^{\MTL}$ for Example \ref{ex_basic} as follows.
-
-\begin{proposition}\label{prop_data_efficiency}
-	In the setting of Example \ref{ex_basic}, assume that $\rho_1 = \rho_2 = \rho \ge 200$ and $d^2 < {8\sigma^2} /{(3p \rho)}$.
-	Then the data efficiency ratio is at most $\frac{1}{2\rho} + \frac{\sigma^2}{2\sigma^2 - 3p d^2 \rho / 4}$.
-\end{proposition}
-Note that we have stated the result assuming that $\rho_1 = \rho_2$.
-Similar results can also be obtained when they are different.
-We omit the details.
-The proof of Proposition \ref{prop_data_efficiency} can be found in Appendix \ref{app_proof_data}.
-
-
 
 
 \subsection{Contributing causes of negative transfer}
@@ -261,5 +219,46 @@ To complement the result, we show an example when the statement is not true if $
 	When $n_1 > n_2$, having complementary covariance matrices leads to higher test error compared to the case when $\Sigma_1 = \Sigma_2$.
 	A theoretical justification can be found in Appendix \ref{app_covariate}.
 \end{example}
+
+
+\subsection{Interpreting the Benefits of Multi-task Learning}
+
+\textbf{De-noising by Transferring from a Source Task}
+We further show that multi-task learning is particular powerful when the labeled data of the source task is less noisy compared to the target task.
+Consider a more general setting of Proposition \ref{prop_dist_transition} where the noise level $\sigma_1$ of task $1$ differs from the noise level $\sigma_2$ of task $2$.
+We derive a sharp transition from positive to negative transfer as a parameter of $\sigma_1^2$.
+
+\begin{proposition}\label{prop_var_transition}
+	In the setting of Example \ref{ex_basic} with $d$ being fixed but $\sigma_1$ varies, assume that $\rho_1 > 40$ is a fixed constant and $d^2 < \frac {2\sigma_2^2} {3p} \cdot \Phi(\rho_1, \rho_2)$.
+	We derive the following transition as a parameter of $\sigma_1^2$:
+	\begin{itemize}
+		\item If $\sigma_1^2 \le p d^2 \cdot \rho_1 +\left(1+ \frac12 \cdot \Phi(\rho_1, \rho_2)\right)\cdot\sigma_2^2$, then whp $\te(\hat{\beta}_t^{\MTL}) < \te(\hat{\beta}_t^{\STL})$.
+		\item If $\sigma_1^2 > p d^2 \cdot \rho_1 +\left(1+ 2\Phi(\rho_1, \rho_2)\right) \cdot \sigma_2^2$, then whp $\te(\hat{\beta}_t^{\MTL}) > \te(\hat{\beta}_t^{\STL})$.
+	\end{itemize}
+\end{proposition}
+As a corollary, if $\sigma_1^2 \le \sigma_2^2$, then we always get positive transfer.
+The proof of Proposition \ref{prop_var_transition} is similar to Proposition \ref{prop_dist_transition}.
+The details can be found in Appendix \ref{app_proof_31}.
+
+
+\textbf{Improving Labeled Data Efficiency}
+We use our tools to explain a key result of taskonomy \cite{ZSSGM18}, which shows that by learning from multiple related tasks, one can reduce the amount of labeled data from each task.
+This is formalized by a metric called the data efficiency ratio as follows.
+Given several tasks, let $\alpha^{\star}$ be the largest factors such that the total number of labeled datapoints needed for solving all the tasks can be reduced by an $\alpha^{\star}$ factor (compared to training independently) while keeping the performance nearly the same.
+More precisely, suppose we have $n_i$ datapoints for each task, for $i= 1, 2$.
+If we only use $\alpha n_i$ datapoints from every task to train the multi-task learning estimator $\hat{\beta}(\alpha)$, then $\alpha \in (0, 1)$ will be the smallest number such that
+\[ \alpha^{\star} \define\argmin_{\alpha\in(0, 1)} ~~ \te_1(\hat{\beta}(\alpha)) + \te_2(\hat{\beta}(\alpha))\le \te_1(\hat{\beta}_t^{\STL}) + \te_2(\hat{\beta}_t^{\STL}). \]
+We quantify the data efficiency ratio of $\hat{\beta}_t^{\MTL}$ for Example \ref{ex_basic} as follows.
+
+\begin{proposition}\label{prop_data_efficiency}
+	In the setting of Example \ref{ex_basic}, assume that $\rho_1 = \rho_2 = \rho \ge 200$ and $d^2 < {8\sigma^2} /{(3p \rho)}$.
+	Then the data efficiency ratio is at most $\frac{1}{2\rho} + \frac{\sigma^2}{2\sigma^2 - 3p d^2 \rho / 4}$.
+\end{proposition}
+Note that we have stated the result assuming that $\rho_1 = \rho_2$.
+Similar results can also be obtained when they are different.
+We omit the details.
+The proof of Proposition \ref{prop_data_efficiency} can be found in Appendix \ref{app_proof_data}.
+
+
 
 
