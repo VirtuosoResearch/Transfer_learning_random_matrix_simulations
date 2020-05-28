@@ -19,7 +19,7 @@ By combining multiple information sources, it is possible to share new informati
 %For example, many applications in , and many other areas have been achieved by learning from multiple tasks together.
 Intuitively, the performance of multi-task learning depends on the relationship of the information sources.
 When the information sources are heterogeneous, negative transfer -- where multi-task learning performs worse than single-task learning -- has often been observed \cite{AP16,BS17}.
-While numerous studies have sought to alleviate negative transfer when it occurs \cite{YKGLHF20}, a rigorous understanding to the contributing causes of negative transfer has remained elusive in the literature \cite{R17}.
+While numerous studies have sought to alleviate negative transfer when it occurs \cite{ZY17}, a rigorous understanding to the contributing causes of negative transfer has remained elusive in the literature \cite{R17}.
 %This phenomenon, known as \textit{negative transfer}, is fundamental to the understanding of multi-task learning.
 In this work, we develop technical tools to better understand when and why negative transfer occurs for learning multiple linear regression tasks in high dimensions. % for learning from multiple linear regression tasks.
 We use the tools to show theoretical and practical implications for detecting and improving negative transfer.
@@ -46,15 +46,16 @@ In order to rigorously understand negative transfer, the technical challenge is 
 
 In this work, we consider a setting where multiple labeled linear regression tasks are available and focus on predicting a particular task whose amount of labeled data is limited.
 Following Hastie et al. \cite{HMRT19} and Bartlett et al. \cite{BLLT20}, we assume that for every task $1\le i\le t$, its features are random vectors $x = \Sigma_i^{1/2}z$, where $z\in\real^p$ consists of i.i.d. entries with mean zero and unit variance, and $\Sigma_i\in\real^{p\times p}$ is a positive semidefinite matrix.
-The label of $x$ is given by $y_i = x^{\top}\beta_i + \varepsilon$, where $\beta_i\in\real^p$ denotes the ground truth parameters for task $i$ and $\varepsilon$ denotes random noise with mean zero and variance $\sigma^2$.
-Importantly, we assume that the training data size of the target task $t$ is a small constant $\rho_t > 1$ times $p$ to capture the need for more labeled data.
+Let $n_i$ denote the data size and $X_i\in\real^{n_i\times p}$ denote the features of task $i$, for every $1\le i\le t$.
+The label of task $i$ is given by $Y_i = X_i\beta_i + \varepsilon_i$, where $\beta_i\in\real^p$ denotes the ground truth parameters for task $i$ and $\varepsilon_i$ denotes i.i.d. random noise with mean zero and variance $\sigma^2$.
+Without loss of generality, let the $t$-th task denote the target task.
+We assume that the data size of task $t$ is a small constant $\rho_t > 1$ times $p$ to capture the need for more labeled data.
 %We shall assume that each task data follows a linear model, i.e. $y_i = X_i \beta_i + \varepsilon_i$, $1\le i\le k$.
 %Here $\beta_i\in\real^p$ is the model parameter for the $i$-th task.
 %Each row of $X_i\in\real^{n_i\times p}$ is assumed to be drawn i.i.d. from a fixed
 %distribution with covariance matrix $\Sigma_i$.
 
-We combine all the available training data using a hard parameter sharing architecture that contains a shared body $B\in\real^{p\times r}$ for all tasks and a separate prediction head $\set{W_i \in \real^{r}}_{i=1}^t$ for each task \cite{R17,MTDNN19,WZR20}.
-%    \paragraph{Different covariates:}
+We combine all the labeled data using a hard parameter sharing architecture that contains a shared body $B\in\real^{p\times r}$ for all tasks and a separate prediction head $\set{W_i \in \real^{r}}_{i=1}^t$ for each task \cite{R17,MTDNN19,WZR20}.
 This corresponds to minimizing the following objective.
 \begin{align}
 	\label{eq_mtl}
@@ -71,8 +72,8 @@ Interestingly, the variance of $\hat{\beta}_t^{\MTL}$ is always smaller than tha
 The bias of $\hat{\beta}_t^{\MTL}$, which we term as \textit{model shift bias}, results in a negative effect caused by the difference between $\beta_t$ and the rest $\set{\beta_i}_{i=1}^{t-1}$.
 Hence, the tradeoff between the variance reduction effect and model shift bias determines whether we observe positive or negative transfer.
 
-To quantify the tradeoff more precisely, we develop a new technical result on the trace of $(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}$, for two random matrices $X_1$ and $X_2$ when their dimensions $p$ are large and data sizes are fixed constants times $p$.
-Using the result, we provide a sharp bias-variance tradeoff of $\hat{\beta}_t^{\MTL}$ for the setting of two tasks with general covariance matrices.
+To quantify the tradeoff more precisely, we develop a new technical result on the trace of $(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}$, for the setting of two tasks with general covariance matrices.
+Using the result, we provide a sharp bias-variance tradeoff of $\hat{\beta}_t^{\MTL}$.
 When there are more than two tasks, we show a similar result if they all have the same covariates.
 This setting is prevalent in applications of multi-task learning to image classification, where there are multiple prediction labels/tasks for every image \cite{chexnet17,EA20}.
 Finally, we apply our technical tools to the related setting of transfer learning.
