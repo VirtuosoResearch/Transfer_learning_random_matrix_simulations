@@ -142,55 +142,86 @@ with high probability, where
 %		\frac{1 + a_3 + a_4}{(a_1 + a_2)^2}
 %		= \frac{(c_1 + c_2)^3}{(c_1 + c_2 - 1)^3} + \bigo{p^{-1/2+\varepsilon}}.
 %	\end{align*}
-With \eqref{Deltavar} and \eqref{Deltabeta}, we conclude that if
+Note that 
+ \be\label{var-beta}\te(\hat{\beta}_t^{\STL})-\te(\hat{\beta}_t^{\MTL}) =\delta_{\vari} - \delta_\beta .\ee
+Then we can track its sign using \eqref{Deltavar} and \eqref{Deltabeta}.
+
+\noindent{\bf Positive transfer.} With \eqref{Deltavar} and \eqref{Deltabeta}, we conclude that if
 \be\label{upper101}pd^2 \cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3} \cdot \left( \al_+^2(\rho_1) +  \oo(1) \right) < \sigma^2  \cdot \frac{\rho_1}{(\rho_2-1)(\rho_1 + \rho_2 -1)},\ee
 	we have that $\delta_{\vari} > \delta_{\beta}$, which implies that $\te(\hat{\beta}_t^{\MTL})$ is lower than $\te(\hat{\beta}_t^{\STL})$. We can simplify \eqref{upper101} to
-	\[   d^2  < \frac{\sigma^2}{p}\frac{(\rho_1 + \rho_2 - 1)^2}{\rho_1(\rho_1 + \rho_2) (\rho_2 - 1)} \cdot \left(\bigbrace{1 + \sqrt{\frac 1 {\rho_1}}}^{-4} - \oo(1)\right), \]
+	\[   pd^2  <  \sigma^2 \Phi(\rho_1, \rho_2)\cdot \left(\bigbrace{1 + \sqrt{\frac 1 {\rho_1}}}^{-4} - \oo(1)\right), \]
 Plugging into $\rho_1>40$, we obtain the first statement of Proposition \ref{prop_dist_transition}.	
 	
 	
-On the other hand, if
+\noindent{\bf Negative transfer.} On the other hand, if
 \be\label{upper102}pd^2 \cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3} \cdot \left( \al_-^2(\rho_1) -  \oo(1) \right) > \sigma^2  \cdot \frac{\rho_1}{(\rho_2-1)(\rho_1 + \rho_2 -1)},\ee
 	we have that $\delta_{\vari} < \delta_{\beta}$, which implies that $\te(\hat{\beta}_t^{\MTL})$ is larger than $\te(\hat{\beta}_t^{\STL})$. We can simplify \eqref{upper102} to
-	\[   d^2  > \frac{\sigma^2}{p}\frac{(\rho_1 + \rho_2 - 1)^2}{\rho_1(\rho_1 + \rho_2) (\rho_2 - 1)} \cdot \left(\bigbrace{1 - \sqrt{\frac 1 {\rho_1}}}^{-4} +\oo(1)\right), \]
+	\[  p d^2  >  \sigma^2 \Phi(\rho_1, \rho_2) \cdot \left(\bigbrace{1 - \sqrt{\frac 1 {\rho_1}}}^{-4} +\oo(1)\right), \]
 Plugging into $\rho_1>40$, we obtain the second statement of Proposition \ref{prop_dist_transition}.
 \end{proof}
 
 Then we prove Proposition \ref{prop_data_size}, which describes the effect of source task data size on the information transfer. 
 
 \begin{proof}[Proof of Proposition \ref{prop_data_size}]
-Recall that under the setting of Example \ref{ex_basic}, \eqref{Deltavar} and \eqref{Deltabeta} hold.  Then we get that $\te(\hat{\beta}_t^{\MTL})< \te(\hat{\beta}_t^{\STL})$ whp if
-\be\label{pos1}\left(pd^2 \frac{c_1(c_1+c_2)(c_2-1)}{(c_1+c_2-1)^2} + \bigo{p^{1/2+\e}d^2} \right)\bigbrace{1 + \sqrt{\frac{1}{c_1}}}^4 <  \sigma^2 \bigbrace{1 + \bigo{p^{-1/2 + \varepsilon}}};\ee
-otherwise if
-\be\label{neg1}\left(pd^2 \frac{c_1(c_1+c_2)(c_2-1)}{(c_1+c_2-1)^2} + \bigo{p^{1/2+\e}d^2} \right)\bigbrace{1 - \sqrt{\frac{1}{c_1}}}^4 >  \sigma^2 \bigbrace{1 + \bigo{p^{-1/2 + \varepsilon}}},\ee
-then we have $\te(\hat{\beta}_t^{\MTL})> \te(\hat{\beta}_t^{\STL})$ whp.
+Following the above proof of Proposition \ref{prop_dist_transition}, we get from \eqref{upper101} that $\te(\hat{\beta}_t^{\MTL})< \te(\hat{\beta}_t^{\STL})$ whp if
+\be\label{pos1}
+pd^2  \cdot \frac{\rho_1 (\rho_1 + \rho_2) (\rho_2 - 1)}{(\rho_1 + \rho_2 - 1)^2}\bigbrace{1 + \sqrt{\frac{1}{\rho_1}}}^4 <  \sigma^2  \bigbrace{1 - \oo(1)},\ee
+and we get from \eqref{upper102} that $\te(\hat{\beta}_t^{\MTL})>\te(\hat{\beta}_t^{\STL})$ whp if
+\be\label{neg1}pd^2  \cdot \frac{\rho_1 (\rho_1 + \rho_2) (\rho_2 - 1)}{(\rho_1 + \rho_2 - 1)^2}\bigbrace{1 - \sqrt{\frac{1}{\rho_1}}}^4 >  \sigma^2  \bigbrace{1 + \oo(1)}.\ee
+%then we have $\te(\hat{\beta}_t^{\MTL})> \te(\hat{\beta}_t^{\STL})$ whp.
 
-Now we prove the first statement of Proposition \ref{prop_data_size}. Notice that the function
-$$ \frac{c_1(c_1+c_2)(c_2-1)}{(c_1+c_2-1)^2} =(c_2-1) \left(1 +\frac{c_2-2}{c_1}+\frac{1}{c_1(c_1+c_2)}\right)^{-1} $$
-is strictly increasing with respect to $c_1$ as long as $c_2\ge 3$. In particular, by taking $c_1\to \infty$, we get the bound:
-$$\frac{c_1(c_1+c_2)(c_2-1)}{(c_1+c_2-1)^2} \cdot \bigbrace{1 + \sqrt{\frac{1}{c_1}}}^4 <  (c_2-1) \bigbrace{1 + \sqrt{\frac{1}{c_1}}}^4.$$
- Hence we conclude that $\te(\hat{\beta}_t^{\MTL}) < \te(\hat{\beta}_t^{\STL})$ whp as long as 
- $$pd^2 +\oo(1) \le \bigbrace{1 + \sqrt{\frac{1}{c_1}}}^{-4}\frac{\sigma^2}{c_2-1} .$$ 
- This gives the first statement by taking $c_1 > a$. 
 
-The second statement can be proved in a similar way. Suppose $c_1 > a$ and 
-$pd^2 > (1 - a^{-1/2})^{-4}\frac{\sigma^2}{c_2-1}$. If $c_1 > \frac{(c_2-2) \sigma^2}{(1-a^{-1/2})^4(1-(a+c_2-2)^{-2})(c_2 - 1) pd^2 - \sigma^2}$, we have
-\begin{align*}
- & pd^2 \cdot \frac{c_1(c_1+c_2)(c_2-1)}{(c_1+c_2-1)^2}  \cdot \bigbrace{1 - \sqrt{\frac{1}{c_1}}}^4  \\
- &>  \bigbrace{1 - \sqrt{\frac{1}{c_1}}}^4 \left( 1-\frac{1}{(c_1+c_2-2)^2}\right)\cdot \frac{ pd^2(c_2-1) c_1 }{c_1+(c_2-2)}  >\sigma^2\cdot (1+\oo(1)) , 
- \end{align*}
- where in the first step we used that 
- $$ \frac{(c_1+c_2)(c_1+c_2-2)}{(c_1+c_2-1)^2}   > 1-\frac{1}{(c_1+c_2-2)^2}.$$
-This shows that \eqref{neg1} holds as long as $p$ is large enough, and hence $\te(\hat{\beta}_t^{\MTL})> \te(\hat{\beta}_t^{\STL})$ holds. On the other hand, if $c_1 < \frac{(c_2-2)\sigma^2}{(1+a^{-1/2})^4(c_2 - 1) pd^2 - \sigma^2}$, then we have 
- \begin{align*}
- pd^2 \cdot \frac{c_1(c_1+c_2)(c_2-1)}{(c_1+c_2-1)^2}  \cdot \bigbrace{1 + \sqrt{\frac{1}{c_1}}}^4 < \bigbrace{1 + \sqrt{\frac{1}{c_1}}}^4 \cdot \frac{pd^2(c_2-1) c_1 }{c_1+(c_2-2)}  < \sigma^2\cdot (1-\oo(1)).
- \end{align*}
- This shows that \eqref{pos1} holds as long as $p$ is large enough, and hence $\te(\hat{\beta}_t^{\MTL})< \te(\hat{\beta}_t^{\STL})$ holds.
+For the first statement of Proposition \ref{prop_data_size}, we notice that the function
+$$\frac1{ \Phi(\rho_1, \rho_2)}=\frac{\rho_1 (\rho_1 + \rho_2) (\rho_2 - 1)}{(\rho_1 + \rho_2 - 1)^2}=(\rho_2-1) \left(1 +\frac{\rho_2-2}{\rho_1}+\frac{1}{\rho_1(\rho_1+\rho_2)}\right)^{-1} $$
+is strictly increasing with respect to $\rho_1$ as long as $\rho_2> 2$. In particular, by taking $\rho_1\to \infty$, we get the bound:
+$$\frac{\rho_1(\rho_1+\rho_2)(\rho_2-1)}{(\rho_1+\rho_2-1)^2} \cdot \bigbrace{1 + \sqrt{\frac{1}{\rho_1}}}^4 <  (\rho_2-1) \bigbrace{1 + \sqrt{\frac{1}{\rho_1}}}^4.$$
+Hence as long as we take 
+ $$pd^2  \le \bigbrace{1 + \sqrt{\frac{1}{\rho_1}}}^{-4}\frac{\sigma^2}{\rho_2-1}\left(1 -\oo(1)\right),$$ 
+ then \eqref{pos1} holds, which shows that  $\te(\hat{\beta}_t^{\MTL}) < \te(\hat{\beta}_t^{\STL})$ holds whp. Plugging into $\rho_1>50$, we obtain the first statement. 
+
+The two bounds in the second statement follows directly from \eqref{pos1} and \eqref{neg1}. We will use the following trivial inequalities 
+\be\label{trivialphi}
+\frac{(\rho_2-1) \rho_1 }{\rho_1+\rho_2-2}\cdot \left( 1-\frac{1}{(\rho_1+\rho_2-2)^2}\right) \le \frac{\rho_1 (\rho_1 + \rho_2) (\rho_2 - 1)}{(\rho_1 + \rho_2 - 1)^2} \le  \frac{(\rho_2-1) \rho_1 }{\rho_1+\rho_2-2}.
+\ee
+
+%This shows that \eqref{neg1} holds as long as $p$ is large enough, and hence $\te(\hat{\beta}_t^{\MTL})> \te(\hat{\beta}_t^{\STL})$ holds. 
+%
+%If $c_1 > \frac{(c_2-2) \sigma^2}{(1-a^{-1/2})^4(1-(a+c_2-2)^{-2})(c_2 - 1) pd^2 - \sigma^2}$, we have
+%Suppose that
+%$$pd^2 > (1 - a^{-1/2})^{-4}\frac{\sigma^2}{c_2-1}.$$ 
+
+\noindent{\bf Positive transfer.} With \eqref{trivialphi}, we see that \eqref{pos1} is implied by the following inequality
+\begin{align}\label{pos1solv}
+ & pd^2 \cdot \frac{(\rho_2-1) \rho_1 }{\rho_1+\rho_2-2} \bigbrace{1 + \sqrt{\frac{1}{\rho_1}}}^4 <\sigma^2\cdot (1-\oo(1)) .
+ \end{align}
+ then we can solve \eqref{pos1solv} to get
+ $$\rho_1 < \frac{(\rho_2-2) \sigma^2}{pd^2 \cdot (1+\rho_1^{-1/2})^4 (\rho_2 - 1)\cdot (1+\oo(1))  - \sigma^2}  .$$
+ %$$\rho_1 > \frac{(\rho_2-2) \sigma^2}{(1 - {\rho_1}^{-0.5})^4 (\rho_2 - 3) pd^2 - \sigma^2}$$
+ Plugging into $\rho_1>40$ and $\rho_2>500$, we conclude the upper bound for $\rho_1$ in order for positive transfer to hold.
+
+%On the other hand, if $c_1 < \frac{(c_2-2)\sigma^2}{(1+a^{-1/2})^4(c_2 - 1) pd^2 - \sigma^2}$, then we have 
+% \begin{align*}
+% pd^2 \cdot \frac{c_1(c_1+c_2)(c_2-1)}{(c_1+c_2-1)^2}  \cdot \bigbrace{1 + \sqrt{\frac{1}{c_1}}}^4 < \bigbrace{1 + \sqrt{\frac{1}{c_1}}}^4 \cdot \frac{pd^2(c_2-1) c_1 }{c_1+(c_2-2)}  < \sigma^2\cdot (1-\oo(1)).
+% \end{align*}
+% This shows that \eqref{pos1} holds as long as $p$ is large enough, and hence $\te(\hat{\beta}_t^{\MTL})< \te(\hat{\beta}_t^{\STL})$ holds.
+ 
+ \noindent{\bf Negative transfer.} 
+With \eqref{trivialphi}, we see that \eqref{neg1} is implied by the following inequality
+\begin{align}\label{neg1solv}
+ & pd^2 \cdot \frac{(\rho_2-1) \rho_1 }{\rho_1+\rho_2-2}\left( 1-\frac{1}{(\rho_1+\rho_2-2)^2}\right) \bigbrace{1 - \sqrt{\frac{1}{\rho_1}}}^4 >\sigma^2\cdot (1+\oo(1)) .
+ \end{align}
+If the following relation holds,
+$$pd^2 \cdot (1-\rho_1^{-1/2})^4(1-(\rho_1+\rho_2-2)^{-2})(\rho_2 - 1) >  \sigma^2\cdot (1+\oo(1))  , $$
+ then we can solve \eqref{neg1solv} to get
+ $$\rho_1 > \frac{(\rho_2-2) \sigma^2}{pd^2 \cdot (1-\rho_1^{-1/2})^4(1-(\rho_1+\rho_2-2)^{-2})(\rho_2 - 1)\cdot (1-\oo(1))  - \sigma^2}  ,$$
+ %$$\rho_1 > \frac{(\rho_2-2) \sigma^2}{(1 - {\rho_1}^{-0.5})^4 (\rho_2 - 3) pd^2 - \sigma^2}$$
+ Plugging into $\rho_1>40$ and $\rho_2>500$, we conclude the lower bound for $\rho_1$ in order for negative transfer to hold.
  \end{proof}
  
+ Finally, we prove Proposition \ref{prop_covariate}, which shows that $\te(\hat{\beta}^{\MTL})$ is minimized approximately when $M$ is a scalar matrix if there are sufficiently many source datas.
 
 \begin{proof}[Proof of Proposition \ref{prop_covariate}]
-Let 
+........ Let 
 $$M_0:=\argmin_{M\in \cal S_{\mu}}(\te(\hat{\beta}_t^{\MTL}))(M).$$ 
 We now calculate $(\te(\hat{\beta}_t^{\MTL}))(M_0)$. In this case, as in Lemma \ref{lem_hat_v} we also have that 
 \be\label{hatvM}|\hat v-1|=\OO(p^{-1}) \ee 
