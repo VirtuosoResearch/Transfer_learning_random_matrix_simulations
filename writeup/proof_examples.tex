@@ -83,50 +83,78 @@ Combining \eqref{hatw_add1} and \eqref{boundv-w}, we obtain that whp,
 Inserting it into \eqref{eq_te_mtl_2task} and using a similar concentration result as in \eqref{boundv-w}, we get whp,
 \begin{align}
 \te(\hat{\beta}_t^{\MTL})&=(1+\OO(\cal E))\cdot \left[d^2 + \OO\left(\cal E^2 \kappa^2\right)\right] \tr\left[(X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right]\nonumber\\ 
-&+(1+\OO(\cal E))\cdot \sigma^2  \bigtr{(w^2X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} }. \nonumber
+&+(1+\OO(\cal E))\cdot \sigma^2  \bigtr{(X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} }. \nonumber
 \end{align}
-{\cor add about the choice of parameters}
+In order to study the phenomenon of bias-variance trade-off, we need the bias term with $d^2$ and the variance term with $\sigma^2$ to be of the same order. With estimate \eqref{eq_isometric}, we see that 
+$$\tr\left[(X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right] \sim p,\quad \bigtr{(X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} } \sim \frac{p}{n_1+n_2}.$$
+Hence we need to choose that $p\cdot d^2 \sim \sigma^2$. On the other hand, we want the error term $\cal E^2 \kappa^2$ to be much smaller than $d^2$, which leads to the condition $p^{-1+2\e}\kappa^2  \ll d^2 \ll \kappa^2$. The above considerations lead to the following choices of parameters: there exists a constant $c>0$ such that
+\be\label{choiceofpara}
+pd^2 \sim \sigma^2 \sim 1,\quad p^{-1+c}\kappa^2  \le d^2 \le p^c \kappa^2.
+\ee
+Under this choice, we can write 
+\be\label{simpte1}
+\begin{split}
+\te(\hat{\beta}_t^{\MTL})&=(1+\OO(n^{-\e}))\cdot d^2 \tr\left[(X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right] \\ 
+&+(1+\OO(n^{-\e}))\cdot \sigma^2  \bigtr{(X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} }  
+\end{split}
+\ee
+whp for some constant $\e>0$. 
 
-Based on Lemma \ref{lem_hat_v}, we can prove Proposition \ref{prop_dist_transition}.
+
+With \eqref{simpte1} and Lemma \ref{prop_model_shift_tight}, we can prove Proposition \ref{prop_dist_transition}, which gives a transition threshold with respect to the ratio between the model bias and the noise level. With slight abuse of notations, we shall write $\hat a_i$, $\hat b_k$ and $\hat M$ as $a_i$, $b_k$ and $M$, respectively, throughout the rest of this section. 
+
+
 \begin{proof}[Proof of Proposition \ref{prop_dist_transition}]
-	Since $\Sigma_1 = \Sigma_2$, we know that $M = \Sigma_1^{1/2}\Sigma_2^{-1/2} = \hat{v} \id$.
-	Using Lemma \ref{lem_minv} and \ref{lem_cov_shift}, we can track the reduction of variance from $\hat{\beta}_t^{\MTL}$ to $\hat{\beta}_t^{\STL}$ as whp
+	In the setting of Proposition \ref{prop_dist_transition}, we have $M = \Sigma_1^{1/2}\Sigma_2^{-1/2} = \id$. Then solving equations \eqref{eq_a2} and \eqref{eq_a3} with $\hat \lambda_i=1$, we get that
 	\begin{align}
-		\Delta_{\vari} &\define \sigma^2 \bigbrace{\frac{1}{c_2 - 1} - \frac{1}{c_1 + c_2}\cdot\frac{1}{a_1\hat{v}^2 + a_2} + \bigo{p^{-1/2+\varepsilon}}} \nonumber\\
-		&= \sigma^2 \bigbrace{\frac{c_1}{(c_2-1)(c_1 + c_2 -1)} + \bigo{p^{-1/2 + \varepsilon}}},\label{Deltavar}
+		 a_1 = \frac{\rho_1(\rho_1 + \rho_2 - 1)}{(\rho_1 + \rho_2)^2} ,\quad
+		& a_2 = \frac{\rho_2(\rho_1 + \rho_2 - 1)}{(\rho_1 + \rho_2)^2} , \label{simplesovlea12}\\
+		 a_3 = \frac{\rho_2}{(\rho_1 + \rho_2)(\rho_1 + \rho_2 - 1)}, \quad
+		& a_4 = \frac{\rho_1}{(\rho_1 + \rho_2)(\rho_1 + \rho_2 - 1)}.\label{simplesovlea34}
 	\end{align}
-	where we use equation \eqref{eq_a12} and Lemma \ref{lem_hat_v}.
-	Next we consider the model shift bias
-	\begin{align*}
-		\Delta_{\beta} &\define \hat{v}^2 \bignorm{(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} X_1^{\top}X_1 (\beta_s - \hat{v}\beta_t)}^2 \\
-		&= d^2 \cdot \bignormFro{(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}X_1^{\top}X_1}^2 + \bigo{p^{-1/2 + \varepsilon}d^2}
-	\end{align*}
-	Using Lemma \ref{prop_model_shift_tight}, we get an upper and lower bound on $\Delta_{\beta}$ as
-	\be\label{Deltabeta} \bigbrace{1 - \sqrt{\frac{1}{c_1}}}^4 \le \Delta_{\beta} / \bigbrace{p\cdot d^2 \cdot \frac{c_1^2}{(c_1+c_2)^2} \cdot \frac{1 + a_3 + a_4}{(a_1 + a_2)^2} + \bigo{p^{1/2+\e}d^2} } \le \bigbrace{1 + \sqrt{\frac{1}{c_1}}}^4. \ee
-	By solving equations \eqref{eq_a12}, \eqref{eq_a3} and \eqref{eq_a4}, we get
+	Using Lemma \ref{lem_minv} and Lemma \ref{lem_cov_shift}, we can track the reduction of variance from $\hat{\beta}_t^{\MTL}$ to $\hat{\beta}_t^{\STL}$ as 
+$$\delta_{\vari}:=\sigma^2  \bigtr{(X_2^{\top}X_2)^{-1} }  - (1+\OO(n^{-\e}))\cdot \sigma^2  \bigtr{(X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} } =\Delta_{\vari}\cdot (1+\OO(n^{-\e})) $$
+with high probability, where 
 	\begin{align}
-		& a_1 = \frac{c_1(c_1 + c_2 - 1)}{(c_1 + c_2)^2} + O(p^{-1/2 + \varepsilon}),
-		a_2 = \frac{c_2(c_1 + c_2 - 1)}{(c_1 + c_2)^2} + O(p^{-1/2 + \varepsilon}), \label{simplesovlea12}\\
-		& a_3 = \frac{c_2}{(c_1 + c_2)(c_1 + c_2 - 1)} + O(p^{-1/2 + \varepsilon}),
-		a_4 = \frac{c_1}{(c_1 + c_2)(c_1 + c_2 - 1)} + O(p^{-1/2 + \varepsilon}).\label{simplesovlea34}
+		\Delta_{\vari} &\define \sigma^2 \bigbrace{\frac{1}{\rho_2 - 1} - \frac{1}{\rho_1 + \rho_2}\cdot\frac{1}{a_1+ a_2} } =\sigma^2  \cdot \frac{\rho_1}{(\rho_2-1)(\rho_1 + \rho_2 -1)}.\label{Deltavar}
 	\end{align}
-	Hence we obtain that
-	\begin{align*}
-		\frac{1 + a_3 + a_4}{(a_1 + a_2)^2}
-		= \frac{(c_1 + c_2)^3}{(c_1 + c_2 - 1)^3} + \bigo{p^{-1/2+\varepsilon}}.
-	\end{align*}
-	To sum up, we have shown that when
-	\[ \frac{p\cdot d^2}{\sigma^2} < \frac{(c_1 + c_2 - 1)^2}{c_1(c_1 + c_2) (c_2 - 1)} \cdot \bigbrace{1 + \sqrt{\frac 1 {c_1}}}^{-4}, \]
-	we have that $\Delta_{\vari} > \Delta_{\beta}$, which implies that $\te(\hat{\beta}_t^{\MTL})$ is lower than $\te(\hat{\beta}_t^{\STL})$.
-	When
-	\[ \frac{p\cdot d^2}{\sigma^2} > \frac{(c_1 + c_2 - 1)^2}{c_1 (c_1 + c_2) (c_2 - 1)} \cdot \bigbrace{1 - \sqrt{\frac 1 {c_1}}}^{-4}, \]
-	we have that $\Delta_{\vari} < \Delta_{\beta}$, which implies that $\te(\hat{\beta}_t^{\MTL})$ is higher than $\te(\hat{\beta}_t^{\STL})$.
-	The result follows by taking $c_1 = c_2 = c$ for the above equation.
+	%where we use equation \eqref{eq_a12} and Lemma \ref{lem_hat_v}.
+	Next for the model shift bias
+	$$\delta_\beta:=(1+\OO(n^{-\e}))\cdot d^2 \tr\left[(X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right], $$
+	we can get from Lemma \ref{prop_model_shift_tight} (or rather the proof of Lemma \ref{prop_model_shift_tight}) that
+\be\label{Deltabeta} 
+\al_-^2(\rho_1) - \oo(1)  \le \frac{\delta_\beta}{ \Delta_{\beta}} \le \al_+^2(\rho_1) +  \oo(1) , \ee
+	where 
+	$$\Delta_{\beta}:=pd^2 \cdot \frac{\rho_1^2}{(\rho_1+\rho_2)^2} \cdot \frac{1 + a_3 + a_4}{(a_1 + a_2)^2}= pd^2 \cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3}.$$	
+%\begin{align*}
+%		\Delta_{\beta} &\define \hat{v}^2 \bignorm{(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} X_1^{\top}X_1 (\beta_s - \hat{v}\beta_t)}^2 \\
+%		&= d^2 \cdot \bignormFro{(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}X_1^{\top}X_1}^2 + \bigo{p^{-1/2 + \varepsilon}d^2}
+%	\end{align*}
+%	Using Lemma \ref{prop_model_shift_tight}, we get an upper and lower bound on $\Delta_{\beta}$ as
+%	\be\label{Deltabeta} \bigbrace{1 - \sqrt{\frac{1}{c_1}}}^4 \le \Delta_{\beta} / \bigbrace{p\cdot d^2 \cdot \frac{c_1^2}{(c_1+c_2)^2} \cdot \frac{1 + a_3 + a_4}{(a_1 + a_2)^2} + \bigo{p^{1/2+\e}d^2} } \le \bigbrace{1 + \sqrt{\frac{1}{c_1}}}^4. \ee	
+%	Hence we obtain that
+%	\begin{align*}
+%		\frac{1 + a_3 + a_4}{(a_1 + a_2)^2}
+%		= \frac{(c_1 + c_2)^3}{(c_1 + c_2 - 1)^3} + \bigo{p^{-1/2+\varepsilon}}.
+%	\end{align*}
+With \eqref{Deltavar} and \eqref{Deltabeta}, we conclude that if
+\be\label{upper101}pd^2 \cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3} \cdot \left( \al_+^2(\rho_1) +  \oo(1) \right) < \sigma^2  \cdot \frac{\rho_1}{(\rho_2-1)(\rho_1 + \rho_2 -1)},\ee
+	we have that $\delta_{\vari} > \delta_{\beta}$, which implies that $\te(\hat{\beta}_t^{\MTL})$ is lower than $\te(\hat{\beta}_t^{\STL})$. We can simplify \eqref{upper101} to
+	\[   d^2  < \frac{\sigma^2}{p}\frac{(\rho_1 + \rho_2 - 1)^2}{\rho_1(\rho_1 + \rho_2) (\rho_2 - 1)} \cdot \left(\bigbrace{1 + \sqrt{\frac 1 {\rho_1}}}^{-4} - \oo(1)\right), \]
+Plugging into $\rho_1>40$, we obtain the first statement of Proposition \ref{prop_dist_transition}.	
+	
+	
+On the other hand, if
+\be\label{upper102}pd^2 \cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3} \cdot \left( \al_-^2(\rho_1) -  \oo(1) \right) > \sigma^2  \cdot \frac{\rho_1}{(\rho_2-1)(\rho_1 + \rho_2 -1)},\ee
+	we have that $\delta_{\vari} < \delta_{\beta}$, which implies that $\te(\hat{\beta}_t^{\MTL})$ is larger than $\te(\hat{\beta}_t^{\STL})$. We can simplify \eqref{upper102} to
+	\[   d^2  > \frac{\sigma^2}{p}\frac{(\rho_1 + \rho_2 - 1)^2}{\rho_1(\rho_1 + \rho_2) (\rho_2 - 1)} \cdot \left(\bigbrace{1 - \sqrt{\frac 1 {\rho_1}}}^{-4} +\oo(1)\right), \]
+Plugging into $\rho_1>40$, we obtain the second statement of Proposition \ref{prop_dist_transition}.
 \end{proof}
 
-\begin{proof}[Proof of Proposition \ref{prop_var_transition}]
+With similar techniques, we then show Proposition \ref{prop_var_transition}, which gives a transition threshold with respect to the difference between the noise levels of the two tasks. 
 
-Under the setting of Proposition \ref{prop_var_transition}, we have
+\begin{proof}[Proof of Proposition \ref{prop_var_transition}]
+{\todo{rewrite the expressions for validation loss}} Under the setting of Proposition \ref{prop_var_transition}, we have
 \begin{align*}
 	\te(\hat{\beta}_t^{\MTL}) &=~ \hat{v}^2 \bignorm{ (\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} X_1^{\top}X_1 (\beta_s - \hat{v} \beta_t)}^2 \nonumber \\
 			&~ + \sigma_2^2 \cdot \bigtr{(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} } + (\sigma_1^2 -\sigma_2^2)\hat v^2  \cdot \bigtr{(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-2} X_1^\top X_1}.
