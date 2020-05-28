@@ -83,43 +83,46 @@ On the positive side, we describe two benefits of multi-task learning, including
 
 \subsection{Contributing Causes of Negative Transfer}\label{sec_similarity}
 
-A folklore intuition since the seminal work of Caruana \cite{C97} is that task relatedness determines how well multi-task learning performs.
-We formalize the intuition using our setup and technical tools.
+It is well-known since the seminal work of Caruana \cite{C97} that how well multi-task learning performs depends on task relatedness.
+As a warmup, we first describe an example that rigorously formalizes the belief using our setup.
 
-\textit{A simplified model.}
-	Consider a setting where $\Sigma_1 = \Sigma_2 = \id$, in other words there is no covariate shift between the two tasks. For the noises, we assume that $\e_i$ has i.i.d. entries with mean zero and variances $\sigma_i^2$, $i=1,2$.
-	For the task models, suppose that $\beta_2$ has i.i.d. entries with mean zero and variance $\kappa^2$ and $\beta_1 - \beta_2$ also has i.i.d. entries with mean $0$ and variance $d^2$.
-	%The noise level for both tasks is equal to $\sigma > 0$.
-	We have $n_i = \rho_i \cdot p$ data points from each task, for $i = 1, 2$.
-	For simplicity, we assume that all the random variables have subexponential decay, while keeping in mind that our results can be applied under weaker moments assumptions as shown in the supplementary material.
+\textit{The isotropic model.}
+	Consider two tasks with isotropic covariances $\Sigma_1 = \Sigma_2 = \id$.
+	Recall that each task has data size $n_i = \rho_i \cdot p$, for $i = 1, 2$.
+	And $X_1\in\real^{n_1\times p}, X_2\in\real^{n_2\times p}$ denotes the covariates of the two tasks, respectively.
+	We assume that for the target task, $\beta_2$ has i.i.d. entries with mean zero and variance $\kappa^2$.
+	For the source task, $\beta_1 $ equals $\beta_2$ plus i.i.d. entries with mean $0$ and variance $d^2$.
+	The labels are given by $Y_i = X_i\beta_i + \varepsilon_i$, where $\e_i$ consists of i.i.d. entries with mean zero and variance $\sigma_i^2$, for $i=1,2$.
+	\footnote{For simplicity, we assume that all the random variables have subexponential decay, while keeping in mind that our results can be applied under weaker moments assumptions as shown in the supplementary material.}
 
 \textbf{Model dissimilarity.}
-For a simple example of two tasks, we show that whether $\hat{\beta}_t^{\MTL} \le \hat{\beta}_t^{\STL}$ is determined by $\norm{\beta_1 - \beta_2}^2$, the distance of the task models.
-We derive a sharp threshold when positive transfer transitions to negative transfer, as a function of model distance $\norm{\beta_1 - \beta_2}^2$, data size $n_1$ abd $n_2$ and the noise level $\sigma$.
-
-We illustrate the example with a simulation.
-We consider a setting where $p = 200$, $n_1 = 90p$, $n_2 = 30p$.
-We fix the target task and vary the source task, in particular the parameter $d$ which determines $\norm{\beta_1 - \beta_2}$.
-Figure \ref{fig_model_shift} shows the result.
-Based on Theorem \ref{thm_model_shift}, we derive the transition threshold in the following proposition.
+We measure model dissimilarity as $\norm{\beta_1 - \beta_2}^2$, which is the distance between source and target in the isotropic model.
+We derive a sharp threshold when positive transfer transitions to negative transfer, as model dissimilarity increases.
+%Based on Theorem \ref{thm_model_shift}, we derive the transition threshold in the following proposition.
 Define the following function
 \begin{align*}
 	\Phi(\rho_1, \rho_2) = \frac{(\rho_1 + \rho_2 - 1)^2}{\rho_1 (\rho_1 + \rho_2) (\rho_2 - 1)}.
 \end{align*}
 
 \begin{proposition}\label{prop_dist_transition}
-	In the simplified model, assume that $\rho_1 > 40$ is a fixed constant.
+	In the isotropic model, assume that $\rho_1 > 40$ is a fixed constant.
 	Let $\sigma_1 = \sigma_2 = \sigma$.
-	Whether $\te(\hat{\beta}_t^{\MTL})$ is lower than $\te(\hat{\beta}_t^{\STL})$ is determined by the ratio between the model distance and the noise level:
+	Whether $\te(\hat{\beta}_t^{\MTL})$ is lower than $\te(\hat{\beta}_t^{\STL})$ is determined by the ratio between model dissimilarity and $\Phi(\rho_1, \rho_2)$:
 	\begin{itemize}
-		\item If ${d^2} < \frac{1}{2}\cdot \frac {\sigma^2} {p} \cdot \Phi(\rho_1, \rho_2)$, then whp we have that $\te(\hat{\beta}_t^{\MTL}) < \te(\hat{\beta}_t^{\STL})$.
-		\item If ${d^2} \ge 2\cdot\frac {\sigma^2} {p} \cdot \Phi(\rho_1, \rho_2)$, then whp we have that $\te(\hat{\beta}_t^{\MTL}) \ge \te(\hat{\beta}_t^{\STL})$.
+		\item If ${p d^2} < \frac{1}{2}  {\sigma^2}  \cdot \Phi(\rho_1, \rho_2)$, then whp we have that $\te(\hat{\beta}_t^{\MTL}) < \te(\hat{\beta}_t^{\STL})$.
+		\item If ${p d^2} \ge 2 {\sigma^2} \cdot \Phi(\rho_1, \rho_2)$, then whp we have that $\te(\hat{\beta}_t^{\MTL}) \ge \te(\hat{\beta}_t^{\STL})$.
 	\end{itemize}
 \end{proposition}
 
-We remark that the constants $1/2$ and $2$ in the statement above are chosen for the simplicity of presentation.
-In general we can close the gap between the two constants by increasing $\rho_1$.
-While the statement of Theorem \ref{thm_main_informal} only applies to the asymptotic regime of $p$ going to infinity, Proposition \ref{prop_dist_transition} explains most of the observations in Figure \ref{fig_model_shift} when $p = 200$.
+Proposition \ref{prop_dist_transition} simplifies Theorem \ref{thm_main_informal} in the isotropic model, allowing for a more explicit statement of the bias-variance tradeoff.
+We remark that the constants $1/2$ and $2$ in the statement above are chosen for ease of presentation.
+In general we can close their gap by increasing $\rho_1$.
+
+\todo{} We illustrate the example with a simulation.
+We consider a setting where $p = 200$, $n_1 = 90p$, $n_2 = 30p$.
+We fix the target task and vary the source task, in particular the parameter $d$ which determines $\norm{\beta_1 - \beta_2}$.
+Figure \ref{fig_model_shift} shows the result.
+We observe that Proposition \ref{prop_dist_transition} explains most of the observations in Figure \ref{fig_model_shift}.
 %in this proposition (and the following ones) can be replaced with $(1+c_1^{-1/2})^{-4}$ and $(1-c_1^{-1/2})^{-4}$. In particular, these bounds becomes tighter as $c_1$ increases.
 
 The proof of Proposition \ref{prop_dist_transition} involves two parts.
@@ -131,7 +134,7 @@ The proof, which is based on Theorem \ref{thm_main_informal}, can be found in Ap
 	\begin{subfigure}[b]{0.32\textwidth}
 		\centering
 		\includegraphics[width=0.98\textwidth]{figures/model_shift_phase_transition.eps}
-		\caption{Task model dissimilarity}
+		\caption{Model dissimilarity}
 		\label{fig_model_shift}
 	\end{subfigure}\hfill
 	\begin{subfigure}[b]{0.32\textwidth}
@@ -146,16 +149,19 @@ The proof, which is based on Theorem \ref{thm_main_informal}, can be found in Ap
 		\label{fig_covariate}
 	\end{subfigure}
 	\caption{Three contributing causes of negative transfer:
-	(a) As the task model dissimilarity increases, we observe a transition from positive to negative transfer  (Proposition \ref{prop_dist_transition}).
-	(b) As source task data size increases, we observe a positive to negative transfer as the source task data size increases (Proposition \ref{prop_data_size}).
-	(c) As covariate shift becomes more significant, test performance gets worse (Proposition \ref{prop_covariate}).}
+	(a) As model dissimilarity increases, we observe a transition from positive to negative transfer  (Proposition \ref{prop_dist_transition}).
+	(b) As source task data size increases, we observe a transition positive to negative transfer (Proposition \ref{prop_data_size}).
+	(c) As covariate shift becomes more severe, test performance gets worse (Proposition \ref{prop_covariate}).}
 	\label{fig_model_shift_phasetrans}
 \end{figure}
 
 \textbf{Data size.}
-In classical Rademacher or VC based theory of multi-task learning, adding more labeled data improves the generalization performance of a model.
-On the other hand, we have observed that adding more labeled data does not always improve performance in multi-task learning.
-Using the simplified model, we analyze the effect of varying the source task data size.
+In classical Rademacher or VC based theory of multi-task learning, the generalization bounds are usually presented for settings where the data sizes are equal for all tasks \cite{B00,M06,MPR16}.
+More generally, such results are still applicable when all task data are being added simultaneously.
+On the other hand, for many applications of multi-task learning, the data sources are usually heterogeneous.
+For such settings, we have observed that adding more labeled data from one task does not always help.
+%On the other hand, we have observed that adding more labeled data does not always improve performance in multi-task learning.
+Using the isotropic model, we consider what happens if we vary the source task data size.
 
 \begin{proposition}\label{prop_data_size}
 	In the simplified model, assume that $\rho_1 > 40$ and $\rho_2 > 500$ are fixed constants.
