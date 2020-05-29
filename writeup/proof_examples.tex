@@ -89,7 +89,7 @@ In order to study the phenomenon of bias-variance trade-off, we need the bias te
 $$\tr\left[(X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right] \sim p,\quad \bigtr{(X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} } \sim \frac{p}{n_1+n_2}.$$
 Hence we need to choose that $p\cdot d^2 \sim \sigma^2$. On the other hand, we want the error term $\cal E^2 \kappa^2$ to be much smaller than $d^2$, which leads to the condition $p^{-1+2\e}\kappa^2  \ll d^2 \ll \kappa^2$. The above considerations lead to the following choices of parameters: there exists a constant $c>0$ such that
 \be\label{choiceofpara}
-pd^2 \sim \sigma^2 \sim 1,\quad p^{-1+c}\kappa^2  \le d^2 \le p^c \kappa^2.
+pd^2 \sim \sigma^2 \sim 1,\quad p^{c}\kappa^2  \le \sigma^2 \le p^{1-c} \kappa^2.
 \ee
 Under this choice, we can write 
 \be\label{simple1}
@@ -218,52 +218,33 @@ $$pd^2 \cdot (1-\rho_1^{-1/2})^4(1-(\rho_1+\rho_2-2)^{-2})(\rho_2 - 1) >  \sigma
  Plugging into $\rho_1>40$ and $\rho_2>500$, we conclude the lower bound for $\rho_1$ in order for negative transfer to hold.
  \end{proof}
  
- Finally, we prove Proposition \ref{prop_covariate}, which shows that $\te(\hat{\beta}^{\MTL})$ is minimized approximately when $M$ is a scalar matrix if there are sufficiently many source datas.
+ Finally, we prove Proposition \ref{prop_covariate}, which shows that $\te(\hat{\beta}^{\MTL})$ is minimized approximately when $M$ is a scalar matrix where there is no model bias and enough source data.
 
 \begin{proof}[Proof of Proposition \ref{prop_covariate}]
-........ Let 
-$$M_0:=\argmin_{M\in \cal S_{\mu}}(\te(\hat{\beta}_t^{\MTL}))(M).$$ 
-We now calculate $(\te(\hat{\beta}_t^{\MTL}))(M_0)$. In this case, as in Lemma \ref{lem_hat_v} we also have that 
-\be\label{hatvM}|\hat v-1|=\OO(p^{-1}) \ee 
-in the setting Proposition \ref{prop_covariate}. In fact, Lemma \ref{lem_hat_v} was proved assuming that $M=\id$, but its proof can be easily extended to the case with general $M\in \cal S_{\mu}$ by using that $\lambda(M)\in [\mu_{\min},\mu_{\max}]$. We omit the details here. 
-
-Now using \eqref{hatvM}, Lemma \ref{lem_cov_shift} and Lemma \ref{prop_model_shift_tight}, we get that whp,
-\begin{align*}
-(\te(\hat{\beta}_t^{\MTL}))(M_0)= \frac{\sigma^2}{c_1+c_2}\cdot \frac1p\tr\left( \frac{1}{a_1M_0^\top M_0 + a_2}\right)  + \Delta_\beta(M_0),
-\end{align*}
-where  $ \Delta_{\beta}(M_0)$ satisfies 
+Let 
+$$M_0:=\argmin_{M\in \cal S_{\mu}}g(M).$$ 
+We now calculate $g(M_0)$. With the same arguments as in Lemma \ref{lem_hat_v} we can show that \eqref{hatv_add1} holds. Moreover, if the parameters are chosen such that $p^{c}\kappa^2  \le \sigma^2 \le p^{1-c} \kappa^2$ (recall \eqref{choiceofpara}), we can simplify
 \be \nonumber
 \begin{split}
-&\left| \Delta_{\beta}(M_0) - \frac{d^2\cdot c_1^2}{(c_1 + c_2)^2} \tr\left[{M_0} \frac{(1 + a_3)\id + a_4 {M_0}^{\top}{M_0}}{(a_2 + a_1 {M_0}^{\top}{M_0})^2} {M_0}^{\top}\right]\right| \\
-&\le \left(\bigbrace{1 + \sqrt{\frac{1}{c_1}}}^4-1\right)\left( \frac{c_1\mu_{\max}}{(\sqrt{c_1}-1)^2 \mu_{\min} + (\sqrt{c_2}-1)^2}\right)^2 \cdot d^2\tr\left(\Sigma_1\right). 
+g(M_0)&=(1+\OO(p^{-\e}))\cdot \sigma^2  \bigtr{\Sigma_2(X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} }  ,
 \end{split}
 \ee
-From equation \eqref{eq_a2}, we get
-$$a_1\ge \frac{c_1-1}{c_1+c_2},\quad a_2\le \frac{c_2}{c_1+c_2}.$$
-Then solving equations \eqref{eq_a3} and \eqref{eq_a4}, we get that
-\begin{align*}
-0\le a_3&= \frac{ \frac{1}{n_2}\sum_{i=1}^p \frac{a_2^2 }{ (  a_2 + \lambda_i^2a_1)^2  }\left(1 - \frac{1}{n_1} \sum_{i=1}^p \frac{\lambda_i^4 a_1^2  }{  (a_2 + \lambda_i^2a_1)^2  }\right) +\left( \frac{1}{n_1}\sum_{i=1}^p \frac{\lambda_i^2 a_1^2}{  (a_2 + \lambda_i^2a_1)^2  }\right) \left(\frac{1}{n_2}\sum_{i=1}^p \frac{  \lambda_i^2 a_2^2 }{ (  a_2 + \lambda_i^2a_1)^2  }\right) } {\left(1- \frac1{n_2}\sum_{i=1}^p \frac{a_2^2}{ (a_2 + \lambda_i^2a_1)^2  }\right) \left(1 - \frac{1}{n_1} \sum_{i=1}^p \frac{\lambda_i^4 a_1^2  }{  (a_2 + \lambda_i^2a_1)^2  }\right) - \left(\frac{1}{n_2}\sum_{i=1}^p \frac{  \lambda_i^2 a_2^2 }{ (  a_2 + \lambda_i^2a_1)^2  }\right) \left(\frac{1}{n_1}\sum_{i=1}^p \frac{\lambda_i^2 a_1^2 }{  (a_2 + \lambda_i^2a_1)^2  }\right)} \\
-&\le \frac{c_2^{-1}}{1-c_1^{-1}-c_2^{-1}}
-\end{align*}
-and
-\begin{align*}
-0\le a_4&= \frac{\frac{1}{n_1}\sum_{i=1}^p \frac{\lambda_i^2 a_1^2}{  (a_2 + \lambda_i^2a_1)^2  }}{\left(1- \frac1{n_2}\sum_{i=1}^p \frac{a_2^2}{ (a_2 + \lambda_i^2a_1)^2  }\right) \left(1 - \frac{1}{n_1} \sum_{i=1}^p \frac{\lambda_i^4 a_1^2  }{  (a_2 + \lambda_i^2a_1)^2  }\right) - \left(\frac{1}{n_2}\sum_{i=1}^p \frac{  \lambda_i^2 a_2^2 }{ (  a_2 + \lambda_i^2a_1)^2  }\right) \left(\frac{1}{n_1}\sum_{i=1}^p \frac{\lambda_i^2 a_1^2 }{  (a_2 + \lambda_i^2a_1)^2  }\right)} \\
-&\le  \frac{c_1^{-1}\cdot \mu_{\min}^{-2}}{1-c_1^{-1}-c_2^{-1}},
-\end{align*}
-where we also used that 
-$$\left(\sum_{i=1}^p \frac{\lambda_i^2  }{  (a_2 + \lambda_i^2a_1)^2  }\right)^2 \le \sum_{i=1}^p \frac{\lambda_i^4 }{  (a_2 + \lambda_i^2a_1)^2  }\cdot \sum_{i=1}^p \frac{1}{  (a_2 + \lambda_i^2a_1)^2  }$$
-by Cauchy-Schwarz inequality.
+with high probability for any constant $\e>0$. In fact, Lemma \ref{lem_hat_v} was proved assuming that $M=\id$, but its proof can be easily extended to the case with general $M\in \cal S_{\mu}$ by using that $\lambda(M)\in [\mu_{\min},\mu_{\max}]$. We omit the details here. 
 
-Combining the above estimates, we get that 
+Now using Lemma \ref{lem_cov_shift}, we can obtain that with high probability,
+\begin{align}\label{gvar_extra}
+g(M_0)= \frac{\sigma^2}{\rho_1+\rho_2}\cdot \frac1p\tr\left( \frac{1}{a_1(M_0)\cdot M_0^\top M_0 + a_2(M_0)}\right) \cdot \left(1 +\OO(p^{-\e})\right).
+\end{align}
+From equation \eqref{eq_a12extra}, it is easy to obtain the following estimates on $ a_1(M)$ and $a_2(M)$ for any $M\in \cal S_\mu$:
+\be\label{est_a12extra}
+\frac{\rho_1-1}{\rho_1+\rho_2} < a_1(M)<  \frac{\rho_1+\rho_2-1}{\rho_1+\rho_2},\quad a_2(M) < \frac{\rho_2}{\rho_1+\rho_2}.
+\ee
+Inserting \eqref{est_a12extra} into \eqref{gvar_extra} and using $\lambda(M_0^\top M_0)\ge \mu_{\min}^2$, we obtain that with high probability,
 \begin{align}\label{approximateteM}
-(\te(\hat{\beta}_t^{\MTL}))(M_0) =  \te(M_0) + \cal E,
+\left(1+\frac{\rho_2}{(\rho_1-1)\mu_{\min}^2}\right)^{-1}\wt g(M_0) \cdot \left(1 - \OO(p^{-\e})\right) \le g(M_0) \le \wt g(M_0) \cdot \left(1 +\OO(p^{-\e})\right),
 \end{align}
 where
-$$\te(M_0):=\frac{\sigma^2}{c_1+c_2}\cdot \frac1p\tr\left( \frac{1}{a_1M_0^\top M_0}\right)  +\frac{d^2\cdot c_1^2}{(c_1 + c_2)^2} \tr\left(\frac{1 + a_3}{a_1^2 M_0^{\top}{M_0}} \right),$$
-and the error satisfies
-$$|\cal E|\le C\left( \frac{c_2}{c_1} +c_1^{-1/2}\right)\te(M_0),$$
-Here the constant $C>0$ depends only on $\mu_{\max}$, $\mu_{\min}$ and $\|\Sigma_1\|$, but otherwise does not depend on $c_1$ and $c_2$. 
-
+$$\wt g(M_0):=\frac{\sigma^2}{(\rho_1+\rho_2)a_1(M_0)}\cdot \frac1p\tr\left( \frac{1}{M_0^\top M_0}\right) .$$
 %With these two bounds, we can easily conclude \eqref{approxteM}. 
 %
 %We have that the test error satisfies
@@ -271,37 +252,103 @@ Here the constant $C>0$ depends only on $\mu_{\max}$, $\mu_{\min}$ and $\|\Sigma
 %where $\lambda_p$ is the smallest singular value of $p$ and
 %$$te(M):= \frac{\sigma^2}{a_1(n_1+n_2)}\tr\left( \frac{1}{M^\top M}\right) .$$
 %Moreover, for all $M$ satisfying \eqref{GMcons}, the minimum of $te(M)$ is attained when $M= a\id$.
-
-
-Finally using AM-GM inequality, we observe that 
+By AM-GM inequality, we observe that 
 $$\tr\left( \frac{1}{M^\top M}\right) = \sum_{i=1}^p\frac{1}{\lambda_i}$$
 is minimized when $\lambda_1 = \cdots\lambda_p=\mu$ under the restriction $\prod_{i=1}^p\lambda_i\le \mu^p$. Hence we get that 
-$$ \te (M_0)\le \te(\mu \id).$$
-Together with \eqref{approximateteM}, we conclude \eqref{formular_covariate0}.
+\be\label{AMGM}\wt g(M_0) \le \frac{\sigma^2}{\mu^2 (\rho_1+\rho_2)a_1(M_0)}.\ee
+
+On the other hand, when $M=\mu \id$, applying Lemma \ref{lem_cov_shift} we can obtain that with high probability,
+\begin{align}\label{gvar_extra2}
+\begin{split}
+g(\mu \id)&= \frac{\sigma^2}{\rho_1+\rho_2}\cdot \frac1p\tr\left( \frac{1}{\mu^2 a_1 (\mu\id) + a_2(\mu\id)}\right) \cdot \left(1 +\OO(p^{-\e})\right)\\
+&\le \frac{\sigma^2}{\mu^2(\rho_1+\rho_2)a_1 (\mu\id)}.
+\end{split}
+\end{align}
+Combining \eqref{est_a12extra}, \eqref{approximateteM}, \eqref{AMGM} and \eqref{gvar_extra2}, we conclude the proof.
 %, we conclude that the sum $\sum_{i=1}^p\lambda_i^{-1}$ is smallest when $\lambda_1=\cdots=\lambda_p = a$.
 \end{proof}
 
-\begin{proof}[Theoretical justification of Example \ref{ex_covariate}]
-In the setting of Example \ref{ex_covariate}, equations in \eqref{eq_a2} become
-\be\label{compleeq} a_1 + a_2 = 1 - \frac{p}{n_1 + n_2},  \ \ a_1 + \frac{p}{2(n_1 + n_2)}\cdot \bigbrace{\frac{a_1}{a_1 + \lambda^2 a_2} + \frac{a_1}{a_1 + \frac{a_2}{\lambda^2}}} = \frac{n_1}{n_1 + n_2}. \ee
-It's not hard to verify that there is only one valid solution $(a_1,a_2)$ to \eqref{compleeq}. After solving these, we get the test error for the target task as follows.
-\be\label{testcomple}
-te(\lambda)=\frac{p}{2(n_1 + n_2)} \cdot \bigbrace{\frac{1}{\frac{a_1}{\lambda^2} + a_2} + \frac{1}{a_1\lambda^2 + a_2}}.\ee
+%--------old arguments
+%With the same arguments as in Lemma \ref{lem_hat_v} we can show that \eqref{hatv_add1} holds, and under the choice of parameters \eqref{choiceofpara},
+%\be \nonumber
+%\begin{split}
+%g(M)&=(1+\OO(n^{-\e}))\cdot d^2 \tr\left[(X_1^{\top}X_1)(X_1^{\top}X_1 +X_2^{\top}X_2)^{-1}\Sigma_2(X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)\right] \\ 
+%&+(1+\OO(n^{-\e}))\cdot \sigma^2  \bigtr{\Sigma_2(X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} }  =: \delta_\beta(M)+ g_{\vari}(M),
+%\end{split}
+%\ee
+%with high probability for any constant $\e>0$. In fact, Lemma \ref{lem_hat_v} was proved assuming that $M=\id$, but its proof can be easily extended to the case with general $M\in \cal S_{\mu}$ by using that $\lambda(M)\in [\mu_{\min},\mu_{\max}]$. We omit the details here. 
+%
+%
+%With Lemma \ref{lem_cov_shift}, we can obtain that with high probability,
+%\begin{align}\label{gvar_extra}
+%g_{\vari}(M_0)= \frac{\sigma^2}{\rho_1+\rho_2}\cdot \frac1p\tr\left( \frac{1}{a_1M_0^\top M_0 + a_2}\right)  +\OO(p^{-1/2+\e}),
+%\end{align}
+%where $(a_1,a_2)$ satisfies \eqref{eq_a12extra}. On the other hand, by Theorem \ref{thm_model_shift} we can estimate $\delta_\beta$ as
+%\be \label{deltabeta_extra}
+%\begin{split}
+%&\left| \delta_{\beta}(M_0) - \frac{d^2\cdot \rho_1^2}{(\rho_1 + \rho_2)^2} \tr\left[\Sigma_1^{1/2}{M_0} \frac{(1 + a_3)\id + a_4 {M_0}^{\top}{M_0}}{(a_2 + a_1 {M_0}^{\top}{M_0})^2} {M_0}^{\top}\Sigma_1^{1/2}\right]\right| \le \delta + \OO(p^{1-\e}d^2),
+%\end{split}
+%\ee
+%where $(a_3,a_4)$ satisfies \eqref{eq_a34extra} and $\delta$ is defined in \eqref{eq_deltaextra}.
+%
+%
+%Next we derive some estimates for $a_i$, $i=1,2,3,4$. From equation \eqref{eq_a12extra}, it is easy to see that
+%\be\label{est_a12extra}a_1\ge \frac{\rho_1-1}{\rho_1+\rho_2},\quad a_2\le \frac{\rho_2}{\rho_1+\rho_2}.\ee
+%Then solving \eqref{eq_a34extra}, we get that
+%\begin{align}
+%0\le a_3&= \frac{ b_0 (\rho_1a_1^{-2}-b_2) + b_1^2 }{  \left(\rho_2  a_2^{-2}-  b_0\right)\left(\rho_1 a_1^{-2} -  b_2  \right) - b_1^2} \le \frac{ b_0 \rho_1a_1^{-2}  }{  \rho_1\rho_2  a_1^{-2}a_2^{-2}-  b_0\rho_1 a_1^{-2} - b_2\rho_2  a_2^{-2}}\nonumber\\
+%&\le \frac{\rho_1}{\rho_1\rho_2-\rho_1 -\rho_2 },\label{est_a3extra}
+%\end{align}
+%and
+%\begin{align}
+%0\le a_4&= \frac{b_1\rho_2 a_2^{-2}}{\left(\rho_2  a_2^{-2}-  b_0\right)\left(\rho_1 a_1^{-2} -  b_2  \right) - b_1^2} \le  \frac{ b_1\rho_2 a_2^{-2} }{  \rho_1\rho_2  a_1^{-2}a_2^{-2}-  b_0\rho_1 a_1^{-2} - b_2\rho_2  a_2^{-2}} \nonumber\\
+%&\le  \frac{ \rho_2 (b_1a_1^{2}) }{  \rho_1\rho_2 -  \rho_1  - \rho_2 } \le \frac{\rho_2\cdot \mu_{\min}^{-2}}{\rho_1\rho_2-\rho_1-\rho_2}=\OO\left( \frac{1}{\rho_1}\right),\label{est_a4extra}
+%\end{align}
+%where in the above derivations we also used that $b_1^2\le b_0 b_2$ by Cauchy-Schwarz inequality, $b_0 a_2^2 < 1$, $b_2 a_1^2 < 1$, and $b_1 a_1^2 \le \mu_{\min}^{-2}$.
+%Inserting \eqref{est_a12extra} into \eqref{gvar_extra}, we obtain that with high probability,
+%\begin{align}\label{approximateteM}
+%\le g(M_0) \le  \frac{\sigma^2}{\rho_1+\rho_2}\cdot \frac1p\tr\left( \frac{1}{a_1M_0^\top M_0}\right) \cdot \left(1 +\OO(p^{-\e})\right)
+%\end{align}
+%where
+%$$\wt g(M_0):=\frac{\sigma^2}{\rho_1+\rho_2}\cdot \frac1p\tr\left( \frac{1}{a_1M_0^\top M_0}\right)  +\frac{pd^2\cdot \rho_1^2}{(\rho_1 + \rho_2)^2} \cdot \frac1p\tr\left(\Sigma_1\frac{1 + a_3}{a_1^2 M_0^{\top}{M_0}} \right),$$
+%and the error satisfies
+%$$|\cal E|\le C\left( \frac{\rho_2}{\rho_1} +\rho_1^{-1/2} +\OO(p^{-\e})\right)\wt g(M_0).$$
+%Here the constant $C>0$ depends only on $\mu_{\max}$, $\mu_{\min}$ and $\|\Sigma_1\|$, but otherwise does not depend on $\rho_1$ and $\rho_2$. 
+%--------end old argument---------
 
-First we notice that the curves in Figure \ref{fig_te_complement} all cross at the point $n_1=n_2$. In fact, if $n_1=n_2$, then it is easy to observe that $a_1=a_2=(1-\gamma)/2$ is the solution to equation \eqref{compleeq}, where we denote $ \gamma=p/(n_1+n_2)$. Then for any $\lambda$, the test error in \eqref{testcomple} takes the value
-$$te(\lambda)= \frac{\gamma}{2}\frac{1}{(1-\gamma)/2}=\frac{p}{n_1+n_2-p}.$$
+
+\begin{proof}[Theoretical justification of Example \ref{ex_complement}]
+We denote the test error as $\te_\lambda(\hat \beta_{t}^{\MTL})$ in the setting where $M$ has $p/2$ singular values that are equal to $\lambda$ and $p/2$ singular values that are equal to $1 / \lambda$. Then equations in \eqref{eq_a12extra} become
+\be\label{compleeq} a_1 + a_2 = 1 - \frac{1}{\rho_1 + \rho_2},  \ \ a_1 + \frac{1}{2(\rho_1 + \rho_2)}\cdot \bigbrace{\frac{a_1}{a_1 + \lambda^2 a_2} + \frac{a_1}{a_1 + \frac{a_2}{\lambda^2}}} = \frac{\rho_1}{\rho_1 + \rho_2}. \ee
+%It's not hard to verify that there is only one valid solution $(a_1,a_2)$ to \eqref{compleeq}. 
+After solving these, with \eqref{gvar_extra} we get that whp,
+\be\label{testcomple}
+ \te_\lambda(\hat \beta_{t}^{\MTL})= \frac{\sigma^2}{2(\rho_1 + \rho_2)}(1+\OO(p^{-\e}))\cdot g(\lambda) ,\quad g(\lambda): = \frac{1}{\frac{a_1}{\lambda^2} + a_2} + \frac{1}{a_1\lambda^2 + a_2}.\ee
+
+%First we notice that the curves in Figure  \ref{fig_model_shift_phasetrans} (c) all cross at the point $n_1=n_2$. In fact, if $n_1=n_2$, then it is easy to observe that $a_1=a_2=(1-\gamma)/2$ is the solution to equation \eqref{compleeq}, where we denote $ \gamma=p/(n_1+n_2)$. Then for any $\lambda$, the test error in \eqref{testcomple} takes the value
+%$$te(\lambda)= \frac{\gamma}{2}\frac{1}{(1-\gamma)/2}=\frac{p}{n_1+n_2-p}.$$
 
 %Second, from Figure \ref{fig_te_complement} we observe that the complementary cases with $\lambda>1$ is better than the case without covariate shift (i.e. $M=\id$ case) when $n_1<n_2$. On the other hand, if we have enough source task data such that $n_1>n_2$, then it is always better to have no covariate shift.
-This phenomenon can be also explained using our theory. With \eqref{compleeq}, we can write
-$$te(\lambda)=\frac{\gamma}{2} \cdot \bigbrace{\frac{1}{\frac{a_1}{\lambda^2} + (1-\gamma - a_1)} + \frac{1}{a_1\lambda^2 + (1-\gamma - a_1)}}.$$
+We now study the behavior of $g$ as $\lambda$ changes. 
+%This phenomenon can be also explained using our theory. 
+We abbreviate $\gamma:=(\rho_1 + \rho_2)^{-1}$. Then with \eqref{compleeq}, we can rewrite
+$$g(\lambda)= \frac{1}{\frac{a_1}{\lambda^2} + (1-\gamma - a_1)} + \frac{1}{a_1\lambda^2 + (1-\gamma - a_1)}.$$
 We can compute that
 \begin{align*}
-te(\lambda) - te(1)&= \frac{\gamma}{2(1-\gamma)} (\lambda^2-1)a_1\cdot \bigbrace{  \frac{1}{ -a_1(\lambda^2-1)+(1-\gamma)\lambda^2 } - \frac{1}{a_1(\lambda^2-1) + (1-\gamma)}} \\
-&= \frac{\gamma}{2(1-\gamma)} (\lambda^2-1)^2 a_1\cdot  \frac{2a_1 - (1-\gamma) }{[-a_1(\lambda^2-1)+(1-\gamma)\lambda^2 ][a_1(\lambda^2-1) + (1-\gamma)]} .
+g(\lambda) - g(1)&= \frac{ \lambda^2-1}{1-\gamma} a_1\cdot \bigbrace{  \frac{1}{ -a_1(\lambda^2-1)+(1-\gamma)\lambda^2 } - \frac{1}{a_1(\lambda^2-1) + (1-\gamma)}} \\
+&= \frac{(\lambda^2-1)^2}{1-\gamma}  a_1\cdot  \frac{2a_1 - (1-\gamma) }{[-a_1(\lambda^2-1)+(1-\gamma)\lambda^2 ][a_1(\lambda^2-1) + (1-\gamma)]} .
 \end{align*}
-If $n_1>n_2$, we have $a_1>(1-\gamma)/2$ (because $a_1>a_2$ as observed from the equation \eqref{compleeq}), and hence $te(\lambda)>te(1)$. Otherwise if $n_1< n_2$, we have $a_1< (1-\gamma)/2$, and hence $te(\lambda)< te(1)$.
-\end{proof}
+From this expressions, we observe the following behaviors.
+\begin{itemize}
+\item[(i)] If $n_1>n_2$, we have $a_1>(1-\gamma)/2$ (because $a_1>a_2$ as observed from the equation \eqref{compleeq}). Hence $g(\lambda)>g(1)$, which gives $\te_\lambda(\hat \beta_{t}^{\MTL})>\te_1(\hat \beta_{t}^{\MTL})$.
 
+\item[(ii)] If $n_1< n_2$, we have $a_1< (1-\gamma)/2$. Hence $g(\lambda)< g(1)$, which gives $\te_\lambda(\hat \beta_{t}^{\MTL})<\te_1(\hat \beta_{t}^{\MTL})$. 
+
+\item[(iii)] If $n_1=n_2$, we have $g(\lambda)=g(1)=2/(1-\gamma)$, which explains why the curves in Figure  \ref{fig_model_shift_phasetrans} (c) all cross at the point $n_1=n_2$.
+\end{itemize}
+These justify the observations in Figure \ref{fig_model_shift_phasetrans} (c), 
+\end{proof}
+\todo{add a transition example}
 
 \iffalse
 Note that for the case of $k$ tasks with the same covariates, since there is no covariate shift and the data ratio is always equal to one, the main factor is model distance.
@@ -397,7 +444,123 @@ The proof for $\te(\hat{\beta}_{s,t}) \le \te(\hat{\beta}_t)$ follows by multipl
 
 \subsection{Proofs for Section \ref{sec_benefit}}\label{app_proof_data}
 
-With similar techniques, we then show Proposition \ref{prop_var_transition}, which gives a transition threshold with respect to the difference between the noise levels of the two tasks. 
+
+ We first prove Proposition \ref{prop_data_efficiency}, which gives precise upper and lower bounds on the data efficiency ratio.
+
+\begin{proof}[Proof of Proposition \ref{prop_data_efficiency}]
+Suppose we have reduced number of datapoints---$\al n_1$ for task 1 and $\al n_2$ for task 2 with $n_1=\rho_1 p$ and $n_2=\rho_2 p$. Then all the results in the proof of Proposition \ref{prop_dist_transition} still hold, except that we need to replace $(\rho_1,\rho_2)$ with $(\al\rho_1,\al\rho_2)$. More precisely, we have
+	\begin{align*}
+		 a_1 = \frac{\rho_1(\al\rho_1 + \al\rho_2 - 1)}{\al(\rho_1 + \rho_2)^2} ,\quad
+		& a_2 = \frac{\rho_2(\al\rho_1 + \al\rho_2 - 1)}{\al(\rho_1 + \rho_2)^2} ,  \\
+		 a_3 = \frac{\rho_2}{(\rho_1 + \rho_2)(\al\rho_1 + \al\rho_2 - 1)}, \quad
+		& a_4 = \frac{\rho_1}{(\rho_1 + \rho_2)(\al\rho_1 + \al\rho_2 - 1)}. 
+	\end{align*}
+Moreover, we have that with high probability,
+	\be\label{reduceproof1}
+\begin{split}
+\te_i(\hat \beta(\al)) =  \frac{\sigma^2}{\al (\rho_1+\rho_2) - 1}\left(1+ \oo(1)\right)+ \delta^{(i)}_{\beta}, \quad i=1,2.
+\end{split}
+\ee
+Here the model shift biases $\delta^{(i)}_{\beta}$ satisfy that  
+\be\nonumber %\label{Deltabeta} 
+\al_-^2(\al\rho_i) - \oo(1)  \le {\delta_\beta^{(i)}}/{ \Delta_{\beta}^{(i)}} \le \al_+^2(\al\rho_i) +  \oo(1) , \quad i=1,2,\ee	
+%In the setting of Proposition \ref{prop_data_efficiency}, we still have \eqref{hatw_add1}. 
+%%and by symmetry it suffices to focus on one of tasks, say task 2. 
+%Then using Lemmas \ref{lem_cov_shift} and \ref{prop_model_shift_tight}, and recalling \eqref{simplesovlea12} and \eqref{simplesovlea34}, we get that whp,
+%\be\label{reduceproof1}
+%\begin{split}
+%\te_i(\hat \beta(\al)) =\sigma^2\left( \frac{1}{\al (\rho_1+\rho_2) - 1}+ \bigo{p^{-1/2 + \varepsilon}}\right)+ \Delta^{(i)}_{\beta}, \quad i=1,2,
+%\end{split}
+%\ee
+%and
+%\be\label{reduceproof1}
+%\begin{split}
+%\te_2(\hat \beta(\al)) =\sigma^2\left( \frac{1}{\al ( \rho_1+\rho_2) - 1}+ \Delta^{(2)}_{\beta}+ \bigo{p^{-1/2 + \varepsilon}}\right),
+%\end{split}
+%\ee
+where $ \Delta^{(i)}_{\beta}$ are defined as 
+\be \nonumber
+\Delta^{(i)}_{\beta} := pd^2 \frac{(\al\rho_i)^2\cdot \al (\rho_1+\rho_2)}{[\al ( \rho_1+\rho_2) - 1]^3} ,\quad i=1,2,. 
+\ee
+On the other hand, using Lemma \ref{lem_minv}, we have whp,
+\be\label{reduceproof2} 
+\te_i(\hat{\beta}_t^{\STL}) = \frac{\sigma^2}{\rho_i -1} \left( 1+ \oo(1)\right),\quad i=1,2.
+\ee
+Comparing \eqref{reduceproof1} and \eqref{reduceproof2}, we immediately obtain a trivial lower bound $\al^*\ge \al_l -\oo(1)$, where
+$$\al_l:=\frac1{\rho_1+\rho_2}\left(\frac{2}{\frac1{\rho_1-1}+\frac1{\rho_2 -1}}+1\right) \ge \frac{\min(\rho_1,\rho_2)}{\rho_1+\rho_2}.$$
+In fact, one can see that if $\al\le \al_l$, then we have 
+$$ \frac{2\sigma^2}{\al (\rho_1+\rho_2) - 1} \ge \frac{\sigma^2}{\rho_1-1}+\frac{\sigma^2}{\rho_2-1},$$
+that is $\te_1(\hat{\beta}(\alpha)) + \te_2(\hat{\beta}(\alpha))$ is larger than $\te_1(\hat{\beta}_t^{\STL}) + \te_2(\hat{\beta}_t^{\STL})$ even if we do not take into account the model shift bias terms $ \delta^{(i)}_{\beta}$. Next we try to get more precise bounds on $\al^*$. In the following discussions, we only consider $\al$ such that $\al(\rho_1+\rho_2) \ge \al_l (\rho_1+\rho_2) \ge \min(\rho_1,\rho_2)$.
+
+%Comparing \eqref{reduceproof1} and \eqref{reduceproof2}, we observe that $\te_2(\hat \beta(\al))  \ge \te_2(\hat{\beta}_t^{\STL}) $ for $\al \le 1/2-\oo(1)$, which gives $\al^* \ge 1/2 - \oo(1)$.
+
+\noindent{\bf The upper bound.} From \eqref{reduceproof1} and \eqref{reduceproof2}, we see that $\al^*\le \al$ if $\al$ satisfies
+\be\nonumber
+\begin{split}
+&(1+\oo(1)) \cdot \sum_{i=1}^2 pd^2 \frac{(\al\rho_i)^2\cdot \al (\rho_1+\rho_2)}{[\al ( \rho_1+\rho_2) - 1]^3}  \bigbrace{1 + \sqrt{\frac{1}{\al \rho_i}}}^4 \\
+&\le \frac{\sigma^2}{\rho_1 -1}+\frac{\sigma^2}{\rho_2 -1} - \frac{2\sigma^2}{\al (\rho_1+\rho_2) - 1} . 
+\end{split}
+\ee
+We rewrite the inequality as
+\be
+\begin{split}\label{solval1}
+  (1+\oo(1)) \cdot \frac{pd^2}{[1 - (\al \rho)^{-1}]^3} \sum_{i=1}^2 \bigbrace{\sqrt{\frac{\rho_i}{\rho}} + \sqrt{\frac{1}{\al \rho}}}^4\le \frac{\sigma^2}{\rho_1 -1}+\frac{\sigma^2}{\rho_2 -1} - \frac{2\sigma^2}{\al \rho  - 1},
+\end{split}
+\ee
+where we abbreviated $\rho:=\rho_1+\rho_2$. 
+
+In order to solve \eqref{solval1}, we now consider the case $\min(\rho_1,\rho_2)\ge 200$. With some basic calculations, one can show that in this case
+$$ \frac{1}{[1 - (\al \rho)^{-1}]^3} \sum_{i=1}^2 \bigbrace{\sqrt{\frac{\rho_i}{\rho_1+\rho_2}} + \sqrt{\frac{1}{\al \rho}}}^4 <  \frac{\rho_1^2 + \rho_2^2}{(\rho_1+\rho_2)^2} + 0.32.$$
+Thus the following inequality implies \eqref{solval1}:
+\be\label{solval1add}
+\begin{split}
+&\left(  \frac{\rho_1^2 + \rho_2^2}{(\rho_1+\rho_2)^2} + 0.32\right) pd^2 < \frac{\sigma^2}{\rho_1 -1}+\frac{\sigma^2}{\rho_2 -1} - \frac{2\sigma^2}{\al (\rho_1+\rho_2) - 1} .
+\end{split}
+\ee
+In particular, if 
+\be\nonumber
+\begin{split}
+&\left(  \frac{\rho_1^2 + \rho_2^2}{(\rho_1+\rho_2)^2} + 0.32\right) pd^2 < \frac{\sigma^2}{\rho_1 -1}+\frac{\sigma^2}{\rho_2 -1} - \frac{2\sigma^2}{(\rho_1+\rho_2) - 1} ,
+\end{split}
+\ee
+that is, we have positive transfer when using all the data, then we can solve from \eqref{solval1add} the following upper bound on $\al^*$:
+\begin{align*}
+\al^* &<  \frac1{\rho_1+\rho_2}\left[\frac{2 }{\frac{1}{\rho_1-1}+\frac1{\rho_2-1}  -  \left(  \frac{\rho_1^2 + \rho_2^2}{(\rho_1+\rho_2)^2} + 0.32\right)\frac{pd^2}{\sigma^2}}+ 1\right] \\
+& < \frac1{\rho_1+\rho_2}\left[\frac{2 }{\frac{1}{\rho_1}+\frac1{\rho_2}  - \left(  \frac{\rho_1^2 + \rho_2^2}{(\rho_1+\rho_2)^2} + \frac13\right)\frac{pd^2}{\sigma^2}}+ 1\right] .
+\end{align*}
+
+
+\noindent{\bf The lower bound.} From \eqref{reduceproof1} and \eqref{reduceproof2}, we see that $\al^*\ge \al$ if $\al$ satisfies
+\be\label{solval2}
+\begin{split}
+&(1-\oo(1)) \cdot  \frac{pd^2}{[1 - (\al \rho)^{-1}]^3} \sum_{i=1}^2 \bigbrace{\sqrt{\frac{\rho_i}{\rho}} - \sqrt{\frac{1}{\al \rho}}}^4 \ge \frac{\sigma^2}{\rho_1 -1}+\frac{\sigma^2}{\rho_2 -1} - \frac{2\sigma^2}{\al \rho - 1} . 
+\end{split}
+\ee
+We then follow similar arguments as the above proof for the upper bound.
+
+In order to solve \eqref{solval2}, we consider the case $\min(\rho_1,\rho_2)\ge 200$. With some basic calculations, one can show that the sum on the left-hand side of \eqref{solval2} satisfies 
+$$ \frac{1}{[1 - (\al \rho)^{-1}]^3} \sum_{i=1}^2 \bigbrace{\sqrt{\frac{\rho_i}{\rho_1+\rho_2}} - \sqrt{\frac{1}{\al \rho}}}^4 >  \frac{\rho_1^2 + \rho_2^2}{(\rho_1+\rho_2)^2} -0.26 .$$
+Thus the following inequality implies \eqref{solval2}:
+\be\label{solval2add}
+\begin{split}
+&\left( \frac{\rho_1^2 + \rho_2^2}{(\rho_1+\rho_2)^2} -0.26\right) pd^2 > \frac{\sigma^2}{\rho_1 -1}+\frac{\sigma^2}{\rho_2 -1} - \frac{2\sigma^2}{\al (\rho_1+\rho_2) - 1} .
+\end{split}
+\ee
+There are two cases: if 
+\be\nonumber
+\begin{split}
+&\left( \frac{\rho_1^2 + \rho_2^2}{(\rho_1+\rho_2)^2} -0.26\right) pd^2 \ge \frac{\sigma^2}{\rho_1 -1}+\frac{\sigma^2}{\rho_2 -1},
+\end{split}
+\ee
+then we have negative transfer for all choice of $0\le \al \le 1$; otherwise, we can solve from \eqref{solval2add} the following lower bound on $\al^*$:
+\begin{align*}
+\al^* &>  \frac1{\rho_1+\rho_2}\left[\frac{2 }{\frac{1}{\rho_1-1}+\frac1{\rho_2-1}  - \left( \frac{\rho_1^2 + \rho_2^2}{(\rho_1+\rho_2)^2} -0.26\right) \frac{pd^2}{\sigma^2}}+ 1\right] \\
+& >\frac1{\rho_1+\rho_2}\left[\frac{2 }{\frac{1}{\rho_1}+\frac1{\rho_2}  - \left( \frac{\rho_1^2 + \rho_2^2}{(\rho_1+\rho_2)^2} -\frac13\right) \frac{pd^2}{\sigma^2}}+ 1\right] .
+\end{align*}
+This concludes the proof.
+\end{proof}
+
+Then we show Proposition \ref{prop_var_transition}, which gives a transition threshold with respect to the difference between the noise levels of the two tasks. 
 
 \begin{proof}[Proof of Proposition \ref{prop_var_transition}]
 In the setting of Proposition \ref{prop_var_transition}, the validation loss and the test error become
@@ -491,106 +654,6 @@ Plugging into $\rho_1>50$, we obtain the second claim of Proposition \ref{prop_v
 
 %\textbf{Remark.} Furthermore, as a function of $c_1$ over the range $[??, \infty]$, the maximum of $\te(\hat{\beta}_t^{\STL}) - \te(\hat{\beta}_t^{\MTL})$ is attained when $c_1 = {c_2\sigma^2}/{\max(2(c_2 - 1)pd^2 -\sigma^2, 0)}$. {\cor (cannot get this because we only have some bounds. If we let $c_1\to \infty$, then the curve of $\te(\hat{\beta}_t^{\STL}) - \te(\hat{\beta}_t^{\MTL})$ already becomes flat, and it is meaningless to discuss the minimum of this function at this point?)}
 
-Then we prove Proposition \ref{prop_data_efficiency}, which gives precise upper and lower bounds on the data efficiency ratio.
-
-\begin{proof}[Proof of Proposition \ref{prop_data_efficiency}]
-Suppose we have reduced number of datapoints---$\al n_1$ for task 1 and $\al n_2$ for task 2 with $n_1=\rho_1 p$ and $n_2=\rho_2 p$. 
-%For this proof, we introduce the notations 
-%$$\al_{\pm}^{(1)}\equiv \al_{\pm}^{(1)}(\al) = \left ( 1- (\al\rho_1)^{-1/2}\right)^2,\quad \al_{\pm}^{(2)}\equiv \al_{\pm}^{(2)}(\al) = \left ( 1- (\al\rho_2)^{-1/2}\right)^2.$$
-In the setting of Proposition \ref{prop_data_efficiency}, we still have \eqref{hatw_add1}. 
-%and by symmetry it suffices to focus on one of tasks, say task 2. 
-Then using Lemmas \ref{lem_cov_shift} and \ref{prop_model_shift_tight}, and recalling \eqref{simplesovlea12} and \eqref{simplesovlea34}, we get that whp,
-\be\label{reduceproof1}
-\begin{split}
-\te_i(\hat \beta(\al)) =\sigma^2\left( \frac{1}{\al (\rho_1+\rho_2) - 1}+ \bigo{p^{-1/2 + \varepsilon}}\right)+ \Delta^{(i)}_{\beta}, \quad i=1,2,
-\end{split}
-\ee
-%and
-%\be\label{reduceproof1}
-%\begin{split}
-%\te_2(\hat \beta(\al)) =\sigma^2\left( \frac{1}{\al ( \rho_1+\rho_2) - 1}+ \Delta^{(2)}_{\beta}+ \bigo{p^{-1/2 + \varepsilon}}\right),
-%\end{split}
-%\ee
-where $ \Delta^{(i)}_{\beta}$ satisfies 
-\be \nonumber
-\bigbrace{1 - \sqrt{\frac{1}{\al \rho_i}}}^4 \le \Delta^{(i)}_{\beta} /  \left[ pd^2 \cdot \frac{(\al\rho_i)^2\cdot \al (\rho_1+\rho_2)}{[\al ( \rho_1+\rho_2) - 1]^3}\cdot\left(1+ \bigo{p^{-1/2+\e}}\right)\right] \le \bigbrace{1 + \sqrt{\frac{1}{\al \rho_i}}}^4. 
-\ee
-On the other hand, using Lemma \ref{lem_minv}, we have whp
-\be\label{reduceproof2} 
-\te_i(\hat{\beta}_t^{\STL}) = \frac{\sigma^2}{\rho_i -1} \left( 1+ \bigo{p^{-1/2 + \varepsilon}}\right),\quad i=1,2.
-\ee
-Comparing \eqref{reduceproof1} and \eqref{reduceproof2}, we immediately obtain a trivial lower bound $\al^*\ge \al_l -\oo(1)$, where
-$$\al_l:=\frac1{\rho_1+\rho_2}\left[\frac{2(\rho_1-1)(\rho_2-1)}{\rho_1+\rho_2 -2}+1\right] \ge \frac{\min(\rho_1,\rho_2)}{\rho_1+\rho_2}.$$
-In fact, one can see that if $\al\le \al_l$, then we have 
-$$ \frac{2\sigma^2}{\al (\rho_1+\rho_2) - 1} \ge \frac{\sigma^2}{\rho_1-1}+\frac{\sigma^2}{\rho_2-1},$$
-that is $\te_1(\hat{\beta}(\alpha)) + \te_2(\hat{\beta}(\alpha))$ is larger than $\te_1(\hat{\beta}_t^{\STL}) + \te_2(\hat{\beta}_t^{\STL})$ even if we do not take into account the model shift bias terms $ \Delta^{(i)}_{\beta}$. Next we try to get more precise bounds on $\al^*$. In the following discussions, we only consider $\al$ such that $\al\rho \ge \al_l \rho \ge \min(\rho_1,\rho_2)$.
-
-%Comparing \eqref{reduceproof1} and \eqref{reduceproof2}, we observe that $\te_2(\hat \beta(\al))  \ge \te_2(\hat{\beta}_t^{\STL}) $ for $\al \le 1/2-\oo(1)$, which gives $\al^* \ge 1/2 - \oo(1)$.
-
-\noindent{\bf The upper bound.} From \eqref{reduceproof1} and \eqref{reduceproof2}, we see that $\al^*\le \al$ if $\al$ satisfies
-\be\label{solval1}
-\begin{split}
-&(1+\oo(1)) \cdot \sum_{i=1}^2 pd^2 \frac{(\al\rho_i)^2\cdot \al (\rho_1+\rho_2)}{[\al ( \rho_1+\rho_2) - 1]^3}  \bigbrace{1 + \sqrt{\frac{1}{\al \rho_i}}}^4 \\
-&\le \frac{\sigma^2}{\rho_1 -1}+\frac{\sigma^2}{\rho_2 -1} - \frac{2\sigma^2}{\al (\rho_1+\rho_2) - 1} . 
-\end{split}
-\ee
-For the sum on the left-hand side, we can rewrite it as
-\begin{align*}
- pd^2 \frac{1}{[1 - (\al \rho)^{-1}]^3} \sum_{i=1}^2 \bigbrace{\sqrt{\frac{\rho_i}{\rho_1+\rho_2}} + \sqrt{\frac{1}{\al \rho}}}^4,
-\end{align*}
-where $\rho:=\rho_1+\rho_2$. 
-
-In order to solve \eqref{solval1}, we now consider the case $\min(\rho_1,\rho_2)\ge 200$. With some basic calculations, one can show that in this case
-$$ \frac{1}{[1 - (\al \rho)^{-1}]^3} \sum_{i=1}^2 \bigbrace{\sqrt{\frac{\rho_i}{\rho_1+\rho_2}} + \sqrt{\frac{1}{\al \rho}}}^4 <  \frac{\rho_1^2 + \rho_2^2}{(\rho_1+\rho_2)^2} + 0.32.$$
-Thus the following inequality implies \eqref{solval1}:
-\be\label{solval1add}
-\begin{split}
-&\left(  \frac{\rho_1^2 + \rho_2^2}{(\rho_1+\rho_2)^2} + 0.32\right) pd^2 < \frac{\sigma^2}{\rho_1 -1}+\frac{\sigma^2}{\rho_2 -1} - \frac{2\sigma^2}{\al (\rho_1+\rho_2) - 1} .
-\end{split}
-\ee
-In particular, if 
-\be\nonumber
-\begin{split}
-&\left(  \frac{\rho_1^2 + \rho_2^2}{(\rho_1+\rho_2)^2} + 0.32\right) pd^2 < \frac{\sigma^2}{\rho_1 -1}+\frac{\sigma^2}{\rho_2 -1} - \frac{2\sigma^2}{(\rho_1+\rho_2) - 1} ,
-\end{split}
-\ee
-that is, we have positive transfer when using all the data, then we can solve from \eqref{solval1add} the following upper bound on $\al^*$:
-\begin{align*}
-\al^* &<  \frac1{\rho_1+\rho_2}\left[\frac{2 }{\frac{1}{\rho_1-1}+\frac1{\rho_2-1}  -  \left(  \frac{\rho_1^2 + \rho_2^2}{(\rho_1+\rho_2)^2} + 0.32\right)\frac{pd^2}{\sigma^2}}+ 1\right] \\
-& < \frac1{\rho_1+\rho_2}\left[\frac{2 }{\frac{1}{\rho_1}+\frac1{\rho_2}  - \left(  \frac{\rho_1^2 + \rho_2^2}{(\rho_1+\rho_2)^2} + \frac13\right)\frac{pd^2}{\sigma^2}}+ 1\right] .
-\end{align*}
-
-
-\noindent{\bf The lower bound.} From \eqref{reduceproof1} and \eqref{reduceproof2}, we see that $\al^*\ge \al$ if $\al$ satisfies
-\be\label{solval2}
-\begin{split}
-&(1-\oo(1)) \cdot \sum_{i=1}^2 pd^2 \frac{(\al\rho_i)^2\cdot \al (\rho_1+\rho_2)}{[\al ( \rho_1+\rho_2) - 1]^3}  \bigbrace{1 - \sqrt{\frac{1}{\al \rho_i}}}^4 \\
-&\ge \frac{\sigma^2}{\rho_1 -1}+\frac{\sigma^2}{\rho_2 -1} - \frac{2\sigma^2}{\al (\rho_1+\rho_2) - 1} . 
-\end{split}
-\ee
-We then follow similar arguments as the above proof for the upper bound.
-
-In order to solve \eqref{solval2}, we consider the case $\min(\rho_1,\rho_2)\ge 200$. With some basic calculations, one can show that the sum on the left-hand side of \eqref{solval2} satisfies 
-$$ \frac{1}{[1 - (\al \rho)^{-1}]^3} \sum_{i=1}^2 \bigbrace{\sqrt{\frac{\rho_i}{\rho_1+\rho_2}} - \sqrt{\frac{1}{\al \rho}}}^4 >  \frac{\rho_1^2 + \rho_2^2}{(\rho_1+\rho_2)^2} -0.26 .$$
-Thus the following inequality implies \eqref{solval2}:
-\be\label{solval2add}
-\begin{split}
-&\left( \frac{\rho_1^2 + \rho_2^2}{(\rho_1+\rho_2)^2} -0.26\right) pd^2 > \frac{\sigma^2}{\rho_1 -1}+\frac{\sigma^2}{\rho_2 -1} - \frac{2\sigma^2}{\al (\rho_1+\rho_2) - 1} .
-\end{split}
-\ee
-There are two cases: if 
-\be\nonumber
-\begin{split}
-&\left( \frac{\rho_1^2 + \rho_2^2}{(\rho_1+\rho_2)^2} -0.26\right) pd^2 \ge \frac{\sigma^2}{\rho_1 -1}+\frac{\sigma^2}{\rho_2 -1},
-\end{split}
-\ee
-then we always have negative transfer for all choice of $0\le \al \le 1$; otherwise, we can solve from \eqref{solval2add} the following lower bound on $\al^*$:
-\begin{align*}
-\al^* &>  \frac1{\rho_1+\rho_2}\left[\frac{2 }{\frac{1}{\rho_1-1}+\frac1{\rho_2-1}  - \left( \frac{\rho_1^2 + \rho_2^2}{(\rho_1+\rho_2)^2} -0.26\right) \frac{pd^2}{\sigma^2}}+ 1\right] \\
-& >\frac1{\rho_1+\rho_2}\left[\frac{2 }{\frac{1}{\rho_1}+\frac1{\rho_2}  - \left( \frac{\rho_1^2 + \rho_2^2}{(\rho_1+\rho_2)^2} -\frac13\right) \frac{pd^2}{\sigma^2}}+ 1\right] .
-\end{align*}
-This concludes the proof.
-\end{proof}
 
 
 
