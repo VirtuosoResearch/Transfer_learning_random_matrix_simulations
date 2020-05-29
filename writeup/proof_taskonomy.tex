@@ -1,25 +1,27 @@
 \subsection{Proof of the Transfer Learning Setting}\label{app_proof_sec4}
 
 \begin{proposition}\label{prop_taskonomy}
-Let $X_i \in\real^{n_i \times p}$ and $Y_i = X_i\beta_i + \varepsilon_i$, for $i = 1, \cdots, t$, where $\e_i$ are random vectors with i.i.d. entries of mean zero and variance $\sigma^2$. Let $\rho_i>1$, $1\le i \le t$ be fixed constants. Assume that $\max_{1\le i \le t}\|\beta_i\|=\OO(1)$, $\sigma^2=\OO(1)$ and 
+For $i=1,\cdot, t$, let $Y_i = X_i\beta_i + \varepsilon_i$ be independent data models, where $X_i=Z_i\Sigma_i^{1/2}\in \R^{n_i\times p}$ satisfy Assumption \ref{assm_secA1} with $\rho_i:=n_i/p>1$ being fixed constants, and $\e_i\in \R^{n_i}$ are  random vectors with i.i.d. entries with mean zero, variance $\sigma^2$ and all moments as in \eqref{assmAhigh}.  Moreover suppose that $X_i$, $\beta_i$ and $\varepsilon_i$ are independent of each other.
+%Let $X_i \in\real^{n_i \times p}$ and $Y_i = X_i\beta_i + \varepsilon_i$, for $i = 1, \cdots, t$, where $\e_i$ are random vectors with i.i.d. entries of mean zero and variance $\sigma^2$. Let $\rho_i>1$, $1\le i \le t$ be fixed constants. 
+Assume that $\max_{1\le i \le t}\|\beta_i\|=\OO(1)$, $\sigma^2=\OO(1)$ and 
 \be\label{BTBassm}
 \left\|\left[(B^\star_{t-1})^\top B^\star_{t-1}\right]^{-1}\right\|=\OO(1),\quad B_{t-1}^{\star}: = [{\beta}_1,{\beta}_2,\dots,{\beta}_{t-1}].
 \ee
-Suppose that all random variables have subexponential decay. Then we have with high probability,
+Then we have with high probability,
 \be\label{eq_taskonomy}
 \te(B W_t) =\|\e_\beta + \sigma^2 \e_{\vari}^{(1)}\|^2+ \sigma^2 \|\e_{\vari}^{(2)}\|^2 + \OO(p^{-1/2+\e}),
 \ee
-where $B^{\star}_{t-1} := [{\beta}_1,{\beta}_2,\dots,{\beta}_{t-1}]$, and
+where 
 \begin{align*}
-&\e_\beta:= \Sigma_k^{1/2}\left\{1 - B^\star_{t-1}\left[(B^\star_{t-1})^\top B^\star_{t-1}\right]^{-1} (B^\star_{t-1})^\top\right\} \beta_t,\\
-&\e_{\vari}^{(1)}:=  \Sigma_k^{1/2}  B^\star_{t-1}\left[(B^\star_{t-1})^\top B^\star_{t-1}\right]^{-1}\cal M_1 \left[(B^\star_{t-1})^\top B^\star_{t-1} + \sigma^2\cal M_1\right]^{-1} (B^\star_{t-1})^\top \beta_t,\\
-&\e_{\vari}^{(2)}:= \cal M_2^{1/2}\left[(B^\star_{t-1})^\top B^\star_{t-1} + \sigma^2\cal M_1\right]^{-1} (B^\star_{t-1})^\top \beta_t.
+\e_\beta &:= \Sigma_t^{1/2}\left\{1 - B^\star_{t-1}\left[(B^\star_{t-1})^\top B^\star_{t-1}\right]^{-1} (B^\star_{t-1})^\top\right\} \beta_t,\\
+\e_{\vari}^{(1)}&:=  \Sigma_t^{1/2}  B^\star_{t-1}\left[(B^\star_{t-1})^\top B^\star_{t-1}\right]^{-1}\cal M_1 \left[(B^\star_{t-1})^\top B^\star_{t-1} + \sigma^2\cal M_1\right]^{-1} (B^\star_{t-1})^\top \beta_t,\\
+\e_{\vari}^{(2)}&:= \cal M_2^{1/2}\left[(B^\star_{t-1})^\top B^\star_{t-1} + \sigma^2\cal M_1\right]^{-1} (B^\star_{t-1})^\top \beta_t.
 \end{align*}
-Here $\cal M_1$ and $\cal M_2$ are $k\times k$ diagonal matrices with $(\cal M_1)_{ii}=\frac{1}{\rho_i-1}\cdot \frac1p\tr \left(\Sigma_i^{-1}\right)$ and $(\cal M_2)_{ii}=\frac{1}{\rho_i-1}\cdot \frac1p\tr \left(\Sigma_i^{-1}\Sigma_k\right)$.
+Here $\cal M_1$ and $\cal M_2$ are $(t-1)\times (t-1)$ diagonal matrices with $(\cal M_1)_{ii}=\frac{1}{\rho_i-1}\cdot \frac1p\tr \left(\Sigma_i^{-1}\right)$ and $(\cal M_2)_{ii}=\frac{1}{\rho_i-1}\cdot \frac1p\tr \left(\Sigma_i^{-1}\Sigma_t\right)$.
 \end{proposition}
 
 \begin{proof}[Proof of Proposition \ref{prop_taskonomy}]
-For each task $i$, $1\le i \le t-1$, we can find that  
+\todo{check!} For each task $i$, $1\le i \le t-1$, we can find that  
 $$\hat \beta_i = \beta_i + (X_i^\top X_i)^{-1}X_i^\top \e_i.$$
 Then we calculate that
 \begin{align*}
