@@ -95,7 +95,7 @@ As a warmup, we first describe an example that rigorously formalizes the connect
 	The labels are given by $Y_i = X_i\beta_i + \varepsilon_i$, where $\e_i$ consists of i.i.d. entries with mean zero and variance $\sigma_i^2$, for $i=1,2$.
 	\footnote{For simplicity, we assume that all the random variables have subexponential decay, while keeping in mind that our results can be applied under weaker moments assumptions as shown in the supplementary material.}
 
-\textbf{Model dissimilarity.}
+\textbf{Cause 1.}
 We measure model dissimilarity as $\norm{\beta_1 - \beta_2}^2$, which is the distance between source and target in the isotropic model.
 We derive a sharp threshold when positive transfer transitions to negative transfer, as model dissimilarity increases.
 %Based on Theorem \ref{thm_model_shift}, we derive the transition threshold in the following proposition.
@@ -104,7 +104,7 @@ Define the following function
 	\Phi(\rho_1, \rho_2) = \frac{(\rho_1 + \rho_2 - 1)^2}{\rho_1 (\rho_1 + \rho_2) (\rho_2 - 1)}.
 \end{align*}
 
-\begin{proposition}\label{prop_dist_transition}
+\begin{proposition}[Model dissimilarity]\label{prop_dist_transition}
 	In the isotropic model, assume that $\rho_1 > 40$ is a fixed constant.
 	Let $\sigma_1 = \sigma_2 = \sigma$.
 	Whether $\te(\hat{\beta}_t^{\MTL})$ is lower than $\te(\hat{\beta}_t^{\STL})$ is determined by the ratio between model dissimilarity and $\Phi(\rho_1, \rho_2)$:
@@ -155,7 +155,7 @@ The proof, which is based on Theorem \ref{thm_main_informal}, can be found in Ap
 	\label{fig_model_shift_phasetrans}
 \end{figure}
 
-\textbf{Data size.}
+\textbf{Cause 2.}
 In classical Rademacher or VC based theory of multi-task learning, the generalization bounds are usually presented for settings where the data sizes are equal for all tasks \cite{B00,M06,MPR16}.
 More generally, such results are still applicable when all task data are being added simultaneously.
 On the other hand, for many applications of multi-task learning, the data sources are usually heterogeneous.
@@ -163,7 +163,7 @@ For such settings, we have observed that adding more labeled data from one task 
 %On the other hand, we have observed that adding more labeled data does not always improve performance in multi-task learning.
 Using the isotropic model, we consider what happens if we vary the source task data size.
 
-\begin{proposition}\label{prop_data_size}
+\begin{proposition}[Source data size]\label{prop_data_size}
 	In the isotropic model, assume that $\rho_1 > 40$ and $\rho_2 > 500$ are fixed constants.
 	We have the following conditions to determine whether $\te(\hat{\beta}_t^{\MTL})$ is lower than $\te(\hat{\beta}_t^{\STL})$:
 	\begin{itemize}
@@ -180,7 +180,7 @@ a) If $\norm{\beta_1 - \beta_2}^2 \approx pd^2$ is sufficiently small, then addi
 ii) Otherwise, as source data size increases, we observe a transition from positive to negative transfer.
 The proof of Proposition \ref{prop_data_size} is similar to Proposition \ref{prop_dist_transition}, and can be found in Appendix \ref{app_proof_31}.
 
-\textbf{Covariate shift.}
+\textbf{Cause 3.}
 So far we have considered the isotropic model where $\Sigma_1 = \Sigma_2$.
 This setting is relevant for settings where different tasks share the same input features such as multi-class image classification.
 In general, the covariance matrices of the two tasks may be different such as in text classification.
@@ -200,7 +200,7 @@ On the other hand, if $n_1$ is comparable or even smaller than $n_2$, we show an
 	Similar to the isotropic model, we assume that $\beta_2$ has i.i.d. entries with mean zero and variance $\kappa^2$ and $\beta_1$ equals $\beta_2$ plus i.i.d. entries with mean $0$ and variance $d^2$.
 	The following proposition shows that when $n_1$ is much larger than $n_2$, $\te(\hat{\beta}^{\MTL})$ is minimized at $M = \mu\id$ among all matrices in $\cS_{\mu}$.
 
-\begin{proposition}\label{prop_covariate}
+\begin{proposition}[Covariate shift]\label{prop_covariate}
 	In the setting described above, assume that $\rho_1 > 3$ and $\rho_2>3$,
 and $\|\Sigma_1\|\le C_1$ for some constant $C_1>0$.
 	Let $g(M)$ denote the test error of $\hat{\beta}_t^{\MTL}$ when the covariance shift matrix is equal to $M\in\cS_{\mu}$.
@@ -227,7 +227,7 @@ Proposition \ref{prop_covariate} implies that when $\rho_1\gg \rho_2$, having no
 
 On the positive side, we describe two implications for positive transfer, assuming that $\norm{\beta_1 - \beta_2}^2$ is small in the isotropic model.
 
-\textbf{Labeled data efficiency.}
+\textbf{Implication 1.}
 We use our tools to explain a key result of taskonomy \cite{ZSSGM18}, which shows that by learning from multiple related tasks, one can reduce the amount of labeled data from each task.
 This is formalized by a metric called the data efficiency ratio as follows.
 
@@ -240,18 +240,18 @@ The data efficiency ratio is defined as
 		\le \te_1(\hat{\beta}_1^{\STL}) + \te_2(\hat{\beta}_2^{\STL}). \]
 We quantify the data efficiency ratio of the isotropic model as follows.
 
-\begin{proposition}\label{prop_data_efficiency}
+\begin{proposition}[Labeled data efficiency]\label{prop_data_efficiency}
 	In the isotropic model, assume that $\rho_1$ and $\rho_2$, $pd^2 < {8\sigma^2} /{(3 \rho)}$.
 	Then the data efficiency ratio is at most $\frac{1}{2\rho} + \frac{\sigma^2}{2\sigma^2 - 3p d^2 \rho / 4}$.
 \end{proposition}
 The proof of Proposition \ref{prop_data_efficiency} can be found in Appendix \ref{app_proof_data}.
 
-\textbf{Labeled data de-noising.}
+\textbf{Implication 2.}
 We further show that multi-task learning is particular powerful when the labeled data of the source task is less noisy compared to the target task.
 Consider a more general setting of Proposition \ref{prop_dist_transition} where the noise level $\sigma_1$ of task $1$ differs from the noise level $\sigma_2$ of task $2$.
 We extend Proposition \ref{prop_dist_transition} as follows.
 
-\begin{proposition}\label{prop_var_transition}
+\begin{proposition}[Labeled data de-noising]\label{prop_var_transition}
 	In the isotropic model, assume that $\rho_1 > 40$ and $pd^2 < \frac{1}{2} {\sigma_2^2}  \cdot \Phi(\rho_1, \rho_2)$.
 	We derive the following transition as a parameter of $\sigma_1^2$:
 	\begin{itemize}
