@@ -196,15 +196,15 @@ On the other hand, if $n_1$ is comparable or even smaller than $n_2$, we show an
 	\begin{align*}
 		\cS_{\mu}\define\bigset{M \mid \det\bigbrace{ M^\top M} \le \mu^p, \lambda(M) \in [\mu_{\min}, \mu_{\max}]},
 	\end{align*}
-	where $\mu, \mu_{\min}, \mu_{\max}$ are fixed values that do not grow with $p$.
-	Similar to the isotropic model, we assume that $\beta_2$ has i.i.d. entries with mean zero and variance $\kappa^2$ and $\beta_1$ equals $\beta_2$ plus i.i.d. entries with mean $0$ and variance $d^2$.
+	where $\mu, \mu_{\min}, \mu_{\max}$ are fixed values that do not grow with $p$. We first assume that there is no model bias. 
+	Similar to the isotropic model, we assume that $\beta_1=\beta_2$ has i.i.d. entries with mean zero and variance $\kappa^2$.
 	The following proposition shows that when $n_1$ is much larger than $n_2$, $\te(\hat{\beta}^{\MTL})$ is minimized at $M = \mu\id$ among all matrices in $\cS_{\mu}$.
 
 \begin{proposition}\label{prop_covariate}
-	In the setting described above, assume that $\rho_1 > 3$ and $\rho_2>3$,
-and $\|\Sigma_1\|\le C_1$ for some constant $C_1>0$.
+	In the setting described above, assume that $\rho_1 > 1$ and $\rho_2>1$. 
+	%Moreover, up to some rescaling, we can assume that $\|\Sigma_1\|\le C_1$ for some constant $C_1>0$.
 	Let $g(M)$ denote the test error of $\hat{\beta}_t^{\MTL}$ when the covariance shift matrix is equal to $M\in\cS_{\mu}$.
-	We have that \[ g(\mu\id) \le \bigbrace{1+ \bigo{\frac{\rho_2}{\rho_1} + \frac{1}{\sqrt {\rho_1}}}} \min_{M\in\cS_{\mu}} g(M). \]
+	We have that \[ g(\mu\id) \le \bigbrace{1+ \bigo{\frac{\rho_2}{\rho_1}  }} \min_{M\in\cS_{\mu}} g(M). \]
 \end{proposition}
 Proposition \ref{prop_covariate} implies that when $\rho_1\gg \rho_2$, having no covariate shift is the optimal choice for choosing the source task.
 %This provides evidence that covariate shift is unfavorable when there are many source task datapoints,
@@ -215,7 +215,7 @@ Proposition \ref{prop_covariate} implies that when $\rho_1\gg \rho_2$, having no
 	For simplicity, we assume that $d = 0$.
 	Hence the two tasks have the same model parameters.
 
-	In Figure \ref{fig_covariate}, we plot the test error of the target task for $n_2 = 4p$ and $n_1$ ranging from $p$ to $20p$.
+	In Figure \ref{fig_model_shift_phasetrans} (c), we plot the test error of the target task for $n_2 = 4p$ and $n_1$ ranging from $p$ to $20p$.
 	Second, we observe the following two phases as we increase $n_1 / p$.
 	When $n_1 \le n_2$, having complementary covariance matrices leads to lower test error compared to the case when $\Sigma_1 = \Sigma_2$.
 	When $n_1 > n_2$, having complementary covariance matrices leads to higher test error compared to the case when $\Sigma_1 = \Sigma_2$.
