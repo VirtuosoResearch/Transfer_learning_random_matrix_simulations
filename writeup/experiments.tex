@@ -1,4 +1,9 @@
-\section{Practical Implications for Multi-Task Learning}
+\section{Experiments}
+
+We validate the algorithmic implications of our theory on image and text classification tasks.
+First, we show that our proposed metric is able to predict positive or negative transfer using only STL performances.
+Second, we show that MTL can improve data efficiency ratio.
+Finally, we show that performing covariance alignment is more significant when the source task data size is large compared to the target task.
 
 \subsection{Experimental Setup}
 
@@ -20,18 +25,14 @@ This is a 14-task multi-label image classification problem.
 
 For all models, we share the main module across all tasks and assign a separate regression or classification layer on top of the shared module for each tasks.
 
-\subsection{Detecting and Improving Negative Effects}
+\subsection{Improving training efficiency in MTL}
 
-\textbf{A Metric to Determine Positive or Negative Transfer}
-We propose a simple metric to determine whether multi-task learning performs better than single-task learning.
-The metric is as follows.
-First, we train 2 single-task models on 2 separate tasks.
-We take the prediction accuracy of the two tasks.
-Let $\tau$ be a fixed threshold.
-If the accuracy of the source task is higher than the accuracy of the target task by $\tau$, then we predict positive transfer.
-On the other hand, if the accuracy of the source task is lower than the accuracy of the target task by $\tau$, then we predict negative transfer.
+\subsection{Validating the Algorithmic Implications}
 
-Table \ref{tab:mtl_better_than_stl} shows the results on a sentiment analysis and an image classification task.
+\textbf{A Metric to determine positive or negative Transfer.}
+We validate the metric proposed in Section \ref{sec_similarity} for predicting positive or negative transfer based on STL results.
+Table \ref{tab:mtl_better_than_stl} shows that using a threshold of $0.1$, we can predict $75.6\%$ among ?? task pairs for the sentiment analysis tasks with $38.8\%$ recall.
+Similar for image classification task ??.
 
 \begin{table}
 \begin{center}
@@ -51,11 +52,14 @@ Table \ref{tab:mtl_better_than_stl} shows the results on a sentiment analysis an
 \label{tab:mtl_better_than_stl}
 \end{table}
 
+\textbf{Improving labeled data efficiency.}
+We measure the data efficiency ratio on the sentiment analysis tasks.
+We find that by performing multi-task learning, only $39\%$ of the labeled data is needed to achieve comparable performance to single-task learning over all six tasks.
+If TREC is not included, we see that only $25\%$ of the labeled data is needed.
 
-\textbf{Covariance Alignment for Imbalanced Tasks with Covariate Shift.}
+
+\textbf{Covariance alignment.}
 We validate that the performance of aligning task covariances depends on the size of source task data.
-Recall that the covariance alignment procedure in \cite{WZR20} adds an additional module between the word embedding representation and the shared module.
-
 In Figure \ref{fig_covariate}, we observe that the benefit from aligning task covariances becomes more significant as we increase the size of the source task dataset.
 
 \begin{figure}[!ht]
@@ -80,19 +84,16 @@ In Figure \ref{fig_covariate}, we observe that the benefit from aligning task co
 \end{figure}
 
 
-\subsection{Validating Theoretical Implications}
+%\subsection{Validating Theoretical Implications}
 
 
-\textbf{Contributing causes of negative transfer.}
+%\textbf{Contributing causes of negative transfer.}
 
-\textbf{Implications for positive learning.}
+%\textbf{Implications for positive learning.}
 
 
-\textit{Improving labeled data efficiency.}
-We measure the data efficiency ratio on text classification tasks.
-We find that by performing multi-task learning, only 40$\%$ of the data is needed to achieve comparable performance to single-task learning over all six tasks.
 
-\textit{Transferring from a high accuracy to low accuracy.}
+%\textit{Transferring from a high accuracy to low accuracy.}%%%%%%%%
 
 
 
