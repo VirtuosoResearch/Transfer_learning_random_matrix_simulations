@@ -1,12 +1,12 @@
 
 \begin{abstract}
 When does multi-task learning outperform single-task learning?
-In this work, we address this question by studying the test performance of predicting a particular task given multiple tasks using a commonly used hard parameter sharing architecture, in terms of bais-variance tradeoff.
+In this work, we address this question by studying the test performance of predicting a particular task given multiple tasks using a commonly used hard parameter sharing architecture.
 In the setting of high-dimensional linear regression, we provide a sharp analysis of the bias-variance tradeoff for multi-task learning estimators.
 A key technical tool that we develop is the trace of $(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}$ for two random matrices $X_1$ and $X_2$ in the setting of two tasks.
 	Based on the theory, we provide more precise interpretations of many empirical phenomena in multi-task learning.
-	For example, we quantify the benefit of multi-task learning for reducing the amount of labeled data, which is a key finding in Taskonomy by Zamir et al.'18.
-	Finally, we show practical implications of our theory for detecting and improving negative effects in image and text classification tasks.
+	For example, we theoretically analyze the benefit of multi-task learning for reducing the amount of labeled data needed to achieve comparable performance to single-task learning. %, which has been a key empirical finding in recent work.
+	Finally, we show practical implications of our theory for detecting and mitigating negative effects in image and text classification tasks.
 \end{abstract}
 
 \section{Introduction}
@@ -20,7 +20,7 @@ By combining multiple information sources, it is possible to share all the infor
 %For example, many applications in , and many other areas have been achieved by learning from multiple tasks together.
 The performance of multi-task learning depends on the relationship of the information sources \cite{C97}.
 When the information sources are heterogeneous, negative transfer -- where multi-task learning performs worse than single-task learning -- has often been observed \cite{AP16,BS17}.
-While numerous studies have sought to alleviate negative transfer when it occurs \cite{ZY17}, a rigorous understanding to the contributing causes of negative transfer has remained elusive in the literature \cite{R17}.
+While numerous studies have sought to alleviate negative transfer \cite{ZY17}, a rigorous understanding of the contributing causes of negative transfer has remained elusive in the literature \cite{R17}.
 %This phenomenon, known as \textit{negative transfer}, is fundamental to the understanding of multi-task learning.
 In this work, we develop technical tools to compare multi-task learning to single-task learning for the setting of high-dimensional linear regression. % for learning from multiple linear regression tasks.
 We use the tools to explain negative transfer and provide implications for positive transfer.
@@ -29,10 +29,11 @@ Based on the theory, we show practical implications for detecting and mitigating
 %On the other hand, unless the structures across task data are well-understood, applying multi-task learning on several different datasets often result in suboptimal models (or negative transfer in more technical terms).
 
 Identifying negative transfer requires developing tight generalization bounds for both multi-task learning and single-task learning.
-In classical Rademacher or VC based theory of multi-task learning \cite{B00,AZ05,M06}, the generalization bounds are usually presented in a way so that the error goes down as more labeled data is added.
-On the other hand, we have observed that adding more labeled data does not always improve performance in multi-task learning.
-More recent work has shown the benefit of learning multi-task representations for certain half-spaces \cite{MPR16} and multiple sparse regressions \cite{LPTV09,LPVT11}.
-In order to rigorously understand negative transfer, the technical challenge is to develop generalization bounds that scale tightly with the qualities of the data.
+In classical Rademacher or VC based theory of multi-task learning \cite{B00,AZ05,M06}, the generalization bounds are usually presented so that the error reduces as the data sizes of all tasks increase.
+For instance, the data sizes of all tasks are assumed to be equal \cite{B00}.
+On the other hand, uneven data sizes or dominating tasks have been empirically observed as a cause of negative transfer \cite{YKGLHF20}.
+More recent work has shown the benefit of learning multi-task representations for certain half-spaces \cite{MPR16} and sparse regression \cite{LPTV09,LPVT11}.
+To rigorously study negative transfer, the technical challenge is to develop generalization bounds that scale tightly with properties of the data.
 
 
 In this work, we consider a setting where multiple labeled linear regression tasks are available and focus on predicting a particular task whose amount of labeled data is limited.
@@ -53,29 +54,29 @@ This corresponds to minimizing the following objective.
 	f(B; W_1, \dots, W_t) = \sum_{i=1}^t \norm{X_i B W_i - Y_i}^2.
 \end{align}
 For a target task $t$,
-let $\hat{\beta}_t^{\MTL} = B W_t$ denote the optimal multi-task estimator by solving equation \eqref{eq_mtl}.
+let $\hat{\beta}_t^{\MTL} = B W_t$ denote the optimal multi-task estimator by minimizing equation \eqref{eq_mtl}.
 Let $\hat{\beta}_t^{\STL}$ denote the standard linear regression estimator using task $t$ alone.
 We say there is negative transfer if the test error of $\hat{\beta}_t^{\MTL}$  is larger than that of $\hat{\beta}_t^{\STL}$, or positive transfer otherwise.
 
 \textbf{Main results.}
 We revisit the bias-variance tradeoff of the multi-task estimator.
-Interestingly, the variance of $\hat{\beta}_t^{\MTL}$ is always smaller than that of $\hat{\beta}_t^{\STL}$, hence resulting in a positive effect of variance reduction.
+Interestingly, we observe that the variance of $\hat{\beta}_t^{\MTL}$ is always smaller than that of $\hat{\beta}_t^{\STL}$, hence resulting in a positive effect of variance reduction.
 The bias of $\hat{\beta}_t^{\MTL}$, which we term as \textit{model shift bias}, results in a negative effect caused by the difference between $\beta_t$ and the rest $\set{\beta_i}_{i=1}^{t-1}$.
-Hence, the tradeoff between the variance reduction effect and model shift bias determines whether we observe positive or negative transfer.
+Hence, the tradeoff between the variance reduction effect and model shift bias determines whether the transfer is positive.
 
+To quantify the tradeoff more precisely, we develop a new technical result that provides a tight bound on the trace of $(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}$, for the setting of two tasks with general covariance matrices.
+Our result extends a well-known result on the trace of $(X_1^{\top}X_1)^{-1}$ for a single random matrix \cite{S07}.
+Furthermore, we provide a nearly optimal error bound, which may be of independent interest.
 
-
-To quantify the tradeoff more precisely, we develop a new technical result on the trace of $(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}$, for the setting of two tasks with general covariance matrices.
-Using the result, we provide a sharp bias-variance tradeoff of $\hat{\beta}_t^{\MTL}$.
-When there are more than two tasks, we show a similar result if they all have the same covariates.
+Using the result, we provide a sharp analysis of the bias-variance tradeoff of $\hat{\beta}_t^{\MTL}$ for the setting of two tasks.
+For more than two tasks, we show a similar result if all tasks have the same features.
 This setting is prevalent in applications of multi-task learning to image classification, where there are multiple prediction labels/tasks for every image \cite{chexnet17,EA20}.
 Finally, we apply our technical tools to the related setting of transfer learning.
 We study the transfer function used by Taskonomy \cite{ZSSGM18}, which pools learnt representations from source tasks into a shared body similar to $B$ in equation \eqref{eq_mtl}.
-We find that the model shift bias can be captured nicely by the orthogonal projection of $\beta_t$ to the subspace spanned by $\set{\beta_i}_{i=1}^{t-1}$.
+We find that the model shift bias can be captured by the orthogonal projection of $\beta_t$ to the subspace spanned by $\set{\beta_i}_{i=1}^{t-1}$.
 These results are presented more precisely in Section \ref{sec_main}.
 
-
-The tradeoff that we developed in Section \ref{sec_main} depends on the qualities of each task dataset such as its data size and covariance matrix.
+The tradeoff that we develop in Section \ref{sec_main} depends on the properties of each task such as its data size and covariance matrix.
 In Section \ref{sec_insight}, we use the technical results to provide guidance on when positive transfer is likely to occur and identify causes of negative transfer.
 \squishlist
 		\item First, we provide a more precise interpretation to a folklore understanding in multi-task learning, which posits that negative transfer is caused by having dissimilar tasks.
@@ -94,8 +95,6 @@ In Section \ref{sec_insight}, we use the technical results to provide guidance o
 \squishend
 
 %	A crucial technical tool that we develop for showing Theorem \ref{thm_main_informal} is the asymptotic limit of the trace of $(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}$ (for the setting of two tasks), which may be of independent interest.
-	The technical tool we developed extends a well-known result in the random matrix theory literature on the trace of $(X^{\top}X)^{-1}$ \cite{S07} for a single random matrix to two random matrices.
-	Our error bound for the asymptotic limit is nearly optimal, which may be of independent interest.
 
 We show practical implications of our theory on text and image classification tasks.
 	First, we provide a metric to determine positive versus negative transfer by comparing the test accuracies of single-task models.
