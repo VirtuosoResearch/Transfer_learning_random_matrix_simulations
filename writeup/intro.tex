@@ -48,11 +48,7 @@ We assume that the data size of task $t$ is a small constant $\rho_t > 1$ times 
 %distribution with covariance matrix $\Sigma_i$.
 
 We combine all the labeled data using a hard parameter sharing architecture that contains a shared body $B\in\real^{p\times r}$ for all tasks and a separate prediction head $\set{W_i \in \real^{r}}_{i=1}^t$ for each task \cite{R17,MTDNN19,WZR20}.
-This corresponds to minimizing the following objective.
-\begin{align}
-	\label{eq_mtl}
-	f(B; W_1, \dots, W_t) = \sum_{i=1}^t \norm{X_i B W_i - Y_i}^2.
-\end{align}
+This corresponds to minimizing $ \sum_{i=1}^t \norm{X_i B W_i - Y_i}^2$.
 For a target task $t$,
 let $\hat{\beta}_t^{\MTL} = B W_t$ denote the optimal multi-task estimator by minimizing equation \eqref{eq_mtl}.
 Let $\hat{\beta}_t^{\STL}$ denote the standard linear regression estimator using task $t$ alone.
@@ -64,46 +60,39 @@ Interestingly, we observe that the variance of $\hat{\beta}_t^{\MTL}$ is always 
 The bias of $\hat{\beta}_t^{\MTL}$, which we term as \textit{model shift bias}, results in a negative effect caused by the difference between $\beta_t$ and the rest $\set{\beta_i}_{i=1}^{t-1}$.
 Hence, the tradeoff between the variance reduction effect and model shift bias determines whether the transfer is positive.
 
-To quantify the tradeoff more precisely, we develop a new technical result that provides a tight bound on the trace of $(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}$, for the setting of two tasks with general covariance matrices.
+To quantify the tradeoff more precisely, we develop a new technical tool that provides a tight bound on the trace of $(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}$, for the setting of two tasks with general covariance matrices.
 Our result extends a well-known result on the trace of $(X_1^{\top}X_1)^{-1}$ for a single random matrix \cite{S07}.
 Furthermore, we provide a nearly optimal error bound, which may be of independent interest.
-
-Using the result, we provide a sharp analysis of the bias-variance tradeoff of $\hat{\beta}_t^{\MTL}$ for the setting of two tasks.
-For more than two tasks, we show a similar result if all tasks have the same features.
-
-Finally, we apply our technical tools to the related setting of transfer learning.
-We study the transfer function used by Taskonomy \cite{ZSSGM18}, which pools learnt representations from source tasks into a shared body similar to $B$ in equation \eqref{eq_mtl}.
-We find that the model shift bias can be captured by the orthogonal projection of $\beta_t$ to the subspace spanned by $\set{\beta_i}_{i=1}^{t-1}$.
+Using the result, we provide a sharp analysis of the bias-variance tradeoff of $\hat{\beta}_t^{\MTL}$ for two settings:
+(i) two tasks with general covariance matrice; (ii) any number of tasks that have the same features (e.g. images).
+Finally, we apply our technical tool to the related setting of transfer learning.
+We pool learnt representations from source tasks into a shared body similar to $B$ in equation \eqref{eq_mtl}, which has also been used in Taskonomy \cite{ZSSGM18}.
+For this setting, we show that the model shift bias can be captured by the orthogonal projection of $\beta_t$ to the subspace spanned by $\set{\beta_i}_{i=1}^{t-1}$.
 These results are presented more precisely in Section \ref{sec_main}.
 
-The tradeoff that we develop in Section \ref{sec_main} depends on the properties of each task such as its data size and covariance matrix.
-In Section \ref{sec_insight}, we use the technical results to provide guidance on when positive transfer is likely to occur and identify causes of negative transfer.
+The tradeoff that we develop depends on the properties of each task such as its data size and covariance matrix.
+In Section \ref{sec_insight}, we use our technical tool to rigorously explain many phenomena in multi-task learning.
+We consider three factors including task dissimilarity, data size and covariate shift.
 \squishlist
-		\item First, we provide a more precise interpretation to a folklore understanding in multi-task learning, which posits that negative transfer is caused by having dissimilar tasks.
-		For an example of two tasks, we show a sharp transition from positive to negative transfer determined by the ratio of $\norm{\beta_1 - \beta_2}^2$ and a certain function of data sizes (cf. Proposition \ref{prop_dist_transition}).
-		We further show that positive transfer is more likely to occur when transferring from a less noisy source task to a more noisy target task.
-		In Section \ref{sec_validate}, we validate the observation on text and image classification tasks.
+		\item First, we define task dissimilarity as the distance between $\beta_1$ and $\beta_2$ using a simplified isotropic setting of two tasks.
+		Using our technical tool, we show a sharp transition from positive to negative transfer as task dissimilarity increases.
+		Furthermore, we show that negative transfer is more likely to occur when the source task labels are particularly noisy.
+%		In Section \ref{sec_validate}, we validate the observation on text and image classification tasks.
 %	In , we provide the trade-off between $\norm{\beta_1 - \beta_2}^2$ and a certain function $\Phi(\rho_1, \rho_2)$ to determine the type of transfer.
-		\item Second, we find that depending on how large $\norm{\beta_1 - \beta_2}^2$ is, adding more labeled data from the source task does not always reduce the test error of $\hat{\beta}_t^{\MTL}$ (cf. Proposition \ref{prop_data_size}).
-	We connect the observation to explain a key finding of Taskonomy \cite{ZSSGM18}.
-	We define the \textit{data efficiency ratio} as the smallest $\alpha\in(0, 1)$ such that if we only use an $\alpha$ fraction of labeled data, then the test error of $\hat{\beta}_t^{\MTL}$ matches that of the $\hat{\beta}_t^{\STL}$ on the entire set.
-	In Proposition \ref{prop_data_efficiency}, we show that the data efficiency ratio of an illustrative example is at most $\alert{\frac {1}{2\rho_t}}$.
-	In Section \ref{sec_validate}, we validate that performing multi-task learning can reduce the need for labeled data on 6 sentiment analysis tasks. %, we observe that just by using \alert{40\%} of the labeled data, the overall accuracy of multi-task learning matches that of learning every task in isolation.
-		\item Finally, we find that covariate shift, i.e. having different covariance matrices, is another cause for suboptimal performance for $\hat{\beta}_t^{\MTL}$.
-		We show that as $n_1 / n_2$ becomes large, the best performing source task has have the same covariance matrix as the target task (cf. Proposition \ref{prop_covariate}).
+		\item Second, we consider the effect of uneven data sizes.
+	We begin by observing that adding more labeled data from the source task does not always improve performance.
+	Then, we theoretically analyze the benefit of multit-task learning for reducing the amount of labeled data needed to achieve comparable performance to single-task learning, which is a key empirical finding of Taskonomy \cite{ZSSGM18}.
+%	We define the \textit{data efficiency ratio} as the smallest $x$ such that if we only use an $$ fraction of labeled data, then the test error of $\hat{\beta}_t^{\MTL}$ matches that of the $\hat{\beta}_t^{\STL}$ on the entire set.
+	%In Proposition \ref{prop_data_efficiency}, we show that the data efficiency ratio of an illustrative example is at most $\alert{\frac {1}{2\rho_t}}$.
+	%In Section \ref{sec_validate}, we validate that performing multi-task learning can reduce the need for labeled data on 6 sentiment analysis tasks. %, we observe that just by using \alert{40\%} of the labeled data, the overall accuracy of multi-task learning matches that of learning every task in isolation.
+		\item Finally, we show that covariate shift, measured by $\Sigma_1^{1/2}\Sigma_2^{-1/2}$, is another cause for suboptimal performance for $\hat{\beta}_t^{\MTL}$.
+		We show that as $n_1 / n_2$ becomes large, the source task should have the same covariance matrix as the target task to ensure the best performance.
 %		On the other hand, when $n_1 / n_2$ is small, there are counter examples where having the same covariance matrix is not necessarily the optimal choice.
 \squishend
-
-%	A crucial technical tool that we develop for showing Theorem \ref{thm_main_informal} is the asymptotic limit of the trace of $(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}$ (for the setting of two tasks), which may be of independent interest.
-
-We show practical implications of our theory on text and image classification tasks.
-	First, we provide a metric to determine positive versus negative transfer by comparing the test accuracies of single-task models.
-	Second, \todo{}
-	Finally, we show that as the data size between the source and target task becomes more imbalanced, aligning the covariances of the tasks becomes more beneficial.
-% as the data size becomes more imbalanced between the source and target task, having mis-aligned task covariance matrices can result in suboptimal performance.
-	%validate on text and image classification tasks that comparing single-task accuracies can help determine whether multi-task learning performs better than single-task learning.
-
-
-%	On the other hand, if the number of source task datapoints is comparable to the target task, aligning task covariances may hurt performance.
-
+We validate the above phenomena on text and image classification tasks.
+Based on the theory, we provide algorithmic implications for detecting and mitigating negative transfer.
+First, we provide a metric to determine positive versus negative transfer by comparing the test accuracies of single-task models.
+Second, \todo{}
+Finally, we provide a new insight on the covariance alignment algorithm, proposed in \cite{WZR20}.
+We show that as the size of the source task becomes larger compared to the target task, the covariance alignment algorithm produces more significant results.
 
