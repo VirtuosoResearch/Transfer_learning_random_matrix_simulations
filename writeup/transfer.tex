@@ -4,7 +4,7 @@ Based on the key lemma, we explain three contributing factors of negative transf
 For each factor, we show how negative transfer occurs using a simplified isotropic model.
 Then, we describe the algorithmic implication of the theory.
 
-\subsection{Task Dissimilarity}\label{sec_similarity}
+\subsection{Task Similarity}\label{sec_similarity}
 
 It is well-known since the seminal work of Caruana \cite{C97} that how well multi-task learning performs depends on task relatedness.
 As a warmup, we first describe an example that rigorously formalizes the connection using our setup.
@@ -75,7 +75,7 @@ The proof, which is based on Theorem \ref{thm_main_informal}, can be found in Ap
 	\label{fig_model_shift_phasetrans}
 \end{figure}
 
-\textbf{Algorithmic implication.}
+\textbf{Algorithmic consequence.}
 We further show that multi-task learning is particular powerful when the labeled data of the source task is less noisy compared to the target task.
 Consider a more general setting of Proposition \ref{prop_dist_transition} where the noise level $\sigma_1$ of task $1$ differs from the noise level $\sigma_2$ of task $2$.
 If $\sigma_1$ is too large, then the source task provides a negative transfer to the target.
@@ -90,7 +90,7 @@ Let $\tau$ be a fixed threshold.
 If the accuracy of the source task is higher than the accuracy of the target task by $\tau$, then we predict positive transfer.
 On the other hand, if the accuracy of the source task is lower than the accuracy of the target task by $\tau$, then we predict negative transfer.
 
-\subsection{Data Size}
+\subsection{Data Size and Efficiency}
 In classical Rademacher or VC based theory of multi-task learning, the generalization bounds are usually presented for settings where the data sizes are equal for all tasks \cite{B00,M06,MPR16}.
 More generally, such results are still applicable when all task data are being added simultaneously.
 On the other hand, for many applications of multi-task learning, the data sources are usually heterogeneous.
@@ -109,7 +109,7 @@ Using the isotropic model, we consider what happens if we vary the source task d
 Proposition \ref{prop_data_size} shows that as the source data size increases, we observe a transition from positive to negative transfer.
 The proof of Proposition \ref{prop_data_size} is similar to Proposition \ref{prop_dist_transition}, and can be found in Appendix \ref{app_proof_31}.
 
-\textbf{Algorithmic implication.}
+
 We use our tools to explain a key result of taskonomy \cite{ZSSGM18}, which shows that by learning from multiple related tasks, one can reduce the amount of labeled data from each task.
 This is formalized as follows.
 
@@ -128,6 +128,7 @@ We quantify the data efficiency ratio of the isotropic model as follows.
 \end{proposition}
 The proof of Proposition \ref{prop_data_efficiency} can be found in Appendix \ref{app_proof_data}.
 
+\textbf{Algorithmic consequence.} \todo{}
 
 \subsection{Covariate Shift}
 
@@ -171,7 +172,7 @@ Proposition \ref{prop_covariate} implies that when $\rho_1\gg \rho_2$, having no
 	A theoretical justification can be found in Appendix \ref{app_proof_31}.
 \end{example}
 
-\textbf{Algorithmic implication.}
+\textbf{Algorithmic consequence.}
 Our result provides a fine-grained insight on the covariance alignment algorithm proposed in \cite{WZR20}.
 Recall that the covariance alignment procedure in \cite{WZR20} adds an additional module between the word embedding representation and the shared module.
 When the source task data size is particularly large compared to the target task, then we expect that applying the covariance alignment algorithm results in a more significant gain.

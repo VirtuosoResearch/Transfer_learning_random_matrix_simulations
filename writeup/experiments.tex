@@ -25,15 +25,21 @@ This is a 14-task multi-label image classification problem.
 
 For all models, we share the main module across all tasks and assign a separate regression or classification layer on top of the shared module for each tasks.
 
-\subsection{Improving training efficiency in MTL}
+\subsection{Experimental Results}
 
-\subsection{Validating the Algorithmic Implications}
-
-\textbf{A metric to determine positive or negative transfer.}
+\textbf{A metric for the diagnosis of MTL.}
 We validate the metric proposed in Section \ref{sec_similarity} for predicting positive or negative transfer based on STL results.
 Table \ref{tab:mtl_better_than_stl} shows that using a threshold of $0.1$, we can predict $75.6\%$ among 150 task pairs for the sentiment analysis tasks with $38.8\%$ recall.
 Similar for 91 image classification task pairs.
 Note: For text classification tasks, the source task training data size ranges from 500 to 1,500 and target task training data size is 1000; For ChestX-ray14, the training data size is 10,000.
+
+\textbf{Improving training efficiency via an incremental schedule.}
+\todo{}
+
+\subsection{Ablation Studies}
+
+
+\textbf{Task similarity.} \todo{}
 
 \begin{table}
 \begin{minipage}[t]{.58\textwidth}
@@ -93,13 +99,13 @@ Note: For text classification tasks, the source task training data size ranges f
 % \label{tab:mtl_better_than_stl}
 % \end{table}
 
-\textbf{MTL improves labeled data efficiency.}
+\textbf{Data size and efficiency.}
 We measure the data efficiency ratio on the sentiment analysis tasks.
 We find that by performing multi-task learning, only $39\%$ of the labeled data is needed to achieve comparable performance to single-task learning over all six tasks.
 If TREC is not included, we see that only $25\%$ of the labeled data is needed.
 
 
-\textbf{Covariance alignment.}
+\textbf{Covariate shift.}
 We validate that the performance of aligning task covariances depends on the size of source task data.
 In Figure \ref{fig_covariate}, we observe that the benefit from aligning task covariances becomes more significant as we increase the size of the source task dataset.
 
