@@ -1,6 +1,14 @@
-\section{Preliminaries}\label{sec_setup}
+\section{A Technical Tool to Analyze the Bias-Variance Trade-off}
+\label{sec_main}
 
-We describe the bias-variance tradeoff of our setting more formally.
+We first describe the bias-variance tradeoff in our setting more formally.
+Then, we develop a key lemma for analyzing the tradeoff using random matrix theory.
+%We develop a technical tool to derive $\te(\hat{\beta}_t^{\MTL})$ that only depends on the qualities of task data such as data sizes and covariance matrices, for two tasks with general covariances.
+%Then, we extend the result to more than two tasks that share the same features but have different labels.
+Finally, we apply the key lemma to provide a sharp analysis of the bias-variance tradeoff of multi-task and transfer learning in our setting.
+
+\subsection{The Bias-Variance Tradeoff}\label{sec_setup}
+
 Recall that we have $t$ labeled tasks available, denoted by $(X_1, Y_1), (X_2, Y_2), \dots, (X_t, Y_t)$, where $X_i\in\real^{n_i\times p}$ and $Y_i\in\real^{n_i}$ for $1\le i\le t$.
 %Following \cite{HMRT19,BLLT20}, we assume that for each task $i = 1,2,\dots,t$,  every feature vector is generated as $x = \Sigma_i^{1/2} z$, where $z\in\real^p$ is a random vector with i.i.d. entries of mean zero and unit variance and $\Sigma_i\in\real^{p\times p}$ is a positive semidefinite matrix.
 Without loss of generality, let the $t$-th task denote the target task.
@@ -23,37 +31,36 @@ A well-known result for this setting states that $\te_t(\hat{\beta}_t^{\STL}) = 
 However, this result only applies to the single-task setting.
 Therefore, our goal is to extend this result to the multi-task setting.
 
-To illustrate our intuition, we begin by considering the setting of two tasks with general covariance matrices.
-Recall that $\hat{\beta}_t^{\MTL}$ is defined as $BW_t$ after solving equation \eqref{eq_mtl}.
-We decompose the test error of $\hat{\beta}_{t}^{\MTL}$ on the target task into two parts (to be derived in Appendix \ref{app_proof_sec3}) as follows
-\begin{align}
-	\te_t(\hat{\beta}_t^{\MTL}) =& ~ \hat{v}^2 \bignorm{\Sigma_2^{1/2} (\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}X_1^{\top}X_1 (\beta_1 - \hat{v}\beta_2)}^2 \label{eq_te_model_shift} \\
-	&+ \sigma^2\cdot \bigtr{(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2}, \label{eq_te_var}
-\end{align}
-where $\hat{v} = W_2 / W_1$ denotes the ratio of the output layer weights.
-%Hence the bias of $\te_t(\hat{\beta}_t^{\STL})$ is zero and its test error is equal to variance, given by $$.
 
 \textbf{Notations.}
 When there is no ambiguity, we drop the subscript $t$ from $\te_t(\hat{\beta}_t^{\MTL})$ to $\te(\hat{\beta}_t^{\MTL})$ for simplicity.
 We refer to the first task as the source task when there are only two tasks.
 We call $M = \Sigma_1^{1/2}\Sigma_2^{-1/2}$ the covariate shift matrix.
-%Same for $\hat{\beta}_t^{\STL}$.
-
-
-\section{A Technical Tool to Quantify the Bias-Variance Trade-off}
-\label{sec_main}
-
-We develop a technical tool to derive $\te(\hat{\beta}_t^{\MTL})$ that only depends on the qualities of task data such as data sizes and covariance matrices, for two tasks with general covariances.
-Then, we extend the result to more than two tasks that share the same features but have different labels.
-Finally, we show a sharp bias-variance tradeoff for transfer learning settings.
-
 
 \subsection{A Key Lemma using Random Matrix Theory}\label{label_rmt}
 
+To illustrate our intuition, we begin by considering the setting of two tasks with general covariance matrices.
+Recall that $\hat{\beta}_t^{\MTL}$ is defined as $BW_t$ after solving equation \eqref{eq_mtl}.
+We decompose the test error of $\hat{\beta}_{t}^{\MTL}$ on the target task into two parts (to be derived in Appendix \ref{app_proof_sec3}) as follows
+\begin{align}
+	\te(\hat{\beta}_t^{\MTL}) =& ~ \hat{v}^2 \bignorm{\Sigma_2^{1/2} (\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}X_1^{\top}X_1 (\beta_1 - \hat{v}\beta_2)}^2 \label{eq_te_model_shift} \\
+	&+ \sigma^2\cdot \bigtr{(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2}, \label{eq_te_var}
+\end{align}
+where $\hat{v} = W_2 / W_1$ denotes the ratio of the output layer weights.
+The scaling term $\hat{v}$ corresponds to the intuition that the shared module $B$ learns a subspace for both tasks.
+The output layer of each task scales the direction of $B$ suitably to fit the task.
+
+We term equation \eqref{eq_te_model_shift} as \textit{model-shift bias}, which captures how similar $\beta_1$ and $\beta_2$ are.
+This part introduces a negative effect to multi-task learning.
+Next, it is not hard to verify that equation \eqref{eq_te_var}, the variance of $\hat{\beta}_t^{\MTL}$, is always smaller than the variance of $\hat{\beta}_t^{\STL}$.
+This part introduces a positive variance reduction effect to performing multi-task learning.
+Hence, whether $\te(\hat{\beta}_t^{\MTL})$ is lower than $\te(\hat{\beta}_t^{\STL})$ is determined by the tradeoff between two effects:
+(i) the positive effect from variance reduction;
+(ii) the negative effect from model shift bias.
+In order to analyze the tradeoff, we present the following lemma, which provides a tight bound for equation \eqref{eq_te_var}.
 
 \begin{lemma}[Informal statement of Lemma \ref{lem_cov_shift}]\label{lem_cov_shift_informal}
-	Suppose $X_1=Z_1\Sigma_1^{1/2}\in \R^{n_1\times p}$ and $X_2=Z_2\Sigma_2^{1/2}\in \R^{n_2\times p}$ with $\rho_1=n_1/p>1$ and $\rho_2=n_2/p>1$.
-	Let $M = \Sigma_1^{1/2}\Sigma_2^{-1/2}$ and $\lambda_1, \lambda_2, \dots, \lambda_p$ be the singular values of $M^{\top}M$ in descending order.
+	In the setting of two tasks, let $M = \Sigma_1^{1/2}\Sigma_2^{-1/2}$ and $\lambda_1, \lambda_2, \dots, \lambda_p$ be the singular values of $M^{\top}M$ in descending order.
 	For any constant $\e>0$, w.h.p. over the randomness of $X_1, X_2$, we have that
 	\begin{align*}
 		\bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2} = \frac{1}{\rho_1+\rho_2}\cdot \frac1p\bigtr{ (a_1 \Sigma_1 + a_2\Sigma_2)^{-1} \Sigma_2} +\bigo{\|\Sigma_2\| p^{-1/2+\epsilon}},
@@ -64,35 +71,37 @@ where $(a_1, a_2)$ is the solution to the following deterministic equations:
 	\end{align*}
 \end{lemma}
 
-\subsection{Applications to Multi-Task and Transfer Learning}
+As a remark, when there is only the target task, $\rho_1$ equals zero.
+Hence $a_2 = 1 - 1/ \rho_2, a_1 = 0$ and Lemma \ref{lem_cov_shift_informal} states that $\tr[(X_2^{\top}X_2)^{-1}\Sigma_2] = \sigma^2 / (\rho_2 - 1)$, which is to a well-known result in random matrix theory \cite{S07}.
 
-\textbf{Multi-task learning.} applies to the setting of two tasks where their covariance matrices may be arbitrarily different.
-The above result also applies to the setting of more than two tasks with the same covariates.
-%We extend the above result to any number of tasks that have the same covariates.
-%In this section we consider the setting with $k$ many that have the same covariates.
-Since the tasks all have the same number of datapoints and covariance matrix, the trade-off between model shift bias and variance will be captured by their task models $\set{\beta_i}_{i=1}^k$.
-%For this setting, we derive solutions for the multi-task training and the transfer learning setting that match our insights qualitatively from Section \ref{sec_denoise}.
-%Let $B^{\star} = [\beta_1, \beta_2, \dots, \beta_k] \in\real^{p\times k}$ denote the underlying task model parameters.
-The formal statement is stated in Theorem \ref{thm_many_tasks} and its proof can be found in Appendix \ref{app_proof_many_tasks}.
+\subsection{A Sharp Analysis of the Tradeoff for Multi-Task and Transfer Learning}
+
+\textbf{Multi-task learning.}
+We use Lemma \ref{lem_cov_shift_informal} to provide a sharp bias-variance tradeoff for two settings:
+(i) two tasks with general covariance matrices;
+(ii) any number of tasks that have the same features.
+This setting is prevalent in applications of multi-task learning to image classification, where there are multiple prediction labels/tasks for every image \cite{chexnet17,EA20}.
+We state our result for two tasks as follows.
+%The formal statement is stated in Theorem \ref{thm_many_tasks} and its proof can be found in Appendix \ref{app_proof_many_tasks}.
 %The technical crux of our approach is to derive the asymptotic limit of $\te(\hat{\beta}_t^{\MTL})$ in the high-dimensional setting, when $p$ approaches infinity.
-We derive a precise limit of $\bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2}$, which is a deterministic function that only depends on $\Sigma_1, \Sigma_2$ and $n_1/p, n_2/p$ (see Lemma \ref{lem_cov_shift} in Appendix \ref{app_proof_main} for the result).
-Based on the result, we show how to determine positive versus negative transfer as follows.
+%We derive a precise limit of $\bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2}$, which is a deterministic function that only depends on $\Sigma_1, \Sigma_2$ and $n_1/p, n_2/p$ (see Lemma \ref{lem_cov_shift} in Appendix \ref{app_proof_main} for the result).
+%Based on the result, we show how to determine positive versus negative transfer as follows.
 
 \begin{theorem}[Informal statement of Theorem \ref{thm_model_shift}]\label{thm_main_informal}
-	Let $X_i \in\real^{n_i \times p}$ and $Y_i = X_i\beta_i + \varepsilon_i$, for $i = 1, 2$.
-	Suppose that $n_1 = \rho_1 p$ and $n_2 = \rho_2 p$, where $\rho_1>1$ and $\rho_2 >1$ are fixed constants.
-	There exists two deterministic functions $\Delta_{\beta}$ and $\Delta_{\vari}$ and a small deterministic error $\delta$ that only depend on $\set{\hat{v}, \Sigma_1^{}, n_1, n_2, \beta_1, \beta_2}$ such that
-	\begin{itemize}
+	For the setting of two tasks, let $\delta > 0$ be a desired error margin and $\rho_1 > ??$.
+	There exists two deterministic functions $\Delta_{\beta}$ and $\Delta_{\vari}$ that only depend on $\set{\hat{v}, \Sigma_1^{}, n_1, n_2, \beta_1, \beta_2}$ such that
+	\squishlist
 		\item If $\Delta_{\vari} - \Delta_{\beta} \ge \delta$, then whp $\te(\hat{\beta}_t^{\MTL}) < \te(\hat{\beta}_t^{\STL})$.
 		\item If $\Delta_{\vari} - \Delta_{\beta} \le \delta$, then whp $\te(\hat{\beta}_t^{\MTL}) > \te(\hat{\beta}_t^{\STL})$.
-	\end{itemize}
+	\squishend
 \end{theorem}
 
 Theorem \ref{thm_main_informal} shows nearly tight bounds on the trade-off between model-shift bias and variance reduction.
 %determined by the covariate shift matrix and the model shift.
 The bounds get tighter and tighter as $\rho_1$ increases.
 While the general form of $\Delta_{\vari}$ and $\Delta_{\beta}$ can be quite complex, we will show that they provide nice interpretation for simplified settings later on in Section \ref{sec_insight}.
-A formal version of Theorem \ref{thm_main_informal} is presented in Theorem \ref{thm_model_shift} and its proof is presented in Appendix \ref{app_proof_main}.
+The proof of Theorem \ref{thm_main_informal}  is presented in Appendix \ref{app_proof_main}.
+The result for more than two tasks is deferred to Appendix \ref{app_proof_many_tasks}.
 
 \textbf{Transfer learning.}
 We extend the intuition behind Theorem \ref{thm_main_informal} to transfer learning settings.

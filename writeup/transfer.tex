@@ -1,15 +1,10 @@
+\section{Understanding Negative Transfer and Their Algorithmic Implications}\label{sec_insight}
 
+Based on the key lemma, we explain three contributing factors of negative transfer, including model dissimilarity, large source data size and covariate shift.
+For each factor, we show how negative transfer occurs using a simplified isotropic model.
+Then, we describe the algorithmic implication of the theory.
 
-
-
-\section{Theoretical Implications}
-\label{sec_insight}
-
-Based on Theorem \ref{thm_main_informal}, we provide precise interpretations of many empirical phenomena in multi-task learning.
-In Section \ref{sec_similarity}, we explain three contributing causes of negative transfer, including model dissimilarity, large source data size and covariate shift.
-In Section \ref{sec_benefit}, we describe two implications for positive transfer, including labeled data efficiency and de-noising.
-
-\subsection{Contributing Causes of Negative Transfer}\label{sec_similarity}
+\subsection{Model Dissimilarity}
 
 It is well-known since the seminal work of Caruana \cite{C97} that how well multi-task learning performs depends on task relatedness.
 As a warmup, we first describe an example that rigorously formalizes the connection using our setup.
@@ -23,7 +18,6 @@ As a warmup, we first describe an example that rigorously formalizes the connect
 	The labels are given by $Y_i = X_i\beta_i + \varepsilon_i$, where $\e_i$ consists of i.i.d. entries with mean zero and variance $\sigma_i^2$, for $i=1,2$.
 	\footnote{For simplicity, we assume that all the random variables have subexponential decay, while keeping in mind that our results can be applied under weaker moments assumptions as shown in the supplementary material.}
 
-\textbf{Cause 1.}
 We measure model dissimilarity as $\norm{\beta_1 - \beta_2}^2$, which is the distance between source and target in the isotropic model.
 We derive a sharp threshold when positive transfer transitions to negative transfer, as model dissimilarity increases.
 %Based on Theorem \ref{thm_model_shift}, we derive the transition threshold in the following proposition.
@@ -44,28 +38,12 @@ Let $\alpha_{-} = (1 - \rho_1^{-1/2})^4$ and $\alpha_{+} = (1 + \rho_1^{-1/2})^4
 \end{proposition}
 
 Proposition \ref{prop_dist_transition} simplifies Theorem \ref{thm_main_informal} in the isotropic model, allowing for a more explicit statement of the bias-variance tradeoff.
-We remark that the constants $1/2$ and $2$ in the statement above are chosen for ease of presentation.
-In general we can close their gap by increasing $\rho_1$.
-
-We describe an overview of the proof of Theorem \ref{thm_main_informal}.
-By comparing the bias and variance of $\te_t(\hat{\beta}_t^{\MTL})$ to $\te_t(\hat{\beta}_t^{\STL})$, we observe the following two effects, respectively.
-%We begin by observing that the test error of $\hat{\beta}_t^{\MTL}$ consists of two parts.
-We term equation \eqref{eq_te_model_shift} as \textit{model-shift bias}, which captures how similar $\beta_1$ and $\beta_2$ are.
-This part introduces a negative effect to multi-task learning.
-The scaling term $\hat{v}$ corresponds to the intuition that the shared module $B$ learns a subspace for both tasks.
-The output layer of each task scales the direction of $B$ suitably to fit the task.
-Next, it is not hard to verify that equation \eqref{eq_te_var}, the variance of $\hat{\beta}_t^{\MTL}$, is always smaller than the variance of $\hat{\beta}_t^{\STL}$.
-This part introduces a positive variance reduction effect to performing multi-task learning.
-Hence, whether $\te(\hat{\beta}_t^{\MTL})$ is lower than $\te(\hat{\beta}_t^{\STL})$ is determined by the trade-off between two effects:
-(i) the positive effect from variance reduction;
-(ii) the negative effect from model shift bias.
-
 \todo{} We illustrate the example with a simulation.
 We consider a setting where $p = 200$, $n_1 = 90p$, $n_2 = 30p$.
 We fix the target task and vary the source task, in particular the parameter $d$ which determines $\norm{\beta_1 - \beta_2}$.
 Figure \ref{fig_model_shift} shows the result.
 We observe that Proposition \ref{prop_dist_transition} explains most of the observations in Figure \ref{fig_model_shift}.
-%in this proposition (and the following ones) can be replaced with $(1+c_1^{-1/2})^{-4}$ and $(1-c_1^{-1/2})^{-4}$. In particular, these bounds becomes tighter as $c_1$ increases.
+
 
 The proof of Proposition \ref{prop_dist_transition} involves two parts.
 First, in equation \eqref{eq_te_var}, the positive variance reduction effect scales with $n_1 = \rho_1 p$, the number of source task data points.
@@ -97,7 +75,22 @@ The proof, which is based on Theorem \ref{thm_main_informal}, can be found in Ap
 	\label{fig_model_shift_phasetrans}
 \end{figure}
 
-\textbf{Cause 2.}
+\textbf{Algorithmic implication.}
+We further show that multi-task learning is particular powerful when the labeled data of the source task is less noisy compared to the target task.
+Consider a more general setting of Proposition \ref{prop_dist_transition} where the noise level $\sigma_1$ of task $1$ differs from the noise level $\sigma_2$ of task $2$.
+If $\sigma_1$ is too large, then the source task provides a negative transfer to the target.
+If $\sigma_1$ is small, then the transfer may be positive.
+Proposition \ref{prop_var_transition} formalizes the intuition.
+
+Based on the result, we propose a simple metric to determine whether multi-task learning performs better than single-task learning.
+The metric is as follows.
+First, we train 2 single-task models on 2 separate tasks.
+We take the prediction accuracy of the two tasks.
+Let $\tau$ be a fixed threshold.
+If the accuracy of the source task is higher than the accuracy of the target task by $\tau$, then we predict positive transfer.
+On the other hand, if the accuracy of the source task is lower than the accuracy of the target task by $\tau$, then we predict negative transfer.
+
+\subsection{Data Size.}
 In classical Rademacher or VC based theory of multi-task learning, the generalization bounds are usually presented for settings where the data sizes are equal for all tasks \cite{B00,M06,MPR16}.
 More generally, such results are still applicable when all task data are being added simultaneously.
 On the other hand, for many applications of multi-task learning, the data sources are usually heterogeneous.
@@ -118,7 +111,28 @@ a) If $\norm{\beta_1 - \beta_2}^2 \approx pd^2$ is sufficiently small, then addi
 ii) Otherwise, as source data size increases, we observe a transition from positive to negative transfer.
 The proof of Proposition \ref{prop_data_size} is similar to Proposition \ref{prop_dist_transition}, and can be found in Appendix \ref{app_proof_31}.
 
-\textbf{Cause 3.}
+\textbf{Algorithmic implication.}
+We use our tools to explain a key result of taskonomy \cite{ZSSGM18}, which shows that by learning from multiple related tasks, one can reduce the amount of labeled data from each task.
+This is formalized as follows.
+
+Given several tasks, let the data efficiency ratio be the largest factor $x$ such that the total number of labeled datapoints needed for solving all tasks can be reduced by $x$ while keeping the same performance compared to STL.
+%More precisely, suppose we have $n_i$ datapoints for each task, for $i= 1, 2$.
+For $i = 1, 2$, let $\hat{\beta}_i^{\MTL}(x)$ denote the estimator trained using only $\alpha n_i$ datapoints from every task.
+The data efficiency ratio is defined as
+\[ \argmin_{x\in(0, 1)} ~~
+		\te_1(\hat{\beta}_1^{\MTL}(x)) + \te_2(\hat{\beta}_2^{\MTL}(x))
+		\le \te_1(\hat{\beta}_1^{\STL}) + \te_2(\hat{\beta}_2^{\STL}). \]
+We quantify the data efficiency ratio of the isotropic model as follows.
+
+\begin{proposition}[Labeled data efficiency]\label{prop_data_efficiency}
+	In the isotropic model, assume that $\rho_1,\rho_2 > 1$ and $\Psi(\beta_1, \beta_2) < \frac{2}{\rho_1} + \frac{2}{\rho_2}$.
+	Then the data efficiency ratio is at least \[ \frac{1}{\rho_1 + \rho_2}\cdot \bigbrace{1 + \frac{1}{\rho_1^{-1} + \rho_2^{-1} - 2\Psi(\beta_1, \beta_2)}}. \]
+\end{proposition}
+The proof of Proposition \ref{prop_data_efficiency} can be found in Appendix \ref{app_proof_data}.
+
+
+\subsection{Covariate Shift}
+
 So far we have considered the isotropic model where $\Sigma_1 = \Sigma_2$.
 This setting is relevant for settings where different tasks share the same input features such as multi-class image classification.
 In general, the covariance matrices of the two tasks may be different such as in text classification.
@@ -159,33 +173,4 @@ Proposition \ref{prop_covariate} implies that when $\rho_1\gg \rho_2$, having no
 	A theoretical justification can be found in Appendix \ref{app_proof_31}.
 \end{example}
 
-
-\subsection{Implications for Positive Transfer}\label{sec_benefit}
-
-On the positive side, we describe two implications for positive transfer, assuming that $\Psi(\beta_1, \beta_2)$ is small in the isotropic model.
-
-\textbf{Implication 1.}
-We use our tools to explain a key result of taskonomy \cite{ZSSGM18}, which shows that by learning from multiple related tasks, one can reduce the amount of labeled data from each task.
-This is formalized as follows.
-
-Given several tasks, let the data efficiency ratio be the largest factor $x$ such that the total number of labeled datapoints needed for solving all tasks can be reduced by $x$ while keeping the same performance compared to STL.
-%More precisely, suppose we have $n_i$ datapoints for each task, for $i= 1, 2$.
-For $i = 1, 2$, let $\hat{\beta}_i^{\MTL}(x)$ denote the estimator trained using only $\alpha n_i$ datapoints from every task.
-The data efficiency ratio is defined as
-\[ \argmin_{x\in(0, 1)} ~~
-		\te_1(\hat{\beta}_1^{\MTL}(x)) + \te_2(\hat{\beta}_2^{\MTL}(x))
-		\le \te_1(\hat{\beta}_1^{\STL}) + \te_2(\hat{\beta}_2^{\STL}). \]
-We quantify the data efficiency ratio of the isotropic model as follows.
-
-\begin{proposition}[Labeled data efficiency]\label{prop_data_efficiency}
-	In the isotropic model, assume that $\rho_1,\rho_2 > 1$ and $\Psi(\beta_1, \beta_2) < \frac{2}{\rho_1} + \frac{2}{\rho_2}$.
-	Then the data efficiency ratio is at least \[ \frac{1}{\rho_1 + \rho_2}\cdot \bigbrace{1 + \frac{1}{\rho_1^{-1} + \rho_2^{-1} - 2\Psi(\beta_1, \beta_2)}}. \]
-\end{proposition}
-The proof of Proposition \ref{prop_data_efficiency} can be found in Appendix \ref{app_proof_data}.
-
-\textbf{Implication 2.}
-We further show that multi-task learning is particular powerful when the labeled data of the source task is less noisy compared to the target task.
-Consider a more general setting of Proposition \ref{prop_dist_transition} where the noise level $\sigma_1$ of task $1$ differs from the noise level $\sigma_2$ of task $2$.
-We extend Proposition \ref{prop_dist_transition} as follows.
-
-
+\textbf{Algorithmic implication.}
