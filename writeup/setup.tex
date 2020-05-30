@@ -43,13 +43,25 @@ We call $M = \Sigma_1^{1/2}\Sigma_2^{-1/2}$ the covariate shift matrix.
 \section{A Technical Tool to Quantify the Bias-Variance Trade-off}
 \label{sec_main}
 
-%We revisit the classical bias-variance trade-off in the context of multi-task learning for linear regressions, in particular the setup of equation \eqref{eq_mtl}.
 We develop a technical tool to derive $\te(\hat{\beta}_t^{\MTL})$ that only depends on the qualities of task data such as data sizes and covariance matrices, for two tasks with general covariances.
 Then, we extend the result to more than two tasks that share the same features but have different labels.
 Finally, we show a sharp bias-variance tradeoff for transfer learning settings.
+
+
+\subsection{A Key Lemma using Random Matrix Theory}\label{label_rmt}
 %For the high-dimensional setting where the data size of the target task is a small constant times dimension $p$, we quantify the trade-off as a function of the task models $\set{\beta_i}_{i=1}^t$, data size $\set{n_i}_{i=1}^t$, and covariance matrices $\set{\Sigma_i}_{i=1}^t$.
 
+
+\subsection{Applications to Multi-Task and Transfer Learning}
+
 \textbf{Multi-task learning.} applies to the setting of two tasks where their covariance matrices may be arbitrarily different.
+The above result also applies to the setting of more than two tasks with the same covariates.
+%We extend the above result to any number of tasks that have the same covariates.
+%In this section we consider the setting with $k$ many that have the same covariates.
+Since the tasks all have the same number of datapoints and covariance matrix, the trade-off between model shift bias and variance will be captured by their task models $\set{\beta_i}_{i=1}^k$.
+%For this setting, we derive solutions for the multi-task training and the transfer learning setting that match our insights qualitatively from Section \ref{sec_denoise}.
+%Let $B^{\star} = [\beta_1, \beta_2, \dots, \beta_k] \in\real^{p\times k}$ denote the underlying task model parameters.
+The formal statement is stated in Theorem \ref{thm_many_tasks} and its proof can be found in Appendix \ref{app_proof_many_tasks}.
 %The technical crux of our approach is to derive the asymptotic limit of $\te(\hat{\beta}_t^{\MTL})$ in the high-dimensional setting, when $p$ approaches infinity.
 We derive a precise limit of $\bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2}$, which is a deterministic function that only depends on $\Sigma_1, \Sigma_2$ and $n_1/p, n_2/p$ (see Lemma \ref{lem_cov_shift} in Appendix \ref{app_proof_main} for the result).
 Based on the result, we show how to determine positive versus negative transfer as follows.
@@ -83,15 +95,6 @@ Hence, whether $\te(\hat{\beta}_t^{\MTL})$ is lower than $\te(\hat{\beta}_t^{\ST
 (i) the positive effect from variance reduction;
 (ii) the negative effect from model shift bias.
 A formal version of Theorem \ref{thm_main_informal} is presented in Theorem \ref{thm_model_shift} and its proof is presented in Appendix \ref{app_proof_main}.
-
-\textbf{Extension.} The above result also applies to the setting of more than two tasks with the same covariates.
-%We extend the above result to any number of tasks that have the same covariates.
-%In this section we consider the setting with $k$ many that have the same covariates.
-Since the tasks all have the same number of datapoints and covariance matrix, the trade-off between model shift bias and variance will be captured by their task models $\set{\beta_i}_{i=1}^k$.
-%For this setting, we derive solutions for the multi-task training and the transfer learning setting that match our insights qualitatively from Section \ref{sec_denoise}.
-%Let $B^{\star} = [\beta_1, \beta_2, \dots, \beta_k] \in\real^{p\times k}$ denote the underlying task model parameters.
-We derive a similar trade-off between model shift bias and variance reduction for this setting as well.
-The formal statement is stated in Theorem \ref{thm_many_tasks} and its proof can be found in Appendix \ref{app_proof_many_tasks}.
 
 \textbf{Transfer learning.}
 We extend the intuition behind Theorem \ref{thm_main_informal} to transfer learning settings.
