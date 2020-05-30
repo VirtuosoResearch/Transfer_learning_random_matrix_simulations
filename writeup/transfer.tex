@@ -166,20 +166,21 @@ On the positive side, we describe two implications for positive transfer, assumi
 
 \textbf{Implication 1.}
 We use our tools to explain a key result of taskonomy \cite{ZSSGM18}, which shows that by learning from multiple related tasks, one can reduce the amount of labeled data from each task.
-This is formalized by a metric called the data efficiency ratio as follows.
+This is formalized as follows.
 
-Given several tasks, let $\alpha^{\star}$ be the largest factors such that the total number of labeled datapoints needed for solving all tasks can be reduced by an $\alpha^{\star}$ factor (compared to training independently) while keeping the same performance.
+Given several tasks, let the data efficiency ratio be the largest factor $x$ such that the total number of labeled datapoints needed for solving all tasks can be reduced by $x$ while keeping the same performance compared to STL.
 %More precisely, suppose we have $n_i$ datapoints for each task, for $i= 1, 2$.
-For $i = 1, 2$, let $\hat{\beta}_i^{\MTL}(\alpha)$ denote the estimator trained using only $\alpha n_i$ datapoints from every task.
+For $i = 1, 2$, let $\hat{\beta}_i^{\MTL}(x)$ denote the estimator trained using only $\alpha n_i$ datapoints from every task.
 The data efficiency ratio is defined as
-\[ \alpha^{\star} \define\argmin_{\alpha\in(0, 1)} ~~
-		\te_1(\hat{\beta}_1^{\MTL}(\alpha)) + \te_2(\hat{\beta}_2^{\MTL}(\alpha))
+\[ \argmin_{x\in(0, 1)} ~~
+		\te_1(\hat{\beta}_1^{\MTL}(x)) + \te_2(\hat{\beta}_2^{\MTL}(x))
 		\le \te_1(\hat{\beta}_1^{\STL}) + \te_2(\hat{\beta}_2^{\STL}). \]
 We quantify the data efficiency ratio of the isotropic model as follows.
 
 \begin{proposition}[Labeled data efficiency]\label{prop_data_efficiency}
-	In the isotropic model, assume that $\rho_1$ and $\rho_2$, $pd^2 < {8\sigma^2} /{(3 \rho)}$.
-	Then the data efficiency ratio is at most $\frac{1}{2\rho} + \frac{\sigma^2}{2\sigma^2 - 3p d^2 \rho / 4}$.
+	In the isotropic model, assume that $\rho_1,\rho_2 > 1$ and $\Psi(\beta_1, \beta_2) < \frac{2}{\rho_1} + \frac{2}{\rho_2}$.
+	Let $$ the data efficiency ratio is bounded within
+	$[ ]$
 \end{proposition}
 The proof of Proposition \ref{prop_data_efficiency} can be found in Appendix \ref{app_proof_data}.
 
