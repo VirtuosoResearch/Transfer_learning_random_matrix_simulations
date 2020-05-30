@@ -1,10 +1,10 @@
 
 \begin{abstract}
-When does multi-task and transfer learning outperform single-task learning?
+When does multi-task learning outperform single-task learning?
 In this work, we address this question by studying the test performance of predicting a particular task given multiple tasks using a commonly used hard parameter sharing architecture, in terms of bais-variance tradeoff.
-In the case of high-dimensional linear regression, we provide a sharp analysis of the bias-variance tradeoff for multi-task and transfer learning estimators.
+In the setting of high-dimensional linear regression, we provide a sharp analysis of the bias-variance tradeoff for multi-task learning estimators.
 A key technical tool that we develop is the trace of $(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}$ for two random matrices $X_1$ and $X_2$ in the setting of two tasks.
-	Based on the theory, we provide more precise interpretations of many empirical phenomena in multi-task and transfer learning.
+	Based on the theory, we provide more precise interpretations of many empirical phenomena in multi-task learning.
 	For example, we quantify the benefit of multi-task learning for reducing the amount of labeled data, which is a key finding in Taskonomy by Zamir et al.'18.
 	Finally, we show practical implications of our theory for detecting and improving negative effects in image and text classification tasks.
 \end{abstract}
@@ -13,17 +13,18 @@ A key technical tool that we develop is the trace of $(X_1^{\top}X_1 + X_2^{\top
 
 %Multi-task learning is an inductive learning mechanism to improve generalization performance using related task data.
 %Many state-of-the-art results in computer vision and natural language processing are obtained using multi-task learning.
-Multi-task learning has become a powerful paradigm to solve complex prediction tasks in computer vision \cite{chexnet17,ZSSGM18}, natural language processing \cite{GLUE,superglue} and numerous other areas \cite{ZY17}.
+Multi-task learning represents a powerful paradigm to solve complex prediction tasks in computer vision \cite{chexnet17,ZSSGM18}, natural language processing \cite{GLUE,superglue} and numerous other areas \cite{ZY17}.
 %In multi-task learning, having related task data is fundamental to its performance.
 %Multi-task learning is particularly powerful when there is limited labeled data for a task to be solved, meanwhile more labeled data from different but related tasks is available.
-By combining multiple information sources, it is possible to share new information among different sources in the same model \cite{C97}.
+By combining multiple information sources, it is possible to share all the information in the same model.
 %For example, many applications in , and many other areas have been achieved by learning from multiple tasks together.
-Intuitively, the performance of multi-task learning depends on the relationship of the information sources.
+The performance of multi-task learning depends on the relationship of the information sources \cite{C97}.
 When the information sources are heterogeneous, negative transfer -- where multi-task learning performs worse than single-task learning -- has often been observed \cite{AP16,BS17}.
 While numerous studies have sought to alleviate negative transfer when it occurs \cite{ZY17}, a rigorous understanding to the contributing causes of negative transfer has remained elusive in the literature \cite{R17}.
 %This phenomenon, known as \textit{negative transfer}, is fundamental to the understanding of multi-task learning.
-In this work, we develop technical tools to better understand when and why negative transfer occurs for learning multiple linear regression tasks in high dimensions. % for learning from multiple linear regression tasks.
-We use the tools to show theoretical and practical implications for detecting and improving negative transfer.
+In this work, we develop technical tools to compare multi-task learning to single-task learning for the setting of high-dimensional linear regression. % for learning from multiple linear regression tasks.
+We use the tools to explain negative transfer and provide implications for positive transfer.
+Based on the theory, we show practical implications for detecting and mitigating negative transfer.
 %We consider a setting where the target task has limited labeled data and show
 %On the other hand, unless the structures across task data are well-understood, applying multi-task learning on several different datasets often result in suboptimal models (or negative transfer in more technical terms).
 
@@ -33,17 +34,6 @@ On the other hand, we have observed that adding more labeled data does not alway
 More recent work has shown the benefit of learning multi-task representations for certain half-spaces \cite{MPR16} and multiple sparse regressions \cite{LPTV09,LPVT11}.
 In order to rigorously understand negative transfer, the technical challenge is to develop generalization bounds that scale tightly with the qualities of the data.
 
-%The technical challenge to develop a theory for multi-task learning is how to capture generalization performance that scales tightly with the amount of labeled data, in particular when the size of the training set is small.
-%Prior generalization theory using uniform stability \cite{LTSM16}, Rademacher complexity \cite{BS03,BBCKP10} is unable to explain the phenomenon of negative transfer because there is no tight bound on test error that scales with the amount of labeled data.
-%In particular in Figure \ref{fig_motivation}, we observe a shift from positive transfer to negative transfer as a parameter of task relatedness.
-%The theory we develop will provide a precise explanation to such a phenomenon.
-
-%To gain insight into the working of multi-task learning, we consider a simplified setting for learning multiple high-dimensional linear regression tasks.
-%A typical process to do multi-task learning involves two steps:
-%(i) Jointly learn a shared representation for all the tasks;
-%(ii) Fine-tune the learnt model on a specific target task.
-%We focus on a hard parameter sharing model proposed in \cite{R17,WZR20} and identify conditions on when multi-task and transfer learning works, and when it doesn't.
-%The high-dimensional linear regression setting where the target task data size is limited captures the intuition that the target task only contains limited labeled data.
 
 In this work, we consider a setting where multiple labeled linear regression tasks are available and focus on predicting a particular task whose amount of labeled data is limited.
 Following Hastie et al. \cite{HMRT19} and Bartlett et al. \cite{BLLT20}, we assume that for every task $1\le i\le t$, its features are random vectors $x = \Sigma_i^{1/2}z$, where $z\in\real^p$ consists of i.i.d. entries with mean zero and unit variance, and $\Sigma_i\in\real^{p\times p}$ is a positive semidefinite matrix.
@@ -65,7 +55,7 @@ This corresponds to minimizing the following objective.
 For a target task $t$,
 let $\hat{\beta}_t^{\MTL} = B W_t$ denote the optimal multi-task estimator by solving equation \eqref{eq_mtl}.
 Let $\hat{\beta}_t^{\STL}$ denote the standard linear regression estimator using task $t$ alone.
-We say there is negative transfer if the test error of $\hat{\beta}_t^{\MTL}$  is smaller than that of $\hat{\beta}_t^{\STL}$, or positive transfer otherwise.
+We say there is negative transfer if the test error of $\hat{\beta}_t^{\MTL}$  is larger than that of $\hat{\beta}_t^{\STL}$, or positive transfer otherwise.
 
 \textbf{Main results.}
 We revisit the bias-variance tradeoff of the multi-task estimator.
@@ -84,8 +74,6 @@ We study the transfer function used by Taskonomy \cite{ZSSGM18}, which pools lea
 We find that the model shift bias can be captured nicely by the orthogonal projection of $\beta_t$ to the subspace spanned by $\set{\beta_i}_{i=1}^{t-1}$.
 These results are presented more precisely in Section \ref{sec_main}.
 
-
-\todo{The rest is under construction. Would be great to get more feedback on the technical part of Sec 2-4.}
 
 The tradeoff that we developed in Section \ref{sec_main} depends on the qualities of each task dataset such as its data size and covariance matrix.
 In Section \ref{sec_insight}, we use the technical results to provide guidance on when positive transfer is likely to occur and identify causes of negative transfer.
