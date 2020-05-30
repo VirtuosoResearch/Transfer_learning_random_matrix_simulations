@@ -167,18 +167,20 @@ the proof for tighter bound ...........
 
 \subsection{Proof of Many Tasks with the Same Covariates}\label{app_proof_many_tasks}
 
+
 \begin{theorem}\label{thm_many_tasks}
-	Let $n = c \cdot p$.
-	Let $X\in\real^{n\times p}$ and $Y_i = X\beta_i + \varepsilon_i$, for $i = 1,\dots,k$.
-	Let $U_r U_r^{\top}$ denote the best rank-$r$ approximation subspace of $B^{\star}\Sigma B^{\star}$, where $U_r\in\real^{k\times r}$.
+Suppose $X=Z\Sigma^{1/2}\in \R^{n\times p}$ satisfy Assumption \ref{assm_secA1} with $\rho:=n/p>1$ being some fixed constant. Consider data models  $Y_i = X\beta_i + \varepsilon_i$, $i=1,2,\cdots, t$, where $\e_i\in \R^{n}$ are random vectors with i.i.d. entries with mean zero, variance $\sigma^2$ and all moments as in \eqref{assmAhigh}. Moreover, assume that $X$, $\beta_i$ and $\e_i$ are all independent of each other.  
+	%Let $n = c \cdot p$.
+	%Let $X\in\real^{n\times p}$ and $Y_i = X\beta_i + \varepsilon_i$, for $i = 1,\dots,k$.
+	Let $U_r U_r^{\top}$ denote the best rank-$r$ approximation subspace of $(B^{\star})^\top\Sigma B^{\star}$, where $B^\star = [{\beta}_1,{\beta}_2,\dots,{\beta}_{t}]$ and $U_r\in\real^{t\times r}$.
 	Let $U_r(i)$ denote the $i$-th row vector of $U_r$.
-	We have the following
+	We have the following 
 	\begin{itemize}
-		\item If $(1 - \norm{U_r(i)}^2)\cdot \frac{\sigma^2}{c - 1} \ge \norm{\Sigma (B^{\star} U_r U_r(i) - \beta_i)}^2$, then whp $\te(\hat{\beta}_t^{\MTL}) < \te(\hat{\beta}_t^{\STL})$.
-		\item If $(1 - \norm{U_r(i)}^2)\cdot \frac{\sigma^2}{c - 1} < \norm{\Sigma(B^{\star} U_r U_r(i) - \beta_i)}^2$, then whp $\te(\hat{\beta}_t^{\MTL}) > \te(\hat{\beta}_t^{\STL})$.
+		\item If $\left(1 -\oo(1)- \norm{U_r(t)}^2 \right)\frac{\sigma^2}{\rho - 1} > \norm{\Sigma (B^{\star} U_r U_r(t) - \beta_t)}^2 $, then $\te(\hat{\beta}_t^{\MTL}) < \te(\hat{\beta}_t^{\STL})$ whp.
+		\item If $\left(1 +\oo(1)- \norm{U_r(t)}^2\right)\frac{\sigma^2}{\rho - 1} < \norm{\Sigma(B^{\star} U_r U_r(t) - \beta_t)}^2$, then $\te(\hat{\beta}_t^{\MTL}) > \te(\hat{\beta}_t^{\STL})$ whp.
 	\end{itemize}
 \end{theorem}
-As a remark, since the spectral norm of $U_r$ is less than $1$, we have that $\norm{U_r(i)} < 1$, for any $1 \le i \le k$. Compared to Theorem \ref{thm_main_informal}, we can get a simple expression for the two functions $\Delta_{vari}$ and $\Delta_{\beta}$. The proof of Theorem \ref{thm_many_tasks} can be found in Appendix \ref{app_proof_many_tasks}.
+%As a remark, since the spectral norm of $U_r$ is less than $1$, we have that $\norm{U_r(i)} < 1$ for all $1 \le i \le t$. Compared to Theorem \ref{thm_main_informal}, we can get a simple expression for the two functions $\Delta_{vari}$ and $\Delta_{\beta}$. The proof of Theorem \ref{thm_many_tasks} can be found in Appendix \ref{app_proof_many_tasks}.
 
 
 
@@ -186,49 +188,50 @@ As a remark, since the spectral norm of $U_r$ is less than $1$, we have that $\n
 %Since every task has the same number of data points as well as the same covariance, the only differences between different tasks are their models $\set{\beta_i}_{i=1}^k$.
 %For this setting, we derive solutions for the multi-task training and the transfer learning setting that match our insights qualitatively from Section \ref{sec_denoise}.
 
-For this setting, the problem reduces to the following.
-\begin{align}
-	f(B; W_1, \dots, W_k) = \sum_{i=1}^k \bignorm{X B W_i - Y_i}^2. \label{eq_mtl_same_cov}
-\end{align}
-In order to prove Theorem \ref{thm_many_tasks}, we will derive a closed form solution for equation \eqref{eq_mtl_same_cov}.
-
 \begin{proof}[Proof of Theorem \ref{thm_many_tasks}]
-\todo{check!} By fixing $W_1, W_2, \dots, W_k$, we can derive a closed form solution for $B$ as
+In this setting, we need to study the following loss function:
+\begin{align}
+	f(B; W_1, \dots, W_t) = \sum_{i=1}^t \bignorm{X B W_i - Y_i}^2. \label{eq_mtl_same_cov}
+\end{align}
+%In order to prove Theorem \ref{thm_many_tasks}, we will derive a closed form solution for equation \eqref{eq_mtl_same_cov}. \todo{check!} 
+For any fixed $W_1, W_2, \dots, W_t \in \R^r$, we can derive a closed form solution for $B$ as
 	\begin{align*}
-		\hat{B}(W_1, \dots, W_k) &= (X^{\top}X)^{-1} X^{\top} \bigbrace{\sum_{i=1}^k Y_i W_i^{\top}} (Z Z^{\top})^{-1} \\
-		&= \sum_{i=1}^k \bigbrace{\beta_i W_i^{\top}} (ZZ^{\top})^{-1} + (X^{\top}X)^{-1}X^{\top} \bigbrace{\sum_{i=1}^k \varepsilon_i W_i^{\top}} (ZZ^{\top})^{-1}
+		\hat{B}(W_1, \dots, W_t) &= (X^{\top}X)^{-1} X^{\top} \bigbrace{\sum_{i=1}^t Y_i W_i^{\top}} (\cal W  \cal W^{\top})^{-1} \\
+		&= (B^\star \cal W ^{\top}) (\cal W \cal W ^{\top})^{-1} + (X^{\top}X)^{-1}X^{\top} \bigbrace{\sum_{i=1}^t \varepsilon_i W_i^{\top}} (\cal W \cal W^{\top})^{-1}
 	\end{align*}
-	where we denote $Z\in\real^{r\times k}$ as the $k$ vectors $W_1, W_2, \dots, W_k$ stacked together.
+	where we denote $\cal W \in\real^{r\times t}$ as $\cal W=[W_1, W_2, \dots, W_t]$.
 	%Now we switch $\hat{B}$ back into equation \eqref{eq_mtl_same_cov} to
-	Similar to Section \ref{sec_setup}, we consider minimizing the validation loss over $W_1, W_2, \dots, W_k$ provided with $\hat{B}$.
+	Then as in Section \ref{app_proof_sec3}, it remains to consider minimizing the validation loss 
+	$$\val( \cal W):=\exarg{\varepsilon_j, \forall 1\le j\le t}{ \sum_{i=1}^t \bignorm{\Sigma^{1/2}( \hat B W_i - \beta_i)}^2}$$ 
+	over $\cal W$.
 
-	Denote by $\varepsilon(W) = \sum_{i=1}^k \varepsilon_i W_i^{\top}$.
-	We shall decompose the validation loss $\val(\hat{B}; W_1, \dots, W_k)$ into two parts.
-	The first part is the model shift bias, which is equal to
+	% Denote by $\varepsilon(W) = \sum_{i=1}^k \varepsilon_i W_i^{\top}$. 
+	It is easy to calculate that $\val( \cal W)$ contains two parts: $\val( \cal W)= \delta_{\beta}(\cal W) + \delta_{\vari}(\cal W)$. Here $\delta_{\beta}(\cal W) $ is the model shift bias term given by
 	\begin{align*}
-		\sum_{j=1}^k \bigbrace{\bignorm{\Sigma^{1/2}\bigbrace{\sum_{i=1}^k(\beta_i W_i^{\top}) (ZZ^{\top})^{-1} W_j - \beta_j}}^2}
+		\delta_{\beta}(\cal W) =\sum_{i=1}^t  \bignorm{\Sigma^{1/2}\bigbrace{(B^\star \cal W^\top) (\cal W\cal W^{\top})^{-1} W_i - \beta_i}}^2,
 	\end{align*}
-	The second part is the variance, which is equal to
+	and $\delta_{\vari}(\cal W)$ is the variance term given by
 	\begin{align*}
-		& \sum_{j=1}^k \exarg{\varepsilon_i, \forall i}{\bigbrace{\bigbrace{\sum_{i=1}^k \varepsilon_i W_i^{\top}} (ZZ^{\top})^{-1} W_j}^2} \cdot {\bigtr{\Sigma(X^{\top}X)^{-1}}} \\
-		=& \sigma^2 \cdot \bigtr{\Sigma (X^{\top}X)^{-1}}.
+		\delta_{\vari}(\cal W)= \sigma^2 \cdot \bigtr{\Sigma (X^{\top}X)^{-1}}.
 	\end{align*}
-	Therefore we shall focus on the minimizer for the model shift bias since the variance part does not depend the weights.
-	Let us denote $Q = Z^{\top} (ZZ^{\top})^{-1} Z \in\real^{k\times k}$ where the $(i,j)$-th entry is equal to $W_i^{\top} (ZZ^{\top})^{-1} W_j$, for any $1\le i, j\le k$.
-	Let $B^{\star} = [\beta_1, \beta_2, \dots, \beta_k] \in\real^{p \times k}$ denote the true model parameters.
-	We can now write the validation loss succinctly as follows.
+	%Therefore we only need to focus on the minimizer for $\delta_{\beta}(\cal W) $ since the variance part does not depend on the weights. 
+	We denote $Q = \cal W^{\top} (\cal W\cal W^{\top})^{-1} \cal W \in\real^{k\times k}$, whose $(i,j)$-th entry is equal to $W_i^{\top} (ZZ^{\top})^{-1} W_j$.
+	%Let $B^{\star} = [\beta_1, \beta_2, \dots, \beta_k] \in\real^{p \times k}$ denote the true model parameters.
+	Now we can write the validation loss succinctly as 
 	\begin{align*}
-		\val(\hat{B}; W_1, \dots, W_k) = \bignormFro{\Sigma^{1/2} \bigbrace{B^{\star} Q - B^{\star}}}^2 + \sigma^2 \cdot \bigtr{\Sigma (X^{\top}X)^{-1}}
+		\val(\cal W) = \bignormFro{\Sigma^{1/2}B^{\star}  \bigbrace{Q -\id}}^2 + \sigma^2 \cdot \bigtr{\Sigma (X^{\top}X)^{-1}}.
 	\end{align*}
-	From the above we can solve for $Q$ optimally as $U_{r}U_r^{\top}$.
-	Furthermore, we can solve $\hat{\beta}_i^{\MTL}$ as $B^{\star} U_r U_r(i)$.
-	Now we get that
+	From this equation we can solve for $Q$ optimally as $\hat Q=U_{r}U_r^{\top}$.
+	In sum we have solved that $\hat{\beta}_i^{\MTL}=B^{\star} U_r U_r(i)$. Inserting it into the definition of the test error, we get that
 	\begin{align*}
-		\te(\hat{\beta}_t^{\MTL}) &= \bignorm{\Sigma^{1/2}\bigbrace{\sum_{i=1}^k W_i^{\top} (ZZ^{\top})^{-1}W_j \beta_i - \beta_j}}^2
-		+ \sigma^2  W_j^{\top} (ZZ^{\top})^{-1} W_j \cdot \bigtr{\Sigma (X^{\top}X)^{-1}} \\
-		&= \bignorm{\Sigma^{1/2} \bigbrace{B^{\star} U_r U_r(i)}}^2 + \sigma^2\norm{U_r(i)}^2 \cdot \bigtr{\Sigma (X^{\top}X)^{-1}}.
+		\te(\hat{\beta}_t^{\MTL}) &= \bignorm{\Sigma^{1/2} \left((B^\star \hat{\cal W}^\top) (\hat{\cal W}\hat{\cal W}^{\top})^{-1} \hat W_t - \beta_t \right) }^2
+		+ \sigma^2  \hat W_t^{\top} (\hat{\cal W}\hat{\cal W}^{\top})^{-1} \hat W_t \cdot \bigtr{\Sigma (X^{\top}X)^{-1}} \\
+		&= \bignorm{\Sigma^{1/2} \bigbrace{B^{\star} U_r U_r(t)-\beta_t}}^2 + \sigma^2\norm{U_r(t)}^2 \cdot \bigtr{\Sigma (X^{\top}X)^{-1}} \\
+		&= \bignorm{\Sigma^{1/2} \bigbrace{B^{\star} U_r U_r(t)-\beta_t}}^2 + \frac{\sigma^2}{\rho-1}\norm{U_r(t)}^2 \cdot \left( 1+\OO(p^{-1/2+\e})\right),
 	\end{align*}
-	By using Lemma \ref{lem_minv}, we conclude the proof.
+	with high probability for any constant $\e>0$, where we used Lemma \ref{lem_minv} in the last step. Together with the fact that with high probability,
+	$$\te(\hat{\beta}_t^{\MTL})=\frac{\sigma^2}{\rho-1} \cdot \left( 1+\OO(p^{-1/2+\e})\right)$$
+	 also by Lemma \ref{lem_minv}, we conclude the proof.
 \end{proof}
 %From the above we can obtain three conceptual insights that are consistent with Section \ref{sec_denoise} and \ref{sec_insight}.
 %\begin{itemize}
