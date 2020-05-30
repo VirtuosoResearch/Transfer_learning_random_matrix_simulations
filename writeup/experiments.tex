@@ -36,22 +36,53 @@ Similar for 91 image classification task pairs.
 Note: For text classification tasks, the source task training data size ranges from 500 to 1,500 and target task training data size is 1000; For ChestX-ray14, the training data size is 10,000.
 
 \begin{table}
-\begin{center}
+	\centering
+	\subfloat[Ablation study on when should use MTL via different source/target
+	task accuracy.\label{tab:mtl_better_than_stl}]{%
   \begin{tabular}{c c c c c}
-  \toprule
-    \multirow{2}{*}{{\bf Threshold}}  & \multicolumn{2}{c}{{\bf Text classification}} & \multicolumn{2}{c}{{\bf ChestX-ray14}} \\
-    & Precision &  Recall & Precision &  Recall \\
-    \cmidrule(lr){1-1} \cmidrule(lr){2-3} \cmidrule(lr){4-5}
-    0.0 & 0.596 & 1.000 & 0.593 & 1.000 \\
-    0.1 & 0.756 & 0.388 & 0.738 & 0.462 \\
-    0.2 & 0.919 & 0.065 & 0.875 & 0.044 \\	
-    0.3 & 1.000 & 0.004 &     - &     - \\
-  \bottomrule
-  \end{tabular}
-\end{center}
-\caption{Ablation study on when should use MTL via different source/target task accuracy.}
-\label{tab:mtl_better_than_stl}
+	\toprule
+		\multirow{2}{*}{{\bf Threshold}}  & \multicolumn{2}{c}{{\bf Text
+		classification}} & \multicolumn{2}{c}{{\bf ChestX-ray14}} \\
+		& Precision &  Recall & Precision &  Recall \\
+		\cmidrule(lr){1-1} \cmidrule(lr){2-3} \cmidrule(lr){4-5}
+		0.0 & 0.596 & 1.000 & 0.593 & 1.000 \\
+		0.1 & 0.756 & 0.388 & 0.738 & 0.462 \\
+		0.2 & 0.919 & 0.065 & 0.875 & 0.044 \\	
+		% 0.3 & 1.000 & 0.004 &     - &     - \\
+	\bottomrule
+	\end{tabular}}
+	\quad% --- set horizontal distance between tables here
+	\subfloat[Taskonomy experiment.\label{tab:taskonomy}]{%
+	\begin{tabular}{c c c}
+		\toprule
+		\multirow{2}{*}{{\bf Models}} & \multicolumn{2}{c}{\begin{minipage}{1.1in}\begin{center}
+		MR, SST, SUBJ, CR, MPQA, TREC\end{center}\end{minipage}} \\
+		\cmidrule(lr){2-3}
+		& {\bf Standard} & {\bf Alignment} \\
+		\midrule
+		{\bf MLP}  & > 100\% & 39\% \\
+		{\bf LSTM} & 36\% & 36\% \\
+		\bottomrule
+		\end{tabular}}
 \end{table}
+
+% \begin{table}
+% \begin{center}
+%   \begin{tabular}{c c c c c}
+%   \toprule
+%     \multirow{2}{*}{{\bf Threshold}}  & \multicolumn{2}{c}{{\bf Text classification}} & \multicolumn{2}{c}{{\bf ChestX-ray14}} \\
+%     & Precision &  Recall & Precision &  Recall \\
+%     \cmidrule(lr){1-1} \cmidrule(lr){2-3} \cmidrule(lr){4-5}
+%     0.0 & 0.596 & 1.000 & 0.593 & 1.000 \\
+%     0.1 & 0.756 & 0.388 & 0.738 & 0.462 \\
+%     0.2 & 0.919 & 0.065 & 0.875 & 0.044 \\	
+%     0.3 & 1.000 & 0.004 &     - &     - \\
+%   \bottomrule
+%   \end{tabular}
+% \end{center}
+% \caption{Ablation study on when should use MTL via different source/target task accuracy.}
+% \label{tab:mtl_better_than_stl}
+% \end{table}
 
 \textbf{MTL improves labeled data efficiency.}
 We measure the data efficiency ratio on the sentiment analysis tasks.
@@ -98,24 +129,24 @@ In Figure \ref{fig_covariate}, we observe that the benefit from aligning task co
 
 
 
-\begin{table}
-	\begin{center}
-		\begin{tabular}{c c c c c}
-		\toprule
-		\multirow{2}{*}{{\bf Models}} & \multicolumn{2}{c}{\begin{minipage}{1.1in}\begin{center}
-		MR, SST, SUBJ, CR, MPQA, TREC\end{center}\end{minipage}} & \multicolumn{2}{c}{\begin{minipage}{1.1in}\begin{center}MR, SST, SUBJ, CR, MPQA\end{center}\end{minipage}} \\
-		\cmidrule(lr){2-3} \cmidrule(lr){4-5}
-		& {\bf Standard} & {\bf Alignment} & {\bf Standard} & {\bf Alignment} \\
-		\midrule
-		{\bf MLP}  & > 100\% & 39\% & 25\% & 25\% \\
-		{\bf LSTM} & 36\% & 36\% & 28\% & 25\% \\
-		% {\bf CNN}  & 76\% & - & 32\% & -\\
-		\bottomrule
-		\end{tabular}
-	\end{center}
-	\caption{Taskonomy experiment.}
-	\label{tab:taskonomy}
-	\end{table}
+% \begin{table}
+% 	\begin{center}
+% 		\begin{tabular}{c c c c c}
+% 		\toprule
+% 		\multirow{2}{*}{{\bf Models}} & \multicolumn{2}{c}{\begin{minipage}{1.1in}\begin{center}
+% 		MR, SST, SUBJ, CR, MPQA, TREC\end{center}\end{minipage}} & \multicolumn{2}{c}{\begin{minipage}{1.1in}\begin{center}MR, SST, SUBJ, CR, MPQA\end{center}\end{minipage}} \\
+% 		\cmidrule(lr){2-3} \cmidrule(lr){4-5}
+% 		& {\bf Standard} & {\bf Alignment} & {\bf Standard} & {\bf Alignment} \\
+% 		\midrule
+% 		{\bf MLP}  & > 100\% & 39\% & 25\% & 25\% \\
+% 		{\bf LSTM} & 36\% & 36\% & 28\% & 25\% \\
+% 		% {\bf CNN}  & 76\% & - & 32\% & -\\
+% 		\bottomrule
+% 		\end{tabular}
+% 	\end{center}
+% 	\caption{Taskonomy experiment.}
+% 	\label{tab:taskonomy}
+% 	\end{table}
 
 
 %\begin{figure}
