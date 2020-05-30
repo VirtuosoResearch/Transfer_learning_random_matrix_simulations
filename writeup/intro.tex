@@ -23,20 +23,20 @@ When the information sources are heterogeneous, negative transfer -- where multi
 While numerous studies have sought to alleviate negative transfer \cite{ZY17}, a rigorous understanding of the contributing causes of negative transfer has remained elusive in the literature \cite{R17}.
 %This phenomenon, known as \textit{negative transfer}, is fundamental to the understanding of multi-task learning.
 In this work, we develop technical tools to compare multi-task learning to single-task learning for the setting of high-dimensional linear regression. % for learning from multiple linear regression tasks.
-We use the tools to explain negative transfer and provide implications for positive transfer.
-Based on the theory, we show practical implications for detecting and mitigating negative transfer.
+We use the tools to rigorously explain the phenomena of negative transfer.
+Our theory also leads to practical implications: we propose a diagnostic metric and a training schedule to improve multi-task training.
 %We consider a setting where the target task has limited labeled data and show
 %On the other hand, unless the structures across task data are well-understood, applying multi-task learning on several different datasets often result in suboptimal models (or negative transfer in more technical terms).
 
 Identifying negative transfer requires developing tight generalization bounds for both multi-task learning and single-task learning.
 In classical Rademacher or VC based theory of multi-task learning \cite{B00,AZ05,M06}, the generalization bounds are usually presented so that the error reduces as the data sizes of all tasks increase.
-For instance, the data sizes of all tasks are assumed to be equal \cite{B00}.
+For instance, the data sizes of all tasks are often assumed to be equal \cite{B00}.
 On the other hand, uneven data sizes or dominating tasks have been empirically observed as a cause of negative transfer \cite{YKGLHF20}.
 More recent work has shown the benefit of learning multi-task representations for certain half-spaces \cite{MPR16} and sparse regression \cite{LPTV09,LPVT11}.
 To rigorously study negative transfer, the technical challenge is to develop generalization bounds that scale tightly with properties of the data.
 
 
-In this work, we consider a setting where multiple labeled linear regression tasks are available and focus on predicting a particular task whose amount of labeled data is limited.
+In this work, we consider the setting of high-dimensional linear regression and focus on predicting a particular task whose amount of labeled data is limited.
 Following Hastie et al. \cite{HMRT19} and Bartlett et al. \cite{BLLT20}, we assume that for every task $1\le i\le t$, its features are random vectors $x = \Sigma_i^{1/2}z$, where $z\in\real^p$ consists of i.i.d. entries with mean zero and unit variance, and $\Sigma_i\in\real^{p\times p}$ is a positive semidefinite matrix.
 Let $n_i$ denote the data size and $X_i\in\real^{n_i\times p}$ denote the features of task $i$, for every $1\le i\le t$.
 The label of task $i$ is given by $Y_i = X_i\beta_i + \varepsilon_i$, where $\beta_i\in\real^p$ denotes the ground truth parameters for task $i$ and $\varepsilon_i$ denotes i.i.d. random noise with mean zero and variance $\sigma^2$.
@@ -47,32 +47,31 @@ We assume that the data size of task $t$ is a small constant $\rho_t > 1$ times 
 %Each row of $X_i\in\real^{n_i\times p}$ is assumed to be drawn i.i.d. from a fixed
 %distribution with covariance matrix $\Sigma_i$.
 
-We combine all the labeled data using a hard parameter sharing architecture that contains a shared body $B\in\real^{p\times r}$ for all tasks and a separate prediction head $\set{W_i \in \real^{r}}_{i=1}^t$ for each task \cite{R17,MTDNN19,WZR20}.
-This corresponds to minimizing $ \sum_{i=1}^t \norm{X_i B W_i - Y_i}^2$.
-For a target task $t$,
-let $\hat{\beta}_t^{\MTL} = B W_t$ denote the optimal multi-task estimator by minimizing equation \eqref{eq_mtl}.
-Let $\hat{\beta}_t^{\STL}$ denote the standard linear regression estimator using task $t$ alone.
-We say there is negative transfer if the test error of $\hat{\beta}_t^{\MTL}$  is larger than that of $\hat{\beta}_t^{\STL}$, or positive transfer otherwise.
+We combine all the labeled data using a hard parameter sharing architecture with a linear shared layer $B\in\real^{p\times r}$ for all tasks and a separate prediction head $\set{W_i \in \real^{r}}_{i=1}^t$ for each task \cite{R17,MTDNN19,WZR20}.
+%This corresponds to minimizing $ \sum_{i=1}^t \norm{X_i B W_i - Y_i}^2$.
+For a target task $t$, let $\hat{\beta}_t^{\MTL} = B W_t$ denote the optimal multi-task estimator (defined precisely in Section \ref{sec_setup}).
+Let $\hat{\beta}_t^{\STL}$ denote the standard linear regression estimator for task $t$.
+We say there is negative transfer if the prediction loss of $\hat{\beta}_t^{\MTL}$  is larger than that of $\hat{\beta}_t^{\STL}$, or positive transfer otherwise.
 
 \textbf{Main results.}
 We revisit the bias-variance tradeoff of the multi-task estimator.
 Interestingly, we observe that the variance of $\hat{\beta}_t^{\MTL}$ is always smaller than that of $\hat{\beta}_t^{\STL}$, hence resulting in a positive effect of variance reduction.
-The bias of $\hat{\beta}_t^{\MTL}$, which we term as \textit{model shift bias}, results in a negative effect caused by the difference between $\beta_t$ and the rest $\set{\beta_i}_{i=1}^{t-1}$.
+The bias of $\hat{\beta}_t^{\MTL}$, which we term as \textit{model shift bias}, results in a negative effect caused by the difference between $\beta_t$ and the rest of $\set{\beta_i}_{i=1}^{t-1}$.
 Hence, the tradeoff between the variance reduction effect and model shift bias determines whether the transfer is positive.
 
-To quantify the tradeoff more precisely, we develop a new technical tool that provides a tight bound on the trace of $(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}$, for the setting of two tasks with general covariance matrices.
+To quantify the tradeoff more precisely, we develop a new technical tool that provides a tight bound on the trace of $(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}$, which arises naturally from the setting of two tasks.
 Our result extends a well-known result on the trace of $(X_1^{\top}X_1)^{-1}$ for a single random matrix \cite{S07}.
 Furthermore, we provide a nearly optimal error bound, which may be of independent interest.
 Using the result, we provide a sharp analysis of the bias-variance tradeoff of $\hat{\beta}_t^{\MTL}$ for two settings:
 (i) two tasks with general covariance matrice; (ii) any number of tasks that have the same features (e.g. images).
 Finally, we apply our technical tool to the related setting of transfer learning.
-We pool learnt representations from source tasks into a shared body similar to $B$ in equation \eqref{eq_mtl}, which has also been used in Taskonomy \cite{ZSSGM18}.
+We pool learnt representations from source tasks into a shared body similar to $B$ in the hard parameter sharing architecture, which has also been used in Taskonomy by Zamir et al.'18 \cite{ZSSGM18}.
 For this setting, we show that the model shift bias can be captured by the orthogonal projection of $\beta_t$ to the subspace spanned by $\set{\beta_i}_{i=1}^{t-1}$.
 These results are presented more precisely in Section \ref{sec_main}.
 
 The tradeoff that we develop depends on the properties of each task such as its data size and covariance matrix.
-In Section \ref{sec_insight}, we use our technical tool to rigorously explain many phenomena in multi-task learning.
-We consider three factors including task dissimilarity, data size and covariate shift.
+In Section \ref{sec_insight}, we use our technical tool to rigorously explain negative transfer in multi-task learning.
+We identify three factors including task similarity, data size and covariate shift.
 \squishlist
 		\item First, we define task dissimilarity as the distance between $\beta_1$ and $\beta_2$ using a simplified isotropic setting of two tasks.
 		Using our technical tool, we show a sharp transition from positive to negative transfer as task dissimilarity increases.
