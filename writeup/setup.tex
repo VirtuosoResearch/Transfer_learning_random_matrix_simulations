@@ -49,8 +49,20 @@ Finally, we show a sharp bias-variance tradeoff for transfer learning settings.
 
 
 \subsection{A Key Lemma using Random Matrix Theory}\label{label_rmt}
-%For the high-dimensional setting where the data size of the target task is a small constant times dimension $p$, we quantify the trade-off as a function of the task models $\set{\beta_i}_{i=1}^t$, data size $\set{n_i}_{i=1}^t$, and covariance matrices $\set{\Sigma_i}_{i=1}^t$.
 
+
+\begin{lemma}[Informal statement of Lemma \ref{lem_cov_shift}]\label{lem_cov_shift_informal}
+	Suppose $X_1=Z_1\Sigma_1^{1/2}\in \R^{n_1\times p}$ and $X_2=Z_2\Sigma_2^{1/2}\in \R^{n_2\times p}$ with $\rho_1=n_1/p>1$ and $\rho_2=n_2/p>1$.
+	Let $M = \Sigma_1^{1/2}\Sigma_2^{-1/2}$ and $\lambda_1, \lambda_2, \dots, \lambda_p$ be the singular values of $M^{\top}M$ in descending order.
+	For any constant $\e>0$, w.h.p. over the randomness of $X_1, X_2$, we have that
+	\begin{align*}
+		\bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2} = \frac{1}{\rho_1+\rho_2}\cdot \frac1p\bigtr{ (a_1 \Sigma_1 + a_2\Sigma_2)^{-1} \Sigma_2} +\bigo{\|\Sigma_2\| p^{-1/2+\epsilon}},
+	\end{align*}
+where $(a_1, a_2)$ is the solution to the following deterministic equations:
+	\begin{align*}
+		a_1 + a_2 = 1- \frac{1}{\rho_1 + \rho_2},\quad a_1 + \frac1{\rho_1 + \rho_2}\cdot \frac{1}{p}\sum_{i=1}^p \frac{\lambda_i^2 a_1}{\lambda_i^2 a_1 + a_2} = \frac{\rho_1}{\rho_1 + \rho_2}.
+	\end{align*}
+\end{lemma}
 
 \subsection{Applications to Multi-Task and Transfer Learning}
 
@@ -66,7 +78,7 @@ The formal statement is stated in Theorem \ref{thm_many_tasks} and its proof can
 We derive a precise limit of $\bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2}$, which is a deterministic function that only depends on $\Sigma_1, \Sigma_2$ and $n_1/p, n_2/p$ (see Lemma \ref{lem_cov_shift} in Appendix \ref{app_proof_main} for the result).
 Based on the result, we show how to determine positive versus negative transfer as follows.
 
-\begin{theorem}[Informal]\label{thm_main_informal}
+\begin{theorem}[Informal statement of Theorem \ref{thm_model_shift}]\label{thm_main_informal}
 	Let $X_i \in\real^{n_i \times p}$ and $Y_i = X_i\beta_i + \varepsilon_i$, for $i = 1, 2$.
 	Suppose that $n_1 = \rho_1 p$ and $n_2 = \rho_2 p$, where $\rho_1>1$ and $\rho_2 >1$ are fixed constants.
 	There exists two deterministic functions $\Delta_{\beta}$ and $\Delta_{\vari}$ and a small deterministic error $\delta$ that only depend on $\set{\hat{v}, \Sigma_1^{}, n_1, n_2, \beta_1, \beta_2}$ such that
@@ -80,20 +92,6 @@ Theorem \ref{thm_main_informal} shows nearly tight bounds on the trade-off betwe
 %determined by the covariate shift matrix and the model shift.
 The bounds get tighter and tighter as $\rho_1$ increases.
 While the general form of $\Delta_{\vari}$ and $\Delta_{\beta}$ can be quite complex, we will show that they provide nice interpretation for simplified settings later on in Section \ref{sec_insight}.
-
-We describe an overview of the proof of Theorem \ref{thm_main_informal}.
-By comparing the bias and variance of $\te_t(\hat{\beta}_t^{\MTL})$ to $\te_t(\hat{\beta}_t^{\STL})$, we observe the following two effects, respectively.
-%We begin by observing that the test error of $\hat{\beta}_t^{\MTL}$ consists of two parts.
-We term equation \eqref{eq_te_model_shift} as \textit{model-shift bias}, which captures how similar $\beta_1$ and $\beta_2$ are.
-This part introduces a negative effect to multi-task learning.
-The scaling term $\hat{v}$ corresponds to the intuition that the shared module $B$ learns a subspace for both tasks.
-The output layer of each task scales the direction of $B$ suitably to fit the task.
-
-Next, it is not hard to verify that equation \eqref{eq_te_var}, the variance of $\hat{\beta}_t^{\MTL}$, is always smaller than the variance of $\hat{\beta}_t^{\STL}$.
-This part introduces a positive variance reduction effect to performing multi-task learning.
-Hence, whether $\te(\hat{\beta}_t^{\MTL})$ is lower than $\te(\hat{\beta}_t^{\STL})$ is determined by the trade-off between two effects:
-(i) the positive effect from variance reduction;
-(ii) the negative effect from model shift bias.
 A formal version of Theorem \ref{thm_main_informal} is presented in Theorem \ref{thm_model_shift} and its proof is presented in Appendix \ref{app_proof_main}.
 
 \textbf{Transfer learning.}
