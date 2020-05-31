@@ -122,14 +122,12 @@ For the setting of high-dimensional linear regression, the transfer procedure is
 \squishlist
 	\item Learning source task representations: we obtain $\hat{\beta}_i^{\STL}$ from each source task, for $1\le i \le t-1$.
 		This forms a shared representation $\hat{B} = [\hat{\beta}_1,\hat{\beta}_2,\dots,\hat{\beta}_{t-1}]$.
-	\item Fine-tuning on the target task: we learn the output layer $W_t\in\real^{t-1}$ for the target task similar to equation \eqref{eq_mtl}
+	\item Fine-tuning on the target task: we learn the output layer $W_t\in\real^{t-1}$ similar to equation \eqref{eq_mtl}
 		\begin{align}
 			g(W_t) = \bignorm{X_t B W_t - Y_t}^2.
 		\end{align}
 \squishend
 After solving $W_t$, we use $\hat{\beta}_t^{\TL} = B W_t$ as the transfer learning (TL) estimator for the target task.
 Our result naturally applies to $\hat{\beta}_t^{\TL}$.
-Interestingly, we show that the model shift bias is simply the projection of $\beta_t$ to the orthogonal subspace of $B^{\star} = [\beta_1,\dots,\beta_{t-1}]$, or $\norm{\Sigma_t^{1/2}(\id - B^{\star}({B^{\star}}^{\top}B^{\star})^{-1}{B^{\star}}^{\top})}$ more precisely.
+Interestingly, we show that the model shift bias is simply the projection of $\beta_t$ to the orthogonal subspace of $B^{\star} = [\beta_1,\dots,\beta_{t-1}]$, or $\norm{\Sigma_t^{1/2}(\id - B^{\star}({B^{\star}}^{\top}B^{\star})^{-1}{B^{\star}}^{\top})\beta_t}^2$ more precisely.
 The formal statement is presented in Theorem \ref{prop_taskonomy} and its proof in Appendix \ref{app_proof_sec4}.
-
-
