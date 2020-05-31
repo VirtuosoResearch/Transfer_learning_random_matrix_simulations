@@ -1,57 +1,46 @@
 \section{Supplementary Materials for the Technical Results}\label{app_proof_sec3}
 
+\subsection{The multi-task learning estimator}
 From \cite{WZR20}, we know that we need to explicitly restrict the capacity $r$ of $B$ so that there is transfer between the two tasks.
-for the rest of the section, we shall consider the case when $r=1$ we are considering the case of two tasks.
-Here, equation \eqref{eq_mtl} simplifies to the following
+for the rest of the section, we shall consider the case of two tasks, where we need to take $r=1$. 
+Then equation \eqref{eq_mtl} simplifies to the following
 \begin{align}\label{eq_mtl_2task}
 	f(B; w_1, w_2) = \bignorm{X_1 B w_1 - Y_1}^2 + \bignorm{X_2 B w_2 - Y_2}^2,
 \end{align}
 where $B\in\real^p$ and $w_1, w_2$ are both real numbers. To solve the above problem, suppose that $w_1, w_2$ are fixed, by local optimality, we find the optimal $B$ as
-\begin{align*}
-	& \hat{B}(w_1, w_2) \\
-	=& (w_1^2 X_1^{\top}X_1 + w_2^2 X_2^{\top}X_2)^{-1} (w_1 X_1^{\top}Y_1 + w_2 X_2^{\top}Y_2) \\
-	=& \frac{1}{w_2} \left( \frac{w_1^2}{w_2^2}  X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1} \left(\frac{w_1}{w_2} X_1^{\top}Y_1 + X_2^{\top}Y_2\right) \\
-	=& \frac{1}{w_2}\bigbrace{\beta_t + \left(\frac{w_1^2}{w_2^2} X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1}\bigbrace{X_1^{\top}X_1\left(\frac{w_1}{w_2}\beta_s - \frac{w_1^2}{w_2^2} \beta_t\right) + \left(\frac{w_1}{w_2} X_1^{\top}\varepsilon_1 + X_2^{\top}\varepsilon_2\right)}}.
-\end{align*}
+\begin{align}
+	& \hat{B}(w_1, w_2) = (w_1^2 X_1^{\top}X_1 + w_2^2 X_2^{\top}X_2)^{-1} (w_1 X_1^{\top}Y_1 + w_2 X_2^{\top}Y_2) \label{hatB}\\
+	&= \frac{1}{w_2} \left( \frac{w_1^2}{w_2^2}  X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1} \left(\frac{w_1}{w_2} X_1^{\top}Y_1 + X_2^{\top}Y_2\right) \nonumber\\
+	&= \frac{1}{w_2}\left[\beta_t + \left(\frac{w_1^2}{w_2^2} X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1}\bigbrace{X_1^{\top}X_1\left(\frac{w_1}{w_2}\beta_s - \frac{w_1^2}{w_2^2} \beta_t\right) + \left(\frac{w_1}{w_2} X_1^{\top}\varepsilon_1 + X_2^{\top}\varepsilon_2\right)}\right]. \nonumber
+\end{align}
 As a remark, when $w_1 = w_2 = 1$, we recover the linear regression estimator.
 The advantage of using $f(B; w_1, w_2)$ is that if $\theta_1$ is a scaling of $\theta_2$, then this case can be solved optimally using equation \eqref{eq_mtl_2task} \cite{KD12}.
 
 %For the discussions below, we assume that the entries of $\e_1$ and $\e_2$ all have the same variance $\sigma^2$. This holds for most parts of our discussion, except in Proposition \ref{prop_var_transition}. We will derive different expressions for the validation loss and the test error 
 
-\textbf{Defining the multi-task learning estimator.} 
-{\cor We define $\hat{\beta}_t^{\MTL}$ by two steps:
-(i) minimizing $f(\cdot)$ over $B$;
-(ii) minimize $\set{W_i}_{i=1}^k$ over an independent sample of the training set.}
-\todo{add the missing steps about validation loss} 
-
-Suppose that the entries of $\e_1$ and $\e_2$ have variance $\sigma^2$.  Using a validation set that is sub-sampled from the original training dataset, we get a validation loss as follows
-\begin{align}
-		\val(\hat{B}; w_1, w_2)
-	&=  n_1 \cdot \bignorm{\Sigma_1^{1/2}\left(\frac{w_1^2}{w_2^2} X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1}X_2^{\top}X_2\left (\beta_s - \frac{w_1}{w_2}\beta_t\right)}^2 \nonumber \\
-		&+ n_1 \sigma^2 \cdot \frac{w_1^2}{w_2^2} \bigtr{\left(\frac{w_1^2}{w_2^2}  X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1}\Sigma_1} \nonumber \\
-		&+ n_2 \cdot \frac{w_1^2}{w_2^2}\bignorm{\Sigma_2^{1/2}\left(\frac{w_1^2}{w_2^2} X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1}X_1^{\top}X_1\left(\beta_s - \frac{w_1}{w_2}\beta_t\right)}^2 \nonumber \\
-		&+ n_2 \sigma^2 \cdot \bigtr{\left(\frac{w_1^2}{w_2^2} X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1}\Sigma_2}. \label{eq_val_mtl}
+Next we consider $N_i$ independent samples of the training set $\{(\wt x_k^{(i)},\wt y_k^{(i)}): 1\le k \le N\}$ from task-$i$, $i=1,2$. With these sample, we form the random matrices $\wt X_i \in \R^{N_i\times p}$ and $\wt Y_i\in \R^{N\times p}$, $i=1,2,$ whose row vectors are given by $\wt x_k^{(i)}$ and $\wt y_k^{(i)}$. Here we assume that $N_1$ and $N_2$ are of the same order and satisfy $N_1\sim N_2\ge n_i^{1-\e_0}$ for some constant $\e_0>0$. Then we define the validation loss as
+\begin{align}\label{eq_mtl_2tasktilde}
+	\wt f(\hat B; w_1,w_2) = \bignorm{\wt X_1 \hat B w_1 - \wt Y_1}^2 + \bignorm{\wt X_2 \hat B w_2 - \wt Y_2}^2.
 \end{align}
-Let $\hat{w_1}/\hat{w_2}$ be the global minimizer of $\val(\hat{B}; w_1, w_2)$.
-We will define the multi-task learning estimator for the target task as
-	\[ \hat{\beta}_t^{\MTL} = \hat{w}_{2}\hat{B}(\hat{w}_1, \hat{w}_2). \]
+Inserting \eqref{hatB} into \eqref{eq_mtl_2tasktilde}, one can see that $\wt f$ only depends on the ratio $v:=w_1/w_2$. Hence we will also write $\wt f(\hat B; v)$ in the following discussion.
 
+Let $\hat v=\hat{w_1}/\hat{w_2}$ be the global minimizer of $\wt f(\hat B; v)$. We will define the multi-task learning estimator for the target task as
+	\[ \hat{\beta}_t^{\MTL} = \hat{w}_{2}\hat{B}(\hat{w}_1, \hat{w}_2). \]
 The intuition for deriving $\hat{\beta}_t^{\MTL}$ is akin to performing multi-task training in practice.
-Let $\hat{v} = \hat{w_1} / \hat{w_2}$ for the simplicity of notation.
-The test loss of using $\hat{\beta}_t^{\MTL}$ for the target task is
+%Let $\hat{v} = \hat{w_1} / \hat{w_2}$ for the simplicity of notation.
+Then the test loss of using $\hat{\beta}_t^{\MTL}$ for the target task is
 \begin{align}
 	\te(\hat{\beta}_t^{\MTL}) &=~ \hat{v}^2 \bignorm{\Sigma_2^{1/2}(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} X_1^{\top}X_1 (\beta_s - \hat{v} \beta_t)}^2 \nonumber \\
-			&+~  \sigma^2 \cdot \bigtr{(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} \Sigma_2}. \label{eq_te_mtl_2task}
+			&+~  \sigma_2^2 \cdot \bigtr{\Sigma_2(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} }, \label{eq_te_mtl_2task}
 \end{align}
-
-Our goal is to study under model and covariate shifts, whether multi-task learning helps learn the target task better than single-task learning.
+which is well-defined since it only depends on $\hat v$, but otherwise does not depend on $\hat w_1$ or $\wh w_2$ separately. Our goal is to study under model and covariate shifts, whether multi-task learning helps learn the target task better than single-task learning.
 The baseline where we solve the target task with its own data is
 \begin{align*}
-	L(\hat{\beta}_t^{\STL}) = \sigma^2 \cdot \bigtr{\Sigma_2(X_2^{\top}X_2)^{-1}}, \text{ where } \hat{\beta}_t^{\STL} = (X_2^{\top}X_2)^{-1} X_2^{\top}Y_2.
+	L(\hat{\beta}_t^{\STL}) = \sigma_2^2 \cdot \bigtr{(X_2^{\top}X_2)^{-1}\Sigma_2}, \ \text{ where } \ \hat{\beta}_t^{\STL} = (X_2^{\top}X_2)^{-1} X_2^{\top}Y_2.
 \end{align*}
 %Clearly, whether $\hat{\beta}_t^{\MTL}$ outperforms $\hat{\beta}_t^{\STL}$ depends on the covariate matrices, the difference of the task models, and the number of per-task data points.
 
-We now state several helper lemmas to get a bound on the variance of $\hat{\beta}_t^{\STL}$ and $\hat{\beta}_t^{\MTL}$. Before that, we first need to fix the setting for the discussions in this section.
+One may observe that we can reduce $\wt f$ to an expression that is easier to handle using concentration of random vectors. Before doing that, we first need to fix the setting for the following discussions, because we want to keep track of the error rate carefully instead of obtaining an asymptotic result only. First, we give the basic assumptions for our main objects---the random matrices $X_i$, $i=1,2$.
 
 \begin{assumption}\label{assm_secA1}
 We will consider two $n\times p$ random matrices of the form $X=Z\Sigma^{1/2}$, where $\Sigma$  is a $p\times p$ deterministic positive definite symmetric matrices, and $Z=(z_{ij})$ is an $n\times p$ random matrix with real i.i.d. entries with mean zero and variance one. Note that the rows of $X$ are i.i.d. centered random vectors with covariance matrix $\Sigma$. For simplicity, we assume that all the moments of $z_{ij}$ exists, that is, for any $k\in \N$,
@@ -60,12 +49,54 @@ We will consider two $n\times p$ random matrices of the form $X=Z\Sigma^{1/2}$, 
 \end{equation}
 for some constant $C_k>0$. We assume that $n=\rho p$ for some fixed constant $\rho>1$. Without loss of generality, after a rescaling we can assume that the norm of $\Sigma$ is bounded by a constant $C>0$. Moreover, we assume that $\Sigma$ is well-conditioned: $\kappa(\Sigma)\le C$, where $\kappa(\cdot)$ denotes the condition number. 
 \end{assumption}
-
 Here we have assumed \eqref{assmAhigh} solely for simplicity of representation. if the entries of $Z$ only have finite $a$-th moment for some $a>4$, then all the results below still hold except that we need to replace $\OO(p^{-\frac12+\e})$ with $\OO( p^{-\frac12+\frac2a +\epsilon})$ in the error bounds. We will not get deeper into this issue in this section, but refer the reader to Corollary \ref{main_cor} below. 
 
+Then we make the following assumptions on the data models.
+\begin{assumption}\label{assm_secA2}
+For $1\le i \le t$ for some fixed $t\in \N$, let $Y_i = X_i\beta_i + \varepsilon_i$ be independent data models, where $X_i$, $\beta_i$ and $\varepsilon_i$ are also independent of each other. Suppose that $X_i=Z_i\Sigma_i^{1/2}\in \R^{n_i\times p}$ satisfy Assumption \ref{assm_secA1} with $\rho_i:=n_i/p>1$ being fixed constants, and $\e_i\in \R^{n_i}$ are random vectors with i.i.d. entries with mean zero, variance $\sigma_i^2$ and all moments as in \eqref{assmAhigh}. 
+\end{assumption}
 
-The first lemma, which is a folklore result in random matrix theory, helps to determine the asymptotic limit of $\te(\hat{\beta}_t^{\STL})$, as $p\to \infty$. When the entries of $X$ are multivariate Gaussian, this lemma recovers the classical result for the mean of inverse Wishart distribution \cite{anderson1958introduction}. For general non-Gaussian random matrices, it can be obtained from Stieltjes transform method; see e.g., Lemma 3.11 of \cite{bai2009spectral}. Here we shall state a result obtained from Theorem 2.4 in \cite{isotropic}, which gives an almost sharp error bound. Throughout the appendix, we shall say an event $\Xi$ holds with high probability (whp) if for any fixed $D>0$, $\P(\Xi)\ge 1- p^{-D}$ for large enough $p$.
+Throughout the appendix, we shall say an event $\Xi$ holds with high probability (whp) if for any fixed $D>0$, $\P(\Xi)\ge 1- p^{-D}$ for large enough $p$.
 
+
+Now under Assumption \ref{assm_secA2} with $t=2$, we write \eqref{eq_mtl_2tasktilde} as
+$$	\wt f(\hat B; v) = \sum_{i=1}^2\left\| \wt X_i\wt\beta_i  - \wt \e_i\right\|^2 , \quad \wt\beta:=\hat B w_1-\beta_i.$$
+Since $ \wt X_i\wt\beta$ and $ \wt \e_i$ are independent random vectors with i.i.d. centered entries, we can use the concentration Lemma \ref{largedeviation} to get that for any constant $\e>0$,
+\begin{align*}
+\left|\left\| \wt X_i\wt\beta_i  - \wt \e_i\right\|^2 - \wt{\E}\left\| \wt X_i\wt\beta_i  - \wt \e_i\right\|^2 \right| =\left|\left\| \wt X_i\wt\beta_i  - \wt \e_i\right\|^2 - N_i (\wt\beta_i^\top \Sigma_i \wt\beta_i + \sigma_i^2) \right| \le N_i^{1/2+\e} (\wt\beta_i^\top \Sigma_i \wt\beta_i + \sigma_i^2),
+\end{align*}
+with high probability, where $\wt{\E}$ denotes the expectation with respect to $\wt X_i$ and $\wt\e_i$, $i=1,2$. Thus we obtain that 
+$$\wt f(B; v)= \left[\sum_{i=1}^2 \left\|\Sigma_i^{1/2}( \hat B w_1 - \beta_i) \right\|^2 + (N_1\sigma^2_1+N_2\sigma^2_2)\right]\cdot \left( 1+\OO(p^{-(1-\e_0)/2+\e})\right),$$
+where we also used $N_i\ge p^{-1+\e_0}$. Inserting \eqref{hatB} into the above expression and using 
+the concentration result, Lemma \ref{largedeviation}, again, we obtain that
+$$ \sum_{i=1}^2 N_i\left\|\Sigma_i^{1/2}( \hat B w_1 - \beta_i) \right\|^2 = \val(\hat B; v)\cdot \left( 1+\OO(p^{-1/2+\e})\right)$$
+with high probability, where
+\begin{align*}
+		&\val(\hat{B}; v):= \exarg{\varepsilon_1,\e_2} {\sum_{i=1}^2 \left\|\Sigma_i^{1/2}( \hat B w_1 - \beta_i) \right\|^2} \\
+	&=  N_1 \cdot \bignorm{\Sigma_1^{1/2}\left(v^2 X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1}X_2^{\top}X_2\left (\beta_s - v\beta_t\right)}^2 \nonumber \\
+	&+ N_2 \cdot v^2\bignorm{\Sigma_2^{1/2}\left(v^2 X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1}X_1^{\top}X_1\left(\beta_s - v\beta_t\right)}^2 \nonumber \\
+		&+ N_1   \cdot v^2 \bigtr{\Sigma_1\left(v^2 X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-2} \left(\sigma_1^2 \cdot v^2X_1^{\top}X_1 + \sigma_2^2 \cdot X_2^{\top}X_2\right)} \nonumber \\		
+		&+ N_2  \cdot \bigtr{\Sigma_2\left(v^2 X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-2} \left(\sigma_1^2 \cdot v^2  X_1^{\top}X_1 + \sigma_2^2  \cdot X_2^{\top}X_2\right)}. \label{eq_val_mtl}
+\end{align*}
+%-----old-------
+%Suppose that the entries of $\e_1$ and $\e_2$ have variance $\sigma^2$.  Using a validation set that is sub-sampled from the original training dataset, we get a validation loss as follows
+%\begin{align}
+%		&\val(\hat{B}; w_1, w_2):= \exarg{\varepsilon_1,\e_2} \sum_{i=1}^2 \left\|\Sigma_i^{1/2}( \hat B w_1 - \beta_i) \right\|^2 \\
+%	&=  n_1 \cdot \bignorm{\Sigma_1^{1/2}\left(\frac{w_1^2}{w_2^2} X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1}X_2^{\top}X_2\left (\beta_s - \frac{w_1}{w_2}\beta_t\right)}^2 \nonumber \\
+%		&+ n_1 \sigma^2 \cdot \frac{w_1^2}{w_2^2} \bigtr{\left(\frac{w_1^2}{w_2^2}  X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1}\Sigma_1} \nonumber \\
+%		&+ n_2 \cdot \frac{w_1^2}{w_2^2}\bignorm{\Sigma_2^{1/2}\left(\frac{w_1^2}{w_2^2} X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1}X_1^{\top}X_1\left(\beta_s - \frac{w_1}{w_2}\beta_t\right)}^2 \nonumber \\
+%		&+ n_2 \sigma^2 \cdot \bigtr{\left(\frac{w_1^2}{w_2^2} X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1}\Sigma_2}. \label{eq_val_mtl}
+%\end{align}
+%\nc
+%------------------
+In sum, we have obtained that 
+\be\label{approxvalid}
+\wt f(\hat B; v)=  \left[\val(\hat{B}; v) + (N_1\sigma^2_1+N_2\sigma^2_2)\right]\cdot \left( 1+\OO(p^{-(1-\e_0)/2+\e})\right)
+\ee
+Hence to minimize $\wt f$, it suffices to minimize $\val(\hat{B}; v)$ over $v$.
+
+
+We now state several helper lemmas to get estimates on $L(\hat{\beta}_t^{\STL})$ and $L(\hat{\beta}_t^{\MTL})$. The first lemma, which is a folklore result in random matrix theory, helps to determine the asymptotic limit of $\te(\hat{\beta}_t^{\STL})$, as $p\to \infty$. When the entries of $X$ are multivariate Gaussian, this lemma recovers the classical result for the mean of inverse Wishart distribution \cite{anderson1958introduction}. For general non-Gaussian random matrices, it can be obtained from Stieltjes transform method; see e.g., Lemma 3.11 of \cite{bai2009spectral}. Here we shall state a result obtained from Theorem 2.4 in \cite{isotropic}, which gives an almost sharp error bound. 
 \begin{lemma}\label{lem_minv} 
 Suppose $X$ satisfies assumption \ref{assm_secA1}. Let $A$ be any $p\times p$ matrix that is independent of $X$. We have that for any constant $\e>0$,
 	\be\label{XXA}  \bigtr{(X^{\top}X)^{-1}A} = \frac{1}{\rho - 1} \frac1p\tr(\Sigma^{-1}A) +\bigo{ \|A\|p^{-1/2+\epsilon}} \ee
