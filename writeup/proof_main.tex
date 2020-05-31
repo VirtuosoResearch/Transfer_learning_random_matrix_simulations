@@ -236,17 +236,25 @@ for all $v\ge C_0$ as long as $C_0$ is chosen large enough depending on $\e$. To
 By replacing \eqref{bounddelta-} with a tighter bound in Step II of the above proof, we can conclude the proof Lemma \ref{prop_model_shift_tight}.
 
 \begin{proof}[Proof of Lemma \ref{prop_model_shift_tight}]
-the proof for tighter bound ........... 
-
-
-\begin{lemma}\label{prop_model_shift222}
-	In the setting of Lemma \ref{prop_model_shift}, assume that $\Sigma_1 = \id$ and $\beta_s - \beta_t$ is i.i.d. with mean $0$ and variance $d^2$. Then we have
-	\begin{align*}
-		\bigbrace{1 - \sqrt{\frac{p}{n_1}}}^4 \Delta_{\beta}
-		\le \bignorm{\Sigma_2^{1/2} (X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}X_1^{\top}X_1(\beta_s - \beta_t)}^2.
-	\end{align*}
-\end{lemma}
-
+For any fixed $v\ge 0$, $\beta_s - v\beta_t$ is a random vector with i.i.d. entries with mean $0$ and variance $(1-v)^2\kappa^2 + d^2$. Then using the concentration Lemma \ref{largedeviation}, we get that for any constant $\e>0$,
+\begin{align}
+&\left|\delta_{\beta}(v)- [(1-v)^2\kappa^2 + d^2]\tr (\cal K^\top \cal K)\right| \nonumber\\
+&=  \left|(\beta_s - {v} \beta_t)^\top \cal K^\top \cal K (\beta_s - {v} \beta_t) - [(1-v)^2\kappa^2 + d^2]\tr (\cal K^\top \cal K)\right| \nonumber\\
+&\le p^\e [(1-v)^2\kappa^2 + d^2] \tr^{1/2} \left[(\cal K^\top \cal K)^2\right] \lesssim p^{1/2+\e} [(1-v)^2\kappa^2 + d^2],\label{anotherbeta}
+\end{align}
+where we denoted $\cal K:=v\Sigma_2^{1/2}({v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} X_1^{\top}X_1$, and in the last step we used $\|\cal K\|=\OO(1)$ by \eqref{eq_isometric}. Now for $\tr (\cal K^\top \cal K)$, we rewrite it as
+\begin{align*}
+\wt \delta_\beta(v) =v^2 [(1-v)^2\kappa^2 + d^2]\tr \left[ ({v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2({v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}(X_1^\top X_1)^2 \right].
+\end{align*}
+Recalling that $\Sigma_1=\id$ and bounding $(X_1^\top X_1)^2=(Z_1^\top Z_1)^2$ using \eqref{eq_isometric} again, we obtain that
+\be\label{anotherwtbeta}\wt \delta_\beta(v) \cdot (\al_-^2(\rho_1)-\OO(p^{-1/2+\e})) \le  [(1-v)^2\kappa^2 + d^2]\tr (\cal K^\top \cal K) \le \wt \delta_\beta(v) \cdot  (\al_+^2(\rho_1)+\OO(p^{-1/2+\e})),\ee
+where 
+$$\wt\delta_\beta(v):=n_1^2 v^2 [(1-v)^2\kappa^2 + d^2]\tr \left[ ({v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2({v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\right].$$
+Note that $\wt\delta_\beta(v) \sim 1$, hence combining \eqref{anotherbeta} and \eqref{anotherwtbeta} we get 
+\be\label{replaceest}
+  \wt \delta_\beta(v) \cdot (\al_-^2(\rho_1)-\OO(p^{-1/2+\e})) \le  \delta_{\beta}(v)\le \wt \delta_\beta(v) \cdot  (\al_+^2(\rho_1)+\OO(p^{-1/2+\e})).
+\ee
+Now we can replace the estimate \eqref{bounddelta-} with this stronger estimate, and repeat all the other parts of the proof of Theorem \ref{thm_model_shift} to conclude Lemma \ref{prop_model_shift_tight}. We omit the details.
 \end{proof}
 
 
