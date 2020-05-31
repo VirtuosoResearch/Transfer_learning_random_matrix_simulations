@@ -32,7 +32,7 @@ The single-task estimator $\hat{\beta}_t^{\STL}$ is given by $(X_t^{\top}X_t)^{-
 The bias-variance trade-off \cite{HTF09} says
 	\[ \te_t(\hat{\beta}) =
 		\bignorm{\exarg{\varepsilon_t}{\hat{\beta}} - \beta_t}^2 + \exarg{\varepsilon_t}{\bignorm{\hat{\beta} - \exarg{\varepsilon_t}{\hat{\beta}}}^2}. \]
-In order to study the trade-off between model-shift bias and variance reduction, we need tight concentration bounds to quantify both effects.
+In order to study the tradeoff between model shift bias and variance reduction, we need tight concentration bounds to quantify both effects.
 For this purpose, we consider the high-dimensional regime where $n_i$ is a fixed constant $\rho_i > 1$ times $p$ for every $1\le i\le t$, and $p$ is large.
 We focus on a setting where $\rho_t$ is small compared to $\set{\rho_i}_{i=1}^{t-1}$.
 This setting captures the need for adding more labeled data to reduce the test error of the target task.
@@ -58,7 +58,7 @@ Here $\hat{v}\in\real$ denotes a fixed value that depends on the output layer we
 The role of $\hat{v}$ is to scale the shared subspace $B$ to fit each task.
 These are derived in Appendix \ref{app_proof_sec3}.
 
-We term equation \eqref{eq_te_model_shift} as \textit{model-shift bias}, which captures how similar $\beta_1$ and $\beta_2$ are.
+We term equation \eqref{eq_te_model_shift} as \textit{model shift bias}, which captures how similar $\beta_1$ and $\beta_2$ are.
 This part introduces a negative effect to multi-task learning.
 Next, it is not hard to verify that equation \eqref{eq_te_var}, the variance of $\hat{\beta}_t^{\MTL}$, is always smaller than the variance of $\hat{\beta}_t^{\STL}$.
 This part introduces a positive variance reduction effect to performing multi-task learning.
@@ -127,9 +127,9 @@ For the setting of high-dimensional linear regression, the transfer procedure is
 			g(W_t) = \bignorm{X_t B W_t - Y_t}^2.
 		\end{align}
 \squishend
-After solving $W_t$, we use $\hat{\beta}_t^{\TL} = B W_t$ as the transfer learning estimator for the target task.
-%By comparing $\te(\hat{\beta}_t^{\TL})$ to $\te(\hat{\beta}_t^{\STL})$, we observe a similar trade-off between model-shift bias and variance reduction for this setting.
-%We use our tools to compare $\te(B W_t)$ to $\te(\beta_t^{\STL})$.
+After solving $W_t$, we use $\hat{\beta}_t^{\TL} = B W_t$ as the transfer learning (TL) estimator for the target task.
+Our result naturally applies to $\hat{\beta}_t^{\TL}$.
+Interestingly, we show that the model shift bias is simply the projection of $\beta_t$ to the orthogonal subspace of $B^{\star} = [\beta_1,\dots,\beta_{t-1}]$, or $\norm{\Sigma_t^{1/2}(\id - B^{\star}({B^{\star}}^{\top}B^{\star})^{-1}{B^{\star}}^{\top})}$ more precisely.
 The formal statement is presented in Theorem \ref{prop_taskonomy} and its proof in Appendix \ref{app_proof_sec4}.
 
 
