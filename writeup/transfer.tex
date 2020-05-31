@@ -24,9 +24,9 @@ We derive a sharp threshold when positive transfer transitions to negative trans
 %Based on Theorem \ref{thm_model_shift}, we derive the transition threshold in the following proposition.
 Define the following functions
 \begin{align*}
-	\Psi(\beta_1, \beta_2) = {\ex{\bignorm{\beta_1 - \beta_2}^2}} / {\sigma^2},  \Phi(\rho_1, \rho_2) = \frac{(\rho_1 + \rho_2 - 1)^2}{\rho_1 (\rho_1 + \rho_2) (\rho_2 - 1)}.
+	\Psi(\beta_1, \beta_2) = {\ex{\bignorm{\beta_1 - \beta_2}^2}} / {\sigma^2},  \quad \Phi(\rho_1, \rho_2) = \frac{(\rho_1 + \rho_2 - 1)^2}{\rho_1 (\rho_1 + \rho_2) (\rho_2 - 1)}.
 \end{align*}
-Let $\gamma_{-} = (1+o(1))\cdot(1 - \rho_1^{-1/2})^4$ and $\gamma_{+} = (1+o(1))(1 + \rho_1^{-1/2})^4$.
+Let $\gamma_{-} = (1-\oo(1))\cdot(1 - \rho_1^{-1/2})^4$ and $\gamma_{+} = (1+\oo(1))\cdot(1 + \rho_1^{-1/2})^4$.
 Concretely, if $\rho_1 > 40$, then $\gamma_{-} < 2$ and $\gamma_{+} > 1/2$.
 
 \begin{proposition}[Model dissimilarity]\label{prop_dist_transition}
@@ -101,7 +101,7 @@ For such settings, we have observed that adding more labeled data from one task 
 Using the isotropic model, we consider what happens if we vary the source task data size.
 
 \begin{proposition}[Unnecessary source data]\label{prop_data_size}
-	In the isotropic model, assume that $\rho_1 > 40$ and $\rho_2 > 500$ are fixed constants, $\Psi(\beta_1, \beta_2) > 2/(\rho_2 - 1)$.
+	In the isotropic model, assume that $\rho_1 > 40$ and $\rho_2 > 150$ are fixed constants, $\Psi(\beta_1, \beta_2) > 2/(\rho_2 - 1)$.
 	We have that
 	\squishlist
 		\item If $\rho_1 < \frac{\rho_2-2}{\gamma_+ \cdot \Psi(\beta_1, \beta_2) (\rho_2 - 1) - 1}$, then w.h.p. $\te(\hat{\beta}_t^{\MTL}) < \te(\hat{\beta}_t^{\STL})$.
@@ -130,8 +130,18 @@ We quantify the data efficiency ratio of the isotropic model as follows.
 \end{proposition}
 The proof of Proposition \ref{prop_data_efficiency} can be found in Appendix \ref{app_proof_data}.
 
-\textbf{Algorithmic consequence.} \todo{}
+\textbf{Algorithmic consequence.} An interesting consequence of Proposition \ref{prop_data_size} is that the $L(\hat{\beta}_t^{\MTL})$ is not monotone in $\rho$.
+Instead, from the analysis, we observe that $L(\hat{\beta}_t^{\MTL})$ is quadratic.
+Based on this insight, we propose an incremental optimization schedule to improve MTL training efficiency.
+Algorithm \ref{alg_inc_train} shows the procedure.
 
+\begin{algorithm}[!t]
+	\caption{An incremental training schedule for multi-task learning}
+	\label{alg_inc_train}
+	\begin{algorithmic}[1]
+		\State as
+	\end{algorithmic}
+\end{algorithm}
 \subsection{Covariate Shift}
 
 So far we have considered the isotropic model where $\Sigma_1 = \Sigma_2$.
