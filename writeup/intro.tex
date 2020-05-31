@@ -1,10 +1,11 @@
 
 \begin{abstract}
 When does multi-task learning outperform single-task learning?
-In this work, we address this question by studying the test performance of predicting a particular task given multiple tasks using a commonly used hard parameter sharing architecture.
-We consider multi-task learning in the setting of high-dimensional linear regression.
-First, we provide a sharp analysis of the bias-variance tradeoff for multi-task learning, and extend the result to the related setting of transfer learning.
-We develop a technical tool on the trace of $(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}$ for two random matrices $X_1, X_2$ in the setting of two tasks.
+In this work, we address this question by studying the performance of predicting a particular task given multiple tasks.
+We consider a multi-task learning architecture that uses a shared layer for all tasks and a separate output layer for each task.
+First, for the setting of high-dimensional linear regression, we provide a sharp analysis of the bias-variance tradeoff of multi-task learning estimators.
+We develop a technical tool on the inverse of the sum of two random matrices that naturally arises from the analysis.
+We extend the result to the related setting of transfer learning.
 Second, we apply our tool to rigorously explain when multi-task learning outperforms single-task learning.
 %And we theoretically analyze the benefit of multi-task learning for reducing the amount of labeled data needed to achieve comparable performance to single-task learning. %, which has been a key empirical finding in recent work.
 Finally, we show practical implications of our theory for detecting and mitigating negative effects in image and text classification tasks.
@@ -39,31 +40,32 @@ To rigorously study negative transfer, the technical challenge is to develop gen
 
 In this work, we consider the setting of high-dimensional linear regression and focus on predicting a particular task whose amount of labeled data is limited.
 Following Hastie et al. \cite{HMRT19} and Bartlett et al. \cite{BLLT20}, we assume that for every task $1\le i\le t$, its features are random vectors $x = \Sigma_i^{1/2}z$, where $z\in\real^p$ consists of i.i.d. entries with mean zero and unit variance, and $\Sigma_i\in\real^{p\times p}$ is a positive semidefinite matrix.
-Let $n_i$ denote the data size and $X_i\in\real^{n_i\times p}$ denote the features of task $i$, for every $1\le i\le t$.
-The label of task $i$ is given by $Y_i = X_i\beta_i + \varepsilon_i$, where $\beta_i\in\real^p$ denotes the ground truth parameters for task $i$ and $\varepsilon_i$ denotes i.i.d. random noise with mean zero and variance $\sigma^2$.
+Let $n_i$ denote the data size and $X_i\in\real^{n_i\times p}$ denote the features of task $i$.
+The labels of task $i$ are given by $Y_i = X_i\beta_i + \varepsilon_i$, where $\beta_i\in\real^p$ denotes task $i$'s ground truth parameters and $\varepsilon_i$ denotes i.i.d. random noise with mean zero and variance $\sigma^2$.
 Without loss of generality, let the $t$-th task denote the target task.
-We assume that the data size of task $t$ is a small constant $\rho_t > 1$ times $p$ to capture the need for more labeled data.
+Importantly, the target task's data size is a fixed constant times $p$ in the high-dimensional setting.
+Hence adding more labeled data can help improve its test performance.
 %We shall assume that each task data follows a linear model, i.e. $y_i = X_i \beta_i + \varepsilon_i$, $1\le i\le k$.
 %Here $\beta_i\in\real^p$ is the model parameter for the $i$-th task.
 %Each row of $X_i\in\real^{n_i\times p}$ is assumed to be drawn i.i.d. from a fixed
 %distribution with covariance matrix $\Sigma_i$.
 We focus on the hard parameter sharing architecture with a linear shared layer $B\in\real^{p\times r}$ for all tasks and a separate prediction head $\set{W_i \in \real^{r}}_{i=1}^t$ for each task \cite{R17,MTDNN19,WZR20}.
 %This corresponds to minimizing $ \sum_{i=1}^t \norm{X_i B W_i - Y_i}^2$.
-For a target task $t$, let $\hat{\beta}_t^{\MTL} = B W_t$ denote the optimal multi-task (MTL) estimator (defined precisely in Section \ref{sec_setup}).
-Let $\hat{\beta}_t^{\STL}$ denote the standard single-task (STL) estimator for task $t$.
+Let $\hat{\beta}_t^{\MTL} = B W_t$ denote the optimal multi-task (MTL) estimator for the target task.
+Let $\hat{\beta}_t^{\STL}$ denote the single-task (STL) estimator.
+We define these precisely in Section \ref{sec_setup}.
 We say there is negative transfer if the prediction loss of $\hat{\beta}_t^{\MTL}$  is larger than that of $\hat{\beta}_t^{\STL}$, or positive transfer otherwise.
 
 \textbf{Main results.}
 We revisit the bias-variance tradeoff of the multi-task estimator.
-Interestingly, we observe that the variance of $\hat{\beta}_t^{\MTL}$ is always smaller than that of $\hat{\beta}_t^{\STL}$, hence resulting in a positive effect of variance reduction.
-The bias of $\hat{\beta}_t^{\MTL}$, which we term as \textit{model shift bias}, results in a negative effect caused by the difference between $\beta_t$ and the rest of $\set{\beta_i}_{i=1}^{t-1}$.
-Hence, the tradeoff between the variance reduction effect and model shift bias determines whether the transfer is positive.
+Interestingly, we observe that the variance of the multi-task estimator is always smaller than the variance of the single-task estimator, hence resulting in a positive effect of variance reduction.
+The bias of the multi-task estimator results in a negative effect caused by the difference between $\beta_t$ and the rest of $\set{\beta_i}_{i=1}^{t-1}$.
+Hence, the bias-variance tradeoff determines whether we observe positive or negative transfer.
 
-Our first contribution is to develop a new technical tool that provides a tight bound on the trace of $(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}$, which arises naturally from the setting of two tasks.
-Our result extends a well-known result on the trace of $(X_1^{\top}X_1)^{-1}$ for a single random matrix \cite{S07}.
-Furthermore, we provide a nearly optimal error bound, which may be of independent interest.
-We apply our tool to both multi-task and transfer learning settings.
-We present the following results in Section \ref{sec_main}.
+Our first contribution is to develop a new technical tool for a quantity that arises naturally from the analysis of two tasks.
+Concretely, we show a tight bound on the trace of $(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}$, which extends a well-known result on the trace of $(X_1^{\top}X_1)^{-1}$ for the single-task setting \cite{S07}.
+Our analysis yields nearly optimal concentration error, which may be of independent interest.
+Using this tool, we show the following results in Section \ref{sec_main}.
 \squishlist
 	\item We provide a sharp analysis of the bias-variance tradeoff of $\hat{\beta}_t^{\MTL}$ for two settings:
 (i) two tasks with general covariance matrice; (ii) any number of tasks that have the same features (e.g. images).
