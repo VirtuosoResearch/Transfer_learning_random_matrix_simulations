@@ -41,7 +41,7 @@ The test loss of using $\hat{\beta}_t^{\MTL}$ for the target task is
 Our goal is to study under model and covariate shifts, whether multi-task learning helps learn the target task better than single-task learning.
 The baseline where we solve the target task with its own data is
 \begin{align*}
-	te(\hat{\beta}_t^{\STL}) = \sigma^2 \cdot \bigtr{(X_2^{\top}X_2)^{-1}}, \text{ where } \hat{\beta}_t^{\STL} = (X_2^{\top}X_2)^{-1} X_2^{\top}Y_2.
+	L(\hat{\beta}_t^{\STL}) = \sigma^2 \cdot \bigtr{\Sigma_2(X_2^{\top}X_2)^{-1}}, \text{ where } \hat{\beta}_t^{\STL} = (X_2^{\top}X_2)^{-1} X_2^{\top}Y_2.
 \end{align*}
 %Clearly, whether $\hat{\beta}_t^{\MTL}$ outperforms $\hat{\beta}_t^{\STL}$ depends on the covariate matrices, the difference of the task models, and the number of per-task data points.
 
@@ -58,7 +58,7 @@ for some constant $C_k>0$. We assume that $n=\rho p$ for some fixed constant $\r
 Here we have assumed \eqref{assmAhigh} solely for simplicity of representation. if the entries of $Z$ only have finite $a$-th moment for some $a>4$, then all the results below still hold except that we need to replace $\OO(p^{-\frac12+\e})$ with $\OO( p^{-\frac12+\frac2a +\epsilon})$ in the error bounds. We will not get deeper into this issue in this section, but refer the reader to Corollary \ref{main_cor} below. 
 
 
-The first lemma, which is a folklore result in random matrix theory, helps to determine the asymptotic limit of $\te(\hat{\beta}_t^{\STL})$, as $p\to \infty$. When the entries of $X$ are multivariate Gaussian, this lemma recovers the classical result for the mean of inverse Wishart distribution \cite{anderson1958introduction}. For general non-Gaussian random matrices, it can be obtained from Stieltjes transform method; see e.g., Lemma 3.11 of \cite{bai2009spectral}. Here we shall state a result obtained from Theorem 2.4 in \cite{isotropic}, which gives an almost sharp error bound. Throughout the rest of this section, we shall say an event $\Xi$ holds with high probability (whp) if $\P(\Xi)\to 1$ as $p\to \infty$.
+The first lemma, which is a folklore result in random matrix theory, helps to determine the asymptotic limit of $\te(\hat{\beta}_t^{\STL})$, as $p\to \infty$. When the entries of $X$ are multivariate Gaussian, this lemma recovers the classical result for the mean of inverse Wishart distribution \cite{anderson1958introduction}. For general non-Gaussian random matrices, it can be obtained from Stieltjes transform method; see e.g., Lemma 3.11 of \cite{bai2009spectral}. Here we shall state a result obtained from Theorem 2.4 in \cite{isotropic}, which gives an almost sharp error bound. Throughout the appendix, we shall say an event $\Xi$ holds with high probability (whp) if for any fixed $D>0$, $\P(\Xi)\ge 1- p^{-D}$ for large enough $p$.
 
 \begin{lemma}\label{lem_minv} 
 Suppose $X$ satisfies assumption \ref{assm_secA1}. Let $A$ be any $p\times p$ matrix that is independent of $X$. We have that for any constant $\e>0$,
@@ -92,7 +92,7 @@ In the setting of Lemma \ref{lem_cov_shift}, let $\beta \in \R^p$ be any unit ve
 \begin{equation}\label{lem_cov_derv_eq}
 \begin{split}
 &(n_1+n_2)^2\bignorm{\Sigma_2^{1/2} (X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\beta}^2 \\
-&= \beta^{\top} \Sigma_2^{-1/2}  \frac{(1 + a_3)\id + a_4 {M}^{\top}{M}}{(a_2 + a_1 {M}^{\top}{M})^2} \Sigma_2^{-1/2} \beta +\OO(n^{-1/2+\e}),
+&= \beta^{\top} \Sigma_2^{-1/2}  \frac{(1 + a_3)\id + a_4 {M}^{\top}{M}}{(a_2 + a_1 {M}^{\top}{M})^2} \Sigma_2^{-1/2} \beta +\OO(p^{-1/2+\e}),
 \end{split}
 \end{equation}
 with high probability, where $a_{3}$ and $a_4$ satisfy the following system of linear equations: 
