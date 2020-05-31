@@ -5,25 +5,6 @@ First, we show that the diagnosis metric that we proposed in Section \ref{sec_si
 Second, \todo{}.
 Finally, we validate the three components of our theory on image and text classification tasks.
 
-\subsection{Experimental Setup}
-
-{\bf Datasets and models.} We describe the datasets and models we use in the experiments.
-
-{\it Sentiment Analysis:} This dataset includes six tasks: movie review sentiment (MR), sentence subjectivity (SUBJ), customer reviews polarity (CR), question type (TREC), opinion polarity (MPQA), and the Stanford sentiment treebank (SST) tasks.
-
-{For each task, the goal is to categorize sentiment opinions expressed in the text.
-We use an embedding layer (with GloVe embeddings\footnote{http://nlp.stanford.edu/data/wordvecs/glove.6B.zip}) followed by an LSTM layer proposed by~\cite{lei2018simple}.
-}
-%multi-layer perceptron (MLP), LSTM, CNN on all tasks
-%We use this task to verify our theoretical results on model capacity and task covariance in real world.
-
-{\it ChestX-ray14:} This dataset contains 112,120 frontal-view X-ray images and each image has up to 14 diseases.
-This is a 14-task multi-label image classification problem.
-%We treat each label as one task a binary classification problem and formulate it as a 14-task multi-task learning problem.
-%This dataset is curated where the labels
-%We use the CheXNet model from~\cite{chexnet}, which is a 121-layer convolutional neural network on all tasks.
-
-For all models, we share the main module across all tasks and assign a separate regression or classification layer on top of the shared module for each tasks.
 
 \begin{table}
 \begin{minipage}[t]{.58\textwidth}
@@ -64,6 +45,28 @@ For all models, we share the main module across all tasks and assign a separate 
 	\label{tab:taskonomy}
 \end{minipage}
 \end{table}
+
+\subsection{Experimental Setup}
+
+{\bf Datasets and models.} We describe the datasets and models we use in the experiments.
+
+{\it Sentiment Analysis:} This dataset includes six tasks: movie review sentiment (MR), sentence subjectivity (SUBJ), customer reviews polarity (CR), question type (TREC), opinion polarity (MPQA), and the Stanford sentiment treebank (SST) tasks.
+
+{For each task, the goal is to categorize sentiment opinions expressed in the text.
+We use an embedding layer (with GloVe embeddings\footnote{http://nlp.stanford.edu/data/wordvecs/glove.6B.zip}) followed by an LSTM layer proposed by~\cite{lei2018simple}.
+}
+%multi-layer perceptron (MLP), LSTM, CNN on all tasks
+%We use this task to verify our theoretical results on model capacity and task covariance in real world.
+
+{\it ChestX-ray14:} This dataset contains 112,120 frontal-view X-ray images and each image has up to 14 diseases.
+This is a 14-task multi-label image classification problem.
+%We treat each label as one task a binary classification problem and formulate it as a 14-task multi-task learning problem.
+%This dataset is curated where the labels
+%We use the CheXNet model from~\cite{chexnet}, which is a 121-layer convolutional neural network on all tasks.
+
+For all models, we share the main module across all tasks and assign a separate regression or classification layer on top of the shared module for each tasks.
+
+
 
 \subsection{Experimental Results}
 
