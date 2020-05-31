@@ -23,15 +23,14 @@ We define $\hat{\beta}_t^{\MTL}$ by two steps:
 (i) minimizing $f(\cdot)$ over $B$;
 (ii) minimize $\set{W_i}_{i=1}^k$ over an independent sample of the training set, e.g. $O(p^{0.99})$ suffices.
 For more details, we refer the reader to Appendix \ref{app_proof_sec3}.
-For an estimator $\hat{\beta}\in\real^p$, we define the out-of-sample (prediction) loss as
+For an estimator $\hat{\beta}\in\real^p$, we define the out-of-sample prediction loss as
 	\begin{align*}
-		\te_t(\hat{\beta}) \define \exarg{x}{({x}^{\top}\hat{\beta} - {x}^{\top}\beta_t)^2}
-		= (\hat{\beta} - \beta_t)^{\top}\Sigma_t(\hat{\beta} - \beta_t).
+		\te_t(\hat{\beta}) = \exarg{x}{({x}^{\top}\hat{\beta} - {x}^{\top}\beta_t)^2}
+		= \bignorm{\ex{\hat{\beta}} - \beta_t}^2 + \ex{\bignorm{\hat{\beta} - \ex{\hat{\beta}}}^2},
 	\end{align*}
+%= (\hat{\beta} - \beta_t)^{\top}\Sigma_t(\hat{\beta} - \beta_t) \\
+which can be further decomposed as the bias-variance tradeoff.
 The single-task estimator $\hat{\beta}_t^{\STL}$ is given by $(X_t^{\top}X_t)^{-1}X_t^{\top}Y_t$.
-The bias-variance tradeoff \cite{HTF09} says
-	\[ \te_t(\hat{\beta}) =
-		\bignorm{\exarg{\varepsilon_t}{\hat{\beta}} - \beta_t}^2 + \exarg{\varepsilon_t}{\bignorm{\hat{\beta} - \exarg{\varepsilon_t}{\hat{\beta}}}^2}. \]
 In order to relate the tradeoff to properties of the data, we need tight concentration bounds for the bias and variance.
 For this purpose, we consider the high-dimensional regime where $n_i$ is a fixed constant $\rho_i > 1$ times $p$ for every $1\le i\le t$, and $p$ is large.
 We focus on a setting where $\rho_t$ is small compared to $\set{\rho_i}_{i=1}^{t-1}$.
@@ -79,7 +78,7 @@ where $(a_1, a_2)$ is the solution to the following deterministic equations:
 	\end{align*}
 \end{lemma}
 
-As a remark, when there is only the target task, $\rho_1$ equals zero.
+\textbf{Remark.} When there is only the target task, $\rho_1$ equals zero.
 Hence $a_2 = 1 - 1/ \rho_2, a_1 = 0$ and Lemma \ref{lem_cov_shift_informal} states that $\tr[(X_2^{\top}X_2)^{-1}\Sigma_2] = \sigma^2 / (\rho_2 - 1)$, which is a well-known result in random matrix theory \cite{S07}.
 Hence our result provides a necessary tool to analyze MTL in high dimensions.
 
