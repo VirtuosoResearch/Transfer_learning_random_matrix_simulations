@@ -1,4 +1,4 @@
-\section{A Technical Tool to Analyze the Bias-Variance Tradeoff}
+\section{A Sharp Analysis of the Tradeoff for Multi-Task and Transfer Learning}
 \label{sec_main}
 
 We first describe the bias-variance tradeoff in our setting more formally.
@@ -7,9 +7,21 @@ Finally, we apply the lemma to provide a sharp analysis of the bias-variance tra
 
 \subsection{The Bias-Variance Tradeoff}\label{sec_setup}
 
-Recall that we have $t$ labeled tasks available, denoted by $(X_1, Y_1), (X_2, Y_2), \dots, (X_t, Y_t)$, where $X_i\in\real^{n_i\times p}$ and $Y_i\in\real^{n_i}$ for $1\le i\le t$.
+Recall that we have $t$ labeled tasks as the training dataset, denoted by $(X_1, Y_1), (X_2, Y_2), \dots, (X_t, Y_t)$, where $X_i\in\real^{n_i\times p}$ and $Y_i\in\real^{n_i}$ for $1\le i\le t$.
 %Following \cite{HMRT19,BLLT20}, we assume that for each task $i = 1,2,\dots,t$,  every feature vector is generated as $x = \Sigma_i^{1/2} z$, where $z\in\real^p$ is a random vector with i.i.d. entries of mean zero and unit variance and $\Sigma_i\in\real^{p\times p}$ is a positive semidefinite matrix.
 Without loss of generality, let the $t$-th task denote the target task.
+We consider a linear multi-task learning architecture by minimizing the following
+\begin{align}
+	\label{eq_mtl}
+	f(B; W_1, \dots, W_t) = \sum_{i=1}^t \norm{X_i B W_i - Y_i}^2,
+\end{align}
+where $B\in\real^{p\times r}$ and $W_i\in\real^r$.
+Following \cite{WZR20}, we assume that $r < t$, because otherwise minimizing $f(\cdot)$ could result in $BW_i$ to be the single-task optimum.
+Hence there is no positive or negative transfer.
+We define $\hat{\beta}_t^{\MTL}$ by two steps:
+(i) minimizing $f(\cdot)$ over $B$;
+(ii) minimize $\set{W_i}_{i=1}^k$ over an independent sample of the training set.
+For more details, we refer the reader to Appendix \ref{app_proof_sec3}.
 For an estimator $\hat{\beta}\in\real^p$, we define the out-of-sample (prediction) loss as
 	\begin{align*}
 		\te_t(\hat{\beta}) \define \exarg{z}{\exarg{\varepsilon_t}{({(\Sigma_t^{1/2} z)}^{\top}\hat{\beta} - {(\Sigma_t^{1/2})}^{\top}\beta_t)^2}}
@@ -39,10 +51,6 @@ We call $M = \Sigma_1^{1/2}\Sigma_2^{-1/2}$ the covariate shift matrix.
 
 To illustrate our intuition, we begin by considering the setting of two tasks with general covariance matrices.
 Recall that $\hat{\beta}_t^{\MTL}$ is defined as $BW_t$ after solving equation \eqref{eq_mtl}.
-\begin{align}
-	\label{eq_mtl}
-	f(B; W_1, \dots, W_t) = \sum_{i=1}^t \norm{X_i B W_i - Y_i}^2.
-\end{align}
 We decompose the test error of $\hat{\beta}_{t}^{\MTL}$ on the target task into two parts (to be derived in Appendix \ref{app_proof_sec3}) as follows
 \begin{align}
 	\te(\hat{\beta}_t^{\MTL}) =& ~ \hat{v}^2 \bignorm{\Sigma_2^{1/2} (\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}X_1^{\top}X_1 (\beta_1 - \hat{v}\beta_2)}^2 \label{eq_te_model_shift} \\
@@ -76,7 +84,7 @@ where $(a_1, a_2)$ is the solution to the following deterministic equations:
 As a remark, when there is only the target task, $\rho_1$ equals zero.
 Hence $a_2 = 1 - 1/ \rho_2, a_1 = 0$ and Lemma \ref{lem_cov_shift_informal} states that $\tr[(X_2^{\top}X_2)^{-1}\Sigma_2] = \sigma^2 / (\rho_2 - 1)$, which is to a well-known result in random matrix theory \cite{S07}.
 
-\subsection{A Sharp Analysis of the Tradeoff for Multi-Task and Transfer Learning}
+\subsection{Applying the Key Lemma to Analyze the Tradeoff}
 
 \textbf{Multi-task learning.}
 We use Lemma \ref{lem_cov_shift_informal} to provide a sharp bias-variance tradeoff for two settings:
