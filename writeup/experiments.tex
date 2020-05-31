@@ -1,9 +1,9 @@
 \section{Experiments}
 
-We validate the algorithmic implications of our theory on image and text classification tasks.
-First, we show that our proposed metric is able to predict positive or negative transfer using only STL performances.
-Second, we show that MTL can improve data efficiency ratio.
-Finally, we show that performing covariance alignment is more significant when the source task data size is large compared to the target task.
+Our theory leads to algorithmic consequences of practical interest.
+First, we show that the diagnosis metric that we proposed in Section \ref{sec_similarity} can help predict positive or negative transfer using only STL performances.
+Second, \todo{}.
+Finally, we validate the three components of our theory on image and text classification tasks.
 
 \subsection{Experimental Setup}
 
@@ -27,11 +27,12 @@ For all models, we share the main module across all tasks and assign a separate 
 
 \subsection{Experimental Results}
 
-\textbf{A metric for the diagnosis of MTL.}
-We validate the metric proposed in Section \ref{sec_similarity} for predicting positive or negative transfer based on STL results.
-Table \ref{tab:mtl_better_than_stl} shows that using a threshold of $0.1$, we can predict $75.6\%$ among 150 task pairs for the sentiment analysis tasks with $38.8\%$ recall.
-Similar for 91 image classification task pairs.
-Note: For text classification tasks, the source task training data size ranges from 500 to 1,500 and target task training data size is 1000; For ChestX-ray14, the training data size is 10,000.
+\textbf{A single-task based diagnosis metric.}
+We validate the metric proposed in Section \ref{sec_similarity} for predicting positive or negative transfer based on single-task accuracies.
+Table \ref{tab:mtl_better_than_stl} shows the result on both the sentiment analysis and the ChestX-ray14 datasets.
+We find that using a threshold of $0.1$, our predicts correctly predicts positive or negative transfer with $75.6\%$ accuracy among 150 task pairs with $38.8\%$ recall.
+We observe similar results for 91 task pairs from the ChestX-ray14 dataset.
+The result shows that STL performances are indicative for the diagnosis of MTL performances.
 
 \textbf{Improving training efficiency via an incremental schedule.}
 \todo{}
@@ -99,7 +100,8 @@ Note: For text classification tasks, the source task training data size ranges f
 % \label{tab:mtl_better_than_stl}
 % \end{table}
 
-\textbf{Data size and efficiency.}
+\textbf{Data size.}
+Recall that 
 We measure the data efficiency ratio on the sentiment analysis tasks.
 We find that by performing multi-task learning, only $39\%$ of the labeled data is needed to achieve comparable performance to single-task learning over all six tasks.
 If TREC is not included, we see that only $25\%$ of the labeled data is needed.
@@ -115,16 +117,6 @@ In Figure \ref{fig_covariate}, we observe that the benefit from aligning task co
 		\centering
 		\includegraphics[width=0.975\textwidth]{figures/ratio_alignment_norm_diff_all.pdf}
 		\caption{Averaged}
-	\end{subfigure}\hfill
-	\begin{subfigure}[b]{0.33\textwidth}
-		\centering
-		\includegraphics[width=0.975\textwidth]{figures/ratio_alignment_norm_trec_cr_lstm.pdf}
-		\caption{Task pair TREC and CR}
-	\end{subfigure}\hfill
-		\begin{subfigure}[b]{0.33\textwidth}
-		\centering
-		\includegraphics[width=0.975\textwidth]{figures/ratio_alignment_mr_sst_lstm.pdf}
-		\caption{Task pair MR and SST}
 	\end{subfigure}
 	\caption{The performance of aligning task covariances depends on data size. As the ratio between source task data size and target task data size increases, the performance improvement from aligning task covariances increases.}
 	\label{fig_covariate}
