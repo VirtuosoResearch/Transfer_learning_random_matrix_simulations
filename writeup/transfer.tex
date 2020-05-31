@@ -118,7 +118,7 @@ From Figure \ref{fig_size}, we see that our result is able to explain the transi
 There are several unexplained observations near $y = 0$ caused by the errors $\gamma_-, \gamma_+$.
 The proof of Proposition \ref{prop_data_size} can be found in Appendix \ref{app_proof_31}.
 
-We use our tools to explain a key result of Taskonomy by Zamir et al.'18 \cite{ZSSGM18}, which shows that MTL can reduce the amount of labeled data needed from each task to achieve comparable performance to STL.
+\textbf{Connection to Taskonomy.} We use our tools to explain a key result of Taskonomy by Zamir et al.'18 \cite{ZSSGM18}, which shows that MTL can reduce the amount of labeled data needed to achieve comparable performance to STL.
 Formally, let the data efficiency ratio be the largest factor $x$ such that the total number of labeled datapoints needed for solving all tasks can be reduced by $x$ while keeping the same performance compared to STL.
 %More precisely, suppose we have $n_i$ datapoints for each task, for $i= 1, 2$.
 For $i = 1, 2$, let $\hat{\beta}_i^{\MTL}(x)$ denote the estimator trained using only $x \cdot n_i$ datapoints from every task.
@@ -126,25 +126,35 @@ The data efficiency ratio is defined as
 \[ \argmin_{x\in(0, 1)} ~~
 		\te_1(\hat{\beta}_1^{\MTL}(x)) + \te_2(\hat{\beta}_2^{\MTL}(x))
 		\le \te_1(\hat{\beta}_1^{\STL}) + \te_2(\hat{\beta}_2^{\STL}). \]
+Using our tools, we show that in the isotropic model, the data efficiency ratio is
+equal to \[ \frac{1}{\rho_1 + \rho_2} {+ \frac{1}{(\rho_1 +\rho_2)(\rho_1^{-1} + \rho_2^{-1} - \Theta(\Psi(\beta_1, \beta_2)))}}. \]
+In addition to $\rho_1,\rho_2$, the data efficiency ratio also scales with $\Psi(\beta_1, \beta_2)$, the model distance between the tasks.
+The result can be found in Appendix \ref{app_proof_data}.
 
-\begin{proposition}[Labeled data efficiency]\label{prop_data_efficiency}
-	In the isotropic model, assume that $\rho_1,\rho_2 > 10$ and $\Psi(\beta_1, \beta_2) < \frac{2}{\rho_1} + \frac{2}{\rho_2}$.
-	Then the data efficiency ratio is at least \[ \frac{1}{\rho_1 + \rho_2}\cdot \bigbrace{1 + \frac{1}{\rho_1^{-1} + \rho_2^{-1} - 5\Psi(\beta_1, \beta_2)}}. \]
-\end{proposition}
-The proof of Proposition \ref{prop_data_efficiency} can be found in Appendix \ref{app_proof_data}.
-
-\textbf{Algorithmic consequence.} An interesting consequence of Proposition \ref{prop_data_size} is that the $L(\hat{\beta}_t^{\MTL})$ is not monotone in $\rho$.
-Instead, from the analysis, we observe that $L(\hat{\beta}_t^{\MTL})$ is quadratic.
+\textbf{Algorithmic consequence.} An interesting consequence of Proposition \ref{prop_data_size} is that $L(\hat{\beta}_t^{\MTL})$ is not monotone in $\rho_1$.
+In particular, Figure \ref{fig_size} (and our analysis) shows that $L(\hat{\beta}_t^{\MTL})$ behaves as a quadratic function over $\rho_1$.
+More generally, depending on how large $\Psi(\beta_1, \beta_2)$ is, $L(\hat{\beta}_t^{\MTL})$ may also be monotonically increasing or decreasing.
 Based on this insight, we propose an incremental optimization schedule to improve MTL training efficiency.
-Algorithm \ref{alg_inc_train} shows the procedure.
+Algorithm \ref{alg_inc_train} describes the procedure.
 
 \begin{algorithm}[!t]
-	\caption{An incremental training schedule for multi-task learning}
+	\caption{An incremental training schedule for multi-task learning over two tasks}
 	\label{alg_inc_train}
 	\begin{algorithmic}[1]
-		\State as
+		\Input Two tasks $(X_1, Y_1)$ and $(X_2, Y_2)$.
+		\Param A shared module $B$, output layers $W_1, W_2$ as in the hard parameter sharing architecture.
+		\Req Batch size $S$, number of epochs $T$, validation accuracy $\hat{g}(B; W_1, W_2)$.
+		\State Divide $(X_1, Y_1)$ randomly into $K$ batches of size $S$ as $(x^{(1)}, y^{(1)}), \dots, (x^{(K)}, y^{(K)})$.
+		\For{$i = 1,\dots, K$}
+			\For{$j = 1,\dots, T$}
+				\State Update $B, W_1, W_2$ using the training data $\set{x^{(j)}, x^{(j)}}_{j=1}^i$ and  $(X_2, Y_2)$.
+			\EndFor
+		\State Let $a_i = \hat{g}(B; W_1, W_2)$ be the validation loss after epoch $i$.
+			If $a_i < a_{i+1}$, \textbf{break}.
+		\EndFor
 	\end{algorithmic}
 \end{algorithm}
+
 \subsection{Covariate Shift}
 
 So far we have considered the isotropic model where $\Sigma_1 = \Sigma_2$.
