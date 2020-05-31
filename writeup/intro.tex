@@ -2,11 +2,12 @@
 \begin{abstract}
 When does multi-task learning outperform single-task learning?
 In this work, we address this question by studying the test performance of predicting a particular task given multiple tasks using a commonly used hard parameter sharing architecture.
-In the setting of high-dimensional linear regression, we provide a sharp analysis of the bias-variance tradeoff for multi-task learning, and extend the result to transfer learning.
-A key technical tool we develop is the trace of $(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}$ for two random matrices $X_1, X_2$ in the setting of two tasks.
-	Based on the theory, we provide more precise interpretations of many empirical phenomena in multi-task learning.
-	For example, we theoretically analyze the benefit of multi-task learning for reducing the amount of labeled data needed to achieve comparable performance to single-task learning. %, which has been a key empirical finding in recent work.
-	Finally, we show practical implications of our theory for detecting and mitigating negative effects in image and text classification tasks.
+We consider multi-task learning in the setting of high-dimensional linear regression.
+First, we provide a sharp analysis of the bias-variance tradeoff for multi-task learning, and extend the result to the related setting of transfer learning.
+We develop a technical tool on the trace of $(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}$ for two random matrices $X_1, X_2$ in the setting of two tasks.
+Second, we apply our tool to rigorously explain when multi-task learning outperforms single-task learning.
+%And we theoretically analyze the benefit of multi-task learning for reducing the amount of labeled data needed to achieve comparable performance to single-task learning. %, which has been a key empirical finding in recent work.
+Finally, we show practical implications of our theory for detecting and mitigating negative effects in image and text classification tasks.
 \end{abstract}
 
 \section{Introduction}
@@ -46,7 +47,6 @@ We assume that the data size of task $t$ is a small constant $\rho_t > 1$ times 
 %Here $\beta_i\in\real^p$ is the model parameter for the $i$-th task.
 %Each row of $X_i\in\real^{n_i\times p}$ is assumed to be drawn i.i.d. from a fixed
 %distribution with covariance matrix $\Sigma_i$.
-
 We focus on the hard parameter sharing architecture with a linear shared layer $B\in\real^{p\times r}$ for all tasks and a separate prediction head $\set{W_i \in \real^{r}}_{i=1}^t$ for each task \cite{R17,MTDNN19,WZR20}.
 %This corresponds to minimizing $ \sum_{i=1}^t \norm{X_i B W_i - Y_i}^2$.
 For a target task $t$, let $\hat{\beta}_t^{\MTL} = B W_t$ denote the optimal multi-task (MTL) estimator (defined precisely in Section \ref{sec_setup}).
@@ -59,19 +59,21 @@ Interestingly, we observe that the variance of $\hat{\beta}_t^{\MTL}$ is always 
 The bias of $\hat{\beta}_t^{\MTL}$, which we term as \textit{model shift bias}, results in a negative effect caused by the difference between $\beta_t$ and the rest of $\set{\beta_i}_{i=1}^{t-1}$.
 Hence, the tradeoff between the variance reduction effect and model shift bias determines whether the transfer is positive.
 
-To quantify the tradeoff more precisely, we develop a new technical tool that provides a tight bound on the trace of $(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}$, which arises naturally from the setting of two tasks.
+Our first contribution is to develop a new technical tool that provides a tight bound on the trace of $(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}$, which arises naturally from the setting of two tasks.
 Our result extends a well-known result on the trace of $(X_1^{\top}X_1)^{-1}$ for a single random matrix \cite{S07}.
 Furthermore, we provide a nearly optimal error bound, which may be of independent interest.
-Using the result, we provide a sharp analysis of the bias-variance tradeoff of $\hat{\beta}_t^{\MTL}$ for two settings:
+We apply our tool to both multi-task and transfer learning settings.
+We present the following results in Section \ref{sec_main}.
+\squishlist
+	\item We provide a sharp analysis of the bias-variance tradeoff of $\hat{\beta}_t^{\MTL}$ for two settings:
 (i) two tasks with general covariance matrice; (ii) any number of tasks that have the same features (e.g. images).
-Finally, we apply our technical tool to the related setting of transfer learning.
-We pool learnt representations from source tasks into a shared body similar to $B$ in the hard parameter sharing architecture, which has also been used in Taskonomy by Zamir et al.'18 \cite{ZSSGM18}.
-For this setting, we show that the model shift bias can be captured by the orthogonal projection of $\beta_t$ to the subspace spanned by $\set{\beta_i}_{i=1}^{t-1}$.
-These results are presented more precisely in Section \ref{sec_main}.
+	\item We extend our result to transfer learning in the setting of high-dimensional linear regression.
+	We pool learnt source task representations into a shared body similar to $B$ in the hard parameter sharing architecture, as in Taskonomy by Zamir et al.'18 \cite{ZSSGM18}.
+	We show that the model shift bias can be captured by the projection of $\beta_t$ to the orthogonal subspace spanned by $\set{\beta_i}_{i=1}^{t-1}$.
+\squishend
 
-The tradeoff that we develop depends on the properties of each task such as its data size and covariance matrix.
-In Section \ref{sec_insight}, we use our technical tool to rigorously explain negative transfer in multi-task learning.
-We identify three factors including task similarity, data size and covariate shift.
+Our second contribution is to use our newly developed technical tool to rigorously explain negative transfer in multi-task learning.
+In Section \ref{sec_insight}, we identify three factors including task similarity, data size and covariate shift.
 \squishlist
 		\item First, we define task dissimilarity as the distance between $\beta_1$ and $\beta_2$ using a simplified isotropic setting of two tasks.
 		Using our technical tool, we show a sharp transition from positive to negative transfer as task dissimilarity increases.
@@ -88,8 +90,8 @@ We identify three factors including task similarity, data size and covariate shi
 		We show that as $n_1 / n_2$ becomes large, the source task should have the same covariance matrix as the target task to ensure the best performance.
 %		On the other hand, when $n_1 / n_2$ is small, there are counter examples where having the same covariance matrix is not necessarily the optimal choice.
 \squishend
-We validate the above phenomena on text and image classification tasks.
-Based on the theory, we provide algorithmic implications for detecting and mitigating negative transfer.
+
+Our final contribution is to connect our theory to practical problems of interest.
 First, we provide a metric to determine positive versus negative transfer by comparing the test accuracies of single-task models.
 Second, \todo{}
 Finally, we provide a new insight on the covariance alignment algorithm, proposed in \cite{WZR20}.
