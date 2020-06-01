@@ -169,15 +169,17 @@ We show that when $n_1 / n_2$ is large, MTL with covariate shift can be suboptim
 	We compare two cases: (i) when $M = \id$; (ii) when $M$ has $p/2$ singular values that are equal to $\lambda$ and $p/2$ singular values that are equal to $1 / \lambda$.
 	Hence, $\lambda$ measures the severity of covariate shift.
 	Figure \ref{fig_covariate} shows a simulation of this setting by varying $\lambda$.
+	We observe that as $n_1/n_2$ increases, the performance gap between the case of $M = \id$ and $\lambda = 2$ or $4$ increases for MTL.
 \end{example}
+
+By applying Lemma \ref{lem_cov_shift_informal}, we find that when $n_1 / n_2$ is large, having no covariate shift is the optimal choice provided that the determinant of $M^{\top}M$ is bounded.
+The result is left to Appendix \ref{app_proof_31}.
 %We ask: is it better to have $M$ as being close to identity, or should $M$ involve varying levels of singular values?
 %Understanding this question has implications for applying normalization methods in multi-task learning \cite{LV19,CBLR18,YKGLHF20}.
 %We show that if $n_1$ is much larger than $n_2$, then the optimal $M$ matrix should be proportional to identity, under certain assumptions on its range of singular values (to be formulated in Proposition \ref{prop_covariate}).
 %On the other hand, if $n_1$ is comparable or even smaller than $n_2$, we show an example where having ``complementary'' covariance matrices is better performing than having the same covariance matrices.
 
 
-
 \textbf{Algorithmic consequence.}
-Our result provides a fine-grained insight on the covariance alignment algorithm proposed in \cite{WZR20}.
-Recall that the covariance alignment procedure in \cite{WZR20} adds an additional module between the word embedding representation and the shared module.
-When the source task data size is particularly large compared to the target task, then we expect that applying the covariance alignment algorithm results in a more significant gain.
+Our observation highlights the need to correct covariate shift when $n_1 / n_2$ is large.
+Hence for such settings, we expect procedures that aim at correcting covariate shift to provide more significant gains.
