@@ -1,4 +1,4 @@
-\section{Experiments}
+\section{Practical Connections for Detecting and Mitigating Negative Transfer}
 
 We connect our theory to pratical problems of interest.
 First, we validate the single-task based metric on text and image classification tasks.
@@ -71,15 +71,8 @@ For all models, we share the main module across all tasks and assign a separate 
 We measure the prediction accuracy of a particular target task.
 
 
-\subsection{Experimental Results}
+\subsection{Experimental Results: Improving Data Efficiency}
 
-\textbf{Understanding MTL results via STL results.}
-We show that STL results can be used to help understand MTL results
-We validate the single-task based metric proposed in Section \ref{sec_similarity} for predicting positive or negative transfer in MTL.
-Table \ref{tab:mtl_better_than_stl} shows the result on both the sentiment analysis and the ChestX-ray14 datasets.
-We find that using a threshold of $\tau = 0.1$, the STL results correctly predict positive or negative transfer with $75.6\%$ accuracy and $38.8\%$ recall among 150 task pairs.
-We observe similar results for 91 task pairs from the ChestX-ray14 dataset.
-The results show that STL performances are indicative of MTL performances.
 
 \textbf{Improving multi-task training efficiency.}
 We compare Algorithm \ref{alg_inc_train} to performing multi-task learning for predicting a particular target dataset.
@@ -88,6 +81,14 @@ Over six randomly selected task pairs from the sentiment analysis tasks, we find
 \textbf{Improving transfer learning training efficiency.}
 We show that Algorithm \ref{alg_inc_train} also applies to transfer learning settings.
 Compared to fine-tuning the source model on the target task, we show that our proposed method reduces the computional cost by \alert{$xx\%$}, without sacrificing accuracy.
+
+\textbf{Data efficiency.}
+We measure the data efficiency ratio on the sentiment analysis tasks.
+In Table \ref{tab:taskonomy}, we find that by performing multi-task learning, only $39\%$ of the labeled data is needed to achieve comparable performance to single-task learning over all six tasks on LSTM.
+The data efficiency ratio of using MLP is $100\%$ because the average performance of MTL is worse than the average of STL.
+We further show that adding the alignment module helps reduce the data efficiency ratio to $36\%$.
+%If TREC is not included, we see that only $25\%$ of the labeled data is needed.
+
 
 \begin{figure}[!t]
 	\centering
@@ -118,29 +119,24 @@ Compared to fine-tuning the source model on the target task, we show that our pr
 
 \subsection{Ablation Studies}
 
+\textbf{Understanding MTL results via STL results.}
+We show that STL results can be used to help understand MTL results
+We validate the single-task based metric proposed in Section \ref{sec_similarity} for predicting positive or negative transfer in MTL.
+Table \ref{tab:mtl_better_than_stl} shows the result on both the sentiment analysis and the ChestX-ray14 datasets.
+We find that using a threshold of $\tau = 0.1$, the STL results correctly predict positive or negative transfer with $75.6\%$ accuracy and $38.8\%$ recall among 150 task pairs.
+We observe similar results for 91 task pairs from the ChestX-ray14 dataset.
+The results show that STL performances are indicative of MTL performances.
+
 
 \textbf{Task similarity.} We validate that MTL performs better when the source task is more similar to the target task.
 We show the result on the sentiment analysis tasks.
 For a target task, we manually select a similar task and a dissimilar task based on prior knowledge.
 Figure \ref{fig_ab_sim} confirms the result.
-
-
-\textbf{Data size.}
 Recall that Section \ref{sec_data_size} shows that increasing the data size of the source task does not always improve the performance of MTL for the target task.
 In Figure \ref{fig_ab_data}, we show that for source task MR and target task SST, there is a transition from positive to negative transfer as we increase the data size of the source task.
-
-\textbf{Covariate shift.}
 %Our result provides a fine-grained insight on the covariance alignment algorithm proposed in \cite{WZR20}.
 %Recall that the covariance alignment procedure in \cite{WZR20} adds an additional module between the word embedding representation and the shared module.
 When the source task data size is particularly large compared to the target task, we show that applying the covariance alignment algorithm results in more significant gains.
 In Figure \ref{fig_ab_cov}, we observe that the benefit from aligning task covariances becomes more significant for LSTM and MLP as we increase the number of datapoints of the source task.
-
-\textbf{Data efficiency.}
-We measure the data efficiency ratio on the sentiment analysis tasks.
-In Table \ref{tab:taskonomy}, we find that by performing multi-task learning, only $39\%$ of the labeled data is needed to achieve comparable performance to single-task learning over all six tasks on LSTM.
-The data efficiency ratio of using MLP is $100\%$ because the average performance of MTL is worse than the average of STL.
-We further show that adding the alignment module helps reduce the data efficiency ratio to $36\%$.
-%If TREC is not included, we see that only $25\%$ of the labeled data is needed.
-
 
 
