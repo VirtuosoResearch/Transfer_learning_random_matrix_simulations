@@ -6,28 +6,27 @@ We consider a multi-task learning architecture that uses a shared layer for all 
 First, for the setting of high-dimensional linear regression, we provide a sharp analysis of the bias-variance tradeoff of multi-task learning estimators.
 We develop a technical tool on the inverse of the sum of two random matrices that naturally arises from the analysis.
 We extend the result to the related setting of transfer learning.
-Second, we apply our tool to rigorously explain when multi-task learning outperforms single-task learning.
-%And we theoretically analyze the benefit of multi-task learning for reducing the amount of labeled data needed to achieve comparable performance to single-task learning. %, which has been a key empirical finding in recent work.
+Second, we apply our tool to explain when multi-task learning outperforms single-task learning.
 Finally, we show practical implications of our theory for detecting and mitigating negative effects.
 	For example, we propose an incremental training scheduler for improving the efficiency of multi-task training for predicting a particular task.
-	We validate our theory and proposed method on image and text classification tasks.
+	We validate our theory and our proposed method on image and text classification tasks.
 \end{abstract}
 
 \section{Introduction}
 
 %Multi-task learning is an inductive learning mechanism to improve generalization performance using related task data.
 %Many state-of-the-art results in computer vision and natural language processing are obtained using multi-task learning.
-Multi-task learning represents a powerful paradigm to solve complex prediction tasks in computer vision \cite{chexnet17,ZSSGM18}, natural language processing \cite{GLUE,superglue} and numerous other areas \cite{ZY17}.
+Multi-task learning represents a powerful paradigm to solve complex prediction tasks in computer vision \cite{chexnet17,ZSSGM18}, natural language processing \cite{GLUE,superglue} and many other areas \cite{ZY17}.
 %In multi-task learning, having related task data is fundamental to its performance.
 %Multi-task learning is particularly powerful when there is limited labeled data for a task to be solved, meanwhile more labeled data from different but related tasks is available.
 By combining multiple information sources, it is possible to share all the information in the same model.
 %For example, many applications in , and many other areas have been achieved by learning from multiple tasks together.
 The performance of multi-task learning depends on the relationship of the information sources \cite{C97}.
 When the information sources are heterogeneous, negative transfer -- where multi-task learning performs worse than single-task learning -- has often been observed \cite{AP16,BS17}.
-While numerous studies have sought to alleviate negative transfer \cite{ZY17}, a rigorous understanding of the contributing causes of negative transfer has remained elusive in the literature \cite{R17}.
+While many studies have sought to mitigate negative transfer \cite{ZY17}, a rigorous understanding of the contributing causes of negative transfer has remained elusive in the literature \cite{R17}.
 %This phenomenon, known as \textit{negative transfer}, is fundamental to the understanding of multi-task learning.
 In this work, we develop technical tools to compare multi-task learning to single-task learning for the setting of high-dimensional linear regression. % for learning from multiple linear regression tasks.
-We use the tools to rigorously explain the phenomena of negative transfer.
+We use the tools to explain the phenomena of negative transfer rigorously.
 Our theory also leads to practical implications: we propose a diagnostic metric and a training schedule to improve multi-task training.
 %We consider a setting where the target task has limited labeled data and show
 %On the other hand, unless the structures across task data are well-understood, applying multi-task learning on several different datasets often result in suboptimal models (or negative transfer in more technical terms).
@@ -40,7 +39,7 @@ More recent work has shown the benefit of learning multi-task representations fo
 To rigorously study negative transfer, the technical challenge is to develop generalization bounds that scale tightly with properties of the data.
 
 
-In this work, we consider the setting of high-dimensional linear regression and focus on predicting a particular task whose amount of labeled data is limited.
+In this work, we consider the setting of high-dimensional linear regression and focus on predicting a particular task that only contains limited amount of labeled data.
 Following Hastie et al. \cite{HMRT19} and Bartlett et al. \cite{BLLT20}, we assume that for every task $1\le i\le t$, its features are random vectors $x = \Sigma_i^{1/2}z$, where $z\in\real^p$ consists of i.i.d. entries with mean zero and unit variance, and $\Sigma_i\in\real^{p\times p}$ is a positive semidefinite matrix.
 Let $n_i$ denote the data size and $X_i\in\real^{n_i\times p}$ denote the features of task $i$.
 The labels of task $i$ are given by $Y_i = X_i\beta_i + \varepsilon_i$, where $\beta_i\in\real^p$ denotes task $i$'s ground truth parameters and $\varepsilon_i$ denotes i.i.d. random noise with mean zero and variance $\sigma^2$.
@@ -76,7 +75,7 @@ Using this tool, we show the following results in Section \ref{sec_main}.
 	We show that the model shift bias can be captured by the projection of $\beta_t$ to the orthogonal subspace spanned by $\set{\beta_i}_{i=1}^{t-1}$.
 \squishend
 
-Our second contribution is to use our newly developed tool to rigorously explain negative transfer in multi-task learning.
+Our second contribution is to use our newly developed tool to explain negative transfer in multi-task learning rigorously.
 In Section \ref{sec_insight}, we consider three components including task similarity, data size and covariate shift for a simplified isotropic setting of two tasks.
 \squishlist
 		\item First, we measure task similarity by how small is the distance between $\beta_1$ and $\beta_2$.
@@ -94,9 +93,9 @@ In Section \ref{sec_insight}, we consider three components including task simila
 %		On the other hand, when $n_1 / n_2$ is small, there are counter examples where having the same covariance matrix is not necessarily the optimal choice.
 \squishend
 
-Our final contribution is to connect our theory to practical problems of interest.
+Our last contribution is to connect our theory to practical problems of interest.
 First, we provide a single-task based metric to predict positive or negative transfer in multi-task learning.
-While it is generally not well-understood when multi-task learning provides positive transfer, we show that the STL results are indicative of and can help understand MTL results on ChestX-ray14 \cite{chexnet17} and sentiment analysis datasets \cite{LZWDA18}.
+While it is not well understood when multi-task learning provides positive transfer, we show that the STL results can help indicate and understand MTL results on ChestX-ray14 \cite{chexnet17} and sentiment analysis datasets \cite{LZWDA18}.
 Second, we design an incremental training schedule to improve the efficiency of multi-task training for predicting a particular task.
 We show that our training schedule reduces the computational cost by $55\%$ compared to baseline multi-task training on the sentiment analysis dataset, while keeping the accuracy the same.
 Finally, we validate the three components of our theory in Section \ref{sec_insight} and measure the data efficiency of multi-task learning on the sentiment analysis dataset.
