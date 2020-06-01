@@ -25,7 +25,8 @@ Next we consider $N_i$ independent samples of the training set $\{(\wt x_k^{(i)}
 Inserting \eqref{hatB} into \eqref{eq_mtl_2tasktilde}, one can see that $\wt f$ only depends on the ratio $v:=w_1/w_2$. Hence we will also write $\wt f(\hat B; v)$ in the following discussion.
 
 Let $\hat v=\hat{w_1}/\hat{w_2}$ be the global minimizer of $\wt f(\hat B; v)$. We will define the multi-task learning estimator for the target task as
-	\[ \hat{\beta}_t^{\MTL} = \hat{w}_{2}\hat{B}(\hat{w}_1, \hat{w}_2). \]
+	\[ \hat{\beta}_t^{\MTL} = \hat{w}_{2}\hat{B}(\hat{w}_1, \hat{w}_2), \]
+	where $t=2$ since we are considering the two task case, and it also stands for the ``target task". 
 The intuition for deriving $\hat{\beta}_t^{\MTL}$ is akin to performing multi-task training in practice.
 %Let $\hat{v} = \hat{w_1} / \hat{w_2}$ for the simplicity of notation.
 Then the test loss of using $\hat{\beta}_t^{\MTL}$ for the target task is
@@ -130,7 +131,7 @@ In the setting of Lemma \ref{lem_cov_shift}, let $\beta \in \R^p$ be any vector 
 \begin{equation}\label{lem_cov_derv_eq}
 \begin{split}
 &(n_1+n_2)^2\bignorm{\Sigma_2^{1/2} (X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\beta}^2 \\
-&= \beta^{\top} \Sigma_2^{-1/2}  \frac{(1 + a_3)\id + a_4 {M}^{\top}{M}}{( a_1 {M}^{\top}{M})^2+a_2} \Sigma_2^{-1/2} \beta +\OO(p^{-1/2+\e}\|\beta\|^2),
+&= \beta^{\top} \Sigma_2^{-1/2}  \frac{(1 + a_3)\id + a_4 {M}^{\top}{M}}{( a_1 {M}^{\top}{M}+a_2)^2} \Sigma_2^{-1/2} \beta +\OO(p^{-1/2+\e}\|\beta\|^2),
 \end{split}
 \end{equation}
 with high probability, where $a_{3}$ and $a_4$ satisfy the following system of linear equations: 
