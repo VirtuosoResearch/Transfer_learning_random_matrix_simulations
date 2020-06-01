@@ -12,12 +12,12 @@ Finally, we validate the three components of our theory in Section \ref{sec_insi
 	\centering
   \begin{tabular}{c c c c c}
 	\toprule
-		\multirow{2}{*}{{\bf Threshold}}  & \multicolumn{2}{c}{{\bf Text
-		classification}} & \multicolumn{2}{c}{{\bf ChestX-ray14}} \\
+		\multirow{2}{*}{{\bf Threshold}}  & \multicolumn{2}{c}{{\bf Sentiment
+		analysis}} & \multicolumn{2}{c}{{\bf ChestX-ray14}} \\
 		& Precision &  Recall & Precision &  Recall \\
 		\cmidrule(lr){1-1} \cmidrule(lr){2-3} \cmidrule(lr){4-5}
 		0.0 & 0.596 & 1.000 & 0.593 & 1.000 \\
-		0.1 & 0.756 & 0.388 & 0.738 & 0.462 \\
+		0.1 & \textbf{0.756} & \textbf{0.388} & \textbf{0.738} & \textbf{0.462} \\
 		0.2 & 0.919 & 0.065 & 0.875 & 0.044 \\
 		% 0.3 & 1.000 & 0.004 &     - &     - \\
 	\bottomrule
@@ -35,10 +35,10 @@ Finally, we validate the three components of our theory in Section \ref{sec_insi
 		\multirow{2}{*}{{\bf Models}} & \multicolumn{2}{c}{\begin{minipage}{1.1in}\begin{center}
 		MR, SST, SUBJ, CR, MPQA, TREC\end{center}\end{minipage}} \\
 		\cmidrule(lr){2-3}
-		& {\bf Standard} & {\bf Alignment} \\
+		& {\bf MTL} & {\bf Alignment} \\
 		\midrule
-		{\bf MLP}  & > 100\% & 39\% \\
-		{\bf LSTM} & 36\% & 36\% \\
+		{\bf MLP}  & 100\% & \textbf{39\%} \\
+		{\bf LSTM} & \textbf{36\%} & 36\% \\
 		\bottomrule
 		\end{tabular}
 	\vspace{0.1in}
@@ -54,7 +54,7 @@ Finally, we validate the three components of our theory in Section \ref{sec_insi
 {\it Sentiment Analysis:} This dataset includes six tasks: movie review sentiment (MR), sentence subjectivity (SUBJ), customer reviews polarity (CR), question type (TREC), opinion polarity (MPQA), and the Stanford sentiment treebank (SST) tasks.
 
 {For each task, the goal is to categorize sentiment opinions expressed in the text.
-We use an embedding layer (with GloVe embeddings\footnote{http://nlp.stanford.edu/data/wordvecs/glove.6B.zip}) followed by an LSTM layer proposed by~\cite{lei2018simple}.
+We use an embedding layer (with GloVe embeddings\footnote{http://nlp.stanford.edu/data/wordvecs/glove.6B.zip}) followed by an LSTM or MLP layer proposed by~\cite{lei2018simple}.
 }
 %multi-layer perceptron (MLP), LSTM, CNN on all tasks
 %We use this task to verify our theoretical results on model capacity and task covariance in real world.
@@ -67,6 +67,7 @@ This is a 14-task multi-label image classification problem.
 
 For all models, we share the main module across all tasks and assign a separate regression or classification layer on top of the shared module for each tasks.
 
+\textbf{Baseline.} We compare Algorithm \ref{alg_inc_train} to a model trained with standard multi-task learning approaches.
 
 
 \subsection{Experimental Results}
@@ -79,14 +80,12 @@ We find that using a threshold of $\tau = 0.1$, the STL results correctly predic
 We observe similar results for 91 task pairs from the ChestX-ray14 dataset.
 The results show that STL performances are indicative of MTL performances.
 
-\textbf{Improving training efficiency via an incremental schedule.}
-\todo{}
+\textbf{Improving multi-task training efficiency.}
+We compare Algorithm \ref{alg_inc_train} to performing multi-task learning.
+Over six randomly selected task pairs from the sentiment analysis tasks, we find that Algorithm \ref{alg_inc_train} requires only $45\%$ of the cost to achieve the same performance on the target task, compared to multi-task learning.
 
-\textbf{MTL improves labeled data efficiency.}
-We measure the data efficiency ratio on the sentiment analysis tasks.
-In Table \ref{tab:taskonomy}, we find that by performing multi-task learning, only $39\%$ of the labeled data is needed to achieve comparable performance to single-task learning over all six tasks on LSTM.
-We further observe that adding the alignment module helps reduce the data efficiency ratio on MLP.
-%If TREC is not included, we see that only $25\%$ of the labeled data is needed.
+\textbf{Improving transfer learning training efficiency.}
+\todo{}
 
 
 \subsection{Ablation Studies}
@@ -108,6 +107,13 @@ In Figure \ref{fig_ab_data}, we show that for source task MR and target task SST
 When the source task data size is particularly large compared to the target task, we show that applying the covariance alignment algorithm results in more significant gains.
 In Figure \ref{fig_ab_cov}, we observe that the benefit from aligning task covariances becomes more significant for LSTM and MLP as we increase the number of datapoints of the source task.
 
+\textbf{Data efficiency.}
+We measure the data efficiency ratio on the sentiment analysis tasks.
+In Table \ref{tab:taskonomy}, we find that by performing multi-task learning, only $39\%$ of the labeled data is needed to achieve comparable performance to single-task learning over all six tasks on LSTM.
+The data efficiency ratio of using MLP is $100\%$ because the average performance of MTL is worse than the average of STL.
+We further show that adding the alignment module helps reduce the data efficiency ratio to $36\%$.
+%If TREC is not included, we see that only $25\%$ of the labeled data is needed.
+
 
 \begin{figure}[!t]
 	\centering
@@ -119,7 +125,7 @@ In Figure \ref{fig_ab_cov}, we observe that the benefit from aligning task covar
 	\end{subfigure}%
 	\begin{subfigure}[b]{0.33\textwidth}
 		\centering
-		\includegraphics[width=0.975\textwidth]{figures/ratio_norm_sst_trec_lstm.pdf}
+		\includegraphics[width=0.975\textwidth]{figures/ratio_norm_3_pairs_lstm.pdf}
 		\caption{Data size}
 		\label{fig_ab_data}
 	\end{subfigure}
@@ -131,8 +137,7 @@ In Figure \ref{fig_ab_cov}, we observe that the benefit from aligning task covar
 	\end{subfigure}
 	\caption{Validating the three takeaways of Section \ref{sec_insight} on sentiment analysis tasks. (a) Adding a semantically similar source task in MTL performs better than adding a dissimilar task.
 	(b) As source/target data ratio increases, we observe a transition from positive to negative transfer.
-	(c) As source/target data ratio increases, the performance gains from the covariance alignment procedure \cite{WZR20} increase for LSTM and MLP.
-	The $y$-axis measures the performance of MTL minus STL.}
+	(c) As source/target data ratio increases, the performance gain from the covariance alignment procedure \cite{WZR20} over MTL increases for LSTM and MLP.}
 	\label{fig_ablation}
 \end{figure}
 
