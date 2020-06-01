@@ -1,10 +1,10 @@
 \section{Explaining the Phenomena of Negative Transfer in Multi-Task Learning}\label{sec_insight}
 
 Based on Lemma \ref{lem_cov_shift_informal}, we rigorously explain the phenomena of negative transfer in multi-task learning.
-We explain from three perspectives, including \textit{task model}, \textit{data size} and \textit{covariate shift}.
+We explain from three perspectives, including \textit{task similarity}, \textit{data size} and \textit{covariate shift}.
 We show how negative transfer occurs as a result in a simplified model and describe the algorithmic consequence.
 
-\subsection{Task Model}\label{sec_similarity}
+\subsection{Task Similarity}\label{sec_similarity}
 
 It is well-known since the seminal work of Caruana \cite{C97} that how well multi-task learning performs depends on task relatedness.
 We formalize this connection in the following simplified setting.
@@ -57,7 +57,7 @@ The proof of Proposition \ref{prop_dist_transition} can be found in Appendix \re
 	\begin{subfigure}[b]{0.32\textwidth}
 		\centering
 		\includegraphics[width=0.98\textwidth]{figures/model_shift_phase_transition.eps}
-		\caption{Task model}
+		\caption{Task similarity}
 		\label{fig_model_shift}
 	\end{subfigure}\hfill
 	\begin{subfigure}[b]{0.32\textwidth}
@@ -75,7 +75,8 @@ The proof of Proposition \ref{prop_dist_transition} can be found in Appendix \re
 	\caption{Three takeaways of our theory in Section \ref{sec_insight}.
 	(a) As task model distance increases, we observe a transition from positive to negative transfer  (Proposition \ref{prop_dist_transition}).
 	(b) As source/target data ratio increases, we observe a transition from positive to negative transfer (Proposition \ref{prop_data_size}).
-	(c) As covariate shift gets more severe (measured by increasing $\lambda$), MTL performance gets worse (Proposition \ref{prop_covariate}).}
+	(c) As covariate shift gets more severe (measured by increasing $\lambda$), MTL performance gets worse (Proposition \ref{prop_covariate}).
+	The $y$-axis measures the performance of MTL minus STL.}
 	\label{fig_model_shift_phasetrans}
 \end{figure}
 
@@ -94,7 +95,8 @@ Inspired by the observation, we propose a single-task based metric to help under
 	If $z_s - z_t < -\tau$, then we predict negative transfer.
 \squishend
 
-\subsection{Data Size}\label{sec_datasize}
+\subsection{Data Size}\label{sec_data_size}
+
 In classical Rademacher or VC based theory of multi-task learning, the generalization bounds are usually presented for settings where the data sizes are equal for all tasks \cite{B00,M06,MPR16}.
 More generally, such results are still applicable when all task data are being added simultaneously.
 On the other hand, for many applications of multi-task learning, the data sources are usually heterogeneous.
@@ -138,19 +140,22 @@ Based on this insight, we propose an incremental optimization schedule to improv
 Algorithm \ref{alg_inc_train} describes the procedure.
 
 \begin{algorithm}[!t]
-	\caption{An incremental training schedule for multi-task learning over two tasks}
+	\caption{An incremental training schedule for efficient multi-task learning with two tasks}
 	\label{alg_inc_train}
 	\begin{algorithmic}[1]
 		\Input Two tasks $(X_1, Y_1)$ and $(X_2, Y_2)$.
 		\Param A shared module $B$, output layers $W_1, W_2$ as in the hard parameter sharing architecture.
-		\Req Batch size $S$, number of epochs $T$, validation accuracy $\hat{g}(B; W_1, W_2)$.
-		\State Divide $(X_1, Y_1)$ randomly into $K$ batches of size $S$ as $(x^{(1)}, y^{(1)}), \dots, (x^{(K)}, y^{(K)})$.
-		\For{$i = 1,\dots, K$}
+		\Req \# batches $S$, epochs $T$, task $2$'s validation accuracy $\hat{g}(B; W_2)$, a threshold $\tau\in(0,1)$.
+		\Output The trained modules $B, W_2$ optimized for task $2$.
+		\State Divide $(X_1, Y_1)$ randomly into $S$ batches: $(x^{(1)}, y^{(1)}), \dots, (x^{(S)}, y^{(S)})$.
+		\For{$i = 1,\dots, S$}
 			\For{$j = 1,\dots, T$}
-				\State Update $B, W_1, W_2$ using the training data $\set{x^{(j)}, x^{(j)}}_{j=1}^i$ and  $(X_2, Y_2)$.
+				\State Update $B, W_1, W_2$ using the training data $\set{x^{(k)}, x^{(k)}}_{k=1}^i$ and  $(X_2, Y_2)$.
+				\State Let $a_i = \hat{g}(B; W_2)$ be the validation accuracy after epoch $i$.
+				\If{$a_i < a_{i-1}$ or $a_i > \tau$}
+					\State \textbf{break}
+				\EndIf
 			\EndFor
-		\State Let $a_i = \hat{g}(B; W_1, W_2)$ be the validation accuracy after epoch $i$.
-			If $a_i < a_{i-1}$, \textbf{break}.
 		\EndFor
 	\end{algorithmic}
 \end{algorithm}
@@ -183,3 +188,7 @@ The result is left to Appendix \ref{app_proof_33}.
 \textbf{Algorithmic consequence.}
 Our observation highlights the need to correct covariate shift when $n_1 / n_2$ is large.
 Hence for such settings, we expect procedures that aim at correcting covariate shift to provide more significant gains.
+We consider a covariance alignment procedure proposed in Wu et al.'20 \cite{WZR20}, which is designed for the purpose of correcting covariate shift.
+The idea is to add an alignment module between the input and the shared module $B$.
+This new module is then trained together with $B$ and the output layers.
+We validate our insight on this procedure in the experiments.
