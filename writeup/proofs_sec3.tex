@@ -1,6 +1,6 @@
 \section{Supplementary Materials for the Technical Results}\label{app_proof_sec3}
 
-\subsection{The multi-task learning estimator}
+\subsection{The multi-task learning estimator}\label{sec_MTLest}
 From \cite{WZR20}, we know that we need to explicitly restrict the capacity $r$ of $B$ so that there is transfer between the two tasks.
 for the rest of the section, we shall consider the case of two tasks with $r=1$. 
 Then equation \eqref{eq_mtl} simplifies to 
@@ -44,11 +44,11 @@ The baseline where we solve the target task with its own data is
 One may observe that we can reduce $\wt f$ to an expression that is easier to handle using concentration of random vectors with i.i.d. entries. Before doing that, we first need to fix the setting for the following discussions, because we want to keep track of the error rate carefully instead of obtaining an asymptotic result only. First, we give the basic assumption for our main objects---the random matrices $X_i$, $i=1,2$.
 
 \begin{assumption}\label{assm_secA1}
-We will consider $n\times p$ random matrices of the form $X=Z\Sigma^{1/2}$, where $\Sigma$  is a $p\times p$ deterministic positive definite symmetric matrices, and $Z=(z_{ij})$ is an $n\times p$ random matrix with real i.i.d. entries with mean zero and variance one. Note that the rows of $X$ are i.i.d. centered random vectors with covariance matrix $\Sigma$. For simplicity, we assume that all the moments of $z_{ij}$ exists, that is, for any $k\in \N$,
+We will consider $n\times p$ random matrices of the form $X=Z\Sigma^{1/2}$, where $\Sigma$  is a $p\times p$ deterministic positive definite symmetric matrices, and $Z=(z_{ij})$ is an $n\times p$ random matrix with real i.i.d. entries with mean zero and variance one. Note that the rows of $X$ are i.i.d. centered random vectors with covariance matrix $\Sigma$. For simplicity, we assume that all the moments of $z_{ij}$ exists, that is, for any fixed $k\in \N$, there exists a constant $C_k>0$ such that
 \begin{equation}\label{assmAhigh}
-\mathbb{E} |z_{ij}|^k \le C_k ,\quad 1\le i \le n, \ \ 1\le j \le p,
+\mathbb{E} |z_{ij}|^k \le C_k ,\quad 1\le i \le n, \ \ 1\le j \le p.
 \end{equation}
-for some constant $C_k>0$. We assume that $n=\rho p$ for some fixed constant $\rho>1$. Without loss of generality, after a rescaling we can assume that the norm of $\Sigma$ is bounded by a constant $C>0$. Moreover, we assume that $\Sigma$ is well-conditioned: $\kappa(\Sigma)\le C$, where $\kappa(\cdot)$ denotes the condition number. 
+ We assume that $n=\rho p$ for some fixed constant $\rho>1$. Without loss of generality, after a rescaling we can assume that the norm of $\Sigma$ is bounded by a constant $C>0$. Moreover, we assume that $\Sigma$ is well-conditioned: $\kappa(\Sigma)\le C$, where $\kappa(\cdot)$ denotes the condition number. 
 \end{assumption}
 Here we have assumed \eqref{assmAhigh} solely for simplicity of representation. If the entries of $Z$ only have finite $a$-th moment for some $a>4$, then all the results below still hold except that we need to replace $\OO(p^{-\frac12+\e})$ with $\OO( p^{-\frac12+\frac2a +\epsilon})$ in some error bounds. We will not get deeper into this issue in this section, but refer the reader to Corollary \ref{main_cor} below. 
 
@@ -57,7 +57,7 @@ Then we make the following assumptions on the data models.
 For for some fixed $t\in \N$, let $Y_i = X_i\beta_i + \varepsilon_i$, $1\le i \le t$, be independent data models, where $X_i$, $\beta_i$ and $\varepsilon_i$ are also independent of each other. Suppose that $X_i=Z_i\Sigma_i^{1/2}\in \R^{n_i\times p}$ satisfy Assumption \ref{assm_secA1} with $\rho_i:=n_i/p>1$ being fixed constants, and $\e_i\in \R^{n_i}$ are random vectors with i.i.d. entries with mean zero, variance $\sigma_i^2$ and all moments as in \eqref{assmAhigh}. 
 \end{assumption}
 
-Throughout the appendix, we shall say an event $\Xi$ holds with high probability (whp) if for any fixed $D>0$, $\P(\Xi)\ge 1- p^{-D}$ for large enough $p$.
+Throughout the appendix, we shall say an event $\Xi$ holds with high probability (whp) if for any fixed $D>0$, $\P(\Xi)\ge 1- p^{-D}$ for large enough $p$. Moreover, we shall use $\oo(1)$ to mean a small positive number that converges to 0 as $p\to \infty$.
 
 
 Now suppose $Y_i = X_i\beta_i + \varepsilon_i$ and $\wt Y_i = \wt X_i\beta_i + \wt\varepsilon_i$, $i=1,2$, all satisfy Assumption \ref{assm_secA2}. Then we rewrite \eqref{eq_mtl_2tasktilde} as
