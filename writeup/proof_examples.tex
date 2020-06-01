@@ -2,48 +2,52 @@
 
 \subsection{Supplement to Section \ref{sec_similarity}}\label{app_proof_31}
 
-For the ratio $w=w_1/w_2$, we define the function
+%For the case $\sigma_1^2=\sigma_2^2=\sigma^2$, 
+We define the function
 \begin{align}
-	\val(w) &= n_1\left[d^2 +\left( w-1\right)^2\kappa^2\right]\cdot \tr\left[( w^2X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_2^{\top}X_2)^2\right] \nonumber \\
-	& + n_2w^2\left[d^2 +\left( w-1\right)^2\kappa^2\right]\cdot \tr\left[( w^2X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right] \nonumber\\
-			& + (n_1 w^2 +n_2)\sigma^2 \cdot \bigtr{(w^2X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} }. \nonumber
+	\val(v) &= \frac{\rho_1}{\rho_2}\left[d^2 +\left( v-1\right)^2\kappa^2\right]\cdot \tr\left[( v^2X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_2^{\top}X_2)^2\right] \nonumber \\
+	& +  v^2\left[d^2 +\left( v-1\right)^2\kappa^2\right]\cdot \tr\left[( v^2X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right] \nonumber\\
+			& + \left(\frac{\rho_1}{\rho_2} v^2 + 1\right)\sigma^2 \cdot \bigtr{(v^2X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} }. \nonumber
 \end{align}
-\cor Under the setting of Lemma \ref{prop_model_shift_tight}, again using concentration for random vectors with i.i.d. entries, Lemma \ref{largedeviation}, we can obtain that for the validation loss in \eqref{approxvalid},
-\be\label{boundv-w}\val(\hat{B}; w_1, w_2)= \val(w) \left( 1+\OO(p^{-1/2+\e})\right)\ee
-with high probability for any constant $\e>0$. \nc Thus for the following discussions, it suffices focus on the behavior of $\val (w)$. Let $\hat w$ the minimizer of $\val(w)$. The proof will consist of two main steps.
+%\cor Under the setting of Lemma \ref{prop_model_shift_tight}, 
+For the isotropic model with $\sigma_1^2=\sigma_2^2=\sigma^2$, using concentration for random vectors with i.i.d. entries, Lemma \ref{largedeviation}, we can obtain that $\val(\hat{B}; w_1, w_2)= \val(v) \cdot \left( 1+\OO(p^{-1/2+\e})\right)$. Hence the validation loss in \eqref{approxvalid} reduces to
+\be\label{boundv-w}
+\wt f(\hat B; v)=\left[N_2\cdot \val(v) + (N_1\sigma^2_1+N_2\sigma^2_2)\right]\cdot \left( 1+\OO(p^{-(1-\e_0)/2+\e})\right)
+\ee
+with high probability for any constant $\e>0$. \nc Thus for the following discussions, it suffices to focus on the behavior of $\val (v)$. Let $\hat w$ the minimizer of $\val(v)$. The proof will consist of two main steps.
 \begin{itemize}
-	\item First, we show that the optimal ratio $\hat{w}$ is close to $1$. Then \eqref{boundv-w} gives that $|\hat v - \hat w|=\OO(p^{-1/2+\e})$ whp.
+	\item First, we show that the optimal ratio $\hat{w}$ is close to $1$. Then \eqref{boundv-w} will give that $|\hat v - \hat w|=\OO(p^{-1/2+\e_0/2+\e})$ whp.
 	\item Second, we plug $\hat{v}$ back into $\te(\hat{\beta}_t^{\MTL})$ and use Lemma \ref{prop_model_shift_tight} to show the result.
 \end{itemize}
 %For the minimizer $\hat w$ of $\val(w)$, we have a similar result as in Proposition \ref{thm_cov_shift}.
-For the first step, we will prove the following result.
+For the first step, we will prove the following result. 
 \begin{lemma}\label{lem_hat_v}
 %Suppose the assumptions of Lemma \ref{prop_model_shift_tight} hold. Assume that $ \kappa^2 \sim pd^2 \sim \sigma^2$ are of the same order. 
-We have that the minimizer for $\val(w)$ satisfies
-	\be\label{hatw_add1}|\hat w -1|\le C\left(\frac{d^2}{\kappa^2} + \frac{\sigma^2}{p\kappa^2}\right)\ee
+For the isotropic model, the minimizer for $\val(v)$ satisfies
+	\be\label{hatw_add1}|\hat w -1|\le C\left(\frac{d^2}{\kappa^2} + \frac{\sigma^2}{p\kappa^2}\right)\quad \text{whp}\ee
 	for some constant $C>0$.
 	%is $\hat{w} = 1 \pm \bigo{\frac 1 {n_1+n_2}}$ \todo{(figure out the constants)}
 \end{lemma}
 \begin{proof}
-First it is easy to observe that $\val(w)< \val(-w)$ for $w> 0$. Hence it suffices to assume that $w\ge 0$.
+To be consistent with the notation $\hat w$, we shall change the name of the argument to $w$ in the proof. First it is easy to observe that $\val(w)< \val(-w)$ for $w> 0$. Hence it suffices to assume that $w\ge 0$.
 
 We first consider the case $w\ge 1$. We write
 \begin{align}
-	\val(w) &= n_1\left[\frac{d^2}{w^4} +\frac{\left( w-1\right)^2}{w^4}\kappa^2\right]\cdot \tr\left[( X_1^{\top}X_1 +w^{-2}X_2^{\top}X_2)^{-2} (X_2^{\top}X_2)^2\right] \nonumber \\
-	& + n_2\left[\frac{d^2}{w^2} +\frac{\left( w-1\right)^2}{w^2}\kappa^2\right]\cdot \tr\left[( X_1^{\top}X_1 +w^{-2}X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right] \nonumber\\
-			& + n_1\sigma^2  \cdot \bigtr{(X_1^{\top}X_1  + w^{-2}X_2^{\top}X_2)^{-1} }+ n_2\sigma^2 \cdot \bigtr{(w^2X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} }.\nonumber%+  \sigma^2n_2 \cdot \bigtr{(X_1^{\top}X_1  + w^{-2}X_2^{\top}X_2)^{-1} }. \nonumber
+	\val(w) &=  \frac{\rho_1}{\rho_2}\left[\frac{d^2}{w^4} +\frac{\left( w-1\right)^2}{w^4}\kappa^2\right]\cdot \tr\left[( X_1^{\top}X_1 +w^{-2}X_2^{\top}X_2)^{-2} (X_2^{\top}X_2)^2\right] \nonumber \\
+	& + \left[\frac{d^2}{w^2} +\frac{\left( w-1\right)^2}{w^2}\kappa^2\right]\cdot \tr\left[( X_1^{\top}X_1 +w^{-2}X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right] \nonumber\\
+			& +  \frac{\rho_1}{\rho_2}\sigma^2  \cdot \bigtr{(X_1^{\top}X_1  + w^{-2}X_2^{\top}X_2)^{-1} }+ \sigma^2 \cdot \bigtr{(w^2X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} }.\nonumber%+  \sigma^2n_2 \cdot \bigtr{(X_1^{\top}X_1  + w^{-2}X_2^{\top}X_2)^{-1} }. \nonumber
 \end{align}
 Notice that 
-$$\tr\left[( X_1^{\top}X_1 +w^{-2}X_2^{\top}X_2)^{-2} (X_i^{\top}X_i)^2\right],\ i=1,2, \quad \text{and} \quad \bigtr{(X_1^{\top}X_1  + w^{-2}X_2^{\top}X_2)^{-1} }$$
+$$\tr\left[( X_1^{\top}X_1 +w^{-2}X_2^{\top}X_2)^{-2} (X_i^{\top}X_i)^2\right],\ \ i=1,2, \quad \text{and} \quad \bigtr{(X_1^{\top}X_1  + w^{-2}X_2^{\top}X_2)^{-1} }$$
 are increasing functions in $w$. Hence taking derivative of $\val(w)$ with respect to $w$, we obtain that
 \begin{align*}
-\val'(w) \ge &~ n_1\left[ \frac{2(w-1)(2-w)}{w^5}\kappa^2 - \frac{4d^2}{w^5}\right] \tr\left[( X_1^{\top}X_1 +w^{-2}X_2^{\top}X_2)^{-2} (X_2^{\top}X_2)^2\right]   \\
-+&~ n_2\left[\frac{2\left( w-1\right)}{w^3}\kappa^2 - \frac{2d^2}{w^3} \right]\cdot \tr\left[( X_1^{\top}X_1 +w^{-2}X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right] \nonumber\\
-		-&~ 2 n_2 \frac{\sigma^2}{w^3} \cdot \bigtr{(X_1^{\top}X_1 + w^{-2}X_2^{\top}X_2)^{-2} X_1^\top X_1  } = n_2 \bigtr{(X_1^{\top}X_1 + w^{-2}X_2^{\top}X_2)^{-2} \cal A },
+\val'(w) \ge &~  \frac{\rho_1}{\rho_2}\left[ \frac{2(w-1)(2-w)}{w^5}\kappa^2 - \frac{4d^2}{w^5}\right] \tr\left[( X_1^{\top}X_1 +w^{-2}X_2^{\top}X_2)^{-2} (X_2^{\top}X_2)^2\right]   \\
++&~ \left[\frac{2\left( w-1\right)}{w^3}\kappa^2 - \frac{2d^2}{w^3} \right]\cdot \tr\left[( X_1^{\top}X_1 +w^{-2}X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right] \nonumber\\
+		-&~ 2  \frac{\sigma^2}{w^3} \cdot \bigtr{(X_1^{\top}X_1 + w^{-2}X_2^{\top}X_2)^{-2} X_1^\top X_1  } =  \bigtr{(X_1^{\top}X_1 + w^{-2}X_2^{\top}X_2)^{-2} \cal A },
 \end{align*}
 where the matrix $\cal A$ is
 \begin{align*}
-\cal A :&= \frac{n_1}{n_2}\left[ \frac{2(w-1)(2-w)}{w^5}\kappa^2 - \frac{4d^2}{w^5}\right](X_2^{\top}X_2)^2 + \left[\frac{2\left( w-1\right)}{w^3}\kappa^2 - \frac{2d^2}{w^3} \right](X_1^{\top}X_1)^2 - 2 \frac{\sigma^2}{w^3}X_1^\top X_1.
+\cal A :&= \frac{\rho_1}{\rho_2}\left[ \frac{2(w-1)(2-w)}{w^5}\kappa^2 - \frac{4d^2}{w^5}\right](X_2^{\top}X_2)^2 + \left[\frac{2\left( w-1\right)}{w^3}\kappa^2 - \frac{2d^2}{w^3} \right](X_1^{\top}X_1)^2 - 2 \frac{\sigma^2}{w^3}X_1^\top X_1.
 \end{align*}
 Using the estimate \eqref{eq_isometric}, we get that $\cal A$ is lower bounded as
 \begin{align*}
@@ -56,30 +60,47 @@ Hence $\val'(w)>0$ on $(w_1,\infty)$, i.e. $\val(w)$ is strictly increasing for 
 
 Then we consider the case $w\le 1$, and the proof is similar as above. Taking derivative of $\val(w)$, we obtain that
 \begin{align}
-	\val'(w) &\le n_1 \left[2\left( w-1\right) \kappa^2\right]\cdot \tr\left[( w^2X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_2^{\top}X_2)^2\right] \nonumber \\
-	& + n_2\left[2wd^2 +2w\left( w-1\right)(2w-1)\kappa^2\right]\cdot \tr\left[( w^2X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right] \nonumber\\
-	&~ + n_1(2 w\sigma^2) \cdot \bigtr{(w^2X_1^{\top}X_1 + X_2^{\top}X_2)^{-2} X_2^\top X_2  }\\
-			& = n_1 \bigtr{(w^2X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} \cal B} , \nonumber
+	\val'(w) &\le \frac{\rho_1}{\rho_2} \left[2\left( w-1\right) \kappa^2\right]\cdot \tr\left[( w^2X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_2^{\top}X_2)^2\right] \nonumber \\
+	& +  \left[2wd^2 +2w\left( w-1\right)(2w-1)\kappa^2\right]\cdot \tr\left[( w^2X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right] \nonumber\\
+	&~ + \frac{\rho_1}{\rho_2}(2 w\sigma^2) \cdot \bigtr{(w^2X_1^{\top}X_1 + X_2^{\top}X_2)^{-2} X_2^\top X_2  }\\
+			& = \frac{\rho_1}{\rho_2} \bigtr{(w^2X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} \cal B} , \nonumber
 \end{align}
 where the matrix $\cal B$ is
-$$\cal B= 2\left( w-1\right) \kappa^2  (X_2^{\top}X_2)^2+\frac{n_2}{n_1}\left[2wd^2 +2w\left( w-1\right)(2w-1)\kappa^2\right](X_1^{\top}X_1)^2 + 2 w\sigma^2 X_2^\top X_2 .$$
+$$\cal B= 2\left( w-1\right) \kappa^2  (X_2^{\top}X_2)^2+\frac{\rho_2}{\rho_1}\left[2wd^2 +2w\left( w-1\right)(2w-1)\kappa^2\right](X_1^{\top}X_1)^2 + 2 w\sigma^2 X_2^\top X_2 .$$
 Using the estimate \eqref{eq_isometric}, we get that $\cal B$ is upper bounded as
 \begin{align*}
 \cal B \preceq - 2(1-w)\kappa^2 n_2^2 (\al_-(\rho_2) -\oo(1))^2 +2w d^2 n_1n_2 (\al_+(\rho_1) +\oo(1))^2 + 2w\sigma^2 n_2 (\al_+(\rho_2)+\oo(1)) \prec 0,
 \end{align*}
 as long as
 $$w< w_2:=1 -   \frac{d^2}{\kappa^2}\frac{\rho_1(\al_+(\rho_1) +\oo(1))^2}{\rho_2 \al_-^2(\rho_2) } -  \frac{\sigma^2}{n_2\kappa^2}\frac{\al_{+}(\rho_2)+\oo(1)}{\al_{-}^2(\rho_2)} .$$
-Hence $\val'(w)<0$ on $[0,w_2)$, i.e. $\val(w)$ is strictly decreasing for $w<w_2$. Hence we must have $\hat w\le w_2$. 
+Hence $\val'(w)<0$ on $[0,w_2)$, i.e. $\val(w)$ is strictly decreasing for $w<w_2$. Hence we must have $\hat w\ge w_2$. 
 
 In sum, we obtain that $w_2\le w\le w_1$. Note that under our assumptions, we have 
 $$\max(|w_1 -1|, |w_2 -1|) =\OO\left(\frac{d^2}{\kappa^2} + \frac{\sigma^2}{p\kappa^2}\right),$$
 which concludes the proof.
 \end{proof}
 
-Combining \eqref{hatw_add1} and \eqref{boundv-w}, we obtain that whp,
-\be\label{hatv_add1} 
-|\hat v - 1|= \OO\left(\cal E\right), \quad \cal E:=\frac{d^2}{\kappa^2} + \frac{\sigma^2}{p\kappa^2} + p^{-1/2+\e} 
+For the rest of this section, we choose the parameters that satisfy the following relations: \be\label{choiceofpara}
+pd^2 \sim \sigma^2 \sim 1,\quad p^{c_0}\kappa^2  \le \sigma^2 \le p^{1-\e_0-c_0} \kappa^2,
 \ee
+for some small constant $c_0>0$. We will explain below why we make this choice. Before that, we first prove the following result on the optimizer $\hat v$.
+\begin{lemma}
+For the isotropic model, we have
+\be\label{hatv_add1} 
+|\hat v - 1|= \OO\left(\cal E\right) \quad \text{whp}, \ee
+where we used the notation
+$$\cal E:=\frac{d^2}{\kappa^2} + \frac{\sigma^2}{p\kappa^2} + p^{-1/2 + \e_0 + 3\e}. $$
+\end{lemma}
+\begin{proof}
+.......... In fact, from the proof of Lemma \ref{lem_hat_v} above, one can check that if $C\cal E \le |w-\hat w| \le 2C\cal E$ for a large enough constant $C>1$, then $|\val'(w)|\gtrsim d^2$. Moreover, under the choice \eqref{choiceofpara} we have 
+$$\val(w) =\OO(d^2),\quad \text{for}\quad   |w-\hat w|\le 2C\cal E.$$  
+Thus we obtain that for $|w-\hat w|\ge 2C\cal E$,
+$$\left|\val(w) - \val(\hat w)\right|\ge |\val(w)-\min(\val(w_1),\val(w_2))|\gtrsim d^2 \cal E \gtrsim \cal E \cdot \val(\hat w),$$
+which leads to 
+$$\wt f(\hat B; w) > \wt f(\hat B; \hat w) \quad \text{whp}.$$
+Thus $w$ cannot be a minimizer of $\wt f(\hat B; v) $ by \eqref{boundv-w}, and we must have $|\hat v - \hat w|\le 2C\cal E$. Together with \eqref{hatw_add1}, we conclude \eqref{choiceofpara}.
+\end{proof}
+
 Inserting it into \eqref{eq_te_mtl_2task} and using a similar concentration result as in \eqref{boundv-w}, we get whp,
 \begin{align}
 \te(\hat{\beta}_t^{\MTL})&=(1+\OO(\cal E))\cdot \left[d^2 + \OO\left(\cal E^2 \kappa^2\right)\right] \tr\left[(X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right]\nonumber\\ 
@@ -87,10 +108,8 @@ Inserting it into \eqref{eq_te_mtl_2task} and using a similar concentration resu
 \end{align}
 In order to study the phenomenon of bias-variance trade-off, we need the bias term with $d^2$ and the variance term with $\sigma^2$ to be of the same order. With estimate \eqref{eq_isometric}, we see that 
 $$\tr\left[(X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right] \sim p,\quad \bigtr{(X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} } \sim \frac{p}{n_1+n_2}.$$
-Hence we need to choose that $p\cdot d^2 \sim \sigma^2$. On the other hand, we want the error term $\cal E^2 \kappa^2$ to be much smaller than $d^2$, which leads to the condition $p^{-1+2\e}\kappa^2  \ll d^2 \ll \kappa^2$. The above considerations lead to the following choices of parameters: there exists a constant $c>0$ such that
-\be\label{choiceofpara}
-pd^2 \sim \sigma^2 \sim 1,\quad p^{c}\kappa^2  \le \sigma^2 \le p^{1-c} \kappa^2.
-\ee
+Hence we need to choose that $p\cdot d^2 \sim \sigma^2$. On the other hand, we want the error term $\cal E^2 \kappa^2$ to be much smaller than $d^2$, which leads to the condition $p^{-1+2\e}\kappa^2  \ll d^2 \ll \kappa^2$. The above considerations lead to the following choices of parameters in \eqref{choiceofpara}.
+
 Under this choice, we can write 
 \be\label{simple1}
 \begin{split}
@@ -497,7 +516,7 @@ From this expressions, we observe the following behaviors.
 \end{itemize}
 These justify the observations in Figure \ref{fig_model_shift_phasetrans} (c), 
 \end{proof}
-\todo{add a transition example}
+%\todo{add a transition example}
 
 \iffalse
 Note that for the case of $k$ tasks with the same covariates, since there is no covariate shift and the data ratio is always equal to one, the main factor is model distance.
