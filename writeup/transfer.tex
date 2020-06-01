@@ -107,6 +107,28 @@ Figure \ref{fig_size} provides a simulation result for such a setting.
 We observe that as $n_1 / n_2$ increases, there is a transition from positive to negative transfer.
 Our result below explains this phenomenon.
 
+\begin{algorithm}[!t]
+	\caption{An incremental training schedule for efficient multi-task learning with two tasks}
+	\label{alg_inc_train}
+	\begin{algorithmic}[1]
+		\Input Two tasks $(X_1, Y_1)$ and $(X_2, Y_2)$.
+		\Param A shared module $B$, output layers $W_1, W_2$ as in the hard parameter sharing architecture.
+		\Req \# batches $S$, epochs $T$, task $2$'s validation accuracy $\hat{g}(B; W_2)$, a threshold $\tau\in(0,1)$.
+		\Output The trained modules $B, W_2$ optimized for task $2$.
+		\State Divide $(X_1, Y_1)$ randomly into $S$ batches: $(x^{(1)}, y^{(1)}), \dots, (x^{(S)}, y^{(S)})$.
+		\For{$i = 1,\dots, S$}
+			\For{$j = 1,\dots, T$}
+				\State Update $B, W_1, W_2$ using the training data $\set{x^{(k)}, x^{(k)}}_{k=1}^i$ and  $(X_2, Y_2)$.
+				\State Let $a_i = \hat{g}(B; W_2)$ be the validation accuracy after epoch $i$.
+				\If{$a_i < a_{i-1}$ or $a_i > \tau$}
+					\State \textbf{break}
+				\EndIf
+			\EndFor
+		\EndFor
+	\end{algorithmic}
+\end{algorithm}
+
+
 \begin{proposition}[Source/task data ratio]\label{prop_data_size}
 	In the isotropic model, assume that $\rho_1 > 40$ and $\rho_2 > 150$ are fixed constants, $\Psi(\beta_1, \beta_2) > 2/(\rho_2 - 1)$.
 	We have that
@@ -139,26 +161,6 @@ More generally, depending on how large $\Psi(\beta_1, \beta_2)$ is, $L(\hat{\bet
 Based on this insight, we propose an incremental optimization schedule to improve MTL training efficiency.
 Algorithm \ref{alg_inc_train} describes the procedure.
 
-\begin{algorithm}[!t]
-	\caption{An incremental training schedule for efficient multi-task learning with two tasks}
-	\label{alg_inc_train}
-	\begin{algorithmic}[1]
-		\Input Two tasks $(X_1, Y_1)$ and $(X_2, Y_2)$.
-		\Param A shared module $B$, output layers $W_1, W_2$ as in the hard parameter sharing architecture.
-		\Req \# batches $S$, epochs $T$, task $2$'s validation accuracy $\hat{g}(B; W_2)$, a threshold $\tau\in(0,1)$.
-		\Output The trained modules $B, W_2$ optimized for task $2$.
-		\State Divide $(X_1, Y_1)$ randomly into $S$ batches: $(x^{(1)}, y^{(1)}), \dots, (x^{(S)}, y^{(S)})$.
-		\For{$i = 1,\dots, S$}
-			\For{$j = 1,\dots, T$}
-				\State Update $B, W_1, W_2$ using the training data $\set{x^{(k)}, x^{(k)}}_{k=1}^i$ and  $(X_2, Y_2)$.
-				\State Let $a_i = \hat{g}(B; W_2)$ be the validation accuracy after epoch $i$.
-				\If{$a_i < a_{i-1}$ or $a_i > \tau$}
-					\State \textbf{break}
-				\EndIf
-			\EndFor
-		\EndFor
-	\end{algorithmic}
-\end{algorithm}
 
 \subsection{Covariate Shift}\label{sec_covshift}
 
