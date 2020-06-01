@@ -1,10 +1,11 @@
 \section{Experiments}
 
-Our theory leads to algorithmic consequences of practical interest.
-First, we show that the diagnosis metric that we proposed in Section \ref{sec_similarity} can help predict positive or negative transfer using only STL performances.
+We connect our theory to pratical problems of interest.
+First, we validate the single-task based metric on text and image classification tasks.
+We show that for both datasets, single-task learning results can help predict positive or negative transfer in multi-task learning.
 Second, \todo{}.
-Finally, we validate the three components of our theory on image and text classification tasks.
-
+Third, we measure the data efficiency ratio of multi-task learning on six sentiment analysis tasks.
+Finally, we validate the three components of our theory in Section \ref{sec_insight} on text classification tasks.
 
 \begin{table}
 \begin{minipage}[t]{.58\textwidth}
@@ -22,7 +23,7 @@ Finally, we validate the three components of our theory on image and text classi
 	\bottomrule
 	\end{tabular}
 	\vspace{0.1in}
-	\captionof{table}{Ablation study on when should use MTL via different source/target task accuracy.}
+	\captionof{table}{Single-task learning results can help predict postive or negative transfer in multi-task learning.}
 	\label{tab:mtl_better_than_stl}
 \end{minipage}
 \quad
@@ -41,7 +42,7 @@ Finally, we validate the three components of our theory on image and text classi
 		\bottomrule
 		\end{tabular}
 	\vspace{0.1in}
-	\captionof{table}{Taskonomy experiment.}
+	\captionof{table}{Measuring the data efficiency ratio of muli-task learning.}
 	\label{tab:taskonomy}
 \end{minipage}
 \end{table}
@@ -70,39 +71,42 @@ For all models, we share the main module across all tasks and assign a separate 
 
 \subsection{Experimental Results}
 
-\textbf{A single-task based diagnosis metric.}
-We validate the metric proposed in Section \ref{sec_similarity} for predicting positive or negative transfer based on single-task accuracies.
+\textbf{Understanding MTL results via STL results.}
+We show that STL results can be used to help understand MTL results
+We validate the single-task based metric proposed in Section \ref{sec_similarity} for predicting positive or negative transfer in MTL.
 Table \ref{tab:mtl_better_than_stl} shows the result on both the sentiment analysis and the ChestX-ray14 datasets.
-We find that using a threshold of $0.1$, our predicts correctly predicts positive or negative transfer with $75.6\%$ accuracy among 150 task pairs with $38.8\%$ recall.
+We find that using a threshold of $\tau = 0.1$, the STL results correctly predict positive or negative transfer with $75.6\%$ accuracy and $38.8\%$ recall among 150 task pairs.
 We observe similar results for 91 task pairs from the ChestX-ray14 dataset.
-The result shows that STL performances are indicative for the diagnosis of MTL performances.
+The results show that STL performances are indicative of MTL performances.
 
 \textbf{Improving training efficiency via an incremental schedule.}
 \todo{}
 
 \textbf{MTL improves labeled data efficiency.}
 We measure the data efficiency ratio on the sentiment analysis tasks.
-We find that by performing multi-task learning, only $39\%$ of the labeled data is needed to achieve comparable performance to single-task learning over all six tasks.
-If TREC is not included, we see that only $25\%$ of the labeled data is needed.
+In Table \ref{tab:taskonomy}, we find that by performing multi-task learning, only $39\%$ of the labeled data is needed to achieve comparable performance to single-task learning over all six tasks on LSTM.
+We further observe that adding the alignment module helps reduce the data efficiency ratio on MLP.
+%If TREC is not included, we see that only $25\%$ of the labeled data is needed.
 
 
 \subsection{Ablation Studies}
 
 
-\textbf{Task similarity.} \todo{}
+\textbf{Task similarity.} We validate that MTL performs better when the source task is more similar to the target task.
+We show the result on the sentiment analysis tasks.
+For a target task, we manually select a similar task and a dissimilar task based on prior knowledge.
+Figure \ref{fig_ab_sim} confirms the result.
 
 
 \textbf{Data size.}
-Recall that Proposition \ref{prop_data_size} shows that increasing the data size of the source task does not always improve the performance of MTL for the target task.
-In Figure \ref{fig_ab_data}, we observe that for the task pair MR and SST, increasing the data size of MR is helpful initially, but then gets worse.
-
+Recall that Section \ref{sec_data_size} shows that increasing the data size of the source task does not always improve the performance of MTL for the target task.
+In Figure \ref{fig_ab_data}, we show that for source task MR and target task SST, there is a transition from positive to negative transfer as we increase the data size of the source task.
 
 \textbf{Covariate shift.}
-Our result provides a fine-grained insight on the covariance alignment algorithm proposed in \cite{WZR20}.
-Recall that the covariance alignment procedure in \cite{WZR20} adds an additional module between the word embedding representation and the shared module.
-When the source task data size is particularly large compared to the target task, then we expect that applying the covariance alignment algorithm results in a more significant gain.
-We validate that the performance of aligning task covariances depends on the size of source task data.
-In Figure \ref{fig_ab_cov}, we observe that the benefit from aligning task covariances becomes more significant as we increase the size of the source task dataset.
+%Our result provides a fine-grained insight on the covariance alignment algorithm proposed in \cite{WZR20}.
+%Recall that the covariance alignment procedure in \cite{WZR20} adds an additional module between the word embedding representation and the shared module.
+When the source task data size is particularly large compared to the target task, we show that applying the covariance alignment algorithm results in more significant gains.
+In Figure \ref{fig_ab_cov}, we observe that the benefit from aligning task covariances becomes more significant for LSTM and MLP as we increase the number of datapoints of the source task.
 
 
 \begin{figure}[!t]
@@ -110,7 +114,7 @@ In Figure \ref{fig_ab_cov}, we observe that the benefit from aligning task covar
 	\begin{subfigure}[b]{0.33\textwidth}
 		\centering
 		\includegraphics[width=0.975\textwidth]{figures/task_sim_norm_lstm.pdf}
-		\caption{Task model}
+		\caption{Task similarity}
 		\label{fig_ab_sim}
 	\end{subfigure}%
 	\begin{subfigure}[b]{0.33\textwidth}
@@ -127,7 +131,8 @@ In Figure \ref{fig_ab_cov}, we observe that the benefit from aligning task covar
 	\end{subfigure}
 	\caption{Validating the three takeaways of Section \ref{sec_insight} on sentiment analysis tasks. (a) Adding a semantically similar source task in MTL performs better than adding a dissimilar task.
 	(b) As source/target data ratio increases, we observe a transition from positive to negative transfer.
-	(c) As source/target data ratio increases, the performance gains from the covariance alignment procedure \cite{WZR20} increase for LSTM and MLP.}
+	(c) As source/target data ratio increases, the performance gains from the covariance alignment procedure \cite{WZR20} increase for LSTM and MLP.
+	The $y$-axis measures the performance of MTL minus STL.}
 	\label{fig_ablation}
 \end{figure}
 
