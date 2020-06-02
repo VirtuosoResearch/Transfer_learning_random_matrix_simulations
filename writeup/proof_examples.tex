@@ -16,7 +16,7 @@ For the isotropic model with $\sigma_1^2=\sigma_2^2=\sigma^2$, using concentrati
 \ee
 with high probability for any constant $\e>0$. \nc Thus for the following discussions, it suffices to focus on the behavior of $\val (v)$. Let $\hat w$ the minimizer of $\val(v)$. The proof will consist of two main steps.
 \begin{itemize}
-	\item First, we show that the optimal ratio $\hat{w}$ is close to $1$. Then \eqref{boundv-w} will give that $|\hat v - \hat w|=\OO(p^{-1/2+\e_0/2+\e})$ whp.
+	\item First, we show that $\hat{w}$ is close to $1$, and then \eqref{boundv-w} implies that $\hat v$ is also close to 1.
 	\item Second, we plug $\hat{v}$ back into $\te(\hat{\beta}_t^{\MTL})$ and use Lemma \ref{prop_model_shift_tight} to show the result.
 \end{itemize}
 %For the minimizer $\hat w$ of $\val(w)$, we have a similar result as in Proposition \ref{thm_cov_shift}.
@@ -81,45 +81,38 @@ which concludes the proof.
 \end{proof}
 
 For the rest of this section, we choose the parameters that satisfy the following relations: \be\label{choiceofpara}
-pd^2 \sim \sigma^2 \sim 1,\quad p^{c_0}\kappa^2  \le \sigma^2 \le p^{1-\e_0-c_0} \kappa^2,
+pd^2 \sim \sigma^2 \sim 1,\quad p^{-1+c_0} \sigma^2 \le \kappa^2  \le p^{-\e_0-c_0}\sigma^2 ,
 \ee
-for some small constant $c_0>0$. We will explain below why we make this choice. Before that, we first prove the following result on the optimizer $\hat v$.
-\begin{lemma}
-For the isotropic model, we have
+for some small constant $c_0>0$. We will explain below why we make this choice. Before that, we first show the following estimate on the optimizer $\hat v$: with high probability,
+%\begin{lemma}
+%For the isotropic model, we have
 \be\label{hatv_add1} 
-|\hat v - 1|= \OO\left(\cal E\right) \quad \text{whp}, \ee
-where we used the notation
-$$\cal E:=\frac{d^2}{\kappa^2} + \frac{\sigma^2}{p\kappa^2} + p^{-1/2 + \e_0 + 3\e}. $$
-\end{lemma}
-\begin{proof}
-.......... In fact, from the proof of Lemma \ref{lem_hat_v} above, one can check that if $C\cal E \le |w-\hat w| \le 2C\cal E$ for a large enough constant $C>1$, then $|\val'(w)|\gtrsim d^2$. Moreover, under the choice \eqref{choiceofpara} we have 
-$$\val(w) =\OO(d^2),\quad \text{for}\quad   |w-\hat w|\le 2C\cal E.$$  
+|\hat v - 1|= \OO\left(\cal E\right), \quad \cal E:=\frac{d^2}{\kappa^2} + \frac{\sigma^2}{p\kappa^2} + p^{-1/2 + \e_0 /2+ 2\e}. 
+\ee
+%\end{lemma}
+%\begin{proof}
+ In fact, from the proof of Lemma \ref{lem_hat_v} above, one can check that if $C\cal E \le |w-\hat w| \le 2C\cal E$ for a large enough constant $C>1$, then $|\val'(w)|\gtrsim p d^2$. Moreover, under the choice \eqref{choiceofpara} we have 
+$$\val(w) =\OO(pd^2),\quad \text{for}\quad   |w-\hat w|\le 2C\cal E.$$  
 Thus we obtain that for $|w-\hat w|\ge 2C\cal E$,
-$$\left|\val(w) - \val(\hat w)\right|\ge |\val(w)-\min(\val(w_1),\val(w_2))|\gtrsim d^2 \cal E \gtrsim \cal E \cdot \val(\hat w),$$
-which leads to 
-$$\wt f(\hat B; w) > \wt f(\hat B; \hat w) \quad \text{whp}.$$
-Thus $w$ cannot be a minimizer of $\wt f(\hat B; v) $ by \eqref{boundv-w}, and we must have $|\hat v - \hat w|\le 2C\cal E$. Together with \eqref{hatw_add1}, we conclude \eqref{choiceofpara}.
-\end{proof}
+$$\left|\val(w) - \val(\hat w)\right|\ge |\val(w)-\min(\val(w_1),\val(w_2))|\gtrsim pd^2 \cal E \gtrsim \cal E \cdot \val(\hat w),$$
+which leads to $\wt f(\hat B; w) > \wt f(\hat B; \hat w)$ whp by \eqref{boundv-w}. Thus $w$ cannot be a minimizer of $\wt f(\hat B; v) $, and we must have $|\hat v - \hat w|\le 2C\cal E$. Together with \eqref{hatw_add1}, we conclude \eqref{hatv_add1}.
+%\end{proof}
 
-Inserting it into \eqref{eq_te_mtl_2task} and using a similar concentration result as in \eqref{boundv-w}, we get whp,
+Inserting \eqref{hatv_add1} into \eqref{eq_te_mtl_2task} and applying Lemma  \ref{largedeviation} to $(\beta_1-\hat v\beta_s)$ again, we get whp,
 \begin{align}
 \te(\hat{\beta}_t^{\MTL})&=(1+\OO(\cal E))\cdot \left[d^2 + \OO\left(\cal E^2 \kappa^2\right)\right] \tr\left[(X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right]\nonumber\\ 
-&+(1+\OO(\cal E))\cdot \sigma^2  \bigtr{(X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} }. \nonumber
+&+(1+\OO(\cal E))\cdot \sigma^2  \bigtr{(X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} }. \label{1Liso}
 \end{align}
 In order to study the phenomenon of bias-variance trade-off, we need the bias term with $d^2$ and the variance term with $\sigma^2$ to be of the same order. With estimate \eqref{eq_isometric}, we see that 
 $$\tr\left[(X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right] \sim p,\quad \bigtr{(X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} } \sim \frac{p}{n_1+n_2}.$$
-Hence we need to choose that $p\cdot d^2 \sim \sigma^2$. On the other hand, we want the error term $\cal E^2 \kappa^2$ to be much smaller than $d^2$, which leads to the condition $p^{-1+2\e}\kappa^2  \ll d^2 \ll \kappa^2$. The above considerations lead to the following choices of parameters in \eqref{choiceofpara}.
-
-Under this choice, we can write 
-\be\label{simple1}
-\begin{split}
-\te(\hat{\beta}_t^{\MTL})&=(1+\OO(n^{-\e}))\cdot d^2 \tr\left[(X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right] \\ 
-&+(1+\OO(n^{-\e}))\cdot \sigma^2  \bigtr{(X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} }  
-\end{split}
-\ee
+Hence we need to choose that $p\cdot d^2 \sim \sigma^2$. On the other hand, we want the error term $\cal E^2 \kappa^2$ to be much smaller than $d^2$, which leads to the condition $p^{-1+\e_0+4\e}\kappa^2  \ll d^2 \ll \kappa^2$. The above considerations lead to the choices of parameters in \eqref{choiceofpara}. Moreover, under \eqref{choiceofpara} we can simplify \eqref{1Liso} to
+\begin{align}
+\te(\hat{\beta}_t^{\MTL})&=(1+\OO(n^{-\e}))\cdot d^2 \tr\left[(X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right] \nonumber \\ 
+&+(1+\OO(n^{-\e}))\cdot \sigma^2  \bigtr{(X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} }  \label{simple1}
+\end{align}
 whp for some constant $\e>0$. 
 
-With \eqref{simple1} and Lemma \ref{prop_model_shift_tight}, we can prove Proposition \ref{prop_dist_transition}, which gives a transition threshold with respect to the ratio between the model bias and the noise level. With slight abuse of notations, we shall write $\hat a_i$, $\hat b_k$ and $\hat M$ as $a_i$, $b_k$ and $M$, respectively, throughout the rest of this section. 
+With \eqref{simple1} and Lemma \ref{prop_model_shift_tight}, we can prove Proposition \ref{prop_dist_transition}, which gives a transition threshold with respect to the ratio between the model bias and the noise level. With slight abuse of notations, we shall write $\hat a_i$, $\hat b_k$ and $\hat M$ as $a_i$, $b_k$ and $M$ throughout the rest of this section. 
 
 
 \begin{proof}[Proof of Proposition \ref{prop_dist_transition}]
@@ -144,11 +137,11 @@ with high probability, where
 	%where we use equation \eqref{eq_a12} and Lemma \ref{lem_hat_v}.
 	Next for the model shift bias
 	$$\delta_\beta:=(1+\OO(n^{-\e}))\cdot d^2 \tr\left[(X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right], $$
-	we can get from Lemma \ref{prop_model_shift_tight} (or rather the proof of Lemma \ref{prop_model_shift_tight}) that
+	we can get from Lemma \ref{prop_model_shift_tight} (or rather the proof of it) that
 \be\label{Deltabeta} 
 \al_-^2(\rho_1) - \oo(1)  \le \frac{\delta_\beta}{ \Delta_{\beta}} \le \al_+^2(\rho_1) +  \oo(1) , \ee
 	where 
-	$$\Delta_{\beta}:=pd^2 \cdot \frac{\rho_1^2}{(\rho_1+\rho_2)^2} \cdot \frac{1 + a_3 + a_4}{(a_1 + a_2)^2}= pd^2 \cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3}.$$	
+	$$\Delta_{\beta}:=pd^2 \cdot \frac{\rho_1^2}{(\rho_1+\rho_2)^2}  \frac{1 + a_3 + a_4}{(a_1 + a_2)^2}= pd^2 \cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3}.$$	
 %\begin{align*}
 %		\Delta_{\beta} &\define \hat{v}^2 \bignorm{(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} X_1^{\top}X_1 (\beta_s - \hat{v}\beta_t)}^2 \\
 %		&= d^2 \cdot \bignormFro{(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}X_1^{\top}X_1}^2 + \bigo{p^{-1/2 + \varepsilon}d^2}
@@ -166,16 +159,15 @@ Then we can track its sign using \eqref{Deltavar} and \eqref{Deltabeta}.
 
 \noindent{\bf Positive transfer.} With \eqref{Deltavar} and \eqref{Deltabeta}, we conclude that if
 \be\label{upper101}pd^2 \cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3} \cdot \left( \al_+^2(\rho_1) +  \oo(1) \right) < \sigma^2  \cdot \frac{\rho_1}{(\rho_2-1)(\rho_1 + \rho_2 -1)},\ee
-	we have that $\delta_{\vari} > \delta_{\beta}$, which implies that $\te(\hat{\beta}_t^{\MTL})$ is lower than $\te(\hat{\beta}_t^{\STL})$. We can simplify \eqref{upper101} to
-	\[   pd^2  <  \sigma^2 \Phi(\rho_1, \rho_2)\cdot \left(\bigbrace{1 + \sqrt{\frac 1 {\rho_1}}}^{-4} - \oo(1)\right), \]
-Plugging into $\rho_1>40$, we obtain the first statement of Proposition \ref{prop_dist_transition}.	
-	
-	
+	we have that $\delta_{\vari} > \delta_{\beta}$, which implies $\te(\hat{\beta}_t^{\MTL})<\te(\hat{\beta}_t^{\STL})$. We can simplify \eqref{upper101} to
+	\[  \frac{pd^2}{\sigma^2}  <   \Phi(\rho_1, \rho_2)\cdot \left( \al_+^2(\rho_1) +  \oo(1) \right)^{-1}, \]
+Since $ \Psi(\beta_1,\beta_2)=pd^2/\sigma^2$, it gives the first statement of Proposition \ref{prop_dist_transition}.	
+ 	
 \noindent{\bf Negative transfer.} On the other hand, if
 \be\label{upper102}pd^2 \cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3} \cdot \left( \al_-^2(\rho_1) -  \oo(1) \right) > \sigma^2  \cdot \frac{\rho_1}{(\rho_2-1)(\rho_1 + \rho_2 -1)},\ee
-	we have that $\delta_{\vari} < \delta_{\beta}$, which implies that $\te(\hat{\beta}_t^{\MTL})$ is larger than $\te(\hat{\beta}_t^{\STL})$. We can simplify \eqref{upper102} to
-	\[  p d^2  >  \sigma^2 \Phi(\rho_1, \rho_2) \cdot \left(\bigbrace{1 - \sqrt{\frac 1 {\rho_1}}}^{-4} +\oo(1)\right), \]
-Plugging into $\rho_1>40$, we obtain the second statement of Proposition \ref{prop_dist_transition}.
+	we have that $\delta_{\vari} < \delta_{\beta}$, which implies $\te(\hat{\beta}_t^{\MTL})>\te(\hat{\beta}_t^{\STL})$. We can simplify \eqref{upper102} to
+	\[ \Psi(\beta_1,\beta_2)=\frac{ p d^2}{\sigma^2}  >  \Phi(\rho_1, \rho_2) \cdot \left( \al_-^2(\rho_1) -  \oo(1) \right)^{-1}, \]
+which gives the second statement of Proposition \ref{prop_dist_transition}.
 \end{proof}
 
 \subsection{Supplement to Section \ref{sec_data_size}} \label{app_proof_32}
