@@ -32,7 +32,7 @@ The intuition for deriving $\hat{\beta}_t^{\MTL}$ is akin to performing multi-ta
 Then the test loss of using $\hat{\beta}_t^{\MTL}$ for the target task is
 \begin{align}
 	\te(\hat{\beta}_t^{\MTL}) &=~ \hat{v}^2 \bignorm{\Sigma_2^{1/2}(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} X_1^{\top}X_1 (\beta_1 - \hat{v} \beta_2)}^2 \nonumber \\
-			&+~  \sigma_2^2 \cdot \bigtr{\Sigma_2(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} }, \label{eq_te_mtl_2task}
+			&+~  \bigtr{\Sigma_2(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-2}\left(\sigma_1^2 \cdot \hat v^2  X_1^{\top}X_1 + \sigma_2^2  \cdot X_2^{\top}X_2\right) }, \label{eq_te_mtl_2task}
 \end{align}
 which is well-defined since it only depends on $\hat v$, but otherwise does not depend on $\hat w_1$ or $\hat w_2$ separately. Our goal is to study under model and covariate shifts, whether multi-task learning helps to learn the target task better than single-task learning.
 The baseline where we solve the target task with its own data is
@@ -93,7 +93,7 @@ with high probability, where
 %------------------
 In sum, we have obtained that 
 \be\label{approxvalid}
-\wt f(\hat B; v)=  \left[\val(\hat{B}; v) + (N_1\sigma^2_1+N_2\sigma^2_2)\right]\cdot \left( 1+\OO(p^{-(1-\e_0)/2+\e})\right)
+\wt f(\hat B; v)=  \left[\val(\hat{B}; v) + (N_1\sigma^2_1+N_2\sigma^2_2)\right]\cdot \left( 1+\OO(p^{-(1-\e_0)/2+\e})\right).
 \ee
 Hence to minimize $\wt f$, it suffices to minimize $\val(\hat{B}; v)$ over $v$.
 
