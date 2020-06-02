@@ -100,14 +100,22 @@ For such settings, we obtain a sharp transition from positive transfer to negati
 %The bounds get tighter and tighter as $\rho_1$ increases.
 While the general form of the threshold can be complex (as is preivous generalization bounds for MTL), they admit interpretable forms for simplified settings.
 This will be the focus of Section \ref{sec_insight}.
+A similar result for the second setting can be found in Appendix \ref{app_proof_many_tasks}.
 
+\textbf{Proof Overview.} We first describe the proof of Theorem \ref{lem_cov_shift_informal}.
+We use the Stieltjes transform method (or the resolvent method) in random matrix theory \cite{bai2009spectral,tao2012topics,erdos2017dynamical}. Roughly speaking, we study the resolvent $R(z):=[\Sigma_2^{-1/2}( X_1^{\top}X_1 + X_2^{\top}X_2)\Sigma_2^{-1/2}-z]^{-1}$ for $z\in \C$ around $z=0$.
+Using the methods in \cite{Anisotropic,yang2019spiked}, we find the asymptotic limit, say $R_\infty(z)$, of $R(z)$ for any $z$ as $p\to \infty$ with an almost optimal convergence rate. In particular, when $z=0$, $\tr[R_\infty(0)]$ gives the right hand side of \eqref{eq_introX1X2}, which concludes Theorem \ref{lem_cov_shift_informal}. The details can be found in Appendix \ref{sec_maintools} and \ref{sec_Gauss}.
 
-\textbf{Proof Overview.} The proof of Theorem \ref{lem_cov_shift_informal} uses the Stieltjes transform method (or the resolvent method) in random matrix theory \cite{bai2009spectral,tao2012topics,erdos2017dynamical}. Roughly speaking, we study the resolvent $R(z):=[\Sigma_2^{-1/2}( X_1^{\top}X_1 + X_2^{\top}X_2)\Sigma_2^{-1/2}-z]^{-1}$ for $z\in \C$ around $z=0$. Using the methods in \cite{Anisotropic,yang2019spiked}, we find the asymptotic limit, say $R_\infty(z)$, of $R(z)$ for any $z$ as $p\to \infty$ with an almost optimal convergence rate. In particular, when $z=0$, $\tr R_\infty(0)$ gives the right hand side of \eqref{eq_introX1X2}, which concludes Theorem \ref{lem_cov_shift_informal}. The details can be found in Appendix \ref{sec_maintools}-\ref{sec_Gauss}.
-
-With  Theorem \ref{lem_cov_shift_informal}, we can calculate $\te(\hat{\beta}_t^{\MTL})$ and the term in \eqref{eq_te_var}, and their differences are given approximately by $\Delta_{\vari}$. On the other hand, the derivative of $R(z)$ with respect to $z$ can be approximated by $R_\infty'(z)$, which will be used to estimate the first term on the right hand side of \eqref{eq_te_model_shift}. During this process, we will get the $\Delta_{\bias}$ term up to an error $\delta$ depending on $\rho_1$. All these estimates combined give Theorem \ref{thm_main_informal}, and the details are presented in Appendix \ref{app_proof_main}.
+Using Theorem \ref{lem_cov_shift_informal} over \eqref{eq_te_var}, we can calculate the amount of reduced variance compared to STL.
+The amount of reduced variance is given by $\Delta_{\vari}$.
+For the bias term of equation \eqref{eq_te_model_shift}, we apply a Gaussian concentration bound on $X_1^{\top}X_1$, whose expectation is $n_1^2\Sigma_1$.
+This results in the error term $\delta$, which scales as $(1 \pm 1/\sqrt{\rho_1})^4$.
+Then, we applying a similar identity to Theorem \ref{lem_cov_shift_informal} for bounding the bias term, noting that the derivative of $R(z)$ with respect to $z$ can be approximated by $R_\infty'(z)$.
+This leads to a negative effect given by $\Delta_{\bias}$. %, which will be used to estimate the first term on the right hand side of \eqref{eq_te_model_shift}.
+%During this process, we will get the $\Delta_{\bias}$ term up to an error $\delta$ depending on $\rho_1$.
+The details are presented in Appendix \ref{app_proof_main}.
 
 %The proof of Theorem \ref{thm_main_informal} is presented in Appendix \ref{app_proof_main}.
-A similar result for the second setting can be found in Appendix \ref{app_proof_many_tasks}.
 
 \textbf{Transfer learning.}
 We extend Theorem \ref{thm_main_informal} to transfer learning settings.
