@@ -53,16 +53,31 @@ Furthermore, MTL performance is negatively affected when (c) \textit{covariate s
 The observations highlight the need to develop generalization bounds that scale tightly with properties of multiple task data.
 
 %\textbf{Setup and Main Results.}
-We consider the high-dimensional linear regression setting \cite{HMRT19,BLLT20} to explain the above phenomena.
-We focus on predicting a particular task that only contains limited amount of labeled data.
+Our main contribution is to develop a concentration bound that scales tightly with sample size and covariate shift.
+We focus on predicting a particular task given multiple high-dimensional linear regression tasks \cite{HMRT19,BLLT20}.
+\squishlist
+	\item \textbf{Task similarity:} We assume that each task follows a linear model with parameters $\beta_i\in\real^p$, for $1\le i\le t$.
+	Hence, task similarity can be measured by the distance between the model parameters.
+	\item \textbf{Sample size:} Let $n_i = \rho_i \cdot p$ denote the sample size of task $i$, for a fixed value $\rho_i > 1$ that does not grow with $p$, for any $1\le i\le p$.
+	Hence, for a source task and a target task, their data ratio is measured by $n_1 / n_2 = \rho_1 / \rho_2$.
+	Importantly, we assume that for the $t$-th (target) task, $\rho_t$ is a small constant (say 2), to capture the need for adding more labeled data.
+	\item \textbf{Covariate shift:} We assume that for every task $1\le i\le t$, its features are random vectors with covariance matrix $\Sigma_i\in\real^{p\times p}$.
+	%$x = \Sigma_i^{1/2}z$, where $z\in\real^p$ consists of i.i.d. entries with mean zero and unit variance, and is a positive semidefinite matrix.
+	Given two tasks $i$ and $j$, we measure covariate shift by $\Sigma_i^{1/2}\Sigma_j^{-1/2}$.
+\squishend
+% that only contains limited amount of labeled data.
 %Following Hastie et al.  and Bartlett et al. \cite{},
-We assume that for every task $1\le i\le t$, its features are random vectors $x = \Sigma_i^{1/2}z$, where $z\in\real^p$ consists of i.i.d. entries with mean zero and unit variance, and $\Sigma_i\in\real^{p\times p}$ is a positive semidefinite matrix.
-Let $n_i = \rho_i \cdot p$ denote the data size and $X_i\in\real^{n_i\times p}$ denote the features of task $i$.
-The labels of task $i$ are given by $Y_i = X_i\beta_i + \varepsilon_i$, where $\beta_i\in\real^p$ denotes task $i$'s ground truth parameters and $\varepsilon_i$ denotes i.i.d. random noise with mean zero and variance $\sigma^2$.
+
+%Let $n_i = \rho_i \cdot p$ denote the data size and $X_i\in\real^{n_i\times p}$ denote the features of task $i$.
+%The labels of task $i$ are given by $Y_i = X_i\beta_i + \varepsilon_i$, where $\beta_i\in\real^p$ denotes task $i$'s ground truth parameters and $\varepsilon_i$ denotes i.i.d. random noise with mean zero and variance $\sigma^2$.
 We focus on the hard parameter sharing architecture with a linear shared layer for all tasks and a separate prediction head for each task \cite{R17,MTDNN19,WZR20}.
 %This corresponds to minimizing $ \sum_{i=1}^t \norm{X_i B W_i - Y_i}^2$.
 Let $\hat{\beta}_t^{\MTL}$ denote the optimal multi-task estimator for the target task, which is defined precisely in Section \ref{sec_setup}.
-\textit{Our first contribution} is to develop a concentration bound that arises naturally from the bias-variance tradeoff of $\hat{\beta}_t^{\MTL}$ for two tasks.
+We revisit the bias-variance tradeoff of the multi-task estimator.
+Interestingly, we observe that the variance of the multi-task estimator is always smaller than the variance of the single-task estimator, because of an increased sample size.
+The bias of the multi-task estimator results in a negative effect caused by the difference between $\beta_t$ and the rest of $\set{\beta_i}_{i=1}^{t-1}$.
+Hence, the bias-variance tradeoff determines whether we observe positive or negative transfer.
+%\textit{Our first contribution} is to develop a concentration bound that arises naturally from the bias-variance tradeoff of $\hat{\beta}_t^{\MTL}$ for two tasks.
 %Let $\hat{\beta}_t^{\STL}$ denote the single-task estimator.
 %Without loss of generality, let the $t$-th task denote the target task.
 %Importantly, the target task's data size is a fixed constant times $p$ in the high-dimensional setting.
@@ -103,19 +118,15 @@ Let $\hat{\beta}_t^{\MTL}$ denote the optimal multi-task estimator for the targe
 \end{figure}
 
 
-%We revisit the bias-variance tradeoff of the multi-task estimator.
-%Interestingly, we observe that the variance of the multi-task estimator is always smaller than the variance of the single-task estimator, hence resulting in a positive effect of variance reduction.
-%The bias of the multi-task estimator results in a negative effect caused by the difference between $\beta_t$ and the rest of $\set{\beta_i}_{i=1}^{t-1}$.
-%Hence, the bias-variance tradeoff determines whether we observe positive or negative transfer.
-
-
+For the setting of two tasks, we show how the variance of $\hat{\beta}_t^{\MTL}$ scales with samples size and covariate shift in the following result.
 \begin{theorem}[Informal]\label{lem_cov_shift_informal}
-	In the setting of two tasks, let $a_1, a_2$ be fixed values solved from deterministic equations of $\rho_1, \rho_2$ and the spectrum of $\Sigma_1^{1/2}\Sigma_2^{-1}\Sigma_1^{1/2}$.
+	In the setting of two tasks, .
 	%let $M = \Sigma_1^{1/2}\Sigma_2^{-1/2}$ and $\lambda_1, \lambda_2, \dots, \lambda_p$ be the singular values of $M^{\top}M$ in descending order.
-	For any constant $\e>0$, w.h.p. over the randomness of $X_1, X_2$, we have that
+%	For any constant $\e>0$, w.h.p. over the randomness of $X_1, X_2$, we have that
 	\begin{align}\label{eq_introX1X2}
 		\bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2} = \frac{1}{\rho_1+\rho_2}\cdot \frac1p\bigtr{ (a_1 \Sigma_1 + a_2\Sigma_2)^{-1} \Sigma_2} +\bigo{{p^{-1/2+\epsilon}}}.
 	\end{align}
+	let $a_1, a_2$ be fixed values solved from deterministic equations of $\rho_1, \rho_2$ and the spectrum of $\Sigma_1^{1/2}\Sigma_2^{-1}\Sigma_1^{1/2}$
 \end{theorem}
 
 %Concretely, we show a tight bound on the trace of $(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}$, which
