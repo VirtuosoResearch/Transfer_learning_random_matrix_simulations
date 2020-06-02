@@ -44,7 +44,9 @@ When there is no ambiguity, we drop the subscript $t$ from $\te_t(\hat{\beta}_t^
 We refer to the first task as the source task when there are only two tasks.
 %We call $M = \Sigma_1^{1/2}\Sigma_2^{-1/2}$ the covariate shift matrix.
 
-\subsection{A Key Lemma using Random Matrix Theory}\label{label_rmt}
+
+\subsection{Applying Theorem \ref{thm_main_informal} to Analyze the Bias-Variance Tradeoff}
+%\subsection{A Key Lemma using Random Matrix Theory}\label{label_rmt}
 
 To illustrate our intuition, we begin by considering the setting of two tasks with general covariance matrices.
 %Recall that $\hat{\beta}_t^{\MTL}$ is defined as $BW_t$ after solving equation \eqref{eq_mtl}.
@@ -64,28 +66,10 @@ Equation \eqref{eq_te_var} corresponds to the variance of $\hat{\beta}_t^{\MTL}$
 Hence, whether $\te(\hat{\beta}_t^{\MTL}) < \te(\hat{\beta}_t^{\STL})$ is determined precisely by the bias-variance tradeoff!
 %(i) the negative effect from model shift bias.
 %(ii) the positive effect from variance reduction;
-In order to analyze the tradeoff, we develop the following technical tool, which provides a tight bound for equation \eqref{eq_te_var}.
 
-\begin{lemma}[Informal statement of Lemma \ref{lem_cov_shift}]\label{lem_cov_shift_informal}
-	In the setting of two tasks, let $M = \Sigma_1^{1/2}\Sigma_2^{-1/2}$ and $\lambda_1, \lambda_2, \dots, \lambda_p$ be the singular values of $M^{\top}M$ in descending order.
-	For any constant $\e>0$, w.h.p. over the randomness of $X_1, X_2$, we have that
-	\begin{align*}
-		\bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2} = \frac{1}{\rho_1+\rho_2}\cdot \frac1p\bigtr{ (a_1 \Sigma_1 + a_2\Sigma_2)^{-1} \Sigma_2} +\bigo{\|\Sigma_2\| p^{-1/2+\epsilon}},
-	\end{align*}
-where $(a_1, a_2)$ is the solution to the following deterministic equations:
-	\begin{align*}
-		a_1 + a_2 = 1- \frac{1}{\rho_1 + \rho_2},\quad a_1 + \frac1{\rho_1 + \rho_2}\cdot \frac{1}{p}\sum_{i=1}^p \frac{\lambda_i^2 a_1}{\lambda_i^2 a_1 + a_2} = \frac{\rho_1}{\rho_1 + \rho_2}.
-	\end{align*}
-\end{lemma}
-
-\textbf{Remark.} When there is only the target task, $\rho_1$ equals zero.
-Hence $a_2 = 1 - 1/ \rho_2, a_1 = 0$ and Lemma \ref{lem_cov_shift_informal} states that $\tr[(X_2^{\top}X_2)^{-1}\Sigma_2] = \sigma^2 / (\rho_2 - 1)$, which is a well-known result in random matrix theory \cite{S07}.
-Hence our result provides a necessary tool to analyze MTL in high dimensions.
-
-\subsection{Applying the Key Lemma to Analyze the Bias-Variance Tradeoff}
 
 \textbf{Multi-task learning.}
-We apply Lemma \ref{lem_cov_shift_informal} to provide a sharp analysis of the bias-variance tradeoff for two settings:
+We apply Theorem \ref{lem_cov_shift_informal} to provide a sharp analysis of the bias-variance tradeoff for two settings:
 (i) two tasks with general covariance matrices;
 (ii) any number of tasks that have the same features, i.e. $X_i = X_j$ for any $i\neq j$.
 The latter setting is prevalent in applications of multi-task learning to image classification, where there are multiple prediction labels/tasks for every image \cite{chexnet17,EA20}.
@@ -130,3 +114,16 @@ After solving $W_t$, we use $\hat{\beta}_t^{\TL} = B W_t$ as the transfer learni
 Our result naturally applies to $\hat{\beta}_t^{\TL}$.
 Interestingly, we show that the model shift bias is simply the projection of $\beta_t$ to the orthogonal subspace of $B^{\star} = [\beta_1,\dots,\beta_{t-1}]$, or $\norm{\Sigma_t^{1/2}(\id - B^{\star}({B^{\star}}^{\top}B^{\star})^{-1}{B^{\star}}^{\top})\beta_t}^2$ more precisely.
 The formal statement is presented in Theorem \ref{prop_taskonomy} and its proof in Appendix \ref{app_proof_sec4}.
+
+
+
+%In order to analyze the tradeoff, we develop the following technical tool, which provides a tight bound for equation \eqref{eq_te_var}.
+%where $(a_1, a_2)$ is the solution to the following deterministic equations:
+%	\begin{align*}
+%		a_1 + a_2 = 1- \frac{1}{\rho_1 + \rho_2},\quad a_1 + \frac1{\rho_1 + \rho_2}\cdot \frac{1}{p}\sum_{i=1}^p \frac{\lambda_i^2 a_1}{\lambda_i^2 a_1 + a_2} = \frac{\rho_1}{\rho_1 + \rho_2}.
+%	\end{align*}
+
+\textbf{Remark.} When there is only the target task, $\rho_1$ equals zero.
+Hence $a_2 = 1 - 1/ \rho_2, a_1 = 0$ and Lemma \ref{lem_cov_shift_informal} states that $\tr[(X_2^{\top}X_2)^{-1}\Sigma_2] = \sigma^2 / (\rho_2 - 1)$, which is a well-known result in random matrix theory \cite{S07}.
+Hence our result provides a necessary tool to analyze MTL in high dimensions.
+
