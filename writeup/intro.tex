@@ -5,7 +5,7 @@ In this work, we address this question by studying
 % the performance of predicting a particular task given multiple tasks.
 a multi-task learning architecture that uses a shared layer for all tasks and a separate output layer for each task.
 First, for the setting of high-dimensional linear regression, we show that the type of transfer is determined by the bias-variance tradeoff of multi-task learning estimators.
-We provide a sharp analysis of the tradeoff and extend the result to transfer learning.
+We provide an analysis of the tradeoff and extend the result to transfer learning.
 We develop a technical tool on the inverse of the sum of two random matrices that naturally arises from the analysis.
 Second, we identify three components including task similarity, data size and covariate shift to explain negative transfer in multi-task learning rigorously.
 Finally, we show practical implications of our theory for detecting and mitigating negative transfer.
@@ -46,7 +46,7 @@ In Figure \ref{fig_model_shift_phasetrans}, we observe that negative transfer oc
 Furthermore, MTL performance is negatively affected when (c) the covariance matrices of the two tasks become more different.
 The observations highlight that we need to develop generalization bounds that scale tightly with properties of the data in order to study MTL performance.
 
-\textbf{Setup and Main Results.}
+%\textbf{Setup and Main Results.}
 We consider the high-dimensional linear regression setting \cite{HMRT19,BLLT20} to explain the above phenomena.
 We focus on predicting a particular task that only contains limited amount of labeled data.
 %Following Hastie et al.  and Bartlett et al. \cite{},
@@ -56,7 +56,7 @@ The labels of task $i$ are given by $Y_i = X_i\beta_i + \varepsilon_i$, where $\
 We focus on the hard parameter sharing architecture with a linear shared layer for all tasks and a separate prediction head for each task \cite{R17,MTDNN19,WZR20}.
 %This corresponds to minimizing $ \sum_{i=1}^t \norm{X_i B W_i - Y_i}^2$.
 Let $\hat{\beta}_t^{\MTL}$ denote the optimal multi-task estimator for the target task, which is defined precisely in Section \ref{sec_setup}.
-Our main theoretical contribution is to develop a concentration bound that arises naturally from the bias-variance tradeoff of $\hat{\beta}_t^{\MTL}$ for two tasks.
+\textit{Our first contribution} is to develop a concentration bound that arises naturally from the bias-variance tradeoff of $\hat{\beta}_t^{\MTL}$ for two tasks.
 %Let $\hat{\beta}_t^{\STL}$ denote the single-task estimator.
 %Without loss of generality, let the $t$-th task denote the target task.
 %Importantly, the target task's data size is a fixed constant times $p$ in the high-dimensional setting.
@@ -96,6 +96,7 @@ Our main theoretical contribution is to develop a concentration bound that arise
 	\vspace{-0.1in}
 \end{figure}
 
+
 %We revisit the bias-variance tradeoff of the multi-task estimator.
 %Interestingly, we observe that the variance of the multi-task estimator is always smaller than the variance of the single-task estimator, hence resulting in a positive effect of variance reduction.
 %The bias of the multi-task estimator results in a negative effect caused by the difference between $\beta_t$ and the rest of $\set{\beta_i}_{i=1}^{t-1}$.
@@ -119,7 +120,7 @@ The concentration error of our result, which is on the order of $O(p^{-1/2+\vare
 %Each row of $X_i\in\real^{n_i\times p}$ is assumed to be drawn i.i.d. from a fixed
 %distribution with covariance matrix $\Sigma_i$.
 %We say there is negative transfer if the prediction loss of $\hat{\beta}_t^{\MTL}$  is larger than that of $\hat{\beta}_t^{\STL}$, or positive transfer otherwise.
-Based on Theorem \ref{lem_cov_shift_informal}, we provide a sharp analysis of the bias-variance tradeoff of $\hat{\beta}_t^{\MTL}$ for two settings:
+Based on Theorem \ref{lem_cov_shift_informal}, we provide an analysis of the bias-variance tradeoff of $\hat{\beta}_t^{\MTL}$ for two settings:
 (i) two tasks with general covariance matrice; (ii) many tasks with the same features (e.g. images).
 We extend our result to the transfer learning
 %in the setting of high-dimensional linear regression.
@@ -128,11 +129,11 @@ setting of Taskonomy by Zamir et al. \cite{ZSSGM18}.
 We prove that the bias of the transfer learning estimator is given by the projection of $\beta_t$ to the orthogonal subspace spanned by $\set{\beta_i}_{i=1}^{t-1}$.
 These results are described more precisely in Section \ref{sec_main}.
 
-Our next contribution is to use our newly developed tool to explain negative transfer in multi-task learning precisely.
+\textit{Our next contribution} is to use our newly developed tool to explain negative transfer in multi-task learning precisely.
 In Section \ref{sec_insight}, we explain the three phenomena in Figure \ref{fig_model_shift_phasetrans} for a simplified isotropic setting of two tasks.
 It is crucial that the concentration error of Theorem \ref{lem_cov_shift_informal} is $O(p^{-1/2+\varepsilon})$ so that we can explain the transition phenomena in Figure \ref{fig_model_shift} and \ref{fig_size}.
 The unexplained observations are caused by an error term that arises from the bias of $\hat{\beta}_t^{\MTL}$ -- we discuss these in Section \ref{sec_insight} more precisely.
-Theorem \ref{lem_cov_shift_informal} allows use to compare MTL performance under different covariate shift, measured by $M = \Sigma_1^{1/2}\Sigma_2^{-1/2}$.
+Theorem \ref{lem_cov_shift_informal} allows us to compare MTL performance under different covariate shift, measured by $M = \Sigma_1^{1/2}\Sigma_2^{-1/2}$.
 When $\beta_1 = \beta_2$, we show that for a certain family of bounded $M$ matrices, having no covariate shift, i.e. all singular values of $M$ being equal, yields the optimal MTL performance.
 %In Section \ref{sec_insight}, we consider three components including task similarity, data size and covariate shift for a simplified isotropic setting of two tasks.
 %We measure task similarity by how small is the distance between $\beta_1$ and $\beta_2$.
@@ -146,7 +147,7 @@ Finally, we analyze the benefit of MTL for reducing the amount of labeled data n
 %		We show that as $n_1 / n_2$ becomes large, having no covariate shift between the source and target tasks yields the optimal performance for the target task.
 %		On the other hand, when $n_1 / n_2$ is small, there are counter examples where having the same covariance matrix is not necessarily the optimal choice.
 
-Our last contribution is to connect our theory to practical problems of interest.
+\textit{Our last contribution} is to connect our theory to practical problems of interest.
 (i) We provide a single-task based metric to predict positive or negative transfer in multi-task learning.
 While it is not well understood when multi-task learning provides positive transfer, we show that the STL results can help indicate and understand MTL results on ChestX-ray14 \cite{chexnet17} and sentiment analysis datasets \cite{LZWDA18}.
 (ii) We design an incremental training schedule to improve the efficiency of multi-task training for predicting a particular task.
