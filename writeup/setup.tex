@@ -73,18 +73,15 @@ Hence, whether $\te(\hat{\beta}_t^{\MTL}) < \te(\hat{\beta}_t^{\STL})$ is determ
 
 
 
-\textbf{Multi-task learning.}
-We provide a sharp analysis of the bias-variance tradeoff for two settings:
-(i) two tasks with general covariance matrices;
-(ii) any number of tasks that have the same features, i.e. $X_i = X_j$ for any $i\neq j$.
-The latter setting is prevalent in applications of multi-task learning to image classification, where there are multiple prediction labels/tasks for every image \cite{chexnet17,EA20}.
+%\textbf{Multi-task learning.}
+We provide a sharp analysis of the bias-variance tradeoff two tasks with general covariance matrices.
 We state our result for two tasks as follows.
 %The formal statement is stated in Theorem \ref{thm_many_tasks} and its proof can be found in Appendix \ref{app_proof_many_tasks}.
 %The technical crux of our approach is to derive the asymptotic limit of $\te(\hat{\beta}_t^{\MTL})$ in the high-dimensional setting, when $p$ approaches infinity.
 %We derive a precise limit of $\bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2}$, which is a deterministic function that only depends on $\Sigma_1, \Sigma_2$ and $n_1/p, n_2/p$ (see Lemma \ref{lem_cov_shift} in Appendix \ref{app_proof_main} for the result).
 %Based on the result, we show how to determine positive versus negative transfer as follows.
 %, where $\lambda_{\min}(M)$ is the smallest singular value of $M_1$
-\begin{theorem}[Informal statement of Theorem \ref{thm_model_shift}]\label{thm_main_informal}
+\begin{theorem}\label{thm_main_informal}
 	For the setting of two tasks, let $M=\Sigma_1^{1/2}\Sigma_2^{-1/2}$, $\delta > 0$ be a desired error margin and $\rho_1 \gtrsim \frac{1}{\delta^2}\cdot \lambda_{\min}(M)^{-4} \norm{\Sigma_1} \max(\norm{\beta_1}^2, \norm{\beta_2}^2)$.
 	Let $\rho_2 > 1$ be a fixed value.
  	There exists two deterministic functions $\Delta_{\bias}$ and $\Delta_{\vari}$ that only depend on $\set{\hat{v}, \Sigma_1, \Sigma_2, \rho_1, \rho_2, \beta_1, \beta_2}$ such that
@@ -100,7 +97,7 @@ For such settings, we obtain a sharp transition from positive transfer to negati
 %The bounds get tighter and tighter as $\rho_1$ increases.
 While the general form of the threshold can be complex (as is preivous generalization bounds for MTL), they admit interpretable forms for simplified settings.
 This will be the focus of Section \ref{sec_insight}.
-A similar result for the second setting can be found in Appendix \ref{app_proof_many_tasks}.
+
 
 \textbf{Proof Overview.} We first describe the proof of Theorem \ref{lem_cov_shift_informal}.
 We use the Stieltjes transform method (or the resolvent method) in random matrix theory \cite{bai2009spectral,tao2012topics,erdos2017dynamical}. Roughly speaking, we study the resolvent $R(z):=[\Sigma_2^{-1/2}( X_1^{\top}X_1 + X_2^{\top}X_2)\Sigma_2^{-1/2}-z]^{-1}$ for $z\in \C$ around $z=0$.
@@ -116,7 +113,25 @@ This leads to a negative effect given by $\Delta_{\bias}$. %, which will be used
 The details are presented in Appendix \ref{app_proof_main}.
 
 %The proof of Theorem \ref{thm_main_informal} is presented in Appendix \ref{app_proof_main}.
+Next, we describe our result for more than two tasks with same features, i.e. $X_i = X$ for any $i$.
+This setting is prevalent in applications of multi-task learning to image classification, where there are multiple prediction labels/tasks for every image \cite{chexnet17,EA20}.
+\begin{theorem}\label{thm_many_tasks}
+%Suppose $X=Z\Sigma^{1/2}\in \R^{n\times p}$ satisfy Assumption \ref{assm_secA1} with $\rho:=n/p>1$ being some fixed constant. Consider data models  $Y_i = X\beta_i + \varepsilon_i$, $i=1,2,\cdots, t$, where $\e_i\in \R^{n}$ are random vectors with i.i.d. entries with mean zero, variance $\sigma^2$ and all moments as in \eqref{assmAhigh}. Moreover, assume that $X$, $\beta_i$ and $\e_i$ are all independent of each other.
+	%Let $n = c \cdot p$.
+	%Let $X\in\real^{n\times p}$ and $Y_i = X\beta_i + \varepsilon_i$, for $i = 1,\dots,k$.
+	Consider $t$ data models $Y_i = X\beta_i + \varepsilon_i$, $i=1,2,\cdots, t$, that satisfy Assumption \ref{assm_secA2}.
+	Let $U_r U_r^{\top}$ denote the best rank-$r$ subspace approximation of $(B^{\star})^\top\Sigma B^{\star}$, where $B^\star := [{\beta}_1,{\beta}_2,\dots,{\beta}_{t}]$ and $U_r\in\real^{t\times r}$. Suppose $(B^{\star})^\top\Sigma B^{\star}$ is of full rank in the sense that $\lambda_{\min}((B^{\star})^\top\Sigma B^{\star})\gtrsim \sigma^2$. Let $U_r(i)$ denote the $i$-th row vector of $U_r$.
+	We have the following
+	\squishlist
+		\item We have $\te(\hat{\beta}_t^{\MTL}) < \te(\hat{\beta}_t^{\STL})$ with high probability if
+		$$\left(1 - \norm{U_r(t)}^2 \right)\frac{\sigma^2}{\rho - 1} > \norm{\Sigma (B^{\star} U_r U_r(t) - \beta_t)}^2 +  \oo \left( \|B^\star\|^2 + \sigma^2\right).$$
+		\item We have $\te(\hat{\beta}_t^{\MTL}) > \te(\hat{\beta}_t^{\STL})$ with high probability if
+		$$\left(1 - \norm{U_r(t)}^2\right)\frac{\sigma^2}{\rho - 1} < \norm{\Sigma(B^{\star} U_r U_r(t) - \beta_t)}^2 -  \oo \left( \|B^\star\|^2 + \sigma^2\right).$$
+	\squishend
+\end{theorem}
+%A similar result for the second setting can be found in Appendix \ref{app_proof_many_tasks}.
 
+\iffalse
 \textbf{Transfer learning.}
 We extend Theorem \ref{thm_main_informal} to transfer learning settings.
 We study the transfer procedure used in Taskonomy by Zamir et al.'18 \cite{ZSSGM18}.
@@ -135,7 +150,7 @@ After solving $W_t$, we use $\hat{\beta}_t^{\TL} = B W_t$ as the transfer learni
 Our result naturally applies to $\hat{\beta}_t^{\TL}$.
 Interestingly, we show that the model shift bias is simply the projection of $\beta_t$ to the orthogonal subspace of $B^{\star} = [\beta_1,\dots,\beta_{t-1}]$, or $\norm{\Sigma_t^{1/2}(\id - B^{\star}({B^{\star}}^{\top}B^{\star})^{-1}{B^{\star}}^{\top})\beta_t}^2$ more precisely.
 The formal statement is presented in Theorem \ref{prop_taskonomy} and its proof in Appendix \ref{app_proof_sec4}.
-
+\fi
 
 
 %In order to analyze the tradeoff, we develop the following technical tool, which provides a tight bound for equation \eqref{eq_te_var}.
