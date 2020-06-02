@@ -17,7 +17,7 @@ For the isotropic model with $\sigma_1^2=\sigma_2^2=\sigma^2$, using concentrati
 with high probability for any constant $\e>0$. \nc Thus for the following discussions, it suffices to focus on the behavior of $\val (v)$. Let $\hat w$ the minimizer of $\val(v)$. The proof will consist of two main steps.
 \begin{itemize}
 	\item First, we show that $\hat{w}$ is close to $1$, and then \eqref{boundv-w} implies that $\hat v$ is also close to 1.
-	\item Second, we plug $\hat{v}$ back into $\te(\hat{\beta}_t^{\MTL})$ and use Lemma \ref{prop_model_shift_tight} to show the result.
+	\item Second, we plug $\hat{v}$ back into $\te(\hat{\beta}_2^{\MTL})$ and use Lemma \ref{prop_model_shift_tight} to show the result.
 \end{itemize}
 %For the minimizer $\hat w$ of $\val(w)$, we have a similar result as in Proposition \ref{thm_cov_shift}.
 For the first step, we will prove the following result. 
@@ -107,7 +107,7 @@ In order to study the phenomenon of bias-variance trade-off, we need the bias te
 $$\tr\left[(X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right] \sim p,\quad \bigtr{(X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} } \sim \frac{p}{n_1+n_2}.$$
 Hence we need to choose that $p\cdot d^2 \sim \sigma^2$. On the other hand, we want the error term $\cal E^2 \kappa^2$ to be much smaller than $d^2$, which leads to the condition $p^{-1+\e_0+4\e}\kappa^2  \ll d^2 \ll \kappa^2$. The above considerations lead to the choices of parameters in \eqref{choiceofpara}. Moreover, under \eqref{choiceofpara} we can simplify \eqref{1Liso} to
 \begin{align}
-\te(\hat{\beta}_t^{\MTL})&=(1+\OO(n^{-\e}))\cdot d^2 \tr\left[(X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right] \nonumber \\ 
+\te(\hat{\beta}_2^{\MTL})&=(1+\OO(n^{-\e}))\cdot d^2 \tr\left[(X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right] \nonumber \\ 
 &+(1+\OO(n^{-\e}))\cdot \sigma^2  \bigtr{(X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} }  \label{simple1}
 \end{align}
 whp for some constant $\e>0$. 
@@ -123,7 +123,7 @@ With \eqref{simple1} and Lemma \ref{prop_model_shift_tight}, we can prove Propos
 		 a_3 = \frac{\rho_2}{(\rho_1 + \rho_2)(\rho_1 + \rho_2 - 1)}, \quad
 		& a_4 = \frac{\rho_1}{(\rho_1 + \rho_2)(\rho_1 + \rho_2 - 1)}.\label{simplesovlea34}
 	\end{align}
-	Using Lemma \ref{lem_minv} and Lemma \ref{lem_cov_shift}, we can track the reduction of variance from $\hat{\beta}_t^{\MTL}$ to $\hat{\beta}_t^{\STL}$ as 
+	Using Lemma \ref{lem_minv} and Lemma \ref{lem_cov_shift}, we can track the reduction of variance from $\hat{\beta}_2^{\MTL}$ to $\hat{\beta}_2^{\STL}$ as 
 \be\label{Deltavar}
 \begin{split}
 \delta_{\vari}&:=\sigma^2  \bigtr{(X_2^{\top}X_2)^{-1} }  - (1+\OO(n^{-\e}))\cdot \sigma^2  \bigtr{(X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} } \\
@@ -136,63 +136,66 @@ with high probability, where
 	\end{align*}
 	%where we use equation \eqref{eq_a12} and Lemma \ref{lem_hat_v}.
 	Next for the model shift bias
-	$$\delta_\beta:=(1+\OO(n^{-\e}))\cdot d^2 \tr\left[(X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right], $$
+	$$\delta_{\bias}:=(1+\OO(n^{-\e}))\cdot d^2 \tr\left[(X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right], $$
 	we can get from Lemma \ref{prop_model_shift_tight} (or rather the proof of it) that
 \be\label{Deltabeta} 
-\al_-^2(\rho_1) - \oo(1)  \le \frac{\delta_\beta}{ \Delta_{\beta}} \le \al_+^2(\rho_1) +  \oo(1) , \ee
+\al_-^2(\rho_1) - \oo(1)  \le \frac{\delta_{\bias}}{ \Delta_{\bias}} \le \al_+^2(\rho_1) +  \oo(1) , \ee
 	where 
-	$$\Delta_{\beta}:=pd^2 \cdot \frac{\rho_1^2}{(\rho_1+\rho_2)^2}  \frac{1 + a_3 + a_4}{(a_1 + a_2)^2}= pd^2 \cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3}.$$	
+	$$\Delta_{\bias}:=pd^2 \cdot \frac{\rho_1^2}{(\rho_1+\rho_2)^2}  \frac{1 + a_3 + a_4}{(a_1 + a_2)^2}= pd^2 \cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3}.$$	
 %\begin{align*}
-%		\Delta_{\beta} &\define \hat{v}^2 \bignorm{(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} X_1^{\top}X_1 (\beta_s - \hat{v}\beta_t)}^2 \\
+%		\Delta_{\bias} &\define \hat{v}^2 \bignorm{(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} X_1^{\top}X_1 (\beta_s - \hat{v}\beta_t)}^2 \\
 %		&= d^2 \cdot \bignormFro{(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}X_1^{\top}X_1}^2 + \bigo{p^{-1/2 + \varepsilon}d^2}
 %	\end{align*}
-%	Using Lemma \ref{prop_model_shift_tight}, we get an upper and lower bound on $\Delta_{\beta}$ as
-%	\be\label{Deltabeta} \bigbrace{1 - \sqrt{\frac{1}{c_1}}}^4 \le \Delta_{\beta} / \bigbrace{p\cdot d^2 \cdot \frac{c_1^2}{(c_1+c_2)^2} \cdot \frac{1 + a_3 + a_4}{(a_1 + a_2)^2} + \bigo{p^{1/2+\e}d^2} } \le \bigbrace{1 + \sqrt{\frac{1}{c_1}}}^4. \ee	
+%	Using Lemma \ref{prop_model_shift_tight}, we get an upper and lower bound on $\Delta_{\bias}$ as
+%	\be\label{Deltabeta} \bigbrace{1 - \sqrt{\frac{1}{c_1}}}^4 \le \Delta_{\bias} / \bigbrace{p\cdot d^2 \cdot \frac{c_1^2}{(c_1+c_2)^2} \cdot \frac{1 + a_3 + a_4}{(a_1 + a_2)^2} + \bigo{p^{1/2+\e}d^2} } \le \bigbrace{1 + \sqrt{\frac{1}{c_1}}}^4. \ee	
 %	Hence we obtain that
 %	\begin{align*}
 %		\frac{1 + a_3 + a_4}{(a_1 + a_2)^2}
 %		= \frac{(c_1 + c_2)^3}{(c_1 + c_2 - 1)^3} + \bigo{p^{-1/2+\varepsilon}}.
 %	\end{align*}
 Note that 
- \be\label{var-beta}\te(\hat{\beta}_t^{\STL})-\te(\hat{\beta}_t^{\MTL}) =\delta_{\vari} - \delta_\beta .\ee
+ \be\label{var-beta}\te(\hat{\beta}_2^{\STL})-\te(\hat{\beta}_2^{\MTL}) =\delta_{\vari} - \delta_{\bias} .\ee
 Then we can track its sign using \eqref{Deltavar} and \eqref{Deltabeta}.
 
 \noindent{\bf Positive transfer.} With \eqref{Deltavar} and \eqref{Deltabeta}, we conclude that if
 \be\label{upper101}pd^2 \cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3} \cdot \left( \al_+^2(\rho_1) +  \oo(1) \right) < \sigma^2  \cdot \frac{\rho_1}{(\rho_2-1)(\rho_1 + \rho_2 -1)},\ee
-	we have that $\delta_{\vari} > \delta_{\beta}$, which implies $\te(\hat{\beta}_t^{\MTL})<\te(\hat{\beta}_t^{\STL})$. We can simplify \eqref{upper101} to
-	\[  \frac{pd^2}{\sigma^2}  <   \Phi(\rho_1, \rho_2)\cdot \left( \al_+^2(\rho_1) +  \oo(1) \right)^{-1}, \]
+	we have that $\delta_{\vari} > \delta_{\bias}$, which implies $\te(\hat{\beta}_2^{\MTL})<\te(\hat{\beta}_2^{\STL})$. We can simplify \eqref{upper101} to
+	\be\label{pos1}  \frac{pd^2}{\sigma^2}  <   \Phi(\rho_1, \rho_2)\cdot \left( \al_+^2(\rho_1) +  \oo(1) \right)^{-1}, \ee
 Since $ \Psi(\beta_1,\beta_2)=pd^2/\sigma^2$, it gives the first statement of Proposition \ref{prop_dist_transition}.	
  	
 \noindent{\bf Negative transfer.} On the other hand, if
 \be\label{upper102}pd^2 \cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3} \cdot \left( \al_-^2(\rho_1) -  \oo(1) \right) > \sigma^2  \cdot \frac{\rho_1}{(\rho_2-1)(\rho_1 + \rho_2 -1)},\ee
-	we have that $\delta_{\vari} < \delta_{\beta}$, which implies $\te(\hat{\beta}_t^{\MTL})>\te(\hat{\beta}_t^{\STL})$. We can simplify \eqref{upper102} to
-	\[ \Psi(\beta_1,\beta_2)=\frac{ p d^2}{\sigma^2}  >  \Phi(\rho_1, \rho_2) \cdot \left( \al_-^2(\rho_1) -  \oo(1) \right)^{-1}, \]
+	we have that $\delta_{\vari} < \delta_{\bias}$, which implies $\te(\hat{\beta}_2^{\MTL})>\te(\hat{\beta}_2^{\STL})$. We can simplify \eqref{upper102} to
+	\be\label{neg1} \Psi(\beta_1,\beta_2)=\frac{ p d^2}{\sigma^2}  >  \Phi(\rho_1, \rho_2) \cdot \left( \al_-^2(\rho_1) -  \oo(1) \right)^{-1}, \ee
 which gives the second statement of Proposition \ref{prop_dist_transition}.
 \end{proof}
 
 \subsection{Supplement to Section \ref{sec_data_size}} \label{app_proof_32}
-We first prove Proposition \ref{prop_data_size}, which describes the effect of source task data size on the information transfer. 
+We first prove Proposition \ref{prop_data_size}, which describes the effect of source/task data ratio on the information transfer. 
 
 \begin{proof}[Proof of Proposition \ref{prop_data_size}]
-Following the above proof of Proposition \ref{prop_dist_transition}, we get from \eqref{upper101} that $\te(\hat{\beta}_t^{\MTL})< \te(\hat{\beta}_t^{\STL})$ whp if
-\be\label{pos1}
-pd^2  \cdot \frac{\rho_1 (\rho_1 + \rho_2) (\rho_2 - 1)}{(\rho_1 + \rho_2 - 1)^2}\bigbrace{1 + \sqrt{\frac{1}{\rho_1}}}^4 <  \sigma^2  \bigbrace{1 - \oo(1)},\ee
-and we get from \eqref{upper102} that $\te(\hat{\beta}_t^{\MTL})>\te(\hat{\beta}_t^{\STL})$ whp if
-\be\label{neg1}pd^2  \cdot \frac{\rho_1 (\rho_1 + \rho_2) (\rho_2 - 1)}{(\rho_1 + \rho_2 - 1)^2}\bigbrace{1 - \sqrt{\frac{1}{\rho_1}}}^4 >  \sigma^2  \bigbrace{1 + \oo(1)}.\ee
+Following the above proof of Proposition \ref{prop_dist_transition}, we see that $\te(\hat{\beta}_2^{\MTL})< \te(\hat{\beta}_2^{\STL})$ whp if \eqref{pos1} holds, while $\te(\hat{\beta}_2^{\MTL})>\te(\hat{\beta}_2^{\STL})$ whp if \eqref{neg1} holds. 
+%\be\label{pos1}
+%pd^2  \cdot \frac{\rho_1 (\rho_1 + \rho_2) (\rho_2 - 1)}{(\rho_1 + \rho_2 - 1)^2}\bigbrace{1 + \sqrt{\frac{1}{\rho_1}}}^4 <  \sigma^2  \bigbrace{1 - \oo(1)},\ee
+%and we get from \eqref{upper102} that $\te(\hat{\beta}_t^{\MTL})>\te(\hat{\beta}_t^{\STL})$ whp if
+%\be\label{neg1}pd^2  \cdot \frac{\rho_1 (\rho_1 + \rho_2) (\rho_2 - 1)}{(\rho_1 + \rho_2 - 1)^2}\bigbrace{1 - \sqrt{\frac{1}{\rho_1}}}^4 >  \sigma^2  \bigbrace{1 + \oo(1)}.\ee
 %then we have $\te(\hat{\beta}_t^{\MTL})> \te(\hat{\beta}_t^{\STL})$ whp.
 
+We first explain the meaning of the condition 
+\be\label{explainpsi}\Psi(\beta_1,\beta_2)>2/(\rho_2-1).\ee 
+%For the first statement of Proposition \ref{prop_data_size}, we 
+Notice that the function
+$$ \Phi(\rho_1, \rho_2)=\frac{(\rho_1 + \rho_2 - 1)^2}{\rho_1 (\rho_1 + \rho_2) (\rho_2 - 1)}=\frac{1}{\rho_2-1} \left(1 +\frac{\rho_2-2}{\rho_1}+\frac{1}{\rho_1(\rho_1+\rho_2)}\right)$$
+is strictly decreasing with respect to $\rho_1$ as long as $\rho_2> 2$, and $ \Phi(\rho_1, \rho_2)$ converges to $(\rho_2-1)^{-1}$ as $\rho_1\to \infty$.  Moreover, we notice that $\left( \al_-^2(\rho_1) -  \oo(1) \right)^{-1} < 2$ for $\rho_1>40$. Hence \eqref{explainpsi} implies that \eqref{neg1} holds for all  large enough $\rho_1$. The transition from positive transfer when $\rho_1$ is small to negative transfer when $\rho_1$ is large is described by the two bounds in Proposition \ref{prop_data_size}.
+ 
+% $$ \Psi(\beta_1,\beta_2) \ge \bigbrace{1 + \sqrt{\frac{1}{\rho_1}}}^{-4}\frac{\sigma^2}{\rho_2-1}\left(1 -\oo(1)\right),$$ 
+% then \eqref{pos1} holds, which shows that  $\te(\hat{\beta}_t^{\MTL}) < \te(\hat{\beta}_t^{\STL})$ holds whp. Plugging into $\rho_1>50$, we obtain the first statement. ...... Note that for $\rho_1>40$, we have 
+%$\gamma_+^{-1}$
 
-For the first statement of Proposition \ref{prop_data_size}, we notice that the function
-$$\frac1{ \Phi(\rho_1, \rho_2)}=\frac{\rho_1 (\rho_1 + \rho_2) (\rho_2 - 1)}{(\rho_1 + \rho_2 - 1)^2}=(\rho_2-1) \left(1 +\frac{\rho_2-2}{\rho_1}+\frac{1}{\rho_1(\rho_1+\rho_2)}\right)^{-1} $$
-is strictly increasing with respect to $\rho_1$ as long as $\rho_2> 2$. In particular, by taking $\rho_1\to \infty$, we get the bound:
-$$\frac{\rho_1(\rho_1+\rho_2)(\rho_2-1)}{(\rho_1+\rho_2-1)^2} \cdot \bigbrace{1 + \sqrt{\frac{1}{\rho_1}}}^4 <  (\rho_2-1) \bigbrace{1 + \sqrt{\frac{1}{\rho_1}}}^4.$$
-Hence as long as we take 
- $$pd^2  \le \bigbrace{1 + \sqrt{\frac{1}{\rho_1}}}^{-4}\frac{\sigma^2}{\rho_2-1}\left(1 -\oo(1)\right),$$ 
- then \eqref{pos1} holds, which shows that  $\te(\hat{\beta}_t^{\MTL}) < \te(\hat{\beta}_t^{\STL})$ holds whp. Plugging into $\rho_1>50$, we obtain the first statement. 
 
-The two bounds in the second statement follows directly from \eqref{pos1} and \eqref{neg1}. We will use the following trivial inequalities 
+The two bounds follows directly from \eqref{pos1} and \eqref{neg1}. We will use the following trivial inequalities 
 \be\label{trivialphi}
-\frac{(\rho_2-1) \rho_1 }{\rho_1+\rho_2-2}\cdot \left( 1-\frac{1}{(\rho_1+\rho_2-2)^2}\right) \le \frac{\rho_1 (\rho_1 + \rho_2) (\rho_2 - 1)}{(\rho_1 + \rho_2 - 1)^2} \le  \frac{(\rho_2-1) \rho_1 }{\rho_1+\rho_2-2}.
+\frac{(\rho_2-1) \rho_1 }{\rho_1+\rho_2-2}\cdot \left( 1-\frac{1}{(\rho_1+\rho_2-2)^2}\right) \le  \Phi(\rho_1, \rho_2) \le  \frac{(\rho_2-1) \rho_1 }{\rho_1+\rho_2-2}.
 \ee
 
 %This shows that \eqref{neg1} holds as long as $p$ is large enough, and hence $\te(\hat{\beta}_t^{\MTL})> \te(\hat{\beta}_t^{\STL})$ holds. 
@@ -201,94 +204,87 @@ The two bounds in the second statement follows directly from \eqref{pos1} and \e
 %Suppose that
 %$$pd^2 > (1 - a^{-1/2})^{-4}\frac{\sigma^2}{c_2-1}.$$ 
 
-\noindent{\bf Positive transfer.} With \eqref{trivialphi}, we see that \eqref{pos1} is implied by the following inequality
+\noindent{\bf Positive transfer.} With \eqref{trivialphi}, we see that \eqref{pos1} is implied by the following inequality:
 \begin{align}\label{pos1solv}
- & pd^2 \cdot \frac{(\rho_2-1) \rho_1 }{\rho_1+\rho_2-2} \bigbrace{1 + \sqrt{\frac{1}{\rho_1}}}^4 <\sigma^2\cdot (1-\oo(1)) .
+ &  \Psi(\beta_1,\beta_2) \cdot \frac{(\rho_2-1) \rho_1 }{\rho_1+\rho_2-2}   < \gamma_+^{-1} .
  \end{align}
  then we can solve \eqref{pos1solv} to get
- $$\rho_1 < \frac{(\rho_2-2) \sigma^2}{pd^2 \cdot (1+\rho_1^{-1/2})^4 (\rho_2 - 1)\cdot (1+\oo(1))  - \sigma^2}  .$$
+ \be\label{addconstraint}\rho_1 < \frac{\rho_2-2}{\Psi(\beta_1,\beta_2) \cdot \gamma_+ (\rho_2 - 1) - 1}  .\ee
  %$$\rho_1 > \frac{(\rho_2-2) \sigma^2}{(1 - {\rho_1}^{-0.5})^4 (\rho_2 - 3) pd^2 - \sigma^2}$$
- Plugging into $\rho_1>40$ and $\rho_2>500$, we conclude the upper bound for $\rho_1$ in order for positive transfer to hold.
-
+ This gives the first statement of Proposition \ref{prop_data_size}. %Plugging into $\rho_1>40$ and $\rho_2>500$, we conclude the upper bound for $\rho_1$ in order for positive transfer to hold.
+ 
+ 
+ Note that if we require the RHS of \eqref{addconstraint} to be larger than $40$, that is, \eqref{addconstraint} is not a null condition. Then together with \eqref{explainpsi}, we get
+ $$ \rho_2 - 2>( 2\gamma_+ -1)\rho_1 .$$
+Plugging into $\rho_1>40$, we get $\rho_2 \ge 106$. This gives a constraint on $\rho_2$. 
+ 
 %On the other hand, if $c_1 < \frac{(c_2-2)\sigma^2}{(1+a^{-1/2})^4(c_2 - 1) pd^2 - \sigma^2}$, then we have 
 % \begin{align*}
 % pd^2 \cdot \frac{c_1(c_1+c_2)(c_2-1)}{(c_1+c_2-1)^2}  \cdot \bigbrace{1 + \sqrt{\frac{1}{c_1}}}^4 < \bigbrace{1 + \sqrt{\frac{1}{c_1}}}^4 \cdot \frac{pd^2(c_2-1) c_1 }{c_1+(c_2-2)}  < \sigma^2\cdot (1-\oo(1)).
 % \end{align*}
 % This shows that \eqref{pos1} holds as long as $p$ is large enough, and hence $\te(\hat{\beta}_t^{\MTL})< \te(\hat{\beta}_t^{\STL})$ holds.
- 
+
  \noindent{\bf Negative transfer.} 
-With \eqref{trivialphi}, we see that \eqref{neg1} is implied by the following inequality
+With \eqref{trivialphi}, we see that \eqref{neg1} is implied by the following inequality:
 \begin{align}\label{neg1solv}
- & pd^2 \cdot \frac{(\rho_2-1) \rho_1 }{\rho_1+\rho_2-2}\left( 1-\frac{1}{(\rho_1+\rho_2-2)^2}\right) \bigbrace{1 - \sqrt{\frac{1}{\rho_1}}}^4 >\sigma^2\cdot (1+\oo(1)) .
+ & \Psi(\beta_1,\beta_2)  \cdot \frac{(\rho_2-1) \rho_1 }{\rho_1+\rho_2-2}\left( 1-\frac{1}{(\rho_1+\rho_2-2)^2}\right) >  \Psi(\beta_1,\beta_2)  \cdot \frac{(\rho_2-1.5) \rho_1 }{\rho_1+\rho_2-2}> \gamma_-^{-1} .
  \end{align}
-If the following relation holds,
-$$pd^2 \cdot (1-\rho_1^{-1/2})^4(1-(\rho_1+\rho_2-2)^{-2})(\rho_2 - 1) >  \sigma^2\cdot (1+\oo(1))  , $$
- then we can solve \eqref{neg1solv} to get
- $$\rho_1 > \frac{(\rho_2-2) \sigma^2}{pd^2 \cdot (1-\rho_1^{-1/2})^4(1-(\rho_1+\rho_2-2)^{-2})(\rho_2 - 1)\cdot (1-\oo(1))  - \sigma^2}  ,$$
- %$$\rho_1 > \frac{(\rho_2-2) \sigma^2}{(1 - {\rho_1}^{-0.5})^4 (\rho_2 - 3) pd^2 - \sigma^2}$$
- Plugging into $\rho_1>40$ and $\rho_2>500$, we conclude the lower bound for $\rho_1$ in order for negative transfer to hold.
+ where we used $(1-(\rho_1+\rho_2-2)^{-2})(\rho_2 - 1) > \rho_2-1.5$ for $\rho_1>40$ and $\rho_2>110$. Then we can solve \eqref{neg1solv} to get
+ \be\label{addconstaint2}
+ \rho_1 > \frac{(\rho_2-2) \sigma^2}{\Psi(\beta_1, \beta_2) \cdot \gamma_-(\rho_2 - 1.5)  - 1}  ,
+ \ee
+which gives the second statement of Proposition \ref{prop_data_size}.
+We remark that condition \eqref{explainpsi} implies $\Psi(\beta_1, \beta_2) \cdot \gamma_-(\rho_2 - 1.5)>1$, so \eqref{addconstaint2} does not give a trivial bound. 
  \end{proof}
  
- 
-Then we state Proposition \ref{prop_data_efficiency}, which gives precise upper and lower bounds on the data efficiency ratio, denoted as $x^\star$.
+Next we state Proposition \ref{prop_data_efficiency}, which gives precise upper and lower bounds on the data efficiency ratio for taskonomy. %In the statement, we shall denote the data efficiency ratio as $\al^\star$.
 
 \begin{proposition}[Labeled data efficiency]\label{prop_data_efficiency}
-	In the isotropic model, assume that $\rho_1,\rho_2 > 10$ and $\Psi(\beta_1, \beta_2) < \frac{2}{\rho_1} + \frac{2}{\rho_2}$.
-	Then the data efficiency ratio $x^\star$ satifies 
-	\[ \al_l - \oo(1) \le x^\star\le \frac{1}{\rho_1 + \rho_2}\cdot \bigbrace{1 + \frac{1}{(\rho_1-1)^{-1} + (\rho_2-1)^{-1} - 5\Psi(\beta_1, \beta_2)}}, \]
+	In the isotropic model, assume that $\rho_1,\rho_2 > 10$ and $\Psi(\beta_1, \beta_2) < (5\rho_1)^{-1} + (5\rho_2)^{-1}$.
+	Then the data efficiency ratio $x^\star$ satisfies 
+	\[ x_l  \le x^\star\le \frac{1}{\rho_1 + \rho_2} \bigbrace{  \frac{2}{(\rho_1-1)^{-1} + (\rho_2-1)^{-1} - 5\Psi(\beta_1, \beta_2)}+1}, \]
 	where we denoted
-	$$\al_l:= \frac1{\rho_1+\rho_2}\left(\frac{2}{(\rho_1-1)^{-1}+(\rho_2 -1)^{-1}}+1\right).$$
+	$$x_l:= \frac1{\rho_1+\rho_2}\left(\frac{2}{(\rho_1-1)^{-1}+(\rho_2 -1)^{-1}}+1\right).$$
 \end{proposition}
 
 
 \begin{proof}[Proof of Proposition \ref{prop_data_efficiency}]
-Suppose we have reduced number of datapoints---$\al n_1$ for task 1 and $\al n_2$ for task 2 with $n_1=\rho_1 p$ and $n_2=\rho_2 p$. Then all the results in the proof of Proposition \ref{prop_dist_transition} still hold, except that we need to replace $(\rho_1,\rho_2)$ with $(\al\rho_1,\al\rho_2)$. More precisely, we have
+Suppose we have reduced number of datapoints---$x n_1$ for task 1 and $x n_2$ for task 2 with $n_1=\rho_1 p$ and $n_2=\rho_2 p$. Then all the results in the proof of Proposition \ref{prop_dist_transition} still hold, except that we need to replace $(\rho_1,\rho_2)$ with $(x\rho_1,x\rho_2)$. More precisely, we have
 	\begin{align*}
-		 a_1 = \frac{\rho_1(\al\rho_1 + \al\rho_2 - 1)}{\al(\rho_1 + \rho_2)^2} ,\quad
-		& a_2 = \frac{\rho_2(\al\rho_1 + \al\rho_2 - 1)}{\al(\rho_1 + \rho_2)^2} ,  \\
-		 a_3 = \frac{\rho_2}{(\rho_1 + \rho_2)(\al\rho_1 + \al\rho_2 - 1)}, \quad
-		& a_4 = \frac{\rho_1}{(\rho_1 + \rho_2)(\al\rho_1 + \al\rho_2 - 1)}. 
+		 a_1 = \frac{\rho_1(x\rho_1 + x\rho_2 - 1)}{x(\rho_1 + \rho_2)^2} ,\quad
+		& a_2 = \frac{\rho_2(x\rho_1 + \al\rho_2 - 1)}{x(\rho_1 + \rho_2)^2} ,  \\
+		 a_3 = \frac{\rho_2}{(\rho_1 + \rho_2)(x\rho_1 + x\rho_2 - 1)}, \quad
+		& a_4 = \frac{\rho_1}{(\rho_1 + \rho_2)(x\rho_1 + x\rho_2 - 1)}. 
 	\end{align*}
-Moreover, we have that with high probability,
+Moreover, with high probability,
 	\be\label{reduceproof1}
 \begin{split}
-\te_i(\hat \beta(\al)) =  \frac{\sigma^2}{\al (\rho_1+\rho_2) - 1}\left(1+ \oo(1)\right)+ \delta^{(i)}_{\beta}, \quad i=1,2.
+\te_i(\hat \beta_i^{\MTL}(x)) =  \frac{\sigma^2}{x (\rho_1+\rho_2) - 1}\left(1+ \oo(1)\right)+ \delta^{(i)}_{\bias}, \quad i=1,2.
 \end{split}
 \ee
-Here the model shift biases $\delta^{(i)}_{\beta}$ satisfy that  
+ Here the model shift biases $\delta^{(i)}_{\bias}$ satisfy that  
 \be\nonumber %\label{Deltabeta} 
-\al_-^2(\al\rho_i) - \oo(1)  \le {\delta_\beta^{(i)}}/{ \Delta_{\beta}^{(i)}} \le \al_+^2(\al\rho_i) +  \oo(1) , \quad i=1,2,\ee	
-%In the setting of Proposition \ref{prop_data_efficiency}, we still have \eqref{hatw_add1}. 
-%%and by symmetry it suffices to focus on one of tasks, say task 2. 
-%Then using Lemmas \ref{lem_cov_shift} and \ref{prop_model_shift_tight}, and recalling \eqref{simplesovlea12} and \eqref{simplesovlea34}, we get that whp,
-%\be\label{reduceproof1}
-%\begin{split}
-%\te_i(\hat \beta(\al)) =\sigma^2\left( \frac{1}{\al (\rho_1+\rho_2) - 1}+ \bigo{p^{-1/2 + \varepsilon}}\right)+ \Delta^{(i)}_{\beta}, \quad i=1,2,
-%\end{split}
-%\ee
-%and
-%\be\label{reduceproof1}
-%\begin{split}
-%\te_2(\hat \beta(\al)) =\sigma^2\left( \frac{1}{\al ( \rho_1+\rho_2) - 1}+ \Delta^{(2)}_{\beta}+ \bigo{p^{-1/2 + \varepsilon}}\right),
-%\end{split}
-%\ee
-where $ \Delta^{(i)}_{\beta}$ are defined as 
+\al_-^2(\al\rho_i) - \oo(1)  \le {\delta_{\bias}^{(i)}}/{ \Delta_{\bias}^{(i)}} \le \al_+^2(\al\rho_i) +  \oo(1) , \quad i=1,2,\ee	
+where $ \Delta^{(i)}_{\bias}$ are defined as 
 \be \nonumber
-\Delta^{(i)}_{\beta} := pd^2 \frac{(\al\rho_i)^2\cdot \al (\rho_1+\rho_2)}{[\al ( \rho_1+\rho_2) - 1]^3} ,\quad i=1,2,. 
+\Delta^{(i)}_{\bias} := pd^2 \frac{(x\rho_i)^2\cdot x (\rho_1+\rho_2)}{[x ( \rho_1+\rho_2) - 1]^3} ,\quad i=1,2,. 
 \ee
-On the other hand, using Lemma \ref{lem_minv}, we have whp,
+On the other hand, using Lemma \ref{lem_minv} we have whp,
 \be\label{reduceproof2} 
-\te_i(\hat{\beta}_t^{\STL}) = \frac{\sigma^2}{\rho_i -1} \left( 1+ \oo(1)\right),\quad i=1,2.
+\te_i(\hat{\beta}_i^{\STL}) = \frac{\sigma^2}{\rho_i -1} \left( 1+ \oo(1)\right),\quad i=1,2.
 \ee
-Comparing \eqref{reduceproof1} and \eqref{reduceproof2}, we immediately obtain a trivial lower bound $\al^*\ge \al_l -\oo(1)$, where
-$$\al_l:=\frac1{\rho_1+\rho_2}\left(\frac{2}{\frac1{\rho_1-1}+\frac1{\rho_2 -1}}+1\right) \ge \frac{\min(\rho_1,\rho_2)}{\rho_1+\rho_2}.$$
-In fact, one can see that if $\al\le \al_l$, then we have 
-$$ \frac{2\sigma^2}{\al (\rho_1+\rho_2) - 1} \ge \frac{\sigma^2}{\rho_1-1}+\frac{\sigma^2}{\rho_2-1},$$
-that is $\te_1(\hat{\beta}(\alpha)) + \te_2(\hat{\beta}(\alpha))$ is larger than $\te_1(\hat{\beta}_t^{\STL}) + \te_2(\hat{\beta}_t^{\STL})$ even if we do not take into account the model shift bias terms $ \delta^{(i)}_{\beta}$. Next we try to get more precise bounds on $\al^*$. In the following discussions, we only consider $\al$ such that $\al(\rho_1+\rho_2) \ge \al_l (\rho_1+\rho_2) \ge \min(\rho_1,\rho_2)$.
+Comparing \eqref{reduceproof1} and \eqref{reduceproof2}, we immediately obtain the lower bound $x^*\ge x_l $. 
+%where
+%$$\al_l:=\frac1{\rho_1+\rho_2}\left(\frac{2}{\frac1{\rho_1-1}+\frac1{\rho_2 -1}}+1\right) \ge \frac{\min(\rho_1,\rho_2)}{\rho_1+\rho_2}.$$
+In fact, one can see that if $x< x_l$, then we have 
+$$ \frac{2\sigma^2}{x (\rho_1+\rho_2) - 1} > \frac{\sigma^2}{\rho_1-1}+\frac{\sigma^2}{\rho_2-1},$$
+that is, $\te_1(\hat{\beta}(\alpha)) + \te_2(\hat{\beta}(\alpha))$ is larger than $\te_1(\hat{\beta}_t^{\STL}) + \te_2(\hat{\beta}_t^{\STL})$ even if we do not take into account the model shift bias terms $ \delta^{(i)}_{\bias}$. 
+
+Then we try to obtain an upper bound on $x^*$. In the following discussions, we only consider $x$ such that $x\ge \al_l$. In particular, we have $x(\rho_1+\rho_2) \ge x_l (\rho_1+\rho_2) \ge \min(\rho_1,\rho_2)$.
 
 %Comparing \eqref{reduceproof1} and \eqref{reduceproof2}, we observe that $\te_2(\hat \beta(\al))  \ge \te_2(\hat{\beta}_t^{\STL}) $ for $\al \le 1/2-\oo(1)$, which gives $\al^* \ge 1/2 - \oo(1)$.
 
-\noindent{\bf The upper bound.} From \eqref{reduceproof1} and \eqref{reduceproof2}, we see that $\al^*\le \al$ if $\al$ satisfies
+\noindent{\bf The upper bound.} From \eqref{reduceproof1} and \eqref{reduceproof2}, we see that $x^*\le x$ if $x$ satisfies {\cor to revise}
 \be\nonumber
 \begin{split}
 &(1+\oo(1)) \cdot \sum_{i=1}^2 pd^2 \frac{(\al\rho_i)^2\cdot \al (\rho_1+\rho_2)}{[\al ( \rho_1+\rho_2) - 1]^3}  \bigbrace{1 + \sqrt{\frac{1}{\al \rho_i}}}^4 \\
@@ -430,7 +426,7 @@ Combining \eqref{est_a12extra}, \eqref{approximateteM}, \eqref{AMGM} and \eqref{
 %\be \nonumber
 %\begin{split}
 %g(M)&=(1+\OO(n^{-\e}))\cdot d^2 \tr\left[(X_1^{\top}X_1)(X_1^{\top}X_1 +X_2^{\top}X_2)^{-1}\Sigma_2(X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)\right] \\ 
-%&+(1+\OO(n^{-\e}))\cdot \sigma^2  \bigtr{\Sigma_2(X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} }  =: \delta_\beta(M)+ g_{\vari}(M),
+%&+(1+\OO(n^{-\e}))\cdot \sigma^2  \bigtr{\Sigma_2(X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} }  =: \delta_{\bias}(M)+ g_{\vari}(M),
 %\end{split}
 %\ee
 %with high probability for any constant $\e>0$. In fact, Lemma \ref{lem_hat_v} was proved assuming that $M=\id$, but its proof can be easily extended to the case with general $M\in \cal S_{\mu}$ by using that $\lambda(M)\in [\mu_{\min},\mu_{\max}]$. We omit the details here. 
@@ -440,10 +436,10 @@ Combining \eqref{est_a12extra}, \eqref{approximateteM}, \eqref{AMGM} and \eqref{
 %\begin{align}\label{gvar_extra}
 %g_{\vari}(M_0)= \frac{\sigma^2}{\rho_1+\rho_2}\cdot \frac1p\tr\left( \frac{1}{a_1M_0^\top M_0 + a_2}\right)  +\OO(p^{-1/2+\e}),
 %\end{align}
-%where $(a_1,a_2)$ satisfies \eqref{eq_a12extra}. On the other hand, by Theorem \ref{thm_model_shift} we can estimate $\delta_\beta$ as
+%where $(a_1,a_2)$ satisfies \eqref{eq_a12extra}. On the other hand, by Theorem \ref{thm_model_shift} we can estimate $\delta_{\bias}$ as
 %\be \label{deltabeta_extra}
 %\begin{split}
-%&\left| \delta_{\beta}(M_0) - \frac{d^2\cdot \rho_1^2}{(\rho_1 + \rho_2)^2} \tr\left[\Sigma_1^{1/2}{M_0} \frac{(1 + a_3)\id + a_4 {M_0}^{\top}{M_0}}{(a_2 + a_1 {M_0}^{\top}{M_0})^2} {M_0}^{\top}\Sigma_1^{1/2}\right]\right| \le \delta + \OO(p^{1-\e}d^2),
+%&\left| \delta_{\bias}(M_0) - \frac{d^2\cdot \rho_1^2}{(\rho_1 + \rho_2)^2} \tr\left[\Sigma_1^{1/2}{M_0} \frac{(1 + a_3)\id + a_4 {M_0}^{\top}{M_0}}{(a_2 + a_1 {M_0}^{\top}{M_0})^2} {M_0}^{\top}\Sigma_1^{1/2}\right]\right| \le \delta + \OO(p^{1-\e}d^2),
 %\end{split}
 %\ee
 %where $(a_3,a_4)$ satisfies \eqref{eq_a34extra} and $\delta$ is defined in \eqref{eq_deltaextra}.
@@ -658,28 +654,28 @@ Thus under the choice parameters in \eqref{choiceofpara}, $\te(\hat{\beta}_t^{\M
 \end{split}
 \ee
 Then we write 
-$$ \te(\hat{\beta}_t^{\STL})-\te(\hat{\beta}_t^{\MTL}) =\delta_{\vari} - \delta_\beta - \delta_{\vari}^{(2)},$$
+$$ \te(\hat{\beta}_t^{\STL})-\te(\hat{\beta}_t^{\MTL}) =\delta_{\vari} - \delta_{\bias} - \delta_{\vari}^{(2)},$$
 where 
 $$\delta_{\vari}:=\sigma_2^2  \bigtr{(X_2^{\top}X_2)^{-1} }  - (1+\OO(n^{-\e}))\cdot \sigma_2^2  \bigtr{(X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} }$$
 satisfies \eqref{Deltavar} but with $\sigma^2$ replaced with $\sigma_2^2$, 
-$$\delta_\beta:=(1+\OO(n^{-\e}))\cdot d^2 \tr\left[(X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right]$$
+$$\delta_{\bias}:=(1+\OO(n^{-\e}))\cdot d^2 \tr\left[(X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right]$$
 satisfies \eqref{Deltabeta}, and 
 \begin{align*}	
 	\delta_{\vari}^{(2)}:=(1+\OO(n^{-\e}))\cdot (\sigma_1^2 -\sigma_2^2) \bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-2} X_1^\top X_1} .
 \end{align*}
-%$$	\te(\hat{\beta}_t^{\MTL}) = \left[\Delta_\beta + \Delta_{diff}+  \sigma_2^2 \cdot \tr(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} \right]\cdot \left(1+\OO(p^{-1/2})\right), $$
-%where $\Delta_\beta:= \sigma_2^2 \cdot \bigtr{(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} }$ has 
+%$$	\te(\hat{\beta}_t^{\MTL}) = \left[\Delta_{\bias} + \Delta_{diff}+  \sigma_2^2 \cdot \tr(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} \right]\cdot \left(1+\OO(p^{-1/2})\right), $$
+%where $\Delta_{\bias}:= \sigma_2^2 \cdot \bigtr{(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} }$ has 
 To estimate this new term, we use the same arguments as in the proof of Lemma \ref{prop_model_shift_tight}: we first replace $X_1^\top X_1$ with $n_1\id$ up to some error using \eqref{eq_isometric}, and then apply Lemma \ref{lem_cov_derivative} to calcualte $\bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-2}}$. This process leads to the following estimates on $\delta_{\vari}^{(2)}$:
 \be\label{Deltavar2} 
 \al_-(\rho_1) - \oo(1)  \le \frac{\delta_{\vari}^{(2)}}{ \Delta_{\vari}^{(2)}} \le \al_+(\rho_1) +  \oo(1) , \ee
 where 
 $$ \Delta_{\vari}^{(2)}:=(\sigma_1^2 -\sigma_2^2) \frac{\rho_1 (\rho_1+\rho_2)}{(\rho_1+\rho_2-1)^3}.$$
-Next we compare $\delta_{\vari}$ with $\delta_\beta + \delta_{\vari}^{(2)}$. Our main goal is to see how the extra $\delta_{\vari}^{(2)}$ affects the information transfer in this case.
+Next we compare $\delta_{\vari}$ with $\delta_{\bias} + \delta_{\vari}^{(2)}$. Our main goal is to see how the extra $\delta_{\vari}^{(2)}$ affects the information transfer in this case.
 
 %Using \eqref{eq_isometric} and Lemma \ref{lem_cov_derivative}, a similar bound holds for $\Delta_{diff}$ as in \eqref{Deltabeta}:
 %$$\bigbrace{1 - \sqrt{\frac{1}{c_1}}}^2\le \frac{\Delta_{diff}}{\sigma_1^2 -\sigma_2^2}\cdot \left( \frac{c_1 (c_1+c_2)}{(c_1+c_2-1)^3} + \OO(p^{-1/2+\e})\right)^{-1}\le \bigbrace{1 + \sqrt{\frac{1}{c_1}}}^2.$$
 
-Note that the condition $d^2 < \frac {\sigma_2^2} {2p} \cdot \Phi(\rho_1, \rho_2)$ means the we have $\delta_{\vari}>\delta_{\beta} $ by Proposition \ref{prop_dist_transition}. Hence if $\sigma_1^2\le \sigma_2^2$, then $\delta_{\vari}^{(2)}<0$ and we always have $\delta_{\vari} > \delta_{\beta}+ \delta_{\vari}^{(2)}$, which gives $\te(\hat{\beta}_t^{\MTL})<\te(\hat{\beta}_t^{\STL})$. 
+Note that the condition $d^2 < \frac {\sigma_2^2} {2p} \cdot \Phi(\rho_1, \rho_2)$ means the we have $\delta_{\vari}>\delta_{\bias} $ by Proposition \ref{prop_dist_transition}. Hence if $\sigma_1^2\le \sigma_2^2$, then $\delta_{\vari}^{(2)}<0$ and we always have $\delta_{\vari} > \delta_{\bias}+ \delta_{\vari}^{(2)}$, which gives $\te(\hat{\beta}_t^{\MTL})<\te(\hat{\beta}_t^{\STL})$. 
 
 It remains to consider the case $\sigma_1^2 \ge \sigma_2^2$. 
 
@@ -690,7 +686,7 @@ It remains to consider the case $\sigma_1^2 \ge \sigma_2^2$.
 &>pd^2 \cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3}\bigbrace{1 + \sqrt{\frac{1}{\rho_1}}}^4 + (\sigma_1^2 -\sigma_2^2)\cdot \frac{\rho_1 (\rho_1+\rho_2)}{(\rho_1+\rho_2-1)^3} \bigbrace{1 + \sqrt{\frac{1}{\rho_1}}}^2 , 
 \end{split}
 \ee
-then we have $\delta_{\vari} > \delta_{\beta} + \delta_{\vari}^{(2)}$ whp, which gives $\te(\hat{\beta}_t^{\MTL})<\te(\hat{\beta}_t^{\STL})$. We can solve \eqref{cond sigma1} to get
+then we have $\delta_{\vari} > \delta_{\bias} + \delta_{\vari}^{(2)}$ whp, which gives $\te(\hat{\beta}_t^{\MTL})<\te(\hat{\beta}_t^{\STL})$. We can solve \eqref{cond sigma1} to get
 \begin{align*}
 \sigma_1^2 < - pd^2 \cdot \rho_1\bigbrace{1 + \sqrt{\frac{1}{\rho_1}}}^2 \cdot (1-\oo(1))+\sigma_2^2 \left[ 1+ \rho_1\Phi(\rho_1, \rho_2)\bigbrace{1 + \sqrt{\frac{1}{\rho_1}}}^{-2}\right]\cdot (1-\oo(1)).
 \end{align*}
@@ -704,7 +700,7 @@ Plugging into $\rho_1>50$, we obtain the first claim of Proposition \ref{prop_va
 &< pd^2 \cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3}\bigbrace{1 - \sqrt{\frac{1}{\rho_1}}}^4 + (\sigma_1^2 -\sigma_2^2)\cdot \frac{\rho_1 (\rho_1+\rho_2)}{(\rho_1+\rho_2-1)^3} \bigbrace{1 - \sqrt{\frac{1}{\rho_1}}}^2 , 
 \end{split}
 \ee
-then we have $\delta_{\vari} < \delta_{\beta} + \delta_{\vari}^{(2)}$ whp, which gives $\te(\hat{\beta}_t^{\MTL})>\te(\hat{\beta}_t^{\STL})$. We can solve \eqref{cond sigma12} to get
+then we have $\delta_{\vari} < \delta_{\bias} + \delta_{\vari}^{(2)}$ whp, which gives $\te(\hat{\beta}_t^{\MTL})>\te(\hat{\beta}_t^{\STL})$. We can solve \eqref{cond sigma12} to get
 \begin{align*}
 \sigma_1^2 > - pd^2 \cdot \rho_1\bigbrace{1 - \sqrt{\frac{1}{\rho_1}}}^2 \cdot (1+\oo(1))+\sigma_2^2 \left[ 1+ \rho_1\Phi(\rho_1, \rho_2)\bigbrace{1 - \sqrt{\frac{1}{\rho_1}}}^{-2}\right]\cdot (1+\oo(1)).
 \end{align*}
