@@ -53,7 +53,7 @@ Furthermore, MTL performance is negatively affected when (c) \textit{covariate s
 The observations highlight the need to develop generalization bounds that scale tightly with properties of multiple task data.
 
 %\textbf{Setup and Main Results.}
-Our main contribution is to develop a concentration bound that scales tightly with sample size and covariate shift.
+Our main contribution is to develop technical tools to explain the above phenomena.
 We focus on predicting a particular task given multiple high-dimensional linear regression tasks \cite{HMRT19,BLLT20}.
 \squishlist
 	\item \textbf{Task similarity:} We assume that each task follows a linear model with parameters $\beta_i\in\real^p$, for $1\le i\le t$.
@@ -77,6 +77,7 @@ We revisit the bias-variance tradeoff of the multi-task estimator.
 Interestingly, we observe that the variance of the multi-task estimator is always smaller than the variance of the single-task estimator, because of an increased sample size.
 The bias of the multi-task estimator results in a negative effect caused by the difference between $\beta_t$ and the rest of $\set{\beta_i}_{i=1}^{t-1}$.
 Hence, the bias-variance tradeoff determines whether we observe positive or negative transfer.
+For the setting of two tasks, we show how the variance of the multi-task estimator  scales with sample size and covariate shift in the following result.
 %\textit{Our first contribution} is to develop a concentration bound that arises naturally from the bias-variance tradeoff of $\hat{\beta}_t^{\MTL}$ for two tasks.
 %Let $\hat{\beta}_t^{\STL}$ denote the single-task estimator.
 %Without loss of generality, let the $t$-th task denote the target task.
@@ -117,27 +118,30 @@ Hence, the bias-variance tradeoff determines whether we observe positive or nega
 	\vspace{-0.1in}
 \end{figure}
 
-
-For the setting of two tasks, we show how the variance of $\hat{\beta}_t^{\MTL}$ scales with samples size and covariate shift in the following result.
 \begin{theorem}[Informal]\label{lem_cov_shift_informal}
-	In the setting of two tasks, .
+	In the setting of two tasks,
+	%let $n_1 = \rho_1 \cdot p$ and $n_2 = \rho_2 \cdot p$ denote the sample sizes of each task.
+	%Let $\Sigma_1$ and $\Sigma_2$ denote the covariance matrix of each task.
+	the variance of the multi-task estimator $\hat{\beta}_t^{\MTL}$ is equal to  the following (times noise variance)
 	%let $M = \Sigma_1^{1/2}\Sigma_2^{-1/2}$ and $\lambda_1, \lambda_2, \dots, \lambda_p$ be the singular values of $M^{\top}M$ in descending order.
 %	For any constant $\e>0$, w.h.p. over the randomness of $X_1, X_2$, we have that
-	\begin{align}\label{eq_introX1X2}
-		\bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2} = \frac{1}{\rho_1+\rho_2}\cdot \frac1p\bigtr{ (a_1 \Sigma_1 + a_2\Sigma_2)^{-1} \Sigma_2} +\bigo{{p^{-1/2+\epsilon}}}.
-	\end{align}
-	let $a_1, a_2$ be fixed values solved from deterministic equations of $\rho_1, \rho_2$ and the spectrum of $\Sigma_1^{1/2}\Sigma_2^{-1}\Sigma_1^{1/2}$
+{\small\begin{align*}%\label{eq_introX1X2}
+		%\bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2} =
+		\frac{1}{n_1+n_2}\cdot \bigtr{ (a_1 \Sigma_2^{-1/2}\Sigma_1\Sigma_2^{-1/2} + a_2\id)^{-1}} +\bigo{{p^{-1/2+o(1)}}}.
+	\end{align*}}%
+where $a_1, a_2$ are both fixed values that roughly scales with the sample sizes $\rho_1, \rho_2$, and satisfy $a_1 + a_2 = 1 - (\rho_1 + \rho_2)^{-1}$ plus another deterministic equation.
+A similar result on the bias of $\hat{\beta}_t^{\MTL}$ that scales with task similarity in addition to sample size and covariate shift holds.
 \end{theorem}
 
 %Concretely, we show a tight bound on the trace of $(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}$, which
-Theorem \ref{lem_cov_shift_informal} extends a well-known result for the single-task setting when $X_1, \rho_1, a_1 = 0$ \cite{S07}.
-The concentration error of our result, which is on the order of $O(p^{-1/2+\varepsilon})$, is nearly optimal.
+Theorem \ref{lem_cov_shift_informal} allows us to analyze of the bias-variance tradeoff of the multi-task estimator for two settings:
+(i) two tasks with arbitrary covariate shift; (ii) many tasks with no covariate shift.
+
 %We shall assume that each task data follows a linear model, i.e. $y_i = X_i \beta_i + \varepsilon_i$, $1\le i\le k$.
 %Here $\beta_i\in\real^p$ is the model parameter for the $i$-th task.
 %Each row of $X_i\in\real^{n_i\times p}$ is assumed to be drawn i.i.d. from a fixed
 %distribution with covariance matrix $\Sigma_i$.
-Based on Theorem \ref{lem_cov_shift_informal}, we provide an analysis of the bias-variance tradeoff of $\hat{\beta}_t^{\MTL}$ for two settings:
-(i) two tasks with general covariance matrice; (ii) many tasks with the same features (e.g. images).
+
 %We extend our result to the transfer learning
 %in the setting of high-dimensional linear regression.
 %by pooling source task representations into the shared body of the hard parameter sharing architecture, following
@@ -147,10 +151,10 @@ Based on Theorem \ref{lem_cov_shift_informal}, we provide an analysis of the bia
 
 \textit{Our next contribution} is to use our newly developed tool to explain negative transfer in multi-task learning precisely.
 In Section \ref{sec_insight}, we explain the three phenomena in Figure \ref{fig_model_shift_phasetrans} for a simplified isotropic setting of two tasks.
-It is crucial that the concentration error of Theorem \ref{lem_cov_shift_informal} is $O(p^{-1/2+\varepsilon})$ so that we can explain the transition phenomena in Figure \ref{fig_model_shift} and \ref{fig_size}.
+It is crucial that the concentration error of Theorem \ref{lem_cov_shift_informal} is small so that we can explain the transition phenomena in Figure \ref{fig_model_shift} and \ref{fig_size}.
 The unexplained observations are caused by an error term that arises from the bias of $\hat{\beta}_t^{\MTL}$ -- we discuss these in Section \ref{sec_insight} more precisely.
-Theorem \ref{lem_cov_shift_informal} allows us to compare MTL performance under different covariate shift, measured by $M = \Sigma_1^{1/2}\Sigma_2^{-1/2}$.
-When $\beta_1 = \beta_2$, we show that for a certain family of bounded $M$ matrices, having no covariate shift, i.e. all singular values of $M$ being equal, yields the optimal MTL performance.
+Theorem \ref{lem_cov_shift_informal} allows us to compare MTL performance under different covariate shift.
+When task models are the same and the covariate shift matrix belongs to a certain bounded set, we show that having no covariate shift yields the optimal MTL performance.
 %In Section \ref{sec_insight}, we consider three components including task similarity, data size and covariate shift for a simplified isotropic setting of two tasks.
 %We measure task similarity by how small is the distance between $\beta_1$ and $\beta_2$.
 %Using our tool, we explain a transition from positive to negative transfer as task similarity decreases.
@@ -164,9 +168,9 @@ Finally, we analyze the benefit of MTL for reducing the amount of labeled data n
 %		On the other hand, when $n_1 / n_2$ is small, there are counter examples where having the same covariance matrix is not necessarily the optimal choice.
 
 \textit{Our last contribution} is to connect our theory to practical problems of interest.
-(i) We provide a single-task based metric to predict positive or negative transfer in multi-task learning.
+(i) We validate the three components of our theory in Section \ref{sec_insight} and measure the data efficiency of multi-task learning on the sentiment analysis dataset.
+(ii) We provide a single-task based metric to predict positive or negative transfer in multi-task learning.
 While it is not well understood when multi-task learning provides positive transfer, we show that the STL results can help indicate and understand MTL results on ChestX-ray14 \cite{chexnet17} and sentiment analysis datasets \cite{LZWDA18}.
-(ii) We design an incremental training schedule to improve the efficiency of multi-task training for predicting a particular task.
+(iii) We design an incremental training schedule to improve the efficiency of multi-task training for predicting a particular task.
 We show that our training schedule reduces the computational cost by $55\%$ compared to baseline multi-task training on the sentiment analysis dataset, while keeping the accuracy the same.
-(iii) We validate the three components of our theory in Section \ref{sec_insight} and measure the data efficiency of multi-task learning on the sentiment analysis dataset.
 
