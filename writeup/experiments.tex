@@ -8,6 +8,25 @@ Second, we show that our proposed incremental training schedule improves the tra
 Finally, we validate the three components of our theory and measure the data efficiency of multi-task learning on text classification tasks.
 
 \begin{table}
+\begin{minipage}[t]{.40\textwidth}
+	\centering
+	\begin{tabular}{c c c}
+		\toprule
+		\multirow{2}{*}{{\bf Models}} & \multicolumn{2}{c}{\begin{minipage}{1.1in}\begin{center}
+		MR, SST, SUBJ, CR, MPQA, TREC\end{center}\end{minipage}} \\
+		\cmidrule(lr){2-3}
+		& {\bf MTL} & {\bf IncTrain} \\
+		\midrule
+		{\bf MLP}  & 100\% & \textbf{39\%} \\
+		{\bf LSTM} & \textbf{36\%} & 36\% \\
+		\bottomrule
+		\end{tabular}
+	\vspace{0.1in}
+	\captionof{table}{Measuring the data efficiency ratio of muli-task learning.}
+	\label{tab:taskonomy}
+	\vspace{-0.2in}
+\end{minipage}%
+\quad
 \begin{minipage}[t]{.58\textwidth}
 	\centering
   \begin{tabular}{c c c c c}
@@ -25,25 +44,7 @@ Finally, we validate the three components of our theory and measure the data eff
 	\vspace{0.1in}
 	\captionof{table}{Single-task learning results can help predict postive or negative transfer in multi-task learning.}
 	\label{tab:mtl_better_than_stl}
-\end{minipage}
-\quad
-% \vspace{}
-\begin{minipage}[t]{.40\textwidth}
-	\centering
-	\begin{tabular}{c c c}
-		\toprule
-		\multirow{2}{*}{{\bf Models}} & \multicolumn{2}{c}{\begin{minipage}{1.1in}\begin{center}
-		MR, SST, SUBJ, CR, MPQA, TREC\end{center}\end{minipage}} \\
-		\cmidrule(lr){2-3}
-		& {\bf MTL} & {\bf Alignment} \\
-		\midrule
-		{\bf MLP}  & 100\% & \textbf{39\%} \\
-		{\bf LSTM} & \textbf{36\%} & 36\% \\
-		\bottomrule
-		\end{tabular}
-	\vspace{0.1in}
-	\captionof{table}{Measuring the data efficiency ratio of muli-task learning.}
-	\label{tab:taskonomy}
+	\vspace{-0.2in}
 \end{minipage}
 \end{table}
 
@@ -72,7 +73,6 @@ We measure the prediction accuracy of a particular target task.
 
 
 \subsection{Experimental Results: Improving Data Efficiency}
-
 
 \textbf{Improving multi-task training efficiency.}
 We compare Algorithm \ref{alg_inc_train} to performing multi-task learning for predicting a particular target dataset.
@@ -114,6 +114,7 @@ We further show that adding the alignment module helps reduce the data efficienc
 	(b) As source/target data ratio increases, we observe a transition from positive to negative transfer.
 	(c) As source/target data ratio increases, the performance gain from the covariance alignment procedure \cite{WZR20} over MTL increases for LSTM and MLP.}
 	\label{fig_ablation}
+	\vspace{-0.15in}
 \end{figure}
 
 
