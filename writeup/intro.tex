@@ -40,17 +40,17 @@ We develop new tools to analyze the tradeoff and explain negative transfer preci
 
 Understanding negative transfer requires developing tight generalization bounds for both multi-task learning and single-task learning.
 In classical Rademacher or VC based theory of multi-task learning \cite{B00,AZ05,M06}, the generalization bounds are usually presented so that the error reduces as the data sizes of all tasks increase.
-For instance, the data sizes of all tasks are often assumed to be equal \cite{B00,LPTV09,LPVT11,MPR16}.
-On the other hand, uneven data sizes or dominating tasks have been empirically observed as a cause of negative transfer \cite{YKGLHF20}.
+For example, the sample sizes of all tasks are often assumed to be equal \cite{B00,LPTV09,LPVT11,MPR16}.
+On the other hand, uneven sample sizes (or dominating tasks) have been empirically observed to cause of negative transfer \cite{YKGLHF20}.
 %The benefit of learning multi-task representations has also been studied for certain half-spaces \cite{} and sparse regression \cite{}.
-When all tasks are sufficiently similar, it is known that adding more labeled data improves the generalization performance for predicting a particular task \cite{WZR20}.
-To motivate our study, we describe simulation results for two linear regression tasks solved using a shared linear layer for both tasks and an output layer for each task.
-In Figure \ref{fig_model_shift_phasetrans}, we observe that negative transfer occurs as (a) \textit{task similarity}: tasks become more different; (b) \textit{data size}: source/target data size increases.
+When all tasks are sufficiently similar, adding more labeled data improves the generalization performance for predicting a particular task \cite{WZR20}.
+To motivate our study, Figure \ref{fig_model_shift_phasetrans} shows three examples for two linear regression tasks solved using a shared linear layer for both tasks and an output layer for each task.
+We observe that negative transfer occurs as (a) \textit{task similarity}: tasks become more different; (b) \textit{data size}: source/target data size increases.
 %\textbf{Task similarity:}
 %\textbf{Data sizes:}
 %\textbf{Covariate shift:}
 Furthermore, MTL performance is negatively affected when (c) \textit{covariate shift}: the covariance matrices of the two tasks become more different.
-The observations highlight the need to develop generalization bounds that scale tightly with properties of the data in order to study MTL performance.
+The observations highlight the need to develop generalization bounds that scale tightly with properties of multiple task data.
 
 %\textbf{Setup and Main Results.}
 We consider the high-dimensional linear regression setting \cite{HMRT19,BLLT20} to explain the above phenomena.
@@ -82,7 +82,7 @@ Let $\hat{\beta}_t^{\MTL}$ denote the optimal multi-task estimator for the targe
 		\centering
 		\includegraphics[width=0.98\textwidth]{figures/datapoints_phase_transition.pdf}
 		\vspace{-0.075in}
-		\caption{Data sizes}
+		\caption{Sample size}
 		\label{fig_size}
 	\end{subfigure}\hfill
 	\begin{subfigure}[b]{0.32\textwidth}
@@ -95,9 +95,9 @@ Let $\hat{\beta}_t^{\MTL}$ denote the optimal multi-task estimator for the targe
 	\caption{%Three takeaways of our theory in Section \ref{sec_insight}.
 	We observe that MTL performance
 	(a) transitions from positive to negative transfer as \textit{task model distance} increases (Prop. \ref{prop_dist_transition});
-	(b) transitions from positive to negative transfer as source/target \text{data size} increases (Prop. \ref{prop_data_size});
-	(c) gets worse as \textit{covariate shift} gets more severe (increasing $\lambda$) and source/target \textit{data size} increases (Prop. \ref{prop_covariate}).
-	$y$-axis denotes the prediction loss of STL minus MTL.}
+	(b) transitions from positive to negative transfer as source/target \text{sample size} increases (Prop. \ref{prop_data_size});
+	(c) gets worse as \textit{covariate shift} gets more severe (increasing $\lambda$) and source/target \textit{sample size} increases (Prop. \ref{prop_covariate}).
+	The $y$-axis measures the loss of STL minus MTL.}
 	\label{fig_model_shift_phasetrans}
 	\vspace{-0.1in}
 \end{figure}
