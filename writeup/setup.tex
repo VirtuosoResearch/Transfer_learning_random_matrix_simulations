@@ -1,12 +1,16 @@
 \section{A Concentration Bound Generalizing Single-Task Settings}
 \label{sec_main}
 
-In this section we describe how \textit{task similarity}, \textit{sample size} and \textit{covariate shift} arise from the bias-variance tradeoff in the multi-task setting.
-We illustrate how a natural quantity involving the spectrum of two random matrices arise, and then show a tight concentration bound for this quantity using random matrix theory.
+We begin by defining the data model and the multi-task learning estimator that we study.
+Then, we study the bias-variance tradeoff of the MTL estimator, and show how \textit{task similarity}, \textit{sample size} and \textit{covariate shift} connect to the bias and variance of the estimator, respectively.
+Finally, we show a tight concentration bound for the bias and variance terms using random matrix theory.
 
+\textbf{Data models.}
 Recall that we have $t$ labeled training datasets, denoted by $(X_1, Y_1), (X_2, Y_2), \dots, (X_t, Y_t)$, where $X_i\in\real^{n_i\times p}$ and $Y_i\in\real^{n_i}$ for $1\le i\le t$.
 %Following \cite{HMRT19,BLLT20}, we assume that for each task $i = 1,2,\dots,t$,  every feature vector is generated as $x = \Sigma_i^{1/2} z$, where $z\in\real^p$ is a random vector with i.i.d. entries of mean zero and unit variance and $\Sigma_i\in\real^{p\times p}$ is a positive semidefinite matrix.
 Without loss of generality, let the $t$-th task be the target task.
+
+\textbf{MTL estimator.}
 We consider the following linear multi-task learning architecture.
 \begin{align}
 	\label{eq_mtl}
@@ -44,6 +48,7 @@ For a matrix $X$, let $\lambda_{\min}(X)$ denote its smallest singular value and
 
 %\subsection{Analyzing the Tradeoff via Random Matrix Theory}
 
+\textbf{A concentration bound.}
 To illustrate our intuition, we begin by considering the setting of two tasks with general covariance matrices.
 %Recall that $\hat{\beta}_t^{\MTL}$ is defined as $BW_t$ after solving equation \eqref{eq_mtl}.
 We decompose the test error of $\hat{\beta}_{t}^{\MTL}$ on the target task into two parts as follows.
