@@ -51,17 +51,16 @@ This setting is prevalent in applications of multi-task learning to image classi
 
 \subsection{Task Similarity}\label{sec_similarity}
 
-It is well-known since the seminal work of Caruana \cite{C97} that how well multi-task learning performs depends on task relatedness.
-We formalize this connection in the following simplified setting.
+It is well-known since the seminal work of Caruana \cite{C97} that how well multi-task learning performs depends on task relatedness. We formalize this connection in the following simplified setting, where we can perform explicit calculations.
 
 \textit{The isotropic model.}
 	Consider two tasks with isotropic covariances $\Sigma_1 = \Sigma_2 = \id$.
 	Recall that each task has sample size $n_i = \rho_i \cdot p$, for $i = 1, 2$.
-	And $X_1\in\real^{n_1\times p}, X_2\in\real^{n_2\times p}$ denotes the covariates of the two tasks, respectively.
+	And $X_1\in\real^{n_1\times p}, X_2\in\real^{n_2\times p}$ denote the covariates of the two tasks, respectively.
 	We assume that for the target task, $\beta_2$ has i.i.d. entries with mean zero and variance $\kappa^2$.
 	For the source task, $\beta_1 $ equals $\beta_2$ plus i.i.d. entries with mean $0$ and variance $d^2$.
 	The labels are given by $Y_i = X_i\beta_i + \varepsilon_i$, where $\e_i$ consists of i.i.d. entries with mean zero and variance $\sigma_i^2$, for $i=1,2$.
-	We assume that all the random variables have subexponential decay, while keeping in mind that our results can be applied under weaker moments assumptions as shown in Appendix \ref{app_proof_sec3}.
+	We assume that all the random variables have subexponential decay, while keeping in mind that our results can be applied under weaker moments assumptions as shown in Appendix \ref{sec_maintools}.
 
 In the isotropic model, we show that as we increase the distance between $\beta_1$ and $\beta_2$, there is a transition from positive transfer to negative transfer in MTL.
 %We measure model dissimilarity as $\norm{\beta_1 - \beta_2}^2$, which is the distance between source and target in the isotropic model.
@@ -80,16 +79,17 @@ We introduce the following notations.
 	%Whether $\te(\hat{\beta}_t^{\MTL})$ is lower than $\te(\hat{\beta}_t^{\STL})$ is determined by the ratio between $\Psi(\beta_1, \beta_2)$ and $\Phi(\rho_1, \rho_2)$:
 	\squishlist
 		\item If $\Psi(\beta_1, \beta_2) < \gamma_{+}^{-1}  \Phi(\rho_1, \rho_2)$, then w.h.p. over the randomness of $X_1,X_2$, $\te(\hat{\beta}_t^{\MTL}) < \te(\hat{\beta}_t^{\STL})$.
-		\item If $\Psi(\beta_1, \beta_2) \ge \gamma_{-}^{-1}  \Phi(\rho_1, \rho_2)$, then w.h.p. over the randomness of $X_1,X_2$, $\te(\hat{\beta}_t^{\MTL}) \ge \te(\hat{\beta}_t^{\STL})$.
+		\item If $\Psi(\beta_1, \beta_2) > \gamma_{-}^{-1}  \Phi(\rho_1, \rho_2)$, then w.h.p. over the randomness of $X_1,X_2$, $\te(\hat{\beta}_t^{\MTL}) > \te(\hat{\beta}_t^{\STL})$.
 	\squishend
 	Here $\gamma_{-} = (1-\oo(1))\cdot(1 - \rho_1^{-1/2})^4$ and $\gamma_{+} = (1+\oo(1))\cdot(1 + \rho_1^{-1/2})^4$.
-	Concretely, if $\rho_1 > 40$, then $\gamma_{-} \in (1,2)$ and $\gamma_{+} \in (1/2, 1)$.
+	Concretely, if $\rho_1 > 40$, then $\gamma_{+} \in (1,2)$ and $\gamma_{-} \in (1/2, 1)$.
 \end{proposition}
 
-Proposition \ref{prop_dist_transition} simplifies Theorem \ref{thm_main_informal} in the isotropic model, allowing for a more explicit statement of the bias-variance tradeoff.
+
+Proposition \ref{prop_dist_transition} simplifies Corollary \ref{thm_main_informal} in the isotropic model, allowing for a more explicit statement of the bias-variance tradeoff.
 Concretely, $\Psi(\beta_1, \beta)$ and $\Phi(\rho_1, \rho_2)$ corresponds to $\Delta_{\bias}$ and $\Delta_{\vari}$, respectively.
 Prosposition \ref{prop_dist_transition} explains the transition observed in Figure \ref{fig_model_shift}.
-Note that there are several unexplained observations near the transition threshold $0$, which are caused by the concentration errors $\gamma_+, \gamma_-$.
+Note that there are several unexplained observations near the transition threshold $0$, which are caused by the concentration errors $\gamma_+$ and $\gamma_-$.
 %We fix the target task and vary the source task, in particular the parameter $d$ which determines $\norm{\beta_1 - \beta_2}$.
 %Figure \ref{fig_model_shift} shows the result.
 %We observe that Proposition \ref{prop_dist_transition} explains most of the observations in Figure \ref{fig_model_shift}.
@@ -99,15 +99,14 @@ Note that there are several unexplained observations near the transition thresho
 The proof of Proposition \ref{prop_dist_transition} can be found in Appendix \ref{app_proof_31}. %, which is based on our main result described later in Theorem \ref{thm_model_shift}.
 
 
-
 \textbf{Algorithmic consequence.}
-We can in fact extend the result to the cases where the noise variance is different.
+We can in fact extend the result to the cases where the noise variances are different.
 In this case, we will see that MTL is particularly effective.
 %As an extension of Proposition \ref{prop_dist_transition}, we observe that MTL is particular powerful when the labeled data of the source task is less noisy compared to the target task.
 Concretely, suppose the noise variance $\sigma_1^2$ of task $1$ differs from the noise variance $\sigma_2^2$ of task $2$.
 If $\sigma_1^2$ is too large, the source task provides a negative transfer to the target.
 If $\sigma_1^2$ is small, the source task is more helpful.
-We leave the result to the Appendix in Proposition \ref{prop_var_transition}.
+We leave the result to Proposition \ref{prop_var_transition} in Appendix \ref{app_proof_31}.
 Inspired by the observation, we propose a single-task based metric to help understand MTL results using STL results.
 \squishlist
 	\item For each task, we train a single-task model.
@@ -132,8 +131,8 @@ Our result below explains the phenomenon of Figure \ref{fig_size}.
 
 
 \begin{proposition}[Source/target sample size]\label{prop_data_size}
-	In the isotropic model, assume that $\rho_1 > 40$ and $\rho_2 > 110$ are fixed constants, $\Psi(\beta_1, \beta_2) > 2/(\rho_2 - 1)$.
-	We have that
+	In the isotropic model, suppose that $\rho_1 > 40$ and $\rho_2 > 110$ are fixed constants, and $\Psi(\beta_1, \beta_2) > 2/(\rho_2 - 1)$.
+	Then we have that
 	\squishlist
 		\item If $\frac{n_1}{n_2} = \frac{\rho_1}{\rho_2} < \frac{1}{\gamma_+} \cdot \frac{1 - 2\rho_2^{-1}}{\Psi(\beta_1, \beta_2) (\rho_2 - 1) - \gamma_+^{-1}}$, then w.h.p. $\te(\hat{\beta}_t^{\MTL}) < \te(\hat{\beta}_t^{\STL})$.
 		\item If $\frac{n_1}{n_2} = \frac{\rho_1}{\rho_2} > \frac{1}{\gamma_-} \cdot \frac{1 - 2\rho_2^{-1}}{\Psi(\beta_1, \beta_2) (\rho_2 - 1.5) - \gamma_{-}^{-1}}$, then w.h.p. $\te(\hat{\beta}_t^{\MTL}) > \te(\hat{\beta}_t^{\STL})$.
@@ -144,20 +143,20 @@ From Figure \ref{fig_size}, we see that our result is able to explain the transi
 There are several unexplained observations near $y = 0$ caused by the errors $\gamma_-, \gamma_+$.
 The proof of Proposition \ref{prop_data_size} can be found in Appendix \ref{app_proof_32}.
 
-\textbf{Connection to Taskonomy.} We use our tools to explain a key result of Taskonomy by Zamir et al.'18 \cite{ZSSGM18}, which shows that MTL can reduce the amount of labeled data needed to achieve comparable performance to STL.
+\textbf{Connection to Taskonomy.} We use our tools to explain a key result of Taskonomy by Zamir et al. (2018) \cite{ZSSGM18}, which shows that MTL can reduce the amount of labeled data needed to achieve comparable performance to STL.
 %More precisely, suppose we have $n_i$ datapoints for each task, for $i= 1, 2$.
-For $i = 1, 2$, let $\hat{\beta}_i^{\MTL}(x)$ denote the estimator trained using $R \cdot n_i$ datapoints from every task.
-The data efficiency ratio roughly scales as
+For $i = 1, 2$, let $\hat{\beta}_i^{\MTL}(x)$ denote the estimator trained using $x \cdot n_i$ datapoints from every task. The data efficiency ratio is defined as
 \[ \argmin_{x\in(0, 1)} ~~
 		\te_1(\hat{\beta}_1^{\MTL}(x)) + \te_2(\hat{\beta}_2^{\MTL}(x))
 		\le \te_1(\hat{\beta}_1^{\STL}) + \te_2(\hat{\beta}_2^{\STL}). \]
 For example, the data efficiency ratio is $1$ if there is negative transfer.
 Using our tools, we show that in the isotropic model, the data efficiency ratio is
-equal to \[ \frac{1}{\rho_1 + \rho_2} {+ \frac{1}{(\rho_1 +\rho_2)(\rho_1^{-1} + \rho_2^{-1} - \Theta(\Psi(\beta_1, \beta_2)))}}. \]
-Compared with Proposition \ref{prop_dist_transition}, we see that when $\Psi(\beta_1, \beta_2)$ is smaller than $\rho_1^{-1} + \rho_2^{-1}$, the transfer is positive.
-Hence the data efficiency ratio quantifies how effective is the positive transfer using MTL.
+roughly 
+\[ \frac{1}{\rho_1 + \rho_2} {+ \frac{2}{(\rho_1 +\rho_2)(\rho_1^{-1} + \rho_2^{-1} - \Theta(\Psi(\beta_1, \beta_2)))}}. \]
+Compared with Proposition \ref{prop_dist_transition}, we see that when $\Psi(\beta_1, \beta_2)$ is smaller than $\rho_1^{-1} + \rho_2^{-1}$ (up to a constant multiple), the transfer is positive.
+Moreover, the data efficiency ratio quantifies how effective the positive transfer is using MTL.
 %In addition to $\rho_1,\rho_2$, the data efficiency ratio also scales with $\Psi(\beta_1, \beta_2)$, the model distance between the tasks.
-The precise statement can be found in Appendix \ref{app_proof_32}.
+The precise statement can be found in Proposition \ref{prop_data_efficiency} in Appendix \ref{app_proof_32}.
 
 \textbf{Algorithmic consequence.} An interesting consequence of Proposition \ref{prop_data_size} is that $L(\hat{\beta}_t^{\MTL})$ is not monotone in $\rho_1$.
 In particular, Figure \ref{fig_size} (and our analysis) shows that $L(\hat{\beta}_t^{\MTL})$ behaves as a quadratic function over $\rho_1$.
@@ -183,26 +182,26 @@ We show that when $n_1 / n_2$ is large, MTL with covariate shift can be suboptim
 	We measure covariate shift by the matrix $M = \Sigma_1^{1/2} \Sigma_2^{-1/2}$.
 	Assume that $\Psi(\beta_1, \beta_2) = 0$ for simplicity.
 	We compare two cases: (i) when $M = \id$; (ii) when $M$ has $p/2$ singular values that are equal to $\lambda$ and $p/2$ singular values that are equal to $1 / \lambda$.
-	Hence, $\lambda$ measures the severity of covariate shift.
+	Hence, $\lambda$ measures the severity of the covariate shift.
 	Figure \ref{fig_covariate} shows a simulation of this setting by varying $\lambda$.
-	We observe that as $n_1/n_2$ increases, the performance gap between the case of $M = \id$ and $\lambda = 2$ or $4$ increases for MTL.
+	We observe that as $n_1/n_2$ increases, the performance gap between case (i) $M = \id$ and case (ii) with $\lambda = 2$ or $4$ increases for MTL.
 \end{example}
 
 %By applying Lemma \ref{lem_cov_shift_informal}, we find that when $n_1 / n_2$ is large, having no covariate shift is the optimal choice provided that the determinant of $M^{\top}M$ is bounded.
-To compare different choices of $M$ on the performance of $\hat{\beta}_t^{\MTL}$, let $\lambda_1, \lambda_2, \dots, \lambda_p$ be the singular values of $M$ in decreasing order.
-Let $\mu_{\min} < \mu < \mu_{\max}$ are fixed values that do not grow with $p$.
+To compare different choices of $M$ regarding the performance of $\hat{\beta}_t^{\MTL}$, let $\lambda_1, \lambda_2, \dots, \lambda_p$ be the singular values of $M$ in decreasing order.
+Let $\mu_{\min} < \mu < \mu_{\max}$ be fixed values that do not grow with $p$.
 Consider the following bounded set
 \begin{align*}
-		\cS_{\mu}\define\bigset{M \mid \prod_{i=1}^p \lambda_i \le \mu^p, \mu_{\min} \le \lambda_p, \lambda_1 \le \mu_{\max}},
+		\cS_{\mu}\define\bigset{M \left| \prod_{i=1}^p \lambda_i \le \mu^p, \mu_{\min} \le \lambda_p\le \lambda_1 \le \mu_{\max}\right.},
 \end{align*}
 %	We assume that $\beta_1$ and $\beta_2$ are generated following the isotropic model with $d = 0$.
 
 \begin{proposition}[Covariate shift]\label{prop_covariate}
 	Assume that $\Psi(\beta_1, \beta_2) = 0$ and $\rho_1, \rho_2>1$.
-	Let $g(M)$ denote the test error of $\hat{\beta}_t^{\MTL}$ when the covariance shift matrix is equal to $M\in\cS_{\mu}$.
+	Let $g(M)$ denote the prediction loss of $\hat{\beta}_t^{\MTL}$ when the covariance shift matrix is equal to $M\in\cS_{\mu}$.
 	We have that \[ g(\mu\id) \le \bigbrace{1+ \bigo{\frac{\rho_2}{\rho_1}  }} \min_{M\in\cS_{\mu}} g(M). \]
 \end{proposition}
-The following proposition shows that when $n_1 \gg n_2$, $\te(\hat{\beta}^{\MTL})$ is minimized when there is no covariate shift between source and target task.
+This proposition shows that when $n_1 \gg n_2$, $\te(\hat{\beta}^{\MTL})$ is minimized when there is no covariate shift between source and target tasks.
 The proof of Proposition \ref{prop_covariate} is left to Appendix \ref{app_proof_33}.
 %Proposition \ref{prop_covariate} implies that when $\rho_1\gg \rho_2$, having no covariate shift is the optimal choice for choosing the source task.
 %This provides evidence that covariate shift is unfavorable when there are many source task datapoints,
@@ -218,7 +217,7 @@ The proof of Proposition \ref{prop_covariate} is left to Appendix \ref{app_proof
 \textbf{Algorithmic consequence.}
 Our observation highlights the need to correct covariate shift when $n_1 / n_2$ is large.
 Hence for such settings, we expect procedures that aim at correcting covariate shift to provide more significant gains.
-We consider a covariance alignment procedure proposed in Wu et al.'20 \cite{WZR20}, which is designed for the purpose of correcting covariate shift.
+We consider a covariance alignment procedure proposed in Wu et al. (2020) \cite{WZR20}, which is designed for the purpose of correcting covariate shift.
 The idea is to add an alignment module between the input and the shared module $B$.
 This new module is then trained together with $B$ and the output layers.
 We validate our insight on this procedure in the experiments.

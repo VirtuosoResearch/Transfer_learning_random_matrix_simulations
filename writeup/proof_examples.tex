@@ -170,6 +170,112 @@ Since $ \Psi(\beta_1,\beta_2)=pd^2/\sigma^2$, it gives the first statement of Pr
 which gives the second statement of Proposition \ref{prop_dist_transition}.
 \end{proof}
 
+%\subsection{Labeled data de-noising}\label{app_proof_data}
+
+Next we consider the case where the two tasks have different noise variances $\sigma_1^2\ne \sigma_2^2$. In particular, we show Proposition \ref{prop_var_transition}, which gives a transition threshold with respect to the difference between the noise levels of the two tasks.
+
+\begin{proposition}%[Labeled data de-noising]
+\label{prop_var_transition}
+	In the isotropic model, assume that $\rho_1 > 40$ and $\ex{\norm{\beta_1 - \beta_2}^2}< \frac{1}{2} {\sigma_2^2}  \cdot \Phi(\rho_1, \rho_2)$.
+	Then we have the following transition with respect to $\sigma_1^2$:
+	\begin{itemize}
+		\item If $\sigma_1^2 < - \gamma_+^{1/2} \rho_1 \cdot p d^2+\left(1+ \gamma_+^{-1/2}\rho_1 \Phi(\rho_1, \rho_2)\right)\cdot\sigma_2^2$, then whp $\te(\hat{\beta}_2^{\MTL}) < \te(\hat{\beta}_2^{\STL})$.
+		\item If $\sigma_1^2 > -\gamma_-^{1/2}\rho_1\cdot p d^2   +\left(1+ \gamma_-^{-1/2}\rho_1\Phi(\rho_1, \rho_2)\right) \cdot \sigma_2^2$, then whp $\te(\hat{\beta}_2^{\MTL}) > \te(\hat{\beta}_2^{\STL})$.
+	\end{itemize}
+\end{proposition}
+As a corollary, if $\sigma_1^2 \le \sigma_2^2$, then we always get positive transfer.
+%The proof of Proposition \ref{prop_var_transition} is similar to Proposition \ref{prop_dist_transition}.
+%The details can be found in Appendix \ref{app_proof_data}.
+
+
+\begin{proof}[Proof of Proposition \ref{prop_var_transition}]
+In the setting of Proposition \ref{prop_var_transition}, the test loss is given by \eqref{eq_te_mtl_2task}. 
+%the validation loss and the test error become
+%\begin{align*}
+%		\val(\hat{B}; w_1, w_2)
+%	&=  n_1 \cdot \bignorm{\Sigma_1^{1/2}\left(\frac{w_1^2}{w_2^2} X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1}X_2^{\top}X_2\left (\beta_s - \frac{w_1}{w_2}\beta_t\right)}^2 \nonumber \\
+%		&+ n_1 \sigma^2 \cdot \frac{w_1^2}{w_2^2} \bigtr{\left(\frac{w_1^2}{w_2^2}  X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-2} \left(\sigma_1^2 \frac{w_1^2}{w_2^2}  X_1^{\top}X_1 + \sigma_2^2  X_2^{\top}X_2\right)} \nonumber \\
+%		&+ n_2 \cdot \frac{w_1^2}{w_2^2}\bignorm{\Sigma_2^{1/2}\left(\frac{w_1^2}{w_2^2} X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1}X_1^{\top}X_1\left(\beta_s - \frac{w_1}{w_2}\beta_t\right)}^2 \nonumber \\
+%		&+ n_2 \sigma^2 \cdot \bigtr{\left(\frac{w_1^2}{w_2^2} X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-2} \left(\sigma_1^2 \frac{w_1^2}{w_2^2}  X_1^{\top}X_1 + \sigma_2^2  X_2^{\top}X_2\right)}, 
+%\end{align*}
+%and 
+%where $\hat v=\hat{w_1}/\hat{w_2}$ is the global minimizer of $\val(\hat{B}; w_1, w_2)$. 
+In the isotropic model, using again the concentration of random vector with i.i.d. entries, Lemma \ref{largedeviation}, we can rewrite $\te(\hat{\beta}_2^{\MTL})$ as
+\begin{align*}
+	\te(\hat{\beta}_2^{\MTL}) &=~ \hat{v}^2 \left[d^2 +\left( \hat v-1\right)^2\kappa^2\right]\bigtr{ (\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2} \cdot \left(1+\OO(p^{-1/2+\e})\right)\nonumber \\
+	& + \sigma_2^2 \cdot \bigtr{(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} } + (\sigma_1^2 -\sigma_2^2)  \cdot \bigtr{(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-2} \hat v^2X_1^\top X_1}
+\end{align*}
+with high probability for any constant $\e>0$. 
+
+
+
+In the current setting, we can also show that  \eqref{hatv_add1}  holds for $\hat v$. 
+Since the proof is almost the same as the one for Lemma \ref{lem_hat_v}, we omit the details. 
+%$$|\hat w-1|=\OO(p^{-1}).$$
+%as in \eqref{hatw_add1}. 
+%We omit the details of the proof, since it is almost the same as the one in the proof of Lemma \ref{lem_hat_v}. 
+Thus under the choice parameters in \eqref{choiceofpara}, $\te(\hat{\beta}_2^{\MTL}) $ can be simplified as in \eqref{simple1}: 
+\be \label{simple2}
+\begin{split}
+\te(\hat{\beta}_2^{\MTL})&=(1+\OO(n^{-\e}))\cdot d^2 \tr\left[(X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right] \\ 
+&+(1+\OO(n^{-\e}))\cdot \sigma_2^2  \bigtr{(X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} }  \\
+&+(1+\OO(n^{-\e}))\cdot (\sigma_1^2-\sigma_2^2)  \bigtr{(X_1^{\top}X_1  + X_2^{\top}X_2)^{-2} X_1^\top X_1} .
+\end{split}
+\ee
+Then we write 
+$$ \te(\hat{\beta}_2^{\STL})-\te(\hat{\beta}_2^{\MTL}) =\delta_{\vari} - \delta_{\bias} - \delta_{\vari}^{(2)},$$
+where 
+$$\delta_{\vari}:=\sigma_2^2  \bigtr{(X_2^{\top}X_2)^{-1} }  - (1+\OO(n^{-\e}))\cdot \sigma_2^2  \bigtr{(X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} }$$
+satisfies \eqref{Deltavar} but with $\sigma^2$ replaced with $\sigma_2^2$, 
+$$\delta_{\bias}:=(1+\OO(n^{-\e}))\cdot d^2 \tr\left[(X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right]$$
+satisfies \eqref{Deltabeta}, and 
+\begin{align*}	
+	\delta_{\vari}^{(2)}:=(1+\OO(n^{-\e}))\cdot (\sigma_1^2 -\sigma_2^2) \bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-2} X_1^\top X_1} .
+\end{align*}
+%$$	\te(\hat{\beta}_t^{\MTL}) = \left[\Delta_{\bias} + \Delta_{diff}+  \sigma_2^2 \cdot \tr(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} \right]\cdot \left(1+\OO(p^{-1/2})\right), $$
+%where $\Delta_{\bias}:= \sigma_2^2 \cdot \bigtr{(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} }$ has 
+To estimate this new term $\delta_{\vari}^{(2)}$, we use the same arguments as in the proof of Lemma \ref{prop_model_shift_tight}: we first replace $X_1^\top X_1$ with $n_1\id$ up to some error using \eqref{eq_isometric}, and then apply Lemma \ref{lem_cov_derivative} to calcualte $\bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-2}}$. This process leads to the following estimates on $\delta_{\vari}^{(2)}$:
+\be\label{Deltavar2} 
+\al_-(\rho_1) - \oo(1)  \le \frac{\delta_{\vari}^{(2)}}{ \Delta_{\vari}^{(2)}} \le \al_+(\rho_1) +  \oo(1) , \ee
+where 
+$$ \Delta_{\vari}^{(2)}:=(\sigma_1^2 -\sigma_2^2) \frac{\rho_1 (\rho_1+\rho_2)}{(\rho_1+\rho_2-1)^3}.$$
+Next we compare $\delta_{\vari}$ with $\delta_{\bias} + \delta_{\vari}^{(2)}$. Our main focus is to see how the extra $\delta_{\vari}^{(2)}$ affects the information transfer in this case.
+
+%Using \eqref{eq_isometric} and Lemma \ref{lem_cov_derivative}, a similar bound holds for $\Delta_{diff}$ as in \eqref{Deltabeta}:
+%$$\bigbrace{1 - \sqrt{\frac{1}{c_1}}}^2\le \frac{\Delta_{diff}}{\sigma_1^2 -\sigma_2^2}\cdot \left( \frac{c_1 (c_1+c_2)}{(c_1+c_2-1)^3} + \OO(p^{-1/2+\e})\right)^{-1}\le \bigbrace{1 + \sqrt{\frac{1}{c_1}}}^2.$$
+
+Note that the condition $\ex{\norm{\beta_1 - \beta_2}^2}< \frac{1}{2} {\sigma_2^2}  \cdot \Phi(\rho_1, \rho_2)$ for $\rho_1 > 40$ means the we have $\delta_{\vari}>\delta_{\bias} $ by Proposition \ref{prop_dist_transition}. Hence if $\sigma_1^2\le \sigma_2^2$, then $\delta_{\vari}^{(2)}<0$ and we always have $\delta_{\vari} > \delta_{\bias}+ \delta_{\vari}^{(2)}$, which gives $\te(\hat{\beta}_2^{\MTL})<\te(\hat{\beta}_2^{\STL})$.  It remains to consider the case $\sigma_1^2 \ge \sigma_2^2$. 
+
+
+\noindent{\bf Positive transfer.} By \eqref{Deltavar}, \eqref{Deltabeta} and \eqref{Deltavar2}, if the following inequality holds,
+\be\label{cond sigma1}
+\begin{split} 
+&\sigma_2^2  \cdot \frac{\rho_1}{(\rho_2-1)(\rho_1 + \rho_2 -1)} \cdot (1-\oo(1)) \\
+&>pd^2 \cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3}\al_+^2(\rho_1)  + (\sigma_1^2 -\sigma_2^2)\cdot \frac{\rho_1 (\rho_1+\rho_2)}{(\rho_1+\rho_2-1)^3} \al_+(\rho_1)  , 
+\end{split}
+\ee
+then we have $\delta_{\vari} > \delta_{\bias} + \delta_{\vari}^{(2)}$ whp, which gives $\te(\hat{\beta}_t^{\MTL})<\te(\hat{\beta}_t^{\STL})$. We can solve \eqref{cond sigma1} to get
+\begin{align*}
+\sigma_1^2 < - pd^2\cdot \rho_1 \al_+(\rho_1) +\sigma_2^2 \left[ 1+ \rho_1\Phi(\rho_1, \rho_2) \al_+^{-1}(\rho_1)\right]\cdot (1-\oo(1)).
+\end{align*}
+This proves the first claim of Proposition \ref{prop_var_transition} for positive transfer.
+
+
+\noindent{\bf Negative transfer.} On the other hand, if the following inequality holds,
+\be\label{cond sigma12}
+\begin{split} 
+&\sigma_2^2 \cdot \frac{\rho_1}{(\rho_2-1)(\rho_1 + \rho_2 -1)}\cdot \left(1 + \oo(1)\right) \\
+&< pd^2 \cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3}\al_-^2(\rho_1)  + (\sigma_1^2 -\sigma_2^2)\cdot \frac{\rho_1 (\rho_1+\rho_2)}{(\rho_1+\rho_2-1)^3} \al_-(\rho_1) , 
+\end{split}
+\ee
+then we have $\delta_{\vari} < \delta_{\bias} + \delta_{\vari}^{(2)}$ whp, which gives $\te(\hat{\beta}_t^{\MTL})>\te(\hat{\beta}_t^{\STL})$. We can solve \eqref{cond sigma12} to get
+\begin{align*}
+\sigma_1^2 > - pd^2 \cdot \rho_1 \al_-(\rho_1) +\sigma_2^2 \left[ 1+ \rho_1\Phi(\rho_1, \rho_2)\al_-^{-1}(\rho_1)\right]\cdot (1+\oo(1)).
+\end{align*}
+This proves the second claim of Proposition \ref{prop_var_transition} for negative transfer.
+\end{proof}
+
+
 \subsection{Supplement to Section \ref{sec_data_size}} \label{app_proof_32}
 We first prove Proposition \ref{prop_data_size}, which describes the effect of source/task data ratio on the information transfer. 
 
@@ -584,110 +690,6 @@ The proof for $\te(\hat{\beta}_{s,t}) \le \te(\hat{\beta}_t)$ follows by multipl
 \medskip
 \fi
 
-\subsection{Labeled data de-noising}\label{app_proof_data}
-
-In this section, we consider the case where the two tasks may have difference variances $\sigma_1^2\ne \sigma_2^2$ for the noises. In particular, we show Proposition \ref{prop_var_transition}, which gives a transition threshold with respect to the difference between the noise levels of the two tasks.
-
-\begin{proposition}%[Labeled data de-noising]
-\label{prop_var_transition}
-	In the isotropic model, assume that $\rho_1 > 40$ and $\ex{\norm{\beta_1 - \beta_2}^2}< \frac{1}{2} {\sigma_2^2}  \cdot \Phi(\rho_1, \rho_2)$.
-	Then we have the following transition with respect to $\sigma_1^2$:
-	\begin{itemize}
-		\item If $\sigma_1^2 < - \gamma_+^{1/2} \rho_1 \cdot p d^2+\left(1+ \gamma_+^{-1/2}\rho_1 \Phi(\rho_1, \rho_2)\right)\cdot\sigma_2^2$, then whp $\te(\hat{\beta}_2^{\MTL}) < \te(\hat{\beta}_2^{\STL})$.
-		\item If $\sigma_1^2 > -\gamma_-^{1/2}\rho_1\cdot p d^2   +\left(1+ \gamma_-^{-1/2}\rho_1\Phi(\rho_1, \rho_2)\right) \cdot \sigma_2^2$, then whp $\te(\hat{\beta}_2^{\MTL}) > \te(\hat{\beta}_2^{\STL})$.
-	\end{itemize}
-\end{proposition}
-As a corollary, if $\sigma_1^2 \le \sigma_2^2$, then we always get positive transfer.
-%The proof of Proposition \ref{prop_var_transition} is similar to Proposition \ref{prop_dist_transition}.
-%The details can be found in Appendix \ref{app_proof_data}.
-
-
-\begin{proof}[Proof of Proposition \ref{prop_var_transition}]
-In the setting of Proposition \ref{prop_var_transition}, the test loss is given by \eqref{eq_te_mtl_2task}. 
-%the validation loss and the test error become
-%\begin{align*}
-%		\val(\hat{B}; w_1, w_2)
-%	&=  n_1 \cdot \bignorm{\Sigma_1^{1/2}\left(\frac{w_1^2}{w_2^2} X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1}X_2^{\top}X_2\left (\beta_s - \frac{w_1}{w_2}\beta_t\right)}^2 \nonumber \\
-%		&+ n_1 \sigma^2 \cdot \frac{w_1^2}{w_2^2} \bigtr{\left(\frac{w_1^2}{w_2^2}  X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-2} \left(\sigma_1^2 \frac{w_1^2}{w_2^2}  X_1^{\top}X_1 + \sigma_2^2  X_2^{\top}X_2\right)} \nonumber \\
-%		&+ n_2 \cdot \frac{w_1^2}{w_2^2}\bignorm{\Sigma_2^{1/2}\left(\frac{w_1^2}{w_2^2} X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1}X_1^{\top}X_1\left(\beta_s - \frac{w_1}{w_2}\beta_t\right)}^2 \nonumber \\
-%		&+ n_2 \sigma^2 \cdot \bigtr{\left(\frac{w_1^2}{w_2^2} X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-2} \left(\sigma_1^2 \frac{w_1^2}{w_2^2}  X_1^{\top}X_1 + \sigma_2^2  X_2^{\top}X_2\right)}, 
-%\end{align*}
-%and 
-%where $\hat v=\hat{w_1}/\hat{w_2}$ is the global minimizer of $\val(\hat{B}; w_1, w_2)$. 
-In the isotropic model, using again the concentration of random vector with i.i.d. entries, Lemma \ref{largedeviation}, we can rewrite $\te(\hat{\beta}_2^{\MTL})$ as
-\begin{align*}
-	\te(\hat{\beta}_2^{\MTL}) &=~ \hat{v}^2 \left[d^2 +\left( \hat v-1\right)^2\kappa^2\right]\bigtr{ (\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2} \cdot \left(1+\OO(p^{-1/2+\e})\right)\nonumber \\
-	& + \sigma_2^2 \cdot \bigtr{(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} } + (\sigma_1^2 -\sigma_2^2)  \cdot \bigtr{(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-2} \hat v^2X_1^\top X_1}
-\end{align*}
-with high probability for any constant $\e>0$. 
-
-
-
-In the current setting, we can also show that  \eqref{hatv_add1}  holds for $\hat v$. 
-Since the proof is almost the same as the one for Lemma \ref{lem_hat_v}, we omit the details. 
-%$$|\hat w-1|=\OO(p^{-1}).$$
-%as in \eqref{hatw_add1}. 
-%We omit the details of the proof, since it is almost the same as the one in the proof of Lemma \ref{lem_hat_v}. 
-Thus under the choice parameters in \eqref{choiceofpara}, $\te(\hat{\beta}_2^{\MTL}) $ can be simplified as in \eqref{simple1}: 
-\be \label{simple2}
-\begin{split}
-\te(\hat{\beta}_2^{\MTL})&=(1+\OO(n^{-\e}))\cdot d^2 \tr\left[(X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right] \\ 
-&+(1+\OO(n^{-\e}))\cdot \sigma_2^2  \bigtr{(X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} }  \\
-&+(1+\OO(n^{-\e}))\cdot (\sigma_1^2-\sigma_2^2)  \bigtr{(X_1^{\top}X_1  + X_2^{\top}X_2)^{-2} X_1^\top X_1} .
-\end{split}
-\ee
-Then we write 
-$$ \te(\hat{\beta}_2^{\STL})-\te(\hat{\beta}_2^{\MTL}) =\delta_{\vari} - \delta_{\bias} - \delta_{\vari}^{(2)},$$
-where 
-$$\delta_{\vari}:=\sigma_2^2  \bigtr{(X_2^{\top}X_2)^{-1} }  - (1+\OO(n^{-\e}))\cdot \sigma_2^2  \bigtr{(X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} }$$
-satisfies \eqref{Deltavar} but with $\sigma^2$ replaced with $\sigma_2^2$, 
-$$\delta_{\bias}:=(1+\OO(n^{-\e}))\cdot d^2 \tr\left[(X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right]$$
-satisfies \eqref{Deltabeta}, and 
-\begin{align*}	
-	\delta_{\vari}^{(2)}:=(1+\OO(n^{-\e}))\cdot (\sigma_1^2 -\sigma_2^2) \bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-2} X_1^\top X_1} .
-\end{align*}
-%$$	\te(\hat{\beta}_t^{\MTL}) = \left[\Delta_{\bias} + \Delta_{diff}+  \sigma_2^2 \cdot \tr(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} \right]\cdot \left(1+\OO(p^{-1/2})\right), $$
-%where $\Delta_{\bias}:= \sigma_2^2 \cdot \bigtr{(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} }$ has 
-To estimate this new term $\delta_{\vari}^{(2)}$, we use the same arguments as in the proof of Lemma \ref{prop_model_shift_tight}: we first replace $X_1^\top X_1$ with $n_1\id$ up to some error using \eqref{eq_isometric}, and then apply Lemma \ref{lem_cov_derivative} to calcualte $\bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-2}}$. This process leads to the following estimates on $\delta_{\vari}^{(2)}$:
-\be\label{Deltavar2} 
-\al_-(\rho_1) - \oo(1)  \le \frac{\delta_{\vari}^{(2)}}{ \Delta_{\vari}^{(2)}} \le \al_+(\rho_1) +  \oo(1) , \ee
-where 
-$$ \Delta_{\vari}^{(2)}:=(\sigma_1^2 -\sigma_2^2) \frac{\rho_1 (\rho_1+\rho_2)}{(\rho_1+\rho_2-1)^3}.$$
-Next we compare $\delta_{\vari}$ with $\delta_{\bias} + \delta_{\vari}^{(2)}$. Our main focus is to see how the extra $\delta_{\vari}^{(2)}$ affects the information transfer in this case.
-
-%Using \eqref{eq_isometric} and Lemma \ref{lem_cov_derivative}, a similar bound holds for $\Delta_{diff}$ as in \eqref{Deltabeta}:
-%$$\bigbrace{1 - \sqrt{\frac{1}{c_1}}}^2\le \frac{\Delta_{diff}}{\sigma_1^2 -\sigma_2^2}\cdot \left( \frac{c_1 (c_1+c_2)}{(c_1+c_2-1)^3} + \OO(p^{-1/2+\e})\right)^{-1}\le \bigbrace{1 + \sqrt{\frac{1}{c_1}}}^2.$$
-
-Note that the condition $\ex{\norm{\beta_1 - \beta_2}^2}< \frac{1}{2} {\sigma_2^2}  \cdot \Phi(\rho_1, \rho_2)$ for $\rho_1 > 40$ means the we have $\delta_{\vari}>\delta_{\bias} $ by Proposition \ref{prop_dist_transition}. Hence if $\sigma_1^2\le \sigma_2^2$, then $\delta_{\vari}^{(2)}<0$ and we always have $\delta_{\vari} > \delta_{\bias}+ \delta_{\vari}^{(2)}$, which gives $\te(\hat{\beta}_2^{\MTL})<\te(\hat{\beta}_2^{\STL})$.  It remains to consider the case $\sigma_1^2 \ge \sigma_2^2$. 
-
-
-\noindent{\bf Positive transfer.} By \eqref{Deltavar}, \eqref{Deltabeta} and \eqref{Deltavar2}, if the following inequality holds,
-\be\label{cond sigma1}
-\begin{split} 
-&\sigma_2^2  \cdot \frac{\rho_1}{(\rho_2-1)(\rho_1 + \rho_2 -1)} \cdot (1-\oo(1)) \\
-&>pd^2 \cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3}\al_+^2(\rho_1)  + (\sigma_1^2 -\sigma_2^2)\cdot \frac{\rho_1 (\rho_1+\rho_2)}{(\rho_1+\rho_2-1)^3} \al_+(\rho_1)  , 
-\end{split}
-\ee
-then we have $\delta_{\vari} > \delta_{\bias} + \delta_{\vari}^{(2)}$ whp, which gives $\te(\hat{\beta}_t^{\MTL})<\te(\hat{\beta}_t^{\STL})$. We can solve \eqref{cond sigma1} to get
-\begin{align*}
-\sigma_1^2 < - pd^2\cdot \rho_1 \al_+(\rho_1) +\sigma_2^2 \left[ 1+ \rho_1\Phi(\rho_1, \rho_2) \al_+^{-1}(\rho_1)\right]\cdot (1-\oo(1)).
-\end{align*}
-This proves the first claim of Proposition \ref{prop_var_transition} for positive transfer.
-
-
-\noindent{\bf Negative transfer.} On the other hand, if the following inequality holds,
-\be\label{cond sigma12}
-\begin{split} 
-&\sigma_2^2 \cdot \frac{\rho_1}{(\rho_2-1)(\rho_1 + \rho_2 -1)}\cdot \left(1 + \oo(1)\right) \\
-&< pd^2 \cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3}\al_-^2(\rho_1)  + (\sigma_1^2 -\sigma_2^2)\cdot \frac{\rho_1 (\rho_1+\rho_2)}{(\rho_1+\rho_2-1)^3} \al_-(\rho_1) , 
-\end{split}
-\ee
-then we have $\delta_{\vari} < \delta_{\bias} + \delta_{\vari}^{(2)}$ whp, which gives $\te(\hat{\beta}_t^{\MTL})>\te(\hat{\beta}_t^{\STL})$. We can solve \eqref{cond sigma12} to get
-\begin{align*}
-\sigma_1^2 > - pd^2 \cdot \rho_1 \al_-(\rho_1) +\sigma_2^2 \left[ 1+ \rho_1\Phi(\rho_1, \rho_2)\al_-^{-1}(\rho_1)\right]\cdot (1+\oo(1)).
-\end{align*}
-This proves the second claim of Proposition \ref{prop_var_transition} for negative transfer.
-\end{proof}
 
 %\textbf{Remark.} Furthermore, as a function of $c_1$ over the range $[??, \infty]$, the maximum of $\te(\hat{\beta}_t^{\STL}) - \te(\hat{\beta}_t^{\MTL})$ is attained when $c_1 = {c_2\sigma^2}/{\max(2(c_2 - 1)pd^2 -\sigma^2, 0)}$. {\cor (cannot get this because we only have some bounds. If we let $c_1\to \infty$, then the curve of $\te(\hat{\beta}_t^{\STL}) - \te(\hat{\beta}_t^{\MTL})$ already becomes flat, and it is meaningless to discuss the minimum of this function at this point?)}
 
