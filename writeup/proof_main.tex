@@ -83,7 +83,7 @@ L(\hat{\beta}_t^{\STL}) - L(\hat{\beta}_t^{\MTL}) &=\sigma^2 \left(  \bigtr{(X_2
 \end{align*}
 The proof is divided into the following four steps. 
 \begin{itemize}
-\item[(i)] We first consider $\hat M \equiv \hat M(v)= v\Sigma_1^{1/2}\Sigma_2^{-1/2}$ for a fixed $v\ge 0$. Then we use Lemma \ref{lem_minv} and Lemma \ref{lem_cov_shift} to calculate the variance reduction $\delta_{\vari}(v)$, which will lead to the $\Delta_{\vari}$ term.
+\item[(i)] We first consider $\hat M \equiv \hat M(v)= v\Sigma_1^{1/2}\Sigma_2^{-1/2}$ for a fixed $v\in \R$. Then we use Lemma \ref{lem_minv} and Lemma \ref{lem_cov_shift} to calculate the variance reduction $\delta_{\vari}(v)$, which will lead to the $\Delta_{\vari}$ term.
 %$$\sigma^2 \cdot \bigtr{(X_2^{\top}X_2)^{-1}},\quad \sigma^2 \cdot \bigtr{({v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} \Sigma_2},$$
 %and the difference between them 
 
@@ -99,7 +99,7 @@ through
 \end{itemize}
 
 
-\paragraph{Step I: Variance reduction.} Let $\hat M= v\Sigma_1^{1/2}\Sigma_2^{-1/2}$ for any fixed constant $v\ge 0$. Using Lemma \ref{lem_cov_shift}, we can obtain that for any constant $\e>0$, 
+\paragraph{Step I: Variance reduction.} Let $\hat M= v\Sigma_1^{1/2}\Sigma_2^{-1/2}$ for any fixed constant $v\in \R$. Using Lemma \ref{lem_cov_shift}, we can obtain that for any constant $\e>0$, 
 $$  \sigma^2 \cdot \bigtr{(X_2^{\top}X_2)^{-1}\Sigma_2} = \frac{\sigma^2}{\rho_2-1}\left( 1+ \OO(p^{-1/2+e})\right),$$
 and 
 $$ \sigma^2 \cdot \bigtr{( {v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} \Sigma_2} =   \frac {\sigma^2} {\rho_1 + \rho_2}\cdot \frac1p \bigtr{(\hat a_1 \hat M^{\top}\hat M + \hat a_2\id)^{-1}}\left( 1+ \OO(p^{-1/2+e})\right) ,$$
@@ -216,8 +216,8 @@ with high probability. Together with and \eqref{deltavaral-} and \eqref{bounddel
 
 \paragraph{Step IV: An $\e$-net argument.} Finally, it remains to extend the above result to $v=\hat v$, which is random and depends on $X_1$ and $X_2$. We first show that for any fixed constant $C_0>0$, there exists a high probability event $\Xi$ on which \eqref{dicho_varbeta} 
 %\eqref{lem_cov_shift_eq} and \eqref{lem_cov_derv_eq} 
-holds uniformly for all $v\in [0, C_0]$. In fact, for a large constant $C_1>0$, we consider $v$ belonging to a discrete set 
-$$V:=\{v_k = kp^{-1}: 1\le k \le C_0p +1\}.$$
+holds uniformly for all $v\in [-C_0, C_0]$. In fact, for a large constant $C_1>0$, we consider $v$ belonging to a discrete set 
+$$V:=\{v_k = kp^{-1}: -(C_0p +1)\le k \le C_0p +1\}.$$
 Then using the arguments for the first three steps and a simple union bound, we get that
 \eqref{dicho_varbeta} holds simultaneously for all $v\in V$ with high probability. On the other hand, by \eqref{eq_isometric} the event
 $$\Xi_1:=\left\{ \al_-(\rho_1)/2 \preceq  \frac{Z_1^T Z_1}{n_1}  \preceq   2\al_+(\rho_1) ,\  \al_-(\rho_2)/2 \preceq  \frac{Z_2^T Z_2}{n_2}  \preceq   2\al_+(\rho_2)\right\}$$
@@ -227,13 +227,13 @@ holds with high probability. Now it is easy to check that on $\Xi_1$, for all $v
 & |\Delta_{\bias}(v) -\Delta_{\bias}(v_k)|\lesssim p^{-1}\Delta_{\bias}(v_k),\ \ |\Delta_{\vari}(v) -\Delta_{\vari}(v_k)|\lesssim p^{-1}\Delta_{\vari}(v_k).
 \end{align*}
 Then a simple application of triangle inequality gives that the event 
-$$\Xi_2=\{\eqref{dicho_varbeta} \text{ holds simultaneously for all }0\le v \le C_0\}$$
+$$\Xi_2=\{\eqref{dicho_varbeta} \text{ holds simultaneously for all }-C_0\le v \le C_0\}$$
 holds with high probability. On the other hand, on $\Xi_1$ one can see that for any small constant $\e>0$,
 \begin{align*}
 & |\delta_{\vari}(v) -\delta_{\vari}(C_0)|\le \e\delta_{\vari}(C_0),\quad |\delta_{\bias}(v) -\delta_{\bias}(C_0)|\le \e\delta_{\bias}(C_0), \quad  |\delta(v)-\delta(C_0)|\le \e\delta(C_0),\\
 & |\Delta_{\bias}(v) -\Delta_{\bias}(C_0)|\le \e\Delta_{\bias}(C_0),\quad |\Delta_{\vari}(v) -\Delta_{\vari}(C_0)|\le \e\Delta_{\vari}(C_0),
 \end{align*}
-for all $v\ge C_0$ as long as $C_0$ is chosen large enough depending on $\e$. Together with the estimate at $C_0$, we get that \eqref{dicho_varbeta} holds simultaneously for all $v\ge 0$ on the high probability event $\Xi_1\cap \Xi_2$. This concludes the proof since $v$ must be one of the positive values.
+for all $v\ge C_0$ as long as $C_0$ is chosen large enough depending on $\e$. Similar estimates hold for $v\le -C_0$ if we replace $C_0$ with $-C_0$ in the above estimates. Together with the estimate at $\pm C_0$, we get that \eqref{dicho_varbeta} holds simultaneously for all $v\in \R$ on the high probability event $\Xi_1\cap \Xi_2$. This concludes the proof since $v$ must be one of the real values.
 \end{proof}
 
 \begin{remark}
@@ -245,7 +245,7 @@ In fact, the eigenvalues of $\cal X:=(X_1^{\top}X_1)^{-1}X_2^{\top}X_2$ have bee
 By replacing \eqref{bounddelta-} with a tighter bound in Step II of the above proof, we can conclude the proof of Lemma \ref{prop_model_shift_tight}.
 
 \begin{proof}[Proof of Lemma \ref{prop_model_shift_tight}]
-For any fixed $v\ge 0$, $\beta_1 - v\beta_2$ is a random vector with i.i.d. entries with mean $0$ and variance $(1-v)^2\kappa^2 + d^2$. Then using the concentration result, Lemma \ref{largedeviation}, we get that for any constant $\e>0$,
+For any fixed $v\in \R$, $\beta_1 - v\beta_2$ is a random vector with i.i.d. entries with mean $0$ and variance $(1-v)^2\kappa^2 + d^2$. Then using the concentration result, Lemma \ref{largedeviation}, we get that for any constant $\e>0$,
 \begin{align}
 &\left|\delta_{\bias}(v)- [(1-v)^2\kappa^2 + d^2]\tr (\cal K^\top \cal K)\right| \nonumber\\
 &=  \left|(\beta_1 - {v} \beta_2)^\top \cal K^\top \cal K (\beta_1 - {v} \beta_2) - [(1-v)^2\kappa^2 + d^2]\tr (\cal K^\top \cal K)\right| \nonumber\\
