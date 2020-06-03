@@ -1,11 +1,11 @@
-\section{Preliminaries}
+\section{Problem Formulation for Multi-Task Learning}
 \label{sec_prelim}
 
 We begin by defining the data model and the multi-task learning estimator that we study.
 Then, we describe the bias-variance tradeoff of the MTL estimator, and show how \textit{task similarity}, \textit{sample size} and \textit{covariate shift} connect to the bias and variance of the estimator, respectively.
 %Finally, we show a tight concentration bound for the bias and variance quantities using random matrix theory.
 
-\textbf{Data models.}
+\textbf{Setup.}
 Suppose we have $t$ training datasets denoted by $(X_1, Y_1), \dots, (X_t, Y_t)$.
 In the high-dimensional linear regression setting (e.g. \cite{HMRT19,BLLT20}), the features of the $k$-th task $X_k\in\real^{n_i\times p}$ consists of $n_k$ feature vectors given by $x_i = \Sigma_k^{1/2}z_i$, for $1\le i \le n_k$.
 Each $z_i\in\real^p$ consists of i.i.d. entries with mean zero and unit variance.
@@ -14,7 +14,7 @@ The labels $Y_k = X_k \beta_k + \varepsilon_k$, where $\varepsilon_k$ denotes i.
 %Following \cite{HMRT19,BLLT20}, we assume that for each task $i = 1,2,\dots,t$,  every feature vector is generated as $x = \Sigma_i^{1/2} z$, where $z\in\real^p$ is a random vector with i.i.d. entries of mean zero and unit variance and $\Sigma_i\in\real^{p\times p}$ is a positive semidefinite matrix.
 %Without loss of generality, let the $t$-th task be the target task.
 
-\textbf{The multi-task estimator.}
+\textbf{Model.}
 We consider the following linear multi-task learning model \cite{R17,MTDNN19,WZR20}.
 \begin{align}
 	\label{eq_mtl}
@@ -52,7 +52,7 @@ For a matrix $X$, let $\lambda_{\min}(X)$ denote its smallest singular value and
 
 %\subsection{Analyzing the Tradeoff via Random Matrix Theory}
 
-\textbf{Bias-variance tradeoff.}
+\textbf{Problem statement.}
 To illustrate our intuition, we begin by considering the setting of two tasks with general covariance matrices.
 %Recall that $\hat{\beta}_t^{\MTL}$ is defined as $BW_t$ after solving equation \eqref{eq_mtl}.
 We decompose the test error of $\hat{\beta}_{t}^{\MTL}$ on the target task into two parts as follows.

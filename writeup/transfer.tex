@@ -5,7 +5,22 @@ We explain from three perspectives, including \textit{task similarity}, \textit{
 We show how negative transfer occurs by varying task similarity or sample size.
 Then we show that when source task sample size becomes large, covariate shift causes more negative effects.
 
-\subsection{Results for General Settings}\label{sec_main}
+\subsection{Analyzing the Bias-Variance Tradeoff using Random Matrix Theory}\label{sec_main}
+
+\begin{lemma}[Informal]\label{lem_cov_shift_informal}
+	In the setting of two tasks,
+	%let $n_1 = \rho_1 \cdot p$ and $n_2 = \rho_2 \cdot p$ denote the sample sizes of each task.
+	%Let $\Sigma_1$ and $\Sigma_2$ denote the covariance matrix of each task.
+	the variance of the multi-task estimator $\hat{\beta}_t^{\MTL}$ is equal to  the following (times noise variance)
+	%let $M = \Sigma_1^{1/2}\Sigma_2^{-1/2}$ and $\lambda_1, \lambda_2, \dots, \lambda_p$ be the singular values of $M^{\top}M$ in descending order.
+%	For any constant $\e>0$, w.h.p. over the randomness of $X_1, X_2$, we have that
+{\small\begin{align*}%\label{eq_introX1X2}
+		%\bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2} =
+		\frac{1}{n_1+n_2}\cdot \bigtr{ (a_1 \Sigma_2^{-1/2}\Sigma_1\Sigma_2^{-1/2} + a_2\id)^{-1}} +\bigo{{p^{-1/2+o(1)}}},
+	\end{align*}}%
+where $a_1, a_2$ are both fixed values that roughly scales with the sample sizes $\rho_1, \rho_2$, and satisfy $a_1 + a_2 = 1 - (\rho_1 + \rho_2)^{-1}$ plus another deterministic equation.
+A similar result on the bias of $\hat{\beta}_t^{\MTL}$ holds, and it also scales with task similarity in addition to sample size and covariate shift.
+\end{lemma}
 
 We provide a sharp analysis of the bias-variance tradeoff for two tasks with general covariance matrices.
 We state our result as follows.
@@ -30,20 +45,7 @@ For such settings, we obtain a sharp transition from positive transfer to negati
 While the general form of the threshold can be complicated (as are the previous generalization bounds for MTL), they admit interpretable forms for simplified settings.
 This will be the focus of Section \ref{sec_insight}.
 
-\begin{lemma}[Informal]\label{lem_cov_shift_informal}
-	In the setting of two tasks,
-	%let $n_1 = \rho_1 \cdot p$ and $n_2 = \rho_2 \cdot p$ denote the sample sizes of each task.
-	%Let $\Sigma_1$ and $\Sigma_2$ denote the covariance matrix of each task.
-	the variance of the multi-task estimator $\hat{\beta}_t^{\MTL}$ is equal to  the following (times noise variance)
-	%let $M = \Sigma_1^{1/2}\Sigma_2^{-1/2}$ and $\lambda_1, \lambda_2, \dots, \lambda_p$ be the singular values of $M^{\top}M$ in descending order.
-%	For any constant $\e>0$, w.h.p. over the randomness of $X_1, X_2$, we have that
-{\small\begin{align*}%\label{eq_introX1X2}
-		%\bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2} =
-		\frac{1}{n_1+n_2}\cdot \bigtr{ (a_1 \Sigma_2^{-1/2}\Sigma_1\Sigma_2^{-1/2} + a_2\id)^{-1}} +\bigo{{p^{-1/2+o(1)}}},
-	\end{align*}}%
-where $a_1, a_2$ are both fixed values that roughly scales with the sample sizes $\rho_1, \rho_2$, and satisfy $a_1 + a_2 = 1 - (\rho_1 + \rho_2)^{-1}$ plus another deterministic equation.
-A similar result on the bias of $\hat{\beta}_t^{\MTL}$ holds, and it also scales with task similarity in addition to sample size and covariate shift.
-\end{lemma}
+
 
 
 
@@ -57,25 +59,6 @@ Then, we apply a similar identity to Theorem \ref{lem_cov_shift_informal} for bo
 This estimates the negative effect given by $\Delta_{\bias}$. %, which will be used to estimate the first term on the right hand side of \eqref{eq_te_model_shift}.
 %During this process, we will get the $\Delta_{\bias}$ term up to an error $\delta$ depending on $\rho_1$.
 The details are presented in Appendix \ref{app_proof_main}.
-
-Next, we describe our result for more than two tasks with same features, i.e. $X_i = X$ for any $i$.
-This setting is prevalent in applications of multi-task learning to image classification, where there are multiple prediction labels/tasks for every image \cite{chexnet17,EA20}.
-\begin{theorem}\label{thm_many_tasks}
-%Suppose $X=Z\Sigma^{1/2}\in \R^{n\times p}$ satisfy Assumption \ref{assm_secA1} with $\rho:=n/p>1$ being some fixed constant. Consider data models  $Y_i = X\beta_i + \varepsilon_i$, $i=1,2,\cdots, t$, where $\e_i\in \R^{n}$ are random vectors with i.i.d. entries with mean zero, variance $\sigma^2$ and all moments as in \eqref{assmAhigh}. Moreover, assume that $X$, $\beta_i$ and $\e_i$ are all independent of each other.
-	%Let $n = c \cdot p$.
-	%Let $X\in\real^{n\times p}$ and $Y_i = X\beta_i + \varepsilon_i$, for $i = 1,\dots,k$.
-	Consider $t$ data models $Y_i = X\beta_i + \varepsilon_i$, $i=1,2,\cdots, t$, where $X$ has covariance matrix $\Sigma$, and the entries of $\e_i$ are i.i.d. with mean zero and variance $\sigma^2$.
-	%that satisfy Assumption \ref{assm_secA2} in the appendix.
-	Let $U_r U_r^{\top}$ denote the best rank-$r$ subspace approximation of $(B^{\star})^\top\Sigma B^{\star}$, where $B^\star := [{\beta}_1,{\beta}_2,\dots,{\beta}_{t}]$ and $U_r\in\real^{t\times r}$. Suppose $(B^{\star})^\top\Sigma B^{\star}$ is of full rank in the sense that $\lambda_{\min}((B^{\star})^\top\Sigma B^{\star})\gtrsim \sigma^2$. Let $U_r(i)$ denote the $i$-th row vector of $U_r$.
-	We have the following
-	\squishlist
-		\item $\te(\hat{\beta}_t^{\MTL}) < \te(\hat{\beta}_t^{\STL})$ with high probability if
-		$$\left(1 - \norm{U_r(t)}^2 \right)\frac{\sigma^2}{\rho - 1} > \norm{\Sigma (B^{\star} U_r U_r(t) - \beta_t)}^2 +  \oo \left( \|B^\star\|^2 + \sigma^2\right).$$
-		\item $\te(\hat{\beta}_t^{\MTL}) > \te(\hat{\beta}_t^{\STL})$ with high probability if
-		$$\left(1 - \norm{U_r(t)}^2\right)\frac{\sigma^2}{\rho - 1} < \norm{\Sigma(B^{\star} U_r U_r(t) - \beta_t)}^2 -  \oo \left( \|B^\star\|^2 + \sigma^2\right).$$
-	\squishend
-\end{theorem}
-%A similar result for the second setting can be found in Appendix \ref{app_proof_many_tasks}.
 
 
 
