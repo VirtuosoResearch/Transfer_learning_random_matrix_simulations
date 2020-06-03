@@ -1,28 +1,28 @@
 \section{Problem Formulation for Multi-Task Learning}
 \label{sec_prelim}
 
-We begin by defining the data model and the multi-task learning estimator that we study.
-Then, we describe the bias-variance tradeoff of the MTL estimator, and show how \textit{task similarity}, \textit{sample size} and \textit{covariate shift} connect to the bias and variance of the estimator, respectively.
+We begin by defining our problem setup including the multi-task estimator we study.
+Then, we describe the bias-variance tradeoff of the multi-task estimator, and connect the bias and variance of the estimator to \textit{task similarity}, \textit{sample size} and \textit{covariate shift}.
 %Finally, we show a tight concentration bound for the bias and variance quantities using random matrix theory.
 
-\textbf{Setup.}
+\textbf{Problem setup.}
 Suppose we have $t$ training datasets denoted by $(X_1, Y_1), \dots, (X_t, Y_t)$.
 In the high-dimensional linear regression setting (e.g. \cite{HMRT19,BLLT20}), the features of the $k$-th task $X_k\in\real^{n_i\times p}$ consists of $n_k$ feature vectors given by $x_i = \Sigma_k^{1/2}z_i$, for $1\le i \le n_k$.
 Each $z_i\in\real^p$ consists of i.i.d. entries with mean zero and unit variance.
-The labels $Y_k = X_k \beta_k + \varepsilon_k$, where $\varepsilon_k$ denotes i.i.d. noise with mean zero and variance $\sigma^2$.
+The labels $Y_k = X_k \beta_k + \varepsilon_k$, where $\beta_k$ denotes the linear model parameters and $\varepsilon_k$ denotes i.i.d. noise with mean zero and variance $\sigma^2$.
 %Recall that we have $t$ labeled training datasets, denoted by $(X_1, Y_1), (X_2, Y_2), \dots, (X_t, Y_t)$, where $X_i\in\real^{n_i\times p}$ and $Y_i\in\real^{n_i}$ for $1\le i\le t$.
 %Following \cite{HMRT19,BLLT20}, we assume that for each task $i = 1,2,\dots,t$,  every feature vector is generated as $x = \Sigma_i^{1/2} z$, where $z\in\real^p$ is a random vector with i.i.d. entries of mean zero and unit variance and $\Sigma_i\in\real^{p\times p}$ is a positive semidefinite matrix.
 %Without loss of generality, let the $t$-th task be the target task.
 
-\textbf{Model.}
-We consider the following linear multi-task learning model \cite{R17,MTDNN19,WZR20}.
+We focus on the following problem that specializes the commonly used hard parameter sharing model (e.g. \cite{R17,MTDNN19}) to the linear regression setting \cite{WZR20}.
 \begin{align}
 	\label{eq_mtl}
 	f(B; W_1, \dots, W_t) = \sum_{k=1}^t \norm{X_k B W_k - Y_k}^2,
 \end{align}
 where $B\in\real^{p\times r}$ and $W_k\in\real^r$ for every $1\le k\le t$.
 The linear layer $B$ provides a shared subspace for all tasks whereas each output layer $W_k$ fits the $k$-th task given the linear layer.
-Following \cite{WZR20}, we assume that $r < t$, because otherwise minimizing $f(\cdot)$ could result in $BW_i$ being the single-task optimum.
+Following , we assume that $r < t$, because otherwise minimizing $f(\cdot)$ could result in $BW_i$ being the single-task optimum.
+
 Then applying equation \eqref{eq_mtl} will give the same estimator as single-task learning.
 We define $\hat{\beta}_t^{\MTL}$ by two steps:
 (i) minimizing $f(\cdot)$ over $B$;
