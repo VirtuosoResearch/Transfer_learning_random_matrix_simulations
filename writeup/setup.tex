@@ -8,7 +8,7 @@ Then, we describe our main result for the bias-variance tradeoff of multi-task a
 
 Recall that we have $t$ labeled training datasets, denoted by $(X_1, Y_1), (X_2, Y_2), \dots, (X_t, Y_t)$, where $X_i\in\real^{n_i\times p}$ and $Y_i\in\real^{n_i}$ for $1\le i\le t$.
 %Following \cite{HMRT19,BLLT20}, we assume that for each task $i = 1,2,\dots,t$,  every feature vector is generated as $x = \Sigma_i^{1/2} z$, where $z\in\real^p$ is a random vector with i.i.d. entries of mean zero and unit variance and $\Sigma_i\in\real^{p\times p}$ is a positive semidefinite matrix.
-Without loss of generality, let the $t$-th task denote the target task.
+Without loss of generality, let the $t$-th task be the target task.
 We consider the following linear multi-task learning architecture.
 \begin{align}
 	\label{eq_mtl}
@@ -16,35 +16,33 @@ We consider the following linear multi-task learning architecture.
 \end{align}
 where $B\in\real^{p\times r}$ and $W_i\in\real^r$.
 Here $B$ provides a shared subspace for all tasks and $W_i$ fits $B$ suitably to each task.
-Following \cite{WZR20}, we assume that $r < t$, because otherwise minimizing $f(\cdot)$ could result in $BW_i$ to be the single-task optimum.
-Hence, applying equation \eqref{eq_mtl} results in the same estimator as single-task learning.
+Following \cite{WZR20}, we assume that $r < t$, because otherwise minimizing $f(\cdot)$ could result in $BW_i$ being the single-task optimum.
+Then applying equation \eqref{eq_mtl} will give the same estimator as single-task learning.
 We define $\hat{\beta}_t^{\MTL}$ by two steps:
 (i) minimizing $f(\cdot)$ over $B$;
-(ii) minimize $\set{W_i}_{i=1}^k$ over an independent sample of the training set, e.g. $O(p^{0.99})$ suffices.
-For more details, we refer the reader to Appendix \ref{app_proof_sec3}.
+(ii) minimize $\set{W_i}_{i=1}^k$ over an independent sample of the training set, e.g. $\OO(p^{0.99})$ suffices.
+For more details, we refer the reader to Appendix \ref{app_proof_sec3}. The single-task estimator $\hat{\beta}_t^{\STL}$ is given by $(X_t^{\top}X_t)^{-1}X_t^{\top}Y_t$. 
 For an estimator $\hat{\beta}\in\real^p$, we define the out-of-sample prediction loss as
 	\begin{align*}
 		\te_t(\hat{\beta}) = \exarg{x}{({x}^{\top}\hat{\beta} - {x}^{\top}\beta_t)^2}
 		= \bignorm{\ex{\hat{\beta}} - \beta_t}^2 + \ex{\bignorm{\hat{\beta} - \ex{\hat{\beta}}}^2},
 	\end{align*}
 %= (\hat{\beta} - \beta_t)^{\top}\Sigma_t(\hat{\beta} - \beta_t) \\
-which can be further decomposed as the bias and variance of $\hat{\beta}$.
-The single-task estimator $\hat{\beta}_t^{\STL}$ is given by $(X_t^{\top}X_t)^{-1}X_t^{\top}Y_t$.
+which can be further decomposed as the bias plus the variance of $\hat{\beta}$.
 %In order to relate the btradeoff to properties of the data, we need tight concentration bounds for the bias and variance.
-We consider the high-dimensional regime where $n_i$ is a fixed constant $\rho_i > 1$ times $p$ for every $1\le i\le t$, and $p$ is large.
+We consider the high-dimensional regime where $n_i$ is a fixed constant $\rho_i > 1$  multiple of $p$ for every $1\le i\le t$, and $p$ is sufficiently large.
 We focus on a setting where $\rho_t$ is small compared to $\set{\rho_i}_{i=1}^{t-1}$.
-This setting captures the need for adding more labeled data to reduce the prediction loss of the target task.
+This setting captures the need to add more labeled data to reduce the prediction loss of the target task.
 A well-known result for this setting states that $\te_t(\hat{\beta}_t^{\STL}) = \sigma^2 \cdot \tr[(X_t^{\top}X_t)^{-1}\Sigma_t]$ is concentrated around $\frac {\sigma^2} {\rho_t - 1}$ (e.g. Chapter 6 of \cite{S07}), which scales with the data size and noise level of the target task.
 However, this result only applies to a single task.
 Therefore, our goal is to extend this result to multiple tasks.
 
 \textbf{Notations.}
-When there is no ambiguity, we drop the subscript $t$ from $\te_t(\hat{\beta}_t^{\MTL})$ to $\te(\hat{\beta}_t^{\MTL})$ for simplicity.
+When there is no ambiguity, we drop the subscript $t$ from $\te_t(\hat{\beta}_t^{\MTL})$ and write $\te(\hat{\beta}_t^{\MTL})$ for simplicity.
 We refer to the first task as the source task when there are only two tasks.
 %We call $M = \Sigma_1^{1/2}\Sigma_2^{-1/2}$ the covariate shift matrix.
 We say there is negative transfer if the prediction loss of $\hat{\beta}_t^{\MTL}$ is larger than that of $\hat{\beta}_t^{\STL}$, or positive transfer otherwise.
-For a matrix $X\in\real^{p_1\times p_2}$, let $\lambda_{\min}(X)$ denote its minimum singular value.
-Let $\norm{X}$ denote the spectral norm of $X$.
+For a matrix $X$, let $\lambda_{\min}(X)$ denote its smallest singular value and $\norm{X}$ denote its spectral norm.
 
 \subsection{Analyzing the Tradeoff via Random Matrix Theory}
 
