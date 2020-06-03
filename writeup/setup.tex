@@ -6,9 +6,9 @@ Then, we describe the bias-variance tradeoff of the multi-task estimator, and co
 %Finally, we show a tight concentration bound for the bias and variance quantities using random matrix theory.
 
 \textbf{Problem setup.}
-Suppose we have $t$ training datasets denoted by $(X_1, Y_1), \dots, (X_t, Y_t)$.
-In the high-dimensional linear regression setting (e.g. \cite{HMRT19,BLLT20}), the features of the $k$-th task $X_k\in\real^{n_i\times p}$ consists of $n_k$ feature vectors given by $x_i = \Sigma_k^{1/2}z_i$, for $1\le i \le n_k$.
-Each $z_i\in\real^p$ consists of i.i.d. entries with mean zero and unit variance.
+Suppose we have $t$ training datasets, where $t$ is a fixed value that does not grow with the feature dimension $p$.
+In the high-dimensional linear regression setting (e.g. \cite{HMRT19,BLLT20}), the features of the $k$-th task, denoted by $X_k\in\real^{n_i\times p}$, consists of $n_k$ feature vectors given by $x_1, x_2, \dots, x_{n_k}$.
+And each feature $x_i = \Sigma^{1/2}z_i$, where $z_i\in\real^p$ consists of i.i.d. entries with mean zero and unit variance.
 The labels $Y_k = X_k \beta_k + \varepsilon_k$, where $\beta_k$ denotes the linear model parameters and $\varepsilon_k$ denotes i.i.d. noise with mean zero and variance $\sigma^2$.
 %Recall that we have $t$ labeled training datasets, denoted by $(X_1, Y_1), (X_2, Y_2), \dots, (X_t, Y_t)$, where $X_i\in\real^{n_i\times p}$ and $Y_i\in\real^{n_i}$ for $1\le i\le t$.
 %Following \cite{HMRT19,BLLT20}, we assume that for each task $i = 1,2,\dots,t$,  every feature vector is generated as $x = \Sigma_i^{1/2} z$, where $z\in\real^p$ is a random vector with i.i.d. entries of mean zero and unit variance and $\Sigma_i\in\real^{p\times p}$ is a positive semidefinite matrix.
@@ -16,16 +16,20 @@ The labels $Y_k = X_k \beta_k + \varepsilon_k$, where $\beta_k$ denotes the line
 
 We focus on the commonly used hard parameter sharing model for multi-task learning \cite{R17,MTDNN19}.
 When specialized to the linear regression setting, the model consists of a linear layer $B\in\real^{p\times r}$ that is shared by all tasks and $t$ output layers $W_1, \dots, W_t$ that are in $\real^r$.
+The width of $B$, denoted by $r$, plays an important regularization effect.
+As observed in Proposition 1 of \cite{WZR20}, if $r \ge t$, there is no regularization effect.
+Hence, we assume that $r < t$ in our study.
+Concretely, considering the following objective
 \begin{align}
 	\label{eq_mtl}
-	f(B; W_1, \dots, W_t) = \sum_{k=1}^t \norm{X_k B W_k - Y_k}^2,
+	f(B; W_1, \dots, W_t) = \sum_{k=1}^t \norm{X_k B W_k - Y_k}^2.
 \end{align}
-where $B\in\real^{p\times r}$ and $W_k\in\real^r$ for every $1\le k\le t$.
-
-Following , we assume that $r < t$, because otherwise minimizing $f(\cdot)$ could result in $BW_i$ being the single-task optimum.
-
-Then applying equation \eqref{eq_mtl} will give the same estimator as single-task learning.
+%where $B\in\real^{p\times r}$ and $W_k\in\real^r$ for every $1\le k\le t$.
+%Following , we assume that $r < t$, because otherwise minimizing $f(\cdot)$ could result in $BW_i$ being the single-task optimum.
+In general, the above objective $f(\cdot)$ is non-convex in $B$ and the $W_k$'s.
+Therefore, we consider the following
 We define $\hat{\beta}_t^{\MTL}$ by two steps:
+Then applying equation \eqref{eq_mtl} will give the same estimator as single-task learning.
 (i) minimizing $f(\cdot)$ over $B$;
 (ii) minimize $\set{W_i}_{i=1}^k$ over an independent sample of the training set, e.g. $\OO(p^{0.99})$ suffices.
 For more details, we refer the reader to Appendix \ref{app_proof_sec3}. The single-task estimator $\hat{\beta}_t^{\STL}$ is given by $(X_t^{\top}X_t)^{-1}X_t^{\top}Y_t$. 
