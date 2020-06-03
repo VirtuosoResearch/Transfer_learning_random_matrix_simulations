@@ -1,9 +1,9 @@
-\section{A Concentration Bound Generalizing Single-Task Settings}
-\label{sec_main}
+\section{Preliminaries}
+\label{sec_prelim}
 
 We begin by defining the data model and the multi-task learning estimator that we study.
-Then, we study the bias-variance tradeoff of the MTL estimator, and show how \textit{task similarity}, \textit{sample size} and \textit{covariate shift} connect to the bias and variance of the estimator, respectively.
-Finally, we show a tight concentration bound for the bias and variance quantities using random matrix theory.
+Then, we describe the bias-variance tradeoff of the MTL estimator, and show how \textit{task similarity}, \textit{sample size} and \textit{covariate shift} connect to the bias and variance of the estimator, respectively.
+%Finally, we show a tight concentration bound for the bias and variance quantities using random matrix theory.
 
 \textbf{Data models.}
 Suppose we have $t$ training datasets denoted by $(X_1, Y_1), \dots, (X_t, Y_t)$.
@@ -14,7 +14,7 @@ The labels $Y_k = X_k \beta_k + \varepsilon_k$, where $\varepsilon_k$ denotes i.
 %Following \cite{HMRT19,BLLT20}, we assume that for each task $i = 1,2,\dots,t$,  every feature vector is generated as $x = \Sigma_i^{1/2} z$, where $z\in\real^p$ is a random vector with i.i.d. entries of mean zero and unit variance and $\Sigma_i\in\real^{p\times p}$ is a positive semidefinite matrix.
 %Without loss of generality, let the $t$-th task be the target task.
 
-\textbf{The MTL estimator.}
+\textbf{The multi-task estimator.}
 We consider the following linear multi-task learning model \cite{R17,MTDNN19,WZR20}.
 \begin{align}
 	\label{eq_mtl}
@@ -52,7 +52,7 @@ For a matrix $X$, let $\lambda_{\min}(X)$ denote its smallest singular value and
 
 %\subsection{Analyzing the Tradeoff via Random Matrix Theory}
 
-\textbf{Concentration bounds.}
+\textbf{Bias-variance tradeoff.}
 To illustrate our intuition, we begin by considering the setting of two tasks with general covariance matrices.
 %Recall that $\hat{\beta}_t^{\MTL}$ is defined as $BW_t$ after solving equation \eqref{eq_mtl}.
 We decompose the test error of $\hat{\beta}_{t}^{\MTL}$ on the target task into two parts as follows.
@@ -72,44 +72,7 @@ Hence, whether $\te(\hat{\beta}_t^{\MTL}) < \te(\hat{\beta}_t^{\STL})$ is determ
 %(i) the negative effect from model shift bias.
 %(ii) the positive effect from variance reduction;
 
-\begin{theorem}[Informal]\label{lem_cov_shift_informal}
-	In the setting of two tasks,
-	%let $n_1 = \rho_1 \cdot p$ and $n_2 = \rho_2 \cdot p$ denote the sample sizes of each task.
-	%Let $\Sigma_1$ and $\Sigma_2$ denote the covariance matrix of each task.
-	the variance of the multi-task estimator $\hat{\beta}_t^{\MTL}$ is equal to  the following (times noise variance)
-	%let $M = \Sigma_1^{1/2}\Sigma_2^{-1/2}$ and $\lambda_1, \lambda_2, \dots, \lambda_p$ be the singular values of $M^{\top}M$ in descending order.
-%	For any constant $\e>0$, w.h.p. over the randomness of $X_1, X_2$, we have that
-{\small\begin{align*}%\label{eq_introX1X2}
-		%\bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2} =
-		\frac{1}{n_1+n_2}\cdot \bigtr{ (a_1 \Sigma_2^{-1/2}\Sigma_1\Sigma_2^{-1/2} + a_2\id)^{-1}} +\bigo{{p^{-1/2+o(1)}}},
-	\end{align*}}%
-where $a_1, a_2$ are both fixed values that roughly scales with the sample sizes $\rho_1, \rho_2$, and satisfy $a_1 + a_2 = 1 - (\rho_1 + \rho_2)^{-1}$ plus another deterministic equation.
-A similar result on the bias of $\hat{\beta}_t^{\MTL}$ holds, and it also scales with task similarity in addition to sample size and covariate shift.
-\end{theorem}
 
-
-%\subsection{A Key Lemma using Random Matrix Theory}\label{label_rmt}
-
-
-
-%\textbf{Multi-task learning.}
-
-
-\textbf{Proof Overview.} We first describe the proof of Theorem \ref{lem_cov_shift_informal}.
-We use the Stieltjes transform method (or the resolvent method) in random matrix theory \cite{bai2009spectral,tao2012topics,erdos2017dynamical}. Roughly speaking, we study the resolvent $R(z):=[\Sigma_2^{-1/2}( X_1^{\top}X_1 + X_2^{\top}X_2)\Sigma_2^{-1/2}-z]^{-1}$ for $z\in \C$ around $z=0$.
-Using the methods in \cite{Anisotropic,yang2019spiked}, we find the asymptotic limit, say $R_\infty(z)$, of $R(z)$ for any $z$ as $p\to \infty$ with an almost optimal convergence rate. In particular, when $z=0$, $\tr[R_\infty(0)]$ gives the expression inTheorem \ref{lem_cov_shift_informal}. The details can be found in Appendix \ref{sec_maintools} and \ref{sec_Gauss}.
-
-Applying Theorem \ref{lem_cov_shift_informal} to \eqref{eq_te_var}, we can calculate the amount of reduced variance compared to STL, which is given asymptotically by $\Delta_{\vari}$.
-For the bias term in equation \eqref{eq_te_model_shift}, we apply the approximate isometry property to $X_1^{\top}X_1$, which is close to $n_1^2\Sigma_1$. This results in the error term $\delta$, which scales as $(1 + 1/\sqrt{\rho_1})^4-1$.
-Then, we apply a similar identity to Theorem \ref{lem_cov_shift_informal} for bounding the bias term, noting that the derivative of $R(z)$ with respect to $z$ can be approximated by $R_\infty'(z)$.
-This estimates the negative effect given by $\Delta_{\bias}$. %, which will be used to estimate the first term on the right hand side of \eqref{eq_te_model_shift}.
-%During this process, we will get the $\Delta_{\bias}$ term up to an error $\delta$ depending on $\rho_1$.
-The details are presented in Appendix \ref{app_proof_main}.
-
-%The proof of Theorem \ref{thm_main_informal} is presented in Appendix \ref{app_proof_main}.
-
-\textbf{Remark.} Theorem \ref{lem_cov_shift_informal} extends a well-known result for the single-task setting when $X_1, \rho_1, a_1$ are all equal to zero \cite{S07}.
-The concentration error $\OO(p^{-1/2+o(1)})$ of our result is nearly optimal.
 
 \iffalse
 \textbf{Transfer learning.}
