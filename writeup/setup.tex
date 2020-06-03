@@ -14,13 +14,14 @@ The labels $Y_k = X_k \beta_k + \varepsilon_k$, where $\beta_k$ denotes the line
 %Following \cite{HMRT19,BLLT20}, we assume that for each task $i = 1,2,\dots,t$,  every feature vector is generated as $x = \Sigma_i^{1/2} z$, where $z\in\real^p$ is a random vector with i.i.d. entries of mean zero and unit variance and $\Sigma_i\in\real^{p\times p}$ is a positive semidefinite matrix.
 %Without loss of generality, let the $t$-th task be the target task.
 
-We focus on the following problem that specializes the commonly used hard parameter sharing model (e.g. \cite{R17,MTDNN19}) to the linear regression setting \cite{WZR20}.
+We focus on the commonly used hard parameter sharing model for multi-task learning \cite{R17,MTDNN19}.
+When specialized to the linear regression setting, the model consists of a linear layer $B\in\real^{p\times r}$ that is shared by all tasks and $t$ output layers $W_1, \dots, W_t$ that are in $\real^r$.
 \begin{align}
 	\label{eq_mtl}
 	f(B; W_1, \dots, W_t) = \sum_{k=1}^t \norm{X_k B W_k - Y_k}^2,
 \end{align}
 where $B\in\real^{p\times r}$ and $W_k\in\real^r$ for every $1\le k\le t$.
-The linear layer $B$ provides a shared subspace for all tasks whereas each output layer $W_k$ fits the $k$-th task given the linear layer.
+
 Following , we assume that $r < t$, because otherwise minimizing $f(\cdot)$ could result in $BW_i$ being the single-task optimum.
 
 Then applying equation \eqref{eq_mtl} will give the same estimator as single-task learning.
