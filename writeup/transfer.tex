@@ -1,9 +1,9 @@
 \section{Explaining Negative Transfer in an Isotropic Setting}\label{sec_insight}
 
 We provide precise explanations to the phenomena of negative transfer in multi-task learning.
-We explain from three perspectives, including \textit{task similarity}, \textit{data size} and \textit{covariate shift}.
-We show how negative transfer occurs by varying task similarity or data size.
-Then we show that when source task data size becomes large, covariate shift causes more negative effects.
+We explain from three perspectives, including \textit{task similarity}, \textit{sample size} and \textit{covariate shift}.
+We show how negative transfer occurs by varying task similarity or sample size.
+Then we show that when source task sample size becomes large, covariate shift causes more negative effects.
 
 \subsection{Task Similarity}\label{sec_similarity}
 
@@ -12,7 +12,7 @@ We formalize this connection in the following simplified setting.
 
 \textit{The isotropic model.}
 	Consider two tasks with isotropic covariances $\Sigma_1 = \Sigma_2 = \id$.
-	Recall that each task has data size $n_i = \rho_i \cdot p$, for $i = 1, 2$.
+	Recall that each task has sample size $n_i = \rho_i \cdot p$, for $i = 1, 2$.
 	And $X_1\in\real^{n_1\times p}, X_2\in\real^{n_2\times p}$ denotes the covariates of the two tasks, respectively.
 	We assume that for the target task, $\beta_2$ has i.i.d. entries with mean zero and variance $\kappa^2$.
 	For the source task, $\beta_1 $ equals $\beta_2$ plus i.i.d. entries with mean $0$ and variance $d^2$.
@@ -73,21 +73,21 @@ Inspired by the observation, we propose a single-task based metric to help under
 	If $z_s - z_t < -\tau$, then we predict negative transfer.
 \squishend
 
-\subsection{Data Size}\label{sec_data_size}
+\subsection{Sample Size}\label{sec_data_size}
 
-In classical Rademacher or VC based theory of multi-task learning, the generalization bounds are usually presented for settings where the data sizes are equal for all tasks \cite{B00,M06,MPR16}.
+In classical Rademacher or VC based theory of multi-task learning, the generalization bounds are usually presented for settings where the sample sizes are equal for all tasks \cite{B00,M06,MPR16}.
 More generally, such results are still applicable when all task data are being added simultaneously.
 On the other hand, for many applications of multi-task learning, the data sources are usually heterogeneous.
 For such settings, we have observed that adding more labeled data from one task does not always help.
 %On the other hand, we have observed that adding more labeled data does not always improve performance in multi-task learning.
-Using the isotropic model, we consider what happens if we vary the source task data size.
+Using the isotropic model, we consider what happens if we vary the source task sample size.
 %Figure \ref{fig_size} provides a simulation result for such a setting.
 %We observe that as $n_1 / n_2$ increases, there is a transition from positive to negative transfer.
 Our result below explains the phenomenon of Figure \ref{fig_size}.
 
 
 
-\begin{proposition}[Source/target data size]\label{prop_data_size}
+\begin{proposition}[Source/target sample size]\label{prop_data_size}
 	In the isotropic model, assume that $\rho_1 > 40$ and $\rho_2 > 110$ are fixed constants, $\Psi(\beta_1, \beta_2) > 2/(\rho_2 - 1)$.
 	We have that
 	\squishlist
