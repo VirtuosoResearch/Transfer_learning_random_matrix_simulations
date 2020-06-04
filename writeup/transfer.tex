@@ -35,7 +35,7 @@ We show how the variance of the multi-task estimator scales with sample size and
 	\end{align*}}
 %are both fixed values that roughly scales with the sample sizes $\rho_1, \rho_2$, and satisfy $a_1 + a_2 = 1 - (\rho_1 + \rho_2)^{-1}$ plus another deterministic equation.
 \end{lemma}
-Lemma \ref{lem_cov_shift_informal} allows us to get a tight bound on equation \eqref{eq_te_var}, that only depends on the sample sizes and the covariate shift matrix.
+Lemma \ref{lem_cov_shift_informal} allows us to get a tight bound on equation \eqref{eq_te_var}, that only depends on \textit{sample size}, \textit{covariate shift} and the scalar $\hat{v}$.
 As a remark, the concentration error $\OO(p^{-1/2+o(1)})$ of our result is nearly optimal.
 For the bias term of equation \eqref{eq_te_model_shift}, a similar result that scales with task model distance in addition to sample size and covariate shift holds (cf. Lemma \ref{lem_cov_derivative} in Appendix \ref{app_proof_main_thm}).
 Combining the two lemmas, we provide a sharp analysis of the bias-variance tradeoff of the multi-task estimator.
@@ -78,11 +78,12 @@ It is well-known since the seminal work of Caruana \cite{C97} that how well mult
 
 \textit{The isotropic model.}
 	Consider two tasks with isotropic covariances $\Sigma_1 = \Sigma_2 = \id$.
-	Each task has sample size $n_i = \rho_i \cdot p$, for $i = 1, 2$.
+	Each task has sample size $n_1 = \rho_1 \cdot p$ and $n_2 \rho_2 \cdot p$.
 	%And $X_1\in\real^{n_1\times p}, X_2\in\real^{n_2\times p}$ denote the covariates of the two tasks, respectively.
-	We assume that for the target task, $\beta_2$ has i.i.d. entries with mean zero and variance $\kappa^2$.
+	Assume that for the target task, $\beta_2$ has i.i.d. entries with mean zero and variance $\kappa^2$.
 	For the source task, $\beta_1 $ equals $\beta_2$ plus i.i.d. entries with mean $0$ and variance $d^2$.
-	The labels are given by $Y_i = X_i\beta_i + \varepsilon_i$, where $\e_i$ consists of i.i.d. entries with mean zero and variance $\sigma^2$.
+	The labels are $Y_i = X_i\beta_i + \varepsilon_i$, where $\e_i$ consists of i.i.d. entries with mean zero and variance $\sigma^2$.
+	For our purpose, it is enough to think of the order of $d$ being $1/\sqrt{p}$ and $pd^2/\sigma^2$ being constant.
 %	We assume that all the random variables have subexponential decay, while keeping in mind that our results can be applied under weaker moments assumptions as shown in Appendix \ref{sec_maintools}.
 
 In the isotropic model, we show that as we increase the distance between $\beta_1$ and $\beta_2$ (or $d$), there is a transition from positive transfer to negative transfer in MTL.
@@ -121,7 +122,10 @@ There are several unexplained observations near the transition threshold $0$, wh
 %The proof of Proposition \ref{prop_dist_transition} involves two parts.
 %First, in equation \eqref{eq_te_var}, the positive variance reduction effect scales with $n_1 = \rho_1 p$, the number of source task data points.
 %Second, we show that the negative effect of model-shift bias scales with $pd^2$, which is the expectation of $\norm{\beta_1 - \beta_2}^2$.
-The proof of Proposition \ref{prop_dist_transition} can be found in Appendix \ref{app_proof_31}. %, which is based on our main result described later in Theorem \ref{thm_model_shift}.
+The proof of Proposition \ref{prop_dist_transition} can be found in Appendix \ref{app_proof_31}.
+A key part of the analysis shows that $\hat{v}\approx 1$ in the isotropic model,
+thus simplifyling the result of Theorem \ref{thm_main_informal}.
+%, which is based on our main result described later in Theorem \ref{thm_model_shift}.
 
 
 \textbf{Algorithmic consequence.}
