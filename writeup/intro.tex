@@ -62,7 +62,7 @@ We refer to the first task as the source and the second as the target.
 \squishlist
 	\item \textbf{Task similarity:} Assume that both tasks follow a linear model with parameters $\beta_1, \beta_2\in\real^p$, respectively.
 	We measure the distance between them by $\norm{\beta_1 - \beta_2}$.
-	\item \textbf{Sample size:} Let $n_1 = \rho_1 \cdot p, n_2 = \rho_2 \cdot p$ be the sample size of each task, where $\rho_1, \rho_2$ are both fixed values that do not grow with $p$.
+	\item \textbf{Sample size:} Let $n_1 = \rho_1 \cdot p, n_2 = \rho_2 \cdot p$ be the sample size of each task, where $\rho_1, \rho_2>1$ are both fixed values that do not grow with $p$.
 	We measure the source/target sample ratio by $\rho_1 / \rho_2$.
 %	Importantly, $\rho_2$ can be a small constant (say $2$) to capture the need for more labeled data.
 	\item \textbf{Covariate shift:} Assume that the task features are random vectors with positive semidefinite covariance matrix $\Sigma_1,\Sigma_2\in\real^{p\times p}$, respectively.
@@ -78,13 +78,18 @@ We refer to the first task as the source and the second as the target.
 %The labels of task $i$ are given by $Y_i = X_i\beta_i + \varepsilon_i$, where $\beta_i\in\real^p$ denotes task $i$'s ground truth parameters and $\varepsilon_i$ denotes i.i.d. random noise with mean zero and variance $\sigma^2$.
 We consider a multi-task estimator obtained using a shared linear layer for all tasks and a separate output layer for each task \cite{WZR20}.
 This two layer model is inspired by a commonly used idea of hard parameter sharing in multi-task learning \cite{R17,MTDNN19}.
+We consider the bias and variance of the multi-task estimator, and connect them to the three components defined above.
 %This corresponds to minimizing $ \sum_{i=1}^t \norm{X_i B W_i - Y_i}^2$.
 %Let $\hat{\beta}_t^{\MTL}$ denote the optimal multi-task estimator for the target task, which is defined precisely in Section \ref{sec_prelim}.
-We revisit the bias-variance tradeoff of $\hat{\beta}_t^{\MTL}$.
-Interestingly, we observe that the variance of the multi-task estimator is always smaller than the variance of the single-task estimator, because of an increased sample size.
-The bias of the multi-task estimator results in a negative effect caused by the difference between $\beta_t$ and the rest of $\set{\beta_i}_{i=1}^{t-1}$.
+%We revisit the bias-variance tradeoff of $\hat{\beta}_t^{\MTL}$.
+
+Our main result is to develop tight concentration bounds for the bias and variance of the multi-task estimator for two tasks.
+Since the sample size has increased, the variance of the multi-task estimator is \textit{always smaller} than the variance of the single-task estimator.
+In Lemma \ref{lem_cov_shift_informal}, we provide a sharp analysis of the reduced variance that scales only with sample size and covariate shift.
+Since task models are different, the bias of the multi-task estimator is \textit{always larger} than the bias of the single-task estimator (which is $0$).
 Hence, the bias-variance tradeoff determines whether we observe positive or negative transfer.
-For the setting of two tasks, we show how the variance of the multi-task estimator  scales with sample size and covariate shift in the following result.
+Using Lemma \ref{lem_cov_shift_informal}, we analyze the bias-variance tradeoff for two tasks in Theorem \ref{thm_main_informal} and extend the analysis to many tasks with same features in Theorem \ref{thm_many_tasks}.
+%For the setting of two tasks, we show how the variance of the multi-task estimator  scales with sample size and covariate shift in the following result.
 %\textit{Our first contribution} is to develop a concentration bound that arises naturally from the bias-variance tradeoff of $\hat{\beta}_t^{\MTL}$ for two tasks.
 %Let $\hat{\beta}_t^{\STL}$ denote the single-task estimator.
 %Without loss of generality, let the $t$-th task denote the target task.
