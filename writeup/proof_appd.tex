@@ -947,7 +947,7 @@ With this lemma, we can obtain the following a priori estimate on the resolvent 
 
 
 \begin{lemma}\label{lemm apri}
-\todo{check} Suppose the assumptions of Lemma \ref{SxxSyy} holds. Then there exists a constant $C>0$ such that the following estimates hold uniformly in $z,z'\in \mathbf D$ with high probability: 
+ Suppose the assumptions of Lemma \ref{SxxSyy} holds. Then there exists a constant $C>0$ such that the following estimates hold uniformly in $z,z'\in \mathbf D$ with high probability: 
 \be\label{priorim}
 \|G(z)\| \le C,%|\im \langle \bu,\cal R  (z,0)\bv\rangle| \le C\eta, 
 \ee
@@ -958,10 +958,10 @@ and for any deterministic unit vectors $\mathbf u, \mathbf v \in \mathbb R^{\mat
 \end{lemma}
 \begin{proof}
 As in \eqref{spectral}, we let $\{\lambda_k\}_{1\le k \le p}$ be the eigenvalues of $WW^\top$. By Lemma \ref{SxxSyy} and the assumption \eqref{assm2}, we obtain that 
-\be\label{lambdap} \lambda_p \ge \lambda_p(Z_2^\top Z_2) \ge \e >0 \ee
-for some constant $\e>0$. In particular, it implies that
-$$ \inf_{z\in \mathbf D}\min_{1\le k \le p}|\lambda_k-z| \gtrsim 1.$$ 
-Together with \eqref{spectral}, it implies the estimates \eqref{priorim} and \eqref{priordiff}.
+%\be\label{lambdap} 
+$\lambda_p \ge \lambda_p(Z_2^\top Z_2) \gtrsim 1 $, which further implies the estimate that
+$ \inf_{z\in \mathbf D}\min_{1\le k \le p}|\lambda_k-z| \gtrsim 1.$
+Together with \eqref{spectral}, we obtain \eqref{priorim} and \eqref{priordiff}.
 \end{proof}
 
 %Note that by \eqref{priordiff} and local law \eqref{aniso_outstrong}, we have the rough bound
@@ -974,7 +974,7 @@ Together with \eqref{spectral}, it implies the estimates \eqref{priorim} and \eq
 
 Now we introduce the concept of minors, which are defined by removing certain rows and columns of the matrix $H$.
 
-\begin{definition}[Minors]
+\begin{definition}[Minors]\label{defnMinor}
 For any $ (p+n)\times (p+n)$ matrix $\cal A$ and $\mathbb T \subseteq \mathcal I$, we define the minor $\cal A^{(\mathbb T)}:=(\cal A_{\fa\fb}:\fa,\fb \in \mathcal I\setminus \mathbb T)$ as the $ (p+n-|\mathbb T|)\times (p+n-|\mathbb T|)$ matrix obtained by removing all rows and columns indexed by $\mathbb T$. Note that we keep the names of indices when defining $\cal A^{(\mathbb T)}$, i.e. $(\cal A^{(\mathbb{T})})_{ab}= \cal A_{ab}$ for $a,b \notin \mathbb{{T}}$. Correspondingly, we define the resolvent minor as (recall \eqref{green2})
 \begin{align*}
 G^{(\mathbb T)}:&=\left[\left(H - \left( {\begin{array}{*{20}c}
@@ -989,47 +989,48 @@ G^{(\mathbb T)}:&=\left[\left(H - \left( {\begin{array}{*{20}c}
 %   {\mathcal G_2^{(\mathbb T)}}\left(Y^{(\mathbb T)}\right)^\top & { \mathcal G_2^{(\mathbb T)} }  \\
 %\end{array}} \right),
 \end{align*}
-and the partial traces (recall \eqref{defm})
+and the partial traces $m^{(\mathbb T)}$, $m^{(\mathbb T)}_1$, $ m_2^{(\mathbb T)}$ and $ m_3^{(\mathbb T)}$ by replacing $G$ with $G^{(\mathbb T)}$ in \eqref{defm}.
 %$$m_1^{(\mathbb T)}:=\frac{1}{Nz}\sum_{i\notin \mathbb T}\sigma_i G_{ii}^{(\mathbb T)},\ \ m_2^{(\mathbb T)}:= \frac{1}{N}\sum_{\mu \notin \mathbb T}\tilde \sigma_\mu G_{\mu\mu}^{(\mathbb T)}.$$ 
-\be\label{m123}
-\begin{split} 
-m^{(\mathbb T)} := \frac1p \sum_{i \in \cal I_1}G^{(\mathbb T)}_{ii}(z),\quad & m^{(\mathbb T)}_1:=\frac1p\sum^{(\mathbb T)}_{i \in \cal I_1}\sigma_i^2 G^{(\mathbb T)}_{ii}(z),\\
- m_2^{(\mathbb T)}(z):=  \frac1{n_1} \sum_{\mu\in \cal I_2} G_{\mu\mu}^{(\mathbb T)}(z),\quad  &m_3^{(\mathbb T)}(z):=  \frac1{n_2} \sum_{\mu\in \cal I_3} G_{\mu\mu}^{(\mathbb T)}(z),
-\end{split}
-\ee
-where we abbreviated that $\sum_{a}^{(\mathbb T)} := \sum_{a\notin \mathbb T} $. For convenience, we will adopt the convention that for any minor $\cal A^{(T)}$ defined as above, $\cal A^{(T)}_{ab} = 0$ if $a \in \mathbb T$ or $b \in \mathbb T$. Moreover, we will abbreviate $(\{a\})\equiv (a)$ and $(\{a, b\})\equiv (ab)$.
+%\be\label{m123}
+%\begin{split} 
+%m^{(\mathbb T)} := \frac1p \sum_{i \in \cal I_1}G^{(\mathbb T)}_{ii}(z),\quad & m^{(\mathbb T)}_1:=\frac1p\sum^{(\mathbb T)}_{i \in \cal I_1}\sigma_i^2 G^{(\mathbb T)}_{ii}(z),\\
+% m_2^{(\mathbb T)}(z):=  \frac1{n_1} \sum_{\mu\in \cal I_2} G_{\mu\mu}^{(\mathbb T)}(z),\quad  &m_3^{(\mathbb T)}(z):=  \frac1{n_2} \sum_{\mu\in \cal I_3} G_{\mu\mu}^{(\mathbb T)}(z),
+%\end{split}
+%\ee
+%where we abbreviated that $\sum_{a}^{(\mathbb T)} := \sum_{a\notin \mathbb T} $. 
+For convenience, we will adopt the convention that for any minor $\cal A^{(T)}$ defined as above, $\cal A^{(T)}_{ab} = 0$ if $a \in \mathbb T$ or $b \in \mathbb T$. Moreover, we will abbreviate $(\{a\})\equiv (a)$ and $(\{a, b\})\equiv (ab)$.
 \end{definition}
 
 %\begin{definition} [Minor of matrix] For a $M \times N$ matrix $X$, $\ \mathbb{T}$ is a subset of  $\ \{1,2,\cdots,N\}$, we define $X^{\{\mathbb{T}\}}$ as the $M \times (N- \vert \mathbb{T} \vert)$ minor of matrix $X$ by deleting the $i$-th($i \in \mathbb{T}$) columns of $X$. We will keep the name of index of $X$ for $X^{\{\mathbb{T} \}}$, namely,
 %$(X^{\{\mathbb{T}\}})_{ij}=\mathbf{1}_{ \{j \notin \mathbb{{T}}\}} X_{ij}$. 
 %\end{definition}
-Then we record the following resolvent identities. 
 
-\begin{lemma}{(Resolvent identities).}
 
+\begin{lemma}\label{lemm_resolvent}
+We have the following resolvent identities. 
 \begin{itemize}
 \item[(i)]
 For $i\in \mathcal I_1$ and $\mu\in \mathcal I_2\cup \cal I_3$, we have
 \begin{equation}
-\frac{1}{G_{ii}} =  - z - \left( {WG^{\left( i \right)} W^\top} \right)_{ii} ,\ \ \frac{1}{{G_{\mu \mu } }} =  - 1  - \left( {W^\top  G^{\left( \mu  \right)} W} \right)_{\mu \mu }.\label{resolvent2}
+\frac{1}{G_{ii}} =  - z - \left( {WG^{\left( i \right)} W^\top} \right)_{ii} ,\quad  \frac{1}{{G_{\mu \mu } }} =  - 1  - \left( {W^\top  G^{\left( \mu  \right)} W} \right)_{\mu \mu }.\label{resolvent2}
 \end{equation}
 
  \item[(ii)]
- For $i\ne j \in \mathcal I_1$ and $\mu \ne \nu \in \mathcal I_2\cup \cal I_3$, we have
+ For $i\in \mathcal I_1$, $\mu \in \mathcal I_2\cup \cal I_3$, $\fa\in \cal I\setminus \{i\}$ and $\fb\in \cal I\setminus \{ \mu\}$, we have
 \begin{equation}
-G_{ij}   = -G_{ii}  \left( WG^{\left( {i} \right)} \right)_{ij},\quad G_{\mu \nu }  = - G_{\mu \mu }  \left( W^\top  G^{\left( {\mu } \right)}  \right)_{\mu \nu }. \label{resolvent3}
+G_{i\fa}   = -G_{ii}  \left( WG^{\left( {i} \right)} \right)_{i\fa},\quad  G_{\mu \fb }  = - G_{\mu \mu }  \left( W^\top  G^{\left( {\mu } \right)}  \right)_{\mu \fb }. \label{resolvent3}
 \end{equation}
-For $i\in \mathcal I_1$ and $\mu\in \mathcal I_2$, we have
-\begin{equation}\label{resolvent6}
-\begin{split}
-& G_{i\mu } =  -G_{ii}  \left( WG^{\left( {i} \right)} \right)_{i\mu}, \quad G_{\mu i}= -G_{\mu\mu}\left( W^\top G^{(\mu)}\right)_{\mu i}. %\left( { - Y_{i\mu }  +  {\left( {YG^{\left( {i\mu } \right)} Y} \right)_{i\mu } } } \right) . %, \ \  G_{\mu i}  = G_{\mu \mu } G_{ii}^{\left( \mu  \right)} \left( { - Y_{\mu i}^\top  + \left( {Y^\top  G^{\left( {\mu i} \right)} Y^\top  } \right)_{\mu i} } \right).
-\end{split}
-\end{equation}
+%For $i\in \mathcal I_1$ and $\mu\in \mathcal I_2$, we have
+%\begin{equation}\label{resolvent6}
+%\begin{split}
+% G_{i\mu } =  -G_{ii}  \left( WG^{\left( {i} \right)} \right)_{i\mu}, \quad G_{\mu i}= -G_{\mu\mu}\left( W^\top G^{(\mu)}\right)_{\mu i}. %\left( { - Y_{i\mu }  +  {\left( {YG^{\left( {i\mu } \right)} Y} \right)_{i\mu } } } \right) . %, \ \  G_{\mu i}  = G_{\mu \mu } G_{ii}^{\left( \mu  \right)} \left( { - Y_{\mu i}^\top  + \left( {Y^\top  G^{\left( {\mu i} \right)} Y^\top  } \right)_{\mu i} } \right).
+%\end{split}
+%\end{equation}
 
  \item[(iii)]
- For $a \in \mathcal I$ and $b, c \in \mathcal I \setminus \{a\}$,
+ For $\fa \in \mathcal I$ and $\fb, \fc \in \mathcal I \setminus \{\fa\}$,
 \begin{equation}
-G_{bc}^{\left( a \right)}  = G_{bc}  - \frac{G_{ba} G_{ac}}{G_{aa}}, \ \ \frac{1}{{G_{bb} }} = \frac{1}{{G_{bb}^{(a)} }} - \frac{{G_{ba} G_{ab} }}{{G_{bb} G_{bb}^{(a)} G_{aa} }}. \label{resolvent8}
+G_{\fb\mathfrak c}^{\left( \fa \right)}  = G_{\fb\mathfrak c}  - \frac{G_{\fb\fa} G_{\fa\mathfrak c}}{G_{\fa\fa}}, \quad  \frac{1}{{G_{\fb\fb} }} = \frac{1}{{G_{\fb\fb}^{(\fa)} }} - \frac{{G_{\fb\fa} G_{\fa\fb} }}{{G_{\fb\fb} G_{\fb\fb}^{(\fa)} G_{\fa\fa} }}. \label{resolvent8}
 \end{equation}
 %and
 %\begin{equation}
@@ -1039,7 +1040,6 @@ G_{bc}^{\left( a \right)}  = G_{bc}  - \frac{G_{ba} G_{ac}}{G_{aa}}, \ \ \frac{1
 % \item[(iv)]
 %All of the above identities hold for $G^{(\mathbb T)}$ instead of $G$ for $\mathbb T \subset \mathcal I$, and in the case where $A$ and $B$ are not diagonal.
 \end{itemize}
-\label{lemm_resolvent}
 \end{lemma}
 \begin{proof}
 All these identities can be proved directly using Schur's complement formula. The reader can also refer to, for example, \cite[Lemma 4.4]{Anisotropic}.
@@ -1072,7 +1072,7 @@ The following lemma gives large deviation bounds for bounded supported random va
 %It constitutes the main difference between our proof and the one in \cite{KY2}, where the authors used a large deviation bound for random variables with arbitrarily high moments.
 
 \begin{lemma}[Lemma 3.8 of \cite{EKYY1}]\label{largedeviation}
-Let $(x_i)$, $(y_j)$ be independent families of centered and independent random variables, and $(A_i)$, $(B_{ij})$ be families of deterministic complex numbers. Suppose the entries $x_i$, $y_j$ have variance at most $n^{-1}$ and satisfy the bounded support condition (\ref{eq_support}) with $q\le n^{-\phi}$ for some constant $\phi>0$. Then we have the following bound:
+Let $(x_i)$, $(y_j)$ be independent families of centered and independent random variables, and $(A_i)$, $(B_{ij})$ be families of deterministic complex numbers. Suppose the entries $x_i$, $y_j$ have variances at most $n^{-1}$ and satisfy the bounded support condition (\ref{eq_support}) with $q\le n^{-\phi}$ for some constant $\phi>0$. Then we have the following bound:
 %for any fixed $\xi>0$, the following bounds hold with $\xi$-high probability:
 \begin{align*}
 &\Big\vert \sum_i A_i x_i \Big\vert \prec  q \max_{i} \vert A_i \vert+ \frac{1}{\sqrt{n}}\Big(\sum_i |A_i|^2 \Big)^{1/2} , \quad \Big\vert \sum_{i,j} x_i B_{ij} y_j \Big\vert \prec q^2 B_d  + qB_o + \frac{1}{n}\Big(\sum_{i\ne j} |B_{ij}|^2\Big)^{{1}/{2}}, \\
@@ -1081,7 +1081,7 @@ Let $(x_i)$, $(y_j)$ be independent families of centered and independent random 
 where $B_d:=\max_{i} |B_{ii} |$ and $B_o:= \max_{i\ne j} |B_{ij}|.$ Moreover, if all the moments of $\sqrt{n}x_i$ and $\sqrt{n}y_j$ exist in the sense of \eqref{assmAhigh}, then we have stronger bounds
 \begin{align*}
 &\Big\vert \sum_i A_i x_i \Big\vert \prec  \frac{1}{\sqrt{n}}\Big(\sum_i |A_i|^2 \Big)^{1/2} , \quad   \Big\vert \sum_{i,j} x_i B_{ij} y_j \Big\vert \prec  \frac{1}{n}\Big(\sum_{i\ne j} |B_{ij}|^2\Big)^{{1}/{2}} , \\
-& \Big\vert \sum_{i} \bar x_i B_{ii} x_i - \sum_{i} (\mathbb E|x_i|^2) B_{ii}  \Big\vert  \prec \frac1{n}\Big( \sum_i |B_{ii} |^2\Big)  ,\quad  \Big\vert \sum_{i\ne j} \bar x_i B_{ij} x_j \Big\vert  \prec  \frac{1}{n}\Big(\sum_{i\ne j} |B_{ij}|^2\Big)^{{1}/{2}} .
+& \Big\vert \sum_{i} \bar x_i B_{ii} x_i - \sum_{i} (\mathbb E|x_i|^2) B_{ii}  \Big\vert  \prec \frac1{n}\Big( \sum_i |B_{ii} |^2\Big)^{1/2}  ,\quad  \Big\vert \sum_{i\ne j} \bar x_i B_{ij} x_j \Big\vert  \prec  \frac{1}{n}\Big(\sum_{i\ne j} |B_{ij}|^2\Big)^{{1}/{2}} .
 \end{align*}
 \end{lemma}  
 
@@ -1135,14 +1135,14 @@ where $B_d:=\max_{i} |B_{ii} |$ and $B_o:= \max_{i\ne j} |B_{ij}|.$ Moreover, if
 %%\end{equation}
 %\end{definition}
 
-The main goal of this subsection is to prove the following entrywise local law. The anisotropic local law \eqref{aniso_law} then follows from the entrywise local law combined with a polynomialization method as we will explain in next subsection. Recall that in the setting of Proposition \ref{prop_diagonal}, we have $q=n^{-1/2}$ and
+The main goal of this subsection is to prove the following entrywise local law. The anisotropic local law \eqref{aniso_law} then follows from the entrywise local law combined with a polynomialization method as we will explain later. Recall that in the setting of Proposition \ref{prop_diagonal}, we have $q=n^{-1/2}$ and
 \be\label{diagW}W= (\Lambda Z_1^\top, Z_2^\top).\ee
 
 \begin{lemma}\label{prop_entry}
 Suppose the assumptions in Proposition \ref{prop_diagonal} hold. %Fix $C_0>0$ and let $c_0>0$ be a sufficiently small constant. 
 Then the following estimate holds uniformly for $z\in \mathbf D$: %there exist constants 
 \begin{equation}\label{entry_diagonal}
-\max_{\fa,\fb}\left| (G_0)_{\fa\fb}(z)  - \Pi_{\fa\fb} (z) \right| \prec n^{-1/2}.
+\max_{\fa,\fb\in \cal I}\left| (G_0)_{\fa\fb}(z)  - \Pi_{\fa\fb} (z) \right| \prec n^{-1/2}.
 \end{equation} 
 \end{lemma}
 
@@ -1166,34 +1166,25 @@ Then the following estimate holds uniformly for $z\in \mathbf D$: %there exist c
 \begin{proof}
 The proof of Lemma \ref{prop_entry} is divided into three steps. For simplicity, we will still denote $G\equiv G_0$ in the following proof, while keeping in mind that $W$ takes the form in \eqref{diagW}.
 
-\vspace{10pt}
+%\vspace{10pt}
 
-\noindent{\bf Step 1: Large deviations estimates.} In this step, we prove some (almost) optimal large deviations estimates on the off-diagonal entries of $G$, and on the following $Z$ variables. In analogy to \cite[Section 3]{EKYY1} and \cite[Section 5]{Anisotropic}, we introduce the $Z$ variables
+\noindent{\bf Step 1: Large deviations estimates.} In this step, we prove some (almost) optimal large deviation estimates on the off-diagonal entries of $G$, and on the following $Z$ variables. In analogy to \cite[Section 3]{EKYY1} and \cite[Section 5]{Anisotropic}, we introduce the $Z$ variables
 \begin{equation*}
   Z_{\fa}^{(\mathbb T)}:=(1-\mathbb E_{\fa})\big(G_{\fa\fa}^{(\mathbb T)}\big)^{-1}, \quad \fa\notin \mathbb T,
 \end{equation*}
-where $\mathbb E_{\fa}[\cdot]:=\mathbb E[\cdot\mid H^{(\fa)}],$ i.e. it is the partial expectation over the randomness of the $\fa$-th row and column of $H$. By (\ref{resolvent2}), we have 
-\be\label{Zi}
-\begin{split}
-Z_i = (\mathbb E_{i} - 1) \left( {WG^{\left( i \right)} W^\top} \right)_{ii} &= \sigma_i^2 \sum_{\mu ,\nu\in \mathcal I_2}  G^{(i)}_{\mu\nu} \left(\frac{1}{n}\delta_{\mu\nu} - z_{\mu i}z_{\nu i}\right)\\
-&+ \sum_{\mu ,\nu\in \mathcal I_3}  G^{(i)}_{\mu\nu} \left(\frac{1}{n}\delta_{\mu\nu} - z_{\mu i}z_{\nu i}\right), \quad i \in \cal I_1, 
-\end{split}
-\ee
-and
-\be\label{Zmu} 
-\begin{split}
-Z_\mu &= (\mathbb E_{\mu} - 1) \left( {W^\top  G^{\left( \mu  \right)} W} \right)_{\mu \mu } = \sum_{i,j \in \mathcal I_1}  {\sigma_i \sigma_j}G^{(\mu)}_{ij} \left(\frac{1}{n} \delta_{ij} - z_{\mu i}z_{\mu j}\right), \quad \mu\in \cal I_2,\\
-Z_\mu &= (\mathbb E_{\mu} - 1) \left( {W^\top  G^{\left( \mu  \right)} W} \right)_{\mu \mu } = \sum_{i,j \in \mathcal I_1} G^{(\mu)}_{ij} \left(\frac{1}{n} \delta_{ij} - z_{\mu i}z_{\mu j}\right),\quad \mu\in \cal I_3.
-\end{split}
-\ee
-For simplicity, we introduce the following random error %for the off-diagonal entries:
-\begin{equation}  \label{eqn_randomerror}
-\begin{split}
- \Lambda _o : &= % \max_{\fa \ne \fb } \left|  G_{\fa\fb}   \right| +  
- \max_{\fa \ne \fb } \left|  G_{\fa\fa}^{-1}G_{\fa\fb}   \right| .
-\end{split}
-\end{equation}
-The following lemma gives the desired large deviations estimates on the $\Lambda_o$ and the $Z$ variables.
+where $\mathbb E_{\fa}[\cdot]:=\mathbb E[\cdot\mid H^{(\fa)}],$ i.e. it is the partial expectation over the randomness of the $\fa$-th row and column of $H$. Using (\ref{resolvent2}), we get that for $i \in \cal I_1$, $\mu\in \cal I_2$ and $\nu\in \cal I_3$,
+\begin{align}
+&Z_i =  \sigma_i^2 \sum_{\mu ,\nu\in \mathcal I_2}  G^{(i)}_{\mu\nu} \left(\frac{1}{n}\delta_{\mu\nu} - z_{\mu i}z_{\nu i}\right)+ \sum_{\mu ,\nu\in \mathcal I_3}  G^{(i)}_{\mu\nu} \left(\frac{1}{n}\delta_{\mu\nu} - z_{\mu i}z_{\nu i}\right),  \label{Zi}\\
+& Z_\mu= \sum_{i,j \in \mathcal I_1}  {\sigma_i \sigma_j}G^{(\mu)}_{ij} \left(\frac{1}{n} \delta_{ij} - z_{\mu i}z_{\mu j}\right), \quad Z_\nu = \sum_{i,j \in \mathcal I_1} G^{(\nu)}_{ij} \left(\frac{1}{n} \delta_{ij} - z_{\nu i}z_{\nu j}\right).\label{Zmu} 
+\end{align}
+For simplicity, we introduce the random error
+%\begin{equation} \nonumber % \label{eqn_randomerror}
+%\begin{split}
+$ \Lambda _o : = % \max_{\fa \ne \fb } \left|  G_{\fa\fb}   \right| +  
+ \max_{\fa \ne \fb } \left|  G_{\fa\fa}^{-1}G_{\fa\fb}   \right| .$
+%\end{split}
+%\end{equation}
+The following lemma gives the desired large deviations estimates on $\Lambda_o$ and the $Z$ variables.
 
 \begin{lemma}\label{Z_lemma}
 Suppose the assumptions in Proposition \ref{prop_diagonal} hold. 
@@ -1217,25 +1208,30 @@ Then the following estimates hold uniformly for all $z\in \mathbf D$:
 Note that for any $\fa\in \cal I$, $H^{(\fa)}$ and $G^{(\fa)}$ also satisfies the assumptions for Lemma \ref{lemm apri}. Hence \eqref{priorim} and \eqref{priordiff} also hold for $G^{(\fa)}$. Now applying Lemma \ref{largedeviation} to (\ref{Zi}) and \eqref{Zmu}, and using the a priori bound \eqref{priorim}, we get that for any $i\in \cal I_1$, %on $\Xi$,
 \begin{equation}\nonumber%\label{estimate_Zi}
 \begin{split}
-\left| Z_{i}\right|&\lesssim \sum_{\al=2}^3 \left| \sum_{\mu ,\nu\in \mathcal I_{\al}}  G^{(i)}_{\mu\nu} \left(\frac{1}{n}\delta_{\mu\nu} - z_{\mu i}z_{\nu i}\right)\right| \prec n^{-1/2}+ \frac{1}{n} \left( \sum_{\mu,\nu \in \cal I_2\cup \cal I_3 }  {\left| G_{\mu\nu}^{(i)}  \right|^2 }  \right)^{1/2} \prec n^{-1/2} , 
+\left| Z_{i}\right|&\lesssim \sum_{\al=2}^3 \left| \sum_{\mu ,\nu\in \mathcal I_{\al}}  G^{(i)}_{\mu\nu} \left(\frac{1}{n}\delta_{\mu\nu} - z_{\mu i}z_{\nu i}\right)\right| \prec n^{-1/2}+ \frac{1}{n} \Big( \sum_{\mu,\nu \in \cal I_2\cup \cal I_3 }  {\left| G_{\mu\nu}^{(i)}  \right|^2 }  \Big)^{1/2} \prec n^{-1/2} , 
 %+ \frac{1}{\sqrt{n}} \left( \frac{1}{n}\sum_{\mu \in \cal I_{\al+2}}  {\left(\cal R^{(i)} J_{\al+2} (\cal R^{(i)})^*\right)_{\mu\mu} }  \right)^{1/2} \prec n^{-1/2},
 %\\& \prec  \phi_n + \frac{1}{n} \left[ \sum_{\mu\in \cal I_3} \left( 1+ \frac{ \im \left( U(z) G_{[\mu\mu]}^{(i)} \right)_{11} }{\eta}   \right]  \right)^{1/2} ,%= q+ \frac{1}{N}\left( {\sum_\mu \frac{\wt \sigma_\mu  \im G_{\mu\mu}^{(i)} }{\eta} } \right)^{1/2}= q + \sqrt { \frac{ \Im\, m_2^{(i)}  } {N\eta} },
 \end{split}
 \end{equation}
-where in the last step we used that for any $\mu$,
-\be\label{GG*}\sum_{\nu \in \cal I_2\cup \cal I_3 }  \left| G_{\mu\nu}^{(i)}  \right|^2\le \sum_{\fa \in \cal I }  \left| G_{\mu\fa}^{(i)}  \right|^2 =\left[G^{(i)}(G^{(i)})^* \right]_{\mu\mu} =\OO(1)\ee
-by \eqref{priorim}. Similarly, applying Lemma \ref{largedeviation} to $Z_{\mu}$ in (\ref{Zmu}) and using \eqref{priorim}, we obtain the same bound.
+where in the last step we used \eqref{priorim} to get that for any $\mu$,
+\be\label{GG*}\sum_{\nu \in \cal I_2\cup \cal I_3 }  \left| G_{\mu\nu}^{(i)}  \right|^2\le \sum_{\fa \in \cal I }  \left| G_{\mu\fa}^{(i)}  \right|^2 =\left[G^{(i)}(G^{(i)})^* \right]_{\mu\mu} =\OO(1).\ee
+Similarly, applying Lemma \ref{largedeviation} to $Z_{\mu}$ and $Z_\nu$ in (\ref{Zmu}) and using \eqref{priorim}, we obtain the same bound.
 %\begin{equation}\label{estimate_Zmu} \|Z_{[\mu]}\|\prec \frac{1}{n} \left( \sum_{i,j \in \cal I_{1}\cup \cal I_2}  {\left| \cal R_{ij}^{[\mu]}  \right|^2 }  \right)^{1/2} =  \frac{1}{\sqrt{n}} \left(  \frac{1}{n}\sum_{i \in \cal I_{1}\cup \cal I_2}  {\left(\cal R^{[\mu]} (J_{1}+J_2) (\cal R^{[\mu]})^*\right)_{ii} } \right)^{1/2} \prec n^{-1/2}.\ee
 %This completes the proof of \eqref{Zestimate1}.
 
+we have
+\begin{equation}
+G_{i\fa}   = -G_{ii}  \left( WG^{\left( {i} \right)} \right)_{i\fa},\quad  G_{\mu \fb }  = - G_{\mu \mu }  \left( W^\top  G^{\left( {\mu } \right)}  \right)_{\mu \fb }.  
+\end{equation}
 
-Then we prove the off-diagonal estimates. For $i\ne j \in \mathcal I_1 $ and $\mu \ne \nu \in \mathcal I_2\cup \cal I_3$, using \eqref{resolvent3}, Lemma \ref{largedeviation} and \eqref{priorim}, we obtain that \begin{equation}\nonumber
- \left|G_{ii}^{-1}G_{ij}\right| \prec n^{-1/2}+\frac{1}{\sqrt{n}} \left( \sum_{\mu \in \cal I_2\cup \cal I_3}  {\left| G_{\mu j}^{(i)}  \right|^2 }  \right)^{1/2} \prec n^{-1/2},
- \ee
- and
-$$ \left|G_{\mu\mu}^{-1} G_{\mu\nu} \right| \prec n^{-1/2}+  \frac{1}{\sqrt n} \left( \sum_{i \in \cal I_{1}}  {\left| G_{i\nu}^{(\mu)}  \right|^2 }  \right)^{1/2} \prec n^{-1/2}.$$
-For $i\in \cal I_1\cup \cal I_2$ and $\mu \in \mathcal I_3$, using \eqref{resolvent6}, Lemma \ref{largedeviation} and \eqref{priorim}, we obtain that  
-$$ \left| G_{ii}^{-1}G_{i\mu} \right|+ \left| G_{\mu\mu}^{-1}G_{\mu i} \right| \prec n^{-1/2} + \frac{1}{\sqrt n} \left( \sum_{\nu \in \cal I_{2}\cup \cal I_3 }  {\left|G^{(i)}_{\nu\mu}  \right|^2 }  \right)^{1/2} + \frac{1}{\sqrt n} \left( \sum_{j \in \cal I_{1} }  {\left|G^{(\mu)}_{ji}  \right|^2 }  \right)^{1/2} \prec   n^{-1/2}.$$
+Then we prove the off-diagonal estimate on $\Lambda_o$. For $i\in \mathcal I_1$ and $\fa\in \cal I\setminus \{i\}$, using \eqref{resolvent3}, Lemma \ref{largedeviation} and \eqref{priorim}, we obtain that 
+\begin{align*}
+& \left|G_{ii}^{-1}G_{i\fa}\right| \prec n^{-1/2}+\frac{1}{\sqrt{n}} \Big( \sum_{\mu \in \cal I_2\cup \cal I_3}  {\left| G_{\mu \fa}^{(i)}  \right|^2 }  \Big)^{1/2} \prec n^{-1/2}. 
+%\\& \left|G_{\mu\mu}^{-1} G_{\mu\fb} \right| \prec n^{-1/2}+  \frac{1}{\sqrt n} \left( \sum_{i \in \cal I_{1}}  {\left| G_{i\fb}^{(\mu)}  \right|^2 }  \right)^{1/2} \prec n^{-1/2}.
+ \end{align*}
+ We have a similar estimate for $\left|G_{\mu\mu}^{-1} G_{\mu\fb} \right|$ with $\mu \in \mathcal I_2\cup \cal I_3$ and $\fb\in \cal I\setminus \{ \mu\}$.  
+%For $i\in \cal I_1\cup \cal I_2$ and $\mu \in \mathcal I_3$, using \eqref{resolvent3}, Lemma \ref{largedeviation} and \eqref{priorim}, we obtain that  
+%$$ \left| G_{ii}^{-1}G_{i\mu} \right|+ \left| G_{\mu\mu}^{-1}G_{\mu i} \right| \prec n^{-1/2} + \frac{1}{\sqrt n} \left( \sum_{\nu \in \cal I_{2}\cup \cal I_3 }  {\left|G^{(i)}_{\nu\mu}  \right|^2 }  \right)^{1/2} + \frac{1}{\sqrt n} \left( \sum_{j \in \cal I_{1} }  {\left|G^{(\mu)}_{ji}  \right|^2 }  \right)^{1/2} \prec   n^{-1/2}.$$
 Thus we obtain that $\Lambda_o\prec n^{-1/2}$, which concludes \eqref{Zestimate1}.
 \end{proof}
 
@@ -1270,7 +1266,7 @@ Note that comibining \eqref{priorim} and \eqref{Zestimate1}, we immediately conc
 
 \vspace{5pt}
 
-\noindent{\bf Step 2: Self-consistent equations.} This is the key step of the proof for Proposition \ref{prop_entry}, which derives approximate self-consistent equations safisfised by $m_2(z)$ and $m_3(z)$. More precisely, we will show that $(m_2(z),m_3(z))$ satisfies \eqref{selfomegaerror} up to some small error $|\cal E_{2,3}|\prec n^{-1/2}$. Then applying Lemma \ref{lem_stabw} shows that $(m_2(z),m_3(z))$ is close to $(m_{2c}(z),m_{3c}(z))$---this will discussed in Step 3.
+\noindent{\bf Step 2: Self-consistent equations.} This is the key step of the proof for Proposition \ref{prop_entry}, which derives approximate self-consistent equations safisfised by $m_2(z)$ and $m_3(z)$. More precisely, we will show that $(m_2(z),m_3(z))$ satisfies \eqref{selfomegaerror} for some small error $|\cal E_{2,3}|\prec n^{-1/2}$. Then in Step 3 we will apply Lemma \ref{lem_stabw} to show that $(m_2(z),m_3(z))$ is close to $(m_{2c}(z),m_{3c}(z))$. %---this will discussed .
 
 We define the following $z$-dependent event 
 %\be\label{Xiz}\Xi(z):=\left\{\max_{\fa\in \cal I}|G_{\fa\fa}(z)-\Pi_{\fa\fa}(z)| \le (\log n)^{-1/2}\right\}.\ee
@@ -1334,7 +1330,7 @@ Suppose the assumptions in Proposition \ref{prop_diagonal} hold. Then the follow
 \frac{1}{{G_{\mu\mu} }}&=  - 1 - \frac{1}{n} \sum_{i\in \mathcal I_1}\sigma_i^2 G^{\left(\mu\right)}_{ii}+ Z_{\mu} =  - 1  - \gamma_n m_1 + \epsilon_\mu,  \label{self_Gmu1}\\
 \frac{1}{{G_{\nu\nu} }}&=  - 1 - \frac{1}{n} \sum_{i\in \mathcal I_1} G^{\left(\nu\right)}_{ii}+ Z_{\nu} =   - 1 - \gamma_n m + \epsilon_\nu,  \label{self_Gmu2}
 \end{align}
-where we recall \eqref{m123}, and 
+where we recall Definition \ref{defnMinor}, and %\eqref{m123}, and 
 $$\epsilon_i := Z_i + \sigma_ir_1\left(m_2 - m_2^{(i)}\right) + r_2(m_3-m_3^{(i)}) ,\quad \epsilon_\mu := \begin{cases}Z_{\mu} + \gamma_n(m_1-m_1^{(\mu)}) , \ &\text{if } \mu \in \cal I_2\\ Z_{\mu} +\gamma_n(m-m^{(\mu)}) , \ &\text{if } \mu \in \cal I_3\end{cases}.$$
 By (\ref{resolvent8}) we can bound that
 \begin{equation}\nonumber
@@ -1359,7 +1355,7 @@ With \eqref{Gsim1} and the definition of $\Xi$, we get that $\mathbf 1(\Xi)|z + 
 \be\label{Gmumu0}
 \mathbf 1(\Xi)G_{ii}=\mathbf 1(\Xi)\left[-\frac{1}{z + \sigma_i^2 r_1 m_2+r_2 m_3} +\OO_\prec\left(n^{-1/2}\right)\right].
 \ee
-Plugging it into the definitions of $m$ and $m_1$ in \eqref{m123}, we get
+Plugging it into the definitions of $m$ and $m_1$ in \eqref{defm}, we get
 \begin{align}
 \mathbf 1(\Xi)m&=\mathbf 1(\Xi)\left[-\frac1p\sum_{i\in \cal I_1}\frac{1}{z + \sigma_i^2 r_1 m_2+r_2 m_3}  +\OO_\prec\left(n^{-1/2}\right)\right],\label{Gmumu} \\
 \mathbf 1(\Xi)m_1&=\mathbf 1(\Xi)\left[-\frac1p\sum_{i\in \cal I_1}\frac{\sigma_i^2}{z + \sigma_i^2 r_1 m_2+r_2 m_3}   +\OO_\prec\left(n^{-1/2}\right)\right]. \label{Gmumu2}
