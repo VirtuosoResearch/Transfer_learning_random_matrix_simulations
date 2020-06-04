@@ -102,10 +102,10 @@ We introduce the following notations.
 	Then
 	%Whether $\te(\hat{\beta}_t^{\MTL})$ is lower than $\te(\hat{\beta}_t^{\STL})$ is determined by the ratio between $\Psi(\beta_1, \beta_2)$ and $\Phi(\rho_1, \rho_2)$:
 	\squishlist
-		\item If $\Psi(\beta_1, \beta_2) < \nu \cdot  \Phi(\rho_1, \rho_2)$, then w.h.p. over the randomness of $X_1,X_2$, $\te(\hat{\beta}_t^{\MTL}) < \te(\hat{\beta}_t^{\STL})$.
-		\item If $\Psi(\beta_1, \beta_2) > \frac{1}{\nu} \cdot  \Phi(\rho_1, \rho_2)$, then w.h.p. over the randomness of $X_1,X_2$, $\te(\hat{\beta}_t^{\MTL}) > \te(\hat{\beta}_t^{\STL})$.
+		\item If $\Psi(\beta_1, \beta_2) < \frac{1}{\nu} \cdot  \Phi(\rho_1, \rho_2)$, then w.h.p. over the randomness of $X_1,X_2$, $\te(\hat{\beta}_t^{\MTL}) < \te(\hat{\beta}_t^{\STL})$.
+		\item If $\Psi(\beta_1, \beta_2) > {\nu} \cdot  \Phi(\rho_1, \rho_2)$, then w.h.p. over the randomness of $X_1,X_2$, $\te(\hat{\beta}_t^{\MTL}) > \te(\hat{\beta}_t^{\STL})$.
 	\squishend
-	Here $\nu = (1-\oo(1))\min(\cdot(1 - \rho_1^{-1/2})^4, (1 + \rho_1^{-1/2})^{-4})$.
+	Here {\small$\nu = (1-\oo(1))\min((1 - 1/\sqrt{\rho_1})^{-4}, (1 + 1/\sqrt{\rho_1})^{4})$}.
 	Concretely, if $\rho_1 > 40$, then $\nu\in (1,2)$.
 \end{proposition}
 
@@ -160,8 +160,8 @@ Using the isotropic model, we consider what happens if we vary the source task s
 	In the isotropic model, suppose that $\rho_1 > 40$ and $\rho_2 > 110$ are fixed constants, and $\Psi(\beta_1, \beta_2) > 2/(\rho_2 - 1)$.
 	Then we have that
 	\squishlist
-		\item If $\frac{n_1}{n_2} = \frac{\rho_1}{\rho_2} < {\nu} \cdot \frac{1 - 2\rho_2^{-1}}{\Psi(\beta_1, \beta_2) (\rho_2 - 1) - \nu^{-1}}$, then w.h.p. $\te(\hat{\beta}_t^{\MTL}) < \te(\hat{\beta}_t^{\STL})$.
-		\item If $\frac{n_1}{n_2} = \frac{\rho_1}{\rho_2} > \frac{1}{\nu} \cdot \frac{1 - 2\rho_2^{-1}}{\Psi(\beta_1, \beta_2) (\rho_2 - 1.5) - \nu^{-1}}$, then w.h.p. $\te(\hat{\beta}_t^{\MTL}) > \te(\hat{\beta}_t^{\STL})$.
+		\item If $\frac{n_1}{n_2} = \frac{\rho_1}{\rho_2} < \frac{1}{\nu} \cdot \frac{1 - 2\rho_2^{-1}}{\Psi(\beta_1, \beta_2) (\rho_2 - 1) - \nu^{-1}}$, then w.h.p. $\te(\hat{\beta}_t^{\MTL}) < \te(\hat{\beta}_t^{\STL})$.
+		\item If $\frac{n_1}{n_2} = \frac{\rho_1}{\rho_2} > {\nu} \cdot \frac{1 - 2\rho_2^{-1}}{\Psi(\beta_1, \beta_2) (\rho_2 - 1.5) - \nu}$, then w.h.p. $\te(\hat{\beta}_t^{\MTL}) > \te(\hat{\beta}_t^{\STL})$.
 	\squishend
 \end{proposition}
 Proposition \ref{prop_data_size} describes the bias-variance tradeoff in terms of the data ratio $n_1 / n_2$.
@@ -217,12 +217,11 @@ We show that when $n_1 / n_2$ is large, MTL with covariate shift can be suboptim
 We compare different choices of $M$ that belong to the following bounded set.
 Let $\lambda_i$ be the $i$-th singular value of $M$.
 Let $\mu_{\min} < \mu < \mu_{\max}$ be fixed values that do not grow with $p$.
-
+\vspace{-0.025in}
 {\small\begin{align*}
 		\cS_{\mu}\define\bigset{M \left| \prod_{i=1}^p \lambda_i \le \mu^p, \mu_{\min} \le \lambda_i\le \mu_{\max}, \text{ for all } 1\le i\le p\right.},
 \end{align*}}
 %	We assume that $\beta_1$ and $\beta_2$ are generated following the isotropic model with $d = 0$.
-
 \begin{proposition}[Covariate shift]\label{prop_covariate}
 	Assume that $\Psi(\beta_1, \beta_2) = 0$ and $\rho_1, \rho_2>1$.
 	Let $g(M)$ denote the prediction loss of $\hat{\beta}_t^{\MTL}$ when $M = \Sigma_1^{1/2}\Sigma_2^{-1/2} \in\cS_{\mu}$.
