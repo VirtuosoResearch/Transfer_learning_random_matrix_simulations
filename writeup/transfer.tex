@@ -262,10 +262,10 @@ This setting is prevalent in applications of multi-task learning to image classi
 	Let $U_r U_r^{\top}$ denote the best rank-$r$ subspace approximation of $(B^{\star})^\top\Sigma B^{\star}$.
 	Assume that $\lambda_{\min}({B^{\star}}^\top\Sigma B^{\star})\gtrsim \sigma^2$.
 	Let $v_i$ denote the $i$-th row vector of $U_r$.
-	We have the following
+	There exists a value $\delta = \oo \left( \|B^\star\|^2 + \sigma^2\right)$ such that
 	\squishlist
-		\item  If	$\left(1 - \norm{v_t}^2 \right)\frac{\sigma^2}{\rho - 1} > \norm{\Sigma (B^{\star} U_r v_t - \beta_t)}^2 +  \oo \left( \|B^\star\|^2 + \sigma^2\right)$, then w.h.p $\te(\hat{\beta}_t^{\MTL}) < \te(\hat{\beta}_t^{\STL})$
-		\item If $\left(1 - \norm{v_t}^2\right)\frac{\sigma^2}{\rho - 1} < \norm{\Sigma(B^{\star} U_r v_t - \beta_t)}^2 -  \oo \left( \|B^\star\|^2 + \sigma^2\right)$, then w.h.p. $\te(\hat{\beta}_t^{\MTL}) > \te(\hat{\beta}_t^{\STL})$.
+		\item  If	$\left(1 - \norm{v_t}^2 \right)\frac{\sigma^2}{\rho - 1} - \norm{\Sigma (B^{\star} U_r v_t - \beta_t)}^2 > \delta$, then w.h.p $\te(\hat{\beta}_t^{\MTL}) < \te(\hat{\beta}_t^{\STL})$.
+		\item If $\left(1 - \norm{v_t}^2\right)\frac{\sigma^2}{\rho - 1} - \norm{\Sigma(B^{\star} U_r v_t - \beta_t)}^2 < -\delta$, then w.h.p. $\te(\hat{\beta}_t^{\MTL}) > \te(\hat{\beta}_t^{\STL})$.
 	\squishend
 \end{theorem}
 Theorem \ref{thm_many_tasks} shows that when all tasks share the same features but have different labels, we can derive a sharp transition from positive to negative transfer.
