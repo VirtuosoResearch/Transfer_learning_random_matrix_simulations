@@ -3,7 +3,7 @@
 %We provide precise explanations to the phenomena of negative transfer in multi-task learning.
 We provide tight bounds on the bias and variance of the multi-task estimator for two tasks.
 We show theoretical implications for understanding the performance of multi-task learning.
-(a) \textit{Task model distance}: we explain the phenomenon of negative transfer precisely as task models become different.
+(a) \textit{Task similarity}: we explain the phenomenon of negative transfer precisely as task models become different.
 (b) \textit{Sample size}: we further explain a curious phenomenon where increasing the source sample size helps initially, but hurts eventually.
 (c) \textit{Covariate shift}: as source sample size increases, we show that covariate shift worsens the performance of the multi-task estimator.
 Finally, we extend our result from two tasks to many tasks with the same features.
@@ -72,7 +72,7 @@ The proof of Theorem \ref{thm_main_informal} is presented in Appendix \ref{app_p
 
 
 
-\subsection{Task Model Distance}\label{sec_similarity}
+\subsection{Task Similarity}\label{sec_similarity}
 
 It is well-known since the seminal work of Caruana \cite{C97} that how well multi-task learning performs depends on task relatedness. We formalize this connection in the following simplified setting, where we can perform explicit calculations.
 
@@ -111,6 +111,7 @@ We introduce the following notations.
 
 Proposition \ref{prop_dist_transition} simplifies Theorem \ref{thm_main_informal} in the isotropic model, allowing for a more explicit statement of the bias-variance tradeoff.
 Concretely, $\Psi(\beta_1, \beta)$ and $\Phi(\rho_1, \rho_2)$ corresponds to $\Delta_{\bias}$ and $\Delta_{\vari}$, respectively.
+Roughly speaking, the transition threshold scales as $\frac{pd^2}{\sigma^2} - \frac{1}{\rho_1} - \frac{1}{\rho_2}$.
 We apply Proposition \ref{prop_dist_transition} to the parameter setting of Figure \ref{fig_model_shift} (the details are left to Appendix \ref{app_synthetic}).
 We can see that our result is able to predict positive or negative transfer  accuractly that matches the empirical curve.
 There are several unexplained observations near the transition threshold $0$, which are caused by the concentration error $\nu$.
