@@ -83,12 +83,12 @@ We consider the bias and variance of the multi-task estimator for predicting a p
 %Let $\hat{\beta}_t^{\MTL}$ denote the optimal multi-task estimator for the target task, which is defined precisely in Section \ref{sec_prelim}.
 %We revisit the bias-variance tradeoff of $\hat{\beta}_t^{\MTL}$.
 
-Our main result is to develop tight concentration bounds for the bias and variance of the multi-task estimator for two tasks.
-Since the sample size has increased, the variance of the multi-task estimator is \textit{always smaller} than the variance of the single-task estimator.
-In Lemma \ref{lem_cov_shift_informal}, we provide a sharp analysis of the reduced variance that scales only with sample size and covariate shift.
-Since task models are different, the bias of the multi-task estimator is \textit{always larger} than the bias of the single-task estimator (which is $0$).
-Hence, the bias-variance tradeoff determines whether we observe positive or negative transfer.
-Using Lemma \ref{lem_cov_shift_informal}, we analyze the bias-variance tradeoff for two tasks in Theorem \ref{thm_main_informal} and extend the analysis to many tasks with same features in Theorem \ref{thm_many_tasks}.
+Our main result is to develop tight bounds for the bias and variance of the multi-task estimator for two tasks.
+Since the total sample size has increased, the variance of the multi-task estimator is \textit{always smaller} than that of the single-task estimator.
+Since task models are different, the bias of the multi-task estimator is \textit{always larger} than that of the single-task estimator (which is $0$ since $n_1 > p$).
+Hence, the tradeoff between bias and variance determines whether the transfer is positive or negative.
+In Lemma \ref{lem_cov_shift_informal}, we provide a sharp analysis of the variance that scales only with sample size and covariate shift and extend it to the bias.
+Combined together, we analyze the bias-variance tradeoff for two tasks in Theorem \ref{thm_main_informal} and extend the analysis to many tasks with same features in Theorem \ref{thm_many_tasks}.
 %For the setting of two tasks, we show how the variance of the multi-task estimator  scales with sample size and covariate shift in the following result.
 %\textit{Our first contribution} is to develop a concentration bound that arises naturally from the bias-variance tradeoff of $\hat{\beta}_t^{\MTL}$ for two tasks.
 %Let $\hat{\beta}_t^{\STL}$ denote the single-task estimator.
@@ -121,12 +121,9 @@ Using Lemma \ref{lem_cov_shift_informal}, we analyze the bias-variance tradeoff 
 		\label{fig_covariate}
 	\end{subfigure}
 	\caption{%Three takeaways of our theory in Section \ref{sec_insight}.
-	We observe that MTL performance
-	(a) transitions from pos. to neg. transfer as \textit{task model distance} increases;
-	(b) transitions from pos. to neg. transfer as source/target \text{sample ratio} increases;
-	(c) worsens as \textit{covariate shift} gets more severe (larger $\lambda$) and source/target \textit{sample ratio} increases -- tasks have the same model here.
-	The $y$-axis measures the loss of STL minus MTL.
-	}
+	We observe a transition from positive to negative transfer as (a) \textit{task model distance} increases and (b) source/target \textit{sample ratio} increases.
+	For the special case of having the same task model, we observe in (c) that as source/target \textit{sample ratio} increases, having \textit{covariate shift} worsens the performance of MTL.
+	The $y$-axis measures the loss of STL minus MTL.}
 	\label{fig_model_shift_phasetrans}
 	\vspace{-0.3in}
 \end{figure}
