@@ -20,7 +20,8 @@ When specialized to the linear regression setting, the model consists of a linea
 The width of $B$, denoted by $r$, plays an important regularization effect.
 As observed in Proposition 1 of \cite{WZR20}, if $r \ge t$, there is no regularization effect.
 Hence, we assume that $r < t$ in our study.
-Concretely, considering the following procedure that resembles how hard parameter sharing models are trained in practice (e.g. \cite{MTDNN19}).
+For example, when there are only two tasks, $r = 1$ and $B$ reduces a vector whereas $W_1, W_2$ become scalars.
+We study the following procedure inspired by how hard parameter sharing models are trained in practice (e.g. \cite{MTDNN19}).
 \squishlist
 	\item Separate each dataset $(X_i, Y_i)$ randomly into a training set $(X_i^{tr}, Y_i^{tr})$ and a validation set $(X_i^{val}, Y_i^{val})$.
 	The size of each set is described below.
@@ -43,18 +44,14 @@ Concretely, considering the following procedure that resembles how hard paramete
 We make several remarks.
 In general, the objective $f(\cdot)$ is non-convex in $B$ and the $W_k$'s.
 Therefore, we first minimize $B$ in equation \eqref{eq_mtl} and then minimize $W_k$ given $B$ in equation \eqref{eq_mtl_eval}.
-For our purpose, a validation set of size $\rho_i \cdot p^{0.99}$ suffices.
+For our purpose, a validation set of size $\rho_i \cdot p^{0.99}$ that is much larger than the number of output layer parameters $kt$ suffices.
 The size of the training set is then $\rho_i (p - p^{0.99})$.
+The advantage of tuning the output layers on the validation set is to reduce the effect of noise from $\hat{B}$.
 %For more details, we refer the reader to Appendix \ref{app_proof_sec3}.
 
 %The single-task estimator $\hat{\beta}_t^{\STL}$ is given by $(X_t^{\top}X_t)^{-1}X_t^{\top}Y_t$.
 %For an estimator $\hat{\beta}\in\real^p$, we define the out-of-sample prediction loss as
-%	\begin{align*}
-%		\te_t(\hat{\beta}) = \exarg{x}{({x}^{\top}\hat{\beta} - {x}^{\top}\beta_t)^2}
-%		= \bignorm{\ex{\hat{\beta}} - \beta_t}^2 + \ex{\bignorm{\hat{\beta} -
-%	\ex{\hat{\beta}}}^2},
-%	\end{align*}
-%= (\hat{\beta} - \beta_t)^{\top}\Sigma_t(\hat{\beta} - \beta_t) \\
+
 %which can be further decomposed as the bias plus the variance of $\hat{\beta}$.
 %In order to relate the btradeoff to properties of the data, we need tight concentration bounds for the bias and variance.
 %We consider the high-dimensional regime where $n_i$ is a fixed constant $\rho_i > 1$  multiple of $p$ for every $1\le i\le t$, and $p$ is sufficiently large.
@@ -68,26 +65,37 @@ The size of the training set is then $\rho_i (p - p^{0.99})$.
 %When there is no ambiguity, we drop the subscript $t$ from $\te_t(\hat{\beta}_t^{\MTL})$ and write $\te(\hat{\beta}_t^{\MTL})$ for simplicity.
 %We refer to the first task as the source task when there are only two tasks.
 %We call $M = \Sigma_1^{1/2}\Sigma_2^{-1/2}$ the covariate shift matrix.
-%We say there is negative transfer if the prediction loss of $\hat{\beta}_t^{\MTL}$ is larger than that of $\hat{\beta}_t^{\STL}$, or positive transfer otherwise.
+
 %For a matrix $X$, let $\lambda_{\min}(X)$ denote its smallest singular value and $\norm{X}$ denote its spectral norm.
 
 %\subsection{Analyzing the Tradeoff via Random Matrix Theory}
 
 \textbf{Problem statement.}
-To illustrate our intuition, we begin by considering the setting of two tasks with general covariance matrices.
+We focus on predicting a particular task, say the $t$-th task without loss of generality.
+Let $\hat{\beta}_t^{\MTL}$ denote the multi-task estimator obtained from the procedure above.
+Our goal is to compare the prediction loss of $\hat{\beta}_t^{\MTL}$, defined by
+{\small\begin{align*}
+		\te(\hat{\beta}_t^{\MTL}) = \exargnob{\set{\varepsilon_i}_{i=1}^t}\exarg{x = \Sigma_t^{1/2} z}{({x}^{\top}\hat{\beta} - {x}^{\top}\beta_t)^2}
+		= \exargnob{\set{\varepsilon_i}_i^t}\bignorm{\Sigma_2^{1/2} (\hat{\beta}_t^{\MTL} - \beta_t)}^2,
+	\end{align*}}%
+%= (\hat{\beta} - \beta_t)^{\top}\Sigma_t(\hat{\beta} - \beta_t)
+to the prediction loss $L(\hat{\beta}_t^{\STL})$ of the single-task estimator $\hat{\beta}_t^{\STL} = (X_t^{\top}X_t)^{-1}X_t^{\top}{Y_t}$.
+We say there is negative transfer if  $L(\hat{\beta}_t^{\MTL}) > \hat{\beta}_t^{\STL}$, or positive transfer otherwise.
+
+As an example, for the setting of two tasks, we can decompose $L(\hat{\beta}_t^{\MTL})$ into a bias term and a variance term (that scales with noise variance $\sigma_2$) as follows (derived in Appendix \ref{app_proof_sec3}).
 %Recall that $\hat{\beta}_t^{\MTL}$ is defined as $BW_t$ after solving equation \eqref{eq_mtl}.
-We decompose the test error of $\hat{\beta}_{t}^{\MTL}$ on the target task into two parts as follows.
-\begin{align}
+%We can  the test error of $\hat{\beta}_{t}^{\MTL}$ on the target task into two parts as follows.
+{\small\begin{align}
 	\te(\hat{\beta}_t^{\MTL}) =& ~ \hat{v}^2 \bignorm{\Sigma_2^{1/2} (\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}X_1^{\top}X_1 (\beta_1 - \hat{v}\beta_2)}^2 \label{eq_te_model_shift} \\
 	&+ \sigma^2\cdot \bigtr{(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2}, \label{eq_te_var}
-\end{align}
-Here $\hat{v}\in\real$ denotes a fixed value that depends on the output layer weights $W_1, W_2$.
+\end{align}}%
+Here $\hat{v} = W_1 / W_2$ where $W_1, W_2$ is the solutions from solving equation \eqref{eq_mtl_eval} (recalling that $W_1, W_2$ are scalars for two tasks).
 The role of $\hat{v}$ is to scale the shared subspace $B$ to fit each task.
-These are derived in Appendix \ref{app_proof_sec3}.
 
-The term on the right-hand side of \eqref{eq_te_model_shift} corresponds to the bias of $\hat{\beta}_t^{\MTL}$, which captures how similar $\beta_1$ and $\beta_2$ are.
-Hence, the bias of $\hat{\beta}_t^{\MTL}$ introduces a negative effect from adding the source labels.
+Equation \eqref{eq_te_model_shift} corresponds to the bias of $\hat{\beta}_t^{\MTL}$.
+Hence, the bias of $\hat{\beta}_t^{\MTL}$ introduces a negative effect that depends on the \textit{similarity} between $\beta_1$ and $\beta_2$.
 Equation \eqref{eq_te_var} corresponds to the variance of $\hat{\beta}_t^{\MTL}$, which is always smaller than the variance of $\hat{\beta}_t^{\STL}$.
+Intuitively, the more \textit{samples} we add, the smaller the variance is.
 %This part introduces a positive variance reduction effect from adding the source labels.
 Hence, whether $\te(\hat{\beta}_t^{\MTL}) < \te(\hat{\beta}_t^{\STL})$ is determined precisely by the tradeoff between the negative effect of the bias term and the positive effect of the variance term!
 %(i) the negative effect from model shift bias.
