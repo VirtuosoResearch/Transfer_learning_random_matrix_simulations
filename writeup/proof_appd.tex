@@ -706,20 +706,20 @@ In the setting of Lemma \ref{lem_cov_derivative}, we can write
 %where $\wt\Sigma_1:= w^2 \Sigma_1$, $\Sigma_2$, $Z_1$ and $Z_2$ satisfy Assumption \ref{assm_big1} and $M:=\wt\Sig_1^{1/2} \Sig_2^{-1/2}$. 
 Here again the $n^{2}$ factor disappears due to the choice of scaling. 
 %Again we assume that $M$ has the singular value decomposition \eqref{tildeM}. 
-\todo{check}Then we can write
-$$\Delta:= \bv^\top (\cal G^2)(0)  \bv, \quad \bv:=V^\top M^\top  \Sigma_1^{1/2} (\beta_s - {w}\beta_t).$$
-
-Note that $\cal G^2(0)=\partial_z \cal G|_{z=0}$. Now using Cauchy's integral formula and Corollary \ref{main_cor}, we get that with probability $1-\oo(1)$, 
+With \eqref{eigen2}, we can write the above expression as
+$\Delta:= \bv^\top (\cal G^2)(0)  \bv$ where $\bv:=V^\top  \Sigma_2^{-1/2} \beta .$ 
+Note that $\cal G^2(0)=\partial_z \cal G|_{z=0}$. Now using Cauchy's integral formula and Theorem \ref{LEM_SMALL}, we get that %with probability $1-\oo(1)$, 
 \be\label{apply derivlocal}
 \begin{split}
-  \bv^\top \cal G^2(0)\bv & = \frac{1}{2\pi \ii}\oint_{\cal C} \frac{ \bv^\top \cal G(z)\bv }{z^2}\dd z=  \frac{1}{2\pi \ii}\oint_{\cal C} \frac{ \bv^\top\Pi(z)\bv}{z^2}\dd z +\OO_\prec(q) =  \bv^\top \Pi'(0)\bv + \OO_\prec(q),
+  \bv^\top \cal G^2(0)\bv  = \frac{1}{2\pi \ii}\oint_{\cal C} \frac{ \bv^\top \cal G(z)\bv }{z^2}\dd z &=  \frac{1}{2\pi \ii}\oint_{\cal C} \frac{ \bv^\top\Pi(z)\bv}{z^2}\dd z +\OO_\prec(n^{-1/2}\|\beta\|^2) \\
+  &=  \bv^\top \Pi'(0)\bv + \OO_\prec(n^{-1/2}\|\beta\|^2),
 \end{split}
 \ee
-where $\cal C$ is the contour $\{z\in \C: |z| \le (\log n)^{-1} \}$ and we used \eqref{aniso_law} in the second step. Hence it remains to study the derivatives 
+where $\cal C$ is the contour $\{z\in \C: |z| \le (\log n)^{-1} \}$. Hence it remains to study the derivatives 
 \be\label{dervPi}
-\bv^\top \Pi'(0)\bv = \bv \frac{1+r_1m_{2c}'(0)\Lambda^2 + r_2m_{3c}'(0)}{(r_1m_{2c}(0)\Lambda^2 + r_2m_{3c}(0))^2}\bv.
+\bv^\top \Pi'(0)\bv = \bv \frac{1+r_1m_{2c}'(0)\Lambda^2 + r_2m_{3c}'(0)}{(r_1m_{2c}(0)\Lambda^2 + r_2m_{3c}(0))^2}\bv,
 \ee
-It remains to calculate the derivatives $ m_{2 c}'(0)$ and $ m_{3 c}'(0)$. 
+where we need to calculate the derivatives $ m_{2 c}'(0)$ and $ m_{3 c}'(0)$. 
 
 	
 %Then we have
@@ -783,8 +783,7 @@ If we rename $-r_1m_{2c}(0)\to a_1$, $-r_2m_{3c}(0)\to a_2$,  $r_2m_{3c}'(0)\to 
 \ee
 Then by \eqref{apply derivlocal} and \eqref{dervPi}, we get
 \begin{align*}
-\Delta&=(\beta_s - {w}\beta_t)^\top \Sigma_1^{1/2} M V  \frac{1 + a_3+ a_4\Lambda^2 }{(a_1\Lambda^2 + a_2)}  V^\top M^\top  \Sigma_1^{1/2} (\beta_s - {w}\beta_t)\\
-&=(\beta_s - {w}\beta_t)^\top \Sigma_1^{1/2} M    \frac{1 + a_3+ a_4M^\top M }{(a_1M^\top M + a_2)}   M^\top  \Sigma_1^{1/2} (\beta_s - {w}\beta_t)
+\Delta&=\beta^\top \Sigma_2^{-1/2} V  \frac{1 + a_3+ a_4\Lambda^2 }{(a_1\Lambda^2 + a_2)}  V^\top  \Sigma_2^{-1/2} \beta =\beta^\top \Sigma_2^{-1/2} \frac{1 + a_3+ a_4M^\top M }{(a_1M^\top M + a_2)} \Sigma_2^{-1/2} \beta,
 \end{align*}
 where we used $M^\top M= V\Lambda^2 V^\top$ in the second step. 
 %where we denote $b_3:=u_3'(0)$ and $b_4:=u_4'(0)$. Thus we have
@@ -805,7 +804,7 @@ This concludes Lemma \ref{lem_cov_derivative}.
 \end{proof}
 
 
-Using a simple cutoff argument, it is easy to obtain the following corollary under certain moment assumptions. 
+Using a simple cutoff argument, it is easy to obtain from Theorem \ref{LEM_SMALL} the following corollary under weaker moment assumptions. 
 
 \begin{corollary}\label{main_cor}
 Suppose Assumption \ref{assm_big1} holds. Moreover, assume that the entries of $Z_1$ and $Z_2$ are i.i.d. random variables satisfying \eqref{assm1} and  
@@ -815,7 +814,7 @@ Suppose Assumption \ref{assm_big1} holds. Moreover, assume that the entries of $
 for some fixed $a>4$. Then \eqref{aniso_law} holds for $q= n^{2/a-1/2}$ on an event with probability $1-\oo(1)$.
 \end{corollary}
 \begin{proof}[Proof of Corollary \ref{main_cor}]
-Fix any sufficiently small constant $\e>0$. We then choose $q= n^{-c_a +\e}$ with $c_a=1/2-2/a $. Then we introduce the truncated matrices $\wt Z_1$ and $\wt Z_2$, with entries
+Fix any sufficiently small constant $\e>0$. We choose $q= n^{-c_a +\e}$ with $c_a=1/2-2/a $. Then we introduce the truncated matrices $\wt Z_1$ and $\wt Z_2$, with entries
 $$ \wt z^{(\al)}_{ij}:= \mathbf 1\left\{ |\wt z^{(\al)}_{ij}|\le q \right\}\cdot z^{(\al)}_{ij},\quad \al=1,2.$$
 %where, for convenience, we again use $j$ to denote the column index of $X$. 
 By the moment conditions (\ref{condition_4e}) and a simple union bound, we have
@@ -823,26 +822,26 @@ By the moment conditions (\ref{condition_4e}) and a simple union bound, we have
 \mathbb P(\wt Z_1 = Z_1,  \wt Z_2 = Z_2) =1-\OO ( n^{-a\e}).
 \end{equation}
 Using (\ref{condition_4e}) and integration by parts, it is easy to verify that %we can get that
-\begin{align*}
-\mathbb E  |z^{(\al)}_{ij}|1_{|z^{(\al)}_{ij}|> q} =\OO(n^{-2-\e}), \quad \mathbb E |z^{(\al)}_{ij}|^2 1_{|z^{(\al)}_{ij}|> q} =\OO(n^{-2-\e}), \quad \al=1,2,
-\end{align*}
-which imply that
+%\begin{align*}
+%\mathbb E  |z^{(\al)}_{ij}|1_{|z^{(\al)}_{ij}|> q} =\OO(n^{-2-\e}), \quad \mathbb E |z^{(\al)}_{ij}|^2 1_{|z^{(\al)}_{ij}|> q} =\OO(n^{-2-\e}), \quad \al=1,2,
+%\end{align*}
+%which imply that
 \be\label{meanshif}
 |\mathbb E  \tilde z^{(\al)}_{ij}| =\OO(n^{-2-\e}), \quad  \mathbb E |\tilde z^{(\al)}_{ij}|^2 = n^{-1} + \OO(n^{-2-\e}), \quad \al=1,2,.
 \ee
 %and
 %$$\left| \mathbb E\tilde x_{ij}^2\right| =O( n^{-2-\omega/2}), \ \ \text{if $x_{ij}$ is complex.} $$
-Moreover, we trivially have
-$$\mathbb E  |\tilde z^{(\al)}_{ij}|^4 \le \mathbb E  |z^{(\al)}_{ij}|^4 =\OO(n^{-2}), \quad \al=1,2.$$
-Then we centralize and rescale $\wt Z_1$ and $\wt Z_2$ as
-$$ \wh Z_\al := \frac{\wt Z_\al - \E \wt Z_\al}{(\E|\wt z^{(\al)}_{11}|^2)^{1/2}},\quad \al=1,2.$$ 
+%Moreover, we trivially have
+%$$\mathbb E  |\tilde z^{(\al)}_{ij}|^4 \le \mathbb E  |z^{(\al)}_{ij}|^4 =\OO(n^{-2}), \quad \al=1,2.$$
+Then we can centralize and rescale $\wt Z_1$ and $\wt Z_2$ as
+$ \wh Z_\al :=(\wt Z_\al - \E \wt Z_\al)/{(\E|\wt z^{(\al)}_{11}|^2)^{1/2}},$ $\al=1,2.$ 
 Now $\wh Z_1$ and $\wh Z_2$ satisfy the assumptions in Theorem \ref{LEM_SMALL} with $q= n^{-c_a +\e}$, and \eqref{aniso_law} gives that
 $$\left| \mathbf u^\top (G(\wh Z_1,\wh Z_2,z)-\Pi(z)) \mathbf v \right|  \prec  q.$$
-Then using \eqref{meanshif} and \eqref{priorim} below, we can easily get that  
+Then using \eqref{meanshif} and \eqref{priorim} below, we obtain that  
 $$\left| \mathbf u^\top (G(\wh Z_1,\wh Z_2,z)-G(\wt Z_1,\wt Z_2,z)) \mathbf v \right|  \prec  n^{-1-\e},$$
-where we also used the bound $\|\E \wt Z_\al\|=\OO(n^{-1-\e})$. This shows that \eqref{aniso_law} also holds for $G(\wt Z_1,\wt Z_2,z)$ with $q= n^{-c_a +\e}$, and hence concludes the proof by \eqref{XneX}.
+where we also used the bound $\|\E \wt Z_\al\|=\OO(n^{-1-\e})$ by \eqref{meanshif}. This shows that \eqref{aniso_law} also holds for $G(\wt Z_1,\wt Z_2,z)$ with $q= n^{-c_a +\e}$, and hence concludes the proof by \eqref{XneX}.
 \end{proof}
-
+With this corollary, we can easily extend Lemma \ref{lem_cov_shift} and Lemma \ref{lem_cov_derivative} to the case with weaker moment assumptions. Due to length constraints, we will not go into further details here. 
 
 %In order for this argument to work, we need to assume 
 %%that the third moments of the $X$ entries coincide with that of the Gaussian random variable, i.e. 
@@ -861,16 +860,16 @@ where we also used the bound $\|\E \wt Z_\al\|=\OO(n^{-1-\e})$. This shows that 
 
 The main difficulty for the proof of Theorem \ref{LEM_SMALL} is due to the fact that the entries of $Y_1=Z_1 U\Lambda  $ and $Y_2={Z_2V}$ are not independent. However, notice that if the entries of $Z_1\equiv Z_1^{Gauss}$ and $Z_2\equiv Z_2^{Gauss}$ are i.i.d. Gaussian, then by the rotational invariance of the multivariate Gaussian distribution, we have
 $$Z_1^{Gauss} U\Lambda \stackrel{d}{=} Z_1^{Gauss} \Lambda, \quad Z_2^{Gauss} V \stackrel{d}{=} Z_2^{Gauss} .$$
-In this case, the problem is reduced to proving the anisotropic local law for $G$ with $U=\id$ and $V=\id$, such that the entries of $Y_1$ and $Y_2$ are independent. This can be handled using the standard resolvent methods as in e.g. \cite{isotropic,PY,yang2019spiked}. To go from the Gaussian case to the general $X$ case, we will adopt a continuous self-consistent comparison argument developed in \cite{Anisotropic}. 
+In this case, the problem is reduced to proving the anisotropic local law for $G$ with $U=\id$ and $V=\id$, such that the entries of $Y_1$ and $Y_2$ are independent. This can be handled using the standard resolvent methods as in e.g. \cite{isotropic,yang2019spiked,PY}. To go from the Gaussian case to the general $X$ case, we will adopt a continuous self-consistent comparison argument developed in \cite{Anisotropic}. 
 
 %As discussed above, we first prove Theorem \ref{LEM_SMALL} for the case $U=\id$ and $V=\id$, which will imply the local laws in the Gaussian $Z_1$ and $Z_2$ case. Thus 
 
 For the case $U=\id$ and $V=\id$, we need to deal with the following resolvent:
  \begin{equation}\label{eqn_comparison1}
  G_0 (z):= \left( {\begin{array}{*{20}c}
-   { -z } & \Lambda Z_1^\top & Z_2^\top  \\
-   {Z_1 \Lambda  } & {-I_{n_1}} & 0 \\
-   {Z_2} & 0 & -I_{n_2}
+   { -z I_{p\times p}} & \Lambda Z_1^\top & Z_2^\top  \\
+   {Z_1 \Lambda  } & {-I_{n_1\times n_1}} & 0 \\
+   {Z_2} & 0 & -I_{n_2\times n_2}
    \end{array}} \right) ^{-1} , \quad z\in \mathbb C_+ ,
  \end{equation}
 %separable covariance matrices of the form $\Sig^{1/2} X \tilde \Sig X^\top \Sig^{1/2}$, which will imply the local laws in the Gaussian $X$ case. Thus in this section, we deal with the following resolvent:
@@ -921,14 +920,14 @@ Suppose Assumption \ref{assm_big1} holds, and $Z_1,Z_2$ satisfy the bounded supp
 \end{proposition}
 %The proof Proposition \ref{prop_diagonal} is similar to the previous proof of the local laws, such as \cite{isotropic, DY, Anisotropic, yang2019spiked}. Thus instead of giving all the details, we only describe briefly the proof. In particular, we shall focus on the key self-consistent equation argument, which is (almost) the only part that departs significantly from the previous proof in e.g. \cite{isotropic}. 
 
-In Section \ref{sec tools}, we will collect some a priori estimates and resolvent identities that will be used in the proof of Theorem \ref{LEM_SMALL} and Proposition \ref{prop_diagonal}. Then in Section \ref{sec entry} we give the proof of Proposition \ref{prop_diagonal}, which, as discussed above, concludes Theorem \ref{LEM_SMALL} for i.i.d. Gaussian $Z_1$ and $Z_2$. Finally, in Section \ref{sec_comparison}, we will describe how to extend the result in Theorem \ref{LEM_SMALL} from the Gaussian case to the case with generally distributed entries of $Z_1$ and $Z_2$. In the proof, we always denote the spectral parameter by $z=E+\ii\eta$. 
+In Section \ref{sec tools}, we collect some a priori estimates and resolvent identities that will be used in the proof of Theorem \ref{LEM_SMALL} and Proposition \ref{prop_diagonal}. Then in Section \ref{sec entry} we give the proof of Proposition \ref{prop_diagonal}, which concludes Theorem \ref{LEM_SMALL} for i.i.d. Gaussian $Z_1$ and $Z_2$. Finally, in Section \ref{sec_comparison}, we describe how to extend the result in Theorem \ref{LEM_SMALL} from the Gaussian case to the case with generally distributed entries of $Z_1$ and $Z_2$. In the proof, we always denote the spectral parameter by $z=E+\ii\eta$. 
 
 
 
 \subsubsection{Basic estimates}\label{sec tools}
 The estimates in this section work for general $G$, that is, we do not require $U$ and $V$ to be identity.
 
-First, note that $Z_1^\top Z_1$ (resp.\;$Z_2^\top Z_2$) is a standard sample covariance matrix, and it is well-known that its nonzero eigenvalues are all inside the support of the Marchenko-Pastur law $[(1-\sqrt{d_1})^2 , (1+\sqrt{d_1})^2]$ (resp. $[(1-\sqrt{d_2})^2 , (1+\sqrt{d_2})^2]$) with probability $1-\oo(1)$ \cite{No_outside}. In our proof, we shall need a slightly stronger probability bound, which is given by the following lemma. Denote the nonzero eigenvalues of $Z_1^\top Z_1$ and $Z_2^\top Z_2$ by $\lambda_1 (Z_1^\top Z_1) \ge \cdots \ge \lambda_{p\wedge n_1} (Z_1^\top Z_1)$ and $\lambda_1 (Z_2^\top Z_2) \ge \cdots \ge \lambda_p (Z_2^\top Z_2)$.
+First, note that $Z_1^\top Z_1$ (resp.\;$Z_2^\top Z_2$) is a standard sample covariance matrix, and it is well-known that its nonzero eigenvalues are all inside the support of the Marchenko-Pastur law $[(1-\sqrt{d_1})^2 , (1+\sqrt{d_1})^2]$ (resp. $[(1-\sqrt{d_2})^2 , (1+\sqrt{d_2})^2]$) with probability $1-\oo(1)$ \cite{No_outside}. In our proof, we shall need a slightly stronger probability bound, which is given by the following lemma. Denote the eigenvalues of $Z_1^\top Z_1$ and $Z_2^\top Z_2$ by $\lambda_1 (Z_1^\top Z_1) \ge \cdots \ge \lambda_{p} (Z_1^\top Z_1)$ and $\lambda_1 (Z_2^\top Z_2) \ge \cdots \ge \lambda_p (Z_2^\top Z_2)$.
  
 \begin{lemma}\label{SxxSyy}
 Suppose Assumption \ref{assm_big1} holds, and $Z_1,Z_2$ satisfy the bounded support condition \eqref{eq_support} for some deterministic parameter $q\equiv q(n)$ satisfying $ n^{-{1}/{2}} \leq q \leq n^{- \phi} $ for some (small) constant $\phi>0$. Then for any constant $\e>0$, we have with high probability,
@@ -940,15 +939,15 @@ and
 \ee
 \end{lemma}
 \begin{proof}
-This lemma essentially follows from \cite[Theorem 2.10]{isotropic}, although the authors considered the case with $q \prec n^{-1/2}$ only. The results for larger $q$ follows from \cite[Lemma 3.12]{DY}, but only the bounds for the largest eigenvalues are given there in order to avoid the issue with the smallest eigenvalue when $d_{2}$ is close to 1. However, under the assumption \eqref{assm2}, the lower bound for the smallest eigenvalue follows from the exactly the same arguments as in \cite{DY}. Hence we omit the details. 
+This lemma essentially follows from \cite[Theorem 2.10]{isotropic}, although the authors considered the case with $q \prec n^{-1/2}$ only. The results for larger $q$ follows from \cite[Lemma 3.12]{DY}, but only the bounds for the largest eigenvalues are given there in order to avoid the issue with the smallest eigenvalue when $d_{2}$ is close to 1. However, under the assumption \eqref{assm2}, the lower bound for the smallest eigenvalue follows from the same arguments as in \cite{DY}. Hence we omit the details. 
 \end{proof}
 
-With this lemma, we can easily obtain the following a priori estimate on the resolvent $G(z)$ for $z\in \mathbf D$.
+With this lemma, we can obtain the following a priori estimate on the resolvent $G(z)$ for $z\in \mathbf D$.
 
 
 
 \begin{lemma}\label{lemm apri}
-Suppose the assumptions of Lemma \ref{SxxSyy} holds. Then there exists a constant $C>0$ such that the following estimates hold uniformly in $z,z'\in \mathbf D$ with high probability: 
+\todo{check} Suppose the assumptions of Lemma \ref{SxxSyy} holds. Then there exists a constant $C>0$ such that the following estimates hold uniformly in $z,z'\in \mathbf D$ with high probability: 
 \be\label{priorim}
 \|G(z)\| \le C,%|\im \langle \bu,\cal R  (z,0)\bv\rangle| \le C\eta, 
 \ee
