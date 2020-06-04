@@ -22,7 +22,7 @@ We show how the variance of the multi-task estimator scales with sample size and
 	Let $\lambda_1, \dots, \lambda_p$ be the singular values of the covariate shift matrix $\Sigma_1^{1/2}\Sigma_2^{-1/2}$ in decreasing order.
 	%let $n_1 = \rho_1 \cdot p$ and $n_2 = \rho_2 \cdot p$ denote the sample sizes of each task.
 	%Let $\Sigma_1$ and $\Sigma_2$ denote the covariance matrix of each task.
-	With high probability, the variance of the multi-task estimator $\hat{\beta}_t^{\MTL}$ equals the following
+	With high probability, the variance of the multi-task estimator $\hat{\beta}_t^{\MTL}$ equals
 	%let $M = \Sigma_1^{1/2}\Sigma_2^{-1/2}$ and $\lambda_1, \lambda_2, \dots, \lambda_p$ be the singular values of $M^{\top}M$ in descending order.
 %	For any constant $\e>0$, w.h.p. over the randomness of $X_1, X_2$, we have that
 	{\small\begin{align*}%\label{eq_introX1X2}
@@ -78,8 +78,8 @@ It is well-known since the seminal work of Caruana \cite{C97} that how well mult
 
 \textit{The isotropic model.}
 	Consider two tasks with isotropic covariances $\Sigma_1 = \Sigma_2 = \id$.
-	Recall that each task has sample size $n_i = \rho_i \cdot p$, for $i = 1, 2$.
-	And $X_1\in\real^{n_1\times p}, X_2\in\real^{n_2\times p}$ denote the covariates of the two tasks, respectively.
+	Each task has sample size $n_i = \rho_i \cdot p$, for $i = 1, 2$.
+	%And $X_1\in\real^{n_1\times p}, X_2\in\real^{n_2\times p}$ denote the covariates of the two tasks, respectively.
 	We assume that for the target task, $\beta_2$ has i.i.d. entries with mean zero and variance $\kappa^2$.
 	For the source task, $\beta_1 $ equals $\beta_2$ plus i.i.d. entries with mean $0$ and variance $d^2$.
 	The labels are given by $Y_i = X_i\beta_i + \varepsilon_i$, where $\e_i$ consists of i.i.d. entries with mean zero and variance $\sigma_i^2$, for $i=1,2$.
@@ -89,7 +89,7 @@ In the isotropic model, we show that as we increase the distance between $\beta_
 %We measure model dissimilarity as $\norm{\beta_1 - \beta_2}^2$, which is the distance between source and target in the isotropic model.
 %Figure \ref{fig_model_shift} provides a simulation when $p = 200$.
 %{The rest of parameter settings can be found in Appendix \ref{app_synthetic}.}
-Our result below will provide an explanation to this phenomenon.
+%Our result below will provide an explanation to this phenomenon.
 %Based on Theorem \ref{thm_model_shift}, we derive the transition threshold in the following proposition.
 We introduce the following notations.
 {\small\begin{align*}
@@ -201,31 +201,31 @@ In general, the covariance matrices of the two tasks may be different such as in
 In this part, we consider what happens when $\Sigma_1 \neq \Sigma_2$.
 We show that when $n_1 / n_2$ is large, MTL with covariate shift can be suboptimal compared to MTL without covariate shift.
 
-\begin{example}\label{ex_complement}
-	We measure covariate shift by the matrix $M = \Sigma_1^{1/2} \Sigma_2^{-1/2}$.
+\textit{Example.}
+	We measure covariate shift by $M = \Sigma_1^{1/2} \Sigma_2^{-1/2}$.
 	Assume that $\Psi(\beta_1, \beta_2) = 0$ for simplicity.
 	We compare two cases: (i) when $M = \id$; (ii) when $M$ has $p/2$ singular values that are equal to $\lambda$ and $p/2$ singular values that are equal to $1 / \lambda$.
 	Hence, $\lambda$ measures the severity of the covariate shift.
 	Figure \ref{fig_covariate} shows a simulation of this setting by varying $\lambda$.
 	We observe that as source/target sample ratio increases, the performance gap between the two cases increases.
-\end{example}
 
 %By applying Lemma \ref{lem_cov_shift_informal}, we find that when $n_1 / n_2$ is large, having no covariate shift is the optimal choice provided that the determinant of $M^{\top}M$ is bounded.
-To compare different choices of $M$ regarding the performance of $\hat{\beta}_t^{\MTL}$, let $\lambda_1, \lambda_2, \dots, \lambda_p$ be the singular values of $M$ in decreasing order.
+We compare different choices of $M$ that belong to the following bounded set.
+Let $\lambda_i$ be the $i$-th singular value of $M$.
 Let $\mu_{\min} < \mu < \mu_{\max}$ be fixed values that do not grow with $p$.
-Consider the following bounded set
+
 {\small\begin{align*}
-		\cS_{\mu}\define\bigset{M \left| \prod_{i=1}^p \lambda_i \le \mu^p, \mu_{\min} \le \lambda_p\le \lambda_1 \le \mu_{\max}\right.},
+		\cS_{\mu}\define\bigset{M \left| \prod_{i=1}^p \lambda_i \le \mu^p, \mu_{\min} \le \lambda_i\le \mu_{\max}, \text{ for all } 1\le i\le p\right.},
 \end{align*}}
 %	We assume that $\beta_1$ and $\beta_2$ are generated following the isotropic model with $d = 0$.
 
 \begin{proposition}[Covariate shift]\label{prop_covariate}
 	Assume that $\Psi(\beta_1, \beta_2) = 0$ and $\rho_1, \rho_2>1$.
-	Let $g(M)$ denote the prediction loss of $\hat{\beta}_t^{\MTL}$ when the covariance shift matrix is equal to $M\in\cS_{\mu}$.
+	Let $g(M)$ denote the prediction loss of $\hat{\beta}_t^{\MTL}$ when $M = \Sigma_1^{1/2}\Sigma_2^{-1/2} \in\cS_{\mu}$.
 	We have that
-	{\small\[ g(\mu\id) \le \bigbrace{1+ \bigo{\frac{\rho_2}{\rho_1}  }} \min_{M\in\cS_{\mu}} g(M). \]}
+	{\small\[ g(\mu\id) \le \bigbrace{1+ \bigo{{\rho_2}/{\rho_1}  }} \min_{M\in\cS_{\mu}} g(M). \]}
 \end{proposition}
-This proposition shows that when the source sample size is much larger than the target sample size, $\te(\hat{\beta}^{\MTL})$ is minimized when there is no covariate shift between source and target tasks.
+This proposition shows that when source/target sample ratio is large, then having no covariate shift is optimal.
 The proof of Proposition \ref{prop_covariate} is left to Appendix \ref{app_proof_33}.
 %Proposition \ref{prop_covariate} implies that when $\rho_1\gg \rho_2$, having no covariate shift is the optimal choice for choosing the source task.
 %This provides evidence that covariate shift is unfavorable when there are many source task datapoints,
@@ -268,8 +268,7 @@ This setting is prevalent in applications of multi-task learning to image classi
 		\item If $\left(1 - \norm{v_t}^2\right)\frac{\sigma^2}{\rho - 1} - \norm{\Sigma(B^{\star} U_r v_t - \beta_t)}^2 < -\delta$, then w.h.p. $\te(\hat{\beta}_t^{\MTL}) > \te(\hat{\beta}_t^{\STL})$.
 	\squishend
 \end{theorem}
-Theorem \ref{thm_many_tasks} shows that when all tasks share the same features but have different labels, we can derive a sharp transition from positive to negative transfer.
-Specially, $(1 - \norm{v_t}^2)\sigma^2/(\rho - 1)$ shows the amount of variance reduced using the multi-task estimator.
-On the other hand, $\norm{\Sigma (B^{\star} U_r v_t - \beta_t)}$ shows the bias of the multi-task estimator.
+Theorem \ref{thm_many_tasks} provides a sharp analysis of the bias-variance tradeoff beyond two tasks.
+Specially, $(1 - \norm{v_t}^2)\sigma^2/(\rho - 1)$ shows the amount of reduced variance and $\norm{\Sigma (B^{\star} U_r v_t - \beta_t)}$ shows the bias of the multi-task estimator.
 The proof of \ref{thm_many_tasks} can be found in Appendix \ref{app_proof_many_tasks}.
 
