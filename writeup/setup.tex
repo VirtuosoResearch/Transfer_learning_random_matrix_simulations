@@ -6,54 +6,70 @@ Then, we describe the bias-variance tradeoff of the multi-task estimator, and co
 %Finally, we show a tight concentration bound for the bias and variance quantities using random matrix theory.
 
 \textbf{Problem setup.}
-Suppose we have $t$ training datasets, where $t$ is a fixed value that does not grow with the feature dimension $p$.
+Suppose we have $t$ datasets, where $t$ is a fixed value that does not grow with the feature dimension $p$.
 In the high-dimensional linear regression setting (e.g. \cite{HMRT19,BLLT20}), the features of the $k$-th task, denoted by $X_k\in\real^{n_i\times p}$, consists of $n_k$ feature vectors given by $x_1, x_2, \dots, x_{n_k}$.
 And each feature $x_i = \Sigma^{1/2}z_i$, where $z_i\in\real^p$ consists of i.i.d. entries with mean zero and unit variance.
+The sample size $n_k = \rho_k\times p$ for a fixed value $\rho_k$.
 The labels $Y_k = X_k \beta_k + \varepsilon_k$, where $\beta_k$ denotes the linear model parameters and $\varepsilon_k$ denotes i.i.d. noise with mean zero and variance $\sigma^2$.
 %Recall that we have $t$ labeled training datasets, denoted by $(X_1, Y_1), (X_2, Y_2), \dots, (X_t, Y_t)$, where $X_i\in\real^{n_i\times p}$ and $Y_i\in\real^{n_i}$ for $1\le i\le t$.
 %Following \cite{HMRT19,BLLT20}, we assume that for each task $i = 1,2,\dots,t$,  every feature vector is generated as $x = \Sigma_i^{1/2} z$, where $z\in\real^p$ is a random vector with i.i.d. entries of mean zero and unit variance and $\Sigma_i\in\real^{p\times p}$ is a positive semidefinite matrix.
 %Without loss of generality, let the $t$-th task be the target task.
 
-We focus on the commonly used hard parameter sharing model for multi-task learning \cite{R17,MTDNN19}.
+We focus on the commonly used hard parameter sharing model for multi-task learning \cite{R17}.
 When specialized to the linear regression setting, the model consists of a linear layer $B\in\real^{p\times r}$ that is shared by all tasks and $t$ output layers $W_1, \dots, W_t$ that are in $\real^r$.
 The width of $B$, denoted by $r$, plays an important regularization effect.
 As observed in Proposition 1 of \cite{WZR20}, if $r \ge t$, there is no regularization effect.
 Hence, we assume that $r < t$ in our study.
-Concretely, considering the following objective
-\begin{align}
-	\label{eq_mtl}
-	f(B; W_1, \dots, W_t) = \sum_{k=1}^t \norm{X_k B W_k - Y_k}^2.
-\end{align}
+Concretely, considering the following procedure that resembles how hard parameter sharing models are trained in practice (e.g. \cite{MTDNN19}).
+\squishlist
+	\item Separate each dataset $(X_i, Y_i)$ randomly into a training set $(X_i^{tr}, Y_i^{tr})$ and a validation set $(X_i^{val}, Y_i^{val})$.
+	The size of each set is described below.
+	\item Learning the shared layer $B$: minimize the training loss over $B$ and $W_1, \dots, W_t$, leading to a closed form equation for $\hat{B}$ that depends on $W_1,\dots, W_k$.
+		\vspace{-0.075in}
+		{\small\begin{align}\label{eq_mtl}
+			f(B; W_1, \dots, W_t) = \sum_{k=1}^t \norm{X_k^{tr} B W_k - Y_k^{tr}}^2.
+		\end{align}}
+		\vspace{-0.075in}
+	\item Tuning the output layers $W_i$: set $B = \hat{B}$ and minimize the validation loss over $W_1,\dots, W_k$.
+		\vspace{-0.075in}
+		{\small\begin{align}\label{eq_mtl_eval}
+			g(W_1, \dots, W_t) = \sum_{k=1}^t \norm{X_k^{val} \hat{B} W_k - Y_k^{val}}^2.
+		\end{align}}
+		\vspace{-0.075in}
+\squishend
+\vspace{-0.1in}
 %where $B\in\real^{p\times r}$ and $W_k\in\real^r$ for every $1\le k\le t$.
 %Following , we assume that $r < t$, because otherwise minimizing $f(\cdot)$ could result in $BW_i$ being the single-task optimum.
-In general, the above objective $f(\cdot)$ is non-convex in $B$ and the $W_k$'s.
-Therefore, we consider the following
-We define $\hat{\beta}_t^{\MTL}$ by two steps:
-Then applying equation \eqref{eq_mtl} will give the same estimator as single-task learning.
-(i) minimizing $f(\cdot)$ over $B$;
-(ii) minimize $\set{W_i}_{i=1}^k$ over an independent sample of the training set, e.g. $\OO(p^{0.99})$ suffices.
-For more details, we refer the reader to Appendix \ref{app_proof_sec3}. The single-task estimator $\hat{\beta}_t^{\STL}$ is given by $(X_t^{\top}X_t)^{-1}X_t^{\top}Y_t$. 
-For an estimator $\hat{\beta}\in\real^p$, we define the out-of-sample prediction loss as
-	\begin{align*}
-		\te_t(\hat{\beta}) = \exarg{x}{({x}^{\top}\hat{\beta} - {x}^{\top}\beta_t)^2}
-		= \bignorm{\ex{\hat{\beta}} - \beta_t}^2 + \ex{\bignorm{\hat{\beta} - \ex{\hat{\beta}}}^2},
-	\end{align*}
-%= (\hat{\beta} - \beta_t)^{\top}\Sigma_t(\hat{\beta} - \beta_t) \\
-which can be further decomposed as the bias plus the variance of $\hat{\beta}$.
-%In order to relate the btradeoff to properties of the data, we need tight concentration bounds for the bias and variance.
-We consider the high-dimensional regime where $n_i$ is a fixed constant $\rho_i > 1$  multiple of $p$ for every $1\le i\le t$, and $p$ is sufficiently large.
-We focus on a setting where $\rho_t$ is small compared to $\set{\rho_i}_{i=1}^{t-1}$.
-This setting captures the need to add more labeled data to reduce the prediction loss of the target task.
-A well-known result for this setting states that $\te_t(\hat{\beta}_t^{\STL}) = \sigma^2 \cdot \tr[(X_t^{\top}X_t)^{-1}\Sigma_t]$ is concentrated around $\frac {\sigma^2} {\rho_t - 1}$ (e.g. Chapter 6 of \cite{S07}), which scales with the data size and noise level of the target task.
-However, this result only applies to a single task.
-Therefore, our goal is to extend this result to multiple tasks.
+We make several remarks.
+In general, the objective $f(\cdot)$ is non-convex in $B$ and the $W_k$'s.
+Therefore, we first minimize $B$ in equation \eqref{eq_mtl} and then minimize $W_k$ given $B$ in equation \eqref{eq_mtl_eval}.
+For our purpose, a validation set of size $\rho_i \cdot p^{0.99}$ suffices.
+The size of the training set is then $\rho_i (p - p^{0.99})$.
+%For more details, we refer the reader to Appendix \ref{app_proof_sec3}.
 
-\textbf{Notations.}
-When there is no ambiguity, we drop the subscript $t$ from $\te_t(\hat{\beta}_t^{\MTL})$ and write $\te(\hat{\beta}_t^{\MTL})$ for simplicity.
-We refer to the first task as the source task when there are only two tasks.
+%The single-task estimator $\hat{\beta}_t^{\STL}$ is given by $(X_t^{\top}X_t)^{-1}X_t^{\top}Y_t$.
+%For an estimator $\hat{\beta}\in\real^p$, we define the out-of-sample prediction loss as
+%	\begin{align*}
+%		\te_t(\hat{\beta}) = \exarg{x}{({x}^{\top}\hat{\beta} - {x}^{\top}\beta_t)^2}
+%		= \bignorm{\ex{\hat{\beta}} - \beta_t}^2 + \ex{\bignorm{\hat{\beta} -
+%	\ex{\hat{\beta}}}^2},
+%	\end{align*}
+%= (\hat{\beta} - \beta_t)^{\top}\Sigma_t(\hat{\beta} - \beta_t) \\
+%which can be further decomposed as the bias plus the variance of $\hat{\beta}$.
+%In order to relate the btradeoff to properties of the data, we need tight concentration bounds for the bias and variance.
+%We consider the high-dimensional regime where $n_i$ is a fixed constant $\rho_i > 1$  multiple of $p$ for every $1\le i\le t$, and $p$ is sufficiently large.
+%We focus on a setting where $\rho_t$ is small compared to $\set{\rho_i}_{i=1}^{t-1}$.
+%This setting captures the need to add more labeled data to reduce the prediction loss of the target task.
+%A well-known result for this setting states that $\te_t(\hat{\beta}_t^{\STL}) = \sigma^2 \cdot \tr[(X_t^{\top}X_t)^{-1}\Sigma_t]$ is concentrated around $\frac {\sigma^2} {\rho_t - 1}$ (e.g. Chapter 6 of \cite{S07}), which scales with the data size and noise level of the target task.
+%However, this result only applies to a single task.
+%Therefore, our goal is to extend this result to multiple tasks.
+
+%\textbf{Notations.}
+%When there is no ambiguity, we drop the subscript $t$ from $\te_t(\hat{\beta}_t^{\MTL})$ and write $\te(\hat{\beta}_t^{\MTL})$ for simplicity.
+%We refer to the first task as the source task when there are only two tasks.
 %We call $M = \Sigma_1^{1/2}\Sigma_2^{-1/2}$ the covariate shift matrix.
-We say there is negative transfer if the prediction loss of $\hat{\beta}_t^{\MTL}$ is larger than that of $\hat{\beta}_t^{\STL}$, or positive transfer otherwise.
-For a matrix $X$, let $\lambda_{\min}(X)$ denote its smallest singular value and $\norm{X}$ denote its spectral norm.
+%We say there is negative transfer if the prediction loss of $\hat{\beta}_t^{\MTL}$ is larger than that of $\hat{\beta}_t^{\STL}$, or positive transfer otherwise.
+%For a matrix $X$, let $\lambda_{\min}(X)$ denote its smallest singular value and $\norm{X}$ denote its spectral norm.
 
 %\subsection{Analyzing the Tradeoff via Random Matrix Theory}
 
