@@ -3,7 +3,7 @@
 %We provide precise explanations to the phenomena of negative transfer in multi-task learning.
 We provide tight bounds on the bias and variance of the multi-task estimator for two tasks.
 We show theoretical implications for understanding the performance of multi-task learning.
-(a) \textit{Task similarity}: we explain the phenomenon of negative transfer precisely as task models become different.
+(a) \textit{Task model distance}: we explain the phenomenon of negative transfer precisely as task models become different.
 (b) \textit{Sample size}: we further explain a curious phenomenon where increasing the source sample size helps initially, but hurts eventually.
 (c) \textit{Covariate shift}: as source sample size increases, we show that covariate shift worsens the performance of the multi-task estimator.
 Finally, we extend our result from two tasks to many tasks with the same features.
@@ -37,7 +37,7 @@ We show how the variance of the multi-task estimator scales with sample size and
 \end{lemma}
 Lemma \ref{lem_cov_shift_informal} allows us to get a tight bound on equation \eqref{eq_te_var}, that only depends on the sample sizes and the covariate shift matrix.
 As a remark, the concentration error $\OO(p^{-1/2+o(1)})$ of our result is nearly optimal.
-For the bias term of equation \eqref{eq_te_model_shift}, a similar result that scales with task similarity in addition to sample size and covariate shift holds (cf. Lemma \ref{lem_cov_derivative} in Appendix \ref{app_proof_main_thm}).
+For the bias term of equation \eqref{eq_te_model_shift}, a similar result that scales with task model distance in addition to sample size and covariate shift holds (cf. Lemma \ref{lem_cov_derivative} in Appendix \ref{app_proof_main_thm}).
 Combining the two lemmas, we provide a sharp analysis of the bias-variance tradeoff of the multi-task estimator.
 For a matrix $X$, let $\lambda_{\min}(X)$ denote its smallest singular value and $\norm{X}$ denote its spectral norm.
 %The formal statement is stated in Theorem \ref{thm_many_tasks} and its proof can be found in Appendix \ref{app_proof_many_tasks}.
@@ -72,7 +72,7 @@ The proof of Theorem \ref{thm_main_informal} is presented in Appendix \ref{app_p
 
 
 
-\subsection{Task Similarity}\label{sec_similarity}
+\subsection{Task Model Distance}\label{sec_similarity}
 
 It is well-known since the seminal work of Caruana \cite{C97} that how well multi-task learning performs depends on task relatedness. We formalize this connection in the following simplified setting, where we can perform explicit calculations.
 
@@ -174,7 +174,7 @@ For $i = 1, 2$, let $\hat{\beta}_i^{\MTL}(x)$ denote the estimator trained using
 		\le \te_1(\hat{\beta}_1^{\STL}) + \te_2(\hat{\beta}_2^{\STL}). \]}
 For example, the data efficiency ratio is $1$ if there is negative transfer.
 Using our tools, we show that in the isotropic model, the data efficiency ratio is
-roughly 
+roughly
 {\small\[ \frac{1}{\rho_1 + \rho_2} {+ \frac{2}{(\rho_1 +\rho_2)(\rho_1^{-1} + \rho_2^{-1} - \Theta(\Psi(\beta_1, \beta_2)))}}. \]}
 Compared with Proposition \ref{prop_dist_transition}, we see that when $\Psi(\beta_1, \beta_2)$ is smaller than $\rho_1^{-1} + \rho_2^{-1}$ (up to a constant multiple), the transfer is positive.
 Moreover, the data efficiency ratio quantifies how effective the positive transfer is using MTL.
