@@ -78,7 +78,7 @@ We refer to the first task as the source and the second as the target.
 %The labels of task $i$ are given by $Y_i = X_i\beta_i + \varepsilon_i$, where $\beta_i\in\real^p$ denotes task $i$'s ground truth parameters and $\varepsilon_i$ denotes i.i.d. random noise with mean zero and variance $\sigma^2$.
 We consider a multi-task estimator obtained using a shared linear layer for all tasks and a separate output layer for each task \cite{WZR20}.
 This two layer model is inspired by a commonly used idea of hard parameter sharing in multi-task learning \cite{R17,MTDNN19}.
-We consider the bias and variance of the multi-task estimator, and connect them to the three components defined above.
+We consider the bias and variance of the multi-task estimator for predicting a particular task, and compare its performance to single-task learning.
 %This corresponds to minimizing $ \sum_{i=1}^t \norm{X_i B W_i - Y_i}^2$.
 %Let $\hat{\beta}_t^{\MTL}$ denote the optimal multi-task estimator for the target task, which is defined precisely in Section \ref{sec_prelim}.
 %We revisit the bias-variance tradeoff of $\hat{\beta}_t^{\MTL}$.
@@ -148,20 +148,22 @@ Using Lemma \ref{lem_cov_shift_informal}, we analyze the bias-variance tradeoff 
 %We prove that the bias of the transfer learning estimator is given by the projection of $\beta_t$ to the orthogonal subspace spanned by $\set{\beta_i}_{i=1}^{t-1}$.
 %These results are described more precisely in Section \ref{sec_main}.
 
-Next, we use our newly developed tool to explain negative transfer in multi-task learning precisely.
-To motivate our study, Figure \ref{fig_model_shift_phasetrans} shows three examples for two linear regression tasks solved using a shared linear layer for both tasks and an output layer for each task.
+Next, we explain the performance of multi-task learning by varying the three components above in isotropic and covariate shifted settings.
+We describe three simulations in Figure \ref{fig_model_shift_phasetrans} for two linear regression tasks and measure the loss of the single-task estimator minus the multi-task estimator.
 We observe that negative transfer occurs as (a) \textit{task similarity}: tasks become more different; (b) \textit{data size}: source/target data size increases.
 %\textbf{Task similarity:}
 %\textbf{Data sizes:}
 %\textbf{Covariate shift:}
 Furthermore, MTL performance is negatively affected when (c) \textit{covariate shift}: the covariance matrices of the two tasks become more different.
-In Section \ref{sec_insight}, we explain the three phenomena in Figure \ref{fig_model_shift_phasetrans} for a simplified isotropic setting of two tasks.
-Our theoretical results in Prop.\;\ref{prop_dist_transition} and Prop.\;\ref{prop_data_size} provide predictions that match the empirical result of (a) and (b).
-When $\beta_1 = \beta_2$, Lemma \ref{lem} Prop.\;\ref{prop_covariate}
-It is crucial that the concentration result in Theorem \ref{lem_cov_shift_informal} is sufficiently precise so that we can explain the transition phenomena in Figure \ref{fig_model_shift} and \ref{fig_size}.
-The unexplained observations are caused by an error term that arises from the bias of $\hat{\beta}_t^{\MTL}$ -- we discuss these in Section \ref{sec_insight} more precisely.
-Theorem \ref{lem_cov_shift_informal} allows us to compare MTL performance under different covariate shifts.
-When task models are the same and the covariate shift matrix belongs to a certain bounded set, we show that having no covariate shift yields the optimal MTL performance.
+\squishlist
+	\item In Proposition \ref{prop_dist_transition}, Our theoretical results in  and  provide predictions that match the empirical result of (a) and (b).
+%	It is crucial that the concentration result in Theorem \ref{lem_cov_shift_informal} is sufficiently precise so that we can explain the transition phenomena in Figure \ref{fig_model_shift} and \ref{fig_size}.
+	The unexplained observations are caused by an error term that arises from the bias of $\hat{\beta}_t^{\MTL}$ -- we discuss these in Section \ref{sec_insight} more precisely.
+	\item In Proposition \ref{prop_data_size},
+	%Theorem \ref{lem_cov_shift_informal} allows us to compare MTL performance under different covariate shifts.
+	\item In Proposition \ref{prop_covariate}, When task models are the same and the covariate shift matrix belongs to a certain bounded set, we show that having no covariate shift yields the optimal MTL performance.
+	When $\beta_1 = \beta_2$, Lemma \ref{lem}
+\squishend
 %In Section \ref{sec_insight}, we consider three components including task similarity, data size and covariate shift for a simplified isotropic setting of two tasks.
 %We measure task similarity by how small is the distance between $\beta_1$ and $\beta_2$.
 %Using our tool, we explain a transition from positive to negative transfer as task similarity decreases.
