@@ -1,34 +1,35 @@
 \section{Proof of Lemma \ref{lem_cov_shift} and Lemma \ref{lem_cov_derivative}} \label{sec_maintools}
 
-%(\cor will simplify greatly\nc)
-%
-%\subsection{Separable covariance matrices}
 
-%\begin{definition}\label{def_convariance}
-We consider two $p\times p$ random sample covariance matrices $\mathcal Q_1:=\Sigma_1^{1/2}Z_1^\top Z_1\Sigma_1^{1/2}$ and $\cal Q_2:= \Sigma_2^{1/2}Z_2^\top Z_2\Sigma_2^{1/2}$, where $\Sigma_1$ and $\Sigma_2$ are $p\times p$ deterministic non-negative definite (real) symmetric matrices. We assume that $Z_1=(z^{(1)}_{ij})$ and $Z_2=(z^{(2)}_{ij})$ are $n_1\times p$ and $n_2\times p$ random matrix with (real) i.i.d. entries satisfying
+In random matrix theory, it is more convenient to rescale the matrices $Z_1$ and $Z_2$ such that their entries have variance $n^{-1}$, where $n:=n_1+n_2$. The advantage of this scaling is that the singular eigenvalues of $Z_1$ and $Z_2$ all lie in a bounded support that does grow with $n$.
+
+\subsection{Notations and basic tools}
+
+We denote the two sample covariance matrices by $\mathcal Q_1:=X_1^\top X_1$ and $\cal Q_2:= X_2^\top X_2$. We assume that $Z_1=(z^{(1)}_{ij})$ and $Z_2=(z^{(2)}_{ij})$ are $n_1\times p$ and $n_2\times p$ random matrices with i.i.d. entries satisfying
 \begin{equation}\label{assm1}
-\mathbb{E} z^{(\al)}_{ij} =0, \ \quad \ \mathbb{E} \vert z^{(\al)}_{ij} \vert^2  =n^{-1}, 
+\mathbb{E} z^{(\al)}_{ij} =0, \ \quad \ \mathbb{E} \vert z^{(\al)}_{ij} \vert^2  =n^{-1}. 
 \end{equation}
-where we denote $n:=n_1+n_2$. Here we have chosen the scaling that is more standard in the random matrix theory literature---under this $n^{-1/2}$ scaling, the eigenvalues of $\cal Q_1$ and $\cal Q_2$ are all of order 1. Moreover, we assume that the fourth moment exists:
+%where we denote $n:=n_1+n_2$. Here we have chosen the scaling that is more standard in the random matrix theory literature---under this $n^{-1/2}$ scaling, the eigenvalues of $\cal Q_1$ and $\cal Q_2$ are all of order 1. 
+Moreover, we assume that the fourth moments exist:
 \be \label{conditionA2}
 \mathbb{E} \vert \sqrt{n}z^{(\al)}_{ij} \vert^4  \le C
 \ee
-for some constant $C>0$. 
+for some constant $C>0$. Let $0<\tau<1$ be a small constant. 
 %In this paper, we regard $N$ as the fundamental (large) parameter and $n \equiv n(N)$ as depending on $N$. 
 We assume that the aspect ratios $d_1:= p/n_1$ and $d_2:=p/n_2$ satisfy that 
 \be\label{assm2}
-0\le d_1 \le \tau^{-1}, \quad 1+\tau \le d_{2} \le \tau^{-1},
+0\le d_1 \le \tau^{-1}, \quad 1+\tau \le d_{2} \le \tau^{-1}.
 \ee
-for some small constant $0<\tau <1$. Here the lower bound $1+\tau\le d_2$ is to ensure that the covariance matrix $\cal Q_2$ for the target task is non-singular with high probability; see Lemma \ref{SxxSyy} below. 
+Here the lower bound $1+\tau\le d_2$ is to ensure that the sample covariance matrix $\cal Q_2$ is non-singular with high probability; see Lemma \ref{SxxSyy} below. 
 
 We assume that $\Sig_1$ and $\Sig_2$ have eigendecompositions
-\be\label{eigen}\Sig_1= O_1\Lambda_1 O_1^\top, \quad \Sig_2= O_2\Lambda_2 O_2^\top,\quad \Lambda_1=\text{diag}(\si_1^{(1)}, \ldots, \si^{(1)}_n), \quad \wt\Sig=\text{diag}( \si^{(2)}_1, \ldots, \si^{(2)}_N),
+\be\label{eigen}\Sig_1= O_1\Lambda_1 O_1^\top, \ \ \Sig_2= O_2\Lambda_2 O_2^\top,\ \ \Lambda_1=\text{diag}(\si_1^{(1)}, \ldots, \si^{(1)}_n), \ \ \Lambda_2=\text{diag}( \si^{(2)}_1, \ldots, \si^{(2)}_N),
 \ee
 where the eigenvalues satisfy that
 \begin{equation}\label{assm3}
-\tau^{-1}\ge \si^{(1)}_1 \ge \si^{(1)}_2 \ge \ldots \ge \si^{(1)}_p \ge 0, \quad \tau^{-1}\ge  \si^{(2)}_1 \ge \si^{(2)}_2 \ge \ldots \ge \si^{(2)}_p \ge \tau, 
+\tau^{-1}\ge \si^{(1)}_1 \ge \si^{(1)}_2 \ge \ldots \ge \si^{(1)}_p \ge 0, \quad \tau^{-1}\ge  \si^{(2)}_1 \ge \si^{(2)}_2 \ge \ldots \ge \si^{(2)}_p \ge \tau. 
 \ee
-for some small constant $0<\tau<1$. 
+%for some constant $0<\tau<1$. 
 %We denote the empirical spectral densities (ESD) of $A$ and $B$ by
 %\begin{equation}\label{sigma_ESD}
 %\pi_A\equiv \pi_A^{(n)} := \frac{1}{n} \sum_{i=1}^n \delta_{\si_i},\quad \pi_B\equiv \pi_B^{(n)} := \frac{1}{N} \sum_{i=1}^N \delta_{\wt\si_i}.
@@ -37,29 +38,26 @@ for some small constant $0<\tau<1$.
 %\begin{equation}\label{assm3}
 %\tau\le \max\{\si_p^{(1)},\sigma_p^{(2)}\} \le \max\{\si_1^{(1)},\sigma_1^{(2)}\} \le \tau^{-1}. %, \quad \max\left\{\pi_A^{(n)}([0,\tau]), \pi_B^{(n)}([0,\tau])\right\} \le 1 - \tau .
 %\end{equation}
-We assume that $M:=\Sig_1^{1/2} \Sig_2^{-1/2}$ has singular value decomposition
+We assume that $M=\Sig_1^{1/2} \Sig_2^{-1/2}$ has singular value decomposition
 \be\label{eigen2}
 M= U\Lambda V^\top, \quad \Lambda=\text{diag}( \sigma_1, \ldots, \sigma_p),
 \ee
 where the singular values satisfy that
 \begin{equation}\label{assm32}
-\tau \le \sigma_p \le \sigma_1 \le \tau^{-1} %, \quad \max\left\{\pi_A^{(n)}([0,\tau]), \pi_B^{(n)}([0,\tau])\right\} \le 1 - \tau .
+\tau \le \sigma_p \le \sigma_1 \le \tau^{-1} .%, \quad \max\left\{\pi_A^{(n)}([0,\tau]), \pi_B^{(n)}([0,\tau])\right\} \le 1 - \tau .
 \end{equation}
-for some small constant $0<\tau<1$. 
+
 %The first condition means that the operator norms of $A$ and $B$ are bounded by $\tau^{-1}$, and the second condition means that the spectrums of $A$ and $B$ do not concentrate at zero.
 
 
-We summarize our basic assumptions here for future reference.
+We summarize our basic assumptions here for future reference. Note that this assumption is in accordance with Assumption \ref{assm_secA1}, except that we rescale  the entries of $Z_1$ and $Z_2$ here.
 \begin{assumption}\label{assm_big1}
-We assume that $Z_1$ and $Z_2$ are independent $n_1\times p$ and $n_2\times p$ random matrices with real $i.i.d.$ entries satisfying (\ref{assm1}) and \eqref{conditionA2}, $\Sigma_1$ and $\Sigma_2$ are deterministic non-negative definite symmetric matrices satisfying \eqref{eigen}-\eqref{assm32}, and $d_{1,2}$ satisfy \eqref{assm2}.
+We assume that $Z_1$ and $Z_2$ are independent $n_1\times p$ and $n_2\times p$ random matrices with real $i.i.d.$ entries satisfying \eqref{assm1} and \eqref{conditionA2}, $\Sigma_1$ and $\Sigma_2$ are deterministic non-negative definite symmetric matrices satisfying \eqref{eigen}-\eqref{assm32}, and $d_{1,2}$ satisfy \eqref{assm2}.
  %and (\ref{assm2}). We assume that $T$ is an $M\times M$ deterministic diagonal matrix satisfying (\ref{simple_assumption}) and (\ref{assm3}).  
 \end{assumption}
 
 
-Before giving the main proof, we first introduce some notations and tools. 
-
-
-\subsection{Notations}
+%Before giving the main proof, we first introduce some notations and tools. 
 
 %Following the notations in \cite{EKYY,EKYY1}, we will use the following definition to characterize events of high probability.
 %
@@ -84,16 +82,17 @@ Before giving the main proof, we first introduce some notations and tools.
 
 
 
-We will use the following notion of stochastic domination, which was first introduced in \cite{Average_fluc} and subsequently used in many works on random matrix theory, such as \cite{isotropic,principal,local_circular,Delocal,Semicircle,Anisotropic}. It simplifies the presentation of the results and their proofs by systematizing statements of the form ``$\xi$ is bounded by $\zeta$ with high probability up to a small power of $n$".
+We will use the following notion of stochastic domination, which was first introduced in \cite{Average_fluc} and subsequently used in many works on random matrix theory. It simplifies the presentation of the results and their proofs by systematizing statements of the form ``$\xi$ is bounded by $\zeta$ with high probability up to a small power of $n$".
 
 \begin{definition}[Stochastic domination]\label{stoch_domination}
 %\begin{itemize}
 %\item[(i)] 
 (i) Let
 \[\xi=\left(\xi^{(n)}(u):n\in\bbN, u\in U^{(n)}\right),\hskip 10pt \zeta=\left(\zeta^{(n)}(u):n\in\bbN, u\in U^{(n)}\right)\]
-be two families of nonnegative random variables, where $U^{(n)}$ is a possibly $N$-dependent parameter set. We say $\xi$ is stochastically dominated by $\zeta$, uniformly in $u$, if for any fixed (small) $\epsilon>0$ and (large) $D>0$, 
+be two families of nonnegative random variables, where $U^{(n)}$ is a possibly $n$-dependent parameter set. We say $\xi$ is stochastically dominated by $\zeta$, uniformly in $u$, if for any fixed (small) $\epsilon>0$ and (large) $D>0$, 
 \[\sup_{u\in U^{(n)}}\bbP\left[\xi^{(n)}(u)>N^\epsilon\zeta^{(n)}(u)\right]\le N^{-D}\]
-for large enough $n\ge n_0(\epsilon, D)$, and we shall use the notation $\xi\prec\zeta$. Throughout this paper, the stochastic domination will always be uniform in all parameters that are not explicitly fixed (such as matrix indices, and $z$ that takes values in some compact set). 
+for large enough $n\ge n_0(\epsilon, D)$, and we shall use the notation $\xi\prec\zeta$. 
+%Throughout this paper, the stochastic domination will always be uniform in all parameters that are not explicitly fixed (such as matrix indices, and $z$ that takes values in some compact set). 
 %Note that $N_0(\epsilon, D)$ may depend on quantities that are explicitly constant, such as $\tau$ in Assumption \ref{assm_big1} and \eqref{assm_gap}. 
 If for some complex family $\xi$ we have $|\xi|\prec\zeta$, then we will also write $\xi \prec \zeta$ or $\xi=\OO_\prec(\zeta)$.
 %\item[(ii)] 
@@ -114,7 +113,7 @@ Let $\xi$ and $\zeta$ be families of nonnegative random variables.
 
 (ii) If $\xi_1 (u)\prec \zeta_1(u)$ and $\xi_2 (u)\prec  \zeta_2(u)$ uniformly in $u\in U$, then $\xi_1(u)\xi_2(u) \prec \zeta_1(u) \zeta_2(u)$ uniformly in $u$.
 
-(iii) Suppose that $\Psi(u)\ge n^{-C}$ is deterministic and $\xi(u)$ satisfies $\mathbb E\xi(u)^2 \le n^C$ for all $u$. Then if $\xi(u)\prec \Psi(u)$ uniformly in $u$, we have $\mathbb E\xi(u) \prec \Psi(u)$ uniformly in $u$.
+(iii) Suppose that $\Psi(u)\ge n^{-C}$ is deterministic and $\xi(u)$ satisfies $\mathbb E\xi(u)^2 \le n^C$. If $\xi(u)\prec \Psi(u)$ uniformly in $u$, then we also have $\mathbb E\xi(u) \prec \Psi(u)$ uniformly in $u$.
 \end{lemma}
 
 
@@ -131,19 +130,21 @@ Here $q\equiv q(N)$ is a deterministic parameter and usually satisfies $ n^{-{1}
 %Note that the Gaussian distribution satisfies the condition (\ref{eq_support}) with $q< N^{-\phi}$ for any $\phi<1/2$. We also remark that if (\ref{eq_support}) holds, then the event $\left\{\vert x_{ij}\vert \le q, \forall 1\le i \le M,1\le j \le N\right\}$ holds with $\xi$-high probability for any fixed $\xi>0$ according to Definition \ref{high_prob}. For this reason, the bad event $\left\{\vert x_{ij}\vert > q \text{ for some }i,j\right\}$ is negligible, and we will not consider the case it happens throughout the proof.
 %\end{remark}
 
-Our main goal is to study the following matrix inverse
-\begin{align*}
-(\cal Q_1+\cal Q_2)^{-1}=\left( \Sigma_1^{1/2}Z_1^\top Z_1\Sigma_1^{1/2}+\Sigma_2^{1/2}Z_2^\top Z_2\Sigma_2^{1/2}\right)^{-1} .
-\end{align*}
+Our main goal is to study the matrix inverse $(\cal Q_1+\cal Q_2)^{-1}$. 
+%\begin{align*}
+%(\cal Q_1+\cal Q_2)^{-1}=\left( \Sigma_1^{1/2}Z_1^\top Z_1\Sigma_1^{1/2}+\Sigma_2^{1/2}Z_2^\top Z_2\Sigma_2^{1/2}\right)^{-1} .
+%\end{align*}
 Using \eqref{eigen2}, we can rewrite it as
-\be\label{eigen2extra}\Sigma_2^{-1/2}V\left(   \Lambda U^\top Z_1^\top Z_1 U\Lambda  + V^\top Z_2^\top Z_2V\right)^{-1}V^\top\Sigma_2^{-1/2}.\ee
+\be\label{eigen2extra}(\cal Q_1+\cal Q_2)^{-1}=\Sigma_2^{-1/2}V\left(   \Lambda U^\top Z_1^\top Z_1 U\Lambda  + V^\top Z_2^\top Z_2V\right)^{-1}V^\top\Sigma_2^{-1/2}.\ee
 For this purpose, we shall study the following matrix for $z\in \C_+$, 
 \be\label{mainG}
 \cal G(z):=\left(   \Lambda U^\top Z_1^\top Z_1 U\Lambda  + V^\top Z_2^\top Z_2V -z\right)^{-1},\quad z\in \C_+,
 \ee
 which we shall refer to as resolvent (or Green's function).
 
-Now we introduce a convenient self-adjoint linearization trick. This idea dates back at least to Girko, see e.g., the works \cite{girko2012theory,girko1975random,girko1985spectral} and references therein. It has been proved to be useful in studying the local laws of random matrices of the Gram type \cite{Alt_Gram, AEK_Gram, Anisotropic, XYY_circular}. We define the following $(p+n)\times (p+n)$ self-adjoint block matrix, which is a linear function of $X$:
+Next we introduce a convenient self-adjoint linearization trick. 
+%This idea dates back at least to Girko, see e.g., the works \cite{girko1975random,girko1985spectral} and references therein. 
+It has been proved to be useful in studying the local laws of random matrices of the Gram type \cite{Anisotropic, AEK_Gram, XYY_circular}. We define the following $(p+n)\times (p+n)$ self-adjoint block matrix, which is a linear function of $Z_1$ and $Z_2$:
 %\begin{definition}[Linearizing block matrix]\label{def_linearHG}%definiton of the Green function
 %We define the $(n+N)\times (n+N)$ block matrix
  \begin{equation}\label{linearize_block}
@@ -172,15 +173,15 @@ Then we define its resolvent (Green's function) as
 
 %\begin{definition}[Index sets]\label{def_index}
 For simplicity of notations, we define the index sets
-$$\cal I_1:=\llbracket 1,p\rrbracket, \ \quad \ \cal I_2:=\llbracket p+1,p+n_1\rrbracket, \quad \cal I_3:=\llbracket p+n_1+1,p+n_1+n_2\rrbracket ,\quad \cal I:=\cal I_1\cup \cal I_2 \cup \cal I_3.$$
- We will consistently use the latin letters $i,j\in\sI_{1}$ and greek letters $\mu,\nu\in\sI_{2}\cup \sI_{3}$. Moreover, we shall use the notations $\fa,\fb\in \cal I:=\cup_{i=1}^3 \cal I_i$. We label the indices of the matrices according to
+$$\cal I_1:=\llbracket 1,p\rrbracket, \quad  \cal I_2:=\llbracket p+1,p+n_1\rrbracket, \quad \cal I_3:=\llbracket p+n_1+1,p+n_1+n_2\rrbracket ,\quad \cal I:=\cal I_1\cup \cal I_2 \cup \cal I_3.$$
+ We will consistently use the latin letters $i,j\in\sI_{1}$, greek letters $\mu,\nu\in\sI_{2}\cup \sI_{3}$, and $\fa,\fb\in \cal I$. We label the indices of the matrices according to
  $$Z_1= (z_{\mu i}:i\in \mathcal I_1, \mu \in \mathcal I_2), \quad Z_2= (z_{\nu i}:i\in \mathcal I_1, \nu \in \mathcal I_3).$$
 %Moreover, we denote $\overline i:= i+p$ for $i\in \cal I_1$, $\overline j:= j-p$ for $j\in \cal I_2$, $\overline \mu : = \mu +n $ for $\mu \in \cal I_3$, and $\overline \nu : = \nu - n $ for $\nu \in \cal I_4$. 
 %\end{definition}
 %\begin{definition}[Resolvents]\label{resol_not}
 %For $z = E+ \ii \eta \in \mathbb C_+,$ we define the resolvents $G(z)$. 
 %Then we denote the $\cal I_\al \times \cal I_\beta$ block of $ G(z)$ by $ \cal G_{\al\beta}(z)$ for $\al,\beta=1,2,3$. Moreover,  
-Then we denote the $\cal I_1 \times \cal I_1$ block of $ G(z)$ by $ \cal G_{L}(z)$, the $\cal I_1 \times (\cal I_2 \cup \cal I_3)$ by $\cal G_{LR}$, the $ (\cal I_2 \cup \cal I_3)\times \cal I_1$ block by $\cal G_{RL}$, and the $ (\cal I_2 \cup \cal I_3)\times (\cal I_2 \cup \cal I_3)$ block by $\cal G_R$. 
+Then we denote the $\cal I_1 \times \cal I_1$ block of $ G(z)$ by $ \cal G_{L}(z)$, the $\cal I_1 \times (\cal I_2 \cup \cal I_3)$ block by $\cal G_{LR}$, the $ (\cal I_2 \cup \cal I_3)\times \cal I_1$ block by $\cal G_{RL}$, and the $ (\cal I_2 \cup \cal I_3)\times (\cal I_2 \cup \cal I_3)$ block by $\cal G_R$. 
 %We denote the $(\cal I_1\cup \cal I_2)\times (\cal I_1\cup \cal I_2)$ block of $ G(z)$ by $ \cal G_L(z)$, the $(\cal I_1\cup \cal I_2)\times (\cal I_3\cup \cal I_4)$ block by $ \cal G_{LR}(z)$, the $(\cal I_3\cup \cal I_4)\times (\cal I_1\cup \cal I_2)$ block  by $ \cal G_{RL}(z)$, and the $(\cal I_3\cup \cal I_4)\times (\cal I_3\cup \cal I_4)$ block by $ \cal G_R(z)$. 
 %Recalling the notations in \eqref{def Sxy}, we define $\cal H:=S_{xx}^{-1/2}S_{xy}S_{yy}^{-1/2}$ and
 %\be\label{Rxy}
@@ -204,10 +205,10 @@ Then we denote the $\cal I_1 \times \cal I_1$ block of $ G(z)$ by $ \cal G_{L}(z
 %We also introduce the following quantities:
 %$$m_1(z)\equiv m_1^{(n)}(z):= \frac{1}{N}\sum_{i=1}^n\sigma_i (\mathcal G_1)_{ii}(z) ,\quad m_2(z)\equiv m_2^{(n)}(x):=\frac{1}{N}\sum_{\mu=1}^N \wt\sigma_\mu (\mathcal G_2)_{\mu\mu}(z). $$
 %\end{definition}
-For simplicity, we abbreviate $Y_1:=Z_1 U\Lambda $, $Y_2:=Z_2V$ and $W:=(Y_1^\top, Y_2^\top)$. By Schur complement formula, one can find that (recall \eqref{mainG})
+For simplicity, we abbreviate $Y_1:=Z_1 U\Lambda $, $Y_2:=Z_2V$ and $W:=(Y_1^\top, Y_2^\top)$. By Schur complement formula, one can find that %(recall \eqref{mainG})
 \be \label{green2}
 \begin{split}
-& \cal G_{11}=\left(WW^\top -z \right)^{-1} =\cal G ,\quad \cal G_{LR}=\cal G_{RL}^\top  = \cal G W , \quad \cal G_R:= \begin{pmatrix}\cal G_{22} & \cal G_{23} \\ \cal G_{32} & \cal G_{33}\end{pmatrix}= z\left(W^\top W - z\right)^{-1}.
+& \cal G_{L}=\left(WW^\top -z \right)^{-1} =\cal G ,\quad \cal G_{LR}=\cal G_{RL}^\top  = \cal G W , \quad \cal G_R= z\left(W^\top W - z\right)^{-1}.
 \end{split}
 \ee
 Thus a control of $G$ yields directly a control of the resolvent $\mathcal G$. We also introduce the following random quantities (some partial traces and weighted partial traces):
@@ -231,19 +232,16 @@ m(z) :=\frac1p\sum_{i \in \cal I_1}G_{ii}(z) ,\quad & m_1(z):=\frac1p\sum_{i \in
 
 
  
-Next we introduce the spectral decomposition of $G$. Let
-$$W= \sum_{k = 1}^{p} {\sqrt {\lambda_k} \xi_k } \zeta _{k}^\top ,$$
-be a singular value decomposition of $W$, where
-$$\lambda_1\ge \Lambda_2 \ge \ldots \ge \lambda_{p} \ge 0 = \lambda_{p+1} = \ldots = \lambda_{n},$$
-$\{\xi_{k}\}_{k=1}^{p}$ are the left-singular vectors, and $\{\zeta_{k}\}_{k=1}^{n}$ are the right-singular vectors.
+Our proof will use the spectral decomposition of $G$. Let $W= \sum_{k = 1}^{p} {\sqrt {\lambda_k} \xi_k } \zeta _{k}^\top $ be a singular value decomposition of $W$, where
+$\lambda_1\ge \lambda_2 \ge \ldots \ge \lambda_{p} \ge 0 = \lambda_{p+1} = \ldots = \lambda_{n}$ are the eigenvalues, $\{\xi_{k}\}_{k=1}^{p}$ are the left-singular vectors, and $\{\zeta_{k}\}_{k=1}^{n}$ are the right-singular vectors.
 %orthonormal bases of $\mathbb R^{\mathcal I_1}$ and $\mathbb R^{\mathcal I_2}$, respectively. 
-Then using (\ref{green2}), we can get that for $i,j\in \mathcal I_1$ and $\mu,\nu\in \mathcal I_2$,
+Then using (\ref{green2}), we get that for $i,j\in \mathcal I_1$ and $\mu,\nu\in \mathcal I_2\cup \cal I_3$,
 \be\label{spectral}
 \begin{split}
-& G_{ij} = \sum_{k = 1}^{p} \frac{\xi_k(i) \xi_k^\top(j)}{\lambda_k-z}, \quad G_{\mu\nu} = 
+& G_{ij} = \sum_{k = 1}^{p} \frac{\xi_k(i) \xi_k^\top(j)}{\lambda_k-z}, \ \ G_{\mu\nu} = 
 %z\sum_{k = 1}^{n} \frac{\zeta_k(\mu) \zeta_k^\top(\nu)}{\lambda_k-z}=
-z\sum_{k = 1}^{p} \frac{\zeta_k(\mu) \zeta_k^\top(\nu)}{\lambda_k-z} - \sum_{k = p+1}^{n}  \zeta_k(\mu) \zeta_k^\top(\nu) , \\
-& G_{i\mu} = \sum_{k = 1}^{p} \frac{\sqrt{\lambda_k}\xi_k(i) \zeta_k^\top(\mu)}{\lambda_k-z},  \quad G_{\mu i} = \sum_{k = 1}^{p} \frac{\sqrt{\lambda_k}\zeta_k(\mu) \xi_k^\top(i)}{\lambda_k-z}. 
+z\sum_{k = 1}^{n} \frac{\zeta_k(\mu) \zeta_k^\top(\nu)}{\lambda_k-z} , \ \ G_{i\mu} = G_{\mu i}= \sum_{k = 1}^{p} \frac{\sqrt{\lambda_k}\xi_k(i) \zeta_k^\top(\mu)}{\lambda_k-z}.
+%\\&   \quad G_{\mu i} = \sum_{k = 1}^{p} \frac{\sqrt{\lambda_k}\zeta_k(\mu) \xi_k^\top(i)}{\lambda_k-z}. 
 \end{split}
 \ee
 
@@ -284,14 +282,14 @@ z\sum_{k = 1}^{p} \frac{\zeta_k(\mu) \zeta_k^\top(\nu)}{\lambda_k-z} - \sum_{k =
 %%Similarly, we can also define $m_1(z)\equiv m_1^{(M)}(z):= M^{-1}\mathrm{Tr} \, \mathcal G_1(z)$. 
 %\end{definition}
 
-
-We now define the deterministic limit of $\cal G(z)$. We first define the deterministic limits of $(m_2(z), m_{3}(z))$, that is $(m_{2 c}(z),m_{3c}(z))$, as the (unique) solution to the following system of self-consistent equations
+\subsection{Local laws}
+We now describe the asymptotic limit of $\cal G(z)$. First define the deterministic limits of $(m_2(z), m_{3}(z))$, denoted by $(m_{2 c}(z),m_{3c}(z))$, as the (unique) solution to the following system of equations
 \begin{equation}\label{selfomega}
 \begin{split}
-& \frac1{m_{2c}} = - 1 +\frac{\gamma_n}p\sum_{i=1}^p \frac{\sigma_i^2}{  z+\sigma_i^2 r_1 m_{2c} +r_2 m_{3c}  } ,\quad \frac1{m_{3c}} = - 1 +\frac{\gamma_n}p\sum_{i=1}^p \frac{1 }{  z+\sigma_i^2 r_1 m_{2c} +  r_2 m_{3c}  },
+& \frac1{m_{2c}} = \frac{\gamma_n}p\sum_{i=1}^p \frac{\sigma_i^2}{  z+\sigma_i^2 r_1 m_{2c} +r_2 m_{3c}  } - 1 ,\  \ \frac1{m_{3c}} = \frac{\gamma_n}p\sum_{i=1}^p \frac{1 }{  z+\sigma_i^2 r_1 m_{2c} +  r_2 m_{3c}  }- 1 ,
 \end{split}
 \ee
-such that $(m_{2 c}(z), m_{3c}(z))\in \C_+$ for $z\in \C_+$, where, for simplicity, we  introduce the parameters 
+such that $(m_{2 c}(z), m_{3c}(z))\in \C_+^2$ for $z\in \C_+$, where, for simplicity, we  introduce the parameters 
 \be\label{ratios}
  \gamma_n :=\frac{p}{n},\quad r_1\equiv r_1(n) :=\frac{n_1}{n},\quad r_2\equiv r_2(n) :=\frac{n_2}{n}.
 \ee
@@ -300,7 +298,7 @@ We then define the matrix limit of $G(z)$ as
 \Pi(z) := \begin{pmatrix} -(z+r_1 m_{2c}\Lambda^2  +  r_2 m_{3c})^{-1} & 0 & 0 \\ 0 &  m_{2c}(z)I_{n_1} & 0 \\ 0 & 0 & m_{3c}(z)I_{n_2}  \end{pmatrix}.\ee
 In particular, the matrix limit of $\cal G(z)$ is given by $-(z+r_1 m_{2c}\Lambda^2 + r_2 m_{3c})^{-1}$. 
 
-If $z=0$, then the equations \eqref{selfomega} is reduced to 
+If $z=0$, then the equations \eqref{selfomega} in are reduced to 
 \begin{equation}\label{selfomega0}
 \begin{split}
 &r_1b_2+r_2b_3= 1-\gamma_n,\quad    b_2 +\frac1n\sum_{i=1}^p \frac{\sigma_i^2 b_2}{ \sigma_i^2 r_1 b_2+ (1-\gamma_n - r_1b_2) }=1 .
@@ -308,9 +306,9 @@ If $z=0$, then the equations \eqref{selfomega} is reduced to
 \ee
 where $b_2:=-m_{2c}(0)$ and $b_3:=-m_{3c}(0)$. Note that the function 
 $$f(b_2):=b_2 +\frac1n\sum_{i=1}^p \frac{\sigma_i^2 b_2}{ \sigma_i^2 b_2+ (1-\gamma_n - r_1b_2) } $$
-is a strictly increasing function on $[0,r_1^{-1}(1-\gamma_n)]$, and $f(0)=0<1$, $f(r_1^{-1}(1-\gamma_n))=1+\gamma_n>1$. Hence there exists a unique solution $(b_2,b_3)$ to \eqref{selfomega0}. Moreover, it is easy to check that $f'(a)=\OO(1)$ for $a\in [0,r_1^{-1}(1-\gamma_n)]$, and $f(1)>1$ if $1\le r_1^{-1}(1-\gamma_n)$. Hence there exists a constant $\tau>0$, such that 
+is a strictly increasing function on $[0,r_1^{-1}(1-\gamma_n)]$. Moreover, we have $f(0)=0<1$ and $f(r_1^{-1}(1-\gamma_n))=1+\gamma_n>1$. Hence by mean value theorem, there exists a unique solution $b_2 \in (0,r_1^{-1}(1-\gamma_n))$. Moreover, it is easy to check that $f'(a)=\OO(1)$ for $a\in [0,r_1^{-1}(1-\gamma_n)]$, and $f(1)>1$ if $1\le r_1^{-1}(1-\gamma_n)$. Hence there exists a constant $\tau>0$, such that 
 \be\label{a23}
-r_1 \tau \le r_1 b_2 <\min\{ (1-\gamma_n) - r_1\tau, r_1(1-\tau)\},\quad \tau<r_3 b_3\le 1 -\gamma_n - r_1\tau .
+r_1 \tau \le r_1 b_2 <\min\{ (1-\gamma_n) - r_1\tau, r_1(1-\tau)\},\quad \tau<r_2 b_3\le 1 -\gamma_n - r_1\tau .
 \ee 
 For general $z$ around $z=0$, the existence and uniqueness of the solution $(m_{2 c}(z),m_{3c}(z))$ is given by the following lemma. Moreover, we will also include some basic estimates on it. %{\cor(say something about the previous work)}
 
@@ -325,7 +323,7 @@ There exists a unique solution to \eqref{selfomega} under the conditions
 \ee
 Moreover, the solution satisfies
 \be\label{Lipomega}
-\max_{al=2}^3 |m_{\al c}(z) - m_{\al c}(0)|\le C_0|z|.
+\max_{\al=2}^3 |m_{\al c}(z) - m_{\al c}(0)|\le C_0|z|.
 \ee
 %and
 %\be\label{Immcw}
@@ -344,7 +342,7 @@ Moreover, the solution satisfies
 %\end{itemize}
 %The above estimates also hold for $m_{1c}$, $m_{2c}(z)$, $m_{4c}(z)$ and $m_c(z)$. Finally, the estimates \eqref{absmcw}, \eqref{eq_mcomplexw} and \eqref{eq_mdiffw} hold for $h(z)$. 
 \end{lemma}
-The proof is a standard application of the contraction principle. For reader's convenience, we will gives its proof in Appendix \ref{sec contract}. As a byproduct of the contraction mapping argument there, we also obtain the following stability result that will be useful for our proof of Theorem \ref{LEM_SMALL} below. 
+The proof is a standard application of the contraction principle. For reader's convenience, we will include its proof in Appendix \ref{sec contract}. As a byproduct of the contraction mapping argument there, we also obtain the following stability result that will be useful for our proof of Theorem \ref{LEM_SMALL} below. 
 
 
 \begin{lemma} \label{lem_stabw}
@@ -355,12 +353,11 @@ There exist constants $c_0, C_0>0$ depending only on $\tau$ in \eqref{assm2}, \e
 Suppose they satisfy the system of equations
 \begin{equation}\label{selfomegaerror}
 \begin{split}
-&\frac{1}{m_{2}} + 1 -\frac1n\sum_{i=1}^p \frac{\sigma_i^2}{  z+\sigma_i^2r_1m_{2} +r_2 m_{3}  } =\cal E_2,\quad  \frac{1}{m_{3}} + 1 -\frac1n\sum_{i=1}^p \frac{1 }{  z+\sigma_i^2 r_1m_{2} +  r_2m_{3}  }=\cal E_3,
+&\frac{1}{m_{2}} + 1 -\frac1n\sum_{i=1}^p \frac{\sigma_i^2}{  z+\sigma_i^2r_1m_{2} +r_2 m_{3}  } =\cal E_2,\ \ \frac{1}{m_{3}} + 1 -\frac1n\sum_{i=1}^p \frac{1 }{  z+\sigma_i^2 r_1m_{2} +  r_2m_{3}  }=\cal E_3,
 \end{split}
 \ee
-for some (random) errors satisfying 
-$$ \max_{\al=2}^3 |\mathcal E_\al| \le \delta(z),$$
-where $\delta(z)$ is any deterministic $z$-dependent function $\delta(z) \le (\log n)^{-1}.$ Then we have 
+for some (random) errors satisfying $ \max_{\al=2}^3 |\mathcal E_\al| \le \delta(z),$
+where $\delta(z)$ is a deterministic $z$-dependent function with $\delta(z) \le (\log n)^{-1}.$ Then we have 
  \begin{equation}
 \max_{\al=2}^3 \left|m_\al(z)-m_{\al c}(z)\right|\le C_0\delta(z).\label{Stability1}
 \end{equation}
@@ -654,7 +651,7 @@ In the following proof, we choose a sufficiently small constants $c_0>0$ such th
 The following theorem gives almost optimal estimates on the resolvent $G$, which are conventionally called local laws. %They imply Lemma \ref{lem_cov_shift} and \eqref{derivative} immediately. 
 
 \begin{theorem} \label{LEM_SMALL} %[Results on covariance matrices with small support]
-Suppose Assumption \ref{assm_big1} holds, and $Z_1,Z_2$ satisfy the bounded support condition \eqref{eq_support} for some deterministic parameter $q\equiv q(n)$ satisfying $ n^{-{1}/{2}} \leq q \leq n^{- \phi} $ for some (small) constant $\phi>0$. Then there exists a sufficiently small constant $c_0>0$ such that the following {\bf anisotropic local law} holds uniformly for all $z\in \mathbf D$.
+Suppose Assumption \ref{assm_big1} holds, and $Z_1,Z_2$ satisfy the bounded support condition \eqref{eq_support} for a deterministic parameter $q\equiv q(n)$ satisfying $ n^{-{1}/{2}} \leq q \leq n^{- \phi} $ for some (small) constant $\phi>0$. Then there exists a sufficiently small constant $c_0>0$ such that the following {\bf anisotropic local law} holds uniformly for all $z\in \mathbf D$.
 %\begin{itemize}
 %\item[(1)] {\bf Anisotropic local law}: 
 For any deterministic unit vectors $\mathbf u, \mathbf v \in \mathbb R^{\cal I}$, we have
@@ -673,77 +670,43 @@ For any deterministic unit vectors $\mathbf u, \mathbf v \in \mathbb R^{\cal I}$
 %%uniformly in $z\in \tilde S(c_0,C_0,\epsilon)\cap \{z=E+\ii\eta: E\ge \lambda_r, N\eta\sqrt{\kappa + \eta} \ge N^\epsilon\}$, where $\kappa$ is defined in \eqref{KAPPA}. 
 %\end{itemize}
 \end{theorem}
-The proof of this theorem will be given in Section \ref{sec_Gauss}. Using a simple cutoff argument, it is easy to obtain the following corollary under certain moment assumptions. 
-
-\begin{corollary}\label{main_cor}
-Suppose Assumption \ref{assm_big1} holds. Moreover, assume that the entries of $Z_1$ and $Z_2$ are i.i.d. random variables satisfying \eqref{assm1} and  
-\be\label{condition_4e} 
-\max_{i,j}\mathbb{E}  |\sqrt{n} z^{(\al)}_{ij} | ^{a}  =\OO(1),  \quad \al=1,2,
-\ee 
-for some fixed $a>4$. Then \eqref{aniso_law} holds for $q= n^{2/a-1/2}$ on an event with probability $1-\oo(1)$.
-\end{corollary}
-\begin{proof}[Proof of Corollary \ref{main_cor}]
-Fix any sufficiently small constant $\e>0$. We then choose $q= n^{-c_a +\e}$ with $c_a=1/2-2/a $. Then we introduce the truncated matrices $\wt Z_1$ and $\wt Z_2$, with entries
-$$ \wt z^{(\al)}_{ij}:= \mathbf 1\left\{ |\wt z^{(\al)}_{ij}|\le q \right\}\cdot z^{(\al)}_{ij},\quad \al=1,2.$$
-%where, for convenience, we again use $j$ to denote the column index of $X$. 
-By the moment conditions (\ref{condition_4e}) and a simple union bound, we have
-\begin{equation}\label{XneX}
-\mathbb P(\wt Z_1 = Z_1,  \wt Z_2 = Z_2) =1-\OO ( n^{-a\e}).
-\end{equation}
-Using (\ref{condition_4e}) and integration by parts, it is easy to verify that %we can get that
-\begin{align*}
-\mathbb E  |z^{(\al)}_{ij}|1_{|z^{(\al)}_{ij}|> q} =\OO(n^{-2-\e}), \quad \mathbb E |z^{(\al)}_{ij}|^2 1_{|z^{(\al)}_{ij}|> q} =\OO(n^{-2-\e}), \quad \al=1,2,
-\end{align*}
-which imply that
-\be\label{meanshif}
-|\mathbb E  \tilde z^{(\al)}_{ij}| =\OO(n^{-2-\e}), \quad  \mathbb E |\tilde z^{(\al)}_{ij}|^2 = n^{-1} + \OO(n^{-2-\e}), \quad \al=1,2,.
-\ee
-%and
-%$$\left| \mathbb E\tilde x_{ij}^2\right| =O( n^{-2-\omega/2}), \ \ \text{if $x_{ij}$ is complex.} $$
-Moreover, we trivially have
-$$\mathbb E  |\tilde z^{(\al)}_{ij}|^4 \le \mathbb E  |z^{(\al)}_{ij}|^4 =\OO(n^{-2}), \quad \al=1,2.$$
-Then we centralize and rescale $\wt Z_1$ and $\wt Z_2$ as
-$$ \wh Z_\al := \frac{\wt Z_\al - \E \wt Z_\al}{(\E|\wt z^{(\al)}_{11}|^2)^{1/2}},\quad \al=1,2.$$ 
-Now $\wh Z_1$ and $\wh Z_2$ satisfy the assumptions in Theorem \ref{LEM_SMALL} with $q= n^{-c_a +\e}$, and \eqref{aniso_law} gives that
-$$\left| \mathbf u^\top (G(\wh Z_1,\wh Z_2,z)-\Pi(z)) \mathbf v \right|  \prec  q.$$
-Then using \eqref{meanshif} and \eqref{priorim} below, we can easily get that  
-$$\left| \mathbf u^\top (G(\wh Z_1,\wh Z_2,z)-G(\wt Z_1,\wt Z_2,z)) \mathbf v \right|  \prec  n^{-1-\e},$$
-where we also used the bound $\|\E \wt Z_\al\|=\OO(n^{-1-\e})$. This shows that \eqref{aniso_law} also holds for $G(\wt Z_1,\wt Z_2,z)$ with $q= n^{-c_a +\e}$, and hence concludes the proof by \eqref{XneX}.
-\end{proof}
-
-
-Using Corollary \ref{main_cor}, we can complete the proof of Lemma \ref{lem_cov_shift} and  Lemma \ref{lem_cov_derivative}. 
-
-
+The proof of this theorem will be given in Section \ref{sec_Gauss}. We now use it to complete the proof of Lemma \ref{lem_cov_shift} and  Lemma \ref{lem_cov_derivative}. 
 
 \begin{proof}[Proof of Lemma \ref{lem_cov_shift}]
-In the setting of Lemma \ref{lem_cov_shift}, we can write 
-$$\cal R:= (w^2 X_1^\top X_1 + X_2^\top X_2)^{-1}= n^{-1}\left( \wt\Sigma_1^{1/2} Z_1^\top Z_1 \wt\Sigma_1^{1/2} + \Sigma_2^{1/2} Z_2^\top Z_2 \Sigma_2^{1/2}\right)^{-1},$$ 
-where $\wt\Sigma_1:= w^2 \Sigma_1$, $\Sigma_2$, $Z_1$ and $Z_2$ satisfy Assumption \ref{assm_big1}. Here the extra $n^{-1}$ is due to the choice of the variances---in the setting of Lemma \ref{lem_cov_shift} the variances of the entries of $Z_{1,2}$ are equal to 1, while in \eqref{assm1} they are taken to be $n^{-1}$. As in \eqref{eigen2}, we assume that $M:=\wt\Sig_1^{1/2} \Sig_2^{-1/2}$ has singular value decomposition
-\be\label{tildeM}
-M= U\Lambda V^\top, \quad \Lambda=\text{diag}( \sigma, \ldots, \sigma_p).
-\ee
+In the setting of Lemma \ref{lem_cov_shift}, we write 
+$$\cal R:= ( X_1^\top X_1 + X_2^\top X_2)^{-1}= n^{-1}\left(\Sigma_1^{1/2} Z_1^\top Z_1 \Sigma_1^{1/2} + \Sigma_2^{1/2} Z_2^\top Z_2 \Sigma_2^{1/2}\right)^{-1},$$ 
+%where $\Sigma_1$, $\Sigma_2$, $Z_1$ and $Z_2$ satisfy Assumption \ref{assm_big1}. H
+where the extra $n^{-1}$ is due to the choice of the scaling---in the setting of Lemma \ref{lem_cov_shift} the variances of the entries of $Z_{1,2}$ are equal to 1, while here they are taken to be $n^{-1}$. 
+%As in \eqref{eigen2}, we assume that $M:=\wt\Sig_1^{1/2} \Sig_2^{-1/2}$ has singular value decomposition
+%\be\label{tildeM}
+%M= U\Lambda V^\top, \quad \Lambda=\text{diag}( \sigma, \ldots, \sigma_p).
+%\ee
 Then as in \eqref{eigen2extra}, we can write  
-$$\cal R= \Sigma_2^{-1/2}V \cal G(0)V^\top\Sigma_2^{-1/2},\quad \cal G(0)=\left(   \Lambda U^\top Z_1^\top Z_1 U\Lambda  + V^\top Z_2^\top Z_2V\right)^{-1}.$$
-Now by Corollary \ref{main_cor}, we obtain that for any small constant $\e>0$, with probability $1-\oo(1)$,
-\be\label{G0Pi0}\max_{1\le i \le p}| (\Sigma_2\cal R - \Sigma_2^{1/2}V \Pi(0)V^\top\Sigma_2^{-1/2})_{ii}| \le n^\e q,\quad q= n^{2/a-1/2},\ee
-where by \eqref{defn_piw},
+$$\cal R= n^{-1}\Sigma_2^{-1/2}V \cal G(0)V^\top\Sigma_2^{-1/2},\quad \cal G(0)=\left(   \Lambda U^\top Z_1^\top Z_1 U\Lambda  + V^\top Z_2^\top Z_2V\right)^{-1}.$$
+If the entries of $\sqrt{n}Z_1$ and $\sqrt{n}Z_2$ have arbitrarily high moments as in \eqref{assmAhigh}, then $Z_1$ and $Z_2$ have bounded support $q=n^{-1/2}$. Using Theorem \ref{LEM_SMALL}, %Now by Corollary \ref{main_cor}, 
+we obtain that for any small constant $\e>0$, %with probability $1-\oo(1)$,
+\be\label{G0Pi0}\max_{1\le i \le p}| (A\cal R - n^{-1}A \Sigma_2^{-1/2}V \Pi(0)V^\top\Sigma_2^{-1/2})_{ii}| \prec n^{-3/2}\|A\| ,\ee
+where by \eqref{defn_piw}, we have
 $$\Pi(0)= -(r_1m_{2c}(0)\Lambda^2  +  r_2m_{3c}(0))^{-1}= (r_1b_2 V^\top M^\top M V +  r_2b_3)^{-1},$$
 with $(b_2,b_3)$ satisfying \eqref{selfomega0}. Thus from \eqref{G0Pi0} we get that
-$$n^{-1}\tr (\Sigma_2\cal R) = n^{-1}\tr (r_1b_2  M^\top M  +  r_2b_3)^{-1} +\OO(n^\e q)$$
-with probability $1-\oo(1)$. This concludes \eqref{lem_cov_shift_eq} if we rename $r_1b_2\to a_1$ and $r_2b_3\to a_2$. 
+$$ \tr (A\cal R) = n^{-1}\tr (r_1b_2  M^\top M  +  r_2b_3)^{-1} +\OO_\prec(n^{-1/2} \|A\|).$$
+%with probability $1-\oo(1)$. 
+This concludes \eqref{lem_cov_shift_eq} if we rename $r_1b_2\to a_1$ and $r_2b_3\to a_2$. 
 %For \eqref{lem_cov_shift_eq}, it is a well-known result for inverse Whishart matrices {\color{red}(add some references)}. 
-If we set $n_1=0$ and $n_2=n$, then it is easy to check that $a_1 = 0$ and $a_2 = (n_2-p) / n_2$ is the solution to \eqref{eq_a2}. This gives \eqref{XXA} by \eqref{lem_cov_shift_eq}. 
+
+Note that if we set $n_1=0$ and $n_2=n$, then $a_1 = 0$ and $a_2 = (n_2-p) / n_2$ is the solution to \eqref{eq_a12extra}. This gives \eqref{XXA} using \eqref{lem_cov_shift_eq}. 
 \end{proof}
  
 
 \begin{proof}[Proof of Lemma \ref{lem_cov_derivative}]
 In the setting of Lemma \ref{lem_cov_derivative}, we can write 
 \begin{align*}
-&\Delta:=n^2\bignorm{\Sigma_2^{1/2} (\hat{w}^2X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_1 (\beta_s - {w}\beta_t)}^2 \\
-&=(\beta_s - {w}\beta_t) \Sigma_1^{1/2} M \left(M^\top Z_1^\top Z_1 M +  Z_2^\top Z_2 \right)^{-2} M^\top  \Sigma_1^{1/2} (\beta_s - {w}\beta_t),
+\Delta&:=n^2\bignorm{\Sigma_2^{1/2} ( X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\beta}^2 =\beta^\top \Sigma_2^{-1/2}  \left(M^\top Z_1^\top Z_1 M +  Z_2^\top Z_2 \right)^{-2}   \Sigma_2^{-1/2}\beta.
 \end{align*}
-where $\wt\Sigma_1:= w^2 \Sigma_1$, $\Sigma_2$, $Z_1$ and $Z_2$ satisfy Assumption \ref{assm_big1} and $M:=\wt\Sig_1^{1/2} \Sig_2^{-1/2}$. Here again the $n^{2}$ factor disappears due to the choice of scaling. Again we assume that $M$ has the singular value decomposition \eqref{tildeM}. Then we can write
+%where $\wt\Sigma_1:= w^2 \Sigma_1$, $\Sigma_2$, $Z_1$ and $Z_2$ satisfy Assumption \ref{assm_big1} and $M:=\wt\Sig_1^{1/2} \Sig_2^{-1/2}$. 
+Here again the $n^{2}$ factor disappears due to the choice of scaling. 
+%Again we assume that $M$ has the singular value decomposition \eqref{tildeM}. 
+\todo{check}Then we can write
 $$\Delta:= \bv^\top (\cal G^2)(0)  \bv, \quad \bv:=V^\top M^\top  \Sigma_1^{1/2} (\beta_s - {w}\beta_t).$$
 
 Note that $\cal G^2(0)=\partial_z \cal G|_{z=0}$. Now using Cauchy's integral formula and Corollary \ref{main_cor}, we get that with probability $1-\oo(1)$, 
@@ -842,7 +805,43 @@ This concludes Lemma \ref{lem_cov_derivative}.
 \end{proof}
 
 
+Using a simple cutoff argument, it is easy to obtain the following corollary under certain moment assumptions. 
 
+\begin{corollary}\label{main_cor}
+Suppose Assumption \ref{assm_big1} holds. Moreover, assume that the entries of $Z_1$ and $Z_2$ are i.i.d. random variables satisfying \eqref{assm1} and  
+\be\label{condition_4e} 
+\max_{i,j}\mathbb{E}  |\sqrt{n} z^{(\al)}_{ij} | ^{a}  =\OO(1),  \quad \al=1,2,
+\ee 
+for some fixed $a>4$. Then \eqref{aniso_law} holds for $q= n^{2/a-1/2}$ on an event with probability $1-\oo(1)$.
+\end{corollary}
+\begin{proof}[Proof of Corollary \ref{main_cor}]
+Fix any sufficiently small constant $\e>0$. We then choose $q= n^{-c_a +\e}$ with $c_a=1/2-2/a $. Then we introduce the truncated matrices $\wt Z_1$ and $\wt Z_2$, with entries
+$$ \wt z^{(\al)}_{ij}:= \mathbf 1\left\{ |\wt z^{(\al)}_{ij}|\le q \right\}\cdot z^{(\al)}_{ij},\quad \al=1,2.$$
+%where, for convenience, we again use $j$ to denote the column index of $X$. 
+By the moment conditions (\ref{condition_4e}) and a simple union bound, we have
+\begin{equation}\label{XneX}
+\mathbb P(\wt Z_1 = Z_1,  \wt Z_2 = Z_2) =1-\OO ( n^{-a\e}).
+\end{equation}
+Using (\ref{condition_4e}) and integration by parts, it is easy to verify that %we can get that
+\begin{align*}
+\mathbb E  |z^{(\al)}_{ij}|1_{|z^{(\al)}_{ij}|> q} =\OO(n^{-2-\e}), \quad \mathbb E |z^{(\al)}_{ij}|^2 1_{|z^{(\al)}_{ij}|> q} =\OO(n^{-2-\e}), \quad \al=1,2,
+\end{align*}
+which imply that
+\be\label{meanshif}
+|\mathbb E  \tilde z^{(\al)}_{ij}| =\OO(n^{-2-\e}), \quad  \mathbb E |\tilde z^{(\al)}_{ij}|^2 = n^{-1} + \OO(n^{-2-\e}), \quad \al=1,2,.
+\ee
+%and
+%$$\left| \mathbb E\tilde x_{ij}^2\right| =O( n^{-2-\omega/2}), \ \ \text{if $x_{ij}$ is complex.} $$
+Moreover, we trivially have
+$$\mathbb E  |\tilde z^{(\al)}_{ij}|^4 \le \mathbb E  |z^{(\al)}_{ij}|^4 =\OO(n^{-2}), \quad \al=1,2.$$
+Then we centralize and rescale $\wt Z_1$ and $\wt Z_2$ as
+$$ \wh Z_\al := \frac{\wt Z_\al - \E \wt Z_\al}{(\E|\wt z^{(\al)}_{11}|^2)^{1/2}},\quad \al=1,2.$$ 
+Now $\wh Z_1$ and $\wh Z_2$ satisfy the assumptions in Theorem \ref{LEM_SMALL} with $q= n^{-c_a +\e}$, and \eqref{aniso_law} gives that
+$$\left| \mathbf u^\top (G(\wh Z_1,\wh Z_2,z)-\Pi(z)) \mathbf v \right|  \prec  q.$$
+Then using \eqref{meanshif} and \eqref{priorim} below, we can easily get that  
+$$\left| \mathbf u^\top (G(\wh Z_1,\wh Z_2,z)-G(\wt Z_1,\wt Z_2,z)) \mathbf v \right|  \prec  n^{-1-\e},$$
+where we also used the bound $\|\E \wt Z_\al\|=\OO(n^{-1-\e})$. This shows that \eqref{aniso_law} also holds for $G(\wt Z_1,\wt Z_2,z)$ with $q= n^{-c_a +\e}$, and hence concludes the proof by \eqref{XneX}.
+\end{proof}
 
 
 %In order for this argument to work, we need to assume 
