@@ -4,7 +4,7 @@
 %When does multi-task learning provide positive (or negative) information transfer, compared to single-task learning?
 	Multi-task learning is a powerful approach in many applications such as image and text classification.
 	Yet, there is little rigorous understanding of when multi-task learning performs well, even compared to single-task learning.
-	To be precise, we say that multi-task learning provides \textit{positive transfer} if it outperforms single-task learning, or \textit{negative transfer} otherwise.
+	We say that multi-task learning provides \textit{positive transfer} if it outperforms single-task learning, or \textit{negative transfer} otherwise.
 	In this work, we consider three components including \textit{task similarity}, \textit{sample size}, and \textit{covariate shift} to determine transfer effect.
 	We study the high-dimensional linear regression setting that allows us to define each component precisely
 % the performance of predicting a particular task given multiple tasks.
@@ -47,17 +47,17 @@ Understanding positive versus negative transfer requires developing generalizati
 This presents a technical challenge in the multi-task setting due to the presence of different task features, even for two tasks.
 For Rademacher complexity or VC-based techniques, the generalization error scales down as the sample sizes of all tasks increase, when applied to the multi-task setting \cite{B00,AZ05,M06,MPR16,WZR20}.
 Without a tight lower bound for multi-task learning, comparing its performance to single-task learning results in vacuous bounds.
-From a practical standpoint, developing a better understanding of multi-task learning in terms of properties of task data is important because it is often applied to settings in which a particular task has a limited amount of samples \cite{RH19}.
+From a practical standpoint, developing a better understanding of multi-task learning in terms of properties of task data can provide guidance for downstream applications \cite{RH19}.
 %For example, the sample sizes of all tasks are often assumed to be equal \cite{B00,LPTV09,LPVT11}.
 %On the other hand, uneven sample sizes (or dominating tasks) have been empirically observed to cause negative transfer \cite{YKGLHF20}.
 %The benefit of learning multi-task representations has also been studied for certain half-spaces \cite{} and sparse regression \cite{}.
 %When all tasks are sufficiently similar, adding more labeled data improves the generalization performance for predicting a particular task \cite{WZR20}.
 
-
 %\textbf{Setup and Main Results.}
-In this work, we apply recent development from the random matrix theory literature \cite{erdos2017dynamical,isotropic,Anisotropic} to determine transfer effect in the high-dimensional linear regression setting \cite{HMRT19,BLLT20}.
+In this work, we study the bias and variance of multi-task learning in the high-dimensional linear regression setting \cite{HMRT19,BLLT20}.
 This setting allows us to measure the difference of task data by three components, including \textit{task similarity}, \textit{sample size}, and \textit{covariate shift}.
-To be precise, we define each component for two tasks below and our definition applies more generally.
+We apply recent development from the random matrix theory literature \cite{erdos2017dynamical,isotropic,Anisotropic} to bound the bias and variance, and relate them to the three components.
+We define each component for two tasks below and our definition applies more generally.
 We refer to the first task as the source and the second as the target.
 \squishlist
 	\item \textbf{Task similarity:} Assume that both tasks follow a linear model with parameters $\beta_1, \beta_2\in\real^p$, respectively.
@@ -85,7 +85,7 @@ We consider the bias and variance of the multi-task estimator for predicting a p
 
 \textbf{Main results.} First, we develop tight bounds for the bias and variance of the multi-task estimator for two tasks.
 Since the total sample size has increased, the variance of the multi-task estimator is \textit{always smaller} than that of the single-task estimator.
-Since task models are different, the bias of the multi-task estimator is \textit{always larger} than that of the single-task estimator (which is $0$ since $n_1 > p$).
+Since task models are different, the bias of the multi-task estimator is \textit{always larger} than that of the single-task estimator.
 Hence, the tradeoff between bias and variance determines whether the transfer is positive or negative.
 We provide a sharp analysis of the variance that scales only with sample size and covariate shift in Lemma \ref{lem_cov_shift_informal} and extend it to the bias.
 Combining both, we analyze the bias-variance tradeoff for two tasks in Theorem \ref{thm_main_informal} and extend the analysis to many tasks with the same features in Theorem \ref{thm_many_tasks}.
@@ -153,11 +153,11 @@ We describe three simulations in Figure \ref{fig_model_shift_phasetrans} for two
 %\textbf{Covariate shift:}
 %Furthermore, MTL performance is negatively affected when (c) \textit{covariate shift}: the covariance matrices of the two tasks become more different.
 \squishlist
-	\item We provide a deterministic condition that depends on the sample sizes and model distance in the isotropic setting (Proposition \ref{prop_dist_transition}).
+	\item We provide conditions to predict the effect of transfer in the isotropic setting (Proposition \ref{prop_dist_transition}).
 	Our result predicts most of the empirical observations in Figure \ref{fig_model_shift} correctly.
 %	It is crucial that the concentration result in Theorem \ref{lem_cov_shift_informal} is sufficiently precise so that we can explain the transition phenomena in Figure \ref{fig_model_shift} and \ref{fig_size}.
-	The unexplained observations are caused by an error term that arises from the bias of the multi-task estimator.
-	We discuss these in Section \ref{sec_insight} more precisely.
+	The unexplained observations are caused by an error term from the bias.
+	We discuss these in Section \ref{sec_insight}.
 	\item We provide a similar condition that explains a curious phenomenon in Figure \ref{fig_size}, namely adding more labeled data from the source task does not always improve performance (Proposition \ref{prop_data_size}).
 	%Theorem \ref{lem_cov_shift_informal} allows us to compare MTL performance under different covariate shifts.
 	\item We study a special case of having the same task models and show that MTL  performs best without covariate shift (Proposition \ref{prop_covariate}).
@@ -170,7 +170,7 @@ We describe three simulations in Figure \ref{fig_model_shift_phasetrans} for two
 %		In Section \ref{sec_validate}, we validate the observation on text and image classification tasks.
 %	In , we provide the trade-off between $\norm{\beta_1 - \beta_2}^2$ and a certain function $\Phi(\rho_1, \rho_2)$ to determine the type of transfer.
 %We show that increasing the data size of the source task does not always improve performance for the target task in multi-task learning.
-Along the way, we explain a key empirical finding of Taskonomy by Zamir et al. \cite{ZSSGM18}, by analyzing the benefit of MTL for reducing labeled data to achieve comparable performance to STL, .
+Along the way, we explain a key empirical finding of Taskonomy by Zamir et al. \cite{ZSSGM18}, by analyzing the benefit of MTL for reducing labeled data to achieve comparable performance to STL.
 %We show that covariate shift, measured by $\Sigma_1^{1/2}\Sigma_2^{-1/2}$, is another cause for suboptimal performance for $\hat{\beta}_t^{\MTL}$.
 %		We show that as $n_1 / n_2$ becomes large, having no covariate shift between the source and target tasks yields the optimal performance for the target task.
 %		On the other hand, when $n_1 / n_2$ is small, there are counter examples where having the same covariance matrix is not necessarily the optimal choice.

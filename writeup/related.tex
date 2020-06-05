@@ -6,9 +6,9 @@ We refer the interested readers to several excellent surveys on multi-task  lear
 Below, we describe several lines of work that are most related to this work.
 
 \textit{Multi-task learning theory.}
-Some of the earliest work on multi-task learning are Baxter \cite{B00}, Ben-David and Schuller \cite{BS03}.
-Mauer \cite{M06} Generalization bounds for linear separation settings of MTL
-Ben-David et al. \cite{BBCK10} provides uniform convergence bounds that combines empirical and target errors in an optimal way.
+Some of the earliest works on multi-task learning are Baxter \cite{B00}, Ben-David and Schuller \cite{BS03}.
+Mauer \cite{M06} studies generalization bounds for linear separation settings of MTL.
+Ben-David et al. \cite{BBCK10} provides uniform convergence bounds that combines source and target errors in an optimal way.
 The benefit of learning multi-task representations is studied for learning certain half-spaces \cite{MPR16} and sparse regression \cite{LPTV09,LPVT11}.
 Our work is closely related to Wu et al. \cite{WZR20}.
 While Wu et al. provide generalization bounds to show that adding more labeled helps learn the target task more accurately, their techniques do not explain the phenomena of negative transfer.
@@ -16,13 +16,16 @@ While Wu et al. provide generalization bounds to show that adding more labeled h
 % Adding a regularization over $B$, e.g. .
 \textit{Multi-task learning methodology.}
 Ando and Zhang \cite{AZ05} introduces an alternating minimization framework for learning multiple tasks.
-Argyriou et al. \cite{AEP08} presents a convex algorithm which learns common sparse representations across a pool of related tasks.
-Evgeniou et al. \cite{EMP05} develops a framework for multi-task learning in the context of kernel methods.
+Argyriou et al. \cite{AEP08} present a convex algorithm which learns common sparse representations across a pool of related tasks.
+Evgeniou et al. \cite{EMP05} develop a framework for multi-task learning in the context of kernel methods.
 %\cite{KD12} observed that controlling the capacity can outperform the implicit capacity control of adding regularization over $B$.
 The multi-task learning model that we have focused on is based on the idea of hard parameter sharing \cite{C93,KD12,R17}.
 We believe that the technical tools we have developed can also be applied to many other multi-task learning models.
 
-\textit{Random matrix theory.} The random matrix theory tool and related proof of this paper fall into a paradigm of the so-called local law of random matrices \cite{erdos2017dynamical}. For a sample covariance matrix $X^\top X$ with $\Sigma=\id$, such a local law was proved in \cite{isotropic}. It was later extended to sample covariance matrices with non-identity $\Sigma$ \cite{Anisotropic}, and separable covariance matrices \cite{yang2019spiked}. On the other hand, one may derive the asymptotic result in Theorem \ref{lem_cov_shift_informal} with error $\oo(1)$ using free addition of two independent random matrices in free probability theory \cite{nica2006lectures}. To the best of my knowledge, we do not find an {\it explicit result} for the sum of two sample covariance matrices with general covariates in the literature.
+\textit{Random matrix theory.}
+The random matrix theory tool and related proof of our work fall into a paradigm of the so-called local law of random matrices \cite{erdos2017dynamical}.
+For a sample covariance matrix $X^\top X$ with $\Sigma=\id$, such a local law was proved in \cite{isotropic}.
+It was later extended to sample covariance matrices with non-identity $\Sigma$ \cite{Anisotropic}, and separable covariance matrices \cite{yang2019spiked}. On the other hand, one may derive the asymptotic result in Theorem \ref{lem_cov_shift_informal} with error $\oo(1)$ using the free addition of two independent random matrices in free probability theory \cite{nica2006lectures}. To the best of my knowledge, we do not find an {\it explicit result} for the sum of two sample covariance matrices with general covariates in the literature.
 
 
 \vspace{-0.05in}
@@ -31,12 +34,17 @@ We believe that the technical tools we have developed can also be applied to man
 
 In this work, we analyzed the bias and variance of multi-task learning versus single-task learning.
 We provided tight concentration bounds for the bias and the variance.
-Based on these bounds, we analyzed the impact of three properties, including task similarity, sample data and covariate shift on the bias and variance, to derive conditions for transfer.
+Based on these bounds, we analyzed the impact of three properties, including task similarity, sample size, and covariate shift on the bias and variance, to derive conditions for transfer.
 %Each of these results (based on each of the 3 properties) gives a different algorithmic/practical insight.
 We validated our theoretical results.
-Based on the theory, we proposed to train multi-task models by incrementally adding labeled data and showed encouraging result inspired by our theory.
+Based on the theory, we proposed to train multi-task models by incrementally adding labeled data and showed encouraging results inspired by our theory.
 We describe several open questions for future work.
 First, our bound on the bias term (cf. Lemma \ref{lem_cov_derivative}) involves an error term that scales down with $\rho_1$.
 Tightening this error bound can potentially cover the unexplained observations in Figure \ref{fig_model_shift_phasetrans}.
 Second, it would be interesting to extend our results to non-linear settings.
-We remark that this likely requires addressing significant technical challenges in order to deal with non-linearity.
+We remark that this likely requires addressing significant technical challenges  to deal with non-linearity.
+
+\newpage
+\section*{Broader Impacts}
+
+
