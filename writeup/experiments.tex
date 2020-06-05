@@ -1,11 +1,12 @@
 \section{Experiments}
 
-We connect our theory to pratical problems of interest.
-(i) We validate the single-task based metric on text and image classification tasks.
-We show that for both datasets, single-task learning results can help predict positive or negative transfer in multi-task learning.
-(ii) We show that our proposed incremental training schedule improves the training efficiency of multi-task learning for predicting a particular target task.
+We validate our theory and our algorithmic insights.
+First, we validate the single-task based metric on sentiment analysis and ChestX-ray14 datasets.
+We show that single-task learning results can help predict positive or negative transfer for both datasets.
+Second, our proposed incremental training schedule improves the training efficiency of standard multi-task training on sentiment analysis tasks.
 %Third, we measure the data efficiency ratio of multi-task learning on six sentiment analysis tasks.
-(iii) We validate our theoretical results in Section \ref{sec_insight} on text classification tasks.
+Third, when source/target sample ratio is large, performing the alignment procedure of \cite{WZR20} provides more improvement for MTL.
+Finally, we validate our theoretical results on text classification tasks.
 
 \begin{table}[!b]
 \begin{minipage}[t]{.40\textwidth}
@@ -82,24 +83,24 @@ We measure the test accuracy of predicting a target task.
 We show that the single-task based metric proposed in Section \ref{sec_similarity} can predict positive or negative transfer in MTL.
 A common challenge in the study of multi-task learning is that the results can be hard to understand.
 It is difficult to predict when MTL performs well without running extensive trials.
-Our insight here is that we can use STL results to help understand MTL results.
+Our insight is that we can use STL results to help understand MTL results.
 Table \ref{tab:mtl_better_than_stl} shows the result on both the sentiment analysis and the ChestX-ray14 tasks.
 We find that using a threshold of $\tau = 0.1$, the STL results correctly predict positive or negative transfer with $75.6\%$ accuracy and $38.8\%$ recall among $30$ times $5$ (random seeds) task pairs!
 We observe similar results for $91$ task pairs from the ChestX-ray14 dataset.
 %The results show that STL results are indicative of MTL results.
 
 \textit{Mitigating negative transfer via incremental training.}
-Our show that our proposed incremental training schedule (Algorithm \ref{alg_inc_train}) can help mitigate negative transfer for predicting a particular target task.
-Our insight is that since adding more samples from the source task does not always improve performance, we can improve efficiency by adding the source samples \textit{incrementally} during training.
-Over six randomly selected task pairs from the sentiment analysis dataset, we find that Algorithm \ref{alg_inc_train} requires only $45\%$ of the computational cost to achieve the same performance on the target task, compared to the multi-task learning baseline.
+First, we show that our proposed incremental training schedule (Algorithm \ref{alg_inc_train}) can help mitigate negative transfer for predicting a particular target task.
+Our insight is that since adding more samples from the source task does not always help, we can improve efficiency by adding source samples \textit{incrementally} during training.
+Over six randomly selected pairs from the sentiment analysis tasks, we find that Algorithm \ref{alg_inc_train} requires only $45\%$ of the computational cost to achieve similar performance on the target task, compared to the MTL baseline.
 
 %\textbf{Improving transfer learning training efficiency.}
 %We show that Algorithm \ref{alg_inc_train} also applies to transfer learning settings.
 %Compared to fine-tuning the source model on the target task, we show that our proposed method reduces the computional cost by \alert{$xx\%$}, without sacrificing accuracy.
 
 Our next result shows the incremental training schedule applies to multiple tasks as well.
-In Table \ref{tab:taskonomy}, we find that over all six sentiment analysis tasks, incremental training requires less than $71\%$ of the computational cost compared to baseline multi-task training, while achieving the same accuracy averaged over all six tasks.
-As a further validation, we exclude TREC from the six tasks and observe similar comparative results.
+In Table \ref{tab:taskonomy}, we find that over all six sentiment analysis tasks, incremental training requires less than $71\%$ of the computational cost compared to baseline MTL training, while achieving the same accuracy averaged over all six tasks.
+As a further validation, excluding TREC, we observe similar comparative results.
 %The data efficiency ratio of using MLP is $100\%$ because the average performance of MTL is worse than the average of STL.
 %We further show that applying incremental training helps reduce the data efficiency ratio to \alert{$xx\%$}.
 %If TREC is not included, we see that only $25\%$ of the labeled data is needed.
@@ -126,8 +127,8 @@ As a further validation, we exclude TREC from the six tasks and observe similar 
 		\label{fig_ab_cov}
 	\end{subfigure}
 	\caption{Validating the three results of Section \ref{sec_insight} on sentiment analysis tasks. (a) Adding a semantically similar source task in MTL performs better than adding a dissimilar task.
-	(b) As source/target sample ratio increases, we observe a transition from positive to negative transfer (red curve).
-	(c) As source/target sample ratio increases, the performance gain of aligning task covariances \cite{WZR20} compared to MTL increases for LSTM and MLP.}
+	(b) As source/target sample ratio increases, we observe a transition from positive to negative transfer.
+	(c) As source/target sample ratio increases, aligning task covariances \cite{WZR20} improves more over the baseline.}
 	\label{fig_ablation}
 	\vspace{-0.15in}
 \end{figure}
@@ -135,14 +136,14 @@ As a further validation, we exclude TREC from the six tasks and observe similar 
 
 \subsection{Ablation Studies}
 
-
-
-Finally, we validate our theoretical results in Section \ref{sec_insight} on the sentiment analysis tasks.
-In Figure \ref{fig_ablation}, we show that MTL performance is affected by
-(a) decreased task similarity;
-(b) increased source/target sample ratio;
-(c) covariate shift under increased source sample size.
-For the last result, specifically we show that the alignment procedure proposed in \cite{WZR20} becomes more helpful when the sample ratio is large.
+We validate our three theoretical results in Section \ref{sec_insight} on the sentiment analysis tasks.
+In Figure \ref{fig_ab_sim}, we compare the performance training with a semantically similar task versus a dissimilar task with a target task.
+We select a pair of similar versus dissimilar task based on our domain knowledge or these tasks (cf. Appendix \ref{app_it} for the detailed procedure).
+We observe that adding a similar task helps the target task whereas adding a dissimilar task hurts.
+In Figure \ref{fig_ab_data}, we validate the phenomenon that adding more source data samples does not always improve performance on the target task.
+In Figure \ref{fig_ab_cov}, we measure the performance gains from performing the alignment procedure proposed in \cite{WZR20} minus baseline MTL performance.
+We average the result over all 15 task pairs.
+The result shows that as source samples increases, performing the alignment procedure shows a bigger improvement over MTL.
 The experimental procedure is left to Appendix \ref{app_it}.
 
 
