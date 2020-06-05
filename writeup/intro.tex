@@ -147,19 +147,21 @@ Combined together, we analyze the bias-variance tradeoff for two tasks in Theore
 
 Next, we explain the performance of multi-task learning by varying the three components above in isotropic and covariate shifted settings.
 We describe three simulations in Figure \ref{fig_model_shift_phasetrans} for two linear regression tasks and measure the loss of the single-task estimator minus the multi-task estimator.
-We observe that negative transfer occurs as (a) \textit{task similarity}: tasks become more different; (b) \textit{data size}: source/target data size increases.
+%We observe that negative transfer occurs as (a) \textit{task similarity}: tasks become more different; (b) \textit{data size}: source/target data size increases.
 %\textbf{Task similarity:}
 %\textbf{Data sizes:}
 %\textbf{Covariate shift:}
-Furthermore, MTL performance is negatively affected when (c) \textit{covariate shift}: the covariance matrices of the two tasks become more different.
+%Furthermore, MTL performance is negatively affected when (c) \textit{covariate shift}: the covariance matrices of the two tasks become more different.
 \squishlist
-	\item In Proposition \ref{prop_dist_transition}, Our theoretical results in  and  provide predictions that match the empirical result of (a) and (b).
+	\item In Proposition \ref{prop_dist_transition}, we provide a deterministic condition that depends on the sample sizes and model distance in the isotropic setting.
+	Our result predicts most of the empirical observations in Figure \ref{fig_model_shift} correctly.
 %	It is crucial that the concentration result in Theorem \ref{lem_cov_shift_informal} is sufficiently precise so that we can explain the transition phenomena in Figure \ref{fig_model_shift} and \ref{fig_size}.
-	The unexplained observations are caused by an error term that arises from the bias of $\hat{\beta}_t^{\MTL}$ -- we discuss these in Section \ref{sec_insight} more precisely.
-	\item In Proposition \ref{prop_data_size},
+	The unexplained observations are caused by an error term that arises from the bias of the multi-task estimator.
+	We discuss these in Section \ref{sec_insight} more precisely.
+	\item In Proposition \ref{prop_data_size}, we provide a similar condition that explains a curious phenomenon in Figure \ref{fig_size}, namely adding more labeled data from the source task does not always improve performance.
 	%Theorem \ref{lem_cov_shift_informal} allows us to compare MTL performance under different covariate shifts.
-	\item In Proposition \ref{prop_covariate}, When task models are the same and the covariate shift matrix belongs to a certain bounded set, we show that having no covariate shift yields the optimal MTL performance.
-	When $\beta_1 = \beta_2$, Lemma \ref{lem}
+	\item In Proposition \ref{prop_covariate}, we study a special case of having the same task models and show that MTL is best performing without covariate shift.
+	For this special case, the bound of Lemma \ref{lem_cov_shift_informal} matches the empirical curve in Figure \ref{fig_covariate} accurately.
 \squishend
 %In Section \ref{sec_insight}, we consider three components including task similarity, data size and covariate shift for a simplified isotropic setting of two tasks.
 %We measure task similarity by how small is the distance between $\beta_1$ and $\beta_2$.
@@ -168,15 +170,14 @@ Furthermore, MTL performance is negatively affected when (c) \textit{covariate s
 %		In Section \ref{sec_validate}, we validate the observation on text and image classification tasks.
 %	In , we provide the trade-off between $\norm{\beta_1 - \beta_2}^2$ and a certain function $\Phi(\rho_1, \rho_2)$ to determine the type of transfer.
 %We show that increasing the data size of the source task does not always improve performance for the target task in multi-task learning.
-Finally, we analyze the benefit of MTL for reducing the amount of labeled data needed to achieve comparable performance to STL, which is a key empirical finding of Taskonomy.
+Along the way, we explain a key empirical finding of Taskonomy by Zamir et al. \cite{ZSSGM18}, by analyzing the benefit of MTL for reducing labeled data to achieve comparable performance to STL, .
 %We show that covariate shift, measured by $\Sigma_1^{1/2}\Sigma_2^{-1/2}$, is another cause for suboptimal performance for $\hat{\beta}_t^{\MTL}$.
 %		We show that as $n_1 / n_2$ becomes large, having no covariate shift between the source and target tasks yields the optimal performance for the target task.
 %		On the other hand, when $n_1 / n_2$ is small, there are counter examples where having the same covariance matrix is not necessarily the optimal choice.
 
-\textit{Our last contribution} is to connect our theory to practical problems of interest.
-(i) We validate the three components of our theory in Section \ref{sec_insight} and measure the data efficiency of multi-task learning on the sentiment analysis dataset.
-(ii) We provide a single-task based metric to predict positive or negative transfer in multi-task learning.
+Finally, we connect our theory to practical problems of interest.
+We provide a single-task based metric to predict positive or negative transfer in multi-task learning.
 While it is not well understood when multi-task learning provides positive transfer, we show that the STL results can help indicate and understand MTL results on ChestX-ray14 \cite{chexnet17} and sentiment analysis datasets \cite{LZWDA18}.
-(iii) We design an incremental training schedule to improve the efficiency of multi-task training for predicting a particular task.
+Inspired by our observation that adding more source task data does not always improve perfromance, we propose to train multi-task models by incrementally adding source task data for predicting a target task.
 We show that our training schedule reduces the computational cost by $55\%$ compared to baseline multi-task training on the sentiment analysis dataset, while keeping the accuracy the same.
-
+Last, we validate our three theoretical findings on sentiment analysis tasks.
