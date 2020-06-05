@@ -83,11 +83,11 @@ We consider the bias and variance of the multi-task estimator for predicting a p
 %Let $\hat{\beta}_t^{\MTL}$ denote the optimal multi-task estimator for the target task, which is defined precisely in Section \ref{sec_prelim}.
 %We revisit the bias-variance tradeoff of $\hat{\beta}_t^{\MTL}$.
 
-Our main result is to develop tight bounds for the bias and variance of the multi-task estimator for two tasks.
+\textbf{Main results.} First, we develop tight bounds for the bias and variance of the multi-task estimator for two tasks.
 Since the total sample size has increased, the variance of the multi-task estimator is \textit{always smaller} than that of the single-task estimator.
 Since task models are different, the bias of the multi-task estimator is \textit{always larger} than that of the single-task estimator (which is $0$ since $n_1 > p$).
 Hence, the tradeoff between bias and variance determines whether the transfer is positive or negative.
-In Lemma \ref{lem_cov_shift_informal}, we provide a sharp analysis of the variance that scales only with sample size and covariate shift and extend it to the bias.
+We provide a sharp analysis of the variance that scales only with sample size and covariate shift in Lemma \ref{lem_cov_shift_informal} and extend it to the bias.
 Combined together, we analyze the bias-variance tradeoff for two tasks in Theorem \ref{thm_main_informal} and extend the analysis to many tasks with same features in Theorem \ref{thm_many_tasks}.
 %For the setting of two tasks, we show how the variance of the multi-task estimator  scales with sample size and covariate shift in the following result.
 %\textit{Our first contribution} is to develop a concentration bound that arises naturally from the bias-variance tradeoff of $\hat{\beta}_t^{\MTL}$ for two tasks.
@@ -145,7 +145,7 @@ Combined together, we analyze the bias-variance tradeoff for two tasks in Theore
 %We prove that the bias of the transfer learning estimator is given by the projection of $\beta_t$ to the orthogonal subspace spanned by $\set{\beta_i}_{i=1}^{t-1}$.
 %These results are described more precisely in Section \ref{sec_main}.
 
-Next, we explain the performance of multi-task learning by varying the three components above in isotropic and covariate shifted settings.
+Second, we explain the performance of multi-task learning by varying the three components above in isotropic and covariate shifted settings.
 We describe three simulations in Figure \ref{fig_model_shift_phasetrans} for two linear regression tasks and measure the loss of the single-task estimator minus the multi-task estimator.
 %We observe that negative transfer occurs as (a) \textit{task similarity}: tasks become more different; (b) \textit{data size}: source/target data size increases.
 %\textbf{Task similarity:}
@@ -153,14 +153,14 @@ We describe three simulations in Figure \ref{fig_model_shift_phasetrans} for two
 %\textbf{Covariate shift:}
 %Furthermore, MTL performance is negatively affected when (c) \textit{covariate shift}: the covariance matrices of the two tasks become more different.
 \squishlist
-	\item In Proposition \ref{prop_dist_transition}, we provide a deterministic condition that depends on the sample sizes and model distance in the isotropic setting.
+	\item We provide a deterministic condition that depends on the sample sizes and model distance in the isotropic setting (Proposition \ref{prop_dist_transition}).
 	Our result predicts most of the empirical observations in Figure \ref{fig_model_shift} correctly.
 %	It is crucial that the concentration result in Theorem \ref{lem_cov_shift_informal} is sufficiently precise so that we can explain the transition phenomena in Figure \ref{fig_model_shift} and \ref{fig_size}.
 	The unexplained observations are caused by an error term that arises from the bias of the multi-task estimator.
 	We discuss these in Section \ref{sec_insight} more precisely.
-	\item In Proposition \ref{prop_data_size}, we provide a similar condition that explains a curious phenomenon in Figure \ref{fig_size}, namely adding more labeled data from the source task does not always improve performance.
+	\item We provide a similar condition that explains a curious phenomenon in Figure \ref{fig_size}, namely adding more labeled data from the source task does not always improve performance (Proposition \ref{prop_data_size}).
 	%Theorem \ref{lem_cov_shift_informal} allows us to compare MTL performance under different covariate shifts.
-	\item In Proposition \ref{prop_covariate}, we study a special case of having the same task models and show that MTL is best performing without covariate shift.
+	\item We study a special case of having the same task models and show that MTL is best performing without covariate shift (Proposition \ref{prop_covariate}).
 	For this special case, the bound of Lemma \ref{lem_cov_shift_informal} matches the empirical curve in Figure \ref{fig_covariate} accurately.
 \squishend
 %In Section \ref{sec_insight}, we consider three components including task similarity, data size and covariate shift for a simplified isotropic setting of two tasks.
@@ -178,6 +178,6 @@ Along the way, we explain a key empirical finding of Taskonomy by Zamir et al. \
 Finally, we connect our theory to practical problems of interest.
 We provide a single-task based metric to predict positive or negative transfer in multi-task learning.
 While it is not well understood when multi-task learning provides positive transfer, we show that the STL results can help indicate and understand MTL results on ChestX-ray14 \cite{chexnet17} and sentiment analysis datasets \cite{LZWDA18}.
-Inspired by our observation that adding more source task data does not always improve perfromance, we propose to train multi-task models by incrementally adding source task data for predicting a target task.
+Inspired by our observation that adding more source task data does not always improve performance, we propose to train multi-task models by incrementally adding source task data for predicting a target task.
 We show that our training schedule reduces the computational cost by $55\%$ compared to baseline multi-task training on the sentiment analysis dataset, while keeping the accuracy the same.
 Last, we validate our three theoretical findings on sentiment analysis tasks.
