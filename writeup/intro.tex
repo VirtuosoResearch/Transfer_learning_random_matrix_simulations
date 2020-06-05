@@ -2,12 +2,11 @@
 \begin{abstract}
 \vspace{-0.05in}
 	Multi-task learning is a powerful approach in many applications such as image and text classification.
-	Yet, there is little rigorous understanding of when multi-task learning ouperforms single-task learning.
+	Yet, there is little rigorous understanding of when multi-task learning outperforms single-task learning.
 	In this work, we provide a rigorous study of this question in the setting of high-dimensional linear regression.
 	We show that the bias-variance tradeoff of multi-task learning determines the  effect of transfer and develop new concentration bounds to analyze the tradeoff.
 	The high-dimensional linear regression setting allows us to define three properties that measure the difference between task data, including \textit{task similarity}, \textit{sample size}, and \textit{covariate shift}.
-%	and show that the bias-variance tradeoff of multi-task estimators determines the transfer effect.
-	We relate each property to the bias and variance of multi-task learning to explain three negative effects as a result of decreased task similarity,	increased source sample size, and covariate shift under increased source sample size.
+	We relate each property to the bias and variance of multi-task learning to explain three negative effects because of decreased task similarity,	increased source sample size, and covariate shift under increased source sample size.
 	We validate the three effects on text classification tasks.
 	Inspired by our theory, we show two practical connections of interest.
 	First, single-task performance can help understand multi-task performance.
@@ -50,7 +49,7 @@ In this work, we study the bias and variance of multi-task learning in the high-
 Our key observation is that three properties of task data, including \textit{task similarity}, \textit{sample size}, and \textit{covariate shift} can affect whether multi-task learning outperforms single-task learning (which we refer to as \textit{positive transfer}).
 As an example, we vary each property in Figure \ref{fig_model_shift_phasetrans} for two linear regression tasks and measure the loss of single-task learning minus multi-task learning for predicting the second task.
 We observe that the effect of transfer can be positively or negatively affected as we vary each property.
-Moreover, these phenomena cannot be explained using previous techniques \cite{WZR20}.
+These phenomena cannot be explained using previous techniques \cite{WZR20}.
 The high-dimensional linear regression setting allows us to measure the three properties precisely.
 We define each property for two tasks and our definition applies to general settings.
 We refer to the first task as the source and the second as the target.
@@ -80,9 +79,9 @@ We consider the bias and variance of the multi-task estimator for predicting a p
 
 \textbf{Main results.} First, we develop tight bounds for the bias and variance of the multi-task estimator for two tasks by applying recent development from the random matrix theory literature \cite{erdos2017dynamical,isotropic,Anisotropic}.
 We observe that the variance of the multi-task estimator is \textit{always smaller} than single-task learning, because of additional source task samples.
-On the other hand, the bias of the multi-task estimator is \textit{always larger} than single-task learning, due to model differences.
+On the other hand, the bias of the multi-task estimator is \textit{always larger} than single-task learning, because of model differences.
 Hence, the tradeoff between bias and variance determines whether the transfer is positive or negative.
-We provide a sharp analysis of the variance that scales only with sample size and covariate shift in Lemma \ref{lem_cov_shift_informal} and extend it to the bias.
+We provide a sharp analysis of the variance that scales only with sample size and covariate shift in Section \ref{sec_main} and extend the analysis to the bias.
 Combining both, we analyze the bias-variance tradeoff for two tasks in Theorem \ref{thm_main_informal} and extend the analysis to many tasks with the same features in Theorem \ref{thm_many_tasks}.
 %For the setting of two tasks, we show how the variance of the multi-task estimator  scales with sample size and covariate shift in the following result.
 %\textit{Our first contribution} is to develop a concentration bound that arises naturally from the bias-variance tradeoff of $\hat{\beta}_t^{\MTL}$ for two tasks.
@@ -147,8 +146,8 @@ Second, we explain the phenomena in Figure \ref{fig_model_shift_phasetrans} in i
 %\textbf{Covariate shift:}
 %Furthermore, MTL performance is negatively affected when (c) \textit{covariate shift}: the covariance matrices of the two tasks become more different.
 \squishlist
-	\item We provide conditions to predict the effect of transfer as a parameter of model distance (Section \ref{sec_similarity}).
-	As task model distance increases, the bias becomes larger, resulting in negative transfer.
+	\item We provide conditions to predict the effect of transfer as a parameter of model distance $\norm{\beta_1-\beta_2}$ (Section \ref{sec_similarity}).
+	As model distance increases, the bias becomes larger, resulting in negative transfer.
 %	Our result predicts most of the empirical observations in Figure \ref{fig_model_shift} correctly.
 %	It is crucial that the concentration result in Theorem \ref{lem_cov_shift_informal} is sufficiently precise so that we can explain the transition phenomena in Figure \ref{fig_model_shift} and \ref{fig_size}.
 %	The unexplained observations are caused by an error term from the bias.
@@ -157,8 +156,8 @@ Second, we explain the phenomena in Figure \ref{fig_model_shift_phasetrans} in i
 	Adding source task samples helps initially by reducing variance, but hurts eventually due to bias.
 	%namely adding more labeled data from the source task does not always improve performance (Proposition \ref{prop_data_size}).
 	%Theorem \ref{lem_cov_shift_informal} allows us to compare MTL performance under different covariate shifts.
-	\item We study a special case of having the same models and show that MTL  performs best without covariate shift (Section \ref{prop_covariate}).
-	The bias is zero but the variance reduces less due to covariate shift.
+	\item For a special case of $\beta_1=\beta_2$, we show that MTL performs best when the singular values of $\Sigma_1^{1/2}\Sigma_2^{-1/2}$ are the same  (Section \ref{sec_covshift}).
+	Otherwise, the variance reduces less with covariate shift.
 %	Our theoretical bound matches the empirical curve in Figure \ref{fig_covariate}.
 \squishend
 %In Section \ref{sec_insight}, we consider three components including task similarity, data size and covariate shift for a simplified isotropic setting of two tasks.
@@ -178,7 +177,7 @@ First, we show that single-task learning results can help predict positive or ne
 We validate this observation on ChestX-ray14 \cite{chexnet17} and sentiment analysis datasets \cite{LZWDA18}.
 Second, we propose to train multi-task models by incrementally adding source task data for predicting a target task.
 This is inspired by our observation in Figure \ref{fig_size} where adding more source task data helps initially, but hurts eventually.
-Using our incremental training schedule, we reduce the computational cost by $55\%$ compared to baseline multi-task training over six sentiment analysis dataset while keeping the accuracy the same.
+Using our incremental training schedule, we reduce the computational cost by $65\%$ compared to baseline multi-task training over six sentiment analysis dataset while keeping the accuracy the same.
 Third, we provide a fine-grained insight on a covariance alignment procedure proposed in \cite{WZR20}.
 We show that the alignment procedure provides more significant improvement when the source/target sample ratio is large.
 Finally, we validate our three theoretical findings on sentiment analysis tasks.
