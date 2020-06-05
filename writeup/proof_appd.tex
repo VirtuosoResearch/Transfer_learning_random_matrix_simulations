@@ -1825,22 +1825,20 @@ The proof is similar to the ones in Sections 7-8 of \cite{Anisotropic}, so we on
 
 %\begin{subsection}{Interpolation and expansion} \label{subsec_interp}
 %The self-consistent comparison is performed with the following interpolation.
-\begin{definition}[Interpolating matrices]
+\begin{definition}[Interpolation]
 %Introduce the notation $X^0:=X^{Gauss}$ and $X^1:=X$. We define the interpolation matrix $X^\theta$ by setting
 %\begin{equation}
 % X^\theta_{i\mu}:=\chi^\theta_{i\mu} X^1+(1-\chi^\theta_{i\mu})X^0, \ \ \theta\in [0,1],
 %\end{equation}
 %for $i\in \mathcal I_1$ and $\mu\in \mathcal I_2$ (recall the Definition \ref{def_indexsets}). Here $(\chi^\theta_{i\mu})$ is a family of i.i.d Bernoulli random variables, independent of $X^0$ and $X^1$, satisfying $\bbP(\chi_{i\mu}^\theta=1)=\theta$ and $\bbP(\chi_{i\mu}^\theta=0)=1-\theta$.
-We denote 
-Introduce the notations $Z^0:=Z^{Gauss}$ and $Z^1:=Z$. Let $\rho_{\mu i}^0$ and $\rho_{\mu i}^1$ be the laws of $Z_{\mu i}^0$ and $Z_{\mu i}^1$, respectively. For $\theta\in [0,1]$, we define the interpolated law
-$$\rho_{\mu i}^\theta := (1-\theta)\rho_{\mu i}^0+\theta\rho_{\mu i}^1.$$
-We shall work on the probability space consisting of triples $(Z^0,Z^\theta, Z^1)$ of independent $n\times p$ random matrices, where the matrix $Z^\theta=(Z_{\mu i}^\theta)$ has law
+We denote $Z^0:=Z^{Gauss}$ and $Z^1:=Z$. Let $\rho_{\mu i}^0$ and $\rho_{\mu i}^1$ be the laws of $Z_{\mu i}^0$ and $Z_{\mu i}^1$, respectively. For $\theta\in [0,1]$, we define the interpolated law
+$\rho_{\mu i}^\theta := (1-\theta)\rho_{\mu i}^0+\theta\rho_{\mu i}^1.$ We shall work on the probability space consisting of triples $(Z^0,Z^\theta, Z^1)$ of independent $n\times p$ random matrices, where the matrix $Z^\theta=(Z_{\mu i}^\theta)$ has law
 \begin{equation}\label{law_interpol}
 \prod_{i\in \mathcal I_1}\prod_{\mu\in \mathcal I_2\cup \cal I_3} \rho_{\mu i}^\theta(\dd Z_{\mu i}^\theta).
 \end{equation}
 For $\lambda \in \mathbb R$, $i\in \mathcal I_1$ and $\mu\in \mathcal I_2\cup \cal I_3$, we define the matrix $Z_{(\mu i)}^{\theta,\lambda}$ through
 \[\left(Z_{(\mu i)}^{\theta,\lambda}\right)_{\nu j}:=\begin{cases}Z_{\mu i}^{\theta}, &\text{ if }(j,\nu)\ne (i,\mu)\\ \lambda, &\text{ if }(j,\nu)=(i,\mu)\end{cases}.\]
-We also introduce the matrices \[G^{\theta}(z):=G\left(Z^{\theta},z\right),\ \ \ G^{\theta, \lambda}_{(\mu i)}(z):=G\left(Z_{(\mu i)}^{\theta,\lambda},z\right).\]
+We also introduce the matrices $G^{\theta}(z):=G\left(Z^{\theta},z\right),\ \ \ G^{\theta, \lambda}_{(\mu i)}(z):=G\left(Z_{(\mu i)}^{\theta,\lambda},z\right).$
 %according to (\ref{def_mathcalg}) and the Definition \ref{def_linearHG}.
 \end{definition}
 
@@ -1861,38 +1859,41 @@ for $F:\mathbb R^{n \times p}\rightarrow \mathbb C$,
 \end{equation}
  provided all the expectations exist.
 %\end{lemma}
-
-We shall apply \eqref{basic_interp} to $F(Z):=F_{\bu\mathbf v}^p(Z,z)$ for (large) $p\in 2\N$ and $F_{\mathbf v}(Z,z)$ defined as
-\begin{equation}\label{eq_comp_F(X)}
- F_{\bu\mathbf v}(Z,z):=\left|G_{\mathbf{uv}}(Z,z)-\Pi_{\mathbf {uv}}(z)\right|.
-\end{equation}
-Here for simplicity of notations, we introduce the following notation of generalized entries: for $\mathbf u,\mathbf v \in \mathbb R^{\mathcal I}$, we shall denote $
-G_{\mathbf{uv}}:= \mathbf u^\top G\mathbf v   . %\quad G_{a\mathbf{w}}:=\langle \mathbf e_a,G\mathbf w\rangle,
-$
-Moreover, we shall abbreviate $G_{\mathbf{u}\fa}:= G_{\bu\mathbf e_{\fa}}$ for $\fa\in \mathcal I$, where $\mathbf e_{\fa}$ is the standard unit vector along $\fa$-th axis. Given any vector $\mathbf u\in \mathbb \R^{\mathcal I_{1,2,3}}$, we always identify it with its natural embedding in $\mathbb R^{\mathcal I}$. 
-%$\left( {\begin{array}{*{20}c}
-%   {\mathbf x}  \\
-%   0 \\
-%\end{array}} \right)$ and $\left( {\begin{array}{*{20}c}
-%   0  \\
-%   \mathbf y \\
-%\end{array}} \right)$ in $\mathbb C^{\mathcal I}$.
-The exact meanings will be clear from the context. The main work is to show the following self-consistent estimate for the right-hand side of (\ref{basic_interp}) for any fixed $p\in 2\N$ and constant $\e>0$:
+We shall apply \eqref{basic_interp} to $F(Z):=F_{\bu\mathbf v}^s(Z,z)$ for (large) $s\in 2\N$ and $F_{\mathbf u\mathbf v}(Z,z)$ defined as
+\begin{equation*}%\label{eq_comp_F(X)}
+ F_{\bu\mathbf v}(Z,z):=\left|\mathbf u^\top \left(G (Z,z)-\Pi(z)\right)\mathbf v\right|.
+\end{equation*}
+%Here for simplicity of notations, we introduce the following notation of generalized entries: for $\mathbf u,\mathbf v \in \mathbb R^{\mathcal I}$, we shall denote $
+%G_{\mathbf{uv}}:= \mathbf u^\top G\mathbf v   . %\quad G_{a\mathbf{w}}:=\langle \mathbf e_a,G\mathbf w\rangle,
+%$
+%Moreover, we shall abbreviate $G_{\mathbf{u}\fa}:= G_{\bu\mathbf e_{\fa}}$ for $\fa\in \mathcal I$, where $\mathbf e_{\fa}$ is the standard unit vector along $\fa$-th axis. Given any vector $\mathbf u\in \mathbb \R^{\mathcal I_{1,2,3}}$, we always identify it with its natural embedding in $\mathbb R^{\mathcal I}$. 
+%%$\left( {\begin{array}{*{20}c}
+%%   {\mathbf x}  \\
+%%   0 \\
+%%\end{array}} \right)$ and $\left( {\begin{array}{*{20}c}
+%%   0  \\
+%%   \mathbf y \\
+%%\end{array}} \right)$ in $\mathbb C^{\mathcal I}$.
+%The exact meanings will be clear from the context. 
+The main part of the proof is to show the following self-consistent estimate for the right-hand side of (\ref{basic_interp}) for any fixed $s\in 2\N$ and constant $\e>0$:
 %\begin{lemma}\label{lemm_comp_4}
  %Fix $p\in 2\mathbb N$ and $m\le \delta^{-1}$. Suppose (\ref{3moment}) and $\mathbf{(A_{m-1})}$ hold, then we have
  \begin{equation}\label{lemm_comp_4}
-  \sum_{i\in\mathcal I_1}\sum_{\mu\in\mathcal I_2\cup \cal I_3}\left[\mathbb EF_{\bu\mathbf v}^p\left(Z^{\theta,Z_{\mu i}^1}_{(\mu i)},z\right)-\mathbb EF_{\bu\mathbf v}^p\left(Z^{\theta,Z_{\mu i}^0}_{(\mu i)},z\right)\right]=
-  \OO\left((n^\e q)^{p}+\E F_{\bu\mathbf v}^p\left(Z^{\theta},z\right) \right)
+  \sum_{i\in\mathcal I_1}\sum_{\mu\in\mathcal I_2\cup \cal I_3}\left[\mathbb EF_{\bu\mathbf v}^s\left(Z^{\theta,Z_{\mu i}^1}_{(\mu i)},z\right)-\mathbb EF_{\bu\mathbf v}^s\left(Z^{\theta,Z_{\mu i}^0}_{(\mu i)},z\right)\right]=
+  \OO\left((n^\e q)^{s}+\E F_{\bu\mathbf v}^s\left(Z^{\theta},z\right) \right)
  \end{equation}
- for all $\theta\in[0,1]$. If \eqref{lemm_comp_4} holds, then combining \eqref{basic_interp} with a Gr\"onwall's argument we obtain that for any fixed $p\in 2\N$ and constant $\e>0$: 
- $$\E\left|G_{\mathbf{uv}}(Z^1,z)-\Pi_{\mathbf {uv}}(z)\right|^p  \le (n^\e q)^{p}$$
+ for all $\theta\in[0,1]$. If \eqref{lemm_comp_4} holds, then combining \eqref{basic_interp} with a Gr\"onwall's argument we obtain that for any fixed $s\in 2\N$ and constant $\e>0$: 
+ $$\E\left|G_{\mathbf{uv}}(Z^1,z)-\Pi_{\mathbf {uv}}(z)\right|^p  \le (n^\e q)^{p}.$$
 Together with Markov's inequality, we conclude \eqref{aniso_law}. 
 %we can conclude Lemma \ref{lemm_comp_0} and hence \eqref{goal_ani2}. %Theorem \ref{LEM_SMALL}.%Proposition \ref{comparison_prop}.
-In order to prove \eqref{lemm_comp_4}, we compare $Z^{\theta,Z_{\mu i}^0}_{(\mu i)}$ and $Z^{\theta,Z_{\mu i}^1}_{(\mu i)}$ via a common $Z^{\theta,0}_{(\mu i)}$, i.e. we will prove that
-\begin{equation}\label{lemm_comp_5}
-\sum_{i\in\mathcal I_1}\sum_{\mu\in\mathcal I_2\cup \cal I_3}\left[\mathbb EF_{\bu\mathbf v}^p\left(Z^{\theta,Z_{\mu i}^a}_{(\mu i)},z\right)-\mathbb EF_{\mathbf v}^p\left(Z^{\theta,0}_{(\mu i)},z\right)\right]= \OO\left((n^\e q)^{p}+\E F_{\bu\mathbf v}^p\left(Z^{\theta},z\right) \right)
- \end{equation}
-for all $a\in \{0,1\}$ and $\theta\in[0,1]$. Underlying the proof of (\ref{lemm_comp_5}) is an expansion approach, which is similar to ........ ........ This follows from an improved self-consistent comparison argument for sample covariance matrices in \cite[Section 8]{Anisotropic}. The argument for our case is almost the same except for some notational differences, so we omit the details. 
+%In order to prove \eqref{lemm_comp_4}, we compare $Z^{\theta,Z_{\mu i}^0}_{(\mu i)}$ and $Z^{\theta,Z_{\mu i}^1}_{(\mu i)}$ via a common $Z^{\theta,0}_{(\mu i)}$, i.e. we will prove that
+%\begin{equation}\label{lemm_comp_5}
+%\sum_{i\in\mathcal I_1}\sum_{\mu\in\mathcal I_2\cup \cal I_3}\left[\mathbb EF_{\bu\mathbf v}^p\left(Z^{\theta,Z_{\mu i}^a}_{(\mu i)},z\right)-\mathbb EF_{\mathbf v}^p\left(Z^{\theta,0}_{(\mu i)},z\right)\right]= \OO\left((n^\e q)^{p}+\E F_{\bu\mathbf v}^p\left(Z^{\theta},z\right) \right)
+% \end{equation}
+%for all $a\in \{0,1\}$ and $\theta\in[0,1]$. 
+Underlying the proof of (\ref{lemm_comp_4}) is an expansion approach, which is very similar to the ones for Lemma 7.10 of \cite{Anisotropic} and Lemma 6.11 of \cite{yang2019spiked}. So we omit the details.
+
+%This follows from an improved self-consistent comparison argument for sample covariance matrices in \cite[Section 8]{Anisotropic}. The argument for our case is almost the same except for some notational differences, so we omit the details. 
 
 %-------------remove-------------
 %%Throughout the rest of the proof, 
@@ -2370,19 +2371,17 @@ Finally, we give the proof of Lemma \ref{lem_mbehaviorw} and Lemma \ref{lem_stab
  \begin{proof}[Proof of Lemma \ref{lem_mbehaviorw}]
  One can check that the equations in \eqref{selfomega} are equivalent to the following ones:
 \begin{equation}\label{selfalter}
-\begin{split}
-&r_1m_{2c}=-(1-\gamma_n) - r_2m_{3c} - z\left( \frac{1}{m_{3c}}+1\right),\quad g_z(m_{3c}(z))=1, 
-\end{split}
+r_1m_{2c}=-(1-\gamma_n) - r_2m_{3c} - z\left( m_{3c}^{-1}+1\right),\quad g_z(m_{3c}(z))=1, 
 \ee
 where
 $$g_z(m_{3c}):= - m_{3c} +\frac1n\sum_{i=1}^p \frac{m_{3c} }{  z -\sigma_i^2(1-\gamma_n)+ (1 - \sigma_i^2) r_2m_{3c} - \sigma_i^2 z\left(  m_{3c}^{-1}+1\right) }.$$
-We first show that there exists a unique solution $m_{3c}(z)$ to the equation $g_z(m_{3c}(z))=r_2$ under the conditions in \eqref{prior1}, and the solution satisfies \eqref{Lipomega}. Now we abbreviate $\e(z):= m_{3 c}(z) - m_{3 c}(0)$, and from \eqref{selfalter} we can obtain that 
+We first show that there exists a unique solution $m_{3c}(z)$ to the equation $g_z(m_{3c}(z))=1$ under the conditions in \eqref{prior1}, and the solution satisfies \eqref{Lipomega}. Now we abbreviate $\e(z):= m_{3 c}(z) - m_{3 c}(0)$, and from \eqref{selfalter} we obtain that 
 \begin{equation} \nonumber
 0=\left[g_z(m_{3c}(z)) -  g_0(m_{3c}(0)) -g_z'(m_{3c}(0))\e(z)\right] + g_z'(m_{3c}(0))\e(z),
 \ee
 which implies
-\be\label{selfomega1}
-g_z'(m_{3c}(0)) \e(z) =- \left[g_z(m_{3c}(0)) - g_0(m_{3c}(0))\right] - \left[g_z(m_{3c}(0)+\e(z)) -  g_z(m_{3c}(0))-g_z'(m_{3c}(0))\e(z) \right].
+\be\nonumber%\label{selfomega1}
+ \e(z) =- \frac{ g_z(m_{3c}(0)) - g_0(m_{3c}(0)) }{g_z'(m_{3c}(0))}- \frac{ g_z(m_{3c}(0)+\e(z)) -  g_z(m_{3c}(0))-g_z'(m_{3c}(0))\e(z)}{g_z'(m_{3c}(0))}.
  \ee
 %By \eqref{selfomega}, we obtain the self-consistent equations for $(m_{2c}(0),m_{3c}(0))$ and $(m_{2c}(z),m_{3c}(z))$:
 % \begin{equation}\label{selfomega1}
@@ -2397,7 +2396,7 @@ g_z'(m_{3c}(0)) \e(z) =- \left[g_z(m_{3c}(0)) - g_0(m_{3c}(0))\right] - \left[g_
 %&  \e_3 \frac{r_2}{(m_{3c}+\e_3) m_{3c}}=  \frac1n\sum_{i=1}^p \frac{z+\sigma_i^2 \e_2 +\e_3}{(\sigma_i^2m_{2c}  + m_{3c})(z+\sigma_i^2(m_{2c}+\e_2)  + (m_{3c}+\e_3) ) }.
 %\end{split}
 %\ee
-Inspired by the above equation, we define iteratively a sequence of vectors ${\e}^{(k)} \in \C$ such that ${\e}^{(0)}=0$, and 
+Inspired by this equation, we define iteratively a sequence ${\e}^{(k)} \in \C$ such that ${\e}^{(0)}=0$, and 
 \be\label{selfomega2}
  \e^{(k+1)} =- \frac{g_z(m_{3c}(0)) - g_0(m_{3c}(0))}{g_z'(m_{3c}(0))} -\frac{g_z(m_{3c}(0)+ \e^{(k)}) -  g_z(m_{3c}(0))-g_z'(m_{3c}(0))\e^{(k)} }{g_z'(m_{3c}(0))} .
  \ee
@@ -2411,7 +2410,7 @@ Inspired by the above equation, we define iteratively a sequence of vectors ${\e
 %&+   \frac1n\sum_{i=1}^p \left( \frac{ z+\sigma_i^2 \e_2^{(k)} +\e_3^{(k)}}{(\sigma_i^2m_{2c}  + m_{3c})(z+\sigma_i^2(m_{2c}+\e_2^{(k)})  + (m_{3c}+\e_3^{(k)}) ) } - \frac{ z+\sigma_i^2 \e_2^{(k)} +\e_3^{(k)}}{(\sigma_i^2m_{2c}  + m_{3c})(z+\sigma_i^2m_{2c}  + m_{3c}) }\right).
 %\end{split}
 %\ee
- In other words, the above equation defines a mapping $h:\C\to \C$, which maps $\e^{(k)}$ to $\e^{(k+1)}=h(\e^{(k)})$.
+Then \eqref{selfomega2} defines a mapping $h:\C\to \C$, which maps $\e^{(k)}$ to $\e^{(k+1)}=h(\e^{(k)})$.
  
 %\be\label{iteration} 
 %{\e}^{(k+1)}= \mathbf f({ \e}^{(k)}), \quad \mathbf f(\mathbf x):=S^{-1}\mathbf x_0+ S^{-1} \mathbf e(\mathbf x),
@@ -2432,14 +2431,15 @@ Inspired by the above equation, we define iteratively a sequence of vectors ${\e
 %%Here we have used $\theta_lg(m_{1c})g( m_{2c} ) = f_c(\theta_l) = t_l$ (recall \eqref{fcz}) to simplify the expressions a little bit.
 
 With direct calculation, one can get the derivative
-$$g_z'(m_{3c}(0)) = -1 - \frac1n\sum_{i=1}^p \frac{ \sigma_i^2(1-\gamma_n) - z\left[1- \sigma_i^2 \left(  2r_2m_{3c}^{-1}+1\right)\right]  }{  \left[z -\sigma_i^2(1-\gamma_n)+ (1 - \sigma_i^2) m_{3c} - \sigma_i^2 z\left(  r_2m_{3c}^{-1}+1\right)\right]^2 }.$$
-Using \eqref{a23}, it is easy to check that there exist constants $\wt c, \wt C>0$ depending only on $\tau$ in \eqref{assm32} and \eqref{a23} such that
+$$g_z'(m_{3c}(0)) = -1 - \frac1n\sum_{i=1}^p \frac{ \sigma_i^2(1-\gamma_n) - z\left[1- \sigma_i^2 \left(  2m_{3c}^{-1}(0)+1\right)\right]  }{  \left[z -\sigma_i^2(1-\gamma_n)+ (1 - \sigma_i^2) r_2m_{3c}(0) - \sigma_i^2 z\left( m_{3c}^{-1}(0)+1\right)\right]^2 }.$$
+%Using \eqref{a23}, 
+Then it is easy to check that there exist constants $\wt c, \wt C>0$ depending only on $\tau$ in \eqref{assm32} and \eqref{a23} such that
 \be\label{dust}
-|[g_z'(m_{3c}(0))]^{-1}|\le \wt C, \quad \left|\frac{g_z(m_{3c}(0)+ \e_1) -  g_z(m_{3c}(0)+\e_2)-g_z'(m_{3c}(0))(\e_1-\e_2) }{g_z'(m_{3c}(0))}\right|  \le \wt C|\e_1-\e_2|^2 ,
+\left|[g_z'(m_{3c}(0))]^{-1}\right|\le \wt C, \quad   \left|\frac{g_z(m_{3c}(0)) - g_0(m_{3c}(0))}{g_z'(m_{3c}(0))}\right|  \le \wt C|z| ,
 \ee
 and 
 \be\label{dust222}
-  \left|\frac{g_z(m_{3c}(0)) - g_0(m_{3c}(0))}{g_z'(m_{3c}(0))}\right|  \le \wt C|z| ,
+\left|\frac{g_z(m_{3c}(0)+ \e_1) -  g_z(m_{3c}(0)+\e_2)-g_z'(m_{3c}(0))(\e_1-\e_2) }{g_z'(m_{3c}(0))}\right|  \le \wt C|\e_1-\e_2|^2 ,
 \ee
 for all $|z|\le \wt c$ and $|\e_1|  \le \wt c$, $|\e_2|  \le \wt c$. Then with \eqref{dust} and \eqref{dust222}, it is easy to see that there exists a sufficiently small constant $\delta>0$ depending only on $\wt C$, such that $h$ is a self-mapping 
 $$  h: B_r  \to B_r , \quad B_r:=\{\e \in \C: |\e| \le r \},$$
@@ -2466,26 +2466,24 @@ Hence as long as $r$ is chosen to be sufficiently small such that $2r\wt C\le 1/
 %for some constant $C >0$ depending only on $c_1, c_2$ and $\delta_l$. Thus we can choose a sufficiently small constant $0<r \le \min\{\tau, (2C)^{-1}\}$ such that $Cr \le 1/2$, i.e. 
 $h$ is indeed a contraction mapping on $ B_r$, which proves both the existence and uniqueness of the solution $m_{3c}(z)=m_{3c}(0)+\e$, if we choose $c_0$ in \eqref{prior1} as $c_0=\min\{c_\delta, r\}$. After obtaining $m_{3c}(z)$, we can then find $m_{2c}(z)$ using the first equation in \eqref{selfalter}. 
 
-Note that with \eqref{dust222} and ${\e}^{(0)}=\mathbf 0$, we get from \eqref{selfomega2} that
- $$ |{ \e}^{(1)}| \le \wt C|z| .$$
+Note that with \eqref{dust222} and ${\e}^{(0)}= 0$, we get from \eqref{selfomega2} that $ |{ \e}^{(1)}| \le \wt C|z| .$
 With the contraction mapping, we have the bound 
-\be\label{endalter}|{ \e}| \le \sum_{k=0}^\infty \|{  \e}^{(k+1)}-{ \e}^{(k)}\|_\infty \le 2\wt C|z|.\ee
-This gives the bound \eqref{Lipomega} for $m_{3c}(z)$. Using the first equation in \eqref{selfalter}, we immediately obtain the bound 
-$$ r_1|m_{2c}(z)-m_{2c}(0)| \le C|z|.$$
-This gives \eqref{Lipomega} for $m_{2c}(z)$ as long as if $r_1\gtrsim 1$. To deal with the small $r_1$ case, we go back to the first equation in \eqref{selfomega} and treat $m_{2c}(z)$ as the solution to the following equation:
+\be\label{endalter}|{ \e}| \le \sum_{k=0}^\infty |{  \e}^{(k+1)}-{ \e}^{(k)}| \le 2\wt C|z|.\ee
+This gives the bound \eqref{Lipomega} for $m_{3c}(z)$. Using the first equation in \eqref{selfalter}, we immediately obtain the bound  $ r_1|m_{2c}(z)-m_{2c}(0)| \le C|z|.$ This gives \eqref{Lipomega} for $m_{2c}(z)$ as long as if $r_1\gtrsim 1$. To deal with the small $r_1$ case, we go back to the first equation in \eqref{selfomega} and treat $m_{2c}(z)$ as the solution to the following equation:
 $$\wt g_z(m_{2c}(z))=1,\quad \wt g_z(x):=- x + \frac{\gamma_n}p\sum_{i=1}^p \frac{\sigma_i^2 x}{  z+\sigma_i^2 r_1 x +r_2 m_{3c}(z) }. $$
-We can calculate that 
-$$g_z'(m_{2c}(0))= -1 +  \frac{\gamma_n}p\sum_{i=1}^p \frac{\sigma_i^2 (z + r_2m_{3c}(z))}{  (z+\sigma_i^2 r_1 m_{2c}(0) +r_2 m_{3c}(z))^2 }.$$
-At $z=0$, we have 
-$$ |g_0'(m_{2c}(0))|= \left|1+\frac{\gamma_n}p\sum_{i=1}^p \frac{\sigma_i^2  r_2 b_3}{  (\sigma_i^2 r_1 b_2 + r_2 b_3)^2 }\right|\ge 1,$$
-where $b_2$ and $b_3$ satisfy \eqref{a23}. Thus under \eqref{prior1} we have $|g_z'(m_{2c}(0))|\sim 1$ as long as $c_0$ is taken sufficiently small. Then with the above arguments for $m_{3c}(z)$ between \eqref{selfalter} and \eqref{endalter}, we can conclude \eqref{Lipomega} for $m_{2c}(z)$. 
+%We can calculate that 
+%$$g_z'(m_{2c}(0))= -1 +  \frac{\gamma_n}p\sum_{i=1}^p \frac{\sigma_i^2 (z + r_2m_{3c}(z))}{  (z+\sigma_i^2 r_1 m_{2c}(0) +r_2 m_{3c}(z))^2 }.$$
+%At $z=0$, we have 
+%$$ |g_0'(m_{2c}(0))|= \left|1+\frac{\gamma_n}p\sum_{i=1}^p \frac{\sigma_i^2  r_2 b_3}{  (\sigma_i^2 r_1 b_2 + r_2 b_3)^2 }\right|\ge 1,$$
+%where $b_2$ and $b_3$ satisfy \eqref{a23}. Thus under \eqref{prior1} we have $|g_z'(m_{2c}(0))|\sim 1$ as long as $c_0$ is taken sufficiently small. 
+Then with similar arguments as above between \eqref{selfalter} and \eqref{endalter}, we can conclude \eqref{Lipomega} for $m_{2c}(z)$. 
 %$c_0$ is taken sufficiently small. 
 This concludes the proof of Lemma \ref{lem_mbehaviorw}.
 \end{proof}
 
 \begin{proof}[Proof of Lemma \ref{lem_stabw}]
 Under \eqref{prior1}, we can obtain equation \eqref{selfalter} approximately up to some small error
-\be\label{selfalter2}r_1 m_{2c}=-(1-\gamma_n) - r_2m_{3c} - z\left( \frac{1}{m_{3c}}+1\right) + \cal E'_2(z),\quad g_z(m_{3c}(z))=1+ \cal E'_3(z),\ee
- with $|\cal E'_2(z)|+ |\cal E'_3(z)|=\OO(\delta(z))$. Then we subtract the equations \eqref{selfalter} from \eqref{selfalter2}, and consider the contraction principle for the functions $\e (z):= m_{3}(z) - m_{3 c}(z)$.  The rest of the proof is exactly the one for Lemma \ref{lem_mbehaviorw}, so we omit the details.
+\be\label{selfalter2}r_1 m_{2c}=-(1-\gamma_n) - r_2m_{3c} - z\left(  {m_{3c}^{-1}}+1\right) + \cal E'_2(z),\quad g_z(m_{3c}(z))=1+ \cal E'_3(z),\ee
+ with $|\cal E'_2(z)|+ |\cal E'_3(z)|=\OO(\delta(z))$. Then we subtract the equations \eqref{selfalter} from \eqref{selfalter2}, and consider the contraction principle for the functions $\e (z):= m_{3}(z) - m_{3 c}(z)$.  The rest of the proof is exactly the same as the one for Lemma \ref{lem_mbehaviorw}, so we omit the details.
 \end{proof}
 
