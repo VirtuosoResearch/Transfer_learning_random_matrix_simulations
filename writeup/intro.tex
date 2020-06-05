@@ -160,8 +160,8 @@ We describe three simulations in Figure \ref{fig_model_shift_phasetrans} for two
 	We discuss these in Section \ref{sec_insight}.
 	\item We provide a similar condition that explains a curious phenomenon in Figure \ref{fig_size}, namely adding more labeled data from the source task does not always improve performance (Proposition \ref{prop_data_size}).
 	%Theorem \ref{lem_cov_shift_informal} allows us to compare MTL performance under different covariate shifts.
-	\item We study a special case of having the same task models and show that MTL  performs best without covariate shift (Proposition \ref{prop_covariate}).
-	For this special case, the bound of Lemma \ref{lem_cov_shift_informal} matches the empirical curve in Figure \ref{fig_covariate} accurately.
+	\item We study a special case of having the same models and show that MTL  performs best without covariate shift (Proposition \ref{prop_covariate}).
+	Our theoretical bound matches the empirical curve in Figure \ref{fig_covariate}.
 \squishend
 %In Section \ref{sec_insight}, we consider three components including task similarity, data size and covariate shift for a simplified isotropic setting of two tasks.
 %We measure task similarity by how small is the distance between $\beta_1$ and $\beta_2$.
@@ -175,9 +175,12 @@ Along the way, we explain a key empirical finding of Taskonomy by Zamir et al. \
 %		We show that as $n_1 / n_2$ becomes large, having no covariate shift between the source and target tasks yields the optimal performance for the target task.
 %		On the other hand, when $n_1 / n_2$ is small, there are counter examples where having the same covariance matrix is not necessarily the optimal choice.
 
-Finally, we connect our theory to practical problems of interest.
-We provide a single-task based metric to predict positive or negative transfer in multi-task learning.
-While it is not well understood when multi-task learning provides positive transfer, we show that the STL results can help indicate and understand MTL results on ChestX-ray14 \cite{chexnet17} and sentiment analysis datasets \cite{LZWDA18}.
-Inspired by our observation that adding more source task data does not always improve performance, we propose to train multi-task models by incrementally adding source task data for predicting a target task.
-We show that our training schedule reduces the computational cost by $55\%$ compared to baseline multi-task training on the sentiment analysis dataset while keeping the accuracy the same.
-Last, we validate our three theoretical findings on sentiment analysis tasks.
+Our study also leads to several algorithmic consequences with practical interest.
+First, we show that single-task learning results can help predict positive or negative transfer for multi-task learning.
+We validate this observation on ChestX-ray14 \cite{chexnet17} and sentiment analysis datasets \cite{LZWDA18}.
+Second, we propose to train multi-task models by incrementally adding source task data for predicting a target task.
+This is inspired by our observation in Figure \ref{fig_size} where adding more source task data helps initially, but hurts eventually.
+Using our incremental training schdule, we reduce the computational cost by $55\%$ compared to baseline multi-task training over six sentiment analysis dataset while keeping the accuracy the same.
+Third, we provide a fine-grained insight on a covariange alignment procedure proposed in \cite{WZR20}.
+We show that the alignment procedure provides more significant improvement when the source/target sample ratio is large.
+Finally, we validate our three theoretical findings on sentiment analysis tasks.
