@@ -7,7 +7,7 @@ Then, we describe the bias-variance tradeoff of the multi-task estimator and con
 
 \textbf{Problem setup.}
 Suppose we have $t$ datasets, where $t$ is a fixed value that does not grow with the feature dimension $p$.
-In the high-dimensional linear regression setting (e.g. \cite{HMRT19,BLLT20}), the features of the $k$-th task, denoted by $X_k\in\real^{n_i\times p}$, consists of $n_k$ feature vectors given by $x_1, x_2, \dots, x_{n_k}$.
+In the high-dimensional linear regression setting (e.g. \cite{HMRT19,BLLT20}), the features of the $k$-th task, denoted by $X_k\in\real^{n_i\times p}$, consist of $n_k$ feature vectors given by $x_1, x_2, \dots, x_{n_k}$.
 And each feature $x_i = \Sigma^{1/2}z_i$, where $z_i\in\real^p$ consists of i.i.d. entries with mean zero and unit variance.
 The sample size $n_k $ equals $\rho_k\cdot p$ for a fixed value $\rho_k$.
 The labels $Y_k = X_k \beta_k + \varepsilon_k$, where $\beta_k$ denotes the linear model parameters and $\varepsilon_k$ denotes i.i.d. noise with mean zero and variance $\sigma^2$.
@@ -17,21 +17,21 @@ The labels $Y_k = X_k \beta_k + \varepsilon_k$, where $\beta_k$ denotes the line
 
 We focus on the commonly used hard parameter sharing model for multi-task learning \cite{R17}.
 When specialized to the linear regression setting, the model consists of a linear layer $B\in\real^{p\times r}$ that is shared by all tasks and $t$ output layers $W_1, \dots, W_t$ that are in $\real^r$.
-The width of $B$, denoted by $r$, plays an important regularization effect.
+The width of $B$, denoted by $r$, plays an important role in regularization.
 As observed in Proposition 1 of \cite{WZR20}, if $r \ge t$, there is no regularization effect.
 Hence, we assume that $r < t$ in our study.
-For example, when there are only two tasks, $r = 1$ and $B$ reduces a vector whereas $W_1, W_2$ become scalars.
+For example, when there are only two tasks, $r = 1$ and $B$ reduces to a vector whereas $W_1, W_2$ become scalars.
 We study the following procedure inspired by how hard parameter sharing models are trained in practice (e.g. \cite{MTDNN19}).
 \squishlist
 	\item Separate each dataset $(X_i, Y_i)$ randomly into a training set $(X_i^{tr}, Y_i^{tr})$ and a validation set $(X_i^{val}, Y_i^{val})$.
 	The size of each set is described below.
-	\item Learning the shared layer $B$: minimize the training loss over $B$ and $W_1, \dots, W_t$, leading to a closed form equation for $\hat{B}$ that depends on $W_1,\dots, W_k$.
+	\item Learn the shared layer $B$: minimize the training loss over $B$ and $W_1, \dots, W_t$, leading to a closed form equation for $\hat{B}$ that depends on $W_1,\dots, W_k$.
 		\vspace{-0.075in}
 		{\small\begin{align}\label{eq_mtl}
 			f(B; W_1, \dots, W_t) = \sum_{k=1}^t \norm{X_k^{tr} B W_k - Y_k^{tr}}^2.
 		\end{align}}
 		\vspace{-0.075in}
-	\item Tuning the output layers $W_i$: set $B = \hat{B}$ and minimize the validation loss over $W_1,\dots, W_k$.
+	\item Tune the output layers $W_i$: set $B = \hat{B}$ and minimize the validation loss over $W_1,\dots, W_k$.
 		\vspace{-0.075in}
 		{\small\begin{align}\label{eq_mtl_eval}
 			g(W_1, \dots, W_t) = \sum_{k=1}^t \norm{X_k^{val} \hat{B} W_k - Y_k^{val}}^2.
@@ -70,7 +70,7 @@ The advantage of tuning the output layers on the validation set is to reduce the
 %\subsection{Analyzing the Tradeoff via Random Matrix Theory}
 
 \textbf{Problem statement.}
-We focus on predicting a particular task, say the $t$-th task without loss of generality.
+We focus on predicting a particular task, say the $t$-th task, without loss of generality.
 Let $\hat{\beta}_t^{\MTL}$ denote the multi-task estimator obtained from the procedure above.
 Our goal is to compare the prediction loss of $\hat{\beta}_t^{\MTL}$, defined by
 {\small\begin{align*}
