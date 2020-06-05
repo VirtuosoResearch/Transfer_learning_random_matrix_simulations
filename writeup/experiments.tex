@@ -1,5 +1,6 @@
 \section{Experiments}
 
+\vspace{-0.05in}
 We validate our theory and algorithmic insights.
 First, we validate the single-task based metric on sentiment analysis and ChestX-ray14 datasets.
 We show that single-task learning results can help predict positive or negative transfer for both datasets.
@@ -51,20 +52,22 @@ Finally, we validate our theoretical results on text classification tasks.
 \end{minipage}
 \end{table}
 
+\vspace{-0.07in}
 \subsection{Experimental Setup}
 
 We consider a text classification task and an image classification task as follows.
 
-{\it Sentiment Analysis:} This dataset includes six tasks: movie review sentiment (MR), sentence subjectivity (SUBJ), customer reviews polarity (CR), question type (TREC), opinion polarity (MPQA), and the Stanford sentiment treebank (SST) tasks.
-{For each task, the goal is to categorize sentiment opinions expressed in the text.
+{\it Sentiment Analysis.} We consider six tasks: movie review sentiment (MR), sentence subjectivity (SUBJ), customer reviews polarity (CR), question type (TREC), opinion polarity (MPQA), and the Stanford sentiment treebank (SST) tasks.
+The question is to predict positive or negative sentiment expressed in the text.
 We use an embedding layer with GloVe embeddings
 followed by an LSTM or MLP layer proposed by~\cite{lei2018simple}.
-}
+
 %multi-layer perceptron (MLP), LSTM, CNN on all tasks
 %We use this task to verify our theoretical results on model capacity and task covariance in real world.
 
-{\it ChestX-ray14:} This dataset contains 112,120 frontal-view X-ray images and each image has up to 14 diseases.
-This is a 14-task multi-label image classification problem.
+{\it ChestX-ray14.} This dataset contains 112,120 frontal-view X-ray images.
+There are 14 diseases (tasks) for every image that we would like to predict.
+We use AlexNet as the shared module.
 %We treat each label as one task a binary classification problem and formulate it as a 14-task multi-task learning problem.
 %This dataset is curated where the labels
 %We use the CheXNet model from~\cite{chexnet}, which is a 121-layer convolutional neural network on all tasks.
@@ -76,7 +79,7 @@ The baseline training schedule for MTL is the round-robin training schedule.
 %We compare our incremental training schedule of Algorithm \ref{alg_inc_train} to the round-robin training schedule.
 We measure the test accuracy of predicting a target task.
 
-
+\vspace{-0.07in}
 \subsection{Experimental Results}
 
 \textit{Predicting transfer effect via STL results.}
@@ -133,17 +136,17 @@ As a further validation, excluding TREC, we observe similar comparative results.
 	\vspace{-0.15in}
 \end{figure}
 
-
-\subsection{Ablation Studies}
+\vspace{-0.07in}
+\subsection{Validating the Theoretical Results}
 
 We validate our three theoretical results in Section \ref{sec_insight} on the sentiment analysis tasks.
 In Figure \ref{fig_ab_sim}, we compare the performance training with a semantically similar task versus a dissimilar task with a target task.
-We select a pair of similar versus dissimilar task based on our domain knowledge or these tasks (cf. Appendix \ref{app_it} for the detailed procedure).
+We select each task pair based on our domain knowledge.
 We observe that adding a similar task helps the target task whereas adding a dissimilar task hurts.
 In Figure \ref{fig_ab_data}, we validate the phenomenon that adding more source data samples does not always improve performance on the target task.
 In Figure \ref{fig_ab_cov}, we measure the performance gains from performing the alignment procedure proposed in \cite{WZR20} minus baseline MTL performance.
-We average the result over all 15 task pairs.
-The result shows that as source samples increases, performing the alignment procedure shows a bigger improvement over MTL.
-The experimental procedure is left to Appendix \ref{app_it}.
+We average the results over all 15 task pairs.
+The result shows that as the source samples increases, the alignment procedure shows a bigger improvement over MTL.
+The rest of experimental procedures are left to Appendix \ref{app_it}.
 
 
