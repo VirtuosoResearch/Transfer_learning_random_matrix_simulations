@@ -78,7 +78,18 @@ We measure the test accuracy of predicting a target task.
 
 \subsection{Experimental Results}
 
-Our first result is to show that our proposed incremental training schedule (Algorithm \ref{alg_inc_train}) can help mitigate negative transfer for predicting a particular target task.
+\textit{Predicting transfer effect via STL results.}
+We show that the single-task based metric proposed in Section \ref{sec_similarity} can predict positive or negative transfer in MTL.
+A common challenge in the study of multi-task learning is that the results can be hard to understand.
+It is difficult to predict when MTL performs well without running extensive trials.
+Our insight here is that we can use STL results to help understand MTL results.
+Table \ref{tab:mtl_better_than_stl} shows the result on both the sentiment analysis and the ChestX-ray14 tasks.
+We find that using a threshold of $\tau = 0.1$, the STL results correctly predict positive or negative transfer with $75.6\%$ accuracy and $38.8\%$ recall among $30$ times $5$ (random seeds) task pairs!
+We observe similar results for $91$ task pairs from the ChestX-ray14 dataset.
+%The results show that STL results are indicative of MTL results.
+
+\textit{Mitigating negative transfer via incremental training.}
+Our show that our proposed incremental training schedule (Algorithm \ref{alg_inc_train}) can help mitigate negative transfer for predicting a particular target task.
 Our insight is that since adding more samples from the source task does not always improve performance, we can improve efficiency by adding the source samples \textit{incrementally} during training.
 Over six randomly selected task pairs from the sentiment analysis dataset, we find that Algorithm \ref{alg_inc_train} requires only $45\%$ of the computational cost to achieve the same performance on the target task, compared to the multi-task learning baseline.
 
@@ -124,14 +135,6 @@ As a further validation, we exclude TREC from the six tasks and observe similar 
 
 \subsection{Ablation Studies}
 
-A common challenge in the study of multi-task learning is that the results can be hard to understand.
-It is difficult to predict when MTL performs well without running extensive trials.
-Our insight here is that we can use STL results to help understand MTL results.
-We validate the single-task based metric proposed in Section \ref{sec_similarity} for predicting positive or negative transfer in MTL.
-Table \ref{tab:mtl_better_than_stl} shows the result on both the sentiment analysis and the ChestX-ray14 tasks.
-We find that using a threshold of $\tau = 0.1$, the STL results correctly predict positive or negative transfer with $75.6\%$ accuracy and $38.8\%$ recall among $30$ times $5$ (random seeds) task pairs!
-We observe similar results for $91$ task pairs from the ChestX-ray14 dataset.
-The results show that STL results are indicative of MTL results.
 
 
 Finally, we validate our theoretical results in Section \ref{sec_insight} on the sentiment analysis tasks.
