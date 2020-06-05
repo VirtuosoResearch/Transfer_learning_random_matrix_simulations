@@ -5,9 +5,9 @@
 	Yet, there is little rigorous understanding of when multi-task learning ouperforms single-task learning.
 	In this work, we provide a rigorous study of this question in the setting of high-dimensional linear regression.
 	We show that the bias-variance tradeoff of multi-task learning determines the  effect of transfer and develop new concentration bounds to analyze the tradeoff.
-	The high-dimensional linear regression setting allows us to define three components to measure the difference between tasks, including \textit{task similarity}, \textit{sample size}, and \textit{covariate shift}.
+	The high-dimensional linear regression setting allows us to define three properties that measure the difference between task data, including \textit{task similarity}, \textit{sample size}, and \textit{covariate shift}.
 %	and show that the bias-variance tradeoff of multi-task estimators determines the transfer effect.
-	We relate each component to the bias and variance of multi-task learning to explain three negative effects as a result of decreased task similarity,	increased source sample size, and covariate shift under increased source sample size.
+	We relate each property to the bias and variance of multi-task learning to explain three negative effects as a result of decreased task similarity,	increased source sample size, and covariate shift under increased source sample size.
 	We validate the three effects on text classification tasks.
 	Inspired by our theory, we show two practical connections of interest.
 	First, single-task performance can help understand multi-task performance.
@@ -47,10 +47,12 @@ From a practical standpoint, developing a better understanding of multi-task lea
 
 %\textbf{Setup and Main Results.}
 In this work, we study the bias and variance of multi-task learning in the high-dimensional linear regression setting \cite{HMRT19,BLLT20}.
-We describe three simulations in Figure \ref{fig_model_shift_phasetrans} for two linear regression tasks and measure the loss of the single-task estimator minus the multi-task estimator.
-This setting allows us to measure the difference of task data by three components, including \textit{task similarity}, \textit{sample size}, and \textit{covariate shift}.
-We apply recent development from the random matrix theory literature \cite{erdos2017dynamical,isotropic,Anisotropic} to derive bounds on the bias and variance, and relate them to the three components.
-We define each component for two tasks and our definition applies to general settings.
+Our key observation is that three properties of task data, including \textit{task similarity}, \textit{sample size}, and \textit{covariate shift} can affect whether multi-task learning outperforms single-task learning (which we refer to as \textit{positive transfer}).
+As an example, we vary each property in Figure \ref{fig_model_shift_phasetrans} for two linear regression tasks and measure the loss of single-task learning minus multi-task learning for predicting the second task.
+We observe that the effect of transfer can be positively or negatively affected as we vary each property.
+Moreover, these phenomena cannot be explained using previous techniques \cite{WZR20}.
+The high-dimensional linear regression setting allows us to measure the three properties precisely.
+We define each property for two tasks and our definition applies to general settings.
 We refer to the first task as the source and the second as the target.
 \squishlist
 	\item \textbf{Task similarity:} Assume that both tasks follow a linear model with parameters $\beta_1, \beta_2\in\real^p$, respectively.
@@ -76,7 +78,7 @@ We consider the bias and variance of the multi-task estimator for predicting a p
 %Let $\hat{\beta}_t^{\MTL}$ denote the optimal multi-task estimator for the target task, which is defined precisely in Section \ref{sec_prelim}.
 %We revisit the bias-variance tradeoff of $\hat{\beta}_t^{\MTL}$.
 
-\textbf{Main results.} First, we develop tight bounds for the bias and variance of the multi-task estimator for two tasks.
+\textbf{Main results.} First, we develop tight bounds for the bias and variance of the multi-task estimator for two tasks by applying recent development from the random matrix theory literature \cite{erdos2017dynamical,isotropic,Anisotropic}.
 We observe that the variance of the multi-task estimator is \textit{always smaller} than single-task learning, because of additional source task samples.
 On the other hand, the bias of the multi-task estimator is \textit{always larger} than single-task learning, due to model differences.
 Hence, the tradeoff between bias and variance determines whether the transfer is positive or negative.
@@ -138,7 +140,7 @@ Combining both, we analyze the bias-variance tradeoff for two tasks in Theorem \
 %We prove that the bias of the transfer learning estimator is given by the projection of $\beta_t$ to the orthogonal subspace spanned by $\set{\beta_i}_{i=1}^{t-1}$.
 %These results are described more precisely in Section \ref{sec_main}.
 
-Second, we explain the performance of multi-task learning observed in Figure \ref{fig_model_shift_phasetrans} by varying the three components above in isotropic and covariate shifted settings.
+Second, we explain the phenomena in Figure \ref{fig_model_shift_phasetrans} in isotropic and covariate shifted settings.
 %We observe that negative transfer occurs as (a) \textit{task similarity}: tasks become more different; (b) \textit{data size}: source/target data size increases.
 %\textbf{Task similarity:}
 %\textbf{Data sizes:}
