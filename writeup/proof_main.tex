@@ -12,7 +12,7 @@ We shall refer to random matrices of the form $X^\top X$ as sample covariance ma
 %which deals with the inverse of the sum of two random matrices, which
 %any is can be viewed as a special case of Theorem \ref{thm_model_shift}.
 
-\begin{lemma}\label{lem_cov_shift}
+\begin{lemma}[Variance bound: Restate of Lemma \ref{lem_cov_shift_informal}]\label{lem_cov_shift}
 	%Let $X_i\in\real^{n_i\times p}$ be a random matrix that contains i.i.d. row vectors with mean $0$ and variance $\Sigma_i\in\real^{p\times p}$, for $i = 1, 2$.
 	Suppose $X_1=Z_1\Sigma_1^{1/2}\in \R^{n_1\times p}$ and $X_2=Z_2\Sigma_2^{1/2}\in \R^{n_2\times p}$ satisfy Assumption \ref{assm_secA1} with $\rho_1:=n_1/p>1$ and $\rho_2:=n_2/p>1$ being fixed constants.
 	Denote by $M = \Sigma_1^{1/2}\Sigma_2^{-1/2}$ and let $\lambda_1, \lambda_2, \dots, \lambda_p$ be the singular values of $M^{\top}M$ in descending order. Let $A$ be any $p\times p$ matrix that is independent of $X_1$ and $X_2$. We have that for any constant $\e>0$,
@@ -32,7 +32,7 @@ Using the methods in \cite{Anisotropic,yang2019spiked}, we find the asymptotic l
 
 Finally, the last lemma describes the asymptotic limit of $(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}$, which will be needed when we estimate the first term on the right-hand side of \eqref{eq_te_mtl_2task}.
 
-\begin{lemma}\label{lem_cov_derivative}
+\begin{lemma}[Bias bound]\label{lem_cov_derivative}
 In the setting of Lemma \ref{lem_cov_shift}, let $\beta \in \R^p$ be any vector that is independent of $X_1$ and $X_2$. We have that for any constant $\e>0$,
 \begin{equation}\label{lem_cov_derv_eq}
 \begin{split}
@@ -178,7 +178,7 @@ with high probability. In fact, $Z_1^TZ_1$ is a standard sample covariance matri
 
 Next we shall use \eqref{eq_isometric} to approximate $\delta_{\bias}(v)$ with $\wt\delta_{\bias}(v)$ in \eqref{deltabetapf}.  
 %relate the first term in equation \eqref{eq_te_model_shift} to $\Delta_{\bias}$.
-\begin{lemma}\label{prop_model_shift}
+\begin{claim}\label{prop_model_shift}
 	In the setting of Theorem \ref{thm_model_shift},
 	we denote by $K = (v^2X_1^{\top}X_1 + X_2^{\top}X_1)^{-1}$, and
 	\begin{align*}
@@ -186,7 +186,7 @@ Next we shall use \eqref{eq_isometric} to approximate $\delta_{\bias}(v)$ with $
 		%\delta_2 &= n_1^2\cdot v^2 \bignorm{\Sigma_2^{1/2}K\Sigma_1(\beta_1 - v\beta_2)}, \\
 		\delta_{\e}(v) := n_1^2 v^2 \bignorm{\Sigma_1^{1/2} K \Sigma_2 K \Sigma_1^{1/2}} \cdot \bignorm{\Sigma_1^{1/2} (\beta_1 - v\beta_2)}^2.
 	\end{align*}
-	Then we have whp,
+	Then we have w.h.p.
 	\begin{align*}
 		 \left| \delta_{\bias}(v)-\wt\delta_{\bias}(v)\right| 
 		\le  \left( \al_+^2(\rho_1)-1 + \OO(p^{-1/2+\e})\right)\delta_\e.
@@ -202,7 +202,7 @@ Next we shall use \eqref{eq_isometric} to approximate $\delta_{\bias}(v)$ with $
 %		\bigbrace{1 - \sqrt{\frac{p}{n_1}}}^4 \Delta_{\bias}
 %		\le \bignorm{\Sigma_2^{1/2} (X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}X_1^{\top}X_1(\beta_1 - \beta_2)}^2.
 %	\end{align*}
-\end{lemma}
+\end{claim}
 
 \begin{proof}
 	%The proof follows by applying equation \eqref{eq_isometric}.
