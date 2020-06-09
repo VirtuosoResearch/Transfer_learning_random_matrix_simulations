@@ -20,13 +20,13 @@ Then we make the following assumptions on the data models.
 For some fixed $t\in \N$, let $Y_i = X_i\beta_i + \varepsilon_i$, $1\le i \le t$, be independent data models, where $X_i$, $\beta_i$ and $\varepsilon_i$ are also independent of each other. Suppose that $X_i=Z_i\Sigma_i^{1/2}\in \R^{n_i\times p}$ satisfy Assumption \ref{assm_secA1} with $\rho_i:=n_i/p>1$ being fixed constants, and $\e_i\in \R^{n_i}$ are random vectors with i.i.d. entries with mean zero, variance $\sigma_i^2$ and all moments as in \eqref{assmAhigh}.
 \end{assumption}
 
-Throughout the appendix, we shall say an event $\Xi$ holds with high probability (whp) if for any fixed $D>0$, $\P(\Xi)\ge 1- p^{-D}$ for large enough $p$. Moreover, we shall use $\oo(1)$ to mean a small positive quantity that converges to 0 as $p\to \infty$.
+Throughout the appendix, we shall say an event $\Xi$ holds with high probability (w.h.p.) if for any fixed $D>0$, $\P(\Xi)\ge 1- p^{-D}$ for large enough $p$. Moreover, we shall use $\oo(1)$ to mean a small positive quantity that converges to 0 as $p\to \infty$.
 
 
 \textbf{The multi-task learning estimator.}
 From \cite{WZR20}, we know that we need to explicitly restrict the capacity $r$ of $B$ so that there is transfer between the two tasks.
 for the rest of the section, we shall consider the case of two tasks with $r=1$. 
-Then equation \eqref{eq_mtl} simplifies to 
+For simplicity of notations, we shall denote $(X_i^{tr},Y_i^{tr})$ and $(X_i^{val},Y_i^{val})$ as $(X_i,Y_i)$ and  $(\wt X_i,\wt Y_i)$, respectively. Then equation \eqref{eq_mtl} simplifies to 
 \begin{align}\label{eq_mtl_2task}
 	f(B; w_1, w_2) = \bignorm{X_1 B w_1 - Y_1}^2 + \bignorm{X_2 B w_2 - Y_2}^2,
 \end{align}
@@ -34,54 +34,53 @@ where $B\in\real^p$ and $w_1, w_2$ are both real numbers. To solve the above pro
 \begin{align}
 	& \hat{B}(w_1, w_2) = (w_1^2 X_1^{\top}X_1 + w_2^2 X_2^{\top}X_2)^{-1} (w_1 X_1^{\top}Y_1 + w_2 X_2^{\top}Y_2) \label{hatB}\\
 	&= \frac{1}{w_2} \left( \frac{w_1^2}{w_2^2}  X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1} \left(\frac{w_1}{w_2} X_1^{\top}Y_1 + X_2^{\top}Y_2\right) \nonumber\\
-	&= \frac{1}{w_2}\left[\beta_t + \left(\frac{w_1^2}{w_2^2} X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1}\bigbrace{X_1^{\top}X_1\left(\frac{w_1}{w_2}\beta_1 - \frac{w_1^2}{w_2^2} \beta_2\right) + \left(\frac{w_1}{w_2} X_1^{\top}\varepsilon_1 + X_2^{\top}\varepsilon_2\right)}\right]. \nonumber
+	&= \frac{1}{w_2}\left[\beta_2 + \left(\frac{w_1^2}{w_2^2} X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1}\bigbrace{X_1^{\top}X_1\left(\frac{w_1}{w_2}\beta_1 - \frac{w_1^2}{w_2^2} \beta_2\right) + \left(\frac{w_1}{w_2} X_1^{\top}\varepsilon_1 + X_2^{\top}\varepsilon_2\right)}\right]. \nonumber
 \end{align}
 As a remark, when $w_1 = w_2 = 1$, we recover the linear regression estimator.
 The advantage of using $f(B; w_1, w_2)$ is that if $\beta_1$ is a scaling of $\beta_2$, then this case can be solved optimally using equation \eqref{eq_mtl_2task} \cite{KD12}.
 
 %For the discussions below, we assume that the entries of $\e_1$ and $\e_2$ all have the same variance $\sigma^2$. This holds for most parts of our discussion, except in Proposition \ref{prop_var_transition}. We will derive different expressions for the validation loss and the test error 
 
-Next we consider $N_i$ independent samples of the training set $\{(\wt x_k^{(i)},\wt y_k^{(i)}): 1\le k \le N_i\}$ from task-$i$, $i=1,2$. With these sample, we form the random matrices $\wt X_i \in \R^{N_i\times p}$ and $\wt Y_i\in \R^{N_i}$, $i=1,2,$ whose row vectors are given by $\wt x_k^{(i)}$ and $\wt y_k^{(i)}$. Here we assume that $N_1$ and $N_2$ satisfies $N_1/N_2=n_1/n_2$ and $N_i \ge n_i^{1-\e_0}$ for some constant $\e_0>0$. Then we define the validation loss as
+Next we consider $N_i$ independent samples of the training set $\{(\wt x_k^{(i)},\wt y_k^{(i)}): 1\le k \le N_i\}$ from task-$i$, $i=1,2$. With these sample, we form the random matrices $\wt X_i \in \R^{N_i\times p}$ and $\wt Y_i\in \R^{N_i}$, $i=1,2,$ whose row vectors are given by $\wt x_k^{(i)}$ and $\wt y_k^{(i)}$. We assume that $N_1$ and $N_2$ satisfy $N_1/N_2=n_1/n_2$ and $N_i \ge n_i^{1-\e_0}$ for some constant $\e_0>0$. Then we write the validation loss in \eqref{eq_mtl_eval} as
 \begin{align}\label{eq_mtl_2tasktilde}
-	\wt f(\hat B; w_1,w_2) = \bignorm{\wt X_1 \hat B w_1 - \wt Y_1}^2 + \bignorm{\wt X_2 \hat B w_2 - \wt Y_2}^2.
+	g(w_1,w_2) = \bignorm{\wt X_1 \hat B w_1 - \wt Y_1}^2 + \bignorm{\wt X_2 \hat B w_2 - \wt Y_2}^2.
 \end{align}
-Inserting \eqref{hatB} into \eqref{eq_mtl_2tasktilde}, one can see that $\wt f$ only depends on the ratio $v:=w_1/w_2$. Hence we will also write $\wt f(\hat B; v)$ in the following discussion.
+Inserting \eqref{hatB} into \eqref{eq_mtl_2tasktilde}, one can see that $g$ only depends on the ratio $v:=w_1/w_2$. Hence we will also write $g(v)$ in the following discussion.
 
-Let $\hat v=\hat{w_1}/\hat{w_2}$ be the global minimizer of $\wt f(\hat B; v)$. We will define the multi-task learning estimator for the target task as
-	\[ \hat{\beta}_t^{\MTL} = \hat{w}_{2}\hat{B}(\hat{w}_1, \hat{w}_2), \]
-	where $t=2$ since we are considering the two task case, and it also stands for the ``target task". 
-The intuition for deriving $\hat{\beta}_t^{\MTL}$ is akin to performing multi-task training in practice.
+Let $\hat v=\hat{w_1}/\hat{w_2}$ be the global minimizer of $g(v)$. We will define the multi-task learning estimator for the target task as
+	\[ \hat{\beta}_2^{\MTL} = \hat{w}_{2}\hat{B}(\hat{w}_1, \hat{w}_2) .\]
+%	where $t=2$ since we are considering the two task case, and it also stands for the ``target task". 
+The intuition for deriving $\hat{\beta}_2^{\MTL}$ is akin to performing multi-task training in practice.
 %Let $\hat{v} = \hat{w_1} / \hat{w_2}$ for the simplicity of notation.
-Then the test loss of using $\hat{\beta}_t^{\MTL}$ for the target task is
+Then the test loss of using $\hat{\beta}_2^{\MTL}$ for the target task is
 \begin{align}
-	\te(\hat{\beta}_t^{\MTL}) &=~ \hat{v}^2 \bignorm{\Sigma_2^{1/2}(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} X_1^{\top}X_1 (\beta_1 - \hat{v} \beta_2)}^2 \nonumber \\
+	\te(\hat{\beta}_2^{\MTL}) &=~ \hat{v}^2 \bignorm{\Sigma_2^{1/2}(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} X_1^{\top}X_1 (\beta_1 - \hat{v} \beta_2)}^2 \nonumber \\
 			&+~  \bigtr{\Sigma_2(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-2}\left(\sigma_1^2 \cdot \hat v^2  X_1^{\top}X_1 + \sigma_2^2  \cdot X_2^{\top}X_2\right) }, \label{eq_te_mtl_2task}
 \end{align}
 which is well-defined since it only depends on $\hat v$, but otherwise does not depend on $\hat w_1$ or $\hat w_2$ separately. Our goal is to study under model and covariate shifts, whether multi-task learning helps to learn the target task better than single-task learning.
 The baseline where we solve the target task with its own data is
 \begin{align*}
-	L(\hat{\beta}_t^{\STL}) = \sigma_2^2 \cdot \bigtr{\Sigma_2(X_2^{\top}X_2)^{-1}}, \ \text{ where } \ \hat{\beta}_t^{\STL} = (X_2^{\top}X_2)^{-1} X_2^{\top}Y_2.
+	L(\hat{\beta}_2^{\STL}) = \sigma_2^2 \cdot \bigtr{\Sigma_2(X_2^{\top}X_2)^{-1}}, \ \text{ where } \ \hat{\beta}_2^{\STL} = (X_2^{\top}X_2)^{-1} X_2^{\top}Y_2.
 \end{align*}
 %Clearly, whether $\hat{\beta}_t^{\MTL}$ outperforms $\hat{\beta}_t^{\STL}$ depends on the covariate matrices, the difference of the task models, and the number of per-task data points.
 
-One may observe that we can reduce $\wt f$ to an expression that is easier to handle using concentration of random vectors with i.i.d. entries. Before doing that, we first need to fix the setting for the following discussions, because we want to keep track of the error rate carefully instead of obtaining an asymptotic result only.
-
-
-Now suppose $Y_i = X_i\beta_i + \varepsilon_i$ and $\wt Y_i = \wt X_i\beta_i + \wt\varepsilon_i$, $i=1,2$, all satisfy Assumption \ref{assm_secA2}. Then we rewrite \eqref{eq_mtl_2tasktilde} as
-$$	\wt f(\hat B; v) = \sum_{i=1}^2\left\| \wt X_i\wt\beta_i  - \wt \e_i\right\|^2 , \quad \wt\beta:=\hat B w_i-\beta_i.$$
-Since $ \wt X_i\wt\beta$ and $ \wt \e_i$ are independent random vectors with i.i.d. centered entries, we can use the concentration estimate, Lemma \ref{largedeviation}, to get that for any constant $\e>0$,
+In fact using concentration of random vectors with i.i.d. entries, we can reduce $g$ to an expression that is easier to handle. 
+%Before doing that, we first need to fix the setting for the following discussions, because we want to keep track of the error rate carefully instead of obtaining an asymptotic result only.
+Suppose $Y_i = X_i\beta_i + \varepsilon_i$ and $\wt Y_i = \wt X_i\beta_i + \wt\varepsilon_i$, $i=1,2$, all satisfy Assumption \ref{assm_secA2}. Then we rewrite \eqref{eq_mtl_2tasktilde} as
+$$	g( v) = \sum_{i=1}^2\left\| \wt X_i\wt\beta_i  - \wt \e_i\right\|^2 , \quad \wt\beta:=\hat B w_i-\beta_i.$$
+Since $ \wt X_i\wt\beta$ and $ \wt \e_i$ are independent random vectors with i.i.d. centered entries, we can use the concentration result, Lemma \ref{largedeviation}, to get that for any constant $\e>0$,
 \begin{align*}
 \left|\left\| \wt X_i\wt\beta_i  - \wt \e_i\right\|^2 -  \exarg{\wt X_i,\wt{\e}_i} {\left\| \wt X_i\wt\beta_i  - \wt \e_i\right\|^2} \right| & =\left|\left\| \wt X_i\wt\beta_i  - \wt \e_i\right\|^2 - N_i (\wt\beta_i^\top \Sigma_i \wt\beta_i + \sigma_i^2) \right| \\
 &\le N_i^{1/2+\e} (\wt\beta_i^\top \Sigma_i \wt\beta_i + \sigma_i^2),
 \end{align*}
 with high probability. Thus we obtain that 
-$$\wt f(B; v)= \left[\sum_{i=1}^2 N_i\left\|\Sigma_i^{1/2}( \hat B w_i - \beta_i) \right\|^2 + (N_1\sigma^2_1+N_2\sigma^2_2)\right]\cdot \left( 1+\OO(p^{-(1-\e_0)/2+\e})\right),$$
+$$g(v)= \left[\sum_{i=1}^2 N_i\left\|\Sigma_i^{1/2}( \hat B w_i - \beta_i) \right\|^2 + (N_1\sigma^2_1+N_2\sigma^2_2)\right]\cdot \left( 1+\OO(p^{-(1-\e_0)/2+\e})\right),$$
 where we also used $N_i\ge p^{-1+\e_0}$. Inserting \eqref{hatB} into the above expression and using 
- again the concentration result, Lemma \ref{largedeviation}, we obtain that
-$$ \sum_{i=1}^2 N_i\left\|\Sigma_i^{1/2}( \hat B w_1 - \beta_i) \right\|^2 = \val(\hat B; v)\cdot \left( 1+\OO(p^{-1/2+\e})\right)$$
+ again the concentration result, Lemma \ref{largedeviation}, we get that
+$$ \sum_{i=1}^2 N_i\left\|\Sigma_i^{1/2}( \hat B w_1 - \beta_i) \right\|^2 = \val(v)\cdot \left( 1+\OO(p^{-1/2+\e})\right)$$
 with high probability, where
 \begin{align*}
-		&\val(\hat{B}; v):= \exarg{\varepsilon_1,\e_2} {\sum_{i=1}^2 \left\|\Sigma_i^{1/2}( \hat B w_i - \beta_i) \right\|^2} \\
+		&\val(v):= \exarg{\varepsilon_1,\e_2} {\sum_{i=1}^2 \left\|\Sigma_i^{1/2}( \hat B w_i - \beta_i) \right\|^2} \\
 	&=  N_1 \cdot \bignorm{\Sigma_1^{1/2}\left(v^2 X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1}X_2^{\top}X_2\left (\beta_1 - v\beta_2\right)}^2 \nonumber \\
 	&+ N_2 \cdot v^2\bignorm{\Sigma_2^{1/2}\left(v^2 X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1}X_1^{\top}X_1\left(\beta_1 - v\beta_2\right)}^2 \nonumber \\
 		&+ N_1   \cdot v^2 \bigtr{\Sigma_1\left(v^2 X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-2} \left(\sigma_1^2 \cdot v^2X_1^{\top}X_1 + \sigma_2^2 \cdot X_2^{\top}X_2\right)} \nonumber \\		
@@ -98,11 +97,11 @@ with high probability, where
 %\end{align}
 %\nc
 %------------------
-In sum, we have obtained that 
+Thus we conclude that 
 \be\label{approxvalid}
-\wt f(\hat B; v)=  \left[\val(\hat{B}; v) + (N_1\sigma^2_1+N_2\sigma^2_2)\right]\cdot \left( 1+\OO(p^{-(1-\e_0)/2+\e})\right).
+g(v)=  \left[\val(v) + (N_1\sigma^2_1+N_2\sigma^2_2)\right]\cdot \left( 1+\OO(p^{-(1-\e_0)/2+\e})\right).
 \ee
-Hence to minimize $\wt f$, it suffices to minimize $\val(\hat{B}; v)$ over $v$.
+Hence to minimize $g$, it suffices to minimize $\val(v)$ over $v$.
 
 \textbf{Extended related work.}
 McNamara and Balcan \cite{NB17}
