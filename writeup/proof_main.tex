@@ -1,6 +1,6 @@
 \section{Proof of Theorem \ref{thm_main_informal}}\label{app_proof_main_thm}
 
-We now state several helper lemmas to get estimates on $L(\hat{\beta}_t^{\STL})$ and $L(\hat{\beta}_t^{\MTL})$ for $t=2$. The first lemma, which is a folklore result in random matrix theory, helps to determine the asymptotic limit of $\te(\hat{\beta}_t^{\STL})$, as $p\to \infty$. When the entries of $X$ are multivariate Gaussian, this lemma recovers the classical result for the mean of inverse Wishart distribution \cite{anderson1958introduction}. For general non-Gaussian random matrices, it can be obtained from Stieltjes transform method; see e.g., Lemma 3.11 of \cite{bai2009spectral}. Here we shall state a result obtained from Theorem 2.4 in \cite{isotropic}, which gives an almost sharp error bound.
+We now state several helper lemmas to get estimates on $L(\hat{\beta}_t^{\STL})$ and $L(\hat{\beta}_t^{\MTL})$ for $t=2$. The first lemma, which is a folklore result in random matrix theory, helps to determine the asymptotic limit of $\te(\hat{\beta}_t^{\STL})$ as $p\to \infty$. When the entries of $X$ are multivariate Gaussian, this lemma recovers the classical result for the mean of inverse Wishart distribution \cite{anderson1958introduction}. For general non-Gaussian random matrices, it can be obtained using Stieltjes transform method; see e.g., Lemma 3.11 of \cite{bai2009spectral}. Here we shall state a result obtained from Theorem 2.4 in \cite{isotropic}, which gives an almost sharp error bound.
 \begin{lemma}\label{lem_minv}
 Suppose $X$ satisfies assumption \ref{assm_secA1}. Let $A$ be any $p\times p$ matrix that is independent of $X$. We have that for any constant $\e>0$,
 	\be\label{XXA}  \bigtr{(X^{\top}X)^{-1}A} = \frac{1}{\rho - 1} \frac1p\tr(\Sigma^{-1}A) +\bigo{ \|A\|p^{-1/2+\epsilon}} \ee
@@ -15,7 +15,7 @@ We shall refer to random matrices of the form $X^\top X$ as sample covariance ma
 \begin{lemma}[Variance bound: Restate of Lemma \ref{lem_cov_shift_informal}]\label{lem_cov_shift}
 	%Let $X_i\in\real^{n_i\times p}$ be a random matrix that contains i.i.d. row vectors with mean $0$ and variance $\Sigma_i\in\real^{p\times p}$, for $i = 1, 2$.
 	Suppose $X_1=Z_1\Sigma_1^{1/2}\in \R^{n_1\times p}$ and $X_2=Z_2\Sigma_2^{1/2}\in \R^{n_2\times p}$ satisfy Assumption \ref{assm_secA1} with $\rho_1:=n_1/p>1$ and $\rho_2:=n_2/p>1$ being fixed constants.
-	Denote by $M = \Sigma_1^{1/2}\Sigma_2^{-1/2}$ and let $\lambda_1, \lambda_2, \dots, \lambda_p$ be the singular values of $M^{\top}M$ in descending order. Let $A$ be any $p\times p$ matrix that is independent of $X_1$ and $X_2$. We have that for any constant $\e>0$,
+	Denote by $M = \Sigma_1^{1/2}\Sigma_2^{-1/2}$ and let $\lambda_1, \lambda_2, \dots, \lambda_p$ be the singular values of $M$ in descending order. Let $A$ be any $p\times p$ matrix that is independent of $X_1$ and $X_2$. We have that for any constant $\e>0$,
 	%When $n_1 = c_1 p$ and $n_2 = c_2 p$, we have that with high probability over the randomness of $X_1$ and $X_2$, the following equation holds
 	\begin{align}\label{lem_cov_shift_eq}
 		\bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}A} = \frac{1}{\rho_1+\rho_2}\frac1p\bigtr{ (a_1 \Sigma_1 + a_2\Sigma_2)^{-1} A} +\bigo{\|A\| p^{-1/2+\epsilon}}
@@ -25,10 +25,6 @@ with high probability, where $(a_1, a_2)$ is the solution to the following deter
 		a_1 + a_2 = 1- \frac{1}{\rho_1 + \rho_2},\quad a_1 + \frac1{\rho_1 + \rho_2}\cdot \frac{1}{p}\sum_{i=1}^p \frac{\lambda_i^2 a_1}{\lambda_i^2 a_1 + a_2} = \frac{\rho_1}{\rho_1 + \rho_2}. \label{eq_a12extra}
 	\end{align}
 \end{lemma}
-
-\textbf{Proof Overview.} We first describe the proof of Theorem \ref{lem_cov_shift_informal}.
-We use the Stieltjes transform method (or the resolvent method) in random matrix theory \cite{bai2009spectral,tao2012topics,erdos2017dynamical}. Roughly speaking, we study the resolvent $R(z):=[\Sigma_2^{-1/2}( X_1^{\top}X_1 + X_2^{\top}X_2)\Sigma_2^{-1/2}-z]^{-1}$ for $z\in \C$ around $z=0$.
-Using the methods in \cite{Anisotropic,yang2019spiked}, we find the asymptotic limit, say $R_\infty(z)$, of $R(z)$ for any $z$ as $p\to \infty$ with an almost optimal convergence rate. In particular, when $z=0$, $\tr[R_\infty(0)]$ gives the expression inTheorem \ref{lem_cov_shift_informal}. The details can be found in Appendix \ref{sec_maintools} and \ref{sec_Gauss}.
 
 Finally, the last lemma describes the asymptotic limit of $(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}$, which will be needed when we estimate the first term on the right-hand side of \eqref{eq_te_mtl_2task}.
 
@@ -52,7 +48,19 @@ $$ b_k:= \frac1{p}\sum_{i=1}^p \frac{ \lambda_i^{2k}}{ ( a_2 + \lambda_i^2 a_1)^
 \end{lemma}
 %We will give the proof of this lemma in Section \ref{sec_maintools}.
 
-The proof of Lemma \ref{lem_cov_shift} and Lemma \ref{lem_cov_derivative} is a main focus of Section \ref{sec_maintools}. We remark that one can probably derive the same asymptotic result using free probability theory (see e.g. \cite{nica2006lectures}), but our results \eqref{lem_cov_shift_eq} and \eqref{lem_cov_derv_eq} also give an almost sharp error bound $\bigo{ p^{-1/2+\epsilon}}$.
+\textbf{Proof Overview.} 
+%We first describe the proof of Theorem \ref{lem_cov_shift_informal}.
+The proofs of Lemma \ref{lem_cov_shift} and Lemma \ref{lem_cov_derivative} are based on the Stieltjes transform method (or the resolvent method) in random matrix theory \cite{bai2009spectral,tao2012topics,erdos2017dynamical}. Roughly speaking, we study the resolvent $R(z):=[\Sigma_2^{-1/2}( X_1^{\top}X_1 + X_2^{\top}X_2)\Sigma_2^{-1/2}-z]^{-1}$ for $z\in \C$ around $z=0$.
+Using the methods in \cite{Anisotropic,yang2019spiked}, we find the asymptotic limit, say $R_\infty(z)$, of $R(z)$ for any $z$ as $p\to \infty$ with an almost optimal convergence rate. In particular, when $z=0$, $\tr[\Sigma_2^{-1/2}A\Sigma_2^{-1/2}R_\infty(0)]$ gives the limit in \eqref{lem_cov_shift_eq}. 
+On the other hand, we can write 
+$$\bignorm{\Sigma_2^{1/2} (X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\beta}^2= \beta^\top \Sigma_2^{-1/2}R'(0)\Sigma_2^{-1/2} \beta.$$ 
+Hence its limit can be calculated through $R_\infty'(z)$, which gives the expression in \eqref{lem_cov_derv_eq}.
+
+%expression inTheorem \ref{lem_cov_shift_informal}. ........ The details can be found in Appendix \ref{sec_maintools} and \ref{sec_Gauss}.
+
+%The proof of Lemma \ref{lem_cov_shift} and Lemma \ref{lem_cov_derivative} is a main focus of Section \ref{sec_maintools}. 
+We remark that one can probably derive the same asymptotic result using free probability theory (see e.g. \cite{nica2006lectures}), but our results \eqref{lem_cov_shift_eq} and \eqref{lem_cov_derv_eq} also give an almost sharp error bound $\bigo{ p^{-1/2+\epsilon}}$.
+
 
 
 
@@ -63,11 +71,9 @@ The proof of Lemma \ref{lem_cov_shift} and Lemma \ref{lem_cov_derivative} is a m
 %We shall also derive the limit of $\te(\hat{\beta}_t^{\MTL})$.
 %\todo{write a brief technical overview}
 
-In this section, we state and prove the formal version of Theorem \ref{thm_main_informal}, which covers the two tasks case with $t=2$. In this section, we consider the case where the entries of $\e_1$ and $\e_2$ have the same variance $\sigma_1^2=\sigma_2^2=\sigma^2$. 
+For the rest of this section, we shall state and prove the formal version of Theorem \ref{thm_main_informal}. %We shall consider the case where the entries of $\e_1$ and $\e_2$ have the same variance $\sigma_1^2=\sigma_2^2=\sigma^2$. 
 %Moreover, we shall denote $\beta_1$ and $\beta_2$ by $\beta_1$ and $\beta_2$, standing for ``source task" and ``target task", respectively. 
-
-
-First, we  introduce several quantities that will be used in our statement, and they are also related to the quantities in Lemma \ref{lem_cov_shift} and Lemma \ref{lem_cov_derivative}. Given the optimal ratio $\hat v$, let $\hat{M} = \hat{v} \Sigma_1^{1/2}\Sigma_2^{-1/2}$ denote the weighted covariate shift matrix, and ${\hat\lambda}_1\ge {\hat\lambda}_2 \ge \dots \ge {\hat\lambda}_p$ be the eigenvalues of $\hat{M}^{\top}\hat{M}$. Define $(\hat a_1, \hat a_2)$ as the solution to the following system of deterministic equations,
+First, we introduce several quantities that will be used in our statement, and they are also related to the quantities in Lemma \ref{lem_cov_shift} and Lemma \ref{lem_cov_derivative}. Given the optimal ratio $\hat v$, let $\hat{M} = \hat{v} \Sigma_1^{1/2}\Sigma_2^{-1/2}$ denote the weighted covariate shift matrix, and ${\hat\lambda}_1\ge {\hat\lambda}_2 \ge \dots \ge {\hat\lambda}_p$ be the eigenvalues of $\hat{M}^{\top}\hat{M}$. Define $(\hat a_1, \hat a_2)$ as the solution to the following system of deterministic equations,
 	\be
 		 \hat a_1 +  \hat a_2 = 1- \frac{1}{\rho_1 + \rho_2},\quad  \hat a_1 + \frac1{\rho_1 + \rho_2}\cdot \frac1p\sum_{i=1}^p \frac{ \hat \lambda_i^2 \hat a_1}{ \hat \lambda_i^2\hat a_1 +  \hat a_2} = \frac{\rho_1}{\rho_1 + \rho_2}.\label{eq_a2} \\
 		 \ee
@@ -99,7 +105,7 @@ Now we are ready to state our main result for two tasks with both covariate and 
 
 \begin{theorem}\label{thm_model_shift}
 %For $i=1,2$, let $Y_i = X_i\beta_i + \varepsilon_i$ be two independent data models, where $X_i$, $\beta_i$ and $\varepsilon_i$ are also independent of each other. Suppose that $X_i=Z_i\Sigma_i^{1/2}\in \R^{n_i\times p}$ satisfy Assumption \ref{assm_secA1} with $\rho_i:=n_i/p>1$ being fixed constants, and $\e_i\in \R^{n_i}$ are random vectors with i.i.d. entries with mean zero, variance $\sigma^2$ and all moments as in \eqref{assmAhigh}. 
-Consider two data models $Y_i = X_i\beta_i + \varepsilon_i$, $i=1,2$, that satisfy Assumption \ref{assm_secA2}. With high probability, we have
+Consider two data models $Y_i = X_i\beta_i + \varepsilon_i$, $i=1,2$, that satisfy Assumption \ref{assm_secA2} with $\sigma_1^2=\sigma_2^2=\sigma^2$. Then with high probability, we have
 	\begin{align}
 	 	\te(\hat{\beta}_{t}^{\MTL}) \le \te(\hat{\beta}_t^{\STL}) \quad \text{ when: } \ \ &\Delta_{\vari} - \Delta_{\bias} \ge   \delta \label{upper}\\
 		\te(\hat{\beta}_t^{\MTL}) \ge \te(\hat{\beta}_t^{\STL}) \quad \text{ when: } \ \ &\Delta_{\vari} - \Delta_{\bias} \le - \delta, \label{lower}
