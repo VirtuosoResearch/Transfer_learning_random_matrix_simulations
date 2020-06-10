@@ -49,16 +49,18 @@ Then we add a multi-layer perception (MLP), LSTM, or CNN layer on top of the wor
 
 
 
-\textbf{Theoretical validation.} We validate that MTL performs better when the source task is more similar to the target task.
-We show the result on the sentiment analysis tasks.
-For a target task, we manually select a similar task and a dissimilar task based on prior knowledge.
-Figure \ref{fig_ab_sim} confirms the result.
-Recall that Section \ref{sec_data_size} shows that increasing the data size of the source task does not always improve the performance of MTL for the target task.
-In Figure \ref{fig_ab_data}, we show that for source task MR and target task SST, there is a transition from positive to negative transfer as we increase the data size of the source task.
+\textbf{Theoretical validation.}
+
+%We validate that MTL performs better when the source task is more similar to the target task.
+%We show the result on the sentiment analysis tasks.
+%For a target task, we manually select a similar task and a dissimilar task based on prior knowledge.
+%Figure \ref{fig_ab_sim} confirms the result.
+%Recall that Section \ref{sec_data_size} shows that increasing the data size of the source task does not always improve the performance of MTL for the target task.
+%In Figure \ref{fig_ab_data}, we show that for source task MR and target task SST, there is a transition from positive to negative transfer as we increase the data size of the source task.
 %Our result provides a fine-grained insight on the covariance alignment algorithm proposed in \cite{WZR20}.
 %Recall that the covariance alignment procedure in \cite{WZR20} adds an additional module between the word embedding representation and the shared module.
-When the source task data size is particularly large compared to the target task, we show that applying the covariance alignment algorithm results in more significant gains.
-In Figure \ref{fig_ab_cov}, we observe that the benefit from aligning task covariances becomes more significant for LSTM and MLP as we increase the number of datapoints of the source task.
+%When the source task data size is particularly large compared to the target task, we show that applying the covariance alignment algorithm results in more significant gains.
+%In Figure \ref{fig_ab_cov}, we observe that the benefit from aligning task covariances becomes more significant for LSTM and MLP as we increase the number of datapoints of the source task.
 
 
 \textbf{Further results on covariance alignment.}
@@ -66,14 +68,14 @@ Note: For text classification tasks, the source task training data size ranges f
 
 \begin{figure}[!h]
 	\centering
-	\begin{subfigure}[b]{0.33\textwidth}
+	\begin{subfigure}[b]{0.48\textwidth}
 		\centering
-		\includegraphics[width=0.975\textwidth]{figures/ratio_alignment_norm_trec_cr_lstm.pdf}
+		\includegraphics[width=0.75\textwidth]{figures/ratio_alignment_norm_trec_cr_lstm.pdf}
 		\caption{Task pair TREC and CR}
 	\end{subfigure}\hfill
-		\begin{subfigure}[b]{0.33\textwidth}
+		\begin{subfigure}[b]{0.48\textwidth}
 		\centering
-		\includegraphics[width=0.975\textwidth]{figures/ratio_alignment_mr_sst_lstm.pdf}
+		\includegraphics[width=0.75\textwidth]{figures/ratio_alignment_mr_sst_lstm.pdf}
 		\caption{Task pair MR and SST}
 	\end{subfigure}
 	\caption{The performance of aligning task covariances depends on data size. As the ratio between source task data size and target task data size increases, the performance improvement from aligning task covariances increases.}
