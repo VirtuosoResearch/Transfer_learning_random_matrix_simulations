@@ -48,7 +48,7 @@ $$ b_k:= \frac1{p}\sum_{i=1}^p \frac{ \lambda_i^{2k}}{ ( a_2 + \lambda_i^2 a_1)^
 \end{lemma}
 %We will give the proof of this lemma in Section \ref{sec_maintools}.
 
-\textbf{Proof Overview.} 
+\textbf{Proof overview.}
 %We first describe the proof of Theorem \ref{lem_cov_shift_informal}.
 The proofs of Lemma \ref{lem_cov_shift} and Lemma \ref{lem_cov_derivative} are based on the Stieltjes transform method (or the resolvent method) in random matrix theory \cite{bai2009spectral,tao2012topics,erdos2017dynamical}. Roughly speaking, we study the resolvent $R(z):=[\Sigma_2^{-1/2}( X_1^{\top}X_1 + X_2^{\top}X_2)\Sigma_2^{-1/2}-z]^{-1}$ for $z\in \C$ around $z=0$.
 Using the methods in \cite{Anisotropic,yang2019spiked}, we find the asymptotic limit, say $R_\infty(z)$, of $R(z)$ for any $z$ as $p\to \infty$ with an almost optimal convergence rate. In particular, when $z=0$, $\tr[\Sigma_2^{-1/2}A\Sigma_2^{-1/2}R_\infty(0)]$ gives the limit in \eqref{lem_cov_shift_eq}. 
@@ -104,7 +104,7 @@ Now we are ready to state our main result for two tasks with both covariate and 
 
 
 
-\begin{theorem}\label{thm_model_shift}
+\begin{theorem}[Restate of Theorem \ref{thm_main_informal}]\label{thm_model_shift}
 %For $i=1,2$, let $Y_i = X_i\beta_i + \varepsilon_i$ be two independent data models, where $X_i$, $\beta_i$ and $\varepsilon_i$ are also independent of each other. Suppose that $X_i=Z_i\Sigma_i^{1/2}\in \R^{n_i\times p}$ satisfy Assumption \ref{assm_secA1} with $\rho_i:=n_i/p>1$ being fixed constants, and $\e_i\in \R^{n_i}$ are random vectors with i.i.d. entries with mean zero, variance $\sigma^2$ and all moments as in \eqref{assmAhigh}. 
 Consider two data models $Y_i = X_i\beta_i + \varepsilon_i$, $i=1,2$, that satisfy Assumption \ref{assm_secA2} with $\sigma_1^2=\sigma_2^2=\sigma^2$. Then with high probability, we have
 	\begin{align}
@@ -119,7 +119,7 @@ Consider two data models $Y_i = X_i\beta_i + \varepsilon_i$, $i=1,2$, that satis
 \end{theorem}
 
 For the isotropic model in Section \ref{sec_insight}, we actually have an easier and sharper bound than Theorem \ref{thm_model_shift} as follows. 
-\begin{lemma}\label{prop_model_shift_tight}
+\begin{lemma}[The isotropic model]\label{prop_model_shift_tight}
 		In the setting of Theorem \ref{thm_model_shift}, assume that $\Sigma_1 =\id$,
 		$\beta_2$ is a random vector with i.i.d. entries with mean $0$, variance $\kappa^2$ and all moments, and $\beta_1$ is a random vector such that $(\beta_1 - \beta_2)$ is a random vector with i.i.d. entries with mean $0$, variance $d^2$ and all moments. Denote
 		$\Delta^\star_{\bias} := \bigbrace{(1 - \hat{v})^2 \kappa^2 + d^2} \bigtr{\Pi(\hat v)}.$
@@ -135,7 +135,9 @@ The proof of Theorem \ref{thm_model_shift} is based on Lemma \ref{lem_cov_shift}
 \al_-(\rho_1) - \OO(p^{-1/2+e})  \preceq {n_1^{-1}}{Z_1^T Z_1}  \preceq   \al_+(\rho_1) + \OO(p^{-1/2+e}) \quad \text{w.h.p.}  \label{eq_isometric}
 \end{align}
 %with high probability. 
-In fact, $n_1^{-1}Z_1^TZ_1$ is a standard sample covariance matrix, and it is well-known that its eigenvalues are inside the support of the Marchenko-Pastur law $[\al_-(\rho_1)-\oo(1) ,\al_+(\rho_1)+\oo(1)]$ with probability $1-\oo(1)$ \cite{No_outside}. The estimate \eqref{eq_isometric} has stronger probability and error bounds, and we refer the reader to Lemma \ref{SxxSyy} below for the proof. % we used \cite[Theorem 2.10]{isotropic} to get a stronger probability bound.
+In fact, $n_1^{-1}Z_1^TZ_1$ is a standard sample covariance matrix, and it is well-known that its eigenvalues are inside the support of the Marchenko-Pastur law $[\al_-(\rho_1)-\oo(1) ,\al_+(\rho_1)+\oo(1)]$ with probability $1-\oo(1)$ \cite{No_outside}.
+The estimate \eqref{eq_isometric} provides tight bounds for the concentration error.
+The result is formally stated in Lemma \ref{SxxSyy} in Section \ref{sec_maintools}.
 
 
 \begin{proof}[Proof of Theorem \ref{thm_model_shift}]

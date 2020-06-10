@@ -1,15 +1,15 @@
 \section{Proofs for Isotropic and Covariate Shifted Settings}\label{app_iso_cov}
 
-\subsection{Missing Proofs for Task Similarity}\label{app_proof_31}
-
-%For the case $\sigma_1^2=\sigma_2^2=\sigma^2$, 
+For the isotropic model, we will use Lemma \ref{prop_model_shift_tight} to analyze the bias-variance tradeoff.
+Our main observation is that the optimum of $\val(v)$ is approximately $1$.
+This allows us to simplify the bias and variance bounds significantly.
 We define the function
 \begin{align}
 	\val_\star(v) &= \frac{\rho_1}{\rho_2}\left[d^2 +\left( v-1\right)^2\kappa^2\right]\cdot \tr\left[( v^2X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_2^{\top}X_2)^2\right] \nonumber \\
 	& +  v^2\left[d^2 +\left( v-1\right)^2\kappa^2\right]\cdot \tr\left[( v^2X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right] \nonumber\\
 			& + \left(\frac{\rho_1}{\rho_2} v^2 + 1\right)\sigma^2 \cdot \bigtr{(v^2X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} }. \nonumber
 \end{align}
-%\cor Under the setting of Lemma \ref{prop_model_shift_tight}, 
+%\cor Under the setting of Lemma \ref{prop_model_shift_tight},
 For the isotropic model, using the concentration result for random vectors with i.i.d. entries, Lemma \ref{largedeviation}, we can obtain that $\val(v)= N_2\cdot \val_\star(v)  \left( 1+\OO(p^{-1/2+\e})\right)$. Hence the validation loss in \eqref{approxvalid} reduces to
 \be\label{boundv-w}
 g(v)=\left[N_2\cdot \val_\star(v) + (N_1\sigma^2_1+N_2\sigma^2_2)\right]\cdot \left( 1+\OO(p^{-(1-\e_0)/2+\e})\right)
@@ -20,9 +20,9 @@ with high probability for any constant $\e>0$. \nc Thus for the following discus
 	\item Second, we plug $\hat{v}$ back into $\te(\hat{\beta}_2^{\MTL})$ and use Lemma \ref{prop_model_shift_tight} to show the result.
 \end{itemize}
 %For the minimizer $\hat w$ of $\val(w)$, we have a similar result as in Proposition \ref{thm_cov_shift}.
-For the first step, we will prove the following result. 
+For the first step, we will prove the following result.
 \begin{lemma}\label{lem_hat_v}
-%Suppose the assumptions of Lemma \ref{prop_model_shift_tight} hold. Assume that $ \kappa^2 \sim pd^2 \sim \sigma^2$ are of the same order. 
+%Suppose the assumptions of Lemma \ref{prop_model_shift_tight} hold. Assume that $ \kappa^2 \sim pd^2 \sim \sigma^2$ are of the same order.
 For the isotropic model, the minimizer for $\val_\star(v)$ satisfies
 	\be\label{hatw_add1}|\hat w -1|\le C\left(\frac{d^2}{\kappa^2} + \frac{\sigma^2}{p\kappa^2}\right)\quad \text{w.h.p.}\ee
 	for some constant $C>0$.
@@ -37,7 +37,7 @@ We first consider the case $w\ge 1$. We write
 	& + \left[\frac{d^2}{w^2} +\frac{\left( w-1\right)^2}{w^2}\kappa^2\right]\cdot \tr\left[( X_1^{\top}X_1 +w^{-2}X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right] \nonumber\\
 			& +  \frac{\rho_1}{\rho_2}\sigma^2  \cdot \bigtr{(X_1^{\top}X_1  + w^{-2}X_2^{\top}X_2)^{-1} }+ \sigma^2 \cdot \bigtr{(w^2X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} }.\nonumber%+  \sigma^2n_2 \cdot \bigtr{(X_1^{\top}X_1  + w^{-2}X_2^{\top}X_2)^{-1} }. \nonumber
 \end{align}
-Notice that 
+Notice that
 $$\tr\left[( X_1^{\top}X_1 +w^{-2}X_2^{\top}X_2)^{-2} (X_i^{\top}X_i)^2\right],\ \ i=1,2, \quad \text{and} \quad \bigtr{(X_1^{\top}X_1  + w^{-2}X_2^{\top}X_2)^{-1} }$$
 are increasing functions in $w$. Hence taking derivative of $\val_\star(w)$ with respect to $w$, we obtain that
 \begin{align*}
@@ -56,7 +56,7 @@ Using the estimate \eqref{eq_isometric}, we get that $\cal A$ is lower bounded a
 \end{align*}
 as long as
 $$w> w_1:=1 +\frac{d^2}{\kappa^2}+ \frac{\sigma^2}{n_1\kappa^2}\frac{\al_{+}(\rho_1)+\oo(1)}{\al_{-}^2(\rho_1)} + \frac{2d^2}{\kappa^2}\frac{\rho_2(\al_+^2(\rho_2)+\oo(1))}{\rho_1\al_-^2(\rho_1) }.$$
-Hence $\val'_\star(w)>0$ on $(w_1,\infty)$, i.e. $\val_\star(w)$ is strictly increasing for $w>w_1$. This gives $\hat w\le w_1$. 
+Hence $\val'_\star(w)>0$ on $(w_1,\infty)$, i.e. $\val_\star(w)$ is strictly increasing for $w>w_1$. This gives $\hat w\le w_1$.
 
 Then we consider the case $w\le 1$, and the proof is similar as above. Taking derivative of $\val_\star(w)$, we obtain that
 \begin{align}
@@ -73,9 +73,9 @@ Using the estimate \eqref{eq_isometric}, we get that $\cal B$ is upper bounded a
 \end{align*}
 as long as
 $$w< w_2:=1 -   \frac{d^2}{\kappa^2}\frac{\rho_1(\al_+(\rho_1) +\oo(1))^2}{\rho_2 \al_-^2(\rho_2) } -  \frac{\sigma^2}{n_2\kappa^2}\frac{\al_{+}(\rho_2)+\oo(1)}{\al_{-}^2(\rho_2)} .$$
-Hence $\val'_\star(w)<0$ on $[0,w_2)$, i.e. $\val_\star(w)$ is strictly decreasing for $w<w_2$. This gives $\hat w\ge w_2$. 
+Hence $\val'_\star(w)<0$ on $[0,w_2)$, i.e. $\val_\star(w)$ is strictly decreasing for $w<w_2$. This gives $\hat w\ge w_2$.
 
-In sum, we obtain that $w_2\le w\le w_1$. Note that under our assumptions, we have 
+In sum, we obtain that $w_2\le w\le w_1$. Note that under our assumptions, we have
 $$\max(|w_1 -1|, |w_2 -1|) =\OO\left(\frac{d^2}{\kappa^2} + \frac{\sigma^2}{p\kappa^2}\right),$$
 which concludes the proof.
 \end{proof}
@@ -86,13 +86,13 @@ pd^2 \sim \sigma^2 \sim 1,\quad p^{-1+c_0} \sigma^2 \le \kappa^2  \le p^{-\e_0-c
 for some small constant $c_0>0$. We will explain below why we make this choice. Before that, we first show the following estimate on the optimizer $\hat v$: with high probability,
 %\begin{lemma}
 %For the isotropic model, we have
-\be\label{hatv_add1} 
-|\hat v - 1|= \OO\left(\cal E\right), \quad \cal E:=\frac{d^2}{\kappa^2} + \frac{\sigma^2}{p\kappa^2} + p^{-1/2 + \e_0 /2+ 2\e}. 
+\be\label{hatv_add1}
+|\hat v - 1|= \OO\left(\cal E\right), \quad \cal E:=\frac{d^2}{\kappa^2} + \frac{\sigma^2}{p\kappa^2} + p^{-1/2 + \e_0 /2+ 2\e}.
 \ee
 %\end{lemma}
 %\begin{proof}
- In fact, from the proof of Lemma \ref{lem_hat_v} above, one can check that if $C\cal E \le |w-1| \le 2C\cal E$ for a large enough constant $C>1$, then $|\val'_\star(w)|\gtrsim p d^2$. Moreover, under the choice \eqref{choiceofpara} we have 
-$$\val_\star(w) =\OO(pd^2),\quad \text{for}\quad   |w-1|\le 2C\cal E.$$  
+ In fact, from the proof of Lemma \ref{lem_hat_v} above, one can check that if $C\cal E \le |w-1| \le 2C\cal E$ for a large enough constant $C>1$, then $|\val'_\star(w)|\gtrsim p d^2$. Moreover, under the choice \eqref{choiceofpara} we have
+$$\val_\star(w) =\OO(pd^2),\quad \text{for}\quad   |w-1|\le 2C\cal E.$$
 Thus we obtain that for $|w-1|\ge 2C\cal E$,
 $$\left|\val_\star(w) - \val_\star(\hat w)\right|\ge |\val_\star(w)-\min(\val_\star(w_1),\val_\star(w_2))|\gtrsim pd^2 \cal E \gtrsim \cal E \cdot \val_\star(\hat w),$$
 which leads to $g(w) > g(\hat w)$ w.h.p. by \eqref{boundv-w}. Thus $w$ cannot be a minimizer of $g(v)$, and we must have $|\hat v - 1|\le 2C\cal E$. %Together with \eqref{hatw_add1}, we conclude \eqref{hatv_add1}.
@@ -100,20 +100,21 @@ which leads to $g(w) > g(\hat w)$ w.h.p. by \eqref{boundv-w}. Thus $w$ cannot be
 
 Inserting \eqref{hatv_add1} into \eqref{eq_te_mtl_2task} and applying Lemma  \ref{largedeviation} to $(\beta_1-\hat v\beta_s)$ again, we get w.h.p.,
 \begin{align}
-\te(\hat{\beta}_2^{\MTL})&=(1+\OO(\cal E))\cdot \left[d^2 + \OO\left(\cal E^2 \kappa^2\right)\right] \tr\left[(X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right]\nonumber\\ 
+\te(\hat{\beta}_2^{\MTL})&=(1+\OO(\cal E))\cdot \left[d^2 + \OO\left(\cal E^2 \kappa^2\right)\right] \tr\left[(X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right]\nonumber\\
 &+(1+\OO(\cal E))\cdot \sigma^2  \bigtr{(X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} }. \label{1Liso}
 \end{align}
-In order to study the phenomenon of bias-variance trade-off, we need the bias term with $d^2$ and the variance term with $\sigma^2$ to be of the same order. With estimate \eqref{eq_isometric}, we see that 
+In order to study the phenomenon of bias-variance trade-off, we need the bias term with $d^2$ and the variance term with $\sigma^2$ to be of the same order. With estimate \eqref{eq_isometric}, we see that
 $$\tr\left[(X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right] \sim p,\quad \bigtr{(X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} } \sim \frac{p}{n_1+n_2}.$$
 Hence we need to choose that $p d^2 \sim \sigma^2$. On the other hand, we want the error term $\cal E^2 \kappa^2$ to be much smaller than $d^2$, which leads to the condition $p^{-1+\e_0+4\e}\kappa^2  \ll d^2 \ll \kappa^2$. The above considerations lead to the choices of parameters in \eqref{choiceofpara}. Moreover, under \eqref{choiceofpara} we can simplify \eqref{1Liso} to
 \begin{align}
-\te(\hat{\beta}_2^{\MTL})&=(1+\OO(n^{-\e}))\cdot d^2 \tr\left[(X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right] \nonumber \\ 
+\te(\hat{\beta}_2^{\MTL})&=(1+\OO(n^{-\e}))\cdot d^2 \tr\left[(X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right] \nonumber \\
 &+(1+\OO(n^{-\e}))\cdot \sigma^2  \bigtr{(X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} }  \label{simple1}
 \end{align}
-w.h.p. for some constant $\e>0$. 
+w.h.p. for some constant $\e>0$.
+
+\subsection{Missing Proofs regarding Task Similarity}\label{app_proof_31}
 
 With \eqref{simple1} and Lemma \ref{prop_model_shift_tight}, we can prove Proposition \ref{prop_dist_transition}, which gives a transition threshold with respect to the ratio between the model bias and the noise level. With slight abuse of notations, we shall write $\hat a_i$ and $\hat b_k$ as $a_i$ and $b_k$ throughout the proof. 
-
 
 \begin{proof}[Proof of Proposition \ref{prop_dist_transition}]
 	In the setting of Proposition \ref{prop_dist_transition}, we have $M = \Sigma_1^{1/2}\Sigma_2^{-1/2} = \id$. Then solving equations \eqref{eq_a12extra} and \eqref{eq_a34extra} with $\lambda_i=1$, we get that
@@ -170,7 +171,6 @@ Since $ \Psi(\beta_1,\beta_2)=pd^2/\sigma^2$ and $\nu\ge \al_+^2(\rho_1) +  \oo(
 which gives the second statement of Proposition \ref{prop_dist_transition}.
 \end{proof}
 
-%\subsection{Labeled data de-noising}\label{app_proof_data}
 
 Next we consider the case where the two tasks have different noise variances $\sigma_1^2\ne \sigma_2^2$. In particular, we show Proposition \ref{prop_var_transition}, which gives a transition threshold with respect to the difference between the noise levels of the two tasks.
 
@@ -276,7 +276,7 @@ This proves the second claim of Proposition \ref{prop_var_transition}.
 \end{proof}
 
 
-\subsection{Missing Proofs for Sample Size} \label{app_proof_32}
+\subsection{Missing Proofs regarding Sample Size} \label{app_proof_32}
 We first prove Proposition \ref{prop_data_size}, which describes the effect of source/task data ratio on the information transfer. 
 
 \begin{proof}[Proof of Proposition \ref{prop_data_size}]
@@ -460,7 +460,7 @@ x^\star &>  \frac1\rho \frac{2 }{\frac{1}{\rho_1-1}+\frac1{\rho_2-1}  - \left( \
 This gives a lower bound above $x_l$.
 \end{proof}
 
-\subsection{Missing Proofs for Covariate Shift}\label{app_proof_33}
+\subsection{Missing Proofs regarding Covariate Shift}\label{app_proof_33}
  
 We now prove Proposition \ref{prop_covariate}, which shows that $\te(\hat{\beta}^{\MTL})$ is minimized approximately when $M$ is a scalar matrix where there is enough source data.
 
