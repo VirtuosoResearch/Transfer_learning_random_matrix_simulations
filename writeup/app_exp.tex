@@ -22,6 +22,9 @@ We apply an average pooling layer over the word embeddings.
 Then we add a multi-layer perception (MLP), LSTM, or CNN layer on top of the word embeddings \cite{lei2018simple}.
 
 \textbf{Single-task based metric.}
+We simplify the setup of this experiment by fixing the sample sizes of every task pair.
+For sentiment analysis tasks, the source task uses xx training samples and the target task uses xx training samples for every task pair.
+For image classification tasks, the training sample size is 10,000 for every task.
 
 \textbf{Incremental training schedule.}
 
@@ -62,9 +65,9 @@ Then we add a multi-layer perception (MLP), LSTM, or CNN layer on top of the wor
 %When the source task data size is particularly large compared to the target task, we show that applying the covariance alignment algorithm results in more significant gains.
 %In Figure \ref{fig_ab_cov}, we observe that the benefit from aligning task covariances becomes more significant for LSTM and MLP as we increase the number of datapoints of the source task.
 
-
+\iffalse
 \textbf{Further results on covariance alignment.}
-Note: For text classification tasks, the source task training data size ranges from 500 to 1,500 and target task training data size is 1000; For ChestX-ray14, the training data size is 10,000.
+%Note: For text classification tasks, the source task training data size ranges from 500 to 1,500 and target task training data size is 1000; For ChestX-ray14,
 
 \begin{figure}[!h]
 	\centering
@@ -78,7 +81,8 @@ Note: For text classification tasks, the source task training data size ranges f
 		\includegraphics[width=0.75\textwidth]{figures/ratio_alignment_mr_sst_lstm.pdf}
 		\caption{Task pair MR and SST}
 	\end{subfigure}
-	\caption{The performance of aligning task covariances depends on data size. As the ratio between source task data size and target task data size increases, the performance improvement from aligning task covariances increases.}
+	\caption{(a) For the task pair TREC and CR, adding the covariance alignment procedure provides more improvement when the source/target sample ratio is large.
+	(b) For the task pair MR and SST, adding the covariance alignment procedure hurts performance. We suspect that this happens because of overfitting on the extra parameters in the additional covariance alignment module.}
 	\label{fig_covariate_app}
 \end{figure}
-
+\fi
