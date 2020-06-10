@@ -1,7 +1,31 @@
 \section{Missing Details from the Experiments}\label{app_experiments}
 
 
-\begin{algorithm}[!t]
+\subsection{Synthetic Settings}\label{app_synthetic}
+	We describe the parameters used for producing Figure \ref{fig_model_shift_phasetrans}.
+	For all three simulations, we use dimension $p = 200$.
+	In Figure \ref{fig_model_shift}, we use $\rho_1 = 90, \rho_2 = 30$ for sample sizes.
+	The noise level is $\sigma = 5$.
+	We set $\kappa = 1$ and vary model distance $d$ from $0.01$ to $0.2$.
+	The $x$-axis measure the function $\Phi(\beta_1, \beta_2)$ described in Section \ref{sec_similarity}.
+	In Figure \ref{fig_size}, we set $\kappa = 1$ and $d = 0.02$ for model distance.
+	We use $\rho_2 = 500$ and vary $\rho_1$ from $50$ to $800$ for sample sizes.
+	In Figure \ref{fig_covariate}, we set $\kappa = 1$ and $d = 0$.
+	We set $\rho_2 = 4$ and vary $\rho_1$ from $5$ to $25$ for sample sizes.
+	We use the scale parameter $\lambda = 1$ for the curve without covariate shift and $\lambda = 2$ for the curve with covariate shift (cf. Section \ref{sec_covshift}).
+
+\subsection{Image and Text Classification Settings}\label{app_it}
+
+For the text classification experiment, we encode each word using the GLoVe word vectors.
+\footnote{http://nlp.stanford.edu/data/wordvecs/glove.6B.zip}
+We apply an average pooling layer over the word embeddings.
+Then we add a multi-layer perception (MLP), LSTM, or CNN layer on top of the word embeddings \cite{lei2018simple}.
+
+\textbf{Single-task based metric.}
+
+\textbf{Incremental training schedule.}
+
+\begin{algorithm}[!h]
 	\caption{An incremental training schedule for efficient multi-task learning with two tasks}
 	\label{alg_inc_train}
 	\begin{algorithmic}[1]
@@ -23,14 +47,24 @@
 \end{algorithm}
 
 
-\subsection{Synthetic Settings}\label{app_synthetic}
-	In Figure \ref{fig_model_shift_phasetrans} (c), we plot the test error of the target task for $n_2 = 4p$ and $n_1$ ranging from $p$ to $20p$.
 
-\subsection{Image and Text Classification Settings}\label{app_it}
 
+\textbf{Theoretical validation.} We validate that MTL performs better when the source task is more similar to the target task.
+We show the result on the sentiment analysis tasks.
+For a target task, we manually select a similar task and a dissimilar task based on prior knowledge.
+Figure \ref{fig_ab_sim} confirms the result.
+Recall that Section \ref{sec_data_size} shows that increasing the data size of the source task does not always improve the performance of MTL for the target task.
+In Figure \ref{fig_ab_data}, we show that for source task MR and target task SST, there is a transition from positive to negative transfer as we increase the data size of the source task.
+%Our result provides a fine-grained insight on the covariance alignment algorithm proposed in \cite{WZR20}.
+%Recall that the covariance alignment procedure in \cite{WZR20} adds an additional module between the word embedding representation and the shared module.
+When the source task data size is particularly large compared to the target task, we show that applying the covariance alignment algorithm results in more significant gains.
+In Figure \ref{fig_ab_cov}, we observe that the benefit from aligning task covariances becomes more significant for LSTM and MLP as we increase the number of datapoints of the source task.
+
+
+\textbf{Further results on covariance alignment.}
 Note: For text classification tasks, the source task training data size ranges from 500 to 1,500 and target task training data size is 1000; For ChestX-ray14, the training data size is 10,000.
 
-\begin{figure}[!ht]
+\begin{figure}[!h]
 	\centering
 	\begin{subfigure}[b]{0.33\textwidth}
 		\centering
@@ -46,16 +80,3 @@ Note: For text classification tasks, the source task training data size ranges f
 	\label{fig_covariate_app}
 \end{figure}
 
-
-\textbf{Task similarity.} We validate that MTL performs better when the source task is more similar to the target task.
-We show the result on the sentiment analysis tasks.
-For a target task, we manually select a similar task and a dissimilar task based on prior knowledge.
-Figure \ref{fig_ab_sim} confirms the result.
-Recall that Section \ref{sec_data_size} shows that increasing the data size of the source task does not always improve the performance of MTL for the target task.
-In Figure \ref{fig_ab_data}, we show that for source task MR and target task SST, there is a transition from positive to negative transfer as we increase the data size of the source task.
-%Our result provides a fine-grained insight on the covariance alignment algorithm proposed in \cite{WZR20}.
-%Recall that the covariance alignment procedure in \cite{WZR20} adds an additional module between the word embedding representation and the shared module.
-When the source task data size is particularly large compared to the target task, we show that applying the covariance alignment algorithm results in more significant gains.
-In Figure \ref{fig_ab_cov}, we observe that the benefit from aligning task covariances becomes more significant for LSTM and MLP as we increase the number of datapoints of the source task.
-
-\footnote{http://nlp.stanford.edu/data/wordvecs/glove.6B.zip}
