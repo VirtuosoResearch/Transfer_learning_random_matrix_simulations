@@ -25,17 +25,23 @@ Then we add a multi-layer perception (MLP), LSTM, or CNN layer on top of the wor
 
 \textbf{Single-task based metric.}
 We simplify the setup of this experiment by fixing the sample sizes of every task pair.
-For sentiment analysis tasks, the source task uses xx training samples and the target task uses $1000$ training samples for every task pair.
-For image classification tasks, the training sample size is 10,000 for every task.
+For sentiment analysis tasks, the sample size of the source task ranges in $500, 1000, 1500$.
+We randomly sample these many data points from the task.
+The sample size of the target task is $1000$.
+For image classification tasks, the training sample size is $10,000$ for every task.
 
 \textbf{Incremental training schedule.}
 For the case of two tasks, we compare the incremental training scheduled described in Algorithm \ref{alg_inc_train} below to a round-robin training schedule baseline.
-We set the parameters of Algorithm \ref{alg_inc_train} using batch size $32$ and epochs $T = xx$.
-The threshold $\tau$ is set as the accuracy of the target task using the baseline training schedule.
+We add $20\%$ of source task samples for every $T = 2$ epochs.
+The total number of epochs is $20$.
+We set the threshold $\tau$ as the accuracy of the target task using the baseline training schedule.
 
-For the case of six tasks,
+For the case of six tasks, we extend Algorithm \ref{alg_inc_train} accordingly.
+Initially, we use $5\%$ of samples from SST and $50\%$ of samples from the other tasks.
+We add $19\%$ of samples from SST and $5\%$ of samples from the other tasks for every $2$ epochs.
+We run $20$ epochs in total.
 
-\begin{algorithm}[!h]
+\begin{algorithm}[!t]
 	\caption{An incremental training schedule for efficient multi-task learning with two tasks}
 	\label{alg_inc_train}
 	\begin{algorithmic}[1]
@@ -60,9 +66,15 @@ For the case of six tasks,
 
 
 \textbf{Theoretical validation.}
-For Figure \ref{fig_ab_sim}, \todo{how do we select each task pair?}
-For Figure \ref{fig_ab_data} and Figure \ref{fig_ab_cov}, the sample size of the target task is fixed as $1000$.
+For Figure \ref{fig_ab_sim}, we select a similar and a dissimilar source task compared to the target task using domain knowledge.
+First pair: the customer review dataset (CR) , which predicts whether a review is positive or negative, is more similar to SST (sentiment treebank) than MPQA (question type).
+Second pair: SST is more similar to MR since they both concern about positive or negative opinions expressed the text.
+TREC is less similar to MR because the task is about question types.
+Third pair: MPQA (opinion polarity) is more similar to TREC (question type)
+
+For Figure \ref{fig_ab_data} and Figure \ref{fig_ab_cov}, we fix the sample size of the target task as $1000$.
 We vary the sample size of the source task from $100$ to $3000$.
+For Figure \ref{fig_ab_cov}, we implement the covariance alignment procedure following \cite{WZR20}.
 
 
 %We validate that MTL performs better when the source task is more similar to the target task.
@@ -76,17 +88,17 @@ We vary the sample size of the source task from $100$ to $3000$.
 %When the source task data size is particularly large compared to the target task, we show that applying the covariance alignment algorithm results in more significant gains.
 %In Figure \ref{fig_ab_cov}, we observe that the benefit from aligning task covariances becomes more significant for LSTM and MLP as we increase the number of datapoints of the source task.
 
-\textbf{Further results on covariance alignment.}
+\textbf{Further results of the covariance alignment procedure.}
 Our results in Figure \ref{fig_ab_cov} are averaged over all the task pairs.
 In Figure \ref{fig_covariate_app}, we show two task pairs as examples.
 In Figure \ref{fig_cov_a}, we observe that for the particular task pair, covariance alignment provides more significant gains when the sample ratio is large.
 In Figure \ref{fig_cov_b}, we observe that covariance alignment does not always help.
-One possible explanation is overfitting because of additional parameters from the alignment module.
-It would be interesting to understand when adding the alignment module provides benefit to the multi-task learning model.
+One explanation is over-fitting because of additional parameters from the alignment module.
+An interesting question is to understand when adding the alignment module benefits the multi-task learning model.
 We leave this question for future work.
 %Note: For text classification tasks, the source task training data size ranges from 500 to 1,500 and target task training data size is 1000; For ChestX-ray14,
 
-\begin{figure}[!h]
+\begin{figure}%[!t]
 	\centering
 	\begin{subfigure}[b]{0.48\textwidth}
 		\centering
@@ -101,6 +113,7 @@ We leave this question for future work.
 			\label{fig_cov_b}
 	\end{subfigure}
 	\caption{(a) For the task pair TREC and CR, adding the covariance alignment procedure provides more improvement when the source/target sample ratio is large.
-	(b) For the task pair MR and SST, adding the covariance alignment procedure hurts performance. We suspect that this happens because of overfitting on the extra parameters in the additional covariance alignment module.}
+	(b) For the task pair MR and SST, adding the covariance alignment procedure hurts performance.
+	We suspect that this happens because of over-fitting on the extra parameters in the additional covariance alignment module.}
 	\label{fig_covariate_app}
 \end{figure}
