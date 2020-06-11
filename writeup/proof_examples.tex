@@ -1,39 +1,42 @@
 \section{Proofs for Isotropic and Covariate Shifted Settings}\label{app_iso_cov}
 
-For the isotropic model, we will use Lemma \ref{prop_model_shift_tight} to analyze the bias-variance tradeoff. We define the function
-\begin{align}
-	h(v) &= \frac{\rho_1}{\rho_2}\left[d^2 +\left( v-1\right)^2\kappa^2\right]\cdot \tr\left[( v^2X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_2^{\top}X_2)^2\right] \nonumber \\
-	& +  v^2\left[d^2 +\left( v-1\right)^2\kappa^2\right]\cdot \tr\left[( v^2X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right] \nonumber\\
-			& + \left(\frac{\rho_1}{\rho_2} v^2 + 1\right)\sigma^2 \cdot \bigtr{(v^2X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} }. \nonumber
-\end{align}
-%\cor Under the setting of Lemma \ref{prop_model_shift_tight},
-For the isotropic model, using the concentration result, Lemma \ref{largedeviation}, we can obtain that $\val(v)= N_2\cdot h(v)  \left( 1+\OO(p^{-1/2+\e})\right)$. Hence the validation loss in \eqref{approxvalid} reduces to
-\be\label{boundv-w}
-g(v)=\left[N_2\cdot h(v) + (N_1\sigma^2_1+N_2\sigma^2_2)\right]\cdot \left( 1+\OO(p^{-(1-\e_0)/2+\e})\right)
-\ee
-with high probability for any constant $\e>0$. %\nc Thus for the following discussions, it suffices to focus on the behavior of $h (v)$. 
 
 
 
-We now show that for the isotropic model, the optimum of $\hat v$ is very close to 1. This allows us to simplify the expression of $\te(\hat{\beta}_2^{\MTL})$ significantly.
+We show that for the isotropic model, the optimum of $\hat v$ is very close to 1.
+This allows us to simplify the expression of $\te(\hat{\beta}_2^{\MTL})$ significantly.
 %Our main observation is that the optimum of $\val(v)$ is approximately $1$.This allows us to simplify the bias and variance bounds significantly.
 %Furthermore, under certain choice of parameters, we can simplify  
-More precisely, we have the following lemma. 
+More precisely, we have the following lemma.
+Later on, we combine the following lemma with Lemma \ref{prop_model_shift_tight} together to analyze the bias-variance tradeoff.
 
 \begin{lemma}
-For the isotropic model, suppose that $\kappa^2$, $d^2$ and $\sigma^2$ satisfy the following relations: for some constant $c_0>0$,
+In the isotropic model, for some constant $c_0>0$, suppose that
 \be\label{choiceofpara}
-pd^2 \sim \sigma^2 \sim 1,\quad p^{-1+c_0} \sigma^2 \le \kappa^2  \le p^{-\e_0-c_0}\sigma^2 .
+	\frac{pd^2}{\sigma^2} \le \OO(1),\quad p^{-1+c_0} \le \frac{\kappa^2}{\sigma^2 }  \le p^{-\e_0-c_0}.
 \ee
 Then we have
 \begin{align}
-\te(\hat{\beta}_2^{\MTL})&=(1+\OO(n^{-\e}))\cdot d^2 \tr\left[(X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right] \nonumber \\
+\te(\hat{\beta}_2^{\MTL})=&(1+\OO(n^{-\e}))\cdot d^2 \tr\left[(X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right] \nonumber \\
 &+(1+\OO(n^{-\e}))\cdot \sigma^2  \bigtr{(X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} }  \label{simple1}
 \end{align}
 w.h.p. for some constant $\e>0$.
 \end{lemma}
 
 \begin{proof}
+	Using Lemma \ref{largedeviation}, we obtain that $\val(v)= N_2\cdot h(v)  \left( 1+\OO(p^{-1/2+\e})\right)$.
+	We define the function
+	\begin{align}
+		h(v) =& \frac{\rho_1}{\rho_2}\left[d^2 +\left( v-1\right)^2\kappa^2\right]\cdot \tr\left[( v^2X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_2^{\top}X_2)^2\right] \nonumber \\
+		& +  v^2\left[d^2 +\left( v-1\right)^2\kappa^2\right]\cdot \tr\left[( v^2X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right] \nonumber\\
+		& + \left(\frac{\rho_1}{\rho_2} v^2 + 1\right)\sigma^2 \cdot \bigtr{(v^2X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} }. \nonumber
+	\end{align}
+	%\cor Under the setting of Lemma \ref{prop_model_shift_tight},
+	Hence the validation loss in \eqref{approxvalid} reduces to
+	\be\label{boundv-w}
+		g(v)=\left[N_2\cdot h(v) + (N_1\sigma^2_1+N_2\sigma^2_2)\right]\cdot \left( 1+\OO(p^{-(1-\e_0)/2+\e})\right)
+	\ee
+	with high probability for any constant $\e>0$. %\nc Thus for the following discussions, it suffices to focus on the behavior of $h (v)$.
 
 Let $\hat w$ the minimizer of $h(v)$. The proof consists of two steps.
 \begin{itemize}
@@ -52,7 +55,7 @@ There exists a constant $C>0$ such that
 \begin{proof}
 To be consistent with the notation $\hat w$, we shall change the name of the argument to $w$ in the proof. First it is easy to observe that $h(w)< h(-w)$ for $w> 0$. Hence it suffices to assume that $w\ge 0$. We first consider the case $w\ge 1$. We write
 \begin{align}
-	h(w) &=  \frac{\rho_1}{\rho_2}\left[\frac{d^2}{w^4} +\frac{\left( w-1\right)^2}{w^4}\kappa^2\right]\cdot \tr\left[( X_1^{\top}X_1 +w^{-2}X_2^{\top}X_2)^{-2} (X_2^{\top}X_2)^2\right] \nonumber \\
+	h(w) =&  \frac{\rho_1}{\rho_2}\left[\frac{d^2}{w^4} +\frac{\left( w-1\right)^2}{w^4}\kappa^2\right]\cdot \tr\left[( X_1^{\top}X_1 +w^{-2}X_2^{\top}X_2)^{-2} (X_2^{\top}X_2)^2\right] \nonumber \\
 	& + \left[\frac{d^2}{w^2} +\frac{\left( w-1\right)^2}{w^2}\kappa^2\right]\cdot \tr\left[( X_1^{\top}X_1 +w^{-2}X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right] \nonumber\\
 			& +  \frac{\rho_1}{\rho_2}\sigma^2  \cdot \bigtr{(X_1^{\top}X_1  + w^{-2}X_2^{\top}X_2)^{-1} }+ \sigma^2 \cdot \bigtr{(w^2X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} }.\nonumber%+  \sigma^2n_2 \cdot \bigtr{(X_1^{\top}X_1  + w^{-2}X_2^{\top}X_2)^{-1} }. \nonumber
 \end{align}
@@ -61,8 +64,8 @@ $$\tr\left[( X_1^{\top}X_1 +w^{-2}X_2^{\top}X_2)^{-2} (X_i^{\top}X_i)^2\right],\
 are increasing functions in $w$. Hence taking derivative of $h(w)$ with respect to $w$, we obtain that
 \begin{align*}
 h'(w) \ge &~  \frac{\rho_1}{\rho_2}\left[ \frac{2(w-1)(2-w)}{w^5}\kappa^2 - \frac{4d^2}{w^5}\right] \tr\left[( X_1^{\top}X_1 +w^{-2}X_2^{\top}X_2)^{-2} (X_2^{\top}X_2)^2\right]   \\
-+&~ \left[\frac{2\left( w-1\right)}{w^3}\kappa^2 - \frac{2d^2}{w^3} \right]\cdot \tr\left[( X_1^{\top}X_1 +w^{-2}X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right] \nonumber\\
-		-&~ 2  \frac{\sigma^2}{w^3} \cdot \bigtr{(X_1^{\top}X_1 + w^{-2}X_2^{\top}X_2)^{-2} X_1^\top X_1  } =  \bigtr{(X_1^{\top}X_1 + w^{-2}X_2^{\top}X_2)^{-2} \cal A },
+ &+~ \left[\frac{2\left( w-1\right)}{w^3}\kappa^2 - \frac{2d^2}{w^3} \right]\cdot \tr\left[( X_1^{\top}X_1 +w^{-2}X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right] \nonumber\\
+		&-~ 2  \frac{\sigma^2}{w^3} \cdot \bigtr{(X_1^{\top}X_1 + w^{-2}X_2^{\top}X_2)^{-2} X_1^\top X_1  } =  \bigtr{(X_1^{\top}X_1 + w^{-2}X_2^{\top}X_2)^{-2} \cal A },
 \end{align*}
 where the matrix $\cal A$ is
 \begin{align*}
@@ -79,10 +82,10 @@ Hence $h'(w)>0$ on $(w_1,\infty)$, i.e. $h(w)$ is strictly increasing for $w>w_1
 
 Then we consider the case $w\le 1$, and the proof is similar as above. Taking derivative of $h(w)$, we obtain that
 \begin{align}
-	h'(w) &\le \frac{\rho_1}{\rho_2} \left[2\left( w-1\right) \kappa^2\right]\cdot \tr\left[( w^2X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_2^{\top}X_2)^2\right] \nonumber \\
+	h'(w) \le& \frac{\rho_1}{\rho_2} \left[2\left( w-1\right) \kappa^2\right]\cdot \tr\left[( w^2X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_2^{\top}X_2)^2\right] \nonumber \\
 	& +  \left[2wd^2 +2w\left( w-1\right)(2w-1)\kappa^2\right]\cdot \tr\left[( w^2X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right] \nonumber\\
-	&~ + \frac{\rho_1}{\rho_2}(2 w\sigma^2) \cdot \bigtr{(w^2X_1^{\top}X_1 + X_2^{\top}X_2)^{-2} X_2^\top X_2  }\\
-			& = \frac{\rho_1}{\rho_2} \bigtr{(w^2X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} \cal B} , \nonumber
+	& + \frac{\rho_1}{\rho_2}(2 w\sigma^2) \cdot \bigtr{(w^2X_1^{\top}X_1 + X_2^{\top}X_2)^{-2} X_2^\top X_2  }\\
+			 =& \frac{\rho_1}{\rho_2} \bigtr{(w^2X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} \cal B} , \nonumber
 \end{align}
 where the matrix $\cal B$ is
 $$\cal B= 2\left( w-1\right) \kappa^2  (X_2^{\top}X_2)^2+\frac{\rho_2}{\rho_1}\left[2wd^2 +2w\left( w-1\right)(2w-1)\kappa^2\right](X_1^{\top}X_1)^2 + 2 w\sigma^2 X_2^\top X_2 .$$
