@@ -118,26 +118,21 @@ Consider two data models $Y_i = X_i\beta_i + \varepsilon_i$, $i=1,2$, that satis
 	\end{align}
 \end{theorem}
 
-For the isotropic model in Section \ref{sec_insight}, we actually have an easier and sharper bound than Theorem \ref{thm_model_shift} as follows. 
-\begin{lemma}[The isotropic model]\label{prop_model_shift_tight}
-		In the setting of Theorem \ref{thm_model_shift}, assume that $\Sigma_1 =\id$,
-		$\beta_2$ is a random vector with i.i.d. entries with mean $0$, variance $\kappa^2$ and all moments, and $\beta_1$ is a random vector such that $(\beta_1 - \beta_2)$ is a random vector with i.i.d. entries with mean $0$, variance $d^2$ and all moments. Denote
-		$\Delta^\star_{\bias} := \bigbrace{(1 - \hat{v})^2 \kappa^2 + d^2} \bigtr{\Pi(\hat v)}.$
-	Then we have with high probability,
-		\begin{align*}
-			\te(\hat{\beta}_t^{\MTL}) \le \te(\hat{\beta}_t^{\STL})\quad \text{ when: }\ \  & \Delta_{\vari} \ge  (\al_+^2(\rho_1)+\oo(1))\cdot  \Delta^\star_{\bias}, \\
-			\te(\hat{\beta}_t^{\MTL}) \ge \te(\hat{\beta}_t^{\STL})\quad \text{ when: }\ \  & \Delta_{\vari} \le (\al_-^2(\rho_1)-\oo(1))\cdot  \Delta^\star_{\bias}.
-		\end{align*}
-\end{lemma}
-
 The proof of Theorem \ref{thm_model_shift} is based on Lemma \ref{lem_cov_shift}, Lemma \ref{lem_cov_derivative}, and the following bound on the singular values of $Z_1$: for any fixed $\e>0$, we have
 \begin{align}
 \al_-(\rho_1) - \OO(p^{-1/2+e})  \preceq {n_1^{-1}}{Z_1^T Z_1}  \preceq   \al_+(\rho_1) + \OO(p^{-1/2+e}) \quad \text{w.h.p.}  \label{eq_isometric}
 \end{align}
 %with high probability. 
-In fact, $n_1^{-1}Z_1^TZ_1$ is a standard sample covariance matrix, and it is well-known that its eigenvalues are inside the support of the Marchenko-Pastur law $[\al_-(\rho_1)-\oo(1) ,\al_+(\rho_1)+\oo(1)]$ with probability $1-\oo(1)$ \cite{No_outside}.
-The estimate \eqref{eq_isometric} provides tight bounds for the concentration error.
-The result is formally stated in Lemma \ref{SxxSyy} in Section \ref{sec_maintools}.
+In fact, $n_1^{-1}Z_1^TZ_1$ is a standard sample covariance matrix, and it is well-known that its eigenvalues are inside the support of the Marchenko-Pastur law $[\al_-(\rho_1)-\oo(1) ,\al_+(\rho_1)+\oo(1)]$ with probability $1-\oo(1)$ \cite{No_outside}. The estimate \eqref{eq_isometric} provides tight bounds for the concentration error. The result is formally stated in Lemma \ref{SxxSyy} below.
+
+%\begin{remark}
+The main error $\delta$ of Theorem \ref{thm_model_shift} comes from approximating $n_1^{-1}Z_1^TZ_1$ by $\id$ using \eqref{eq_isometric}; see the estimate \eqref{bounddelta-} below. In order to improve this estimate and obtain an exact asymptotic result, one needs to study the singular value distribution of the following random matrix:
+$$(X_1^{\top}X_1)^{-1}X_2^{\top}X_2 +  \hat{v}^2 .$$
+In fact, the eigenvalues of $\cal X:=(X_1^{\top}X_1)^{-1}X_2^{\top}X_2$ have been studied in the name of Fisher matrices; see e.g. \cite{Fmatrix}. However, since $\cal X$ is not symmetric, it is known that the singular values of $\cal X$ are different from its eigenvalues. To the best of our knowledge, the asymptotic singular value behavior of $\cal X$ is still unknown in random matrix theory literature, and the study of the singular values of $\cal X +\hat v^2$ will be even harder. We leave this problem to future study.
+%\end{remark}
+
+
+
 
 
 \begin{proof}[Proof of Theorem \ref{thm_model_shift}]
@@ -302,15 +297,22 @@ holds with high probability. On the other hand, on $\Xi_1$ one can see that for 
 for all $v\ge C_0$. Similar estimates hold for $v\le -C_0$ if we replace $C_0$ with $-C_0$ in the above estimates. Together with the estimate at $\pm C_0$, we get that \eqref{dicho_varbeta} holds simultaneously for all $v\in \R$ on the high probability event $\Xi_1\cap \Xi_2$. This concludes the proof since $v$ must be one of the real values.
 \end{proof}
 
-\begin{remark}
-One can see from the above proof that the main error, $\delta$, of Theorem \ref{thm_model_shift} comes from approximating $\delta_{\bias}$ by $\wt\delta_{\bias}$ in \eqref{bounddelta-}. In order to improve this estimate and obtain an exact asymptotic result, one needs to study the singular value distribution of the following random matrix:
-$$(X_1^{\top}X_1)^{-1}X_2^{\top}X_2 +  {v}^2 .$$
-In fact, the eigenvalues of $\cal X:=(X_1^{\top}X_1)^{-1}X_2^{\top}X_2$ have been studied in the name of Fisher matrices; see e.g. \cite{Fmatrix}. However, since $\cal X$ is not symmetric, it is known that the singular values of $\cal X$ are different from its eigenvalues. To the best of our knowledge, the asymptotic singular value behavior of $\cal X$ is still unknown in random matrix theory literature, and the study of the singular values of $\cal X + v^2$ will be even harder. We leave this problem to future study.
-\end{remark}
 
-By replacing \eqref{bounddelta-} with a tighter bound in Step II of the above proof, we can conclude the proof of Lemma \ref{prop_model_shift_tight}.
+For the isotropic model in Section \ref{sec_similarity}, we actually have an easier and sharper bound than Theorem \ref{thm_model_shift} as follows. 
+\begin{lemma}[The isotropic model]\label{prop_model_shift_tight}
+		In the setting of Theorem \ref{thm_model_shift}, assume that $\Sigma_1 =\id$,
+		$\beta_2$ is a random vector with i.i.d. entries with mean $0$, variance $\kappa^2$ and all moments, and $\beta_1$ is a random vector such that $(\beta_1 - \beta_2)$ is a random vector with i.i.d. entries with mean $0$, variance $d^2$ and all moments. Denote
+		$\Delta^\star_{\bias} := \bigbrace{(1 - \hat{v})^2 \kappa^2 + d^2} \bigtr{\Pi(\hat v)}.$
+	Then we have with high probability,
+		\begin{align*}
+			\te(\hat{\beta}_t^{\MTL}) \le \te(\hat{\beta}_t^{\STL})\quad \text{ when: }\ \  & \Delta_{\vari} \ge  (\al_+^2(\rho_1)+\oo(1))\cdot  \Delta^\star_{\bias}, \\
+			\te(\hat{\beta}_t^{\MTL}) \ge \te(\hat{\beta}_t^{\STL})\quad \text{ when: }\ \  & \Delta_{\vari} \le (\al_-^2(\rho_1)-\oo(1))\cdot  \Delta^\star_{\bias}.
+		\end{align*}
+\end{lemma}
 
-\begin{proof}[Proof of Lemma \ref{prop_model_shift_tight}]
+\begin{proof}%[Proof of Lemma \ref{prop_model_shift_tight}]
+The proof of Lemma \ref{prop_model_shift_tight} is similar to that for Theorem \ref{thm_model_shift}, except that we can replace \eqref{bounddelta-} with a tighter bound. We only describe the main difference.
+
 For any fixed $v\in \R$, $\beta_1 - v\beta_2$ is a random vector with i.i.d. entries with mean $0$ and variance $(1-v)^2\kappa^2 + d^2$. Then using the concentration result, Lemma \ref{largedeviation}, we get that for any constant $\e>0$,
 \begin{align}
 &\left|\delta_{\bias}(v)- [(1-v)^2\kappa^2 + d^2]\tr (\cal K^\top \cal K)\right| \nonumber\\
