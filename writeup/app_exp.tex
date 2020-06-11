@@ -76,8 +76,14 @@ We vary the sample size of the source task from $100$ to $3000$.
 %When the source task data size is particularly large compared to the target task, we show that applying the covariance alignment algorithm results in more significant gains.
 %In Figure \ref{fig_ab_cov}, we observe that the benefit from aligning task covariances becomes more significant for LSTM and MLP as we increase the number of datapoints of the source task.
 
-\iffalse
 \textbf{Further results on covariance alignment.}
+Our results in Figure \ref{fig_ab_cov} are averaged over all the task pairs.
+In Figure \ref{fig_covariate_app}, we show two task pairs as examples.
+In Figure \ref{fig_cov_a}, we observe that for the particular task pair, covariance alignment provides more significant gains when the sample ratio is large.
+In Figure \ref{fig_cov_b}, we observe that covariance alignment does not always help.
+One possible explanation is overfitting because of additional parameters from the alignment module.
+It would be interesting to understand when adding the alignment module provides benefit to the multi-task learning model.
+We leave this question for future work.
 %Note: For text classification tasks, the source task training data size ranges from 500 to 1,500 and target task training data size is 1000; For ChestX-ray14,
 
 \begin{figure}[!h]
@@ -86,14 +92,15 @@ We vary the sample size of the source task from $100$ to $3000$.
 		\centering
 		\includegraphics[width=0.75\textwidth]{figures/ratio_alignment_norm_trec_cr_lstm.pdf}
 		\caption{Task pair TREC and CR}
+		\label{fig_cov_a}
 	\end{subfigure}\hfill
 		\begin{subfigure}[b]{0.48\textwidth}
 		\centering
 		\includegraphics[width=0.75\textwidth]{figures/ratio_alignment_mr_sst_lstm.pdf}
 		\caption{Task pair MR and SST}
+			\label{fig_cov_b}
 	\end{subfigure}
 	\caption{(a) For the task pair TREC and CR, adding the covariance alignment procedure provides more improvement when the source/target sample ratio is large.
 	(b) For the task pair MR and SST, adding the covariance alignment procedure hurts performance. We suspect that this happens because of overfitting on the extra parameters in the additional covariance alignment module.}
 	\label{fig_covariate_app}
 \end{figure}
-\fi
