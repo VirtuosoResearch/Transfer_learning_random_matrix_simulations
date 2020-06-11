@@ -13,6 +13,8 @@
 	In Figure \ref{fig_covariate}, we set $\kappa = 1$ and $d = 0$.
 	We set $\rho_2 = 4$ and vary $\rho_1$ from $5$ to $25$ for sample sizes.
 	We use the scale parameter $\lambda = 1$ for the curve without covariate shift and $\lambda = 2$ for the curve with covariate shift (cf. Section \ref{sec_covshift}).
+	Without loss of generality, we have rescaled the $x$ and $y$ axis for the ease of presentation.
+	This can be achieved similarly by rescaling the task data.
 
 \subsection{Image and Text Classification Settings}\label{app_it}
 
@@ -23,10 +25,15 @@ Then we add a multi-layer perception (MLP), LSTM, or CNN layer on top of the wor
 
 \textbf{Single-task based metric.}
 We simplify the setup of this experiment by fixing the sample sizes of every task pair.
-For sentiment analysis tasks, the source task uses xx training samples and the target task uses xx training samples for every task pair.
+For sentiment analysis tasks, the source task uses xx training samples and the target task uses $1000$ training samples for every task pair.
 For image classification tasks, the training sample size is 10,000 for every task.
 
 \textbf{Incremental training schedule.}
+For the case of two tasks, we compare the incremental training scheduled described in Algorithm \ref{alg_inc_train} below to a round-robin training schedule baseline.
+We set the parameters of Algorithm \ref{alg_inc_train} using batch size $32$ and epochs $T = xx$.
+The threshold $\tau$ is set as the accuracy of the target task using the baseline training schedule.
+
+For the case of six tasks,
 
 \begin{algorithm}[!h]
 	\caption{An incremental training schedule for efficient multi-task learning with two tasks}
@@ -53,6 +60,10 @@ For image classification tasks, the training sample size is 10,000 for every tas
 
 
 \textbf{Theoretical validation.}
+For Figure \ref{fig_ab_sim}, \todo{how do we select each task pair?}
+For Figure \ref{fig_ab_data} and Figure \ref{fig_ab_cov}, the sample size of the target task is fixed as $1000$.
+We vary the sample size of the source task from $100$ to $3000$.
+
 
 %We validate that MTL performs better when the source task is more similar to the target task.
 %We show the result on the sentiment analysis tasks.
