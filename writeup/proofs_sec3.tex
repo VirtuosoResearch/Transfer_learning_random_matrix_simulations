@@ -114,20 +114,17 @@ Now we can define the multi-task learning estimator for the target task as
 %Let $\hat{v} = \hat{w_1} / \hat{w_2}$ for the simplicity of notation.
 The prediction loss of using $\hat{\beta}_2^{\MTL}$ for the target task is
 \begin{align}
-	\te(\hat{\beta}_2^{\MTL}) &=~ \hat{v}^2 \bignorm{\Sigma_2^{1/2}(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} X_1^{\top}X_1 (\beta_1 - \hat{v} \beta_2)}^2 \nonumber \\
+	\te(\hat{\beta}_2^{\MTL}) =&~ \hat{v}^2 \bignorm{\Sigma_2^{1/2}(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} X_1^{\top}X_1 (\beta_1 - \hat{v} \beta_2)}^2 \nonumber \\
 			&+~  \bigtr{\Sigma_2(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-2}\left(\sigma_1^2 \cdot \hat v^2  X_1^{\top}X_1 + \sigma_2^2  \cdot X_2^{\top}X_2\right) }, \label{eq_te_mtl_2task}
 \end{align}
-which is well-defined since it only depends on $\hat v$, but otherwise does not depend on $\hat w_1$ or $\hat w_2$ separately.
+which only depends on $\hat v$, the sample covariance matrices, and $\beta_1,\beta_2$.
 
 
 
 \textbf{Extended related work.}
-McNamara and Balcan \cite{NB17}
+Our setting is closely related to domain adaptation \cite{DM06,BB07,BC08,DH09,MMR09,CWB11,ZS13,NB17,ZD19}.
+The important distinction is that we focus on predicting the target task using a hard parameter sharing model.
+For such models, their output dimension plays an important role of regularization \cite{KD12}.
+Linear models in the context of multi-task learning have been studied in various settings, including representation learning \cite{BHKL19}, online learning \cite{CCG10,DCSP18}, and sparse regression \cite{LPVT11}.
 
-Bullins et al. \cite{BHKL19}
 
-Cavallanti et al. \cite{CCG10}
-
-Daume and Marcu \cite{DM06}
-
-Zhao et al. \cite{ZD19}
