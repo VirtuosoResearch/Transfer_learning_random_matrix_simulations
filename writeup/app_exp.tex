@@ -2,39 +2,43 @@
 
 
 \subsection{Synthetic Settings}\label{app_synthetic}
-	We describe the parameters used for producing Figure \ref{fig_model_shift_phasetrans}.
-	For all three simulations, we use dimension $p = 200$.
-	In Figure \ref{fig_model_shift}, we use $\rho_1 = 90, \rho_2 = 30$ for sample sizes.
+	We describe the parameter settings used in the synthetic experiments (Figure \ref{fig_model_shift_phasetrans}).
+	For all three synthetic experiments, we set the input feature dimension as $p = 200$.
+	\squishlist
+		\item Task similarity: We use $\rho_1 = 90, \rho_2 = 30$ for sample sizes.
 	The noise level is $\sigma = 5$.
 	We set $\kappa = 1$ and vary model distance $d$ from $0.01$ to $0.2$.
-	The $x$-axis measure the function $\Phi(\beta_1, \beta_2)$ described in Section \ref{sec_similarity}.
-	In Figure \ref{fig_size}, we set $\kappa = 1$ and $d = 0.02$ for model distance.
+	The $x$-axis measures the function $\Phi(\beta_1, \beta_2)$ described in Section \ref{sec_similarity}.
+	The $y$-axis measures the improvement of prediction loss using MTL compared to STL.
+		\item Sample size: We set $\kappa = 1$ and $d = 0.02$ for model distance.
 	We use $\rho_2 = 500$ and vary $\rho_1$ from $50$ to $800$ for sample sizes.
-	In Figure \ref{fig_covariate}, we set $\kappa = 1$ and $d = 0$.
+		\item Covariate shift: We set $\kappa = 1$ and $d = 0$.
 	We set $\rho_2 = 4$ and vary $\rho_1$ from $5$ to $25$ for sample sizes.
 	We use the scale parameter $\lambda = 1$ for the curve without covariate shift and $\lambda = 2$ for the curve with covariate shift (cf. Section \ref{sec_covshift}).
 	Without loss of generality, we have rescaled the $x$ and $y$ axis for the ease of presentation.
 	This can be achieved similarly by rescaling the task data.
+	\squishend
 
 \subsection{Image and Text Classification Settings}\label{app_it}
 
-For the text classification experiment, we encode each word using the GLoVe word vectors.
+For the text classification experiment, we encode each word using the GLoVe word embeddings.%
 \footnote{http://nlp.stanford.edu/data/wordvecs/glove.6B.zip}
-We apply an average pooling layer over the word embeddings.
-Then we add a multi-layer perception (MLP), LSTM, or CNN layer on top of the word embeddings \cite{lei2018simple}.
+We evaluate three model choices.
+For multi-layer perception (MLP), we apply an average pooling layer over the word embeddings.
+For LSTM and CNN, we add a shared feature representation layer on top of the word embeddings \cite{lei2018simple}.
 
-\textbf{Single-task based metric.}
+\textit{Predicting transfer effect via STL results.}
 We simplify the setup of this experiment by fixing the sample sizes of every task pair.
 For sentiment analysis tasks, the sample size of the source task ranges in $500, 1000, 1500$.
 We randomly sample these many data points from the task.
 The sample size of the target task is $1000$.
 For image classification tasks, the training sample size is $10,000$ for every task.
 
-\textbf{Incremental training schedule.}
-For the case of two tasks, we compare the incremental training scheduled described in Algorithm \ref{alg_inc_train} below to a round-robin training schedule baseline.
+\textit{Mitigating negative transfer via incremental training.}
+For the case of two tasks, we compare the incremental training scheduled described in Algorithm \ref{alg_inc_train}  to a round-robin training schedule baseline.
 We add $20\%$ of source task samples for every $T = 2$ epochs.
 The total number of epochs is $20$.
-We set the threshold $\tau$ as the accuracy of the target task using the baseline training schedule.
+We set the threshold $\tau$ as the validation accuracy of the target task using the baseline training schedule.
 
 For the case of six tasks, we extend Algorithm \ref{alg_inc_train} accordingly.
 Initially, we use $5\%$ of samples from SST and $50\%$ of samples from the other tasks.
@@ -65,17 +69,18 @@ We run $20$ epochs in total.
 
 
 
-\textbf{Theoretical validation.}
-For Figure \ref{fig_ab_sim}, we select a similar and a dissimilar source task compared to the target task using domain knowledge.
+\textit{Validating the Theoretical Results.}
+We fill in the details of the experimental procedure used for the results in Figure \ref{fig_ablation}.
+\squishlist
+	\item Task similarity: We select a similar and a dissimilar source task compared to the target task using domain knowledge.
 First pair: the customer review dataset (CR) , which predicts whether a review is positive or negative, is more similar to SST (sentiment treebank) than MPQA (question type).
 Second pair: SST is more similar to MR since they both concern about positive or negative opinions expressed the text.
 TREC is less similar to MR because the task is about question types.
 Third pair: MPQA (opinion polarity) is more similar to TREC (question type)
-
-For Figure \ref{fig_ab_data} and Figure \ref{fig_ab_cov}, we fix the sample size of the target task as $1000$.
-We vary the sample size of the source task from $100$ to $3000$.
-For Figure \ref{fig_ab_cov}, we implement the covariance alignment procedure following \cite{WZR20}.
-
+	\item Sample size: We vary the sample size of the source task from $100$ to $3000$.
+	\item Covariate shift: We implement the covariance alignment procedure following \cite{WZR20}.
+	We fix the sample size of the target task as $1000$.
+\squishend
 
 %We validate that MTL performs better when the source task is more similar to the target task.
 %We show the result on the sentiment analysis tasks.
@@ -92,8 +97,8 @@ For Figure \ref{fig_ab_cov}, we implement the covariance alignment procedure fol
 Our results in Figure \ref{fig_ab_cov} are averaged over all the task pairs.
 In Figure \ref{fig_covariate_app}, we show two task pairs as examples.
 In Figure \ref{fig_cov_a}, we observe that for the particular task pair, covariance alignment provides more significant gains when the sample ratio is large.
-In Figure \ref{fig_cov_b}, we observe that covariance alignment does not always help.
-One explanation is over-fitting because of additional parameters from the alignment module.
+In Figure \ref{fig_cov_b}, we observe that covariance alignment does not always improve over the baseline multi-task learning model.
+One explanation is that MR and SST are similar tasks, hence adding the alignment module is unnecessary.
 An interesting question is to understand when adding the alignment module benefits the multi-task learning model.
 We leave this question for future work.
 %Note: For text classification tasks, the source task training data size ranges from 500 to 1,500 and target task training data size is 1000; For ChestX-ray14,
@@ -114,6 +119,6 @@ We leave this question for future work.
 	\end{subfigure}
 	\caption{(a) For the task pair TREC and CR, adding the covariance alignment procedure provides more improvement when the source/target sample ratio is large.
 	(b) For the task pair MR and SST, adding the covariance alignment procedure hurts performance.
-	We suspect that this happens because of over-fitting on the extra parameters in the additional covariance alignment module.}
+	One explanation is that MR and SST are similar tasks, hence adding the alignment module is unnecessary.}
 	\label{fig_covariate_app}
 \end{figure}
