@@ -6,7 +6,7 @@ In this section, we will work under the assumptions of Lemma \ref{lem_cov_shift}
 %We denote the two sample covariance matrices by $\mathcal Q_1:=X_1^\top X_1$ and $\cal Q_2:= X_2^\top X_2$. 
 We assume that $Z_1=(z^{(1)}_{ij})$ and $Z_2=(z^{(2)}_{ij})$ are $n_1\times p$ and $n_2\times p$ random matrices with i.i.d. entries satisfying
 \begin{equation}\label{assm1}
-\mathbb{E} z^{(\al)}_{ij} =0, \ \quad \ \mathbb{E} \vert z^{(\al)}_{ij} \vert^2  =n^{-1}. 
+\mathbb{E} z^{(k)}_{ij} =0, \ \quad \ \mathbb{E} \vert z^{(k)}_{ij} \vert^2  =n^{-1},\quad k=1,2. 
 \end{equation}
 %where we denote $n:=n_1+n_2$. Here we have chosen the scaling that is more standard in the random matrix theory literature---under this $n^{-1/2}$ scaling, the eigenvalues of $\cal Q_1$ and $\cal Q_2$ are all of order 1. 
 Moreover, we assume that the fourth moments exist:
@@ -19,7 +19,7 @@ We assume that the aspect ratios $\rho_1= n_1/p$ and $\rho_2=n_2/p$ satisfy that
 \be\label{assm2}
 0\le \rho_1 \le \tau^{-1}, \quad 1+\tau \le \rho_{2} \le \tau^{-1}.
 \ee
-Here the lower bound $1+\tau\le d_2$ is to ensure that the sample covariance matrix $X_2^\top X_2$ is non-singular with high probability; see Lemma \ref{SxxSyy} below. We assume that $\Sig_1$ and $\Sig_2$ have eigendecompositions
+Here the lower bound $1+\tau\le \rho_2$ is to ensure that the sample covariance matrix $X_2^\top X_2$ is non-singular with high probability; see Lemma \ref{SxxSyy} below. We assume that $\Sig_1$ and $\Sig_2$ have eigendecompositions
 \be\label{eigen}\Sig_1= O_1\Lambda_1 O_1^\top, \ \ \Sig_2= O_2\Lambda_2 O_2^\top,\ \ \Lambda_1=\text{diag}(\si_1^{(1)}, \ldots, \si^{(1)}_p), \ \ \Lambda_2=\text{diag}( \si^{(2)}_1, \ldots, \si^{(2)}_p),
 \ee
 where the eigenvalues satisfy that
@@ -76,20 +76,27 @@ For simplicity of notations, we will use the following notion of stochastic domi
 \begin{definition}[Stochastic domination]\label{stoch_domination}
 %\begin{itemize}
 %\item[(i)] 
-(i) Let
-\[\xi=\left(\xi^{(n)}(u):n\in\bbN, u\in U^{(n)}\right),\hskip 10pt \zeta=\left(\zeta^{(n)}(u):n\in\bbN, u\in U^{(n)}\right)\]
-be two families of nonnegative random variables, where $U^{(n)}$ is a possibly $n$-dependent parameter set. We say $\xi$ is stochastically dominated by $\zeta$, uniformly in $u$, if for any fixed (small) $\epsilon>0$ and (large) $D>0$, 
-\[\sup_{u\in U^{(n)}}\bbP\left[\xi^{(n)}(u)>n^\epsilon\zeta^{(n)}(u)\right]\le n^{-D}\]
-for large enough $n\ge n_0(\epsilon, D)$, and we shall use the notation $\xi\prec\zeta$. 
-%Throughout this paper, the stochastic domination will always be uniform in all parameters that are not explicitly fixed (such as matrix indices, and $z$ that takes values in some compact set). 
-%Note that $N_0(\epsilon, D)$ may depend on quantities that are explicitly constant, such as $\tau$ in Assumption \ref{assm_big1} and \eqref{assm_gap}. 
-If for some complex family $\xi$ we have $|\xi|\prec\zeta$, then we will also write $\xi \prec \zeta$ or $\xi=\OO_\prec(\zeta)$.
-%\item[(ii)] 
+Let $\xi\equiv \xi^{(n)}$ and $\zeta\equiv \zeta^{(n)}$ be two $n$-dependent random variables.  
+\begin{itemize}
+\item[(i)] We say $\xi$ is stochastically dominated by $\zeta$, denoted by $\xi\prec \zeta$ or $\xi=\OO_\prec(\zeta)$, if for any (small) constant $\epsilon>0$ and (large) constant $D>0$, 
+\[ \bbP\left(|\xi| >n^\epsilon |\zeta|\right)\le n^{-D}\]
+for large enough $n\ge n_0(\epsilon, D)$. Moreover, if $\xi$ and $\zeta$ depend on a parameter $u$, then we say $\xi$ is stochastically dominated by $\zeta$ uniformly in $u\in \cal U$,  if for any constants $\e,D>0$, 
+\[\sup_{u\in \cal U}\bbP\left(|\xi(u)|>n^\epsilon |\zeta(u)|\right)\le n^{-D}\]
+for large enough $n\ge n_0(\epsilon, D)$.
 
+\item[(ii)] We say an event $\Xi$ holds with high probability if for any constant $D>0$, $\mathbb P(\Xi)\ge 1- n^{-D}$ for large enough $n$. We say $\Xi$ holds with high probability on an event $\Omega$ if for any constant $D>0$, $\mathbb P(\Omega\setminus \Xi)\le n^{-D}$ for large enough $n$.
+\end{itemize}
+%(i) Let 
+%\[\xi=\left(\xi^{(n)}(u):n\in\bbN, u\in U^{(n)}\right),\hskip 10pt \zeta=\left(\zeta^{(n)}(u):n\in\bbN, u\in U^{(n)}\right)\]
+%be two families of nonnegative random variables, where $U^{(n)}$ is a possibly $n$-dependent parameter set. We say $\xi$ is stochastically dominated by $\zeta$, uniformly in $u$, if for any fixed (small) $\epsilon>0$ and (large) $D>0$, 
+%\[\sup_{u\in U^{(n)}}\bbP\left[\xi^{(n)}(u)>n^\epsilon\zeta^{(n)}(u)\right]\le n^{-D}\]
+%for large enough $n\ge n_0(\epsilon, D)$, and we shall use the notation $\xi\prec\zeta$. 
+%%Throughout this paper, the stochastic domination will always be uniform in all parameters that are not explicitly fixed (such as matrix indices, and $z$ that takes values in some compact set). 
+%%Note that $N_0(\epsilon, D)$ may depend on quantities that are explicitly constant, such as $\tau$ in Assumption \ref{assm_big1} and \eqref{assm_gap}. 
+%If for some complex family $\xi$ we have $|\xi|\prec\zeta$, then we will also write $\xi \prec \zeta$ or $\xi=\OO_\prec(\zeta)$.
+%\item[(ii)] 
 %(ii) We extend the definition of $\OO_\prec(\cdot)$ to matrices in the weak operator sense as follows. Let $A$ be a family of random matrices and $\zeta$ be a family of nonnegative random variables. Then $A=O_\prec(\zeta)$ means that $\left|\left\langle\mathbf v, A\mathbf w\right\rangle\right|\prec\zeta \| \mathbf v\|_2 \|\mathbf w\|_2 $ uniformly in any deterministic vectors $\mathbf v$ and $\mathbf w$. Here and throughout the following, whenever we say ``uniformly in any deterministic vectors", we mean that ``uniformly in any deterministic vectors belonging to a set of cardinality $N^{\OO(1)}$".
 %\item[(iv)] 
-
-(ii) We say an event $\Xi$ holds with high probability if for any constant $D>0$, $\mathbb P(\Xi)\ge 1- n^{-D}$ for large enough $n$. We say $\Xi$ holds with high probability on an event $\Omega$ if for any constant $D>0$, $\mathbb P(\Omega\setminus \Xi)\le n^{-D}$ for large enough $n$
 %\end{itemize}
 \end{definition}
 
@@ -104,7 +111,7 @@ Here $q\equiv q(n)$ is a deterministic parameter and usually satisfies $ n^{-{1}
 %Moreover, if the entries of $X$ satisfy (\ref{size_condition}), then $X$ trivially satisfies the bounded support condition with $q=N^{-\phi}$.
 \end{definition}
 
-Note that if the entries of $\sqrt{n}Z$ have finite moments up to any order as in \eqref{assmAhigh}, then using Markov's inequality one can show that $Z$ has bounded support $n^{-1/2}$.
+Note that if the entries of $\sqrt{n}Z$ have finite moments up to any order as in \eqref{assmAhigh}, then using Markov's inequality one can show that $Z$ has bounded support $n^{-1/2}$. More generally, if the entries of $\sqrt{n}Z$ have finite $a$-th moment for some $a>4$, then by Markov's inequality and a simple union bound, it is easy to see that $Z$ has bounded support $q=n^{2/a-1/2}$ on a event with probability $1-\oo(1)$. Hence the bounded support condition allows us to relax the moment conditions using a simple cut-off argument. 
 
 %\begin{remark}
 %Note that the Gaussian distribution satisfies the condition (\ref{eq_support}) with $q< N^{-\phi}$ for any $\phi<1/2$. We also remark that if (\ref{eq_support}) holds, then the event $\left\{\vert x_{ij}\vert \le q, \forall 1\le i \le M,1\le j \le N\right\}$ holds with $\xi$-high probability for any fixed $\xi>0$ according to Definition \ref{high_prob}. For this reason, the bad event $\left\{\vert x_{ij}\vert > q \text{ for some }i,j\right\}$ is negligible, and we will not consider the case it happens throughout the proof.
@@ -112,22 +119,27 @@ Note that if the entries of $\sqrt{n}Z$ have finite moments up to any order as i
 
 %Since $Z_1^\top Z_1$ (resp.\;$Z_2^\top Z_2$) is a standard sample covariance matrix, and it is well-known that its nonzero eigenvalues are all inside the support of the Marchenko-Pastur law $[(1-\sqrt{d_1})^2 , (1+\sqrt{d_1})^2]$ (resp. $[(1-\sqrt{d_2})^2 , (1+\sqrt{d_2})^2]$) with probability $1-\oo(1)$ \cite{No_outside}. In our proof, we shall need a slightly stronger probability bound, which is given by the following lemma. 
 
-Then we state the following lemma on the eigenvalues of $Z_1^\top Z_1$ and $Z_2^\top Z_2$, which are denoted as $\lambda_1 (Z_1^\top Z_1) \ge \cdots \ge \lambda_{p} (Z_1^\top Z_1)$ and $\lambda_1 (Z_2^\top Z_2) \ge \cdots \ge \lambda_p (Z_2^\top Z_2)$. We have used it in our previous proofs; see \eqref{eq_isometric}. 
+For $Z_1$ and $Z_2$ with bounded support $q$, we have the following estimates on their singular values. We have used it in our previous proofs; see \eqref{eq_isometric}.   
+
+ 
+%Then we state the following lemma on the eigenvalues of $Z_1^\top Z_1$ and $Z_2^\top Z_2$, which are denoted as $\lambda_1 (Z_1^\top Z_1) \ge \cdots \ge \lambda_{p} (Z_1^\top Z_1)$ and $\lambda_1 (Z_2^\top Z_2) \ge \cdots \ge \lambda_p (Z_2^\top Z_2)$. We have used it in our previous proofs; see \eqref{eq_isometric}. 
  
 \begin{lemma}\label{SxxSyy}
-Suppose Assumption \ref{assm_big1} holds, and $Z_1,Z_2$ satisfy the bounded support condition \eqref{eq_support} for some deterministic parameter $q\equiv q(n)$ satisfying $ n^{-{1}/{2}} \leq q \leq n^{- \phi} $ for some (small) constant $\phi>0$. Then for any constant $\e>0$, we have with high probability,
+Suppose Assumption \ref{assm_big1} holds, and $Z_1,Z_2$ satisfy the bounded support condition \eqref{eq_support} for some deterministic parameter $q\equiv q(n)$ satisfying $ n^{-{1}/{2}} \leq q \leq n^{- \phi} $ for a constant $\phi>0$. Then for any constant $\e>0$, we have that with high probability,
 \be\label{op rough1} %(1-\sqrt{d_1})^2 - \e \le  \lambda_p(Z_1^\top Z_1)   \le  
-\lambda_1(Z_1^\top Z_1) \le (1+\sqrt{d_1})^2 + n^\e q,
+\lambda_1(Z_1^\top Z_1) \le \frac{(\sqrt{n_1}+\sqrt{p})^2}{n} + n^\e q,
 \ee
 and
-\be\label{op rough2} (1-\sqrt{d_2})^2 -  n^\e q \le  \lambda_p (Z_2^\top Z_2)  \le  \lambda_1(Z_2^\top Z_2) \le (1+\sqrt{d_2})^2 +  n^\e q .
+\be\label{op rough2} 
+\frac{(\sqrt{n_2}-\sqrt{p})^2}{n} -  n^\e q \le  \lambda_p (Z_2^\top Z_2)  \le  \lambda_1(Z_2^\top Z_2) \le \frac{(\sqrt{n_2}+\sqrt{p})^2}{n} +  n^\e q .
 \ee
+where $\lambda_i(Z_k^\top Z_k)$, $k=1,2$ and $i=1,\cdots,p$, is the $i$-th largest eigenvalue of $Z_k^\top Z_k$.
 \end{lemma}
 \begin{proof}
 This lemma essentially follows from \cite[Theorem 2.10]{isotropic}, although the authors considered the case with $q \prec n^{-1/2}$ only. The results for larger $q$ follows from \cite[Lemma 3.12]{DY}, but only the bounds for largest eigenvalues are given there in order to avoid the issue with the smallest eigenvalue when $d_{2}$ is close to 1. However, under the assumption \eqref{assm2}, the lower bound for the smallest eigenvalue follows from the same arguments as in \cite{DY}. Hence we omit the details. 
 \end{proof}
 
-In Section \ref{sec locallaw1}, we introduce the concept of resolvent, and give an almost optimal convergent estimate on it---Theorem \ref{LEM_SMALL}. This estimate is conventionally called {\it local law} in random matrix theory literature. Based on Theorem \ref{LEM_SMALL}, we then complete the proof of Lemma \ref{lem_cov_shift} and Lemma \ref{lem_cov_derivative}. The proof of Theorem \ref{LEM_SMALL} is presented in Section \ref{sec_Gauss}.
+The rest of the proof is organized as follows. In Section \ref{sec locallaw1}, we introduce the concept of resolvents, and give an almost optimal convergent estimate on it---Theorem \ref{LEM_SMALL}. This estimate is conventionally called {\it local law} in random matrix theory literature. Based on Theorem \ref{LEM_SMALL}, we then complete the proof of Lemma \ref{lem_cov_shift} and Lemma \ref{lem_cov_derivative}. The proof of Theorem \ref{LEM_SMALL} is presented in Section \ref{sec_Gauss}.
 
 \subsection{Resolvent and Local Law}\label{sec locallaw1}
 
