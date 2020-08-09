@@ -1,0 +1,223 @@
+\documentclass{article}
+
+\usepackage{neurips_2020_author_response}
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+\usepackage{wrapfig}
+\usepackage{graphicx}
+\usepackage{enumitem}
+
+\usepackage{xcolor}
+\newcommand{\yell}[1]{\textcolor{red}{#1}}
+\newcommand{\todo}[1]{\textcolor{red}{{TODO: #1}}}
+\newcommand{\num}[1]{\textcolor{black}{#1}}
+
+
+% Squished list environment to save space
+\newcommand{\squishlist}{
+\begin{list}{$\bullet$}
+  { \setlength{\itemsep}{0pt}
+    \setlength{\parsep}{1pt}
+    \setlength{\topsep}{1pt}
+    \setlength{\partopsep}{0pt}
+    % \setlength{\labelwidth}{1em}
+  }
+}
+\newcommand{\squishend}{\end{list}}
+
+\begin{document}
+We thank the reviewers for their time and thoughtful feedback.
+Taking their helpful comments into account, we sought and received additional feedback to extend and clarify the presentation of our work.
+Since submission, we have also achieved \textbf{state-of-the-art scores} on the SuperGLUE benchmark \num{by 2.7 points} using the proposed approach.
+
+
+\begin{wrapfigure}[12]{r}{0.42\textwidth}
+\vspace{-1.5em}
+    \begin{center}
+        \includegraphics[width=0.415\textwidth]{figures/ablation_noise.pdf}
+    \end{center}
+% \vspace{-1.5em}
+\label{fig:ablation_noise}
+% \caption{Denoising SFs using the slice indicator. Top: Noise is added as a proportion to the slice size. Bottom: These are heatmaps of the slice indicator outputs, where a larger number indicates higher likelihood of slice membership.}
+\end{wrapfigure}
+
+% Based on CR's comments, moving the ablation upfront
+% version v2
+\textbf{Ablation studies. [R1, R2, R3]}
+We thank all reviewers for their detailed feedback about the proposed architecture. 
+We have added ablation studies to Section~3.3 to clarify specific components and will include additional experiments and details in the final draft.
+\textbf{Coping with noise}: We test the robustness of our approach on a simple synthetic example: in the Figure to the right, we show noisy SFs (top row: no noise, 40\% noise, 80\% noise) and the corresponding slice indicator's output as a heatmap (bottom row: darker indicates higher likelihood of slice-membership).
+We show that the indicator assigns low relative probabilities on noisy (40\%) SF samples (bottom middle) and ignores a very noisy (80\%) SF, assigning relatively uniform scores to all samples (bottom right).
+\textbf{Architecture ablations}: We thank R2 and R3 for suggestions to clarify the contributions of the architecture's components. 
+We perform an ablation study using a synthetic, binary classification dataset with four slices covering random data subsets.
+We observe that indicator outputs contribute \num{+3.4 F1}; without this indicator module, the model might fail to handle noisy SFs.
+The predictor confidences contribute \num{+4.6 F1}; without considering these confidences, the attention mechanism might combine non-expert features into the reweighted representation. 
+Compared to equal weights, our attention mechanism contributes \num{+5.6 F1}; without attention, there is no fine-grained combination of slice representations.
+
+% our approach scored (\num{82.7 F1}).
+% % We also try using slice labels only as additional input features, which achieved \num{XX F1}.
+% In comparison, we report ablations of proposed modules (with relative scores): we modify the attention mechanism using 1) only prediction confidences (\num{-3.4 F1}), 2) only indicator outputs (\num{-4.6 F1}), 3) equal-weight for representations (\num{-5.6 F1}). 
+% We interpret relative performance drops: 1) without the indicator, the model fails to handle noisy SFs, 2) without predictor confidence, non-expert features are combined into the reweighted representation, and 3) equal attention weights prevent fine-grained combination of slice representations.
+
+% version v1
+% \textbf{Additional ablation studies. [R1, R2, R3]} We thank all reviewers for their detailed feedback regarding specific components of our proposed architecture, and we have added multiple ablation studies to Section~3.3 as points of clarification.
+% %Since submission, we have obtained \textbf{state-of-the-art scores} on three tasks in SuperGLUE benchmark (e.g., +\num{3.8/2.8} Avg. F1/acc. on CB, +\num{2.8} acc. on COPA, +\num{2.5} acc. on WiC). We have added those results with details about the slicing functions used in the appendix of the paper.
+% \textbf{Coping with noise}: In this ablation, we study the robustness of our approach to noisy slicing functions.
+% % We \yell{1) creating a slicing function that labels randomly (which the model learns to ignore), 2) defining multiple slices but only covering a portion of them with slicing functions (the model improves only on the targeted slices), and 3) depicting performance on a slice as its corresponding slicing function varies in precision over the true slice from 1 to 0}. 
+% We add random noise to a slicing function (SF) output (top row if Figure) and visualize the slice indicator's output heatmap (Figure~\ref{fig:ablation_noise} bottom, where higher values indicate higher likelihood of slice-membership.) 
+% We see that the indicator learns to denoise outputs (Figure, bottom middle) or effectively ignore extremely noisy SFs (Figure, bottom right). 
+% \textbf{Comparison with more baselines}: We thank the suggestions from R3 for comparing with more baselines. We report the results of using different sources of attention on the synthetic dataset: 1) using only the prediction confidences with \num{XX F1}, 2) using only the indicator outputs with \num{XX F1}, 3) using equal-weight averaging with \num{XX F1}. We also try using slice labels only as additional input features, which achieved \num{XX F1}.
+
+
+
+
+
+% \textbf{Clarification of the model architecture. [R1, R2, R3]}
+% We appreciate the reviewers' suggestions about clarifying the modeling approach (Section 3.2).
+% We agree with the points of confusion, and we have updated the text, making the notation modifications recommended by R2 for the equations in Sec. 3.2, and we have updated Figure 2 with annotated dimensions for each module in the architecture. 
+% We briefly clarify the key components of the architecture: The architecture relies on a \textbf{backbone} architecture, which serves as a feature extractor (e.g. ResNet, BERT).
+% Usnnng shared backbone features, we learn \textbf{slice-indicator modules}---one per slice---which classify slice membership for each example.
+% Next, we map the backbone features to separate \textbf{slice-specific representations}---one per slice.
+% Note: we treat the original task as a trivial \textit{base slice} (all examples are included) in order to model the residuals representations and slice-representations.
+% A \textbf{shared slice prediction head} maps each slice-specific representation to a prediction---we note that each representation is trained only on examples belonging to the slice, such that slice-specific representation is an ``expert'' for a particular slice.
+% We then combine each \textbf{slice-specific representation} as a weighted sum, using attention weights computed by the \textit{confidence of the prediction} computed by each slice-specific representation and the \textit{slice-membership classification} of each slice indicator module.
+% Finally, we map the \textbf{re-weighted representation} to an output (i.e. binary classification) to make a final prediction on the original task.
+
+% version v2
+\textbf{Presentation of model architecture. [R2, R3]}
+% Thanks to suggestions to clarify the model architecture, we have leveraged external feedback to improve the second half of the paper. 
+% Readers were unclear about the dimensions of intermediate quantities in our architecture; 
+In response to R2's feedback, we have updated each module with dimension annotations and updated Figure 2 with visual cues to specify where slice labels are used during training (i.e. as \textit{labels} for training indicators and \textit{masks} for training predictors).
+Following R3's suggestion, we have more clearly expressed the costs (e.g. model size, training time) of each approach, especially \textsc{MoE}, with respect to \textsc{Ours} in Table~1.
+
+We thank R2 for pointing out vague notation in Section~3.2, which we have clarified in the updated draft. 
+In L160, we changed $p$ to $w$ to avoid confusion with probability notations.
+In L165, $g(P)$ (from Section~3.2(e)) indeed refers to the concatenation of each $g(p_i)$ from Section~3.2(d).
+Our notation refers to the binary setting, where $c=1$ such that $P \in \mathbb{R}^{h \times k + 1}$. 
+In L166, we clarify that the predictor confidence is computed using the maximum probability over prediction classes.
+Our experiments are binary classification tasks, for which we use the absolute value of the predictor logit as this confidence.
+% To clarify R2's question about final predictions, we note that the model learns a prediction head (Section~3.2f) based on the reweighted representation.
+Additionally, R2 is correct that $z$ is not used in these reweighted features, $z'$. 
+Instead, the base representation is modeled as a trivial slice: $p_{\text{BASE}}$, and a final prediction is made based on the reweighted $z'$.
+We clarify that $h$ is a hyperparameter for flexibility in specific applications; for simplicity, we set this to $r$ in experiments. 
+
+
+
+% version v1
+% \textbf{Clarification of the model architecture. [R2, R3]}
+% We agree with the reviewers' suggestions for clarifying the model architecture (Section 3.2).
+% Following the reviewers' helpful feedback, we've taken additional reviewers into account to clarify the second half of the paper.
+% We observed that readers were unclear about the dimensionalities of intermediate quantities in the network, so we updated each module in the architecture with dimension annotations.
+% Additionally, we have updated the figure to denote explicitly where slice labels are used during training, as suggested by R2.
+% Specifically, we clarify that during training, slicing functions outputs are simultaneously used as \textit{labels} to train slice indicator modules and as \textit{masks} for the loss terms of the slice predictor head + corresponding slice-specific representations.
+
+% \textbf{Clarification of the model architecture. [R1, R2, R3]}
+% We appreciate the reviewers' suggestions about clarifying the model architecture (Section 3.2).
+% We agree with all reviewers and have updated our description to make these points clearer.
+% % \textit{Slice-based Learning} (SL) includes several key components: 
+% % To summarize, we briefly clarify the key components of the architecture here:
+% % \textbf{backbone} which is a feature extractor from the data, \textbf{slice-indicator} which uses the extracted features from backbone and user-provided slicing function as ground truth to learn the slice membership, \textbf{slice-specific representations and predictors} which also use extracted features to learn the slice-specific representations and then learn a slice-specific predictor and \textbf{re-weighted representation} leverages all information from previous two components to learn the slice-aware representation and make the final prediction. [SHORTEN THIS PARA]
+
+% \textit{Backbone.} Neural network architecture which serves as a feature extractor (e.g. ResNet, BERT) in the original learning pipeline, where extracted features (dim $r$) are directly fed into a prediction head to learn to predict the ground truth.
+% In SL, we use the same backbone features as in original learning pipeline.
+
+% \textit{Slice-indicator.} SL uses backbone features to learn a \textbf{slice-indicator} based on the user-provided slicing functions. In SL, we use linear classifier from backbone features to learn slice membership for each example. Note: this is particularly useful, because we don’t assume slicing functions are available at inference time.
+
+% \textit{Slice-specific represesentations.} SL learns specific ``expert'' parameters for each slice by mapping from the backbone features (dim $r$) to to intermediate features (dim $h$).
+
+% A \textit{shared slice prediction head} then acts as a linear classifier from each set of slice-specific representations to the original task's output space. Note, that each ``weak'', slice-specific classifier is trained only on examples belonging to the slice.
+
+% \textit{Re-weighted representation.} SL then combines each \textbf{slice-specific representation} as a weighted sum, using attention weights based on the \textit{confidence of the prediction} on each slice-specific representation and the \textit{slice-membership classification} of each slice indicator module. Finally, we map the \textbf{re-weighted representation} to an output (i.e. binary classification) to make a final prediction on the original task. 
+
+% In response to R2's comment, we clarify that we compute the predictor confidence using the maximum probability over all prediction classes. In the binary case used in experimental validation, we use the absolute value as a proxy for this confidence; we will update the draft to clarify this usage.
+
+% We have also made the notation modifications recommended by R2 for the equations in Sec. 3.2, and we have updated Figure 2 with annotated dimensions for each module in the architecture. We treat the original task as a trivial \textit{base slice} (all examples are included) in order to model the residuals representations and slice-representations. [ADD ALL MISSING ONES IF THERE EXISTS]
+
+
+%   % \textbf{Coping with noise in the slicing function. [R1, R3]} We thank R1 and R3 for their thoughtful questions regarding how noise is handled in slice-based learning. 
+% We performed an ablation study to evaluate XXX different scenarios on synthetic datasets: 
+% 1) noisy slicing function (with randomly sampled data in the slice), where we expect performance to increase 
+% 2) multiple slices in the dataset while slicing function only cover few slices. As shown in Figure XXX and we found that in 1) the noisy slicing function is ignored. 2) only the slices that covered by slicing functions are detected.  \todo{create a table if there is space?}
+% \todo{ADD MORE DETAILS BASED ON NEW EXP.} \todo{Coping with noise experiment—showing improvement model performance with more noise}.
+
+% \textbf{Experimental protocols. [R1, R2, R3]} We thank the reviewers for comments that have helped us increase the clarity of our experiments. 
+% As per R1's suggestion, we move experimental details from the appendix into the body of the paper, including more detail on the specific slices used.
+% We have improved the paper with the suggested changes, including additional context for the comparison to data programming [23], an approach from weak supervision literature which also proposes a programming abstraction for utilizing potentially noisy user-provided heuristics.
+% % We anchor our work in this class of programming abstractions, as our combines noisy, domain-specific supervision using information about learned representations.
+
+
+\textbf{R1:} We agree with R1 that Section~3.3 could be reframed more conservatively.
+We have updated the title to ``Synthetic Experiments'' to clarify that our observations are grounded in the synthetic setting. 
+R1 asked about a missing Figure 3c; Figure 3c refers to the right-most graphic in Figure~3, and we have labeled this more explicitly in the updated draft.
+
+R1 asked for clarification about experimental details and provided feedback for the organization of Section 4. 
+In our data splits, we ensure that the proportion of examples belonging to each slice is equivalent across train/valid/test for appropriate evaluation of slices; we did not collect/re-use different data sources.
+% and do not use new data or re-use existing data.
+Furthermore, we moved SF implementation/evaluation details and a description of slices from the appendix to the body of the paper.  
+In Section~4.3, we have included an error analysis regarding counter-intuitive trends in slice-specific performance.
+For example, results on \textsc{CoLA} may be explained by limitations in the backbone architecture; we observe low performance on \textsc{MoE}, which has extra capacity, on certain slices (e.g. \textit{ends with adverb} and \textit{has but}) where \textsc{Ours} also underperforms.
+Following R1's suggestion, we have included detailed descriptions about the baselines.
+Specifically, we anchor our work in data programming [23], a baseline from weak supervision literature that learns to combine noisy, user-provided heuristics.
+% \yell{BETTER EXAMPLE For example, high-variance in the \textsc{CoLA} dataset is potentially because the adversarial defined slices, as indicated by similarly worsened relative improvements in the \textsc{MoE} model.}
+
+\textbf{R2:} We thank R2 for feedback on our empirical evaluation.
+In experiments, we use strong baselines as backbones: pre-trained \textsc{BERT++} (proposed by SuperGLUE organizers) for \textsc{CoLA}/\textsc{RTE} and pre-trained ResNet for \textsc{Cydet}. 
+We thank R2 for the suggestion to report the evaluation server results; we obtain three new SOTA scores on SuperGLUE tasks: (+\num{3.8/+2.8} Avg. F1/acc. on CB, +\num{2.8} acc. on COPA, +\num{2.5} acc. on WiC).
+
+
+\textbf{R3:} R3 asked about the weighting of our loss terms. 
+In practice, one may set a hyperparameter for each loss term; to simplify our study, we set all weights to 1.
+R3 is also correct that ``hard'' slice features would be more susceptible to noise; we will include this baseline in Table~1.
+We emphasize, however, that introducing such features would violate the key assumption that slice information/metadata is not available during inference, as discussed in Section~3.1.
+Finally, R3 asked how many slices our model can support. 
+Our experiments include an average of \num{10} slices per application, while in an industrial collaboration, we have deployed the \textit{Slice-based Learning} on \num{hundreds} of production slices.
+
+
+% \textbf{R1:}  
+% We thank R1 for their helpful suggestions and detailed comments.
+% \squishlist
+% \item  We have reframed Section 3.3 more conservatively, updating the title to ``Synthetic Experiments'' to emphasize that the observations we make there are grounded in the synthetic setting.
+% % \item R1 also asked for more experimental results demonstrating the ability of this approach to cope with noise in the slicing function specifications.
+% % We have added this experiment to Section 3.3, including the \yell{plot shown below} which reports the improvement on a particular slice by the slice-aware model as the accuracy of the slicing function decreases (i.e., we increase the number of false positives that it labels for that slice).
+% \item Figure 3c refers to the right-most graphic in Figure~3, which we have labeled more explicitly.
+% \item We have included clarification about specific trends in the slice-specific performance in Section~4.3.
+% For example, high-variance in the \textsc{CoLA} dataset could be explained by potentially adversarial defined slices, as indicated by similarly worsened relative improvements in the \textsc{MoE} model.
+% In general, we acknowledge that there is indeed room for improvement in the specific modeling approach—our work highlights the high-level framing of \textit{Slice-based Learning} as a programming abstraction.
+% \item We have spent significant time refactoring the second half of the paper for additional detail and clarity, in accordance with R1's suggestion.
+% \squishend
+
+% \textbf{R2:} We thank R2 for their detailed review and suggestions.
+% \squishlist
+%     \item We thank R2 for surfacing vague notation in line 165: the $g(P)$ term discussed in 3.2e indeed refers to the concatenated result of each $g(p_i)$ from section 3.2f. The  formulation specifically refers to the binary setting, where $c=1$, such that the concatenation of $P \in \mathbb{R}^{h \times k + 1}$.
+%     \item We clarify that the model makes a final prediction based on the reweighted representation; R2 is correct in that $z$ is no longer used here; the base representation is considered as $p_{\text{BASE}}$.
+%     \item We treat each dimension $h$ as a hyperparameter to afford maximum flexibility to the user for domain-specific applications. In our experiments, we trivially set this to the backbone dimension $r$.
+%     \item In response to R2's comment, we have clarified in the paper that we compute the predictor's confidence using the maximum probability over all prediction classes. In the binary case used in experimental validation, we use the absolute value of the predictor logit as a proxy for this confidence.
+%     \item Since submission, we have submitted to the official server and obtained new state-of-the-art scores on several SuperGLUE tasks using slicing functions: +\num{3.8/2.8} Avg. F1/acc. on CB, +\num{+2.8} acc. on COPA, +\num{2.5} acc. on WiC.
+%     These gains are indeed with respect to strong baselines of pre-trained BERT models (\textsc{BERT++}) fine-tuned on the individual tasks.
+%     We have added those full results with details about the slicing functions used in the appendix of the paper.
+% \squishend
+
+% \textbf{R3:} We thank R3 for their excellent suggestions.
+% \squishlist
+%     \item In practice, we apply a hyperparameter for each loss term for control in each application. For the purposes of this study, we set all weights to 1.
+%     \item R3 asks how many slices our model can support. In our paper we operate on dozens of slices, but in an industrial collaboration, we have deployed the slicing architecture on thousands of production slices.
+% \squishend
+
+
+% \textbf{Summary:}
+% In our paper, we proposed Slice-based Learning, a programming model in which \textit{slicing functions} (SFs), a programmer abstraction, can be used to improve performance on critical subsets (slices) of data with lower computational complexity and higher slice-specific performance than current methods.
+% We review here how the high-level goals of Slice-based Learning inform our proposed architecture (Section 3.2).
+% \begin{itemize}
+%     \item Backbone: Our modeling approach is agnostic to the neural network architecture. We treat the backbone as a set of shared parameters for other modules, as is common in MTL formulations.
+% \end{itemize}
+
+
+\end{document}
+

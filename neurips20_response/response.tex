@@ -1,0 +1,69 @@
+\documentclass{article}
+
+\usepackage{neurips_2020_author_response}
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+\usepackage{wrapfig}
+\usepackage{graphicx}
+\usepackage{enumitem}
+
+\usepackage{xcolor}
+\newcommand{\yell}[1]{\textcolor{red}{#1}}
+\newcommand{\todo}[1]{\textcolor{red}{{TODO: #1}}}
+\newcommand{\num}[1]{\textcolor{black}{#1}}
+
+
+% Squished list environment to save space
+\newcommand{\squishlist}{
+\begin{list}{$\bullet$}
+{ \setlength{\itemsep}{0pt}
+\setlength{\parsep}{1pt}
+\setlength{\topsep}{1pt}
+\setlength{\partopsep}{0pt}
+% \setlength{\labelwidth}{1em}
+}
+}
+\newcommand{\squishend}{\end{list}}
+
+\begin{document}
+
+We thank all of our reviewers for carefully reading our work and providing insightful reviews.
+First, we address several main issues that are raised by the reviewers.
+Then, we respond to each individual reviewer's feedback.
+
+\textbf{Motivation for our setting. [R1, R2, R3]}
+As R2 pointed out, we focus on a situation where we have a target task for which we only have limited labeled data and several source tasks.
+We study when training the tasks together can benefit the target task.
+While this setting is different from traditional MTL, it is commonly encountered in practice. For example, the task of interest might be about predicting a rare event or classifying an Xray-scan.
+For such settings, collecting large amounts of labeled data for the task is either not possible or very expensive, but auxiliary labeled data are often easier to obtain.
+Traditional MTL theory that studies the average performance of all tasks does not help predict when adding the source tasks provides positive transfer for the target task or not.
+Our work applies to these settings and takes a step towards filling the gap.
+
+\textbf{Extension to multiple tasks.}
+We thank R1 and R2 for raising the important question of whether our setting applies to multiple tasks.
+First, for multi-label settings where all tasks have the same features, i.e. $X_i = X$ for any $i$, our result in Theorem 3.6 provides a sharp bias-variance tradeoff of MTL and \textit{all of our insight for two tasks except covariate shift applies to multi-label settings}.
+Due to page limit we have not elaborated on this part in the submission, but we will elaborate the theoretical implication in the next version.
+The reason why the issue about covariate shift does not apply to this setting is because the tasks have the same features, hence there is no covariate shift.
+
+Second, for settings where different tasks have different features, we can still extend our qualitative insight here.
+That is, we can show that \textit{as long as the dimension of the shared layer ($B$) is smaller than the total number of tasks, the variance of the MTL estimator for the target task is always smaller than the variance of the STL estimator but the bias is always larger}.
+We will include this result in the next version.
+
+\textbf{Clarifying writing. [R2, R3]}
+We thank R2 and R3 for providing numerous detailed feedback that help us improve writing.
+
+\textbf{R1:}
+
+\textbf{R2:}
+
+\textbf{R3:}
+
+\end{document}
+

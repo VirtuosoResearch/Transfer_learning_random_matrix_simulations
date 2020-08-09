@@ -1,0 +1,81 @@
+\section{Related Work}
+
+We refer the interested readers to several excellent surveys on multi-task  learning for a comprehensive survey \cite{PY09,R17,ZY17,V20}.
+Below, we describe several lines of work that are most related to this work.
+
+\textit{Theoretical works.}
+Some of the earliest works on multi-task learning are Baxter \cite{B00}, Ben-David and Schuller \cite{BS03}.
+Mauer \cite{M06} studies generalization bounds for linear separation settings of MTL.
+Ben-David et al. \cite{BBCK10} provides uniform convergence bounds that combines source and target errors optimally.
+The benefit of learning multi-task representations has been studied for learning certain half-spaces \cite{MPR16} and sparse regression \cite{LPTV09,LPVT11}.
+Our work is closely related to Wu et al. \cite{WZR20}.
+While Wu et al. provide generalization bounds to show that adding more labeled helps learn the target task more accurately, their techniques cannot be used to explain when MTL outperforms STL.
+
+% Adding a regularization over $B$, e.g. .
+\textit{Methodological works.}
+Ando and Zhang \cite{AZ05} introduces an alternating minimization framework for learning multiple tasks.
+Argyriou et al. \cite{AEP08} present a convex algorithm which learns common sparse representations across a pool of related tasks.
+Evgeniou et al. \cite{EMP05} develop a framework for multi-task learning in the context of kernel methods.
+%\cite{KD12} observed that controlling the capacity can outperform the implicit capacity control of adding regularization over $B$.
+The multi-task learning model that we have focused on uses the idea of hard parameter sharing \cite{C93,KD12,R17}.
+We believe that our theoretical framework can apply to other approaches to multi-task learning.
+
+\textit{Random matrix theory.}
+The random matrix theory tool and related proof of our work fall into a paradigm of the so-called local law of random matrices \cite{erdos2017dynamical}.
+For a sample covariance matrix $X^\top X$ with $\Sigma=\id$, such a local law was proved in \cite{isotropic}.
+It was later extended to sample covariance matrices with non-identity $\Sigma$ \cite{Anisotropic}, and separable covariance matrices \cite{yang2019spiked}. On the other hand, one may derive the asymptotic result in Theorem \ref{lem_cov_shift_informal} with error $\oo(1)$ using the free addition of two independent random matrices in free probability theory \cite{nica2006lectures}. To the best of my knowledge, we do not find an {\it explicit result} for the sum of two sample covariance matrices with general covariates in the literature.
+
+
+\section{Conclusions and Open Problems}
+
+In this work, we analyzed the bias and variance of multi-task learning versus single-task learning.
+We provided tight concentration bounds for the bias and the variance.
+Based on these bounds, we analyzed the impact of three properties, including task similarity, sample size, and covariate shift on the bias and variance, to derive conditions for transfer.
+%Each of these results (based on each of the 3 properties) gives a different algorithmic/practical insight.
+We validated our theoretical results.
+Based on the theory, we proposed to train multi-task models by incrementally adding labeled data and showed encouraging results inspired by our theory.
+We describe several open questions for future work.
+First, our bound on the bias term (cf. Lemma \ref{lem_cov_derivative}) involves an error term that scales down with $\rho_1$.
+Tightening this error bound might cover the unexplained observations in Figure \ref{fig_model_shift_phasetrans}.
+Second, it would be interesting to extend our results to non-linear settings.
+We remark that this likely requires addressing significant technical challenges  to deal with non-linearity.
+
+
+\iffalse
+\newpage
+\section*{Broader Impacts}
+
+In this work, we provide a theoretical framework to help understand when multi-task learning performs well.
+We approach this question by studying the bias-variance tradeoff of multi-task learning.
+We provide new technical tools to analyze the bias and variance of multi-task learning.
+%We relate the bounds to three properties of task data.
+%Overall, our theoretical study provides a framework to help understand multi-task learning performance.
+%We further provide guidance for detecting and mitigating negative transfer on image and text classification tasks.
+
+Our theoretical framework has the potential to impact many other neighboring areas in the ML community.
+(i) Our concentration bounds can apply to different settings such as soft parameter sharing \cite{R17} , kernel methods \cite{EMP05}, and convex formulation of multi-task learning \cite{ZY14}.
+(ii) Our analysis of the bias-variance tradeoff can extend to transfer learning and domain adaptation \cite{K18}.
+(iii) Our insights on positive and negative transfer can be useful in multimodal learning, where the data sources are usually heterogeneous.
+(iv) Our fine-gained study on sample sizes have the potential to provide new insight in meta learning, where limited labeled samples presents a significant challenge.
+Finally, since multi-task learning connects to a wide range of areas \cite{V20} such as semi-supervised learning, representation learning, and reinforcement learning \cite{YKGLHF20}.%
+We believe that the tools we have developed and the framework we have provided can inspire followup works in these areas.
+
+Our proposed algorithmic consequences also have the potential to help both researchers and practitioners to better develop their use cases of multi-task learning.
+For one example, many medical applications use multi-task learning to train large-scale image classification models by combining multiple datasets \cite{chexnet17,EA20}.
+Unlike the applications of multi-task learning in text classification where we can collect large amounts of labeled data \cite{GLUE}, in medical applications it is typically difficult and expensive to acquire labeled data.
+For such settings, our proposed training scheduler might improve the model training efficiency by using less labeled data.
+For another example, practitioners in industry often need to improve prediction performance by training many related tasks.
+But the results are not always positive and practitioners have a hard time figuring out why.
+Our proposed metric can provide guidance for selecting which tasks should be trained together in a multi-task model.
+\fi
+
+
+
+
+
+
+%Our algorithmic consequences of our theory have the potential to impact downstream applications of multi-task learning.
+%For example, many medical applications use multi-task learning to train large-scale image classification models by combining multiple datasets \cite{chexnet17,EA20}.
+%Unlike the applications of multi-task learning in text classification where large amounts of labeled data are collected \cite{GLUE}, in medical applications it is typically difficult to acquire large amounts of labeled data.
+%For such settings, training multi-task models can be very challenging.
+%Our insight on using single-task learning results to help understand multi-task learning can be valuable for helping practitioners understand their results.
