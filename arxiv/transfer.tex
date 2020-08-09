@@ -1,21 +1,11 @@
-\section{Comparing Multi-Task Learning to Single-Task Learning}\label{sec_insight}
-
-%We provide precise explanations to the phenomena of negative transfer in multi-task learning.
-We provide tight bounds on the bias and variance of the multi-task estimator for two tasks.
-We show theoretical implications for understanding the performance of multi-task learning.
-(a) \textit{Task similarity}: we explain the phenomenon of negative transfer precisely as tasks become more different.
-(b) \textit{Sample size}: we further explain a curious phenomenon where increasing the source sample size helps initially, but hurts eventually.
-(c) \textit{Covariate shift}: as the source sample size increases, we show that the covariate shift worsens the performance of the multi-task estimator.
-Finally, we extend our results from two tasks to many tasks with the same features.
-%We explain from three perspectives, including \textit{task similarity}, \textit{sample size} and \textit{covariate shift}.
-%We show how negative transfer occurs by varying task similarity or sample size.
-%Then we show that when source task sample size becomes large, covariate shift causes more negative effects.
-
-\subsection{Analyzing the Bias-Variance Tradeoff using Random Matrix Theory}\label{sec_main}
+\section{The Bias-Variance Tradeoff using Random Matrix Theory}\label{sec_main}
 
 A well-known result in the high-dimensional linear regression setting states that $\tr[(X_2^{\top}X_2)^{-1}\Sigma_2]$ is concentrated around $1 / (\rho_2 - 1)$ (e.g. Chapter 6 of \cite{S07}), which scales with the sample size of the target task.
 Our main technical contribution is to extend this result to two tasks.
 We show how the variance of the multi-task estimator scales with sample size and covariate shift in the following result.
+
+\subsection{The Case of Two Tasks}
+
 \begin{lemma}[Variance bound]\label{lem_cov_shift_informal}
 	In the setting of two tasks,
 	let $n_1 = \rho_1 \cdot p$ and $n_2 = \rho_2 \cdot$ be the sample size of the two tasks.
@@ -68,6 +58,47 @@ While the general form of these functions can be complex (as are previous genera
 %This estimates the negative effect given by $\Delta_{\bias}$. %, which will be used to estimate the first term on the right hand side of \eqref{eq_te_model_shift}.
 %During this process, we will get the $\Delta_{\bias}$ term up to an error $\delta$ depending on $\rho_1$.
 The proof of Theorem \ref{thm_main_informal} is presented in Appendix \ref{app_proof_main_thm} and the proof of Lemma \ref{lem_cov_shift_informal} is in Appendix \ref{sec_maintools}.
+
+
+\subsection{The Case of Multiple Tasks}
+
+Next, we describe our result for more than two tasks with same features, i.e. $X_i = X$ for any $i$.
+This setting is prevalent in applications of multi-task learning to image classification, where there are multiple prediction labels/tasks for every image \cite{chexnet17,EA20}.
+\begin{theorem}[Many tasks]\label{thm_many_tasks}
+%Suppose $X=Z\Sigma^{1/2}\in \R^{n\times p}$ satisfy Assumption \ref{assm_secA1} with $\rho:=n/p>1$ being some fixed constant. Consider data models  $Y_i = X\beta_i + \varepsilon_i$, $i=1,2,\cdots, t$, where $\e_i\in \R^{n}$ are random vectors with i.i.d. entries with mean zero, variance $\sigma^2$ and all moments as in \eqref{assmAhigh}. Moreover, assume that $X$, $\beta_i$ and $\e_i$ are all independent of each other.
+	%Let $n = c \cdot p$.
+	%Let $X\in\real^{n\times p}$ and $Y_i = X\beta_i + \varepsilon_i$, for $i = 1,\dots,k$.
+%	Consider $t$ data models $Y_i = X\beta_i + \varepsilon_i$, $i=1,2,\cdots, t$, where $X$ has covariance matrix $\Sigma$, and the entries of $\e_i$ are i.i.d. with mean zero and variance $\sigma^2$.
+	%that satisfy Assumption \ref{assm_secA2} in the appendix.
+	For the setting of $t$ tasks where $X_i = X$, for all $1\le i\le t$,
+	let $B^\star := [{\beta}_1,{\beta}_2,\dots,{\beta}_{t}]$ and $U_r\in\real^{t\times r}$ denote the linear model parameters.
+	Let $U_r U_r^{\top}$ denote the best rank-$r$ subspace approximation of $(B^{\star})^\top\Sigma B^{\star}$.
+	Assume that $\lambda_{\min}({B^{\star}}^\top\Sigma B^{\star})\gtrsim \sigma^2$.
+	Let $v_i$ denote the $i$-th row vector of $U_r$.
+	There exists a value $\delta = \oo \left( \|B^\star\|^2 + \sigma^2\right)$ such that
+	\squishlist
+		\item  If	$\left(1 - \norm{v_t}^2 \right)\frac{\sigma^2}{\rho - 1} - \norm{\Sigma (B^{\star} U_r v_t - \beta_t)}^2 > \delta$, then w.h.p $\te(\hat{\beta}_t^{\MTL}) < \te(\hat{\beta}_t^{\STL})$.
+		\item If $\left(1 - \norm{v_t}^2\right)\frac{\sigma^2}{\rho - 1} - \norm{\Sigma(B^{\star} U_r v_t - \beta_t)}^2 < -\delta$, then w.h.p. $\te(\hat{\beta}_t^{\MTL}) > \te(\hat{\beta}_t^{\STL})$.
+	\squishend
+\end{theorem}
+Theorem \ref{thm_many_tasks} provides a sharp analysis of the bias-variance tradeoff beyond two tasks.
+Specifically, $(1 - \norm{v_t}^2)\sigma^2/(\rho - 1)$ shows the amount of reduced variance and $\norm{\Sigma (B^{\star} U_r v_t - \beta_t)}$ shows the bias of the multi-task estimator.
+The proof of \ref{thm_many_tasks} can be found in Appendix \ref{app_proof_many_tasks}.
+
+
+
+\section{Theoretical Implication}\label{sec_insight}
+
+%We provide precise explanations to the phenomena of negative transfer in multi-task learning.
+We provide tight bounds on the bias and variance of the multi-task estimator for two tasks.
+We show theoretical implications for understanding the performance of multi-task learning.
+(a) \textit{Task similarity}: we explain the phenomenon of negative transfer precisely as tasks become more different.
+(b) \textit{Sample size}: we further explain a curious phenomenon where increasing the source sample size helps initially, but hurts eventually.
+(c) \textit{Covariate shift}: as the source sample size increases, we show that the covariate shift worsens the performance of the multi-task estimator.
+Finally, we extend our results from two tasks to many tasks with the same features.
+%We explain from three perspectives, including \textit{task similarity}, \textit{sample size} and \textit{covariate shift}.
+%We show how negative transfer occurs by varying task similarity or sample size.
+%Then we show that when source task sample size becomes large, covariate shift causes more negative effects.
 
 
 
@@ -252,28 +283,4 @@ This new module is then trained together with $B$ and the output layers.
 We validate our insight on this procedure in the experiments.
 
 
-\section{Extension to Multiple Tasks}
-
-Next, we describe our result for more than two tasks with same features, i.e. $X_i = X$ for any $i$.
-This setting is prevalent in applications of multi-task learning to image classification, where there are multiple prediction labels/tasks for every image \cite{chexnet17,EA20}.
-\begin{theorem}[Many tasks]\label{thm_many_tasks}
-%Suppose $X=Z\Sigma^{1/2}\in \R^{n\times p}$ satisfy Assumption \ref{assm_secA1} with $\rho:=n/p>1$ being some fixed constant. Consider data models  $Y_i = X\beta_i + \varepsilon_i$, $i=1,2,\cdots, t$, where $\e_i\in \R^{n}$ are random vectors with i.i.d. entries with mean zero, variance $\sigma^2$ and all moments as in \eqref{assmAhigh}. Moreover, assume that $X$, $\beta_i$ and $\e_i$ are all independent of each other.
-	%Let $n = c \cdot p$.
-	%Let $X\in\real^{n\times p}$ and $Y_i = X\beta_i + \varepsilon_i$, for $i = 1,\dots,k$.
-%	Consider $t$ data models $Y_i = X\beta_i + \varepsilon_i$, $i=1,2,\cdots, t$, where $X$ has covariance matrix $\Sigma$, and the entries of $\e_i$ are i.i.d. with mean zero and variance $\sigma^2$.
-	%that satisfy Assumption \ref{assm_secA2} in the appendix.
-	For the setting of $t$ tasks where $X_i = X$, for all $1\le i\le t$,
-	let $B^\star := [{\beta}_1,{\beta}_2,\dots,{\beta}_{t}]$ and $U_r\in\real^{t\times r}$ denote the linear model parameters.
-	Let $U_r U_r^{\top}$ denote the best rank-$r$ subspace approximation of $(B^{\star})^\top\Sigma B^{\star}$.
-	Assume that $\lambda_{\min}({B^{\star}}^\top\Sigma B^{\star})\gtrsim \sigma^2$.
-	Let $v_i$ denote the $i$-th row vector of $U_r$.
-	There exists a value $\delta = \oo \left( \|B^\star\|^2 + \sigma^2\right)$ such that
-	\squishlist
-		\item  If	$\left(1 - \norm{v_t}^2 \right)\frac{\sigma^2}{\rho - 1} - \norm{\Sigma (B^{\star} U_r v_t - \beta_t)}^2 > \delta$, then w.h.p $\te(\hat{\beta}_t^{\MTL}) < \te(\hat{\beta}_t^{\STL})$.
-		\item If $\left(1 - \norm{v_t}^2\right)\frac{\sigma^2}{\rho - 1} - \norm{\Sigma(B^{\star} U_r v_t - \beta_t)}^2 < -\delta$, then w.h.p. $\te(\hat{\beta}_t^{\MTL}) > \te(\hat{\beta}_t^{\STL})$.
-	\squishend
-\end{theorem}
-Theorem \ref{thm_many_tasks} provides a sharp analysis of the bias-variance tradeoff beyond two tasks.
-Specifically, $(1 - \norm{v_t}^2)\sigma^2/(\rho - 1)$ shows the amount of reduced variance and $\norm{\Sigma (B^{\star} U_r v_t - \beta_t)}$ shows the bias of the multi-task estimator.
-The proof of \ref{thm_many_tasks} can be found in Appendix \ref{app_proof_many_tasks}.
 
