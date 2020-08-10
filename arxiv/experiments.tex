@@ -51,7 +51,6 @@ We further show that when the sample ratio is large, performing the alignment pr
 \end{minipage}
 \end{table}
 
-\vspace{-0.07in}
 \subsection{Experimental Setup}
 
 We consider a text classification task and an image classification task as follows.
@@ -77,10 +76,26 @@ For all models, we use a shared module for all tasks and assign a separate outpu
 The baseline training schedule for MTL is the round-robin training schedule.
 %We compare our incremental training schedule of Algorithm \ref{alg_inc_train} to the round-robin training schedule.
 We measure the test accuracy of predicting a target task.
-We measure computional cost by summing over all epochs the number of samples used in every epoch.
+We measure computational cost by summing over all epochs the number of samples used in every epoch.
 
-\vspace{-0.07in}
-\subsection{Experimental Results}\label{sec_exp_res}
+\subsection{Simulation Studies}
+
+\subsection{Validating the Theoretical Implication}\label{sec_exp_ab}
+
+We first validate our theoretical results in Section \ref{sec_similarity} and \ref{sec_data_size}.
+In Figure \ref{fig_ab_sim}, we compare the performance training with a semantically similar task versus a dissimilar task with a target task.
+We select each task pair based on our domain knowledge.
+We observe that adding a similar task helps the target task whereas adding a dissimilar task hurts.
+In Figure \ref{fig_ab_data}, we validate that adding more source samples does not always improve performance on the target task.
+Finally, we validate the algorithmic consequence of Section \ref{sec_covshift}.
+In Figure \ref{fig_ab_cov}, we measure the performance gains from performing the alignment procedure proposed in \cite{WZR20} minus baseline MTL.
+We average the results over all 15 task pairs.
+The result shows that as the source samples increases, the alignment procedure shows a bigger improvement over MTL.
+The rest of experimental procedures are left to Appendix \ref{app_it}.
+
+
+
+\subsection{Validating the Algorithmic Consequences}\label{sec_exp_res}
 
 \textit{Predicting transfer effect via STL results.}
 We show that the single-task based metric proposed in Section \ref{sec_similarity} can predict positive or negative transfer in MTL.
@@ -136,19 +151,5 @@ As a further validation, excluding TREC, we observe similar comparative results.
 	\label{fig_ablation}
 	\vspace{-0.15in}
 \end{figure}
-
-\vspace{-0.07in}
-\subsection{Validating the Theoretical Results}\label{sec_exp_ab}
-
-We first validate our theoretical results in Section \ref{sec_similarity} and \ref{sec_data_size}.
-In Figure \ref{fig_ab_sim}, we compare the performance training with a semantically similar task versus a dissimilar task with a target task.
-We select each task pair based on our domain knowledge.
-We observe that adding a similar task helps the target task whereas adding a dissimilar task hurts.
-In Figure \ref{fig_ab_data}, we validate that adding more source samples does not always improve performance on the target task.
-Finally, we validate the algorithmic consequence of Section \ref{sec_covshift}.
-In Figure \ref{fig_ab_cov}, we measure the performance gains from performing the alignment procedure proposed in \cite{WZR20} minus baseline MTL.
-We average the results over all 15 task pairs.
-The result shows that as the source samples increases, the alignment procedure shows a bigger improvement over MTL.
-The rest of experimental procedures are left to Appendix \ref{app_it}.
 
 
