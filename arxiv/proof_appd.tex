@@ -1,6 +1,8 @@
 \section{Proofs of the Bias and Variance Bounds} \label{sec_maintools}
 
-In this section, we will work under the assumptions of Lemma \ref{lem_cov_shift}. However, in random matrix theory, it is more convenient to rescale the matrices $Z_1$ and $Z_2$ such that their entries have variance $n^{-1}$, where $n:=n_1+n_2$. The advantage of this scaling is that the singular eigenvalues of $Z_1$ and $Z_2$ all lie in a bounded support that does grow with $n$. For reader's convenience, we now restate the setting with rescaled $Z_1$ and $Z_2$, and introduce a couple of other notations. 
+The main goal of this section is to prove Lemma \ref{lem_cov_shift} and Lemma \ref{lem_cov_derivative}.
+%In this section, we will work under the assumptions of Lemma \ref{lem_cov_shift}. However, 
+In random matrix theory, it is much more convenient to rescale the matrices $Z_1$ and $Z_2$ such that their entries have variance $n^{-1}$, where $n:=n_1+n_2$. The advantage of this scaling is that the singular eigenvalues of $Z_1$ and $Z_2$ all lie in a bounded support that does grow with $n$. For reader's convenience, we now restate the setting with rescaled $Z_1$ and $Z_2$, and introduce a couple of other notations. 
 
 %\textbf{Basic setting.}
 %We denote the two sample covariance matrices by $\mathcal Q_1:=X_1^\top X_1$ and $\cal Q_2:= X_2^\top X_2$. 
@@ -879,19 +881,19 @@ With this corollary, we can easily extend Lemma \ref{lem_cov_shift} and Lemma \r
 
 %We divide the proof of Theorem \ref{LEM_SMALL} into two steps. We first prove Theorem \ref{LEM_SMALL} in the special case where $X$ is Gaussian. Then we use a self-consistent comparison arguments developed in \cite{Anisotropic} to prove Theorem \ref{LEM_SMALL} in the general case. 
 
-{\cor restart here} The main difficulty for the proof of Theorem \ref{LEM_SMALL} is due to the fact that the entries of $Y_1=Z_1 U\Lambda  $ and $Y_2={Z_2V}$ are not independent. However, notice that if the entries of $Z_1\equiv Z_1^{Gauss}$ and $Z_2\equiv Z_2^{Gauss}$ are i.i.d. Gaussian, then by the rotational invariance of the multivariate Gaussian distribution, we have
-$$Z_1^{Gauss} U\Lambda \stackrel{d}{=} Z_1^{Gauss} \Lambda, \quad Z_2^{Gauss} V \stackrel{d}{=} Z_2^{Gauss} .$$
-In this case, the problem is reduced to proving the anisotropic local law for $G$ with $U=\id$ and $V=\id$, such that the entries of $Y_1$ and $Y_2$ are independent. This can be handled using the standard resolvent methods as in e.g. \cite{isotropic,yang2019spiked,PY}. To go from the Gaussian case to the general $X$ case, we will adopt a continuous self-consistent comparison argument developed in \cite{Anisotropic}. 
+The main difficulty in the proof of Theorem \ref{LEM_SMALL} is due to the fact that the entries of $Y_1=Z_1 U\Lambda  $ and $Y_2={Z_2V}$ are not independent. However, notice that if the entries of $Z_1\equiv Z_1^{Gauss}$ and $Z_2\equiv Z_2^{Gauss}$ are i.i.d. Gaussian, then by the rotational invariance of the multivariate Gaussian distribution, we have
+$$Z_1^{Gauss} U\Lambda \stackrel{d}{=} Z_1^{Gauss} \Lambda, \quad Z_2^{Gauss} V \stackrel{d}{=} Z_2^{Gauss} ,$$
+where ``$\stackrel{d}{=}$" means ``equal in distribution". In this case, the problem is reduced to proving the anisotropic local law for $G$ with $U=\id$ and $V=\id$, such that the entries of $Y_1$ and $Y_2$ are independent. This problem can be handled using the standard resolvent methods as in e.g. \cite{isotropic,yang2019spiked,PY}. To go from the Gaussian case to the general $X$ case, we will adopt a continuous self-consistent comparison argument developed in \cite{Anisotropic}. 
 
 %As discussed above, we first prove Theorem \ref{LEM_SMALL} for the case $U=\id$ and $V=\id$, which will imply the local laws in the Gaussian $Z_1$ and $Z_2$ case. Thus 
 
-For the case $U=\id$ and $V=\id$, we need to deal with the following resolvent:
+We now consider the case $U=\id$ and $V=\id$, where we need to deal with the following resolvent:
  \begin{equation}\label{eqn_comparison1}
  G_0 (z):= \left( {\begin{array}{*{20}c}
-   { -z I_{p\times p}} & \Lambda Z_1^\top & Z_2^\top  \\
-   {Z_1 \Lambda  } & {-I_{n_1\times n_1}} & 0 \\
-   {Z_2} & 0 & -I_{n_2\times n_2}
-   \end{array}} \right) ^{-1} , \quad z\in \mathbb C_+ ,
+   { -z \id_{p}} & \Lambda Z_1^\top & Z_2^\top  \\
+   {Z_1 \Lambda  } & {-\id_{n_1}} & 0 \\
+   {Z_2} & 0 & -\id_{n_2}
+   \end{array}} \right) ^{-1} , \quad z\in \mathbb C_+ .
  \end{equation}
 %separable covariance matrices of the form $\Sig^{1/2} X \tilde \Sig X^\top \Sig^{1/2}$, which will imply the local laws in the Gaussian $X$ case. Thus in this section, we deal with the following resolvent:
 %\begin{equation}\label{eqn_comparison1}
@@ -915,10 +917,10 @@ For the case $U=\id$ and $V=\id$, we need to deal with the following resolvent:
 %\end{array}} \right)\right]^{-1}
 %\end{equation}
 %provided that $X$ is Gaussian. In particular, the entries of $\Sig^{1/2} X^{Gauss}\tilde \Sig^{1/2}$ are independent and satisfies the bounded support condition \eqref{eq_support} with $q=N^{-1/2}$, which make the direct proof of Theorem \ref{LEM_SMALL} possible using the methods in \cite{isotropic}. 
-and prove the following result. 
+We will prove the following local law on $G_0$. 
 
 \begin{proposition}\label{prop_diagonal}
-Suppose Assumption \ref{assm_big1} holds, and $Z_1,Z_2$ satisfy the bounded support condition \eqref{eq_support} with $q= n^{-{1}/{2}}$. Suppose $U$ and $V$ are identity. Then the estimate \eqref{aniso_law} holds for $G_0(z)$.
+Suppose Assumption \ref{assm_big1} holds, and $Z_1$ and $Z_2$ satisfy the bounded support condition \eqref{eq_support} with $q= n^{-1/2}$. Suppose $U$ and $V$ are identity. Then the estimate \eqref{aniso_law} holds for $G_0(z)$.
 %Suppose $X$ satisfies the bounded support condition (\ref{eq_support}) with $q= N^{-1/2}$. Suppose $A$ and $B$ are diagonal, i.e. $U=I_{n\times n}$ and $V=I_{N\times N}$. Fix $C_0>1$ and let $c_0>0$ be a sufficiently small constant. Then for any fixed $\epsilon>0$, the following estimates hold. %there exist constants $C_1>0$ and $\xi_1 \ge 3$ such that the following events hold with $\xi_1$-high probability:
 %\begin{itemize}
 %\item[(1)] {\bf Anisotropic local law}:  For any $z\in S(c_0,C_0,\epsilon)$ and deterministic unit vectors $\mathbf u, \mathbf v \in \mathbb C^{\mathcal I}$,
@@ -940,7 +942,7 @@ Suppose Assumption \ref{assm_big1} holds, and $Z_1,Z_2$ satisfy the bounded supp
 %Both of the above estimates are uniform in the spectral parameter $z$ and the deterministic vectors $\mathbf u, \mathbf v$.
 \end{proposition}
 %The proof Proposition \ref{prop_diagonal} is similar to the previous proof of the local laws, such as \cite{isotropic, DY, Anisotropic, yang2019spiked}. Thus instead of giving all the details, we only describe briefly the proof. In particular, we shall focus on the key self-consistent equation argument, which is (almost) the only part that departs significantly from the previous proof in e.g. \cite{isotropic}. 
-This section is organized as follows. In Section \ref{sec tools}, we collect some basic estimates and resolvent identities that will be used in the proof of Theorem \ref{LEM_SMALL} and Proposition \ref{prop_diagonal}. Then in Section \ref{sec entry} we give the proof of Proposition \ref{prop_diagonal}, which concludes Theorem \ref{LEM_SMALL} for i.i.d. Gaussian $Z_1$ and $Z_2$. In Section \ref{sec_comparison}, we describe how to extend the result in Theorem \ref{LEM_SMALL} from the Gaussian case to the case with generally distributed entries of $Z_1$ and $Z_2$. Finally, in Section \ref{sec contract}, we give the proof of Lemma \ref{lem_mbehaviorw} and Lemma \ref{lem_stabw}. In the proof, we always denote the spectral parameter by $z=E+\ii\eta$. 
+This section is organized as follows. In Section \ref{sec tools}, we collect some basic estimates and resolvent identities that will be used in the proof of Theorem \ref{LEM_SMALL} and Proposition \ref{prop_diagonal}. Then in Section \ref{sec entry} we give the proof of Proposition \ref{prop_diagonal}, which concludes Theorem \ref{LEM_SMALL} when $Z_1$ and $Z_2$ have i.i.d. Gaussian entries. In Section \ref{sec_comparison}, we describe how to extend the result in Theorem \ref{LEM_SMALL} from the Gaussian case to the case where the entries of $Z_1$ and $Z_2$ are generally distributed. Finally, in Section \ref{sec contract}, we give the proof of Lemma \ref{lem_mbehaviorw} and Lemma \ref{lem_stabw}. In the proof, we always denote the spectral parameter by $z=E+\ii\eta$. 
 
 
 
