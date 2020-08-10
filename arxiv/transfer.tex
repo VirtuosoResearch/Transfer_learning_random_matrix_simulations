@@ -1,5 +1,8 @@
 \section{Main Results}
 
+\begin{proposition}[Bias-variance tradeoff]
+	Variance always reduces and bias always increases.
+\end{proposition}
 
 \subsection{Two Tasks}
 
@@ -342,6 +345,28 @@ Based on this insight, we propose an incremental optimization schedule to improv
 	\item After training $T$ epochs, if the validation accuracy becomes worse than the previous round's result, we terminate.
 	Algorithm \ref{alg_inc_train} in Appendix \ref{app_experiments} describes the procedure in detail.
 \squishend
+
+\begin{algorithm}[!t]
+	\caption{An incremental training schedule for efficient multi-task learning with two tasks}
+	\label{alg_inc_train}
+	\begin{algorithmic}[1]
+		\Input Two tasks $(X_1, Y_1)$ and $(X_2, Y_2)$.
+		\Param A shared module $B$, output layers $W_1, W_2$ as in the hard parameter sharing architecture.
+		\Req \# batches $S$, epochs $T$, task $2$'s validation accuracy $\hat{g}(B; W_2)$, a threshold $\tau\in(0,1)$.
+		\Output The trained modules $B, W_2$ optimized for task $2$.
+		\State Divide $(X_1, Y_1)$ randomly into $S$ batches: $(x^{(1)}, y^{(1)}), \dots, (x^{(S)}, y^{(S)})$.
+		\For{$i = 1,\dots, S$}
+			\For{$j = 1,\dots, T$}
+				\State Update $B, W_1, W_2$ using the training data $\set{x^{(k)}, x^{(k)}}_{k=1}^i$ and  $(X_2, Y_2)$.
+			\EndFor
+			\State Let $a_i = \hat{g}(B; W_2)$ be the validation accuracy.
+			\If{$a_i < a_{i-1}$ or $a_i > \tau$}
+				\State \textbf{break}
+			\EndIf
+		\EndFor
+	\end{algorithmic}
+\end{algorithm}
+
 
 
 \subsection{Covariate Shift}\label{sec_covshift}
