@@ -1,4 +1,6 @@
-\section{Proof for the Case of Two Tasks}\label{app_proof_main_thm}
+\section{Proof of Main Results}
+
+\subsection{Two Tasks}\label{app_proof_main_thm}
 
 We now state several helper lemmas to get estimates on $L(\hat{\beta}_t^{\STL})$ and $L(\hat{\beta}_t^{\MTL})$ for $t=2$. The first lemma, which is a folklore result in random matrix theory, helps to determine the asymptotic limit of $\te(\hat{\beta}_t^{\STL})$ as $p\to \infty$. When the entries of $X$ are multivariate Gaussian, this lemma recovers the classical result for the mean of inverse Wishart distribution \cite{anderson1958introduction}. For general non-Gaussian random matrices, it can be obtained using Stieltjes transform method; see e.g., Lemma 3.11 of \cite{bai2009spectral}. Here we shall state a result obtained from Theorem 2.4 in \cite{isotropic}, which gives an almost sharp error bound.
 \begin{lemma}\label{lem_minv}
@@ -336,4 +338,71 @@ Now we can replace the estimate \eqref{bounddelta-} with this stronger estimate,
 
 
 
+\subsection{Multiple Tasks}\label{app_proof_many_tasks}
+
+%As a remark, since the spectral norm of $U_r$ is less than $1$, we have that $\norm{U_r(i)} < 1$ for all $1 \le i \le t$. Compared to Theorem \ref{thm_main_informal}, we can get a simple expression for the two functions $\Delta_{vari}$ and $\Delta_{\bias}$. The proof of Theorem \ref{thm_many_tasks} can be found in Appendix \ref{app_proof_many_tasks}.
+
+
+
+%In this section we consider the setting with $k$ many that have the same covariates.
+%Since every task has the same number of data points as well as the same covariance, the only differences between different tasks are their models $\set{\beta_i}_{i=1}^k$.
+%For this setting, we derive solutions for the multi-task training and the transfer learning setting that match our insights qualitatively from Section \ref{sec_denoise}.
+
+\begin{proof}[Proof of Theorem \ref{thm_many_tasks}]
+In this setting, we need to study the following loss function:
+\begin{align}
+	f(B; W_1, \dots, W_t) = \sum_{i=1}^t \bignorm{X B W_i - Y_i}^2. \label{eq_mtl_same_cov}
+\end{align}
+%In order to prove Theorem \ref{thm_many_tasks}, we will derive a closed form solution for equation \eqref{eq_mtl_same_cov}. \todo{check!}
+For any fixed $W_1, W_2, \dots, W_t \in \R^r$, we can derive a closed form solution for $B$ as
+	\begin{align*}
+		\hat{B}(W_1, \dots, W_t) &= (X^{\top}X)^{-1} X^{\top} \bigbrace{\sum_{i=1}^t Y_i W_i^{\top}} (\cal W  \cal W^{\top})^{-1} \\
+		&= (B^\star \cal W ^{\top}) (\cal W \cal W ^{\top})^{-1} + (X^{\top}X)^{-1}X^{\top} \bigbrace{\sum_{i=1}^t \varepsilon_i W_i^{\top}} (\cal W \cal W^{\top})^{-1},
+	\end{align*}
+	where we denote $\cal W \in\real^{r\times t}$ as $\cal W=[W_1, W_2, \dots, W_t]$.
+	%Now we switch $\hat{B}$ back into equation \eqref{eq_mtl_same_cov} to
+Then as in \eqref{approxvalid}, we pick $N$ independent samples of the training set for each task with $N\ge n^{1-\e_0}$, and use concentration to get the validation loss as
+\be\label{eq_multival}g(\cal W)=  N\left[\val(\cal W) + t  \sigma^2 \right]\cdot \left( 1+\OO(p^{-(1-\e_0)/2+\e})\right).\ee
+Here $\val(\cal W)$ is defined as
+%it remains to consider minimizing the validation loss
+	$$\val( \cal W):=\exarg{\varepsilon_j, \forall 1\le j\le t}{ \sum_{i=1}^t \bignorm{\Sigma^{1/2}( \hat B W_i - \beta_i)}^2} =  \delta_{\bias}(\cal W) + \delta_{\vari}(\cal W),$$
+where the model shift bias term $\delta_{\bias}(\cal W) $ is given by
+	\begin{align*}
+		\delta_{\bias}(\cal W) :=\sum_{i=1}^t  \bignorm{\Sigma^{1/2}\bigbrace{(B^\star \cal W^\top) (\cal W\cal W^{\top})^{-1} W_i - \beta_i}}^2,
+	\end{align*}
+	and the variance term $\delta_{\vari}(\cal W)$ can be calculated as
+	\begin{align*}
+		\delta_{\vari}(\cal W):= \sigma^2 \cdot \bigtr{\Sigma (X^{\top}X)^{-1}}.
+	\end{align*}
+It suffices to minimize $\delta_{\bias}(\cal W)$ over $\cal W$, since both $t \sigma^2$ and $\delta_{\vari}$ do not depend on $\cal W$.
+
+We denote $Q := \cal W^{\top} (\cal W\cal W^{\top})^{-1} \cal W \in\real^{k\times k}$, whose $(i,j)$-th entry is equal to $W_i^{\top} (\cal W\cal W^{\top})^{-1} W_j$.
+	%Let $B^{\star} = [\beta_1, \beta_2, \dots, \beta_k] \in\real^{p \times k}$ denote the true model parameters.
+	Now we can write $\delta_{\bias}(\cal W)$ succinctly as
+	\begin{align*}
+		\delta_{\bias}(\cal W) = \bignormFro{\Sigma^{1/2}B^{\star}  \bigbrace{Q -\id}}^2 .
+	\end{align*}
+	From this equation we can solve the minimizer optimally as $Q_0\equiv  \cal W_0^{\top} (\cal W_0\cal W_0^{\top})^{-1} \cal W_0=U_{r}U_r^{\top}$. On the other hand, let $\hat {\cal W}$ be the minimizer of $g$, and denote $\hat Q:= \hat{\cal W}^{\top} (\hat{\cal W}\hat{\cal W}^{\top})^{-1} \hat{\cal W} $. We claim that $\hat Q$ satisfies
+	\be\label{Q-Q}\|Q_0^{-1}\hat Q - \id\| = \oo(1) \quad \text{w.h.p.}\ee
+	In fact, if \eqref{Q-Q} does not hold, then using the condition $\lambda_{\min}((B^{\star})^\top\Sigma B^{\star})\gtrsim \sigma^2$ and that $\delta_{\vari}(\cal W)=\OO(\sigma^2)$ by \eqref{eq_isometric}, we obtain that
+	$$   \val(\hat {\cal W}) + t  \sigma^2 > (\val( {\cal W}_0) + t \sigma^2 )\cdot (1+\oo(1)) \ \Rightarrow \ g( \hat{\cal W})>g( {\cal W}_0),$$
+	that is, $\hat {\cal W}$ is not a minimizer. This leads to a contradiction.
+
+	In sum, we have solved that $\hat{\beta}_i^{\MTL}=B^{\star}\left( U_r U_r(i) +\oo(1)\right)$. Inserting it into the definition of the test loss, we get that
+	\begin{align*}
+		\te(\hat{\beta}_t^{\MTL}) &= \bignorm{\Sigma^{1/2} \left((B^\star \hat{\cal W}^\top) (\hat{\cal W}\hat{\cal W}^{\top})^{-1} \hat W_t - \beta_t \right) }^2
+		+ \sigma^2  \hat W_t^{\top} (\hat{\cal W}\hat{\cal W}^{\top})^{-1} \hat W_t \cdot \bigtr{\Sigma (X^{\top}X)^{-1}} \\
+		&= \bignorm{\Sigma^{1/2} \bigbrace{B^{\star} U_r U_r(t)-\beta_t}}^2 + \oo\left(\|B^\star\|^2\right) + \sigma^2\norm{U_r(t)}^2 \bigtr{\Sigma (X^{\top}X)^{-1}} \cdot (1+\oo(1))\\
+		&= \bignorm{\Sigma^{1/2} \bigbrace{B^{\star} U_r U_r(t)-\beta_t}}^2 + \frac{\sigma^2}{\rho-1}\norm{U_r(t)}^2 + \oo \left( \|B^\star\|^2 + \sigma^2\right),
+	\end{align*}
+	with high probability, where we used Lemma \ref{lem_minv} in the last step. Similar, by Lemma \ref{lem_minv} we have
+	$$\te(\hat{\beta}_t^{\STL})=\frac{\sigma^2}{\rho-1} \cdot \left( 1+\oo(1)\right).$$
+Combining the above two estimates, we conclude the proof.
+\end{proof}
+%From the above we can obtain three conceptual insights that are consistent with Section \ref{sec_denoise} and \ref{sec_insight}.
+%\begin{itemize}
+%	\item The de-noising effect of multi-task learning.
+%	\item Multi-task training vs single-task training can be either positive or negative.
+%	\item Transfer learning is better than the other two. And the improvement over multi-task training increases as the model distances become larger.
+%\end{itemize}
 
