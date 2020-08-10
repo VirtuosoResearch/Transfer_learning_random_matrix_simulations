@@ -1,4 +1,4 @@
-\section{Preliminaries and Related Work}
+\section{Problem Formulation and Related Work}
 \label{sec_prelim}
 
 We begin by defining our problem setup including the multi-task estimator we study.
@@ -166,3 +166,121 @@ The formal statement is presented in Theorem \ref{prop_taskonomy} and its proof 
 %Hence $a_2 = 1 - 1/ \rho_2, a_1 = 0$ and Lemma \ref{lem_cov_shift_informal} states that $\tr[(X_2^{\top}X_2)^{-1}\Sigma_2] = \sigma^2 / (\rho_2 - 1)$, which is a well-known result in random matrix theory \cite{S07}.
 %Hence our result provides a necessary tool to analyze MTL in high dimensions.
 
+\subsection{Extended Background and Related Work}\label{app_proof_sec3}
+
+We restate our linear regression setting, in particular the moment assumption required by our random matrix model.
+We then derive a closed-form solution of the multi-task estimator that is defined in Section \ref{sec_prelim}.
+Finally, we describe further related work that is covered in the main text.
+%\section{Missing Details of Problem Formulation}
+
+%\textbf{Assumptions on task data generation.}
+First, we give the basic assumption for our main objects---the random matrices $X_i$, $i=1,2$.
+
+\begin{assumption}[Moment assumptions]\label{assm_secA1}
+We will consider $n\times p$ random matrices of the form $X=Z\Sigma^{1/2}$, where $\Sigma$  is a $p\times p$ deterministic positive definite symmetric matrix, and $Z=(z_{ij})$ is an $n\times p$ random matrix with real i.i.d. entries with mean zero and variance one. Note that the rows of $X$ are i.i.d. centered random vectors with covariance matrix $\Sigma$. For simplicity, we assume that all the moments of $z_{ij}$ exists, that is, for any fixed $k\in \N$, there exists a constant $C_k>0$ such that
+\begin{equation}\label{assmAhigh}
+\mathbb{E} |z_{ij}|^k \le C_k ,\quad 1\le i \le n, \ \ 1\le j \le p.
+\end{equation}
+ We assume that $n=\rho p$ for some fixed constant $\rho>1$. Without loss of generality, after a rescaling we can assume that the norm of $\Sigma$ is bounded by a constant $C>0$. Moreover, we assume that $\Sigma$ is well-conditioned: $\kappa(\Sigma)\le C$, where $\kappa(\cdot)$ denotes the condition number.
+\end{assumption}
+Here we have assumed \eqref{assmAhigh} solely for simplicity of representation. If the entries of $Z$ only have finite $a$-th moment for some $a>4$, then all the results below still hold except that we need to replace $\OO(p^{-\frac12+\e})$ with $\OO( p^{-\frac12+\frac2a +\epsilon})$ in some error bounds.
+We will not get deeper into this issue in this section, but refer the reader to Corollary \ref{main_cor} in Section \ref{sec locallaw1}.
+
+Then we make the following assumptions on the data models.
+\begin{assumption}[Linear regression model]\label{assm_secA2}
+For some fixed $t\in \N$, let $Y_i = X_i\beta_i + \varepsilon_i$, $1\le i \le t$, be independent data models, where $X_i$, $\beta_i$ and $\varepsilon_i$ are also independent of each other. Suppose that $X_i=Z_i\Sigma_i^{1/2}\in \R^{n_i\times p}$ satisfy Assumption \ref{assm_secA1} with $\rho_i:=n_i/p>1$ being fixed constants.
+$\e_i\in \R^{n_i}$ are random vectors with i.i.d. entries with mean zero, variance $\sigma_i^2$ and all moments as in \eqref{assmAhigh}.
+\end{assumption}
+
+Throughout the appendix, we shall say an event $\Xi$ holds with high probability (w.h.p.) if for any fixed $D>0$, $\P(\Xi)\ge 1- p^{-D}$ for large enough $p$. Moreover, we shall use $\oo(1)$ to mean a small positive quantity that converges to 0 as $p\to \infty$.
+
+
+Next, we derive a closed-form solution of the multi-task learning estimator for the case of two tasks.
+From \cite{WZR20}, we know that we need to explicitly restrict the output dimension $r$ of $B$ so that there is transfer between the two tasks.
+Hence for the case of two tasks, we consider the setting where $r=1$.
+For simplicity of notations, we shall denote $(X_i^{tr},Y_i^{tr})$ and $(X_i^{val},Y_i^{val})$ as $(X_i,Y_i)$ and  $(\wt X_i,\wt Y_i)$, respectively. Then equation \eqref{eq_mtl} simplifies to
+\begin{align}\label{eq_mtl_2task}
+	f(B; w_1, w_2) = \bignorm{X_1 B w_1 - Y_1}^2 + \bignorm{X_2 B w_2 - Y_2}^2,
+\end{align}
+where $B\in\real^p$ and $w_1, w_2$ are both real numbers. To solve the above problem, suppose that $w_1, w_2$ are fixed, by local optimality, we find the optimal $B$ as
+\begin{align}
+	& \hat{B}(w_1, w_2) = (w_1^2 X_1^{\top}X_1 + w_2^2 X_2^{\top}X_2)^{-1} (w_1 X_1^{\top}Y_1 + w_2 X_2^{\top}Y_2) \label{hatB}\\
+	&= \frac{1}{w_2} \left( \frac{w_1^2}{w_2^2}  X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1} \left(\frac{w_1}{w_2} X_1^{\top}Y_1 + X_2^{\top}Y_2\right) \nonumber\\
+	&= \frac{1}{w_2}\left[\beta_2 + \left(\frac{w_1^2}{w_2^2} X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1}\bigbrace{X_1^{\top}X_1\left(\frac{w_1}{w_2}\beta_1 - \frac{w_1^2}{w_2^2} \beta_2\right) + \left(\frac{w_1}{w_2} X_1^{\top}\varepsilon_1 + X_2^{\top}\varepsilon_2\right)}\right]. \nonumber
+\end{align}
+As a remark, when $w_1 = w_2 = 1$, we obtain linear regression.
+If $\beta_1$ is a scaling of $\beta_2$, then  $w_1, w_2$ can be scaled accordingly to fix both tasks more accurately than linear regression.
+
+%For the discussions below, we assume that the entries of $\e_1$ and $\e_2$ all have the same variance $\sigma^2$. This holds for most parts of our discussion, except in Proposition \ref{prop_var_transition}. We will derive different expressions for the validation loss and the test error
+
+Next we consider $N_i$ independent samples of the training set $\{(\wt x_k^{(i)},\wt y_k^{(i)}): 1\le k \le N_i\}$ from task-$i$, $i=1,2$. With these sample, we form the random matrices $\wt X_i \in \R^{N_i\times p}$ and $\wt Y_i\in \R^{N_i}$, $i=1,2,$ whose row vectors are given by $\wt x_k^{(i)}$ and $\wt y_k^{(i)}$. We assume that $N_1$ and $N_2$ satisfy $N_1/N_2=n_1/n_2$ and $N_i \ge n_i^{1-\e_0}$ for some constant $\e_0>0$. Then we write the validation loss in \eqref{eq_mtl_eval} as
+\begin{align}\label{eq_mtl_2tasktilde}
+	g(w_1,w_2) = \bignorm{\wt X_1 \hat B w_1 - \wt Y_1}^2 + \bignorm{\wt X_2 \hat B w_2 - \wt Y_2}^2.
+\end{align}
+Inserting \eqref{hatB} into \eqref{eq_mtl_2tasktilde}, one can see that the optimal solution of $g$ only depends on the ratio $v:=w_1/w_2$.
+Hence we overload the notation by writing $g(v)$ in the following discussion.
+The expectation of $g(v)$ can be written as follows.
+\begin{align*}
+		\val(v) \define& \exarg{\varepsilon_1,\e_2} {\sum_{i=1}^2 \left\|\Sigma_i^{1/2}( \hat B w_i - \beta_i) \right\|^2} \\
+	=&  N_1 \cdot \bignorm{\Sigma_1^{1/2}\left(v^2 X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1}X_2^{\top}X_2\left (\beta_1 - v\beta_2\right)}^2 \nonumber \\
+	&+ N_2 \cdot v^2\bignorm{\Sigma_2^{1/2}\left(v^2 X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1}X_1^{\top}X_1\left(\beta_1 - v\beta_2\right)}^2 \nonumber \\
+		&+ N_1   \cdot v^2 \bigtr{\Sigma_1\left(v^2 X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-2} \left(\sigma_1^2 \cdot v^2X_1^{\top}X_1 + \sigma_2^2 \cdot X_2^{\top}X_2\right)} \nonumber \\
+		&+ N_2  \cdot \bigtr{\Sigma_2\left(v^2 X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-2} \left(\sigma_1^2 \cdot v^2  X_1^{\top}X_1 + \sigma_2^2  \cdot X_2^{\top}X_2\right)}. \label{eq_val_mtl}
+\end{align*}
+
+\begin{claim}
+	In the setting described above, we have that
+	\be\label{approxvalid}
+		g(v)=  \left[\val(v) + (N_1\sigma^2_1+N_2\sigma^2_2)\right]\cdot \left( 1+\OO(p^{-(1-\e_0)/2+\e})\right).
+	\ee
+\end{claim}
+\begin{proof}
+	We use the fact that our random vectors have i.i.d. entries.
+%Before doing that, we first need to fix the setting for the following discussions, because we want to keep track of the error rate carefully instead of obtaining an asymptotic result only.
+	Recall that $Y_i = X_i\beta_i + \varepsilon_i$ and $\wt Y_i = \wt X_i\beta_i + \wt\varepsilon_i$, $i=1,2$, all satisfy Assumption \ref{assm_secA2}. Then we rewrite \eqref{eq_mtl_2tasktilde} as
+$$	g( v) = \sum_{i=1}^2\left\| \wt X_i\wt\beta_i  - \wt \e_i\right\|^2 , \quad \wt\beta:=\hat B w_i-\beta_i.$$
+Since $ \wt X_i\wt\beta$ and $ \wt \e_i$ are independent random vectors with i.i.d. centered entries, we can use the concentration result, Lemma \ref{largedeviation}, to get that for any constant $\e>0$,
+\begin{align*}
+\left|\left\| \wt X_i\wt\beta_i  - \wt \e_i\right\|^2 -  \exarg{\wt X_i,\wt{\e}_i} {\left\| \wt X_i\wt\beta_i  - \wt \e_i\right\|^2} \right| & =\left|\left\| \wt X_i\wt\beta_i  - \wt \e_i\right\|^2 - N_i (\wt\beta_i^\top \Sigma_i \wt\beta_i + \sigma_i^2) \right| \\
+&\le N_i^{1/2+\e} (\wt\beta_i^\top \Sigma_i \wt\beta_i + \sigma_i^2),
+\end{align*}
+with high probability. Thus we obtain that
+$$g(v)= \left[\sum_{i=1}^2 N_i\left\|\Sigma_i^{1/2}( \hat B w_i - \beta_i) \right\|^2 + (N_1\sigma^2_1+N_2\sigma^2_2)\right]\cdot \left( 1+\OO(p^{-(1-\e_0)/2+\e})\right),$$
+where we also used $N_i\ge p^{-1+\e_0}$. Inserting \eqref{hatB} into the above expression and using
+ again the concentration result, Lemma \ref{largedeviation}, we get that
+$$ \sum_{i=1}^2 N_i\left\|\Sigma_i^{1/2}( \hat B w_1 - \beta_i) \right\|^2 = \val(v)\cdot \left( 1+\OO(p^{-1/2+\e})\right)$$
+with high probability.
+%-----old-------
+%Suppose that the entries of $\e_1$ and $\e_2$ have variance $\sigma^2$.  Using a validation set that is sub-sampled from the original training dataset, we get a validation loss as follows
+%\begin{align}
+%		&\val(\hat{B}; w_1, w_2):= \exarg{\varepsilon_1,\e_2} \sum_{i=1}^2 \left\|\Sigma_i^{1/2}( \hat B w_1 - \beta_i) \right\|^2 \\
+%	&=  n_1 \cdot \bignorm{\Sigma_1^{1/2}\left(\frac{w_1^2}{w_2^2} X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1}X_2^{\top}X_2\left (\beta_s - \frac{w_1}{w_2}\beta_t\right)}^2 \nonumber \\
+%		&+ n_1 \sigma^2 \cdot \frac{w_1^2}{w_2^2} \bigtr{\left(\frac{w_1^2}{w_2^2}  X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1}\Sigma_1} \nonumber \\
+%		&+ n_2 \cdot \frac{w_1^2}{w_2^2}\bignorm{\Sigma_2^{1/2}\left(\frac{w_1^2}{w_2^2} X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1}X_1^{\top}X_1\left(\beta_s - \frac{w_1}{w_2}\beta_t\right)}^2 \nonumber \\
+%		&+ n_2 \sigma^2 \cdot \bigtr{\left(\frac{w_1^2}{w_2^2} X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1}\Sigma_2}. \label{eq_val_mtl}
+%\end{align}
+%\nc
+%------------------
+Thus we conclude the proof.
+\end{proof}
+
+Hence to minimize $g(v)$, it suffices to minimize $\val(v)$ over $v$.
+Let $\hat v=\hat{w_1}/\hat{w_2}$ be the global minimizer of $g(v)$.
+Now we can define the multi-task learning estimator for the target task as
+	\[ \hat{\beta}_2^{\MTL} = \hat{w}_{2}\hat{B}(\hat{w}_1, \hat{w}_2) .\]
+%	where $t=2$ since we are considering the two task case, and it also stands for the ``target task".
+%The intuition for deriving $\hat{\beta}_2^{\MTL}$ is akin to performing multi-task training in practice.
+%Let $\hat{v} = \hat{w_1} / \hat{w_2}$ for the simplicity of notation.
+The prediction loss of using $\hat{\beta}_2^{\MTL}$ for the target task is
+\begin{align}
+	\te(\hat{\beta}_2^{\MTL}) =&~ \hat{v}^2 \bignorm{\Sigma_2^{1/2}(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} X_1^{\top}X_1 (\beta_1 - \hat{v} \beta_2)}^2 \nonumber \\
+			&+~  \bigtr{\Sigma_2(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-2}\left(\sigma_1^2 \cdot \hat v^2  X_1^{\top}X_1 + \sigma_2^2  \cdot X_2^{\top}X_2\right) }, \label{eq_te_mtl_2task}
+\end{align}
+which only depends on $\hat v$, the sample covariance matrices, and $\beta_1,\beta_2$.
+
+
+\textbf{Extended related work.}
+Our setting is closely related to domain adaptation \cite{DM06,BB07,BC08,DH09,MMR09,CWB11,ZS13,NB17,ZD19}.
+The important distinction is that we focus on predicting the target task using a hard parameter sharing model.
+For such models, their output dimension plays an important role of regularization \cite{KD12}.
+Linear models in multi-task learning have been studied in various settings, including representation learning \cite{BHKL19}, online learning \cite{CCG10,DCSP18}, and sparse regression \cite{LPVT11}.
