@@ -223,8 +223,8 @@ For simplicity, we abbreviate $W:=(\Lambda^\top U^\top Z_1^\top, V^\top Z_2^\top
  \begin{equation} \label{green2}
  G (z):=  \left( {\begin{array}{*{20}c}
    { \cal G (z)} & \cal G(z)W  \\
-   W^\top \cal G(z) & z(W^\top W - z)^{-1}
-\end{array}} \right)^{-1} .
+   W^\top \cal G(z) & z \cal G_R
+\end{array}} \right)^{-1},\quad \cal G_R:=(W^\top W - z)^{-1} .
  \end{equation}
 %one can find that %(recall \eqref{mainG})
 %\be \label{green2}
@@ -232,7 +232,7 @@ For simplicity, we abbreviate $W:=(\Lambda^\top U^\top Z_1^\top, V^\top Z_2^\top
 %& \cal G_{L}=\left(WW^\top -z \right)^{-1} =\cal G ,\quad \cal G_{LR}=\cal G_{RL}^\top  = \cal G W , \quad \cal G_R= z\left(W^\top W - z\right)^{-1}.
 %\end{split}
 %\ee
-Thus a control of $G$ yields directly a control of the resolvent $\mathcal G$. We also introduce the following random quantities which are some partial traces and weighted partial traces:
+(Here $R$ in the subindex of $\cal G_R$ means the lower-right block.) Thus a control of $G$ yields directly a control of the resolvent $\mathcal G$. We also introduce the following random quantities which are some partial traces and weighted partial traces:
 \be\label{defm}
 \begin{split} 
 m(z) :=\frac1p\sum_{i \in \cal I_1}G_{ii}(z) ,\quad & m_1(z):=\frac1p\sum_{i \in \cal I_1}\lambda_i^2 G_{ii}(z),\\
@@ -251,7 +251,7 @@ m(z) :=\frac1p\sum_{i \in \cal I_1}G_{ii}(z) ,\quad & m_1(z):=\frac1p\sum_{i \in
 %\end{align}
 %where $\mathcal G_{1,2}$ are defined in (\ref{def_green}). 
 Our proof will use the spectral decomposition of $G$. Let 
-$$W= \sum_{k = 1}^{p} {\sqrt {\mu_k} \xi_k } \zeta _{k}^\top ,\quad \mu_1\ge \mu_2 \ge \ldots \ge \mu_{p} \ge 0 =\mu_{p+1} = \ldots = \mu_{n},$$ 
+\be\label{SVDW}W= \sum_{k = 1}^{p} {\sqrt {\mu_k} \xi_k } \zeta _{k}^\top ,\quad \mu_1\ge \mu_2 \ge \ldots \ge \mu_{p} \ge 0 =\mu_{p+1} = \ldots = \mu_{n},\ee
 be a singular value decomposition of $W$, where
 %$\lambda_1\ge \lambda_2 \ge \ldots \ge \lambda_{p} \ge 0 = \lambda_{p+1} = \ldots = \lambda_{n}$ are the eigenvalues, 
 $\{\xi_{k}\}_{k=1}^{p}$ are the left-singular vectors, and $\{\zeta_{k}\}_{k=1}^{n}$ are the right-singular vectors.
@@ -953,21 +953,21 @@ First with Lemma \ref{SxxSyy}, we can obtain the following a priori estimate on 
 
 
 \begin{lemma}\label{lemm apri}
-{\cor start here} Suppose the assumptions of Lemma \ref{SxxSyy} holds. Then there exists a constant $C>0$ such that the following estimates hold uniformly in $z,z'\in \mathbf D$ with high probability: 
+Suppose the assumptions of Lemma \ref{SxxSyy} holds. Then there exists a constant $C>0$ such that the following estimates hold uniformly in $z,z'\in \mathbf D$ with high probability: 
 \be\label{priorim}
 \|G(z)\| \le C,%|\im \langle \bu,\cal R  (z,0)\bv\rangle| \le C\eta, 
 \ee
-and for any deterministic unit vectors $\mathbf u, \mathbf v \in \mathbb R^{\mathcal I}$,
+and for any deterministic unit vectors $\mathbf u, \mathbf v \in \mathbb R^{p+n}$,
 \be\label{priordiff} 
 \left| \bu^\top \left[G  (z) - G(z')\right]\bv \right| \le C|z-z'|.
 \ee
 \end{lemma}
 \begin{proof}
-As in \eqref{spectral}, we let $\{\lambda_k\}_{1\le k \le p}$ be the eigenvalues of $WW^\top$. By Lemma \ref{SxxSyy} and the assumption \eqref{assm2}, we obtain that 
+As in \eqref{SVDW}, $\{\mu_k\}_{1\le k \le p}$ are the eigenvalues of $WW^\top$. By Lemma \ref{SxxSyy} and the assumption \eqref{assm2}, we obtain that 
 %\be\label{lambdap} 
-$\lambda_p \ge \lambda_p(Z_2^\top Z_2) \gtrsim 1 $, which further implies the estimate that
-$ \inf_{z\in \mathbf D}\min_{1\le k \le p}|\lambda_k-z| \gtrsim 1.$
-Together with \eqref{spectral}, we obtain \eqref{priorim} and \eqref{priordiff}.
+$\mu_p \ge \lambda_p(Z_2^\top Z_2) \ge c_\tau $ for some constant $c_\tau>0$ depending on $\tau$. This further implies the estimate that
+$ \inf_{z\in \mathbf D}\min_{1\le k \le p}|\mu_k-z| \ge c_\tau/2.$
+Then together with \eqref{spectral}, we obtain \eqref{priorim} and \eqref{priordiff}.
 \end{proof}
 
 %Note that by \eqref{priordiff} and local law \eqref{aniso_outstrong}, we have the rough bound
@@ -981,19 +981,20 @@ Together with \eqref{spectral}, we obtain \eqref{priorim} and \eqref{priordiff}.
 The following lemma collects basic properties of stochastic domination $\prec$, which will be used tacitly in the proof.
 
 \begin{lemma}[Lemma 3.2 in \cite{isotropic}]\label{lem_stodomin}
-Let $\xi$ and $\zeta$ be families of nonnegative random variables.
+Let $\xi$ and $\zeta$ be two families of nonnegative random variables depending on some parameters $u\in \cal U$ or $v\in \cal V$.
+\begin{itemize}
+\item[(i)] Suppose that $\xi (u,v)\prec \zeta(u,v)$ uniformly in $u\in \cal U$ and $v\in \cal V$. If $|\cal V|\le n^C$ for some constant $C>0$, then $\sum_{v\in \cal V} \xi(u,v) \prec \sum_{v\in \cal V} \zeta(u,v)$ uniformly in $u$.
 
-(i) Suppose that $\xi (u,v)\prec \zeta(u,v)$ uniformly in $u\in U$ and $v\in V$. If $|V|\le n^C$ for some constant $C$, then $\sum_{v\in V} \xi(u,v) \prec \sum_{v\in V} \zeta(u,v)$ uniformly in $u$.
+\item[(ii)] If $\xi_1 (u)\prec \zeta_1(u)$ and $\xi_2 (u)\prec  \zeta_2(u)$ uniformly in $u\in \cal U$, then $\xi_1(u)\xi_2(u) \prec \zeta_1(u) \zeta_2(u)$ uniformly in $u\in \cal U$.
 
-(ii) If $\xi_1 (u)\prec \zeta_1(u)$ and $\xi_2 (u)\prec  \zeta_2(u)$ uniformly in $u\in U$, then $\xi_1(u)\xi_2(u) \prec \zeta_1(u) \zeta_2(u)$ uniformly in $u$.
-
-(iii) Suppose that $\Psi(u)\ge n^{-C}$ is deterministic and $\xi(u)$ satisfies $\mathbb E\xi(u)^2 \le n^C$. If $\xi(u)\prec \Psi(u)$ uniformly in $u$, then we also have $\mathbb E\xi(u) \prec \Psi(u)$ uniformly in $u$.
+\item[(iii)] Suppose that $\Psi(u)\ge n^{-C}$ is a family of deterministic parameters and $\xi(u)$ satisfies $\mathbb E\xi(u)^2 \le n^C$. If $\xi(u)\prec \Psi(u)$ uniformly in $u$, then we also have $\mathbb E\xi(u) \prec \Psi(u)$ uniformly in $u$.
+\end{itemize}
 \end{lemma}
 
 Now we introduce the concept of minors, which are defined by removing certain rows and columns of the matrix $H$.
 
 \begin{definition}[Minors]\label{defnMinor}
-For any $ (p+n)\times (p+n)$ matrix $\cal A$ and $\mathbb T \subseteq \mathcal I$, we define the minor $\cal A^{(\mathbb T)}:=(\cal A_{\fa\fb}:\fa,\fb \in \mathcal I\setminus \mathbb T)$ as the $ (p+n-|\mathbb T|)\times (p+n-|\mathbb T|)$ matrix obtained by removing all rows and columns indexed by $\mathbb T$. Note that we keep the names of indices when defining $\cal A^{(\mathbb T)}$, i.e. $(\cal A^{(\mathbb{T})})_{ab}= \cal A_{ab}$ for $a,b \notin \mathbb{{T}}$. Correspondingly, we define the resolvent minor as (recall \eqref{green2})
+For any $ (p+n)\times (p+n)$ matrix $\cal A$ and index subset $\mathbb T \subseteq \mathcal I$, we define the minor $\cal A^{(\mathbb T)}:=(\cal A_{\fa\fb}:\fa,\fb \in \mathcal I\setminus \mathbb T)$ as the $ (p+n-|\mathbb T|)\times (p+n-|\mathbb T|)$ matrix obtained by removing all rows and columns indexed by $\mathbb T$. Note that we keep the names of indices when defining $\cal A^{(\mathbb T)}$, i.e. $(\cal A^{(\mathbb{T})})_{\fa\fb}= \cal A_{\fa\fb}$ for $\fa,\fb \notin \mathbb{{T}}$. Correspondingly, we define the resolvent minor as (recall \eqref{green2})
 \begin{align*}
 G^{(\mathbb T)}:&=\left[\left(H - \left( {\begin{array}{*{20}c}
    { zI_{p}} & 0  \\
@@ -1007,7 +1008,7 @@ G^{(\mathbb T)}:&=\left[\left(H - \left( {\begin{array}{*{20}c}
 %   {\mathcal G_2^{(\mathbb T)}}\left(Y^{(\mathbb T)}\right)^\top & { \mathcal G_2^{(\mathbb T)} }  \\
 %\end{array}} \right),
 \end{align*}
-and the partial traces $m^{(\mathbb T)}$, $m^{(\mathbb T)}_1$, $ m_2^{(\mathbb T)}$ and $ m_3^{(\mathbb T)}$ by replacing $G$ with $G^{(\mathbb T)}$ in \eqref{defm}.
+and define the partial traces $m^{(\mathbb T)}$ and $m^{(\mathbb T)}_k$, $k=1,2,3,$ by replacing $G$ with $G^{(\mathbb T)}$ in \eqref{defm}.
 %$$m_1^{(\mathbb T)}:=\frac{1}{Nz}\sum_{i\notin \mathbb T}\sigma_i G_{ii}^{(\mathbb T)},\ \ m_2^{(\mathbb T)}:= \frac{1}{N}\sum_{\mu \notin \mathbb T}\tilde \sigma_\mu G_{\mu\mu}^{(\mathbb T)}.$$ 
 %\be\label{m123}
 %\begin{split} 
@@ -1016,14 +1017,14 @@ and the partial traces $m^{(\mathbb T)}$, $m^{(\mathbb T)}_1$, $ m_2^{(\mathbb T
 %\end{split}
 %\ee
 %where we abbreviated that $\sum_{a}^{(\mathbb T)} := \sum_{a\notin \mathbb T} $. 
-For convenience, we will adopt the convention that for any minor $\cal A^{(T)}$ defined as above, $\cal A^{(T)}_{ab} = 0$ if $a \in \mathbb T$ or $b \in \mathbb T$. Moreover, we will abbreviate $(\{a\})\equiv (a)$ and $(\{a, b\})\equiv (ab)$.
+For convenience, we will adopt the convention that for any minor $\cal A^{(\mathbb T)}$ defined as above, $\cal A^{(\mathbb T)}_{\fa\fb} = 0$ if $\fa \in \mathbb T$ or $\fb \in \mathbb T$. Moreover, we will abbreviate $(\{\fa\})\equiv (\fa)$ and $(\{\fa, \fb\})\equiv (\fa\fb)$ for $\fa,\fb\in \cal I$.
 \end{definition}
 
 %\begin{definition} [Minor of matrix] For a $M \times N$ matrix $X$, $\ \mathbb{T}$ is a subset of  $\ \{1,2,\cdots,N\}$, we define $X^{\{\mathbb{T}\}}$ as the $M \times (N- \vert \mathbb{T} \vert)$ minor of matrix $X$ by deleting the $i$-th($i \in \mathbb{T}$) columns of $X$. We will keep the name of index of $X$ for $X^{\{\mathbb{T} \}}$, namely,
 %$(X^{\{\mathbb{T}\}})_{ij}=\mathbf{1}_{ \{j \notin \mathbb{{T}}\}} X_{ij}$. 
 %\end{definition}
 
-The following resolvent identities and the concentration bounds are the main tools for our proof. 
+The following simple resolvent identities are important tools for our proof. 
 \begin{lemma}\label{lemm_resolvent}
 We have the following resolvent identities. 
 \begin{itemize}
@@ -1093,13 +1094,13 @@ All these identities can be proved directly using Schur's complement formula. Th
 Let $(x_i)$, $(y_j)$ be independent families of centered and independent random variables, and $(A_i)$, $(B_{ij})$ be families of deterministic complex numbers. Suppose the entries $x_i$, $y_j$ have variances at most $n^{-1}$ and satisfy the bounded support condition (\ref{eq_support}) with $q\le n^{-\phi}$ for some constant $\phi>0$. Then we have the following bounds:
 %for any fixed $\xi>0$, the following bounds hold with $\xi$-high probability:
 \begin{align*}
-&\Big\vert \sum_i A_i x_i \Big\vert \prec  q \max_{i} \vert A_i \vert+ \frac{1}{\sqrt{n}}\Big(\sum_i |A_i|^2 \Big)^{1/2} , \quad \Big\vert \sum_{i,j} x_i B_{ij} y_j \Big\vert \prec q^2 B_d  + qB_o + \frac{1}{n}\Big(\sum_{i\ne j} |B_{ij}|^2\Big)^{{1}/{2}}, \\
-&\Big\vert \sum_{i} \bar x_i B_{ii} x_i - \sum_{i} (\mathbb E|x_i|^2) B_{ii}  \Big\vert  \prec q B_d   , \quad \Big\vert \sum_{i\ne j} \bar x_i B_{ij} x_j \Big\vert  \prec qB_o + \frac{1}{n}\Big(\sum_{i\ne j} |B_{ij}|^2\Big)^{{1}/{2}} ,
+\Big\vert \sum_i A_i x_i \Big\vert \prec  q \max_{i} \vert A_i \vert+ \frac{1}{\sqrt{n}}\Big(\sum_i |A_i|^2 \Big)^{1/2} , \quad &\Big\vert \sum_{i,j} x_i B_{ij} y_j \Big\vert \prec q^2 B_d  + qB_o + \frac{1}{n}\Big(\sum_{i\ne j} |B_{ij}|^2\Big)^{{1}/{2}}, \\
+\Big\vert \sum_{i} \bar x_i B_{ii} x_i - \sum_{i} (\mathbb E|x_i|^2) B_{ii}  \Big\vert  \prec q B_d   , \quad &\Big\vert \sum_{i\ne j} \bar x_i B_{ij} x_j \Big\vert  \prec qB_o + \frac{1}{n}\Big(\sum_{i\ne j} |B_{ij}|^2\Big)^{{1}/{2}} ,
 \end{align*}
 where $B_d:=\max_{i} |B_{ii} |$ and $B_o:= \max_{i\ne j} |B_{ij}|.$ Moreover, if all the moments of $\sqrt{n}x_i$ and $\sqrt{n}y_j$ exist in the sense of \eqref{assmAhigh}, then we have stronger bounds
 \begin{align*}
-&\Big\vert \sum_i A_i x_i \Big\vert \prec  \frac{1}{\sqrt{n}}\Big(\sum_i |A_i|^2 \Big)^{1/2} , \quad   \Big\vert \sum_{i,j} x_i B_{ij} y_j \Big\vert \prec  \frac{1}{n}\Big(\sum_{i\ne j} |B_{ij}|^2\Big)^{{1}/{2}} , \\
-& \Big\vert \sum_{i} \bar x_i B_{ii} x_i - \sum_{i} (\mathbb E|x_i|^2) B_{ii}  \Big\vert  \prec \frac1{n}\Big( \sum_i |B_{ii} |^2\Big)^{1/2}  ,\quad  \Big\vert \sum_{i\ne j} \bar x_i B_{ij} x_j \Big\vert  \prec  \frac{1}{n}\Big(\sum_{i\ne j} |B_{ij}|^2\Big)^{{1}/{2}} .
+\Big\vert \sum_i A_i x_i \Big\vert \prec  \frac{1}{\sqrt{n}}\Big(\sum_i |A_i|^2 \Big)^{1/2} , \quad  & \Big\vert \sum_{i,j} x_i B_{ij} y_j \Big\vert \prec  \frac{1}{n}\Big(\sum_{i\ne j} |B_{ij}|^2\Big)^{{1}/{2}} , \\
+ \Big\vert \sum_{i} \bar x_i B_{ii} x_i - \sum_{i} (\mathbb E|x_i|^2) B_{ii}  \Big\vert  \prec \frac1{n}\Big( \sum_i |B_{ii} |^2\Big)^{1/2}  ,\quad & \Big\vert \sum_{i\ne j} \bar x_i B_{ij} x_j \Big\vert  \prec  \frac{1}{n}\Big(\sum_{i\ne j} |B_{ij}|^2\Big)^{{1}/{2}} .
 \end{align*}
 \end{lemma}  
 
@@ -1153,12 +1154,12 @@ where $B_d:=\max_{i} |B_{ii} |$ and $B_o:= \max_{i\ne j} |B_{ij}|.$ Moreover, if
 %%\end{equation}
 %\end{definition}
 
-The main goal of this subsection is to prove the following entrywise local law. The anisotropic local law \eqref{aniso_law} then follows from the entrywise local law combined with a polynomialization method as we will explain later. Recall that in the setting of Proposition \ref{prop_diagonal}, we have $q=n^{-1/2}$ and
+The main goal of this subsection is to prove the following entrywise local law, Lemma \ref{prop_entry}. The anisotropic local law \eqref{aniso_law} (in the setting Proposition \ref{prop_diagonal}) then follows from it combined with a polynomialization method as we will explain later. Recall that under the assumptions of Proposition \ref{prop_diagonal}, we have $q=n^{-1/2}$ and
 \be\label{diagW}W= (\Lambda Z_1^\top, Z_2^\top).\ee
 
 \begin{lemma}\label{prop_entry}
-Suppose the assumptions in Proposition \ref{prop_diagonal} hold. %Fix $C_0>0$ and let $c_0>0$ be a sufficiently small constant. 
-Then the following estimate holds uniformly for $z\in \mathbf D$: %there exist constants 
+Suppose the assumptions of Proposition \ref{prop_diagonal} hold. %Fix $C_0>0$ and let $c_0>0$ be a sufficiently small constant. 
+Then the following estimate holds uniformly in $z\in \mathbf D$: %there exist constants 
 \begin{equation}\label{entry_diagonal}
 \max_{\fa,\fb\in \cal I}\left| (G_0)_{\fa\fb}(z)  - \Pi_{\fa\fb} (z) \right| \prec n^{-1/2}.
 \end{equation} 
@@ -1182,11 +1183,11 @@ Then the following estimate holds uniformly for $z\in \mathbf D$: %there exist c
 %\end{equation}
 %\end{definition}
 \begin{proof}
-The proof of Lemma \ref{prop_entry} is divided into three steps. For simplicity, we will still denote $G\equiv G_0$ in the following proof, while keeping in mind that $W$ takes the form in \eqref{diagW}.
+The proof of Lemma \ref{prop_entry} is divided into three steps. For simplicity, we will denote $G\equiv G_0$ in the following proof, while keeping in mind that $W$ takes the form in \eqref{diagW}.
 
-%\vspace{10pt}
+\vspace{5pt}
 
-\noindent{\bf Step 1: Large deviations estimates.} In this step, we prove some (almost) optimal large deviation estimates on the off-diagonal entries of $G$, and on the following $Z$ variables. In analogy to \cite[Section 3]{EKYY1} and \cite[Section 5]{Anisotropic}, we introduce the $Z$ variables
+\noindent{\bf Step 1: Large deviation estimates.} In this step, we prove some (almost) optimal large deviation estimates on the off-diagonal entries of $G$, and on the following $Z$ variables. In analogy to \cite[Section 3]{EKYY1} and \cite[Section 5]{Anisotropic}, we introduce the $Z$ variables {\cor(start here)}
 \begin{equation*}
   Z_{\fa}^{(\mathbb T)}:=(1-\mathbb E_{\fa})\big(G_{\fa\fa}^{(\mathbb T)}\big)^{-1}, \quad \fa\notin \mathbb T,
 \end{equation*}
