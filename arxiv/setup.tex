@@ -116,16 +116,19 @@ For such models, their output dimension plays an important role of regularizatio
 Linear models in multi-task learning have been studied in various settings, including representation learning \cite{BHKL19}, online learning \cite{CCG10,DCSP18}, and sparse regression \cite{LPVT11}.
 Below, we describe several lines of work that are most related to this work.
 
-\textit{Theoretical works.}
+\medskip
+\noindent\textbf{Theoretical works.}
 Some of the earliest works on multi-task learning are Baxter \cite{B00}, Ben-David and Schuller \cite{BS03}.
 Mauer \cite{M06} studies generalization bounds for linear separation settings of MTL.
 Ben-David et al. \cite{BBCK10} provides uniform convergence bounds that combines source and target errors optimally.
 The benefit of learning multi-task representations has been studied for learning certain half-spaces \cite{MPR16} and sparse regression \cite{LPTV09,LPVT11}.
 Our work is closely related to Wu et al. \cite{WZR20}.
 While Wu et al. provide generalization bounds to show that adding more labeled helps learn the target task more accurately, their techniques cannot be used to explain when MTL outperforms STL.
+\todo{spell out the challenge more explicitly}
 
 % Adding a regularization over $B$, e.g. .
-\textit{Methodological works.}
+\medskip
+\noindent\textbf{Methodological works.}
 Ando and Zhang \cite{AZ05} introduces an alternating minimization framework for learning multiple tasks.
 Argyriou et al. \cite{AEP08} present a convex algorithm which learns common sparse representations across a pool of related tasks.
 Evgeniou et al. \cite{EMP05} develop a framework for multi-task learning in the context of kernel methods.
@@ -133,49 +136,11 @@ Evgeniou et al. \cite{EMP05} develop a framework for multi-task learning in the 
 The multi-task learning model that we have focused on uses the idea of hard parameter sharing \cite{C93,KD12,R17}.
 We believe that our theoretical framework can apply to other approaches to multi-task learning.
 
-\textit{Random matrix theory.}
+\medskip
+\noindent\textbf{Random matrix theory.}
 The random matrix theory tool and related proof of our work fall into a paradigm of the so-called local law of random matrices \cite{erdos2017dynamical}.
 For a sample covariance matrix $X^\top X$ with $\Sigma=\id$, such a local law was proved in \cite{isotropic}.
 It was later extended to sample covariance matrices with non-identity $\Sigma$ \cite{Anisotropic}, and separable covariance matrices \cite{yang2019spiked}. On the other hand, one may derive the asymptotic result in Theorem \ref{lem_cov_shift_informal} with error $\oo(1)$ using the free addition of two independent random matrices in free probability theory \cite{nica2006lectures}. To the best of my knowledge, we do not find an {\it explicit result} for the sum of two sample covariance matrices with general covariates in the literature.
-
-\iffalse
-\textbf{Transfer learning.}
-We extend Theorem \ref{thm_main_informal} to transfer learning settings.
-We study the transfer procedure used in Taskonomy by Zamir et al.'18 \cite{ZSSGM18}.
-For the setting of high-dimensional linear regression, the transfer procedure is as follows.
-%Specifically, the source task encoder consists of the representations learnt from one or more source tasks.
-%The transfer function then tries to fit the target task data to the source task encoder.
-\squishlist
-	\item \textit{Learning source task representations}: we obtain $\hat{\beta}_i^{\STL}$ from each source task, for $1\le i \le t-1$.
-		This forms a shared representation ${B} = [\hat{\beta}_1,\hat{\beta}_2,\dots,\hat{\beta}_{t-1}]$.
-	\item \textit{Fine-tuning on the target task}: we learn the output layer $W_t\in\real^{t-1}$ similar to equation \eqref{eq_mtl}
-		\begin{align}
-			g(W_t) = \bignorm{X_t B W_t - Y_t}^2.
-		\end{align}
-\squishend
-After solving $W_t$, we use $\hat{\beta}_t^{\TL} = B W_t$ as the transfer learning (TL) estimator for the target task.
-Our result naturally applies to $\hat{\beta}_t^{\TL}$.
-Interestingly, we show that the model shift bias is simply the projection of $\beta_t$ to the orthogonal subspace of $B^{\star} = [\beta_1,\dots,\beta_{t-1}]$, or $\norm{\Sigma_t^{1/2}(\id - B^{\star}({B^{\star}}^{\top}B^{\star})^{-1}{B^{\star}}^{\top})\beta_t}^2$ more precisely.
-The formal statement is presented in Theorem \ref{prop_taskonomy} and its proof in Appendix \ref{app_proof_sec4}.
-\fi
-
-%In order to analyze the tradeoff, we develop the following technical tool, which provides a tight bound for equation \eqref{eq_te_var}.
-%where $(a_1, a_2)$ is the solution to the following deterministic equations:
-%	\begin{align*}
-%		a_1 + a_2 = 1- \frac{1}{\rho_1 + \rho_2},\quad a_1 + \frac1{\rho_1 + \rho_2}\cdot \frac{1}{p}\sum_{i=1}^p \frac{\lambda_i^2 a_1}{\lambda_i^2 a_1 + a_2} = \frac{\rho_1}{\rho_1 + \rho_2}.
-%	\end{align*}
-
-%\textbf{Remark.} When there is only the target task, $\rho_1$ equals zero.
-%Hence $a_2 = 1 - 1/ \rho_2, a_1 = 0$ and Lemma \ref{lem_cov_shift_informal} states that $\tr[(X_2^{\top}X_2)^{-1}\Sigma_2] = \sigma^2 / (\rho_2 - 1)$, which is a well-known result in random matrix theory \cite{S07}.
-%Hence our result provides a necessary tool to analyze MTL in high dimensions.
-
-%\subsection{Extended Background and Related Work}\label{app_proof_sec3}
-
-%We restate our linear regression setting, in particular the moment assumption required by our random matrix model.
-%We then derive a closed-form solution of the multi-task estimator that is defined in Section \ref{sec_prelim}.
-%Finally, we describe further related work that is covered in the main text.
-%\section{Missing Details of Problem Formulation}
-%\textbf{Assumptions on task data generation.}
 
 \paragraph{Notations.}
 Throughout the appendix, we shall say an event $\Xi$ holds with high probability (w.h.p.) if for any fixed $D>0$, $\P(\Xi)\ge 1- p^{-D}$ for large enough $p$. Moreover, we shall use $\oo(1)$ to mean a small positive quantity that converges to 0 as $p\to \infty$.
