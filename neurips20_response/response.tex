@@ -36,17 +36,17 @@
 
 We thank the reviewers for their time and thoughtful feedback.
 Taking their helpful comments into account, we have sought to clarify the presentation of our work and  multiple tasks. %, which addresses the main criticism by R1 and R2.
-Besides clarifying our current result for multiple tasks, we have also extended our result on variance reduction, in response to the main criticism by R1 and R2 (L11-17).
+Besides clarifying our current result for multiple tasks, we have also extended our result on variance reduction in response to a major criticism by R1 and R2 (L11-17).
 %First, we address the main issues that are raised by the reviewers.
 %Then, we respond to each individual reviewer's feedback.
 
 
-\vspace{-0.025in}
+\vspace{-0.02in}
 \textbf{Predicting a particular task using MTL? [R2]}
 As R2 pointed out, we focus on a situation where we have a target task for which we only have limited labeled data and a source task.
 We study when training the tasks together can benefit the target task.
-While this setting is different from traditional MTL that studies the avg performance of all tasks, it is also a common setting for MTL in practice.
-For example, for predicting a rare event or classifying an Xray-scan, collecting large amounts of labeled data is either not possible or very expensive, but auxiliary labeled data are often easier to obtain.
+While this setting differs from traditional MTL that studies the avg performance of all tasks, it is also a common setting for MTL in practice.
+For example, for predicting a rare event or classifying a Xray-scan, collecting large amounts of labeled data is not possible or very expensive, but auxiliary labeled data are often easier to obtain.
 Traditional MTL theory that studies the average performance of all tasks does not predict whether using MTL can benefit the target task.
 Our work applies to this setting and takes a step towards filling the gap.
 %We have included these discussion to our paper.
@@ -57,9 +57,9 @@ Our work applies to this setting and takes a step towards filling the gap.
 %We thank R1 and R2 for raising the important question of whether our setting applies to multiple tasks.
 We have focused on two tasks in the submission to provide insight, since this is the simplest setting.
 We understand that having multiple tasks is more general, therefore, we have \textit{extended our result on bias-variance tradeoff to multiple tasks}.
-\textbf{(1)} We can now show that \textit{as long as the output dimension of the shared layer $B$ is smaller than the total number of tasks, the variance of the MTL estimator for the target task is always smaller than the variance of the STL estimator but the bias is always larger}.
+\textbf{(1)} We can now show that \textit{as long as the output dim. of the shared layer $B$ is smaller than the total number of tasks, the variance of the MTL estimator for the target task is always smaller than the variance of the STL estimator but the bias is always larger}.
 We have included this result in the draft.
-\textbf{(2)} For multi-label settings where all tasks have the same features, i.e. $X_i = X$ for any $i$, using Thm 3.6 \textit{all of our insight for two tasks still applies except covariate shift} (covariate shift doesn't apply since tasks have the same features).
+\textbf{(2)} For multi-label settings where all tasks have the same features, i.e. $X_i = X$ for any $i$, using Thm 3.6 \textit{all of our insight into two tasks still applies except covariate shift} (covariate shift doesn't apply since tasks have the same features).
 %The reason why the issue about covariate shift does not apply to this setting is because the tasks have the same features, hence there is no covariate shift.
 %Due to page limit we have not elaborated on this part in the submission, but we will elaborate the theoretical implication of this result for multiple tasks in the next version.
 
@@ -69,7 +69,7 @@ We have included this result in the draft.
 We have corrected the typos that R2 pointed out and clarified the issues that R3 raised.
 \textbf{(1)} L112-118: we use $t$ to denote the number of tasks hence for two tasks $t = 2$.
 %We have improved this part to be more consistent in the use of $t$.
-\textbf{(2)} Validation set size: we only need it to be larger than the size of the hidden layer times the number of tasks, which can be much smaller compared to the size of the training set (cf. L108).
+\textbf{(2)} Validation set size L108: we only need it to be larger than the size of the hidden layer times the number of tasks, which is much smaller compared to the size of the training set.
 \textbf{(3)} Def. of the prediction loss L113: the expectation is over a test sample $x$ whose label is $x^{\top}\beta_t$.
 Taking expectation over $\varepsilon$ gives  the bias-variance decomposition, following standard linear regression literature [17,18].
 
@@ -81,7 +81,7 @@ Taking expectation over $\varepsilon$ gives  the bias-variance decomposition, fo
 %Task similarity appears in the projection term $\|{v_t}\|$.
 \textbf{(1)} For task similarity, the more similar tasks are, the more variance reduces ($\|{v_t}\|$ closer to 1), which leads to positive transfer as in Prop 3.3.
 \textbf{(2)} For sample ratio, the more dissimilar tasks are, the more bias increases w/ more source samples, which leads to negative transfer as in Prop 3.4.
-\textbf{($\blackdiamond$)} R1 asks how does our method compares to loss reweighing.
+\textbf{($\blackdiamond$)} R1 asks how does our method compare to loss reweighing.
 Our method is equivalent to increasing task weight until performance drops.
 Our method is preferable since we only compute over a subset of samples whereas loss reweighting uses the full set.
 \textbf{($\blackdiamond$)} We thank R1 for pointing out the vague use of "similar performance" in experiments, which we replaced w/ (comparable) acc. numbers. %it means that the average accuracy of our method for all tasks is the same as the average accuracy of standard MTL training (cf. line 295).
@@ -89,12 +89,13 @@ Our method is preferable since we only compute over a subset of samples whereas 
 %We will clarify this part in the next version.
 
 \vspace{-0.045in}
-\textbf{($\blackdiamond$)} R1 asks how does our theory compares to previous work. The closest work to ours is [15] and that work uses standard concentration bounds to show that when two tasks are similar enough, MTL guarantees positive transfer.
-Our work uses advanced tools from random matrix theory and Thm 3.2 does not make such an assumption.
-This also allows us to study the \textit{more challenging setting of varying sample size and covariate shift, both of which cannot be studied using standard concentration bounds}.
-\textbf{($\blackdiamond$)} R1 asks whether we can compute similarity via distance between classifier parameters,
-which we tried for predicting whether MTL outperforms STL but the result is worse than Table 1.
-We suspect the distance mainly captures difference between the trained model but does not capture properties of task data.
+\textbf{($\blackdiamond$)} R1 asks how do the bounds differ from previous theory. The closest work to ours is [15] and that work uses standard concentration bounds to show that when two tasks are similar enough, MTL ensures positive transfer.
+Our work uses new tools from random matrix theory and Thm 3.2 doesn't require tasks to be similar.
+Using the tools we \textit{rigorously study the phenomenon of negative transfer} including \textit{varying sample size and covariate shift, all of which aren't possible using standard concentration bounds}.
+\textbf{($\blackdiamond$)} R1 suggests computing similarity via distance between layer parameters,
+which we tried (along w/ SVCCA) as a proxy for task similarity but didn't work  (e.g. result worse than Table 1).
+Our framework also studied varying sample size and covariate shift in MTL, both of which are not known in prior work.
+%Our intuition is that while the distance captures model difference we also need to carefully control task data.
 %The lesson that we have learned from our work is that in order to decide whether MTL outperforms STL, all three properties including model similarity, sample ratio, and covariate shift provably matter.
 %Thus, in order to define such a similarity measure, one has to carefully control the impact of the other two properties in addition to measuring the distance between parameters. We will include this discussion in the next version.
 %
@@ -102,14 +103,14 @@ We suspect the distance mainly captures difference between the trained model but
 
 \vspace{-0.025in}
 \textbf{R2:}
-\textbf{($\blackdiamond$)} We thank R2 for bringing up the confusion of which sample size regime does our theory/algorithm apply, which we have clarified in the updated draft.
+\textbf{($\blackdiamond$)} We thank R2 for bringing up the confusion of which sample size regime does our theory/algorithm apply, which we have clarified in the draft.
 %Regarding R2's comments on motivation and theoretical limitation, as stated above, we have \textit{extended our result on bias-variance tradeoff to multiple tasks}. While our setting is different from traditional MTL that measures average performance over all tasks, it is also a common setting in practice where MTL is used.
-\textbf{(1)} R2 is correct that "our theory applies when the sample sizes are tens or hundreds of feature dimension".
-We think this is a reasonable regime to consider; for example, in our sentiment analysis experiment, the feature dimension of a sentence is 300 and the training set size ranges from 3 to 10 thousand.
+\textbf{(1)} R2 is correct that "our theory applies when the sample sizes are 10-100x of feature dim.".
+We think this is a reasonable regime to consider; for example, in our sentiment analysis experiment, the feature dim. of a sentence is 300 and the training set size ranges from 3k to 10k.
 %\textbf{(2)} As shown in Prop. 3.4, the ratio of sample sizes, instead of the sample size of a task, decides whether MTL can help STL.
 %Our theory makes no assumption on sample ratio (or imbalance) and applies to reasonable regimes (e.g. Fig 1(b,c)).
-\textbf{(2)} R2 mentions "having imbalanced sample size btw source/target task": Our incremental training scheme does not assume that the tasks have imbalanced sample size; for example, in our sentiment analysis experiment, we have observed that our method can be effective even when the source task is smaller than the target.
-As shown in our theory, the transition threshold between positive/negative transfer provably depends on task similarity and can be less than one (Prop. 3.4).
+\textbf{(2)} R2 mentions "having imbalanced sample size btw source/target task": We will clarify the writing after Thm 3.2 but our incremental training scheme does not assume that the tasks have imbalanced sample size; for example, in our sentiment analysis experiment, we have observed that our method can help even when the source task is smaller than the target.
+The correct way to think about "imbalance" is that it also depends on task similarity, and it can be provably small (e.g. $\le 1$ cf. Prop 3.4).
 
 \vspace{-0.045in}
 \textbf{($\blackdiamond$)}  We thank R2 for pointing out the connection between our incremental training procedure and curriculum learning.
@@ -130,13 +131,13 @@ It is an interesting research question to further investigate the idea in future
 We thank R3 for commenting on our work.
 \textbf{L108:}
 %The validation set size $p^{0.99}$ is just an example and can be set smaller.
-We thought we have clearly stated in L108 that "a validation set that's larger than $r\cdot t \le t^2$ suffices" but we will clarify more ($p^{0.99}$ can be replaced w/ $p^{0.5}$).
-\textbf{L113:} $t$ always means the number of tasks so we're not where is the duplicate notation.
+We thought we have stated in L108 that "a validation set that's larger than $r\cdot t \le t^2$ suffices" but we will clarify more ($p^{0.99}$ can be replaced w/ $p^{0.5}$).
+\textbf{L113:} We did not use any duplicate notation for $t$ ($\varepsilon_i$ is the noise \textit{vector} for the $i$-th task).
 \textbf{L117:} The sample covariance of task 1 is  $X_1^{\top}X_1$ not $\Sigma_1$.
 \textbf{L187:} $\gamma$ is a free parameter and by varying it one can recover the entire precision-recall curve.
 \textbf{L220:} Our theory provides a theoretical basis for the algorithm.
 For two tasks, the algorithm can provably find the optimal sample ratio. As shown in Fig 1b, the performance curve, which is a quadratic function, has a single peak and our algorithm stops at the peak.
-The fact that the curve is quadratic is shown in our proof and we have added the connection to the draft.
+That the curve is quadratic is shown in our proof and we have added the connection to the draft.
 
 
 \end{document}
