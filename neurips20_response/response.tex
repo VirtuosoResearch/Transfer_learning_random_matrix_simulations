@@ -58,8 +58,8 @@ Our work applies to this setting and takes a step towards filling the gap.
 We have focused on two tasks in the submission to provide insights, since this is the foundational setting.
 In addition, we have \textit{extended our result on bias-variance tradeoff to multiple tasks} as well.
 \textbf{(1)} We can now show that \textit{as long as the output dim. of the shared layer $B$ is smaller than the total number of tasks, the variance of the MTL estimator for the target task is always smaller than the variance of the STL estimator but the bias is always larger}.
-The idea is simimlar to two tasks and we have included this result in the draft.
-\textbf{(2)} For multi-label settings where all tasks have the same features, i.e. $X_i = X$ for any $i$, using Thm 3.6 \textit{all of our insights into two tasks still apply except for the covariate shift} (covariate shift doesn't apply since tasks have the same features).
+The idea is similar to two tasks and we have included this result in the draft.
+\textbf{(2)} For multi-label settings where all tasks have the same features, i.e. $X_i = X$ for any $i$, using Thm 3.6, \textit{all of our insights into two tasks still apply except for the covariate shift} (covariate shift doesn't apply since tasks have the same features).
 %The reason why the issue about covariate shift does not apply to this setting is because the tasks have the same features, hence there is no covariate shift.
 %Due to page limit we have not elaborated on this part in the submission, but we will elaborate the theoretical implication of this result for multiple tasks in the next version.
 
@@ -67,15 +67,15 @@ The idea is simimlar to two tasks and we have included this result in the draft.
 \vspace{-0.025in}
 \textbf{Writing: [R2, R3]}
 We have corrected the typos that R2 pointed out and clarified the issues that R3 raised.
-\textbf{(1)} L112-118: we use $t$ to denote the number of tasks, hence for two tasks $t = 2$.
+\textbf{L112-118}: we use $t$ to denote the number of tasks, hence for two tasks $t = 2$.
 %We have improved this part to be more consistent in the use of $t$.
-\textbf{(2)} Validation set size L108: we only need it to be larger than the size of the hidden layer times the number of tasks, which is much smaller compared to the size of the training set.
-\textbf{(3)} Def. of the prediction loss L113: the expectation is over a test sample $x$ whose label is $x^{\top}\beta_t$.
+\textbf{L108}, validation set size: we only need it to be larger than the size of the hidden layer times the number of tasks, which is much smaller compared to the size of the training set.
+\textbf{L113}, def. of the prediction loss: the expectation is over a test sample $x$ whose label is $x^{\top}\beta_t$.
 Taking expectation over $\varepsilon$ gives  the bias-variance decomposition, following standard linear regression literature [17,18].
 
 \vspace{-0.025in}
 \textbf{R1:}
-\textbf{($\blackdiamond$)} We thank R1 for suggesting looking at qualitative predictions of Thm 3.6 for multiple tasks, which we have added in the  draft.
+\textbf{($\blackdiamond$)} We thank R1 for suggesting we look at qualitative predictions of Thm 3.6 for multiple tasks, which we have added in the  draft.
 %As mentioned above, we have extended our result to show that the variance of the MTL estimator decreases compared to STL and the bias increases.
 %Hence the bias-variance tradeoff still decides whether MTL outperforms STL.
 %Task similarity appears in the projection term $\|{v_t}\|$.
@@ -94,6 +94,7 @@ Our work uses new tools from random matrix theory, and Thm 3.2 doesn't require t
 Using the tools we \textit{rigorously study the phenomenon of negative transfer} including \textit{varying sample size and covariate shift, all of which aren't possible using standard concentration bounds}.
 \textbf{($\blackdiamond$)} R1 suggests computing similarity via distance between layer parameters,
 which we tried (along w/ SVCCA) as a proxy for task similarity but it didn't perform as well as our result in Table 1. Our framework also studied varying sample size and covariate shift in MTL, both of which are not known in prior work.
+\textbf{($\blackdiamond$)} For R1's question about excluding TREC, this is just an additional validation for the multi-task setting.
 %Our intuition is that while the distance captures model difference we also need to carefully control task data.
 %The lesson that we have learned from our work is that in order to decide whether MTL outperforms STL, all three properties including model similarity, sample ratio, and covariate shift provably matter.
 %Thus, in order to define such a similarity measure, one has to carefully control the impact of the other two properties in addition to measuring the distance between parameters. We will include this discussion in the next version.
@@ -102,7 +103,7 @@ which we tried (along w/ SVCCA) as a proxy for task similarity but it didn't per
 
 \vspace{-0.025in}
 \textbf{R2:}
-\textbf{($\blackdiamond$)} We thank R2 for bringing up the confusion of which sample size regime our theory/algorithm applies, which we have clarified in the draft.
+We thank R2 for bringing up the confusion of which sample size regime our theory/algorithm applies, which we have clarified in the draft.
 %Regarding R2's comments on motivation and theoretical limitation, as stated above, we have \textit{extended our result on bias-variance tradeoff to multiple tasks}. While our setting is different from traditional MTL that measures average performance over all tasks, it is also a common setting in practice where MTL is used.
 \textbf{(1)} R2 is correct that "our theory applies when the sample sizes are 10-100x of feature dim.".
 We think this is a reasonable regime to consider; for example, in our sentiment analysis experiment, the feature dim. of a sentence is 300 and the training set size ranges from 3k to 10k.
@@ -112,7 +113,7 @@ We think this is a reasonable regime to consider; for example, in our sentiment 
 The correct way to think about "imbalance" is that it also depends on task similarity, and it can be provably small (e.g. $\le 1$ cf. Prop 3.4).
 
 \vspace{-0.045in}
-\textbf{($\blackdiamond$)}  We thank R2 for pointing out the connection between our incremental training procedure and curriculum learning.
+We thank R2 for pointing out the connection between our incremental training procedure and curriculum learning.
 We are not aware of any previous work that proposes such an idea in MTL while having a strong theoretical basis.
 Adding more context, there is an ongoing discussion of how much data from each task the model should be trained on (cf. Google T5 and references therein).
 We have focused on evaluating training efficiency as a \textit{further validation of our theory}.
@@ -130,15 +131,12 @@ As R1 pointed out, we think this is an interesting research question for future 
 We thank R3 for commenting on our work.
 \textbf{L108:}
 %The validation set size $p^{0.99}$ is just an example and can be set smaller.
-As stated on L108  "a validation set that's larger than $r\cdot t \le t^2$ suffices", we will further clarify here as in L19 above ($p^{0.99}$ can be replaced w/ $p^{0.5}$).
-\textbf{L113:} The use of $t$: We have used $t$ to denote the number of tasks as well as the index of the target task.
+As stated on L108  "a validation set larger than $r\cdot t$ suffices", we will further clarify as on L19 above ($p^{0.99}$ can be replaced w/ $p^{0.5}$).
+%\textbf{L113:} The use of $t$: We have used $t$ to denote the number of tasks as well as the index of the target task.
 \textbf{L117:} The sample covariance of task 1 is  $X_1^{\top}X_1$ not $\Sigma_1$.
-\textbf{L187:} Parameter of the metric: yes one can recover the entire precision-recall curve by varying it.
+\textbf{L187:} Parameter of the metric: One can recover the entire precision-recall curve by varying it.
 \textbf{L220:} Value of our theory to our algorithm:
 For two tasks, we can show that our algorithm can provably find the optimal sample ratio. As shown in Fig 1b, the performance curve, which is a quadratic function, has a single peak and our algorithm stops at the peak.
-That the curve is quadratic is shown in our proof and we have added the connection to the draft.
-
+That the curve is quadratic is shown in our proof and we have highlighted the connection in the draft.
 
 \end{document}
-
-%>>>>>>> bdfb263d5b2fe0cf68cb8be1ac53481042b5008f
