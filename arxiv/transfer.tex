@@ -121,35 +121,55 @@ The prediction loss of using $\hat{\beta}_2^{\MTL}$ for the target task is
 \end{align}
 which only depends on $\hat v$, the sample covariance matrices, and $\beta_1,\beta_2$.
 
-\begin{lemma}[Variance bound]\label{lem_cov_shift_informal}
-	In the setting of two tasks,
-	let $n_1 = \rho_1 \cdot p$ and $n_2 = \rho_2 \cdot$ be the sample size of the two tasks.
-	Let $\lambda_1, \dots, \lambda_p$ be the singular values of the covariate shift matrix $\Sigma_1^{1/2}\Sigma_2^{-1/2}$ in decreasing order.
-	%let $n_1 = \rho_1 \cdot p$ and $n_2 = \rho_2 \cdot p$ denote the sample sizes of each task.
-	%Let $\Sigma_1$ and $\Sigma_2$ denote the covariance matrix of each task.
-	With high probability, the variance of the multi-task estimator $\hat{\beta}_t^{\MTL}$ equals
-	%let $M = \Sigma_1^{1/2}\Sigma_2^{-1/2}$ and $\lambda_1, \lambda_2, \dots, \lambda_p$ be the singular values of $M^{\top}M$ in descending order.
-%	For any constant $\e>0$, w.h.p. over the randomness of $X_1, X_2$, we have that
-	{\small\begin{align*}%\label{eq_introX1X2}
-		%\bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2} =
-		\frac{\sigma^2}{n_1+n_2}\cdot \bigtr{ (\hat{v}^2 a_1 \Sigma_2^{-1/2}\Sigma_1\Sigma_2^{-1/2} + a_2\id)^{-1}} +\bigo{{p^{-1/2+o(1)}}},
-	\end{align*}}%
-	where $a_1, a_2$ are solutions of the following equations:
-	{\small\begin{align*}
-		a_1 + a_2 = 1- \frac{1}{\rho_1 + \rho_2},\quad a_1 + \frac1{\rho_1 + \rho_2}\cdot \frac{1}{p}\sum_{i=1}^p \frac{\hat{v}^2\lambda_i^2 a_1}{\hat{v}^2\lambda_i^2 a_1 + a_2} = \frac{\rho_1}{\rho_1 + \rho_2}.
-	\end{align*}}
-%are both fixed values that roughly scales with the sample sizes $\rho_1, \rho_2$, and satisfy $a_1 + a_2 = 1 - (\rho_1 + \rho_2)^{-1}$ plus another deterministic equation.
+%\begin{lemma}[Variance bound]\label{lem_cov_shift_informal}
+%	In the setting of two tasks,
+%	let $n_1 = \rho_1 \cdot p$ and $n_2 = \rho_2 \cdot$ be the sample size of the two tasks.
+%	Let $\lambda_1, \dots, \lambda_p$ be the singular values of the covariate shift matrix $\Sigma_1^{1/2}\Sigma_2^{-1/2}$ in decreasing order.
+%	%let $n_1 = \rho_1 \cdot p$ and $n_2 = \rho_2 \cdot p$ denote the sample sizes of each task.
+%	%Let $\Sigma_1$ and $\Sigma_2$ denote the covariance matrix of each task.
+%	With high probability, the variance of the multi-task estimator $\hat{\beta}_t^{\MTL}$ equals
+%	%let $M = \Sigma_1^{1/2}\Sigma_2^{-1/2}$ and $\lambda_1, \lambda_2, \dots, \lambda_p$ be the singular values of $M^{\top}M$ in descending order.
+%%	For any constant $\e>0$, w.h.p. over the randomness of $X_1, X_2$, we have that
+%	{\small\begin{align*}%\label{eq_introX1X2}
+%		%\bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2} =
+%		\frac{\sigma^2}{n_1+n_2}\cdot \bigtr{ (\hat{v}^2 a_1 \Sigma_2^{-1/2}\Sigma_1\Sigma_2^{-1/2} + a_2\id)^{-1}} +\bigo{{p^{-1/2+o(1)}}},
+%	\end{align*}}%
+%	where $a_1, a_2$ are solutions of the following equations:
+%	{\small\begin{align*}
+%		a_1 + a_2 = 1- \frac{1}{\rho_1 + \rho_2},\quad a_1 + \frac1{\rho_1 + \rho_2}\cdot \frac{1}{p}\sum_{i=1}^p \frac{\hat{v}^2\lambda_i^2 a_1}{\hat{v}^2\lambda_i^2 a_1 + a_2} = \frac{\rho_1}{\rho_1 + \rho_2}.
+%	\end{align*}}
+%%are both fixed values that roughly scales with the sample sizes $\rho_1, \rho_2$, and satisfy $a_1 + a_2 = 1 - (\rho_1 + \rho_2)^{-1}$ plus another deterministic equation.
+%\end{lemma}
+
+We shall refer to random matrices of the form $X^\top X$ as sample covariance matrices following the standard notations in high-dimensional statistics. The following two lemmas  are the main random matrix theoretical results of this paper, which will be used to estimate the two terms on the right-hand side of \eqref{eq_te_mtl_2task}.
+%which deals with the inverse of the sum of two random matrices, which
+%any is can be viewed as a special case of Theorem \ref{thm_model_shift}.
+
+\begin{lemma}[Variance bound]\label{lem_cov_shift}
+	%Let $X_i\in\real^{n_i\times p}$ be a random matrix that contains i.i.d. row vectors with mean $0$ and variance $\Sigma_i\in\real^{p\times p}$, for $i = 1, 2$.
+	Suppose $X_1=Z_1\Sigma_1^{1/2}\in \R^{n_1\times p}$ and $X_2=Z_2\Sigma_2^{1/2}\in \R^{n_2\times p}$ satisfy Assumption \ref{assm_secA1} with $\rho_1:=n_1/p>1$ and $\rho_2:=n_2/p>1$ being fixed constants.
+	Denote by $M = \Sigma_1^{1/2}\Sigma_2^{-1/2}$ and let $\lambda_1, \lambda_2, \dots, \lambda_p$ be the singular values of $M$ in descending order. Let $A$ be any $p\times p$ matrix that is independent of $X_1$ and $X_2$. We have that for any constant $\e>0$,
+	%When $n_1 = c_1 p$ and $n_2 = c_2 p$, we have that with high probability over the randomness of $X_1$ and $X_2$, the following equation holds
+	\begin{align}\label{lem_cov_shift_eq}
+		\bigtr{(\hat v^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}A} = \frac{1}{\rho_1+\rho_2}\frac1p\bigtr{ (\hat v^2 a_1 \Sigma_1 + a_2\Sigma_2)^{-1} A} +\bigo{\|A\| p^{-1/2+\epsilon}}
+	\end{align}
+with high probability, where $(a_1, a_2)$ is the solution to the following deterministic equations:
+	\begin{align}
+		a_1 + a_2 = 1- \frac{1}{\rho_1 + \rho_2},\quad a_1 + \frac1{\rho_1 + \rho_2}\cdot \frac{1}{p}\sum_{i=1}^p \frac{\hat v^2 \lambda_i^2 a_1}{\hat v^2 \lambda_i^2 a_1 + a_2} = \frac{\rho_1}{\rho_1 + \rho_2}. \label{eq_a12extra}
+	\end{align}
 \end{lemma}
-Lemma \ref{lem_cov_shift_informal} allows us to get a tight bound on equation \eqref{eq_te_var}, that only depends on \textit{sample size}, \textit{covariate shift} and the scalar $\hat{v}$.
-As a remark, the concentration error $\OO(p^{-1/2+o(1)})$ of our result is nearly optimal.
+
+
+Lemma \ref{lem_cov_shift} allows us to get a tight bound on equation \eqref{eq_te_var}, that only depends on \textit{sample size}, \textit{covariate shift} and the scalar $\hat{v}$.
+As a remark, the concentration error $\bigo{\|A\| p^{-1/2+\epsilon}}$ of our result is nearly optimal.
 For the bias term of equation \eqref{eq_te_model_shift}, a similar result that scales with task model distance in addition to sample size and covariate shift holds (cf. Lemma \ref{lem_cov_derivative} in Appendix \ref{app_proof_main_thm}).
 
 \begin{lemma}[Bias bound]\label{lem_cov_derivative}
 In the setting of Lemma \ref{lem_cov_shift}, let $\beta \in \R^p$ be any vector that is independent of $X_1$ and $X_2$. We have that for any constant $\e>0$,
 \begin{equation}\label{lem_cov_derv_eq}
 \begin{split}
-&(n_1+n_2)^2\bignorm{\Sigma_2^{1/2} (X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\beta}^2 \\
-&= \beta^{\top} \Sigma_2^{-1/2}  \frac{(1 + a_3)\id + a_4 {M}^{\top}{M}}{( a_1 {M}^{\top}{M}+a_2)^2} \Sigma_2^{-1/2} \beta +\OO(p^{-1/2+\e}\|\beta\|^2),
+&(n_1+n_2)^2\bignorm{\Sigma_2^{1/2} (\hat v^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\beta}^2 \\
+&= \beta^{\top} \Sigma_2^{-1/2}  \frac{(1 + a_3)\id + \hat v^2a_4 {M}^{\top}{M}}{( \hat v^2a_1 {M}^{\top}{M}+a_2)^2} \Sigma_2^{-1/2} \beta +\OO(p^{-1/2+\e}\|\beta\|^2),
 \end{split}
 \end{equation}
 with high probability, where $a_{3}$ and $a_4$ satisfy the following system of linear equations:
@@ -160,11 +180,33 @@ with high probability, where $a_{3}$ and $a_4$ satisfy the following system of l
 %		= \sum_{i=1}^p \frac{\hat \lambda_i^2 }{  (\hat a_2 + \hat \lambda_i^2\hat a_1)^2  }. \label{eq_a4}
 	\end{gather}
 Here $b_0$, $b_1$ and $b_2$ are defined as
-$$ b_k:= \frac1{p}\sum_{i=1}^p \frac{ \lambda_i^{2k}}{ ( a_2 + \lambda_i^2 a_1)^2  },\quad k=0,1,2.$$
+$$ b_k:= \frac1{p}\sum_{i=1}^p \frac{ \hat v^{2k}\lambda_i^{2k}}{ ( a_2 + \hat v^2\lambda_i^2 a_1)^2  },\quad k=0,1,2.$$
 \end{lemma}
 
-Combining the two lemmas, we provide a sharp analysis of the bias-variance tradeoff of the multi-task estimator.
 
+
+\textbf{Proof overview.}
+%We first describe the proof of Theorem \ref{lem_cov_shift_informal}.
+The proofs of Lemma \ref{lem_cov_shift} and Lemma \ref{lem_cov_derivative} are based on the Stieltjes transform method (or the resolvent method) in random matrix theory \cite{bai2009spectral,tao2012topics,erdos2017dynamical}. Roughly speaking, we study the resolvent $R(z):=[\Sigma_2^{-1/2}( X_1^{\top}X_1 + X_2^{\top}X_2)\Sigma_2^{-1/2}-z]^{-1}$ for $z\in \C$ around $z=0$.
+Using the methods in \cite{Anisotropic,yang2019spiked}, we find the asymptotic limit, say $R_\infty(z)$, of $R(z)$ for any $z$ as $p\to \infty$ with an almost optimal convergence rate. In particular, when $z=0$, $\tr[\Sigma_2^{-1/2}A\Sigma_2^{-1/2}R_\infty(0)]$ gives the limit in \eqref{lem_cov_shift_eq}. 
+On the other hand, we can write 
+$$\bignorm{\Sigma_2^{1/2} (X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\beta}^2= \beta^\top \Sigma_2^{-1/2}R'(0)\Sigma_2^{-1/2} \beta.$$ 
+Hence its limit can be calculated through $R_\infty'(z)$, which gives the expression in \eqref{lem_cov_derv_eq}. The details can be found in Appendix \ref{sec_maintools}. 
+%The proof of Lemma \ref{lem_cov_shift} and Lemma \ref{lem_cov_derivative} is a main focus of Section \ref{sec_maintools}. 
+We remark that one can probably derive the same asymptotic result using free probability theory (see e.g. \cite{nica2006lectures}), but our results \eqref{lem_cov_shift_eq} and \eqref{lem_cov_derv_eq} also give an almost sharp error bound $\bigo{ p^{-1/2+\epsilon}}$.
+
+
+%We now state several helper lemmas to get estimates on $L(\hat{\beta}_t^{\STL})$ and $L(\hat{\beta}_t^{\MTL})$ for $t=2$. 
+The next lemma, which is a folklore result in random matrix theory, helps to determine the asymptotic limit of $\te(\hat{\beta}_t^{\STL})=\sigma^2   \bigtr{(X_2^{\top}X_2)^{-1}\Sigma_2}$ as $p\to \infty$. When the entries of $X_2$ are multivariate Gaussian, this lemma recovers the classical result for the mean of inverse Wishart distribution \cite{anderson1958introduction}. For general non-Gaussian random matrices, it can be obtained using Stieltjes transform method; see e.g., Lemma 3.11 of \cite{bai2009spectral}. Here we shall state a result obtained from Theorem 2.4 in \cite{isotropic}, which gives an almost sharp error bound.
+\begin{lemma}\label{lem_minv}
+Suppose $X$ satisfies assumption \ref{assm_secA1}. Let $A$ be any $p\times p$ matrix that is independent of $X$. We have that for any constant $\e>0$,
+	\be\label{XXA}  \bigtr{(X_2^{\top}X_2)^{-1}A} = \frac{1}{\rho_2 - 1} \frac1p\tr(\Sigma^{-1}A) +\bigo{ \|A\|p^{-1/2+\epsilon}} \ee
+with high probability.
+\end{lemma}
+Note that Lemma \ref{lem_cov_shift} extends Lemma \ref{lem_minv} for a single sample covariance matrix to the sum of two independent sample covariance matrices. 
+
+
+Combining the above three lemmas, we can provide a sharp analysis of the bias-variance tradeoff of the multi-task estimator.
 
 \subsection{Multiple Tasks}\label{sec_main}
 
