@@ -40,56 +40,59 @@
 %We shall also derive the limit of $\te(\hat{\beta}_t^{\MTL})$.
 %\todo{write a brief technical overview}
 
-For the rest of this section, we shall state and prove the formal version of Theorem \ref{thm_main_informal}. %We shall consider the case where the entries of $\e_1$ and $\e_2$ have the same variance $\sigma_1^2=\sigma_2^2=\sigma^2$. 
+In this subsection, we give the proof Theorem \ref{thm_main_informal}. During the proof we shall also give explicit expressions for $\Delta_{\bias}$ and $\Delta_{\vari}$, which might be of interest to some readers. %We shall consider the case where the entries of $\e_1$ and $\e_2$ have the same variance $\sigma_1^2=\sigma_2^2=\sigma^2$. 
 %Moreover, we shall denote $\beta_1$ and $\beta_2$ by $\beta_1$ and $\beta_2$, standing for ``source task" and ``target task", respectively. 
-First, we introduce several quantities that will be used in our statement, and they are also related to the quantities in Lemma \ref{lem_cov_shift} and Lemma \ref{lem_cov_derivative}. Given the optimal ratio $\hat v$, 
-%let $\hat{M} = \hat{v} \Sigma_1^{1/2}\Sigma_2^{-1/2}$ denote the weighted covariate shift matrix, and ${\hat\lambda}_1\ge {\hat\lambda}_2 \ge \dots \ge {\hat\lambda}_p$ be the eigenvalues of $\hat{M}^{\top}\hat{M}$. Define 
-let $(\hat a_1, \hat a_2)$ be the solution to the following system of deterministic equations,
-	\be
-		 \hat a_1 +  \hat a_2 = 1- \frac{1}{\rho_1 + \rho_2},\quad  \hat a_1 + \frac1{\rho_1 + \rho_2}\cdot \frac1p\sum_{i=1}^p \frac{ \hat v^2 \lambda_i^2 \hat a_1}{ \hat v^2 \lambda_i^2\hat a_1 +  \hat a_2} = \frac{\rho_1}{\rho_1 + \rho_2}.\label{eq_a2} \\
-		 \ee
-		 After obtaining $(\hat a_1,\hat a_2)$, we can solve the following linear equations to get $(\hat a_3,\hat a_4)$:
-\begin{gather}
-		\left(\rho_2 \hat a_2^{-2}- \hat b_0\right)\cdot \hat  a_3 - \hat b_1 \cdot \hat a_4
-		=\hat b_0, \quad \left(\rho_1\hat a_1^{-2} - \hat b_2  \right)\cdot \hat a_4 - \hat b_1 \cdot \hat a_3 =\hat b_1 .\label{eq_a3} 
-%		\left(\frac{n_1}{\hat a_1^2} -  \sum_{i=1}^p \frac{\hat \lambda_i^4   }{  (\hat a_2 + \hat \lambda_i^2\hat a_1)^2  }\right)\hat a_4 -\left(\sum_{i=1}^p \frac{\hat \lambda_i^2  }{  (\hat a_2 + \hat \lambda_i^2\hat a_1)^2  }\right)\hat a_3
-%		= \sum_{i=1}^p \frac{\hat \lambda_i^2 }{  (\hat a_2 + \hat \lambda_i^2\hat a_1)^2  }. \label{eq_a4}
-	\end{gather}
-where we denoted
-$$\hat b_k:= \frac1{p}\sum_{i=1}^p \frac{\hat v^{2k} \lambda_i^{2k}}{ (\hat a_2 +\hat v^2 \lambda_i^2\hat a_1)^2  },\quad k=0,1,2.$$
-Then we introduce the following matrix
-\be\label{defnpihat}\Pi \equiv \Pi(\hat v)= \frac{\rho_1^2}{(\rho_1 + \rho_2)^2}\cdot \hat v^2{M} \frac{(1 + \hat a_3)\id +\hat  a_4 \hat v^2 {M}^{\top} {M}}{(\hat  a_1 \hat v^2{M}^{\top} {M}+\hat a_2 )^2} {M}^{\top}.\ee
+%First, we introduce several quantities that will be used in our statement, and they are also related to the quantities in Lemma \ref{lem_cov_shift} and Lemma \ref{lem_cov_derivative}. Given the optimal ratio $\hat v$, 
+%%let $\hat{M} = \hat{v} \Sigma_1^{1/2}\Sigma_2^{-1/2}$ denote the weighted covariate shift matrix, and ${\hat\lambda}_1\ge {\hat\lambda}_2 \ge \dots \ge {\hat\lambda}_p$ be the eigenvalues of $\hat{M}^{\top}\hat{M}$. Define 
+%let $(\hat a_1, \hat a_2)$ be the solution to the following system of deterministic equations,
+%	\be
+%		 \hat a_1 +  \hat a_2 = 1- \frac{1}{\rho_1 + \rho_2},\quad  \hat a_1 + \frac1{\rho_1 + \rho_2}\cdot \frac1p\sum_{i=1}^p \frac{ \hat v^2 \lambda_i^2 \hat a_1}{ \hat v^2 \lambda_i^2\hat a_1 +  \hat a_2} = \frac{\rho_1}{\rho_1 + \rho_2}.\label{eq_a2} \\
+%		 \ee
+%		 After obtaining $(\hat a_1,\hat a_2)$, we can solve the following linear equations to get $(\hat a_3,\hat a_4)$:
+%\begin{gather}
+%		\left(\rho_2 \hat a_2^{-2}- \hat b_0\right)\cdot \hat  a_3 - \hat b_1 \cdot \hat a_4
+%		=\hat b_0, \quad \left(\rho_1\hat a_1^{-2} - \hat b_2  \right)\cdot \hat a_4 - \hat b_1 \cdot \hat a_3 =\hat b_1 .\label{eq_a3} 
+%%		\left(\frac{n_1}{\hat a_1^2} -  \sum_{i=1}^p \frac{\hat \lambda_i^4   }{  (\hat a_2 + \hat \lambda_i^2\hat a_1)^2  }\right)\hat a_4 -\left(\sum_{i=1}^p \frac{\hat \lambda_i^2  }{  (\hat a_2 + \hat \lambda_i^2\hat a_1)^2  }\right)\hat a_3
+%%		= \sum_{i=1}^p \frac{\hat \lambda_i^2 }{  (\hat a_2 + \hat \lambda_i^2\hat a_1)^2  }. \label{eq_a4}
+%	\end{gather}
+%where we denoted
+%$$\hat b_k:= \frac1{p}\sum_{i=1}^p \frac{\hat v^{2k} \lambda_i^{2k}}{ (\hat a_2 +\hat v^2 \lambda_i^2\hat a_1)^2  },\quad k=0,1,2.$$
+With $a_i$, $i=1,2,3,4$, given in Lemma \ref{lem_cov_shift} and Lemma \ref{lem_cov_derivative}, 
+we define the following matrix
+\be\label{defnpihat}\Pi \equiv \Pi(\hat v)= \frac{\rho_1^2}{(\rho_1 + \rho_2)^2}\cdot \hat v^2{M} \frac{(1 +   a_3)\id + \hat v^2 a_4 {M}^{\top} {M}}{( \hat v^2 a_1 {M}^{\top} {M}+ a_2 )^2} {M}^{\top}.\ee
 %which is defined in a way such that {\it in certain sense} it is the asymptotic limit of the random matrix 
 %$$\hat v\Sigma_1^{1/2} (\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} \Sigma_2 (\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_1^{1/2}.$$ 
-We introduce two factors that will appear often in our statements and discussions:
+Moreover, we introduce two factors that will appear often in our statements and discussions:
 $$\al_-(\rho_1):=\left(1- \rho_1^{-1/2}\right)^2,\quad \al_+(\rho_1):=\left(1 + \rho_1^{-1/2}\right)^2.$$ 
 In fact, $\al_-(\rho_1)$ and $\al_+(\rho_1)$ correspond to the largest and smallest singular values of $Z_1/\sqrt{n_1}$, respectively, as given by the famous Mar{\v c}enko-Pastur law \cite{MP}. In particular, as $\rho_1$ increases, both $\al_-$ and $\al_+$ will converge to 1 and $Z_1/\sqrt{n_1}$ will be more close to an isometry. Finally, we introduce the error term  
-\be\label{eq_deltaextra}\delta\equiv \delta(\hat v):=\frac{\al_+^2(\rho_1) - 1 }{\al_-^{2}(\rho_1)\hat v^2\lambda_{\min}^2(M)} \cdot  \norm{\Sigma_1^{1/2}(\beta_1 - \hat{v}\beta_2)}^2.\ee
+\be\label{eq_deltaextra} 
+ \delta(\hat v):=\frac{\al_+^2(\rho_1) - 1 }{\al_-^{2}(\rho_1)\hat v^2\lambda_{\min}^2(M)} \cdot  \norm{\Sigma_1^{1/2}(\beta_1 - \hat{v}\beta_2)}^2.\ee
 %where $\lambda_{\min}(\hat M)$ is the smallest singular value of $\hat M$. 
-Note that this factor converges to 0 as $\rho_1$ increases.
+Note that this factor converges to 0 as $\rho_1$ increases. It is not hard to see that Theorem \ref{thm_main_informal} is an immediate consequence of the following lemma.
 
 %$$\delta:=\left[\frac{n_1 \lambda_1}{(\sqrt{n_1}-\sqrt{p})^2\lambda_p  +  (\sqrt{n_2}-\sqrt{p})^2}\right]^2\cdot \norm{\Sigma_1^{1/2}(\beta_1 - \hat{w}\beta_2)}^2.$$
 %{\cor may be able to get a better bound, but the statement will be long}
 
-Now we are ready to state our main result for two tasks with both covariate and model shift. It shows that the information transfer is determined by two deterministic quantities $\Delta_{\bias}$ and $\Delta_{\vari}$, which give the change of model shift bias and the change of variance, respectively.
 
 
 
-\begin{theorem}[Theorem \ref{thm_main_informal} restated]\label{thm_model_shift}
+
+\begin{lemma}%[Theorem \ref{thm_main_informal} restated]
+\label{thm_model_shift}
 %For $i=1,2$, let $Y_i = X_i\beta_i + \varepsilon_i$ be two independent data models, where $X_i$, $\beta_i$ and $\varepsilon_i$ are also independent of each other. Suppose that $X_i=Z_i\Sigma_i^{1/2}\in \R^{n_i\times p}$ satisfy Assumption \ref{assm_secA1} with $\rho_i:=n_i/p>1$ being fixed constants, and $\e_i\in \R^{n_i}$ are random vectors with i.i.d. entries with mean zero, variance $\sigma^2$ and all moments as in \eqref{assmAhigh}. 
 Consider two data models $Y_i = X_i\beta_i + \varepsilon_i$, $i=1,2$, that satisfy Assumption \ref{assm_secA2} with $\sigma_1^2=\sigma_2^2=\sigma^2$. Then with high probability, we have
 	\begin{align}
-	 	\te(\hat{\beta}_{t}^{\MTL}) \le \te(\hat{\beta}_t^{\STL}) \quad \text{ when: } \ \ &\Delta_{\vari} - \Delta_{\bias} \ge   \delta(\hat v) \label{upper}\\
+	 	\te(\hat{\beta}_{t}^{\MTL}) \le \te(\hat{\beta}_t^{\STL}) \quad \text{ when: } \ \ &\Delta_{\vari} - \Delta_{\bias} \ge   \delta(\hat v), \label{upper}\\
 		\te(\hat{\beta}_t^{\MTL}) \ge \te(\hat{\beta}_t^{\STL}) \quad \text{ when: } \ \ &\Delta_{\vari} - \Delta_{\bias} \le - \delta(\hat v), \label{lower}
 	\end{align}
 	where
 	\begin{align} %\bigtr{{\Sigma_2^{-1}}}
-		\Delta_{\vari} &\define {\sigma^2}\bigbrace{\frac{1}{\rho_2 - 1} -  \frac{1}{\rho_1 + \rho_2}\cdot \frac1p \bigtr{(\hat a_1 \hat v^2 M^{\top}M + \hat a_2\id)^{-1}} } \label{Deltavarv} \\
+		\Delta_{\vari} &\define {\sigma^2}\bigbrace{\frac{1}{\rho_2 - 1} -  \frac{1}{\rho_1 + \rho_2}\cdot \frac1p \bigtr{( \hat v^2 a_1 M^{\top}M +  a_2\id)^{-1}} } \label{Deltavarv} \\
 		\Delta_{\bias} &\define (\beta_1 - \hat{v}\beta_2)^{\top} \Sigma_1^{1/2} \Pi (\hat v)\Sigma_1^{1/2} (\beta_1 - \hat{v}\beta_2). \label{Deltabetav}
 	\end{align}
-\end{theorem}
+\end{lemma}
 
-The proof of Theorem \ref{thm_model_shift} is based on Lemma \ref{lem_cov_shift}, Lemma \ref{lem_cov_derivative}, and the following bound on the singular values of $Z_1$: for any fixed $\e>0$, we have
+{\cor(start here)} The proof of Lemma \ref{thm_model_shift} is based on Lemma \ref{lem_cov_shift}, Lemma \ref{lem_cov_derivative}, and the following bound on the singular values of $Z_1$: for any fixed $\e>0$, we have
 \begin{align}
 \al_-(\rho_1) - \OO(p^{-1/2+e})  \preceq {n_1^{-1}}{Z_1^T Z_1}  \preceq   \al_+(\rho_1) + \OO(p^{-1/2+e}) \quad \text{w.h.p.}  \label{eq_isometric}
 \end{align}
@@ -106,7 +109,7 @@ In fact, the eigenvalues of $\cal X:=(X_1^{\top}X_1)^{-1}X_2^{\top}X_2$ have bee
 
 
 
-\begin{proof}[Proof of Theorem \ref{thm_model_shift}]
+\begin{proof}[Proof of Lemma \ref{thm_model_shift}]
 %\noindent
 %To prove Theorem \ref{thm_cov_shift}, we study the spectrum of the random matrix model:
 %$$Q= \Sigma_1^{1/2}  Z_1^{\top} Z_1 \Sigma_1^{1/2}  + \Sigma_2^{1/2}  Z_2^{\top} Z_2 \Sigma_2^{1/2} ,$$
