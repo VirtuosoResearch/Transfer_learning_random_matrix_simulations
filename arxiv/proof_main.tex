@@ -148,11 +148,11 @@ We introduce the notation $\hat M \equiv \hat M(v)= v\Sigma_1^{1/2}\Sigma_2^{-1/
 \end{itemize}
 
 
-\paragraph{Step I: Variance reduction.} ........ Consider $\hat M(v)$ for any fixed $v\in \R$. Using Lemma \ref{lem_cov_shift}, we can obtain that for any constant $\e>0$, 
+\paragraph{Step I: Variance reduction.} Consider $\hat M(v)$ for a fixed $v\in \R$. Using Lemma \ref{lem_cov_shift}, we can obtain that for any constant $\e>0$,  
 $$  \sigma^2 \cdot \bigtr{(X_2^{\top}X_2)^{-1}\Sigma_2} = \frac{\sigma^2}{\rho_2-1}\left( 1+ \OO(p^{-1/2+e})\right),$$
 and 
-$$ \sigma^2 \cdot \bigtr{( {v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} \Sigma_2} =   \frac {\sigma^2} {\rho_1 + \rho_2}\cdot \frac1p \bigtr{(\hat a_1 \hat M^{\top}\hat M + \hat a_2\id)^{-1}}\left( 1+ \OO(p^{-1/2+e})\right) ,$$
-with high probability, where $\hat a_1$ and $\hat a_2$ satify \eqref{eq_a2} with $\hat v$ replaced by $v$. Combining them, we get 
+$$ \sigma^2 \cdot \bigtr{( {v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} \Sigma_2} =   \frac {\sigma^2} {\rho_1 + \rho_2}\cdot \frac1p \bigtr{( a_1(v) \hat M^{\top}\hat M + a_2(v)\id)^{-1}}\left( 1+ \OO(p^{-1/2+e})\right) ,$$
+with high probability, where $a_1(v)$ and $a_2(v)$ satify \eqref{eq_a12extra} with $\hat v$ replaced by $v$. The subtraction of these two terms gives 
 \be\label{deltavaral-} \delta_{\vari}(v)=\Delta_{\vari}(v) +\OO( \sigma^2 p^{-1/2+e}) \quad \text{w.h.p.},
 \ee 
 where $\Delta_{\vari}(v)$ is defined as in \eqref{Deltavarv} but with $\hat v$ replaced by $v$.
@@ -163,17 +163,17 @@ where $\Delta_{\vari}(v)$ is defined as in \eqref{Deltavarv} but with $\hat v$ r
 Next we use \eqref{eq_isometric} to approximate $\delta_{\bias}(v)$ with $\wt\delta_{\bias}(v)$. %in \eqref{deltabetapf}.  
 %relate the first term in equation \eqref{eq_te_model_shift} to $\Delta_{\bias}$.
 \begin{claim}\label{prop_model_shift}
-	In the setting of Theorem \ref{thm_model_shift},
-	we denote by $K = (v^2X_1^{\top}X_1 + X_2^{\top}X_1)^{-1}$, and
+	In the setting of Lemma \ref{thm_model_shift},
+	we denote $K(v) := (v^2X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}$, and
 	\begin{align*}
 		%\delta_1 &= v^2 \bignorm{\Sigma_2^{1/2} K X_1^{\top}X_1(\beta_1 - v\beta_2)}^2, \\
 		%\delta_2 &= n_1^2\cdot v^2 \bignorm{\Sigma_2^{1/2}K\Sigma_1(\beta_1 - v\beta_2)}, \\
-		\delta_{err}(v) := n_1^2 v^2 \bignorm{\Sigma_1^{1/2} K \Sigma_2 K \Sigma_1^{1/2}} \cdot \bignorm{\Sigma_1^{1/2} (\beta_1 - v\beta_2)}^2.
+		\delta_{err}(v) := n_1^2 v^2 \bignorm{\Sigma_1^{1/2} K(v) \Sigma_2 K(v) \Sigma_1^{1/2}} \cdot \bignorm{\Sigma_1^{1/2} (\beta_1 - v\beta_2)}^2.
 	\end{align*}
 	Then we have w.h.p.
 	\begin{align*}
 		 \left| \delta_{\bias}(v)-\wt\delta_{\bias}(v)\right| 
-		\le  \left( \al_+^2(\rho_1)-1 + \OO(p^{-1/2+\e})\right)\delta_{err}.
+		\le  \left( \al_+^2(\rho_1)-1 + \OO(p^{-1/2+\e})\right)\delta_{err}(v).
 	\end{align*}
 %	We have that
 %	\begin{align*}
@@ -191,7 +191,7 @@ Next we use \eqref{eq_isometric} to approximate $\delta_{\bias}(v)$ with $\wt\de
 \begin{proof}
 	%The proof follows by applying equation \eqref{eq_isometric}.
 	%Recall that $X_1^{\top}X_1 = \Sigma_1^{1/2}Z_1^{\top}Z_1\Sigma_1^{1/2}$.
-	Denote by $\cE = Z_1^{\top}Z_1 - {n_1}\id$. Then we can write
+We can calculate that
 %	Let $\alpha = \bignorm{\Sigma_2^{1/2} K \Sigma_1 (\beta_1 - \hat{w}\beta_2)}^2$.
 	%We have
 	\begin{align}
@@ -201,7 +201,8 @@ Next we use \eqref{eq_isometric} to approximate $\delta_{\bias}(v)$ with $\wt\de
 		&+ v^2\bignorm{\Sigma_2^{1/2} K \Sigma_1^{1/2}\cE \Sigma_1^{1/2}(\beta_1 - v\beta_2)}^2. \label{eq_lem_model_shift_1}
 %		\le& n_1\bigbrace{{n_1^2}{} + \frac{2n_1}p(p + 2\sqrt{{n_1}p}) + (p + 2\sqrt{{n_1}p})^2} \alpha = n_1^2\bigbrace{1 + \sqrt{\frac{p}{n_1}}}^4 \alpha. \nonumber
 	\end{align}
-	Using \eqref{eq_isometric}, we can bound  
+	where we denote $\cE: = Z_1^{\top}Z_1 - {n_1}\id$. 
+	{\cor(start here)} Using \eqref{eq_isometric}, we can bound  
 	$$\|\cal E\|\le \left( \al_+(\rho_1)-1 + \OO(p^{-1/2+\e})\right)n_1, \quad \text{w.h.p.}$$
 	Thus we can estimate that 
 	\begin{align*}
