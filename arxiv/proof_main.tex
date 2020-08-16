@@ -202,7 +202,7 @@ We can calculate that
 %		\le& n_1\bigbrace{{n_1^2}{} + \frac{2n_1}p(p + 2\sqrt{{n_1}p}) + (p + 2\sqrt{{n_1}p})^2} \alpha = n_1^2\bigbrace{1 + \sqrt{\frac{p}{n_1}}}^4 \alpha. \nonumber
 	\end{align}
 	where we denote $\cE: = Z_1^{\top}Z_1 - {n_1}\id$. 
-	{\cor(start here)} Using \eqref{eq_isometric}, we can bound  
+  Using \eqref{eq_isometric}, we can bound  
 	$$\|\cal E\|\le \left( \al_+(\rho_1)-1 + \OO(p^{-1/2+\e})\right)n_1, \quad \text{w.h.p.}$$
 	Thus we can estimate that 
 	\begin{align*}
@@ -210,7 +210,7 @@ We can calculate that
 	&=  v^2 \left[\left( n_1 + \|\cal E\|\right)^2 -n_1^2 \right] \bignorm{\Sigma_1^{1/2} K \Sigma_2 K \Sigma_1^{1/2}} \bignorm{\Sigma_1^{1/2} (\beta_1 - v\beta_2)}^2 \\
 	& \le v^2 n_1^2 \left[ \al_+^2(\rho_1) + \OO(p^{-1/2+\e}) -1\right]\bignorm{\Sigma_1^{1/2} K \Sigma_2 K \Sigma_1^{1/2}} \bignorm{\Sigma_1^{1/2} (\beta_1 - v\beta_2)}^2,
 	\end{align*}
-	which concludes the proof by the definition of $\delta_\e$.	
+	which concludes the proof by the definition of $\delta_{err}$.	
 %	we can bound the second term on the RHS of equation \eqref{eq_lem_model_shift_1} as
 %	\begin{align*}
 %		& \bigabs{(\beta_1 -  \beta_2)^{\top} \Sigma_1^{1/2} \cE \Sigma_1^{1/2} K \Sigma_2 K \Sigma_1 (\beta_1 - v\beta_2)}\le n_1  \|\cal E\| \cdot \bignorm{\Sigma_1^{1/2} K \Sigma_2 K \Sigma_1^{1/2}} \bignorm{\Sigma_1^{1/2} (\beta_1 - v\beta_2)}^2 \\
@@ -228,28 +228,28 @@ We can calculate that
 %	For the left direction, we simply note that the third term in equation \eqref{eq_lem_model_shift_1} is positive.
 %	And the second term is bigger than $-2n_1^2(2\sqrt{\frac{p}{n_1}} + \frac{p}{n_1}) \alpha$ using equation \eqref{eq_isometric}.
 \end{proof}
-Note by \eqref{eq_isometric}, we have with high probability,
+Note by \eqref{eq_isometric}, we also obtain that with high probability,
 \begin{align*}
 &v^2 n_1^2 \Sigma_1^{1/2} K \Sigma_2 K \Sigma_1^{1/2} =n_1^2 \hat M (\hat M^\top Z_1^\top Z_1 \hat M + Z_2^\top Z_2)^{-2}\hat M^\top \\
 &\preceq  n_1^2 \hat M \left[n_1 \al_-(\rho_1)\hat M^\top \hat M + n_2 \al_-(\rho_2) + \OO(p^{1/2+\e})\right]^{-2}\hat M^\top \\
-&\preceq  \left[ \al_-^2(\rho_1) \hat M\hat M^\top + 2\frac{\rho_2}{\rho_1} \al_-(\rho_1)\al_-(\rho_2) + 2\left(\frac{\rho_2}{\rho_1}\right)^2 \al_-^2(\rho_2) (\hat M \hat M^\top )^{-1}\right]^{-1}+  \OO(p^{-1/2+\e}) \\
+&\preceq  \left[ \al_-^2(\rho_1) \hat M\hat M^\top + 2\frac{\rho_2}{\rho_1} \al_-(\rho_1)\al_-(\rho_2) + \left(\frac{\rho_2}{\rho_1}\right)^2 \al_-^2(\rho_2) (\hat M \hat M^\top )^{-1}\right]^{-1}+  \OO(p^{-1/2+\e}) \\
 &\preceq [\al_-^2(\rho_1) \lambda_{\min}^2(\hat M)]^{-1}\cdot (1 - c)
 \end{align*}
-for some small enough constant $c>0$. Together with Claim \ref{prop_model_shift}, we get with high probability,
+for a small enough constant $c>0$. Together with Claim \ref{prop_model_shift}, we get that with high probability,
 \be\label{bounddelta-}
 \left| \delta_{\bias}(v)-\wt\delta_{\bias}(v)\right| 
 		\le (1-c) \delta(v)
 \ee
-for some small constant $c>0$, where we recall $\delta(v)$ defined in \eqref{eq_deltaextra}.
+for some small constant $c>0$, where recall that $\delta(v)$ was defined in \eqref{eq_deltaextra}.
 
 
 \paragraph{Step III: The limit of $\wt\delta_{\bias}(v)$.} 
-Using Lemma \ref{lem_cov_derivative} with $\Sigma_1$ and $M$ replaced by $v^2\Sigma_1$ and $\hat M$, we obtain that 
+Using Lemma \ref{lem_cov_derivative}, we obtain that with high probability,
 \begin{align*}
-\wt\delta_{\bias}(v) &=\frac{\rho_1^2}{(\rho_1 + \rho_2)^2}\cdot v^2 (\beta_1-v\beta_2)^\top\Sigma_1 \Sigma_2^{-1/2}  \frac{(1 + \hat a_3)\id + \hat a_4 \hat{M}^{\top}\hat{M}}{( a_1 \hat{M}^{\top}\hat{M}+a_2 )^2} \Sigma_2^{-1/2} \Sigma_1(\beta_1-v\beta_2) +\OO(p^{-1/2+\e}) \\
-&= (\beta_1 - {v}\beta_2)^{\top} \Sigma_1^{1/2} \Pi \Sigma_1^{1/2} (\beta_1 - {v}\beta_2) +\OO(p^{-1/2+\e}) =: \Delta_{\bias}(v) +\OO(p^{-1/2+\e}),
+\wt\delta_{\bias}(v) &=\frac{\rho_1^2}{(\rho_1 + \rho_2)^2}\cdot v^2 (\beta_1-v\beta_2)^\top\Sigma_1 \Sigma_2^{-1/2}  \frac{(1 +  a_3(v))\id +v^2 a_4(v) {M}^{\top}{M}}{( v^2 a_1(v) {M}^{\top}{M}+a_2(v) )^2} \Sigma_2^{-1/2} \Sigma_1(\beta_1-v\beta_2) +\OO(p^{-1/2+\e}) \\
+&= (\beta_1 - {v}\beta_2)^{\top} \Sigma_1^{1/2} \Pi(v) \Sigma_1^{1/2} (\beta_1 - {v}\beta_2) +\OO(p^{-1/2+\e}) =: \Delta_{\bias}(v) +\OO(p^{-1/2+\e}),
 \end{align*}
-with high probability. Together with and \eqref{deltavaral-} and \eqref{bounddelta-}, we obtain that w.h.p.,
+where $a_3(v)$ and $a_4(v)$ satify \eqref{eq_a34extra} with $\hat v$ replaced by $v$, and $\Pi$ was defined in \eqref{defnpihat}. Together \eqref{deltavaral-} and \eqref{bounddelta-}, we obtain that w.h.p.,
 \be\label{dicho_varbeta}
 \begin{cases}\delta_{\vari}(v)>\delta_{\bias}(v), & \text{ if } \ \ \Delta_{\vari}(v) - \Delta_{\bias}(v) \ge   \delta(v),\\
 \delta_{\vari}(v)<\delta_{\bias}(v),  & \text{ if }  \ \ \Delta_{\vari}(v) - \Delta_{\bias}(v) \le -  \delta(v).\end{cases}
@@ -259,24 +259,24 @@ with high probability. Together with and \eqref{deltavaral-} and \eqref{bounddel
 
 \paragraph{Step IV: An $\e$-net argument.} Finally, it remains to extend the above result \eqref{dicho_varbeta} to $v=\hat v$, which is random and depends on $X_1$ and $X_2$. We first show that for any fixed constant $C_0>0$, there exists a high probability event $\Xi$ on which \eqref{dicho_varbeta} 
 %\eqref{lem_cov_shift_eq} and \eqref{lem_cov_derv_eq} 
-holds uniformly for all $v\in [-C_0, C_0]$. In fact, we consider $v$ belonging to a discrete set 
+holds uniformly for all $v\in [-C_0, C_0]$. In fact, we first consider $v$ that belongs to a discrete set 
 $$V:=\{v_k = kp^{-1}: -(C_0p +1)\le k \le C_0p +1\}.$$
 Then using the arguments for the first three steps and a simple union bound, we get that
 \eqref{dicho_varbeta} holds simultaneously for all $v\in V$ with high probability. On the other hand, by \eqref{eq_isometric} the event
 $$\Xi_1:=\left\{ \al_-(\rho_1)/2 \preceq  \frac{Z_1^T Z_1}{n_1}  \preceq   2\al_+(\rho_1) ,\  \al_-(\rho_2)/2 \preceq  \frac{Z_2^T Z_2}{n_2}  \preceq   2\al_+(\rho_2)\right\}$$
-holds with high probability. Now it is easy to check that on $\Xi_1$, for all $v_k \le v\le v_{k+1}$ we have the following estimates:
+holds with high probability. Now it is easy to check that on $\Xi_1$, the following estimates holds simultaneously for all $v_k \le v\le v_{k+1}$:
 \begin{align*}
 & |\delta_{\vari}(v) -\delta_{\vari}(v_k)|\lesssim p^{-1}\delta_{\vari}(v_k),\ \ |\delta_{\bias}(v) -\delta_{\bias}(v_k)|\lesssim p^{-1}\delta_{\bias}(v_k), \ \   |\delta(v)-\delta(v_k)|\lesssim p^{-1}\delta(v_k),\\
 & |\Delta_{\bias}(v) -\Delta_{\bias}(v_k)|\lesssim p^{-1}\Delta_{\bias}(v_k),\ \ |\Delta_{\vari}(v) -\Delta_{\vari}(v_k)|\lesssim p^{-1}\Delta_{\vari}(v_k).
 \end{align*}
 Then a simple application of triangle inequality gives that the event 
 $$\Xi_2=\{\eqref{dicho_varbeta} \text{ holds simultaneously for all }-C_0\le v \le C_0\}$$
-holds with high probability. On the other hand, on $\Xi_1$ one can see that for any small constant $\e>0$, there exists a large enough constant $C_0>0$ depending on $\e$ such that
+holds with high probability. On the other hand, on $\Xi_1$ it is easy to check that for any small constant $\e>0$, there exists a large enough constant $C_0>0$ depending on $\e$ such that
 \begin{align*}
 & |\delta_{\vari}(v) -\delta_{\vari}(C_0)|\le \e\delta_{\vari}(C_0),\quad |\delta_{\bias}(v) -\delta_{\bias}(C_0)|\le \e\delta_{\bias}(C_0), \quad  |\delta(v)-\delta(C_0)|\le \e\delta(C_0),\\
 & |\Delta_{\bias}(v) -\Delta_{\bias}(C_0)|\le \e\Delta_{\bias}(C_0),\quad |\Delta_{\vari}(v) -\Delta_{\vari}(C_0)|\le \e\Delta_{\vari}(C_0),
 \end{align*}
-for all $v\ge C_0$. Similar estimates hold for $v\le -C_0$ if we replace $C_0$ with $-C_0$ in the above estimates. Together with the estimate at $\pm C_0$, we get that \eqref{dicho_varbeta} holds simultaneously for all $v\in \R$ on the high probability event $\Xi_1\cap \Xi_2$. This concludes the proof since $v$ must be one of the real values.
+for all $v\ge C_0$. Similar estimates hold for $v\le -C_0$ if we replace $C_0$ with $-C_0$ in the above estimates. Together with the estimate at $\pm C_0$, we get that \eqref{dicho_varbeta} holds simultaneously for all $v\in \R$ on the high probability event $\Xi_1\cap \Xi_2$. This concludes the proof of Lemma \ref{thm_model_shift}, since $\hat v$ must be one of the real values.
 \end{proof}
 
 
@@ -292,21 +292,21 @@ for all $v\ge C_0$. Similar estimates hold for $v\le -C_0$ if we replace $C_0$ w
 %In this section we consider the setting with $k$ many that have the same covariates.
 %Since every task has the same number of data points as well as the same covariance, the only differences between different tasks are their models $\set{\beta_i}_{i=1}^k$.
 %For this setting, we derive solutions for the multi-task training and the transfer learning setting that match our insights qualitatively from Section \ref{sec_denoise}.
+Using Lemma \ref{lem_minv} and some concentration bounds, we can complete the proof of Theorem \ref{thm_many_tasks}.
 
 \begin{proof}[Proof of Theorem \ref{thm_many_tasks}]
 In this setting, we need to study the following loss function:
 \begin{align}
-	f(B; W_1, \dots, W_t) = \sum_{i=1}^t \bignorm{X B W_i - Y_i}^2. \label{eq_mtl_same_cov}
+	f(B; W_1, \dots, W_t) = \sum_{i=1}^t \bignorm{X B W_i - Y_i}^2,\label{eq_mtl_same_cov}
 \end{align}
-%In order to prove Theorem \ref{thm_many_tasks}, we will derive a closed form solution for equation \eqref{eq_mtl_same_cov}. \todo{check!}
-For any fixed $W_1, W_2, \dots, W_t \in \R^r$, we can derive a closed form solution for $B$ as
+for $W_1, W_2, \dots, W_t \in \R^r$. Then it is not hard to derive a closed form solution for $B$ as
 	\begin{align*}
 		\hat{B}(W_1, \dots, W_t) &= (X^{\top}X)^{-1} X^{\top} \bigbrace{\sum_{i=1}^t Y_i W_i^{\top}} (\cal W  \cal W^{\top})^{-1} \\
 		&= (B^\star \cal W ^{\top}) (\cal W \cal W ^{\top})^{-1} + (X^{\top}X)^{-1}X^{\top} \bigbrace{\sum_{i=1}^t \varepsilon_i W_i^{\top}} (\cal W \cal W^{\top})^{-1},
 	\end{align*}
-	where we denote $\cal W \in\real^{r\times t}$ as $\cal W=[W_1, W_2, \dots, W_t]$.
+	where $\cal W \in\real^{r\times t}$ is a matrix defined as $\cal W=[W_1, W_2, \dots, W_t]$.
 	%Now we switch $\hat{B}$ back into equation \eqref{eq_mtl_same_cov} to
-Then as in \eqref{approxvalid}, we pick $N$ independent samples of the training set for each task with $N\ge n^{1-\e_0}$, and use concentration to get the validation loss as
+Then as in \eqref{approxvalid}, we pick $N$ independent samples of the training set for each task with $N\ge n^{1-\e_0}$, and use the concentration result, Lemma \ref{largedeviation}, to get the validation loss as {\cor{start here}}
 \be\label{eq_multival}g(\cal W)=  N\left[\val(\cal W) + t  \sigma^2 \right]\cdot \left( 1+\OO(p^{-(1-\e_0)/2+\e})\right).\ee
 Here $\val(\cal W)$ is defined as
 %it remains to consider minimizing the validation loss
