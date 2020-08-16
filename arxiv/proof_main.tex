@@ -92,17 +92,17 @@ Consider two data models $Y_i = X_i\beta_i + \varepsilon_i$, $i=1,2$, that satis
 	\end{align}
 \end{lemma}
 
-{\cor(start here)} The proof of Lemma \ref{thm_model_shift} is based on Lemma \ref{lem_cov_shift}, Lemma \ref{lem_cov_derivative}, and the following bound on the singular values of $Z_1$: for any fixed $\e>0$, we have
+The proof of Lemma \ref{thm_model_shift} is based on Lemma \ref{lem_cov_shift}, Lemma \ref{lem_cov_derivative}, and the following bound on the singular values of $Z_1$: for any constant $\e>0$, we have
 \begin{align}
 \al_-(\rho_1) - \OO(p^{-1/2+e})  \preceq {n_1^{-1}}{Z_1^T Z_1}  \preceq   \al_+(\rho_1) + \OO(p^{-1/2+e}) \quad \text{w.h.p.}  \label{eq_isometric}
 \end{align}
 %with high probability. 
-In fact, $n_1^{-1}Z_1^TZ_1$ is a standard sample covariance matrix, and it is well-known that its eigenvalues are inside the support of the Marchenko-Pastur law $[\al_-(\rho_1)-\oo(1) ,\al_+(\rho_1)+\oo(1)]$ with probability $1-\oo(1)$ \cite{No_outside}. The estimate \eqref{eq_isometric} provides tight bounds for the concentration error. The result is formally stated in Lemma \ref{SxxSyy} below.
+In fact, $n_1^{-1}Z_1^TZ_1$ is a standard sample covariance matrix, and it is well-known that its eigenvalues are all inside the support of the Marchenko-Pastur law $[\al_-(\rho_1)-\oo(1) ,\al_+(\rho_1)+\oo(1)]$ with probability $1-\oo(1)$ \cite{No_outside}. The estimate \eqref{eq_isometric} provides tight bounds on the concentration errors, and it will be formally proved in Lemma \ref{SxxSyy} below.
 
 %\begin{remark}
-The main error $\delta$ of Theorem \ref{thm_model_shift} comes from approximating $n_1^{-1}Z_1^TZ_1$ by $\id$ using \eqref{eq_isometric}; see the estimate \eqref{bounddelta-} below. In order to improve this estimate and obtain an exact asymptotic result, one needs to study the singular value distribution of the following random matrix:
+The main error $\delta$ in Lemma \ref{thm_model_shift} comes from approximating $n_1^{-1}Z_1^TZ_1$ by $\id$ using \eqref{eq_isometric}; see the estimate \eqref{bounddelta-} below. In order to improve this estimate and obtain an exact asymptotic result, one needs to study the singular value distribution of the following random matrix:
 $$(X_1^{\top}X_1)^{-1}X_2^{\top}X_2 +  \hat{v}^2 .$$
-In fact, the eigenvalues of $\cal X:=(X_1^{\top}X_1)^{-1}X_2^{\top}X_2$ have been studied in the name of Fisher matrices; see e.g. \cite{Fmatrix}. However, since $\cal X$ is not symmetric, it is known that the singular values of $\cal X$ are different from its eigenvalues. To the best of our knowledge, the asymptotic singular value behavior of $\cal X$ is still unknown in random matrix theory literature, and the study of the singular values of $\cal X +\hat v^2$ will be even harder. We leave this problem to future study.
+In fact, the eigenvalues of $\cal X:=(X_1^{\top}X_1)^{-1}X_2^{\top}X_2$ have been studied in the name of Fisher matrices; see e.g. \cite{Fmatrix}. However, since $\cal X$ is non-symmetric, it is known that the singular values of $\cal X$ are different from its eigenvalues. To the best of our knowledge, the asymptotic singular value behavior of $\cal X$ is still unknown in random matrix literature, and the study of the singular values of $\cal X +\hat v^2$ will be even harder. We leave this problem to future study.
 %\end{remark}
 
 
@@ -118,10 +118,17 @@ In fact, the eigenvalues of $\cal X:=(X_1^{\top}X_1)^{-1}X_2^{\top}X_2$ have bee
 %\mathbb{E} z_{ij} =0, \ \quad \ \mathbb{E} \vert z_{ij} \vert^2  = 1.
 %\end{equation}
 %\todo{A proof outline; including the following key lemma.}
-Note that 
+By \eqref{eq_te_model_shift} and \eqref{eq_te_var}, we can write
 \begin{align*}
-L(\hat{\beta}_t^{\STL}) - L(\hat{\beta}_t^{\MTL}) &=\sigma^2 \left(  \bigtr{(X_2^{\top}X_2)^{-1}\Sigma_2} -  \bigtr{( \hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} \Sigma_2}\right) \\
-&- \hat{v}^2 \bignorm{\Sigma_2^{1/2}(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} X_1^{\top}X_1 (\beta_1 - \hat{v} \beta_2)}^2=:\delta_{\vari}(\hat v) - \delta_{\bias}(\hat v).
+L(\hat{\beta}_t^{\STL}) - L(\hat{\beta}_t^{\MTL})=\delta_{\vari}(\hat v) - \delta_{\bias}(\hat v), 
+\end{align*}
+where we denote
+\begin{align*}
+\delta_{\vari}(\hat v)&=\sigma^2 \left(  \bigtr{(X_2^{\top}X_2)^{-1}\Sigma_2} -  \bigtr{( \hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} \Sigma_2}\right), 
+\end{align*}
+and
+\begin{align*}
+ \delta_{\bias}(\hat v)&= \hat{v}^2 \bignorm{\Sigma_2^{1/2}(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} X_1^{\top}X_1 (\beta_1 - \hat{v} \beta_2)}^2.
 \end{align*}
 We introduce the notation $\hat M \equiv \hat M(v)= v\Sigma_1^{1/2}\Sigma_2^{-1/2}$ for $v\in \R$. Then the proof is divided into the following four steps. 
 \begin{itemize}
@@ -129,9 +136,9 @@ We introduce the notation $\hat M \equiv \hat M(v)= v\Sigma_1^{1/2}\Sigma_2^{-1/
 %$$\sigma^2 \cdot \bigtr{(X_2^{\top}X_2)^{-1}},\quad \sigma^2 \cdot \bigtr{({v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} \Sigma_2},$$
 %and the difference between them 
 
-\item[(ii)] Using the approximate isometry property of $Z_1$ in \eqref{eq_isometric}, we will bound the bias term $ \delta_{\bias}(v)$
+\item[(ii)] Using the approximate isometry property of $Z_1$ in \eqref{eq_isometric}, we will approximate the bias term $ \delta_{\bias}(v)$ by
 %$${v}^2 \bignorm{\Sigma_2^{1/2}({v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} X_1^{\top}X_1 (\beta_1 - {v} \beta_2)}^2$$
-through 
+%through 
 \be\label{deltabetapf}
 \wt\delta_{\bias}(v):={v}^2 n_1^2\bignorm{\Sigma_2^{1/2}({v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} \Sigma_1 (\beta_1 - {v} \beta_2)}^2.\ee
 
@@ -141,7 +148,7 @@ through
 \end{itemize}
 
 
-\paragraph{Step I: Variance reduction.} Consider $\hat M(v)$ for any fixed $v\in \R$. Using Lemma \ref{lem_cov_shift}, we can obtain that for any constant $\e>0$, 
+\paragraph{Step I: Variance reduction.} ........ Consider $\hat M(v)$ for any fixed $v\in \R$. Using Lemma \ref{lem_cov_shift}, we can obtain that for any constant $\e>0$, 
 $$  \sigma^2 \cdot \bigtr{(X_2^{\top}X_2)^{-1}\Sigma_2} = \frac{\sigma^2}{\rho_2-1}\left( 1+ \OO(p^{-1/2+e})\right),$$
 and 
 $$ \sigma^2 \cdot \bigtr{( {v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} \Sigma_2} =   \frac {\sigma^2} {\rho_1 + \rho_2}\cdot \frac1p \bigtr{(\hat a_1 \hat M^{\top}\hat M + \hat a_2\id)^{-1}}\left( 1+ \OO(p^{-1/2+e})\right) ,$$
