@@ -6,6 +6,26 @@
 
 \subsection{Two Tasks}
 
+First, we give the basic assumption for our main objects---the random matrices $X_i$, $i=1,2$.
+
+\begin{assumption}[Moment assumptions]\label{assm_secA1}
+We will consider $n\times p$ random matrices of the form $X=Z\Sigma^{1/2}$, where $\Sigma$  is a $p\times p$ deterministic positive definite symmetric matrix, and $Z=(z_{ij})$ is an $n\times p$ random matrix with real i.i.d. entries with mean zero and variance one. Note that the rows of $X$ are i.i.d. centered random vectors with covariance matrix $\Sigma$. For simplicity, we assume that all the moments of $z_{ij}$ exists, that is, for any fixed $k\in \N$, there exists a constant $C_k>0$ such that
+\begin{equation}\label{assmAhigh}
+\mathbb{E} |z_{ij}|^k \le C_k ,\quad 1\le i \le n, \ \ 1\le j \le p.
+\end{equation}
+ We assume that $n=\rho p$ for some fixed constant $\rho>1$. Without loss of generality, after a rescaling we can assume that the norm of $\Sigma$ is bounded by a constant $C>0$. Moreover, we assume that $\Sigma$ is well-conditioned: $\kappa(\Sigma)\le C$, where $\kappa(\cdot)$ denotes the condition number.
+\end{assumption}
+Here we have assumed \eqref{assmAhigh} solely for simplicity of representation. If the entries of $Z$ only have finite $a$-th moment for some $a>4$, then all the results below still hold except that we need to replace $\OO(p^{-\frac12+\e})$ with $\OO( p^{-\frac12+\frac2a +\epsilon})$ in some error bounds.
+We will not get deeper into this issue in this section, but refer the reader to Corollary \ref{main_cor} in Section \ref{sec locallaw1}.
+
+
+Then we make the following assumptions on the data models.
+\begin{assumption}[Linear regression model]\label{assm_secA2}
+For some fixed $t\in \N$, let $Y_i = X_i\beta_i + \varepsilon_i$, $1\le i \le t$, be independent data models, where $X_i$, $\beta_i$ and $\varepsilon_i$ are also independent of each other. Suppose that $X_i=Z_i\Sigma_i^{1/2}\in \R^{n_i\times p}$ satisfy Assumption \ref{assm_secA1} with $\rho_i:=n_i/p>1$ being fixed constants.
+$\e_i\in \R^{n_i}$ are random vectors with i.i.d. entries with mean zero, variance $\sigma_i^2$ and all moments as in \eqref{assmAhigh}.
+\end{assumption}
+ 
+
 We now state our main result for two tasks with both covariate and model shift. It shows that the information transfer is determined by two deterministic quantities $\Delta_{\bias}$ and $\Delta_{\vari}$, which give the change of model shift bias and the change of variance, respectively. The exact forms of $\Delta_{\bias}$ and $\Delta_{\vari}$ will be given in Lemma \ref{thm_model_shift}.
 
 \begin{theorem}[Two tasks]\label{thm_main_informal}
@@ -320,6 +340,19 @@ The proof of Proposition \ref{prop_dist_transition} can be found in Appendix \re
 A key part of the analysis shows that $\hat{v}\approx 1$ in the isotropic model,
 thus simplifying the result of Theorem \ref{thm_main_informal}.
 %, which is based on our main result described later in Theorem \ref{thm_model_shift}.
+
+Next we consider the case where the two tasks have different noise variances $\sigma_1^2\ne \sigma_2^2$. In particular, we show Proposition \ref{prop_var_transition}, which gives a transition threshold with respect to the difference between the noise levels of the two tasks.
+
+\begin{proposition}%[Labeled data de-noising]
+\label{prop_var_transition}
+	In the isotropic model, assume that $\rho_1 > 40$ and $\ex{\norm{\beta_1 - \beta_2}^2}< \frac{1}{2} {\sigma_2^2}  \cdot \Phi(\rho_1, \rho_2)$.
+	Then we have the following transition with respect to $\sigma_1^2$:
+	\begin{itemize}
+		\item If $\sigma_1^2 < - \nu^{1/2} \rho_1 \cdot p d^2+\left(1+ \nu^{-1/2}\rho_1 \Phi(\rho_1, \rho_2)\right)\cdot\sigma_2^2$, then w.h.p. $\te(\hat{\beta}_2^{\MTL}) < \te(\hat{\beta}_2^{\STL})$.
+		\item If $\sigma_1^2 > -\nu^{-1/2}\rho_1\cdot p d^2   +\left(1+ \nu^{1/2}\rho_1\Phi(\rho_1, \rho_2)\right) \cdot \sigma_2^2$, then w.h.p. $\te(\hat{\beta}_2^{\MTL}) > \te(\hat{\beta}_2^{\STL})$.
+	\end{itemize}
+\end{proposition}
+As a corollary, if $\sigma_1^2 \le \sigma_2^2$, then we always get positive transfer.
 
 
 \textbf{Algorithmic consequence.}

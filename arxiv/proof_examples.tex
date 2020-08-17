@@ -69,7 +69,7 @@ for some constant $\e>0$.
 	%\cor Under the setting of Lemma \ref{prop_model_shift_tight},
 	Furthermore, the validation loss in \eqref{approxvalid} reduces to
 	\be\label{boundv-w}
-		g(v)=\left[N_2 h(v) + (N_1\sigma^2_1+N_2\sigma^2_2)\right]\cdot \left( 1+\OO(p^{-(1-\e_0)/2+\e})\right)\quad \text{w.h.p.}
+		g(v)=\left[N_2 h(v) + (N_1+N_2)\sigma^2\right]\cdot \left( 1+\OO(p^{-(1-\e_0)/2+\e})\right)\quad \text{w.h.p.}
 	\ee
 	for any constant $\e>0$. %\nc Thus for the following discussions, it suffices to focus on the behavior of $h (v)$.
 Let $\hat w$ be the minimizer of $h(v)$. Our proof consists of the following two steps.
@@ -86,7 +86,9 @@ There exists a constant $C>0$ such that
 	%is $\hat{w} = 1 \pm \bigo{\frac 1 {n_1+n_2}}$ \todo{(figure out the constants)}
 \end{claim}
 \begin{proof}
-To be consistent with the notation $\hat w$, we change the name of the argument to $w$ in the proof. First it is easy to observe that $h(w)< h(-w)$ for $w> 0$. Hence it suffices to assume that $w\ge 0$. We first consider the case $w\ge 1$. We write
+To be consistent with the notation $\hat w$, we change the name of the argument to $w$ in the proof. First it is easy to observe that $h(w)< h(-w)$ for $w> 0$. Second, using \eqref{eq_isometric}, it is easy to check that $h(1)=\OO(pd^2 + \sigma^2)$ and $ h(w)\gtrsim p\kappa^2 \gg h(1)$ for $w\ge 2$ or $w\le 1/2$.  Hence it suffices to consider the case $1/2\le w\le 2$.
+
+We first consider the case $1\le w\le 2$. We write
 \begin{align}
 	h(w) =&  \frac{\rho_1}{\rho_2}\left[\frac{d^2}{w^4} +\frac{\left( w-1\right)^2}{w^4}\kappa^2\right]\cdot \tr\left[( X_1^{\top}X_1 +w^{-2}X_2^{\top}X_2)^{-2} (X_2^{\top}X_2)^2\right] \nonumber \\
 	& + \left[\frac{d^2}{w^2} +\frac{\left( w-1\right)^2}{w^2}\kappa^2\right]\cdot \tr\left[( X_1^{\top}X_1 +w^{-2}X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right] \nonumber\\
@@ -100,7 +102,7 @@ h'(w) \ge & \frac{\rho_1}{\rho_2}\left[ \frac{2(w-1)(2-w)}{w^5}\kappa^2 - \frac{
  &+ \left[\frac{2\left( w-1\right)}{w^3}\kappa^2 - \frac{2d^2}{w^3} \right]\cdot \tr\left[( X_1^{\top}X_1 +w^{-2}X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right] \nonumber\\
 		&- 2  \frac{\sigma^2}{w^3} \cdot \bigtr{(X_1^{\top}X_1 + w^{-2}X_2^{\top}X_2)^{-2} X_1^\top X_1  } =  \bigtr{(X_1^{\top}X_1 + w^{-2}X_2^{\top}X_2)^{-2} \cal A },
 \end{align*}
-where the matrix $\cal A$ is defined as
+where the matrix $\cal A$ is defined as 
 \begin{align*}
 \cal A :&= \frac{\rho_1}{\rho_2}\left[ \frac{2(w-1)(2-w)}{w^5}\kappa^2 - \frac{4d^2}{w^5}\right](X_2^{\top}X_2)^2 + \left[\frac{2\left( w-1\right)}{w^3}\kappa^2 - \frac{2d^2}{w^3} \right](X_1^{\top}X_1)^2 - 2 \frac{\sigma^2}{w^3}X_1^\top X_1.
 \end{align*}
@@ -111,14 +113,14 @@ Using the estimate \eqref{eq_isometric}, we get that $\cal A$ is lower bounded a
 \end{align*}
 as long as
 $$w> w_1:=1 +\frac{d^2}{\kappa^2}+ \frac{\sigma^2}{n_1\kappa^2}\frac{\al_{+}(\rho_1)+\oo(1)}{\al_{-}^2(\rho_1)} + \frac{2d^2}{\kappa^2}\frac{\rho_2(\al_+^2(\rho_2)+\oo(1))}{\rho_1\al_-^2(\rho_1) }.$$
-Hence $h'(w)>0$ on $(w_1,\infty)$, i.e. $h(w)$ is strictly increasing for $w>w_1$. This gives $\hat w\le w_1$.
+Hence $h'(w)>0$ on $(w_1,\infty)$, %i.e. $h(w)$ is strictly increasing for $w>w_1$. This 
+which gives $\hat w\le w_1$.
 
-Then we consider the case $w\le 1$, and the proof is similar as above. Taking derivative of $h(w)$, we obtain that
+For the case $1/2\le w\le 1$, the proof is similar as above. Taking derivative of $h(w)$, we obtain that
 \begin{align}
 	h'(w) \le& \frac{\rho_1}{\rho_2} \left[2\left( w-1\right) \kappa^2\right]\cdot \tr\left[( w^2X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_2^{\top}X_2)^2\right] \nonumber \\
 	& +  \left[2wd^2 +2w\left( w-1\right)(2w-1)\kappa^2\right]\cdot \tr\left[( w^2X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right] \nonumber\\
-	& + \frac{\rho_1}{\rho_2}(2 w\sigma^2) \cdot \bigtr{(w^2X_1^{\top}X_1 + X_2^{\top}X_2)^{-2} X_2^\top X_2  }\\
-			 =& \frac{\rho_1}{\rho_2} \bigtr{(w^2X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} \cal B} , \nonumber
+	& + \frac{\rho_1}{\rho_2}(2 w\sigma^2) \cdot \bigtr{(w^2X_1^{\top}X_1 + X_2^{\top}X_2)^{-2} X_2^\top X_2  }= \frac{\rho_1}{\rho_2} \bigtr{(w^2X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} \cal B} , \nonumber
 \end{align}
 where the matrix $\cal B$ is
 $$\cal B= 2\left( w-1\right) \kappa^2  (X_2^{\top}X_2)^2+\frac{\rho_2}{\rho_1}\left[2wd^2 +2w\left( w-1\right)(2w-1)\kappa^2\right](X_1^{\top}X_1)^2 + 2 w\sigma^2 X_2^\top X_2 .$$
@@ -128,11 +130,12 @@ Using the estimate \eqref{eq_isometric}, we get that $\cal B$ is upper bounded a
 \end{align*}
 as long as
 $$w< w_2:=1 -   \frac{d^2}{\kappa^2}\frac{\rho_1(\al_+(\rho_1) +\oo(1))^2}{\rho_2 \al_-^2(\rho_2) } -  \frac{\sigma^2}{n_2\kappa^2}\frac{\al_{+}(\rho_2)+\oo(1)}{\al_{-}^2(\rho_2)} .$$
-Hence $h'(w)<0$ on $[0,w_2)$, i.e. $h(w)$ is strictly decreasing for $w<w_2$. This gives $\hat w\ge w_2$.
+Hence $h'(w)<0$ on $[0,w_2)$, %i.e. $h(w)$ is strictly decreasing for $w<w_2$. This 
+which gives $\hat w\ge w_2$.
 
-In sum, we obtain that $w_2\le w\le w_1$. Note that under our assumptions, we have
-$$\max(|w_1 -1|, |w_2 -1|) =\OO\left(\frac{d^2}{\kappa^2} + \frac{\sigma^2}{p\kappa^2}\right),$$
-which concludes the proof.
+In sum, we have shown that $w_2\le w\le w_1$. Together with
+$$\max\{|w_1 -1|, |w_2 -1|\} =\OO\left(\frac{d^2}{\kappa^2} + \frac{\sigma^2}{p\kappa^2}\right),$$
+we conclude \eqref{hatw_add1}.
 \end{proof}
 
 %For the rest of this section, we choose parameters that satisfy the following relations: \be\label{choiceofpara}
@@ -147,21 +150,21 @@ Next we prove the following estimate on the optimizer $\hat v$: with high probab
 \ee
 %\end{lemma}
 %\begin{proof}
- In fact, from the proof of Claim \ref{lem_hat_v} above, one can check that if $C\cal E \le |w-1| \le 2C\cal E$ for a large enough constant $C>1$, then $|h'(w)|\gtrsim p d^2$. Moreover, under \eqref{choiceofpara} we have
-$$h(w) =\OO(pd^2),\quad \text{for}\quad   |w-1|\le 2C\cal E.$$
+ In fact, from the proof of Claim \ref{lem_hat_v} above, one can check that if $C\cal E \le |w-1| \le 2C\cal E$ for a large enough constant $C>1$, then $|h'(w)|\gtrsim \sigma^2$. Moreover, under \eqref{choiceofpara} we have
+$$h(w) =\OO(\sigma^2),\quad \text{for}\quad   |w-1|\le 2C\cal E.$$
 Thus we obtain that for $|w-1|\ge 2C\cal E$,
-$$\left|h(w) - h(\hat w)\right|\ge |h(w)-\min(h(w_1),h(w_2))|\gtrsim pd^2 \cal E \gtrsim \cal E \cdot h(\hat w),$$
-which leads to $g(w) > g(\hat w)$ w.h.p. by \eqref{boundv-w}. Thus $w$ cannot be a minimizer of $g(v)$, and we must have $|\hat v - 1|\le 2C\cal E$. %Together with \eqref{hatw_add1}, we conclude \eqref{hatv_add1}.
+$$\left|h(w) - h(\hat w)\right|\ge |h(w)-\min\{h(w_1),h(w_2)\}|\gtrsim \sigma^2 \cal E \gtrsim \cal E \cdot h(\hat w),$$
+which leads to $g(w) > g(\hat w)$ with high probability by \eqref{boundv-w}. Thus $w$ cannot be a minimizer of $g(v)$, and we must have $|\hat v - 1|\le 2C\cal E$. %Together with \eqref{hatw_add1}, we conclude \eqref{hatv_add1}.
 %\end{proof}
 
-Inserting \eqref{hatv_add1} into \eqref{eq_te_mtl_2task} and applying Lemma  \ref{largedeviation} to $(\beta_1-\hat v\beta_s)$ again, we get w.h.p.,
+Inserting \eqref{hatv_add1} into \eqref{eq_te_mtl_2task} and applying Lemma  \ref{largedeviation} to $(\beta_1-\hat v\beta_s)$, we get that w.h.p.,
 \begin{align}
 \te(\hat{\beta}_2^{\MTL})&=(1+\OO(\cal E))\cdot \left[d^2 + \OO\left(\cal E^2 \kappa^2\right)\right] \tr\left[(X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right]\nonumber\\
 &+(1+\OO(\cal E))\cdot \sigma^2  \bigtr{(X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} }. \label{1Liso}
 \end{align}
-In order to study the phenomenon of bias-variance trade-off, we need the bias term with $d^2$ and the variance term with $\sigma^2$ to be of the same order. With estimate \eqref{eq_isometric}, we see that
-$$\tr\left[(X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right] \sim p,\quad \bigtr{(X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} } \sim \frac{p}{n_1+n_2}.$$
-Hence we need to choose that $p d^2 \sim \sigma^2$. On the other hand, we want the error term $\cal E^2 \kappa^2$ to be much smaller than $d^2$, which leads to the condition $p^{-1+\e_0+4\e}\kappa^2  \ll d^2 \ll \kappa^2$. The above considerations lead to the choices of parameters in \eqref{choiceofpara}. Moreover, under \eqref{choiceofpara} we can simplify \eqref{1Liso} to \eqref{simple1}.
+In order to study the phenomenon of bias-variance trade-off, we need the bias term with $d^2$ and the variance term with $\sigma^2$ to be of the same order. With \eqref{eq_isometric}, we have that
+$$\tr\left[(X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right] \sim p,\quad \bigtr{(X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} } \sim 1.$$
+Hence we need to choose that $p d^2 \sim \sigma^2$. On the other hand, we want the error term $\cal E^2 \kappa^2$ to be much smaller than $d^2$, which leads to the condition $p^{-1+\e_0+4\e}\kappa^2  \ll d^2 \ll \kappa^2$. The above considerations lead to the choices of parameters in \eqref{choiceofpara}, under which we can simplify \eqref{1Liso} to \eqref{simple1}.
 %\begin{align}
 %\te(\hat{\beta}_2^{\MTL})&=(1+\OO(n^{-\e}))\cdot d^2 \tr\left[(X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right] \nonumber \\
 %&+(1+\OO(n^{-\e}))\cdot \sigma^2  \bigtr{(X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} }  \label{simple1}
@@ -229,23 +232,13 @@ which gives the second statement of Proposition \ref{prop_dist_transition}.
 \end{proof}
 
 
-Next we consider the case where the two tasks have different noise variances $\sigma_1^2\ne \sigma_2^2$. In particular, we show Proposition \ref{prop_var_transition}, which gives a transition threshold with respect to the difference between the noise levels of the two tasks.
 
-\begin{proposition}%[Labeled data de-noising]
-\label{prop_var_transition}
-	In the isotropic model, assume that $\rho_1 > 40$ and $\ex{\norm{\beta_1 - \beta_2}^2}< \frac{1}{2} {\sigma_2^2}  \cdot \Phi(\rho_1, \rho_2)$.
-	Then we have the following transition with respect to $\sigma_1^2$:
-	\begin{itemize}
-		\item If $\sigma_1^2 < - \nu^{1/2} \rho_1 \cdot p d^2+\left(1+ \nu^{-1/2}\rho_1 \Phi(\rho_1, \rho_2)\right)\cdot\sigma_2^2$, then w.h.p. $\te(\hat{\beta}_2^{\MTL}) < \te(\hat{\beta}_2^{\STL})$.
-		\item If $\sigma_1^2 > -\nu^{-1/2}\rho_1\cdot p d^2   +\left(1+ \nu^{1/2}\rho_1\Phi(\rho_1, \rho_2)\right) \cdot \sigma_2^2$, then w.h.p. $\te(\hat{\beta}_2^{\MTL}) > \te(\hat{\beta}_2^{\STL})$.
-	\end{itemize}
-\end{proposition}
-As a corollary, if $\sigma_1^2 \le \sigma_2^2$, then we always get positive transfer.
-%The proof of Proposition \ref{prop_var_transition} is similar to Proposition \ref{prop_dist_transition}.
+
+The proof of Proposition \ref{prop_var_transition} is similar to the above proof of Proposition \ref{prop_dist_transition}.
 %The details can be found in Appendix \ref{app_proof_data}.
 
 
-\begin{proof}%[Proof of Proposition \ref{prop_var_transition}]
+\begin{proof}[Proof of Proposition \ref{prop_var_transition}]
 In the setting of Proposition \ref{prop_var_transition}, the test loss is given by \eqref{eq_te_mtl_2task}. 
 %the validation loss and the test error become
 %\begin{align*}
