@@ -297,8 +297,9 @@ Next we compare $\delta_{\vari}$ with $\delta_{\bias} + \delta_{\vari}^{(2)}$. O
 %Using \eqref{eq_isometric} and Lemma \ref{lem_cov_derivative}, a similar bound holds for $\Delta_{diff}$ as in \eqref{Deltabeta}:
 %$$\bigbrace{1 - \sqrt{\frac{1}{c_1}}}^2\le \frac{\Delta_{diff}}{\sigma_1^2 -\sigma_2^2}\cdot \left( \frac{c_1 (c_1+c_2)}{(c_1+c_2-1)^3} + \OO(p^{-1/2+\e})\right)^{-1}\le \bigbrace{1 + \sqrt{\frac{1}{c_1}}}^2.$$
 
-{\cor(start here)} Note that the condition $\ex{\norm{\beta_1 - \beta_2}^2}< \frac{1}{2} {\sigma_2^2}  \cdot \Phi(\rho_1, \rho_2)$ for $\rho_1 > 40$ gives that $\delta_{\vari}>\delta_{\bias} $ by Proposition \ref{prop_dist_transition}. Hence if $\sigma_1^2\le \sigma_2^2$, then $\delta_{\vari}^{(2)}<0$ and we always have $\delta_{\vari} > \delta_{\bias}+ \delta_{\vari}^{(2)}$, which gives $\te(\hat{\beta}_2^{\MTL})<\te(\hat{\beta}_2^{\STL})$.  It remains to consider the case $\sigma_1^2 \ge \sigma_2^2$. 
+ Note that the condition $pd^2< \frac{1}{2} {\sigma_2^2}  \cdot \Phi(\rho_1, \rho_2)$ for $\rho_1 > 40$ gives that $\delta_{\vari}>\delta_{\bias} $ by Proposition \ref{prop_dist_transition}. Hence if $\sigma_1^2\le \sigma_2^2$, then $\delta_{\vari}^{(2)}<0$ and we always have $\delta_{\vari} > \delta_{\bias}+ \delta_{\vari}^{(2)}$, which gives $\te(\hat{\beta}_2^{\MTL})<\te(\hat{\beta}_2^{\STL})$.  It remains to consider the case $\sigma_1^2 \ge \sigma_2^2$. 
 
+\vspace{5pt}
 
 \noindent{\bf Positive transfer.} By \eqref{Deltavar}, \eqref{Deltabeta} and \eqref{Deltavar2}, if the following inequality holds,
 \be\label{cond sigma1}
@@ -307,11 +308,13 @@ Next we compare $\delta_{\vari}$ with $\delta_{\bias} + \delta_{\vari}^{(2)}$. O
 &>pd^2 \cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3}\al_+^2(\rho_1)  + (\sigma_1^2 -\sigma_2^2)\cdot \frac{\rho_1 (\rho_1+\rho_2)}{(\rho_1+\rho_2-1)^3} \al_+(\rho_1)  , 
 \end{split}
 \ee
-then we have $\delta_{\vari} > \delta_{\bias} + \delta_{\vari}^{(2)}$ w.h.p., which gives $\te(\hat{\beta}_t^{\MTL})<\te(\hat{\beta}_t^{\STL})$. We can solve \eqref{cond sigma1} to get
+then we have $\delta_{\vari} > \delta_{\bias} + \delta_{\vari}^{(2)}$ w.h.p., which gives $\te(\hat{\beta}_2^{\MTL})<\te(\hat{\beta}_2^{\STL})$. We can solve \eqref{cond sigma1} to get
 \begin{align*}
 \sigma_1^2 < - pd^2\cdot \rho_1 \al_+(\rho_1) +\sigma_2^2 \left[ 1+ \rho_1\Phi(\rho_1, \rho_2) \al_+^{-1}(\rho_1)\right]\cdot (1-\oo(1)).
 \end{align*}
 This proves the first claim of Proposition \ref{prop_var_transition} using $\nu\ge \al_+^2(\rho_1) +  \oo(1) $. 
+
+\vspace{5pt}
 
 
 \noindent{\bf Negative transfer.} On the other hand, if the following inequality holds,
@@ -396,19 +399,11 @@ which gives the second statement of Proposition \ref{prop_data_size}.
 We remark that condition \eqref{explainpsi} implies $\Psi(\beta_1, \beta_2) \cdot  (\rho_2 - 1.5)\left( \al_-^2(\rho_1) -  \oo(1) \right)>1$, so \eqref{addconstaint2} does not give a trivial bound. 
  \end{proof}
  
-Next we state Proposition \ref{prop_data_efficiency}, which gives precise upper and lower bounds on the data efficiency ratio for Taskonomy. %In the statement, we shall denote the data efficiency ratio as $\al^\star$.
-
-\begin{proposition}%[Labeled data efficiency]
-\label{prop_data_efficiency}
-	In the isotropic model, assume that $\rho_1,\rho_2 \ge 9$ and $\Psi(\beta_1, \beta_2) < (5(\rho_1-1))^{-1} + (5(\rho_2-1))^{-1}$.
-	Then the data efficiency ratio $x^\star$ satisfies 
-	\be\label{eq_uplowx} x_l  \le x^\star\le \frac{1}{\rho_1 + \rho_2} \bigbrace{  \frac{2}{(\rho_1-1)^{-1} + (\rho_2-1)^{-1} - 5\Psi(\beta_1, \beta_2)}+1}, \ee
-	where we denoted
-	$$x_l:= \frac1{\rho_1+\rho_2}\left(\frac{2}{(\rho_1-1)^{-1}+(\rho_2 -1)^{-1}}+1\right).$$
-\end{proposition}
 
 
-\begin{proof}%[Proof of Proposition \ref{prop_data_efficiency}]
+Next we prove Proposition \ref{prop_data_efficiency}, which gives upper and lower bounds on the data efficiency ratio for Taskonomy.
+
+\begin{proof}[Proof of Proposition \ref{prop_data_efficiency}]
 Suppose we have reduced number of datapoints---$x n_1$ for task 1 and $x n_2$ for task 2 with $n_1=\rho_1 p$ and $n_2=\rho_2 p$. Then all the results in the proof of Proposition \ref{prop_dist_transition} still hold, except that we need to replace $(\rho_1,\rho_2)$ with $(x\rho_1,x\rho_2)$. More precisely, we have
 	\begin{align*}
 		 a_1 = \frac{\rho_1(x\rho_1 + x\rho_2 - 1)}{x(\rho_1 + \rho_2)^2} ,\quad
