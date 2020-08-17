@@ -7,15 +7,32 @@ Then, we describe the bias-variance tradeoff of the multi-task estimator and con
 
 \subsection{Problem Formulation}
 
-Suppose we have $t$ datasets, where $t$ is a fixed value that does not grow with the feature dimension $p$.
-In the high-dimensional linear regression setting (e.g. \cite{HMRT19,BLLT20}), the features of the $k$-th task, denoted by $X_k\in\real^{n_i\times p}$, consist of $n_k$ feature vectors given by $x_1, x_2, \dots, x_{n_k}$.
-And each feature $x_i = \Sigma^{1/2}z_i$, where $z_i\in\real^p$ consists of i.i.d. entries with mean zero and unit variance.
-The sample size $n_k $ equals $\rho_k\cdot p$ for a fixed value $\rho_k$.
-The labels $Y_k = X_k \beta_k + \varepsilon_k$, where $\beta_k$ denotes the linear model parameters and $\varepsilon_k$ denotes i.i.d. noise with mean zero and variance $\sigma^2$.
+\todo{Consider adding some motivation later.}
+
+\noindent\textbf{Data model.}
+Suppose we have $t$ labeled regression tasks. %where $t$ is a fixed value that does not grow with the feature dimension $p$.
+For each task $k$ from $1$ to $t$, we have $n_k$ samples $x_1, x_2, \dots, x_{n_k}$ that are all $p$-dimensional feature vectors with real-valued labels $y_1, y_2, \dots, y_{n_k}$.
+Without loss of generality, we focus on predicting the $t$-th task and refer the $t$-th task as the target.
+We refer to task $1$ to task $t-1$ as source tasks.
+We assume that the labels of each task $k$ satisfy the linear model with unknown parameters $\beta_k\in\real^p$, that is,
+	\[ y_i = x_i^{\top}\beta_k + e_i, \text{ for all } 1 \le i \le n_k, \]
+where $e_i$ denotes random noise with mean zero and variance $\sigma^2$.
+To write the above notations more succiently, let $X_k \in \real^{n_k \times p}$ denote the covariates that consists of a feature vector in every row.
+Let
+	\[ Y_k = X_k \beta_k + \varepsilon_k, \text{ for all } 1\le i \le t \] denote the label vector of task $k$ and $\varepsilon_k$ denote an i.i.d. random vector with mean zero and variance $\sigma^2$.
+
+Following \citet{HMRT19} and \citet{BLLT20},
+%In the high-dimensional linear regression setting (e.g. ), the features of the $k$-th task, denoted by $X_k\in\real^{n_i\times p}$, consist of $n_k$ feature vectors given by $x_1, x_2, \dots, x_{n_k}$.
+we assume that for each task $k$ from $1$ to $t$, each feature vector $x_i = \Sigma^{1/2}_k z_i$, where $z_i\in\real^p$ consists of i.i.d. entries with mean zero and unit variance.
+The sample size of task $k$, given by $n_k$, is equal to $\rho_k\cdot p$ for a fixed value $\rho_k$.
+This setting is also known as the high-dimensional linear regression setting in the literature.
+%The labels $Y_k = X_k \beta_k + \varepsilon_k$, where $\beta_k$ denotes the linear model parameters and $\varepsilon_k$ denotes i.i.d. noise with mean zero and variance $\sigma^2$.
 %Recall that we have $t$ labeled training datasets, denoted by $(X_1, Y_1), (X_2, Y_2), \dots, (X_t, Y_t)$, where $X_i\in\real^{n_i\times p}$ and $Y_i\in\real^{n_i}$ for $1\le i\le t$.
 %Following \cite{HMRT19,BLLT20}, we assume that for each task $i = 1,2,\dots,t$,  every feature vector is generated as $x = \Sigma_i^{1/2} z$, where $z\in\real^p$ is a random vector with i.i.d. entries of mean zero and unit variance and $\Sigma_i\in\real^{p\times p}$ is a positive semidefinite matrix.
 %Without loss of generality, let the $t$-th task be the target task.
 
+\medskip
+\noindent\textbf{Hard parameter sharing.}
 We focus on the commonly used hard parameter sharing model for multi-task learning \cite{R17}.
 When specialized to the linear regression setting, the model consists of a linear layer $B\in\real^{p\times r}$ that is shared by all tasks and $t$ output layers $W_1, \dots, W_t$ that are in $\real^r$.
 The width of $B$, denoted by $r$, plays an important role in regularization.
@@ -70,7 +87,8 @@ The advantage of tuning the output layers on the validation set is to reduce the
 
 %\subsection{Analyzing the Tradeoff via Random Matrix Theory}
 
-\textbf{Problem statement.}
+\medskip
+\noindent\textbf{Problem statement.}
 We focus on predicting a particular task, say the $t$-th task, without loss of generality.
 Let $\hat{\beta}_t^{\MTL}$ denote the multi-task estimator obtained from the procedure above.
 Our goal is to compare the prediction loss of $\hat{\beta}_t^{\MTL}$, defined by
@@ -142,6 +160,4 @@ The random matrix theory tool and related proof of our work fall into a paradigm
 For a sample covariance matrix $X^\top X$ with $\Sigma=\id$, such a local law was proved in \cite{isotropic}.
 It was later extended to sample covariance matrices with non-identity $\Sigma$ \cite{Anisotropic}, and separable covariance matrices \cite{yang2019spiked}. On the other hand, one may derive the asymptotic result in Theorem \ref{lem_cov_shift_informal} with error $\oo(1)$ using the free addition of two independent random matrices in free probability theory \cite{nica2006lectures}. To the best of my knowledge, we do not find an {\it explicit result} for the sum of two sample covariance matrices with general covariates in the literature.
 
-\paragraph{Notations.}
-Throughout the appendix, we shall say an event $\Xi$ holds with high probability (w.h.p.) if for any fixed $D>0$, $\P(\Xi)\ge 1- p^{-D}$ for large enough $p$. Moreover, we shall use $\oo(1)$ to mean a small positive quantity that converges to 0 as $p\to \infty$.
-For a matrix $X$, let $\lambda_{\min}(X)$ denote its smallest singular value and $\norm{X}$ denote its spectral norm.
+
