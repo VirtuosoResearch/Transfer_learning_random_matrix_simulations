@@ -306,41 +306,41 @@ for $W_1, W_2, \dots, W_t \in \R^r$. Then it is not hard to derive a closed form
 	\end{align*}
 	where $\cal W \in\real^{r\times t}$ is a matrix defined as $\cal W=[W_1, W_2, \dots, W_t]$.
 	%Now we switch $\hat{B}$ back into equation \eqref{eq_mtl_same_cov} to
-Then as in \eqref{approxvalid}, we pick $N$ independent samples of the training set for each task with $N\ge n^{1-\e_0}$, and use the concentration result, Lemma \ref{largedeviation}, to get the validation loss as {\cor{start here}}
+Then as in \eqref{approxvalid}, we pick $N$ independent samples of the training set for each task with $N\ge n^{1-\e_0}$, and use the concentration result, Lemma \ref{largedeviation}, to get the validation loss as 
 \be\label{eq_multival}g(\cal W)=  N\left[\val(\cal W) + t  \sigma^2 \right]\cdot \left( 1+\OO(p^{-(1-\e_0)/2+\e})\right).\ee
 Here $\val(\cal W)$ is defined as
 %it remains to consider minimizing the validation loss
-	$$\val( \cal W):=\exarg{\varepsilon_j, \forall 1\le j\le t}{ \sum_{i=1}^t \bignorm{\Sigma^{1/2}( \hat B W_i - \beta_i)}^2} =  \delta_{\bias}(\cal W) + \delta_{\vari}(\cal W),$$
+	$$\val( \cal W):=\exarg{\varepsilon_j, \forall 1\le j\le t}{ \sum_{i=1}^t \bignorm{\Sigma^{1/2}( \hat B W_i - \beta_i)}^2} =  \delta_{\bias}(\cal W) + \delta_{\vari} ,$$
 where the model shift bias term $\delta_{\bias}(\cal W) $ is given by
 	\begin{align*}
 		\delta_{\bias}(\cal W) :=\sum_{i=1}^t  \bignorm{\Sigma^{1/2}\bigbrace{(B^\star \cal W^\top) (\cal W\cal W^{\top})^{-1} W_i - \beta_i}}^2,
 	\end{align*}
-	and the variance term $\delta_{\vari}(\cal W)$ can be calculated as
+	and the variance term $\delta_{\vari} $ can be calculated as
 	\begin{align*}
-		\delta_{\vari}(\cal W):= \sigma^2 \cdot \bigtr{\Sigma (X^{\top}X)^{-1}}.
+		\delta_{\vari} := \sigma^2 \cdot \bigtr{\Sigma (X^{\top}X)^{-1}}.
 	\end{align*}
 It suffices to minimize $\delta_{\bias}(\cal W)$ over $\cal W$, since both $t \sigma^2$ and $\delta_{\vari}$ do not depend on $\cal W$.
 
-We denote $Q := \cal W^{\top} (\cal W\cal W^{\top})^{-1} \cal W \in\real^{k\times k}$, whose $(i,j)$-th entry is equal to $W_i^{\top} (\cal W\cal W^{\top})^{-1} W_j$.
+We denote $Q := \cal W^{\top} (\cal W\cal W^{\top})^{-1} \cal W \in\real^{t\times t}$, whose $(i,j)$-th entry is given by $W_i^{\top} (\cal W\cal W^{\top})^{-1} W_j$.
 	%Let $B^{\star} = [\beta_1, \beta_2, \dots, \beta_k] \in\real^{p \times k}$ denote the true model parameters.
 	Now we can write $\delta_{\bias}(\cal W)$ succinctly as
 	\begin{align*}
-		\delta_{\bias}(\cal W) = \bignormFro{\Sigma^{1/2}B^{\star}  \bigbrace{Q -\id}}^2 .
+		\delta_{\bias}(Q) \equiv \delta_{\bias}(\cal W) = \bignormFro{\Sigma^{1/2}B^{\star}  \bigbrace{Q -\id}}^2 .
 	\end{align*}
-	From this equation we can solve the minimizer optimally as $Q_0\equiv  \cal W_0^{\top} (\cal W_0\cal W_0^{\top})^{-1} \cal W_0=U_{r}U_r^{\top}$. On the other hand, let $\hat {\cal W}$ be the minimizer of $g$, and denote $\hat Q:= \hat{\cal W}^{\top} (\hat{\cal W}\hat{\cal W}^{\top})^{-1} \hat{\cal W} $. We claim that $\hat Q$ satisfies
-	\be\label{Q-Q}\|Q_0^{-1}\hat Q - \id\| = \oo(1) \quad \text{w.h.p.}\ee
-	In fact, if \eqref{Q-Q} does not hold, then using the condition $\lambda_{\min}((B^{\star})^\top\Sigma B^{\star})\gtrsim \sigma^2$ and that $\delta_{\vari}(\cal W)=\OO(\sigma^2)$ by \eqref{eq_isometric}, we obtain that
-	$$   \val(\hat {\cal W}) + t  \sigma^2 > (\val( {\cal W}_0) + t \sigma^2 )\cdot (1+\oo(1)) \ \Rightarrow \ g( \hat{\cal W})>g( {\cal W}_0),$$
-	that is, $\hat {\cal W}$ is not a minimizer. This leads to a contradiction.
+	From this equation we can solve the minimizer explicitly as $Q_0=U_{r}U_r^{\top}$. On the other hand, let $\hat {\cal W}$ be the minimizer of $g$, and denote $\hat Q:= \hat{\cal W}^{\top} (\hat{\cal W}\hat{\cal W}^{\top})^{-1} \hat{\cal W} $. We claim that $\hat Q$ satisfies
+	\be\label{Q-Q}\|Q_0^{-1}\hat Q - \id\|_F = \oo(1) \quad \text{w.h.p.}\ee
+	In fact, if \eqref{Q-Q} does not hold, then using the condition $\lambda_{\min}((B^{\star})^\top\Sigma B^{\star})\gtrsim \sigma^2$ and that $\delta_{\vari}(\cal W)=\OO(\sigma^2)$ by  Lemma \ref{lem_minv}, we obtain that
+	$$   \val(\hat {Q}) + t  \sigma^2 > (\val( Q_0) + t \sigma^2 )\cdot (1+\oo(1)) \ \Rightarrow \ g( \hat{\cal W})>g( {\cal W}_0),$$
+	where $\cal W_0\in \R^{r\times t}$ is a matrix such that  $ \cal W_0^{\top} (\cal W_0\cal W_0^{\top})^{-1} \cal W_0=Q_0$. Hence  $\hat {\cal W}$ is not a minimizer, which leads to a contradiction.
 
-	In sum, we have solved that $\hat{\beta}_i^{\MTL}=B^{\star}\left( U_r U_r(i) +\oo(1)\right)$. Inserting it into the definition of the test loss, we get that
+	In sum, we have solved that $\hat{\beta}_i^{\MTL}=B^{\star}\left( U_r v_i +\oo(1)\right)$. Inserting it into the definition of the test loss, we get that with high probability,
 	\begin{align*}
 		\te(\hat{\beta}_t^{\MTL}) &= \bignorm{\Sigma^{1/2} \left((B^\star \hat{\cal W}^\top) (\hat{\cal W}\hat{\cal W}^{\top})^{-1} \hat W_t - \beta_t \right) }^2
 		+ \sigma^2  \hat W_t^{\top} (\hat{\cal W}\hat{\cal W}^{\top})^{-1} \hat W_t \cdot \bigtr{\Sigma (X^{\top}X)^{-1}} \\
-		&= \bignorm{\Sigma^{1/2} \bigbrace{B^{\star} U_r U_r(t)-\beta_t}}^2 + \oo\left(\|B^\star\|^2\right) + \sigma^2\norm{U_r(t)}^2 \bigtr{\Sigma (X^{\top}X)^{-1}} \cdot (1+\oo(1))\\
-		&= \bignorm{\Sigma^{1/2} \bigbrace{B^{\star} U_r U_r(t)-\beta_t}}^2 + \frac{\sigma^2}{\rho-1}\norm{U_r(t)}^2 + \oo \left( \|B^\star\|^2 + \sigma^2\right),
+		&= \bignorm{\Sigma^{1/2} \bigbrace{B^{\star} U_r v_t-\beta_t}}^2 + \oo\left(\|B^\star\|^2\right) + \sigma^2\norm{v_t}^2 \bigtr{\Sigma (X^{\top}X)^{-1}} \cdot (1+\oo(1))\\
+		&= \bignorm{\Sigma^{1/2} \bigbrace{B^{\star} U_r v_t-\beta_t}}^2 + \frac{\sigma^2}{\rho-1}\norm{v_t}^2 + \oo \left( \|B^\star\|^2 + \sigma^2\right),
 	\end{align*}
-	with high probability, where we used Lemma \ref{lem_minv} in the last step. Similar, by Lemma \ref{lem_minv} we have
+ where we used Lemma \ref{lem_minv} in the last step. On the other hand, by Lemma \ref{lem_minv} we have
 	$$\te(\hat{\beta}_t^{\STL})=\frac{\sigma^2}{\rho-1} \cdot \left( 1+\oo(1)\right).$$
 Combining the above two estimates, we conclude the proof.
 \end{proof}
