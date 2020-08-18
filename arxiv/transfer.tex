@@ -4,6 +4,22 @@
 	Variance always reduces and bias always increases.
 \end{proposition}
 
+As an example, for the setting of two tasks, we can decompose $L(\hat{\beta}_t^{\MTL}) - L(\hat{\beta}_t^{\STL})$ into a bias term and a variance term as follows (derived in Appendix \ref{app_proof_sec3}).
+%Recall that $\hat{\beta}_t^{\MTL}$ is defined as $BW_t$ after solving equation \eqref{eq_mtl}.
+%We can  the test error of $\hat{\beta}_{t}^{\MTL}$ on the target task into two parts as follows.
+{\small\begin{align}
+	\te(\hat{\beta}_t^{\MTL}) - L(\hat{\beta}_t^{\STL}) =& ~ \hat{v}^2 \bignorm{\Sigma_2^{1/2} (\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}X_1^{\top}X_1 (\beta_1 - \hat{v}\beta_2)}^2 \label{eq_te_model_shift} \\
+	+&~ \sigma^2 \bigbrace{\bigtr{(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2} - \bigtr{(X_2^{\top}X_2)^{-1}\Sigma_2}}. \label{eq_te_var}
+\end{align}}%
+In the above, $\hat{v} = W_1 / W_2$ where $W_1, W_2$ are obtained from solving equation \eqref{eq_mtl_eval} (recalling that $W_1, W_2$ are scalars for two tasks).
+The role of $\hat{v}$ is to scale the shared subspace $B$ to fit each task.
+
+Equation \eqref{eq_te_model_shift} corresponds to the bias of $\hat{\beta}_t^{\MTL}$.
+Hence, the bias term introduces a negative effect that depends on the \textit{similarity} between $\beta_1$ and $\beta_2$.
+Equation \eqref{eq_te_var} corresponds to the variance of $\hat{\beta}_t^{\MTL}$ minus the variance of $\hat{\beta}_t^{\STL}$, which is always negative.
+Intuitively, the more \textit{samples} we have, the smaller the variance is.
+Meanwhile, \textit{covariate shift} also affects how small the variance can be.
+
 \subsection{Two Tasks}\label{sec_two}
 
 We now state our main result for two tasks with both covariate and model shift. It shows that the information transfer is determined by two deterministic quantities $\Delta_{\bias}$ and $\Delta_{\vari}$, which give the change of model shift bias and the change of variance, respectively. The exact forms of $\Delta_{\bias}$ and $\Delta_{\vari}$ will be given in Lemma \ref{thm_model_shift}.
