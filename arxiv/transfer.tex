@@ -1,4 +1,4 @@
-\section{Main Results}\label{sec_main}
+\section{General Case}\label{sec_main}
 
 \begin{proposition}[Bias-variance tradeoff]
 	Variance always reduces and bias always increases.
@@ -306,7 +306,14 @@ The proof of \ref{thm_many_tasks} can be found in Appendix \ref{app_proof_many_t
 
 
 
-\section{Theoretical Implication}\label{sec_insight}
+
+
+
+
+
+
+
+\section{Special Case: Isotropic Covariance and Covariate Shift}\label{sec_insight}
 
 %We provide precise explanations to the phenomena of negative transfer in multi-task learning.
 We provide tight bounds on the bias and variance of the multi-task estimator for two tasks.
@@ -393,22 +400,7 @@ Next we consider the case where the two tasks have different noise variances $\s
 As a corollary, if $\sigma_1^2 \le \sigma_2^2$, then we always get positive transfer.
 
 
-\textbf{Algorithmic consequence.}
-We can in fact extend the result to the cases where the noise variances are different.
-In this case, we will see that MTL is particularly effective.
-%As an extension of Proposition \ref{prop_dist_transition}, we observe that MTL is particular powerful when the labeled data of the source task is less noisy compared to the target task.
-Concretely, suppose the noise variance $\sigma_1^2$ of task $1$ differs from the noise variance $\sigma_2^2$ of task $2$.
-If $\sigma_1^2$ is too large, the source task provides a negative transfer to the target.
-If $\sigma_1^2$ is small, the source task is more helpful.
-We leave the result to Proposition \ref{prop_var_transition} in Appendix \ref{app_proof_31}.
-Inspired by the observation, we propose a single-task based metric to help understand MTL results using STL results.
-\squishlist
-	\item For each task, we train a single-task model.
-	Let $z_s$ and $z_t$ be the prediction accuracy of each task, respectively.
-	Let $\tau\in(0, 1)$ be a fixed threshold.
-	\item If $z_s - z_t > \tau$, then we predict that there will be positive transfer when combining the two tasks using MTL.
-	If $z_s - z_t < -\tau$, then we predict negative transfer.
-\squishend
+
 
 \subsection{Sample Size}\label{sec_data_size}
 
@@ -461,37 +453,6 @@ Next we state Proposition \ref{prop_data_efficiency}, which gives precise upper 
 	$$x_l:= \frac1{\rho_1+\rho_2}\left(\frac{2}{(\rho_1-1)^{-1}+(\rho_2 -1)^{-1}}+1\right).$$
 \end{proposition}
 
-\textbf{Algorithmic consequence.} An interesting consequence of Proposition \ref{prop_data_size} is that $L(\hat{\beta}_t^{\MTL})$ is not monotone in $\rho_1$.
-In particular, Figure \ref{fig_size} (and our analysis) shows that $L(\hat{\beta}_t^{\MTL})$ behaves as a quadratic function over $\rho_1$.
-More generally, depending on how large $\Psi(\beta_1, \beta_2)$ is, $L(\hat{\beta}_t^{\MTL})$ may also be monotonically increasing or decreasing.
-Based on this insight, we propose an incremental optimization schedule to improve MTL training efficiency.
-\squishlist
-	\item We divide the source task data into $S$ batches.
-	For $S$ rounds, we incrementally add the source task data by adding one batch at a time.
-	\item After training $T$ epochs, if the validation accuracy becomes worse than the previous round's result, we terminate.
-	Algorithm \ref{alg_inc_train} in Appendix \ref{app_experiments} describes the procedure in detail.
-\squishend
-
-\begin{algorithm}[!t]
-	\caption{An incremental training schedule for efficient multi-task learning with two tasks}
-	\label{alg_inc_train}
-	\begin{algorithmic}[1]
-		\Input Two tasks $(X_1, Y_1)$ and $(X_2, Y_2)$.
-		\Param A shared module $B$, output layers $W_1, W_2$ as in the hard parameter sharing architecture.
-		\Req \# batches $S$, epochs $T$, task $2$'s validation accuracy $\hat{g}(B; W_2)$, a threshold $\tau\in(0,1)$.
-		\Output The trained modules $B, W_2$ optimized for task $2$.
-		\State Divide $(X_1, Y_1)$ randomly into $S$ batches: $(x^{(1)}, y^{(1)}), \dots, (x^{(S)}, y^{(S)})$.
-		\For{$i = 1,\dots, S$}
-			\For{$j = 1,\dots, T$}
-				\State Update $B, W_1, W_2$ using the training data $\set{x^{(k)}, x^{(k)}}_{k=1}^i$ and  $(X_2, Y_2)$.
-			\EndFor
-			\State Let $a_i = \hat{g}(B; W_2)$ be the validation accuracy.
-			\If{$a_i < a_{i-1}$ or $a_i > \tau$}
-				\State \textbf{break}
-			\EndIf
-		\EndFor
-	\end{algorithmic}
-\end{algorithm}
 
 
 
@@ -539,6 +500,65 @@ The proof of Proposition \ref{prop_covariate} is left to Appendix \ref{app_proof
 %On the other hand, if $n_1$ is comparable or even smaller than $n_2$, we show an example where having ``complementary'' covariance matrices is better performing than having the same covariance matrices.
 
 
+\subsection{Extension to Multiple Tasks}
+
+
+
+
+\section{Theoretical Implication}
+
+
+\textbf{Algorithmic consequence.}
+We can in fact extend the result to the cases where the noise variances are different.
+In this case, we will see that MTL is particularly effective.
+%As an extension of Proposition \ref{prop_dist_transition}, we observe that MTL is particular powerful when the labeled data of the source task is less noisy compared to the target task.
+Concretely, suppose the noise variance $\sigma_1^2$ of task $1$ differs from the noise variance $\sigma_2^2$ of task $2$.
+If $\sigma_1^2$ is too large, the source task provides a negative transfer to the target.
+If $\sigma_1^2$ is small, the source task is more helpful.
+We leave the result to Proposition \ref{prop_var_transition} in Appendix \ref{app_proof_31}.
+Inspired by the observation, we propose a single-task based metric to help understand MTL results using STL results.
+\squishlist
+	\item For each task, we train a single-task model.
+	Let $z_s$ and $z_t$ be the prediction accuracy of each task, respectively.
+	Let $\tau\in(0, 1)$ be a fixed threshold.
+	\item If $z_s - z_t > \tau$, then we predict that there will be positive transfer when combining the two tasks using MTL.
+	If $z_s - z_t < -\tau$, then we predict negative transfer.
+\squishend
+
+
+\textbf{Algorithmic consequence.} An interesting consequence of Proposition \ref{prop_data_size} is that $L(\hat{\beta}_t^{\MTL})$ is not monotone in $\rho_1$.
+In particular, Figure \ref{fig_size} (and our analysis) shows that $L(\hat{\beta}_t^{\MTL})$ behaves as a quadratic function over $\rho_1$.
+More generally, depending on how large $\Psi(\beta_1, \beta_2)$ is, $L(\hat{\beta}_t^{\MTL})$ may also be monotonically increasing or decreasing.
+Based on this insight, we propose an incremental optimization schedule to improve MTL training efficiency.
+\squishlist
+	\item We divide the source task data into $S$ batches.
+	For $S$ rounds, we incrementally add the source task data by adding one batch at a time.
+	\item After training $T$ epochs, if the validation accuracy becomes worse than the previous round's result, we terminate.
+	Algorithm \ref{alg_inc_train} in Appendix \ref{app_experiments} describes the procedure in detail.
+\squishend
+
+\begin{algorithm}[!t]
+	\caption{An incremental training schedule for efficient multi-task learning with two tasks}
+	\label{alg_inc_train}
+	\begin{algorithmic}[1]
+		\Input Two tasks $(X_1, Y_1)$ and $(X_2, Y_2)$.
+		\Param A shared module $B$, output layers $W_1, W_2$ as in the hard parameter sharing architecture.
+		\Req \# batches $S$, epochs $T$, task $2$'s validation accuracy $\hat{g}(B; W_2)$, a threshold $\tau\in(0,1)$.
+		\Output The trained modules $B, W_2$ optimized for task $2$.
+		\State Divide $(X_1, Y_1)$ randomly into $S$ batches: $(x^{(1)}, y^{(1)}), \dots, (x^{(S)}, y^{(S)})$.
+		\For{$i = 1,\dots, S$}
+			\For{$j = 1,\dots, T$}
+				\State Update $B, W_1, W_2$ using the training data $\set{x^{(k)}, x^{(k)}}_{k=1}^i$ and  $(X_2, Y_2)$.
+			\EndFor
+			\State Let $a_i = \hat{g}(B; W_2)$ be the validation accuracy.
+			\If{$a_i < a_{i-1}$ or $a_i > \tau$}
+				\State \textbf{break}
+			\EndIf
+		\EndFor
+	\end{algorithmic}
+\end{algorithm}
+
+
 \textbf{Algorithmic consequence.}
 Our observation highlights the need to correct covariate shift when $n_1 / n_2$ is large.
 Hence for such settings, we expect procedures that aim at correcting covariate shift to provide more significant gains.
@@ -546,6 +566,4 @@ We consider a covariance alignment procedure proposed in \cite{WZR20}, which is 
 The idea is to add an alignment module between the input and the shared module $B$.
 This new module is then trained together with $B$ and the output layers.
 We validate our insight on this procedure in the experiments.
-
-
 
