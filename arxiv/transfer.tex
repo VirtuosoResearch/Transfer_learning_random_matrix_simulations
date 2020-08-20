@@ -386,23 +386,9 @@ A key part of the analysis shows that $\hat{v}\approx 1$ in the isotropic model,
 thus simplifying the result of Theorem \ref{thm_main_informal}.
 %, which is based on our main result described later in Theorem \ref{thm_model_shift}.
 
-Next we consider the case where the two tasks have different noise variances $\sigma_1^2\ne \sigma_2^2$. In particular, we show Proposition \ref{prop_var_transition}, which gives a transition threshold with respect to the difference between the noise levels of the two tasks.
-
-\begin{proposition}%[Labeled data de-noising]
-\label{prop_var_transition}
-	In the isotropic model, assume that $\rho_1 > 40$ and $\ex{\norm{\beta_1 - \beta_2}^2}< \frac{1}{2} {\sigma_2^2}  \cdot \Phi(\rho_1, \rho_2)$.
-	Then we have the following transition with respect to $\sigma_1^2$:
-	\begin{itemize}
-		\item If $\sigma_1^2 < - \nu^{1/2} \rho_1 \cdot p d^2+\left(1+ \nu^{-1/2}\rho_1 \Phi(\rho_1, \rho_2)\right)\cdot\sigma_2^2$, then w.h.p. $\te(\hat{\beta}_2^{\MTL}) < \te(\hat{\beta}_2^{\STL})$.
-		\item If $\sigma_1^2 > -\nu^{-1/2}\rho_1\cdot p d^2   +\left(1+ \nu^{1/2}\rho_1\Phi(\rho_1, \rho_2)\right) \cdot \sigma_2^2$, then w.h.p. $\te(\hat{\beta}_2^{\MTL}) > \te(\hat{\beta}_2^{\STL})$.
-	\end{itemize}
-\end{proposition}
-As a corollary, if $\sigma_1^2 \le \sigma_2^2$, then we always get positive transfer.
 
 
-
-
-\subsection{Sample Size}\label{sec_data_size}
+\subsection{Sample Ratio}\label{sec_data_size}
 
 In classical Rademacher or VC based theory of multi-task learning, the generalization bounds are usually presented for settings where the sample sizes are equal for all tasks \cite{B00,M06,MPR16}.
 %More generally, such results are still applicable when all task data are being added simultaneously.
@@ -426,32 +412,6 @@ Proposition \ref{prop_data_size} describes the bias-variance tradeoff in terms o
 We apply the result to the setting of Figure \ref{fig_size} (described in Appendix \ref{app_synthetic}).
 There are several unexplained observations near $y = 0$ caused by $\nu$.
 The proof of Proposition \ref{prop_data_size} can be found in Appendix \ref{app_proof_32}.
-
-\textbf{Connection to Taskonomy.} We use our tools to explain a key result of Taskonomy by Zamir et al. \cite{ZSSGM18}, which shows that MTL can reduce the amount of labeled data needed to achieve comparable performance to STL.
-%More precisely, suppose we have $n_i$ datapoints for each task, for $i= 1, 2$.
-For $i = 1, 2$, let $\hat{\beta}_i^{\MTL}(x)$ denote the estimator trained using $x \cdot n_i$ datapoints from every task. The data efficiency ratio is defined as
-{\small\[ \argmin_{x\in(0, 1)} ~~
-		\te_1(\hat{\beta}_1^{\MTL}(x)) + \te_2(\hat{\beta}_2^{\MTL}(x))
-		\le \te_1(\hat{\beta}_1^{\STL}) + \te_2(\hat{\beta}_2^{\STL}). \]}
-For example, the data efficiency ratio is $1$ if there is negative transfer.
-Using our tools, we show that in the isotropic model, the data efficiency ratio is
-roughly
-{\small\[ \frac{1}{\rho_1 + \rho_2} {+ \frac{2}{(\rho_1 +\rho_2)(\rho_1^{-1} + \rho_2^{-1} - \Theta(\Psi(\beta_1, \beta_2)))}}. \]}%
-Compared with Proposition \ref{prop_dist_transition}, we see that when $\Psi(\beta_1, \beta_2)$ is smaller than $\rho_1^{-1} + \rho_2^{-1}$ (up to a constant multiple), the transfer is positive.
-Moreover, the data efficiency ratio quantifies how effective the positive transfer is using MTL.
-%In addition to $\rho_1,\rho_2$, the data efficiency ratio also scales with $\Psi(\beta_1, \beta_2)$, the model distance between the tasks.
-
-
-Next we state Proposition \ref{prop_data_efficiency}, which gives precise upper and lower bounds on the data efficiency ratio for Taskonomy. Its proof can be found in Appendix \ref{app_proof_32}. %In the statement, we shall denote the data efficiency ratio as $\al^\star$.
-
-\begin{proposition}%[Labeled data efficiency]
-\label{prop_data_efficiency}
-	In the isotropic model, assume that $\rho_1,\rho_2 \ge 9$ and $\Psi(\beta_1, \beta_2) < (5(\rho_1-1))^{-1} + (5(\rho_2-1))^{-1}$.
-	Then the data efficiency ratio $x^\star$ satisfies 
-	\be\label{eq_uplowx} x_l  \le x^\star\le \frac{1}{\rho_1 + \rho_2} \bigbrace{  \frac{2}{(\rho_1-1)^{-1} + (\rho_2-1)^{-1} - 5\Psi(\beta_1, \beta_2)}+1}, \ee
-	where we denoted
-	$$x_l:= \frac1{\rho_1+\rho_2}\left(\frac{2}{(\rho_1-1)^{-1}+(\rho_2 -1)^{-1}}+1\right).$$
-\end{proposition}
 
 
 
@@ -508,6 +468,22 @@ The proof of Proposition \ref{prop_covariate} is left to Appendix \ref{app_proof
 \section{Theoretical Implication}
 
 
+Next we consider the case where the two tasks have different noise variances $\sigma_1^2\ne \sigma_2^2$. In particular, we show Proposition \ref{prop_var_transition}, which gives a transition threshold with respect to the difference between the noise levels of the two tasks.
+
+\begin{proposition}%[Labeled data de-noising]
+\label{prop_var_transition}
+	In the isotropic model, assume that $\rho_1 > 40$ and $\ex{\norm{\beta_1 - \beta_2}^2}< \frac{1}{2} {\sigma_2^2}  \cdot \Phi(\rho_1, \rho_2)$.
+	Then we have the following transition with respect to $\sigma_1^2$:
+	\begin{itemize}
+		\item If $\sigma_1^2 < - \nu^{1/2} \rho_1 \cdot p d^2+\left(1+ \nu^{-1/2}\rho_1 \Phi(\rho_1, \rho_2)\right)\cdot\sigma_2^2$, then w.h.p. $\te(\hat{\beta}_2^{\MTL}) < \te(\hat{\beta}_2^{\STL})$.
+		\item If $\sigma_1^2 > -\nu^{-1/2}\rho_1\cdot p d^2   +\left(1+ \nu^{1/2}\rho_1\Phi(\rho_1, \rho_2)\right) \cdot \sigma_2^2$, then w.h.p. $\te(\hat{\beta}_2^{\MTL}) > \te(\hat{\beta}_2^{\STL})$.
+	\end{itemize}
+\end{proposition}
+As a corollary, if $\sigma_1^2 \le \sigma_2^2$, then we always get positive transfer.
+
+
+
+
 \textbf{Algorithmic consequence.}
 We can in fact extend the result to the cases where the noise variances are different.
 In this case, we will see that MTL is particularly effective.
@@ -524,6 +500,34 @@ Inspired by the observation, we propose a single-task based metric to help under
 	\item If $z_s - z_t > \tau$, then we predict that there will be positive transfer when combining the two tasks using MTL.
 	If $z_s - z_t < -\tau$, then we predict negative transfer.
 \squishend
+
+
+\textbf{Connection to Taskonomy.} We use our tools to explain a key result of Taskonomy by Zamir et al. \cite{ZSSGM18}, which shows that MTL can reduce the amount of labeled data needed to achieve comparable performance to STL.
+%More precisely, suppose we have $n_i$ datapoints for each task, for $i= 1, 2$.
+For $i = 1, 2$, let $\hat{\beta}_i^{\MTL}(x)$ denote the estimator trained using $x \cdot n_i$ datapoints from every task. The data efficiency ratio is defined as
+{\small\[ \argmin_{x\in(0, 1)} ~~
+		\te_1(\hat{\beta}_1^{\MTL}(x)) + \te_2(\hat{\beta}_2^{\MTL}(x))
+		\le \te_1(\hat{\beta}_1^{\STL}) + \te_2(\hat{\beta}_2^{\STL}). \]}
+For example, the data efficiency ratio is $1$ if there is negative transfer.
+Using our tools, we show that in the isotropic model, the data efficiency ratio is
+roughly
+{\small\[ \frac{1}{\rho_1 + \rho_2} {+ \frac{2}{(\rho_1 +\rho_2)(\rho_1^{-1} + \rho_2^{-1} - \Theta(\Psi(\beta_1, \beta_2)))}}. \]}%
+Compared with Proposition \ref{prop_dist_transition}, we see that when $\Psi(\beta_1, \beta_2)$ is smaller than $\rho_1^{-1} + \rho_2^{-1}$ (up to a constant multiple), the transfer is positive.
+Moreover, the data efficiency ratio quantifies how effective the positive transfer is using MTL.
+%In addition to $\rho_1,\rho_2$, the data efficiency ratio also scales with $\Psi(\beta_1, \beta_2)$, the model distance between the tasks.
+
+
+Next we state Proposition \ref{prop_data_efficiency}, which gives precise upper and lower bounds on the data efficiency ratio for Taskonomy. Its proof can be found in Appendix \ref{app_proof_32}. %In the statement, we shall denote the data efficiency ratio as $\al^\star$.
+
+\begin{proposition}%[Labeled data efficiency]
+\label{prop_data_efficiency}
+	In the isotropic model, assume that $\rho_1,\rho_2 \ge 9$ and $\Psi(\beta_1, \beta_2) < (5(\rho_1-1))^{-1} + (5(\rho_2-1))^{-1}$.
+	Then the data efficiency ratio $x^\star$ satisfies
+	\be\label{eq_uplowx} x_l  \le x^\star\le \frac{1}{\rho_1 + \rho_2} \bigbrace{  \frac{2}{(\rho_1-1)^{-1} + (\rho_2-1)^{-1} - 5\Psi(\beta_1, \beta_2)}+1}, \ee
+	where we denoted
+	$$x_l:= \frac1{\rho_1+\rho_2}\left(\frac{2}{(\rho_1-1)^{-1}+(\rho_2 -1)^{-1}}+1\right).$$
+\end{proposition}
+
 
 
 \textbf{Algorithmic consequence.} An interesting consequence of Proposition \ref{prop_data_size} is that $L(\hat{\beta}_t^{\MTL})$ is not monotone in $\rho_1$.
