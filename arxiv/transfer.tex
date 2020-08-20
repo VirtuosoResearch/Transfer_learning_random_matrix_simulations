@@ -477,9 +477,17 @@ The proof of Proposition \ref{prop_covariate} is left to Appendix \ref{app_proof
 \section{Theoretical Implication}
 
 
+\paragraph{Benefits of multi-task learning.}
+We can in fact extend the result to the cases where the noise variances are different.
+In this case, we will see that MTL is particularly effective.
+%As an extension of Proposition \ref{prop_dist_transition}, we observe that MTL is particular powerful when the labeled data of the source task is less noisy compared to the target task.
+Concretely, suppose the noise variance $\sigma_1^2$ of task $1$ differs from the noise variance $\sigma_2^2$ of task $2$.
+If $\sigma_1^2$ is too large, the source task provides a negative transfer to the target.
+If $\sigma_1^2$ is small, the source task is more helpful.
+We leave the result to Proposition \ref{prop_var_transition} in Appendix \ref{app_proof_31}.
 Next we consider the case where the two tasks have different noise variances $\sigma_1^2\ne \sigma_2^2$. In particular, we show Proposition \ref{prop_var_transition}, which gives a transition threshold with respect to the difference between the noise levels of the two tasks.
 
-\begin{proposition}%[Labeled data de-noising]
+\begin{proposition}[Label denoising]
 \label{prop_var_transition}
 	In the isotropic model, assume that $\rho_1 > 40$ and $\ex{\norm{\beta_1 - \beta_2}^2}< \frac{1}{2} {\sigma_2^2}  \cdot \Phi(\rho_1, \rho_2)$.
 	Then we have the following transition with respect to $\sigma_1^2$:
@@ -493,25 +501,9 @@ As a corollary, if $\sigma_1^2 \le \sigma_2^2$, then we always get positive tran
 
 
 
-\textbf{Algorithmic consequence.}
-We can in fact extend the result to the cases where the noise variances are different.
-In this case, we will see that MTL is particularly effective.
-%As an extension of Proposition \ref{prop_dist_transition}, we observe that MTL is particular powerful when the labeled data of the source task is less noisy compared to the target task.
-Concretely, suppose the noise variance $\sigma_1^2$ of task $1$ differs from the noise variance $\sigma_2^2$ of task $2$.
-If $\sigma_1^2$ is too large, the source task provides a negative transfer to the target.
-If $\sigma_1^2$ is small, the source task is more helpful.
-We leave the result to Proposition \ref{prop_var_transition} in Appendix \ref{app_proof_31}.
-Inspired by the observation, we propose a single-task based metric to help understand MTL results using STL results.
-\squishlist
-	\item For each task, we train a single-task model.
-	Let $z_s$ and $z_t$ be the prediction accuracy of each task, respectively.
-	Let $\tau\in(0, 1)$ be a fixed threshold.
-	\item If $z_s - z_t > \tau$, then we predict that there will be positive transfer when combining the two tasks using MTL.
-	If $z_s - z_t < -\tau$, then we predict negative transfer.
-\squishend
 
 
-\textbf{Connection to Taskonomy.} We use our tools to explain a key result of Taskonomy by Zamir et al. \cite{ZSSGM18}, which shows that MTL can reduce the amount of labeled data needed to achieve comparable performance to STL.
+We use our tools to explain a key result of Taskonomy by Zamir et al. \cite{ZSSGM18}, which shows that MTL can reduce the amount of labeled data needed to achieve comparable performance to STL.
 %More precisely, suppose we have $n_i$ datapoints for each task, for $i= 1, 2$.
 For $i = 1, 2$, let $\hat{\beta}_i^{\MTL}(x)$ denote the estimator trained using $x \cdot n_i$ datapoints from every task. The data efficiency ratio is defined as
 {\small\[ \argmin_{x\in(0, 1)} ~~
@@ -528,7 +520,7 @@ Moreover, the data efficiency ratio quantifies how effective the positive transf
 
 Next we state Proposition \ref{prop_data_efficiency}, which gives precise upper and lower bounds on the data efficiency ratio for Taskonomy. Its proof can be found in Appendix \ref{app_proof_32}. %In the statement, we shall denote the data efficiency ratio as $\al^\star$.
 
-\begin{proposition}%[Labeled data efficiency]
+\begin{proposition}[Labeling efficiency]
 \label{prop_data_efficiency}
 	In the isotropic model, assume that $\rho_1,\rho_2 \ge 9$ and $\Psi(\beta_1, \beta_2) < (5(\rho_1-1))^{-1} + (5(\rho_2-1))^{-1}$.
 	Then the data efficiency ratio $x^\star$ satisfies
@@ -537,9 +529,21 @@ Next we state Proposition \ref{prop_data_efficiency}, which gives precise upper 
 	$$x_l:= \frac1{\rho_1+\rho_2}\left(\frac{2}{(\rho_1-1)^{-1}+(\rho_2 -1)^{-1}}+1\right).$$
 \end{proposition}
 
+\paragraph{Algorithmic consequence.}
+
+\noindent\textit{Detecting negative transfer.}
+Inspired by the observation, we propose a single-task based metric to help understand MTL results using STL results.
+\squishlist
+	\item For each task, we train a single-task model.
+	Let $z_s$ and $z_t$ be the prediction accuracy of each task, respectively.
+	Let $\tau\in(0, 1)$ be a fixed threshold.
+	\item If $z_s - z_t > \tau$, then we predict that there will be positive transfer when combining the two tasks using MTL.
+	If $z_s - z_t < -\tau$, then we predict negative transfer.
+\squishend
 
 
-\textbf{Algorithmic consequence.} An interesting consequence of Proposition \ref{prop_data_size} is that $L(\hat{\beta}_t^{\MTL})$ is not monotone in $\rho_1$.
+\noindent\textit{Mitigating negative transfer.}
+An interesting consequence of Proposition \ref{prop_data_size} is that $L(\hat{\beta}_t^{\MTL})$ is not monotone in $\rho_1$.
 In particular, Figure \ref{fig_size} (and our analysis) shows that $L(\hat{\beta}_t^{\MTL})$ behaves as a quadratic function over $\rho_1$.
 More generally, depending on how large $\Psi(\beta_1, \beta_2)$ is, $L(\hat{\beta}_t^{\MTL})$ may also be monotonically increasing or decreasing.
 Based on this insight, we propose an incremental optimization schedule to improve MTL training efficiency.
@@ -571,8 +575,7 @@ Based on this insight, we propose an incremental optimization schedule to improv
 	\end{algorithmic}
 \end{algorithm}
 
-
-\textbf{Algorithmic consequence.}
+\noindent\textit{Covariance alignemnt.}
 Our observation highlights the need to correct covariate shift when $n_1 / n_2$ is large.
 Hence for such settings, we expect procedures that aim at correcting covariate shift to provide more significant gains.
 We consider a covariance alignment procedure proposed in \cite{WZR20}, which is designed for the purpose of correcting covariate shift.

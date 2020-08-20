@@ -28,7 +28,7 @@ The sample size of task $k$, given by $n_k$, is equal to $\rho_k\cdot p$ for a f
 This setting is also known as the high-dimensional linear regression setting in the literature.
 There are two motivations for studying the high-dimensional linear regression setting for multi-task learning.
 First, this setting captures salient properties of modern large-scale datasets, where the sample sizes are usually on the order of tens to hundreds of the number of features \cite{sur2019modern}.
-Second, as we will see soon in Section \ref{sec_main}, we can derive precise asymptotics of the generalization error that scale with properties of the task data such as sample sizes.
+Second, as we will see soon in Section \ref{sec_general}, we can derive precise asymptotics of the generalization error that scale with properties of the task data such as sample sizes.
 %The labels $Y_k = X_k \beta_k + \varepsilon_k$, where $\beta_k$ denotes the linear model parameters and $\varepsilon_k$ denotes i.i.d. noise with mean zero and variance $\sigma^2$.
 %Recall that we have $t$ labeled training datasets, denoted by $(X_1, Y_1), (X_2, Y_2), \dots, (X_t, Y_t)$, where $X_i\in\real^{n_i\times p}$ and $Y_i\in\real^{n_i}$ for $1\le i\le t$.
 %Following \cite{HMRT19,BLLT20}, we assume that for each task $i = 1,2,\dots,t$,  every feature vector is generated as $x = \Sigma_i^{1/2} z$, where $z\in\real^p$ is a random vector with i.i.d. entries of mean zero and unit variance and $\Sigma_i\in\real^{p\times p}$ is a positive semidefinite matrix.
@@ -39,7 +39,7 @@ Second, as we will see soon in Section \ref{sec_main}, we can derive precise asy
 We study multi-task learning models that use hard parameter sharing, which is the most commonly used architecture in practice \cite{R17}.
 Specifically, we consider a two-layer neural network with a shared layer $B\in\real^{p\times r}$ for all tasks and $t$ output layers $W_1, \dots, W_t$ for every task from $1$ to $t$, where each output layer is a $r$-dimensional vector.
 The width of $B$, denoted by $r$, plays an important role in regularization.
-As observed in Proposition 1 of \cite{WZR20}, if $r \ge t$, there is no regularization effect.
+As observed in Proposition 1 of \citet{WZR20}, if $r \ge t$, there is no regularization effect.
 Hence, we assume that $r < t$ in our study.
 %For example, when there are only two tasks, $r = 1$ and $B$ reduces to a vector whereas $W_1, W_2$ become scalars.
 We study the following procedure inspired by how hard parameter sharing models are trained in practice.
@@ -59,32 +59,13 @@ Let $\hat{\beta}_t^{\MTL}$ denote the multi-task learning estimator obtained fro
 By contrast, let $\hat{\beta}_t^{\STL} = (X_t^{\top}X_t)^{-1}X_t^{\top}{Y_t}$ denote the single-task learning estimator. % denoted by $L(\hat{\beta}_t^{\STL})$.
 %where $B\in\real^{p\times r}$ and $W_k\in\real^r$ for every $1\le k\le t$.
 %Following , we assume that $r < t$, because otherwise minimizing $f(\cdot)$ could result in $BW_i$ being the single-task optimum.
-In general, the objective $f(\cdot)$ is non-convex in $B$ and the $W_k$'s.
+
+\smallskip
+\noindent\textit{Remark.}
+In general, the multi-task learning objective $f(\cdot)$ is non-convex with respect to $B$ and $W_1, \dots, W_t$.
 Therefore, we first minimize $B$ in equation \eqref{eq_mtl} and then minimize $W_k$ given $B$ in equation \eqref{eq_mtl_eval}.
-%For our purpose, a validation set that is much larger than the number of output layer parameters $r\cdot t$ suffices (e.g. $\rho_i \cdot p^{0.5}$).
-%The size of the training set is then $\rho_i (p - p^{0.99})$.
-%The advantage of tuning the output layers on the validation set is to reduce the effect of noise from $\hat{B}$.
-%For more details, we refer the reader to Appendix \ref{app_proof_sec3}.
+For our results later in Section \ref{sec_general} and \ref{sec_special}, we will identify tractable cases and provide guarantees to the above procedure.
 
-%The single-task estimator $\hat{\beta}_t^{\STL}$ is given by $(X_t^{\top}X_t)^{-1}X_t^{\top}Y_t$.
-%For an estimator $\hat{\beta}\in\real^p$, we define the out-of-sample prediction loss as
-
-%which can be further decomposed as the bias plus the variance of $\hat{\beta}$.
-%In order to relate the btradeoff to properties of the data, we need tight concentration bounds for the bias and variance.
-%We consider the high-dimensional regime where $n_i$ is a fixed constant $\rho_i > 1$  multiple of $p$ for every $1\le i\le t$, and $p$ is sufficiently large.
-%We focus on a setting where $\rho_t$ is small compared to $\set{\rho_i}_{i=1}^{t-1}$.
-%This setting captures the need to add more labeled data to reduce the prediction loss of the target task.
-
-%However, this result only applies to a single task.
-%Therefore, our goal is to extend this result to multiple tasks.
-
-%\textbf{Notations.}
-%When there is no ambiguity, we drop the subscript $t$ from $\te_t(\hat{\beta}_t^{\MTL})$ and write $\te(\hat{\beta}_t^{\MTL})$ for simplicity.
-%We refer to the first task as the source task when there are only two tasks.
-%We call $M = \Sigma_1^{1/2}\Sigma_2^{-1/2}$ the covariate shift matrix.
-
-
-%\subsection{Analyzing the Tradeoff via Random Matrix Theory}
 
 \medskip
 \noindent\textbf{Problem statement.}
@@ -101,6 +82,7 @@ We say that the source tasks provide a \textit{positive transfer} to the target 
 	\[ L(\hat{\beta}_t^{\MTL}) > L(\hat{\beta}_t^{\STL}). \]
 On the other hand, we say that the source tasks provide a \textit{negative transfer} to the target task if $L(\hat{\beta}_t^{\MTL}) < L(\hat{\beta}_t^{\STL})$.
 Our goal is to study when the source tasks provide a positive transfer to the target task.
+More specifically, we study how varying properties of task data including task similarity, sample ratio, and covariate shift affects information transfer in multi-task learning.
 
 \paragraph{Notations.}
 Throughout the appendix, we shall say an event $\Xi$ holds with high probability (w.h.p.) if for any fixed $D>0$, $\P(\Xi)\ge 1- p^{-D}$ for large enough $p$. Moreover, we shall use $\oo(1)$ to mean a small positive quantity that converges to 0 as $p\to \infty$.

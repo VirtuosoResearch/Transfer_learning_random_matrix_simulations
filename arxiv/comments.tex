@@ -1,0 +1,78 @@
+%We shall refer to random matrices of the form $X^\top X$ as sample covariance matrices following the standard notations in high-dimensional statistics. The second lemma extends Lemma \ref{lem_minv} for a single sample covariance matrix to the sum of two independent sample covariance matrices. It is the main random matrix theoretical input of this paper.
+%%which deals with the inverse of the sum of two random matrices, which
+%%any is can be viewed as a special case of Theorem \ref{thm_model_shift}.
+%
+%\begin{lemma}[Variance bound: Lemma \ref{lem_cov_shift_informal} restated]\label{lem_cov_shift}
+%	%Let $X_i\in\real^{n_i\times p}$ be a random matrix that contains i.i.d. row vectors with mean $0$ and variance $\Sigma_i\in\real^{p\times p}$, for $i = 1, 2$.
+%	Suppose $X_1=Z_1\Sigma_1^{1/2}\in \R^{n_1\times p}$ and $X_2=Z_2\Sigma_2^{1/2}\in \R^{n_2\times p}$ satisfy Assumption \ref{assm_secA1} with $\rho_1:=n_1/p>1$ and $\rho_2:=n_2/p>1$ being fixed constants.
+%	Denote by $M = \Sigma_1^{1/2}\Sigma_2^{-1/2}$ and let $\lambda_1, \lambda_2, \dots, \lambda_p$ be the singular values of $M$ in descending order. Let $A$ be any $p\times p$ matrix that is independent of $X_1$ and $X_2$. We have that for any constant $\e>0$,
+%	%When $n_1 = c_1 p$ and $n_2 = c_2 p$, we have that with high probability over the randomness of $X_1$ and $X_2$, the following equation holds
+%	\begin{align}\label{lem_cov_shift_eq}
+%		\bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}A} = \frac{1}{\rho_1+\rho_2}\frac1p\bigtr{ (a_1 \Sigma_1 + a_2\Sigma_2)^{-1} A} +\bigo{\|A\| p^{-1/2+\epsilon}}
+%	\end{align}
+%with high probability, where $(a_1, a_2)$ is the solution to the following deterministic equations:
+%	\begin{align}
+%		a_1 + a_2 = 1- \frac{1}{\rho_1 + \rho_2},\quad a_1 + \frac1{\rho_1 + \rho_2}\cdot \frac{1}{p}\sum_{i=1}^p \frac{\lambda_i^2 a_1}{\lambda_i^2 a_1 + a_2} = \frac{\rho_1}{\rho_1 + \rho_2}. \label{eq_a12extra}
+%	\end{align}
+%\end{lemma}
+%
+%Finally, the last lemma describes the asymptotic limit of $(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}$, which will be needed when we estimate the first term on the right-hand side of \eqref{eq_te_mtl_2task}.
+
+
+%We will give the proof of this lemma in Section \ref{sec_maintools}.
+
+
+
+
+
+
+%\subsection{Proof for Two Tasks with General Covariates}\label{app_proof_main}
+
+%To illustrate the idea, we observe that by using Lemma \ref{lem_minv}, we have that
+%\[ \te(\hat{\beta}_t^{\STL}) = \frac{\sigma^2}{n_2 - p}\bigtr{\Sigma_2^{-1}}. \]
+%We shall also derive the limit of $\te(\hat{\beta}_t^{\MTL})$.
+%\todo{write a brief technical overview}
+
+%We shall consider the case where the entries of $\e_1$ and $\e_2$ have the same variance $\sigma_1^2=\sigma_2^2=\sigma^2$.
+%Moreover, we shall denote $\beta_1$ and $\beta_2$ by $\beta_1$ and $\beta_2$, standing for ``source task" and ``target task", respectively.
+%First, we introduce several quantities that will be used in our statement, and they are also related to the quantities in Lemma \ref{lem_cov_shift} and Lemma \ref{lem_cov_derivative}. Given the optimal ratio $\hat v$,
+%%let $\hat{M} = \hat{v} \Sigma_1^{1/2}\Sigma_2^{-1/2}$ denote the weighted covariate shift matrix, and ${\hat\lambda}_1\ge {\hat\lambda}_2 \ge \dots \ge {\hat\lambda}_p$ be the eigenvalues of $\hat{M}^{\top}\hat{M}$. Define
+%let $(\hat a_1, \hat a_2)$ be the solution to the following system of deterministic equations,
+%	\be
+%		 \hat a_1 +  \hat a_2 = 1- \frac{1}{\rho_1 + \rho_2},\quad  \hat a_1 + \frac1{\rho_1 + \rho_2}\cdot \frac1p\sum_{i=1}^p \frac{ \hat v^2 \lambda_i^2 \hat a_1}{ \hat v^2 \lambda_i^2\hat a_1 +  \hat a_2} = \frac{\rho_1}{\rho_1 + \rho_2}.\label{eq_a2} \\
+%		 \ee
+%		 After obtaining $(\hat a_1,\hat a_2)$, we can solve the following linear equations to get $(\hat a_3,\hat a_4)$:
+%\begin{gather}
+%		\left(\rho_2 \hat a_2^{-2}- \hat b_0\right)\cdot \hat  a_3 - \hat b_1 \cdot \hat a_4
+%		=\hat b_0, \quad \left(\rho_1\hat a_1^{-2} - \hat b_2  \right)\cdot \hat a_4 - \hat b_1 \cdot \hat a_3 =\hat b_1 .\label{eq_a3}
+%%		\left(\frac{n_1}{\hat a_1^2} -  \sum_{i=1}^p \frac{\hat \lambda_i^4   }{  (\hat a_2 + \hat \lambda_i^2\hat a_1)^2  }\right)\hat a_4 -\left(\sum_{i=1}^p \frac{\hat \lambda_i^2  }{  (\hat a_2 + \hat \lambda_i^2\hat a_1)^2  }\right)\hat a_3
+%%		= \sum_{i=1}^p \frac{\hat \lambda_i^2 }{  (\hat a_2 + \hat \lambda_i^2\hat a_1)^2  }. \label{eq_a4}
+%	\end{gather}
+%where we denoted
+%$$\hat b_k:= \frac1{p}\sum_{i=1}^p \frac{\hat v^{2k} \lambda_i^{2k}}{ (\hat a_2 +\hat v^2 \lambda_i^2\hat a_1)^2  },\quad k=0,1,2.$$
+
+
+%For our purpose, a validation set that is much larger than the number of output layer parameters $r\cdot t$ suffices (e.g. $\rho_i \cdot p^{0.5}$).
+%The size of the training set is then $\rho_i (p - p^{0.99})$.
+%The advantage of tuning the output layers on the validation set is to reduce the effect of noise from $\hat{B}$.
+%For more details, we refer the reader to Appendix \ref{app_proof_sec3}.
+
+%The single-task estimator $\hat{\beta}_t^{\STL}$ is given by $(X_t^{\top}X_t)^{-1}X_t^{\top}Y_t$.
+%For an estimator $\hat{\beta}\in\real^p$, we define the out-of-sample prediction loss as
+
+%which can be further decomposed as the bias plus the variance of $\hat{\beta}$.
+%In order to relate the btradeoff to properties of the data, we need tight concentration bounds for the bias and variance.
+%We consider the high-dimensional regime where $n_i$ is a fixed constant $\rho_i > 1$  multiple of $p$ for every $1\le i\le t$, and $p$ is sufficiently large.
+%We focus on a setting where $\rho_t$ is small compared to $\set{\rho_i}_{i=1}^{t-1}$.
+%This setting captures the need to add more labeled data to reduce the prediction loss of the target task.
+
+%However, this result only applies to a single task.
+%Therefore, our goal is to extend this result to multiple tasks.
+
+%\textbf{Notations.}
+%When there is no ambiguity, we drop the subscript $t$ from $\te_t(\hat{\beta}_t^{\MTL})$ and write $\te(\hat{\beta}_t^{\MTL})$ for simplicity.
+%We refer to the first task as the source task when there are only two tasks.
+%We call $M = \Sigma_1^{1/2}\Sigma_2^{-1/2}$ the covariate shift matrix.
+
+
+%\subsection{Analyzing the Tradeoff via Random Matrix Theory}
