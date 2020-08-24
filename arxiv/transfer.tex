@@ -59,9 +59,11 @@ we observe that while the bias of $\hat{\beta}_2^{\MTL}$ is always larger than t
 %\end{align}}%
 %In the above, $\hat{v} = W_1 / W_2$ where $W_1, W_2$ are obtained from solving equation \eqref{eq_mtl_eval} (recalling that $W_1, W_2$ are scalars for two tasks).
 %The role of $\hat{v}$ is to scale the shared subspace $B$ to fit each task.
-Hence, the bias term introduces a negative effect that depends on the \textit{similarity} between $\beta_1$ and $\beta_2$.
-Intuitively, the more \textit{samples} we have, the smaller the variance is.
-Meanwhile, \textit{covariate shift} also affects how small the variance can be.
+In other words, training both tasks together helps predict the target task by reducing variance while incurring a bias.
+Therefore, whether multi-task learning outperforms single-task learning is determined by the bias-variance decomposition!
+%Hence, the bias term introduces a negative effect that depends on the \textit{similarity} between $\beta_1$ and $\beta_2$.
+%Intuitively, the more \textit{samples} we have, the smaller the variance is.
+%Meanwhile, \textit{covariate shift} also affects how small the variance can be.
 
 %Then we make the following assumptions on the data models.
 %\begin{assumption}[Linear regression model]\label{assm_secA2}
@@ -69,12 +71,14 @@ Meanwhile, \textit{covariate shift} also affects how small the variance can be.
 %$\e_i\in \R^{n_i}$ are random vectors with i.i.d. entries with mean zero, variance $\sigma_i^2$ and all moments as in \eqref{assmAhigh}.
 %\end{assumption}
  
+Based on the above intuition, in the following we develop generalization bounds that relate the bias and variance of multi-task learning to the sample sizes and the covariance matrices of both tasks.
 
-We now state our main result for two tasks with both covariate and model shift. It shows that the information transfer is determined by two deterministic quantities $\Delta_{\bias}$ and $\Delta_{\vari}$, which give the change of model shift bias and the change of variance, respectively. The exact forms of $\Delta_{\bias}$ and $\Delta_{\vari}$ will be given in Lemma \ref{thm_model_shift}.
+%We now state our main result for two tasks with both covariate and model shift. It shows that the information transfer is determined by two deterministic quantities $\Delta_{\bias}$ and $\Delta_{\vari}$, which give the change of model shift bias and the change of variance, respectively. The exact forms of $\Delta_{\bias}$ and $\Delta_{\vari}$ will be given in Lemma \ref{thm_model_shift}.
 
-\begin{theorem}[Two tasks]\label{thm_main_informal}
+\begin{theorem}[Two-task case]\label{thm_main_informal}
 	For the setting of two tasks, let $\delta > 0$ be a fixed error margin, $\rho_2 > 1$ and $\rho_1 \gtrsim \delta^{-2}\cdot \lambda_{\min}(\Sigma_1^{1/2}\Sigma_2^{-1/2})^{-4} \norm{\Sigma_1} \max(\norm{\beta_1}^2, \norm{\beta_2}^2)$.
- 	There exist two deterministic functions $\Delta_{\bias}$ and $\Delta_{\vari}$ that only depend on $\set{\hat{v}, \Sigma_1, \Sigma_2, \rho_1, \rho_2, \beta_1, \beta_2}$ such that
+	Let $B, W_1, W_2$ be any local minimum of equation \eqref{eq_mtl}.
+ 	There exist two deterministic functions $\Delta_{\bias}$ and $\Delta_{\vari}$ that only depend on $\set{W_1/W_2, \Sigma_1, \Sigma_2, \rho_1, \rho_2, \beta_1, \beta_2}$ such that
 	\squishlist
 		\item If $\Delta_{\bias} - \Delta_{\vari} < -\delta$, then w.h.p. over the randomness of $X_1, X_2$, we have $\te(\hat{\beta}_t^{\MTL}) < \te(\hat{\beta}_t^{\STL})$.
 		\item If $\Delta_{\bias} - \Delta_{\vari} > \delta$, then w.h.p. over the randomness of $X_1, X_2$, we have $\te(\hat{\beta}_t^{\MTL}) > \te(\hat{\beta}_t^{\STL})$.
@@ -94,16 +98,17 @@ While the general form of these functions can be complex (as are previous genera
 %Then, we apply a similar identity to Theorem \ref{lem_cov_shift_informal} for bounding the bias term, noting that the derivative of $R(z)$ with respect to $z$ can be approximated by $R_\infty'(z)$.
 %This estimates the negative effect given by $\Delta_{\bias}$. %, which will be used to estimate the first term on the right hand side of \eqref{eq_te_model_shift}.
 %During this process, we will get the $\Delta_{\bias}$ term up to an error $\delta$ depending on $\rho_1$.
-The proof of Theorem \ref{thm_main_informal} is presented in Appendix \ref{app_proof_main_thm} and the proof of Lemma \ref{lem_cov_shift_informal} is in Appendix \ref{sec_maintools}.
-
-
-
+%The proof of Theorem \ref{thm_main_informal} is presented in Appendix \ref{app_proof_main_thm} and the proof of Lemma \ref{lem_cov_shift_informal} is in Appendix \ref{sec_maintools}.
+%
+%
+%
 %The formal statement is stated in Theorem \ref{thm_many_tasks} and its proof can be found in Appendix \ref{app_proof_many_tasks}.
 %The technical crux of our approach is to derive the asymptotic limit of $\te(\hat{\beta}_t^{\MTL})$ in the high-dimensional setting, when $p$ approaches infinity.
 %We derive a precise limit of $\bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2}$, which is a deterministic function that only depends on $\Sigma_1, \Sigma_2$ and $n_1/p, n_2/p$ (see Lemma \ref{lem_cov_shift} in Appendix \ref{app_proof_main} for the result).
 %Based on the result, we show how to determine positive versus negative transfer as follows.
 %, where $\lambda_{\min}(M)$ is the smallest singular value of $M_1$
 
+\iffalse
 Next, we derive a closed-form solution of the multi-task learning estimator for the case of two tasks.
 From \cite{WZR20}, we know that we need to explicitly restrict the output dimension $r$ of $B$ so that there is transfer between the two tasks.
 Hence for the case of two tasks, we consider the setting where $r=1$.
@@ -137,8 +142,7 @@ The expectation of $g(v)$ can be written as follows.
 		&+ N_2  \cdot \bigtr{\Sigma_2\left(v^2 X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-2} \left(\sigma_1^2 \cdot v^2  X_1^{\top}X_1 + \sigma_2^2  \cdot X_2^{\top}X_2\right)}. \label{revise_eq_val_mtl}
 \end{align}
 
-\iffalse
-{\color{red}\begin{align*} 
+{\color{red}\begin{align*}
 			& f(W_1, W_2) = \bignorm{X_1 \hat B w_1 - Y_1}^2 + \bignorm{X_2 \hat B w_2 - Y_2}^2\\
 			& =\bignorm{X_1\left( v^2 X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1} \left(v^2 X_1^{\top}Y_1 + vX_2^{\top}Y_2\right) - Y_1}^2 \\
 			&+ \bignorm{X_2 \left( v^2 X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1} \left(vX_1^{\top}Y_1 + X_2^{\top}Y_2\right) - Y_2}^2 \\
@@ -158,7 +162,7 @@ The expectation of $g(v)$ can be written as follows.
 			&+ v^2\bignorm{X_2 \left( v^2 X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1}  X_1^{\top}X_1(\beta_1-v\beta_2) }^2 +(n_1+n_2-p)\sigma^2.
 		\end{align*}
 	}
-\fi
+
 
 \begin{claim}
 	In the setting described above, we have that
@@ -209,6 +213,7 @@ The prediction loss of using $\hat{\beta}_2^{\MTL}$ for the target task is
 			&+~  \bigtr{\Sigma_2(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-2}\left(\sigma_1^2 \cdot \hat v^2  X_1^{\top}X_1 + \sigma_2^2  \cdot X_2^{\top}X_2\right) }, \label{eq_te_mtl_2task}
 \end{align}
 which only depends on $\hat v$, the sample covariance matrices, and $\beta_1,\beta_2$.
+\fi
 
 %\begin{lemma}[Variance bound]\label{lem_cov_shift_informal}
 %	In the setting of two tasks,
@@ -230,6 +235,7 @@ which only depends on $\hat v$, the sample covariance matrices, and $\beta_1,\be
 %%are both fixed values that roughly scales with the sample sizes $\rho_1, \rho_2$, and satisfy $a_1 + a_2 = 1 - (\rho_1 + \rho_2)^{-1}$ plus another deterministic equation.
 %\end{lemma}
 
+\paragraph{Proof overview.}
 We shall refer to random matrices of the form $X^\top X$ as sample covariance matrices following the standard notations in high-dimensional statistics. The following two lemmas  are the main random matrix theoretical results of this paper, which will be used to estimate the two terms on the right-hand side of \eqref{eq_te_mtl_2task}.
 %which deals with the inverse of the sum of two random matrices, which
 %any is can be viewed as a special case of Theorem \ref{thm_model_shift}.
