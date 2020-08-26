@@ -77,24 +77,28 @@ We introduce a key quantity $M = \Sigma_1^{1/2}\Sigma_2^{-1/2}$ that captures th
 %We now state our main result for two tasks with both covariate and model shift. It shows that the information transfer is determined by two deterministic quantities $\Delta_{\bias}$ and $\Delta_{\vari}$, which give the change of model shift bias and the change of variance, respectively. The exact forms of $\Delta_{\bias}$ and $\Delta_{\vari}$ will be given in Lemma \ref{thm_model_shift}.
 
 \begin{theorem}[Two-task case]\label{thm_main_informal}
-	For the setting of two tasks, let $\delta > 0$ be a fixed error margin, $\rho_2 > 1$ and $\rho_1 \gtrsim \delta^{-2}\cdot \lambda_{\min}(M)^{-4} \norm{\Sigma_1} \max(\norm{\beta_1}^2, \norm{\beta_2}^2)$.
+	%For the setting of two tasks, let $\delta > 0$ be a fixed error margin, $\rho_2 > 1$ and $\rho_1 \gtrsim \delta^{-2}\cdot \lambda_{\min}(M)^{-4} \norm{\Sigma_1} \max(\norm{\beta_1}^2, \norm{\beta_2}^2)$.
+	For the setting of two tasks, let $C$ be a fixed constant and let $\delta = \frac{ C\cdot \max(\norm{\beta_1}, \norm{\beta_2}) \cdot \sqrt{\norm{\Sigma_1}} } {\lambda_{\min}^2(M)) }$.
 	Let $B, W_1, W_2$ be any local minimum of equation \eqref{eq_mtl}.
  	There exist two deterministic functions $\Delta_{\bias}$ and $\Delta_{\vari}$ that only depend on scaled model distance $\beta_1 - \frac{W_1}{W_2} \beta_2$, sample sizes $n_1 = \rho_1 \cdot p, n_2 = \rho_2 \cdot p$, and covariate shift matrix $M$ such that
 	\begin{enumerate}
-		\item[a)] \textbf{Positive transfer:} If $\Delta_{\bias} < \Delta_{\vari} -\delta$, then w.h.p. over the randomness of $X_1, X_2$, we have
+		\item[a)] \textbf{Positive transfer:} If $\Delta_{\bias} < \Delta_{\vari} -  \frac{\delta}{\sqrt{\rho_1}} $, then w.h.p. over the randomness of $X_1, X_2, \varepsilon_1, \varepsilon_2$, we have
 			\[ \te(\hat{\beta}_2^{\MTL}) < \te(\hat{\beta}_2^{\STL}).  \]
-		\item[b)] \textbf{Negative transfer:} If $\Delta_{\bias} > \Delta_{\vari} + \delta$, then w.h.p. over the randomness of $X_1, X_2$, we have
+		\item[b)] \textbf{Negative transfer:} If $\Delta_{\bias} > \Delta_{\vari} + \frac{\delta}{\sqrt{\rho_1}}$, then w.h.p. over the randomness of $X_1, X_2, \varepsilon_1, \varepsilon_2$, we have
 			\[ \te(\hat{\beta}_2^{\MTL}) > \te(\hat{\beta}_2^{\STL}). \]
 	\end{enumerate}
 \end{theorem}
-
+In words, the above result shows that a deterministic function $\Delta_{\bias} - \Delta_{\vari}$ determines whether the prediction loss of the empirical multi-task learning estimator is lower than that of single-task learning, up to an error that scales as $\delta / \sqrt{\rho_1}$.
 We make several remarks about Theorem \ref{thm_main_informal}.
-First, the result shows that provided with a large amount of source task data,
-Theorem \ref{thm_main_informal} applies to settings where large amounts of source task data are available but the target sample size is small.
-For such settings, we obtain a sharp transition from positive transfer to negative transfer determined by $\Delta_{\bias} - \Delta_{\vari}$.
+First, as the amount of data from the source task increases, we get more accurate predictions  since the error scales down.
+This applies to many practical settings where collecting labeled data for the target task is expensive and auxillary (source) task data is easier to obtain.
+%Theorem \ref{thm_main_informal} applies to settings where large amounts of source task data are available but the target sample size is small.
+%For such settings, we obtain a sharp transition from positive transfer to negative transfer determined by $\Delta_{\bias} - \Delta_{\vari}$.
 %determined by the covariate shift matrix and the model shift.
 %The bounds get tighter and tighter as $\rho_1$ increases.
-While the general form of these functions can be complex (as are previous generalization bounds for MTL), they admit interpretable forms for simplified settings.
+Second, the deterministic function $\Delta_{\bias} - \Delta_{\vari}$ depends on the three task properties that we care about and the precise form can be found in Section \ref{sec_proof_general}.
+Finally, later on in Section \ref{sec_special}, we will study how varying each task property affects the performance of multi-task learning in depth.
+%While the general form of these functions can be complex (as are previous generalization bounds for MTL), they admit interpretable forms for simplified settings.
 
 %\textbf{Proof overview.}\todo{}
 %Theorem \ref{lem_cov_shift_informal} extends a well-known result for the single-task setting when $X_1, \rho_1, a_1$ are all equal to zero \cite{S07}.
@@ -241,8 +245,9 @@ which only depends on $\hat v$, the sample covariance matrices, and $\beta_1,\be
 %\end{lemma}
 
 \paragraph{Key ingredients.}
-We shall refer to random matrices of the form $X^\top X$ as sample covariance matrices following the standard notations in high-dimensional statistics. The following two lemmas  are the main random matrix theoretical results of this paper, which will be used to estimate the two terms on the right-hand side of \eqref{eq_te_mtl_2task}.
-Let $\lambda_1, \lambda_2, \dots, \lambda_p$ be the singular values of $M$ in descending order.
+We introduce two key lemmas that show tight asymptotic convergence rate of the bias equation \eqref{eq_bias_2task} and the variance equation  as sample sizes increase to infinity.
+%The following two lemmas  are the main random matrix theoretical results of this paper, which will be used to estimate the two terms on the right-hand side of \eqref{eq_te_mtl_2task}.
+For the covariate shift matrix $M$, let $\lambda_1, \lambda_2, \dots, \lambda_p$ be its singular values in descending order.
 %which deals with the inverse of the sum of two random matrices, which
 %any is can be viewed as a special case of Theorem \ref{thm_model_shift}.
 
@@ -250,30 +255,42 @@ Let $\lambda_1, \lambda_2, \dots, \lambda_p$ be the singular values of $M$ in de
 	%Let $X_i\in\real^{n_i\times p}$ be a random matrix that contains i.i.d. row vectors with mean $0$ and variance $\Sigma_i\in\real^{p\times p}$, for $i = 1, 2$.
 	%Suppose $X_1=Z_1\Sigma_1^{1/2}\in \R^{n_1\times p}$ and $X_2=Z_2\Sigma_2^{1/2}\in \R^{n_2\times p}$ satisfy Assumption \ref{assm_secA1} with $\rho_1:=n_1/p>1$ and $\rho_2:=n_2/p>1$ being fixed constants.
 	%Denote by $M = \Sigma_1^{1/2}\Sigma_2^{-1/2}$ and
-	In the setting of Theorem \ref{thm_main_informal}, let $\Sigma$ be any $p\times p$ fixed and deterministic matrix.
-	We have that %for any constant $\e>0$,
+	Let $\Sigma \in \real^{p \times p}$ be any fixed and deterministic matrix.
+	In the setting of Theorem \ref{thm_main_informal},
+	with high probability over the randomness of $X_1$ and $X_2$, we have that %for any constant $\e>0$,
 	%When $n_1 = c_1 p$ and $n_2 = c_2 p$, we have that with high probability over the randomness of $X_1$ and $X_2$, the following equation holds
 	\begin{align}\label{lem_cov_shift_eq}
-		\bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} \Sigma} = \frac{1}{n_1 + n_2}\cdot \bigtr{ (a_1 \Sigma_1 + a_2\Sigma_2)^{-1} A} + o(1)%\bigo{\|\| p^{-1/2+\epsilon}}
+		\bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} \Sigma} = \frac{1}{n_1 + n_2}\cdot \bigtr{ (a_1 \Sigma_1 + a_2\Sigma_2)^{-1} A} + o(\norm{A}), %\bigo{\|\| p^{-1/2+\epsilon}}
 	\end{align}
-with high probability, where $(a_1, a_2)$ is the solution to the following deterministic equations:
+	where $(a_1, a_2)$ is the solution of the following deterministic equations:
 	\begin{align}
-		a_1 + a_2 = 1- \frac{1}{\rho_1 + \rho_2},\quad a_1 + \frac1{\rho_1 + \rho_2}\cdot \frac{1}{p}\sum_{i=1}^p \frac{\lambda_i^2 a_1}{\lambda_i^2 a_1 + a_2} = \frac{\rho_1}{\rho_1 + \rho_2}. \label{eq_a12extra}
+		a_1 + a_2 = 1- \frac{1}{\rho_1 + \rho_2},\quad a_1 + \frac1{\rho_1 + \rho_2}\cdot \bigbrace{\frac{1}{p}\sum_{i=1}^p \frac{\lambda_i^2 a_1}{\lambda_i^2 a_1 + a_2}} = \frac{\rho_1}{\rho_1 + \rho_2}. \label{eq_a12extra}
 	\end{align}
 \end{lemma}
 
+Lemma \ref{lem_cov_shift} derives the asymptotic limit of the variance equation \eqref{eq_var_2task}.
+To see this, we rescale $X_1$ with $W_1 / W_2$ and set the matrix $\Sigma$ as $\sigma^2 \Sigma_2$.
+%allows us to get a tight bound on equation \eqref{eq_te_var}, that only depends on \textit{sample size}, \textit{covariate shift} and the scalar $\hat{v}$.
+As a remark, the concentration error $o(\|A\|)$ on the right hand side of equation \eqref{lem_cov_shift_eq} reduces provided with stronger moment assumptions on $X_1$ and $X_2$. % p^{-1/2+\epsilon}
+Recall from Section \ref{sec_setup} that the feature vectors are generated by $\Sigma_i^{1/2} z$, where $z\in\real^p$ consists of i.i.d. entries with mean zero and unit variance.
+Provided that for every entry of $z$, its $k$-th moment exists, then we can obtain a concentration error at most $\bigo{\norm{A} p^{-1/2 + 2/k + o(1)}}$.
 
-Lemma \ref{lem_cov_shift} allows us to get a tight bound on equation \eqref{eq_te_var}, that only depends on \textit{sample size}, \textit{covariate shift} and the scalar $\hat{v}$.
-As a remark, the concentration error $\bigo{\|A\| p^{-1/2+\epsilon}}$ of our result is nearly optimal.
-The next lemma, which is a folklore result in random matrix theory, helps to determine the asymptotic limit of $\te(\hat{\beta}_t^{\STL})=\sigma^2   \bigtr{(X_2^{\top}X_2)^{-1}\Sigma_2}$ as $p\to \infty$. When the entries of $X_2$ are multivariate Gaussian, this lemma recovers the classical result for the mean of inverse Wishart distribution \cite{anderson1958introduction}. For general non-Gaussian random matrices, it can be obtained using Stieltjes transform method; see e.g., Lemma 3.11 of \cite{bai2009spectral}. Here we shall state a result obtained from Theorem 2.4 in \cite{isotropic}, which gives an almost sharp error bound.
+Lemma \ref{lem_cov_shift} also implies the asymptotic limit of the prediction loss of single-task learning.
+%The next lemma, which is , helps to determine the asymptotic limit of $\te(\hat{\beta}_t^{\STL})=\sigma^2   \bigtr{(X_2^{\top}X_2)^{-1}\Sigma_2}$ as $p\to \infty$.
+In particular, by setting $X_1 = 0$, we obtain the following corollary, which is a well-known result in random matrix theory
 \begin{corollary}[e.g. Theorem 2.4 in \citet{isotropic}]\label{lem_minv}
 	In the setting of Lemma \ref{lem_cov_shift}, with high probability we have that
-	\be\label{XXA}  \bigtr{(X_2^{\top}X_2)^{-1}A} = \frac{1}{n_2 - p} \cdot \bigtr{\Sigma_2^{-1}A} + o(1). \ee
+	\be\label{XXA}  \bigtr{(X_2^{\top}X_2)^{-1}A} = \frac{1}{n_2 - p} \cdot \bigtr{\Sigma_2^{-1}A} + o(\norm{A}). \ee
 \end{corollary} %\bigo{ \|A\|p^{-1/2+\epsilon}}
-Note that Lemma \ref{lem_cov_shift} extends Lemma \ref{lem_minv} for a single sample covariance matrix to the sum of two independent sample covariance matrices. Note that if we set $n_1=0$ and $n_2=n$, then $a_1 = 0$ and $a_2 = (n_2-p) / n_2$ is the solution to \eqref{eq_a12extra}, and one can see that \eqref{lem_cov_shift_eq} reduces to \eqref{XXA}.
+To see this, note that when $n_1=0$, $a_1 = 0$ and $a_2 = (n_2-p) / n_2$ is the solution of \eqref{eq_a12extra}, and one can see that \eqref{lem_cov_shift_eq} reduces to \eqref{XXA}.
+We briefly describe the history behind the above well-known result.
+When the entries of $X_2$ are multivariate Gaussian, this result recovers the classical result for the mean of inverse Wishart distribution \cite{anderson1958introduction}.
+For general non-Gaussian random matrices, it can be obtained using Stieltjes transform method; see e.g., Lemma 3.11 of \cite{bai2009spectral}.
+Here we have stated a result from Theorem 2.4 in \cite{isotropic}, which gives an almost sharp concentration error bound.
+One can see that our result extends Lemma \ref{lem_minv} from a single sample covariance matrix to the sum of two independent sample covariance matrices.
 
-
-For the bias term of equation \eqref{eq_te_model_shift}, a similar result that scales with task model distance in addition to sample size and covariate shift holds (cf. Lemma \ref{lem_cov_derivative} in Appendix \ref{app_proof_main_thm}).
+Interestingly, the asymptotic limit of the variance only depends on the sample sizes and the covariate shift matrix.
+Next, we derive the asymptotic limit of the bias equation \eqref{eq_bias_2task}, which depends on the scaled model distance in addition to sample size and covariate shift. %(cf. Lemma \ref{lem_cov_derivative} in Appendix \ref{app_proof_main_thm}).
 
 \begin{lemma}[Bias asymptotics]\label{lem_cov_derivative}
 In the setting of Theorem \ref{thm_main_informal}, let $\beta \in \R^p$ be any vector that is independent of $X_1$ and $X_2$. We have that for any constant $\e>0$,
