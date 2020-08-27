@@ -229,7 +229,7 @@ for all $v\ge C_0$. Similar estimates hold for $v\le -C_0$ if we replace $C_0$ w
 
 
 
-\subsection{Multiple-task Case}\label{app_proof_many_tasks}
+\subsection{Proof of the Multiple-task Case}\label{app_proof_many_tasks}
 
 %As a remark, since the spectral norm of $U_r$ is less than $1$, we have that $\norm{U_r(i)} < 1$ for all $1 \le i \le t$. Compared to Theorem \ref{thm_main_informal}, we can get a simple expression for the two functions $\Delta_{vari}$ and $\Delta_{\bias}$. The proof of Theorem \ref{thm_many_tasks} can be found in Appendix \ref{app_proof_many_tasks}.
 
@@ -238,23 +238,55 @@ for all $v\ge C_0$. Similar estimates hold for $v\le -C_0$ if we replace $C_0$ w
 %In this section we consider the setting with $k$ many that have the same covariates.
 %Since every task has the same number of data points as well as the same covariance, the only differences between different tasks are their models $\set{\beta_i}_{i=1}^k$.
 %For this setting, we derive solutions for the multi-task training and the transfer learning setting that match our insights qualitatively from Section \ref{sec_denoise}.
-Using Lemma \ref{lem_minv} and some concentration bounds, we can complete the proof of Theorem \ref{thm_many_tasks}.
+%Using Lemma \ref{lem_minv} and some concentration bounds, we can complete the proof of Theorem \ref{thm_many_tasks}.
 
 \begin{proof}[Proof of Theorem \ref{thm_many_tasks}]
-In this setting, we need to study the following loss function:
-\begin{align}
-	f(B; W_1, \dots, W_t) = \sum_{i=1}^t \bignorm{X B W_i - Y_i}^2,\label{eq_mtl_same_cov}
-\end{align}
-for $W_1, W_2, \dots, W_t \in \R^r$. Then it is not hard to derive a closed form solution for $B$ as
+	We first introduce several notations.
+	Let $\cal W = [W_1, W_2, \dots, W_t] \in \real^{r\times t}$ be a matrix that contains all the parameters of the output layers.
+	Let $U_X U_X^{\top} = X (X^{\top} X)^{-1} X^{\top} \in\real^{n \times n}$ denote the projection matrix to $X$.
+
+	Recall that all tasks have the same covariates in this setting.
+	Therefore, the optimization objective equation \eqref{eq_mtl} becomes the following
+	\begin{align}
+		f(B; W_1, \dots, W_t) = \sum_{i=1}^t \bignorm{X B W_i - Y_i}^2, \label{eq_mtl_same_cov}
+	\end{align}
+	where $B \in \real^{p \times r}$ and $W_1, W_2, \dots, W_t \in \R^r$ for $1 < r < t$ by our assumption.
+	Using the local optimality condition over $B$, that is $\nabla_B f = 0$, we obtain a closed form solution $\hat{B}$ that depends on the output layers as follows
 	\begin{align*}
 		\hat{B}(W_1, \dots, W_t) &= (X^{\top}X)^{-1} X^{\top} \bigbrace{\sum_{i=1}^t Y_i W_i^{\top}} (\cal W  \cal W^{\top})^{-1} \\
-		&= (B^\star \cal W ^{\top}) (\cal W \cal W ^{\top})^{-1} + (X^{\top}X)^{-1}X^{\top} \bigbrace{\sum_{i=1}^t \varepsilon_i W_i^{\top}} (\cal W \cal W^{\top})^{-1},
+		&= (B^\star \cal W ^{\top}) (\cal W \cal W ^{\top})^{-1} + (X^{\top}X)^{-1}X^{\top}   \bigbrace{\sum_{i=1}^t \varepsilon_i W_i^{\top}} (\cal W \cal W^{\top})^{-1}.
 	\end{align*}
-	where $\cal W \in\real^{r\times t}$ is a matrix defined as $\cal W=[W_1, W_2, \dots, W_t]$.
+	Plugging in the equation $\hat{B}$ back into equation \eqref{eq_mtl_same_cov} we obatin
+	\begin{align}
+		g(\cal W) = \sum_{j=1}^t \bignorm{X B^{\star} \cW^{\top} (\cW\cW^{\top})^{-1} W_j + U_X U_X^{\top} \bigbrace{\sum_{i=1}^t \varepsilon_i W_i^{\top}} (\cW\cW)^{-1} W_j - Y_i}^2. \label{eq_mtl_output_layer}
+	\end{align}
+	Recall that we obtain $\hat{\cW}$ by minimizing $\cW$ in the above equation.
+	In order to derive the minimizer, our proof involves two steps.
+	First, we consider the expectation of $g(\cW)$ over $\varepsilon_1, \varepsilon_2, \dots, \varepsilon_t$, and $X$.
+	We show that the minimizer of $\ex{g(\cW)}$ has a simple closed form solution similar to principal component analysis.
+	Second, we show that the concentration error between $g(\cW)$ and $\ex{g(\cW)}$ is small provided with $n$ samples.
+	Intuitively, this is because $\cW$ only has $r \times t$ parameters, which is much smaller than $n$ by our assumption.
+	Hence we use standard concentration bounds and $\epsilon$-net arguments to show that the concentration error is small for $g(\cW)$.
 	%Now we switch $\hat{B}$ back into equation \eqref{eq_mtl_same_cov} to
-Then as in \eqref{approxvalid}, we pick $N$ independent samples of the training set for each task with $N\ge n^{1-\e_0}$, and use the concentration result, Lemma \ref{largedeviation}, to get the validation loss as 
-\be\label{eq_multival}g(\cal W)=  N\left[\val(\cal W) + t  \sigma^2 \right]\cdot \left( 1+\OO(p^{-(1-\e_0)/2+\e})\right).\ee
+	%Then as in \eqref{approxvalid}, we pick $N$ independent samples of the training set for each task with $N\ge n^{1-\e_0}$, and use the concentration result, Lemma \ref{largedeviation}, to get the validation loss as
 
+	\medskip
+	\noindent\textbf{The optimal solution of $\ex{g(\cW)}$.}
+	We observe that $\ex{g(\cW)}$ admits a bias-variance decomposition as follows.
+	First, we take expectation over $\varepsilon_1, \dots, \varepsilon_t$ conditional on $X$ and obtain the following:
+	\begin{align*}
+			\exarg{\varepsilon_1, \dots, \varepsilon_t}{g(\cW) \mid X}
+		=& \bignorm{X B^{\star} \cW^{\top} (\cW\cW^{\top})^{-1} \cW - X B^{\star}}^2 \\
+		&+ \sum_{j=1}^t\bigbrace{\exarg{\varepsilon_j}{\norm{\varepsilon_j}^2 - 2\inner{U_X U_X^{\top} {\varepsilon_j W_j^{\top}} (\cW\cW^{\top})^{-1} W_j}{\varepsilon_j}} } \\
+		&+ \sum_{j=1}^t \exarg{\varepsilon_1, \dots, \varepsilon_t}{\bignorm{U_X U_X^{\top} \bigbrace{\sum_{i=1}^t  \varepsilon_i W_i^{\top}} (\cW\cW^{\top})^{-1} W_j}^2} \\
+		=& \bignorm{X B^{\star} \cW^{\top} (\cW\cW^{\top})^{-1} \cW - XB^{\star}}^2 + \sigma^2(n\cdot t - p\cdot r) 	\end{align*}
+	The first equation uses the fact that $\varepsilon_i$ and $\varepsilon_j$ are pairwise independent for any $i \neq j$.
+	The second equation uses the same fact and in addition uses that the variance of every entry of $\varepsilon_i$ is $\sigma^2$ for every $i = 1,\dots, t$.
+	We further take expectation over $X$ and obtain the following:
+	\begin{align*}
+		\ex{g(\cW)} = n \bignorm{\Sigma^{1/2} B^{\star} (\cW^{\top} (\cW \cW^{\top})^{-1} \cW - \id_{t\times t})}^2 + \sigma^2 (n\cdot t - p \cdot r).
+	\end{align*}
+	%\be\label{eq_multival}g(\cal W)=  N\left[\val(\cal W) + t  \sigma^2 \right]\cdot \left( 1+\OO(p^{-(1-\e_0)/2+\e})\right).\ee
 \iffalse
 {\color{red}
 \begin{align*}
@@ -268,34 +300,39 @@ where
 
 }
 \fi
-
-
-
-Here $\val(\cal W)$ is defined as
+%Here $\val(\cal W)$ is defined as
 %it remains to consider minimizing the validation loss
-	$$\val( \cal W):=\exarg{\varepsilon_j, \forall 1\le j\le t}{ \sum_{i=1}^t \bignorm{\Sigma^{1/2}( \hat B W_i - \beta_i)}^2} =  \delta_{\bias}(\cal W) + \delta_{\vari} ,$$
-where the model shift bias term $\delta_{\bias}(\cal W) $ is given by
-	\begin{align*}
-		\delta_{\bias}(\cal W) :=\sum_{i=1}^t  \bignorm{\Sigma^{1/2}\bigbrace{(B^\star \cal W^\top) (\cal W\cal W^{\top})^{-1} W_i - \beta_i}}^2,
-	\end{align*}
-	and the variance term $\delta_{\vari} $ can be calculated as
-	\begin{align*}
-		\delta_{\vari} := \sigma^2 \cdot \bigtr{\Sigma (X^{\top}X)^{-1}}.
-	\end{align*}
-It suffices to minimize $\delta_{\bias}(\cal W)$ over $\cal W$, since both $t \sigma^2$ and $\delta_{\vari}$ do not depend on $\cal W$.
-
-We denote $Q := \cal W^{\top} (\cal W\cal W^{\top})^{-1} \cal W \in\real^{t\times t}$, whose $(i,j)$-th entry is given by $W_i^{\top} (\cal W\cal W^{\top})^{-1} W_j$.
+%	$$\val( \cal W):=\exarg{\varepsilon_j, \forall 1\le j\le t}{ \sum_{i=1}^t \bignorm{\Sigma^{1/2}( \hat B W_i - \beta_i)}^2} =  \delta_{\bias}(\cal W) + \delta_{\vari} ,$$
+%where the model shift bias term $\delta_{\bias}(\cal W) $ is given by
+%	\begin{align*}
+%		\delta_{\bias}(\cal W) :=\sum_{i=1}^t  \bignorm{\Sigma^{1/2}\bigbrace{(B^\star \cal W^\top) (\cal W\cal W^{\top})^{-1} W_i - \beta_i}}^2,
+%	\end{align*}
+%	and the variance term $\delta_{\vari} $ can be calculated as
+%	\begin{align*}
+%		\delta_{\vari} := \sigma^2 \cdot \bigtr{\Sigma (X^{\top}X)^{-1}}.
+%	\end{align*}
+	One can see that the above equation provides a bias-variance decomposition of $\ex{g(\cW)}$.
+	The first part measures the bias of multi-task learning compared to single-task learning for all tasks.
+	The second part measures the variance of multi-task learning and scales with $\sigma^2$.
+	In order to minimize $\ex{g(\cW)}$, it suffices to minimize the bias equation over $\cal W$, since the variance equation does not depend on $\cal W$.
+	%We denote $Q := \cal W^{\top} (\cal W\cal W^{\top})^{-1} \cal W \in\real^{t\times t}$, whose $(i,j)$-th entry is given by $W_i^{\top} (\cal W\cal W^{\top})^{-1} W_j$.
 	%Let $B^{\star} = [\beta_1, \beta_2, \dots, \beta_k] \in\real^{p \times k}$ denote the true model parameters.
-	Now we can write $\delta_{\bias}(\cal W)$ succinctly as
-	\begin{align*}
-		\delta_{\bias}(Q) \equiv \delta_{\bias}(\cal W) = \bignormFro{\Sigma^{1/2}B^{\star}  \bigbrace{Q -\id}}^2 .
-	\end{align*}
-	From this equation we can solve the minimizer explicitly as $Q_0=U_{r}U_r^{\top}$. On the other hand, let $\hat {\cal W}$ be the minimizer of $g$, and denote $\hat Q:= \hat{\cal W}^{\top} (\hat{\cal W}\hat{\cal W}^{\top})^{-1} \hat{\cal W} $. We claim that $\hat Q$ satisfies
+	%Now we can write $\delta_{\bias}(\cal W)$ succinctly as
+	%\begin{align*}
+	%	\delta_{\bias}(Q) \equiv \delta_{\bias}(\cal W) = \bignormFro{\Sigma^{1/2}B^{\star}  %\bigbrace{Q -\id}}^2 .
+	%\end{align*}
+	From the bias equation, we observe that the minimizer is equal to the best rank-$r$ (subspace) approximation to $B^{\star} \Sigma B^{\star}$, which is denoted by $U_{r} U_r^{\top}$.
+
+	\medskip
+	\noindent\textbf{The concentration error between $g(\cW)$ and $\ex{g(\cW)}$.}
+	On the other hand, let $\hat {\cal W}$ be the minimizer of $g$, and denote $\hat Q:= \hat{\cal W}^{\top} (\hat{\cal W}\hat{\cal W}^{\top})^{-1} \hat{\cal W} $. We claim that $\hat Q$ satisfies
 	\be\label{Q-Q}\|Q_0^{-1}\hat Q - \id\|_F = \oo(1) \quad \text{w.h.p.}\ee
 	In fact, if \eqref{Q-Q} does not hold, then using the condition $\lambda_{\min}((B^{\star})^\top\Sigma B^{\star})\gtrsim \sigma^2$ and that $\delta_{\vari}(\cal W)=\OO(\sigma^2)$ by  Lemma \ref{lem_minv}, we obtain that
 	$$   \val(\hat {Q}) + t  \sigma^2 > (\val( Q_0) + t \sigma^2 )\cdot (1+\oo(1)) \ \Rightarrow \ g( \hat{\cal W})>g( {\cal W}_0),$$
 	where $\cal W_0\in \R^{r\times t}$ is a matrix such that  $ \cal W_0^{\top} (\cal W_0\cal W_0^{\top})^{-1} \cal W_0=Q_0$. Hence  $\hat {\cal W}$ is not a minimizer, which leads to a contradiction.
 
+	\medskip
+	\noindent\textbf{Putting both steps together.}
 	In sum, we have solved that $\hat{\beta}_i^{\MTL}=B^{\star}\left( U_r v_i +\oo(1)\right)$. Inserting it into the definition of the test loss, we get that with high probability,
 	\begin{align*}
 		\te(\hat{\beta}_t^{\MTL}) &= \bignorm{\Sigma^{1/2} \left((B^\star \hat{\cal W}^\top) (\hat{\cal W}\hat{\cal W}^{\top})^{-1} \hat W_t - \beta_t \right) }^2
