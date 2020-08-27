@@ -260,9 +260,9 @@ For the covariate shift matrix $M$, let $\lambda_1, \lambda_2, \dots, \lambda_p$
 	with probability $1-\oo(1)$ over the randomness of $X_1$ and $X_2$, we have that %for any constant $\e>0$,
 	%When $n_1 = c_1 p$ and $n_2 = c_2 p$, we have that with high probability over the randomness of $X_1$ and $X_2$, the following equation holds
 	\begin{align}\label{lem_cov_shift_eq}
-		\bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} \Sigma} = \frac{1}{n_1 + n_2}\cdot \bigtr{ (a_1 \Sigma_1 + a_2\Sigma_2)^{-1} \Sigma} + o(\norm{\Sigma}), %\bigo{\|\| p^{-1/2+\epsilon}}
+		\bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} \Sigma} = \frac{1}{n_1 + n_2}\cdot \bigtr{ (a_1 \Sigma_1 + a_2\Sigma_2)^{-1} \Sigma} + o(\norm{\Sigma}). %\bigo{\|\| p^{-1/2+\epsilon}}
 	\end{align}
-	where $(a_1, a_2)$ is the solution of the following deterministic equations:
+	In the above equation, $a_1$ and $a_2$ are the solutions of the following two equations that only depend on the sample sizes $\rho_1, \rho_2$, and the singluar values of the covariate shift matrix $M$:
 	\begin{align}
 		a_1 + a_2 = 1- \frac{1}{\rho_1 + \rho_2},\quad a_1 + \frac1{\rho_1 + \rho_2}\cdot \bigbrace{\frac{1}{p}\sum_{i=1}^p \frac{\lambda_i^2 a_1}{\lambda_i^2 a_1 + a_2}} = \frac{\rho_1}{\rho_1 + \rho_2}. \label{eq_a12extra}
 	\end{align}
@@ -305,15 +305,15 @@ With high probability, we have that
 = w^{\top} \Sigma_2^{-1/2}  \frac{a_4 {M}^{\top}{M} + (1 + a_3)\id}{(a_1 {M}^{\top}{M}+a_2\id)^2} \Sigma_2^{-1/2} w + o(\|w\|^2),
 \end{split}
 \end{equation}
-where $a_{3}$ and $a_4$ satisfy the following system of linear equations:
+where $a_{3}$ and $a_4$ are the solutions of the following two equations:
 \begin{gather}\label{eq_a34extra}
 		\left(\frac{\rho_2}{a_2^{2}}-  b_0\right)\cdot  a_3 - b_1 \cdot  a_4
 		= b_0, \quad \left(\frac{\rho_1}{a_1^{2}} -  b_2  \right)\cdot  a_4 -  b_1 \cdot  a_3 = b_1 .
 %		\left(\frac{n_1}{\hat a_1^2} -  \sum_{i=1}^p \frac{\hat \lambda_i^4   }{  (\hat a_2 + \hat \lambda_i^2\hat a_1)^2  }\right)\hat a_4 -\left(\sum_{i=1}^p \frac{\hat \lambda_i^2  }{  (\hat a_2 + \hat \lambda_i^2\hat a_1)^2  }\right)\hat a_3
 %		= \sum_{i=1}^p \frac{\hat \lambda_i^2 }{  (\hat a_2 + \hat \lambda_i^2\hat a_1)^2  }. \label{eq_a4}
 	\end{gather}
-Here $b_0$, $b_1$ and $b_2$ are defined as
-$$ b_k:= \frac1{p}\sum_{i=1}^p \frac{\lambda_i^{2k}}{ ( a_2 + \lambda_i^2 a_1)^2  },\quad  \text{for } k=0,1,2.$$
+In the above equation, the definition of $b_0$, $b_1$ and $b_2$ is
+$$ b_k:= \frac1{p}\sum_{i=1}^p \frac{\lambda_i^{2k}}{ (\lambda_i^2 a_1 + a_2)^2  },\quad  \text{for } k=0,1,2.$$
 \end{lemma}
 To apply the above result to equation \eqref{eq_bias_2task}, we first approximate $X_1^{\top}X_1$ by $\Sigma_1$, and then use Lemma \ref{lem_cov_derivative} with $w = \Sigma_1 (\beta_1 - \frac{W_1}{W_2} \beta_2)$.
 The approximation of $X_1^{\top}X_1$ by $\Sigma_1$ incurs a generalization error that scales down with $\rho_1$, which is the $\delta / \sqrt{\rho_1}$ term in Theorem \ref{thm_main_informal} more precisely.
