@@ -117,7 +117,7 @@ Finally, later on in Section \ref{sec_special}, we will study how varying each t
 %Based on the result, we show how to determine positive versus negative transfer as follows.
 %, where $\lambda_{\min}(M)$ is the smallest singular value of $M_1$
 
-\iffalse
+%\iffalse
 Next, we derive a closed-form solution of the multi-task learning estimator for the case of two tasks.
 From \cite{WZR20}, we know that we need to explicitly restrict the output dimension $r$ of $B$ so that there is transfer between the two tasks.
 Hence for the case of two tasks, we consider the setting where $r=1$.
@@ -173,41 +173,8 @@ The expectation of $g(v)$ can be written as follows.
 	}
 
 
-\begin{claim}
-	In the setting described above, we have that
-	\be\label{approxvalid}
-		g(v)=  \left[\val(v) + (N_1\sigma^2_1+N_2\sigma^2_2)\right]\cdot \left( 1+\OO(p^{-(1-\e_0)/2+\e})\right).
-	\ee
-\end{claim}
-\begin{proof}
-	We use the fact that our random vectors have i.i.d. entries.
-%Before doing that, we first need to fix the setting for the following discussions, because we want to keep track of the error rate carefully instead of obtaining an asymptotic result only.
-	Recall that $Y_i = X_i\beta_i + \varepsilon_i$ and $\wt Y_i = \wt X_i\beta_i + \wt\varepsilon_i$, $i=1,2$, all satisfy Assumption \ref{assm_secA2}. Then we rewrite \eqref{eq_mtl_2tasktilde} as
-$$	g( v) = \sum_{i=1}^2\left\| \wt X_i\wt\beta_i  - \wt \e_i\right\|^2 , \quad \wt\beta:=\hat B w_i-\beta_i.$$
-Since $ \wt X_i\wt\beta$ and $ \wt \e_i$ are independent random vectors with i.i.d. centered entries, we can use the concentration result, Lemma \ref{largedeviation}, to get that for any constant $\e>0$,
-\begin{align*}
-\left|\left\| \wt X_i\wt\beta_i  - \wt \e_i\right\|^2 -  \exarg{\wt X_i,\wt{\e}_i} {\left\| \wt X_i\wt\beta_i  - \wt \e_i\right\|^2} \right| & =\left|\left\| \wt X_i\wt\beta_i  - \wt \e_i\right\|^2 - N_i (\wt\beta_i^\top \Sigma_i \wt\beta_i + \sigma_i^2) \right| \\
-&\le N_i^{1/2+\e} (\wt\beta_i^\top \Sigma_i \wt\beta_i + \sigma_i^2),
-\end{align*}
-with high probability. Thus we obtain that
-$$g(v)= \left[\sum_{i=1}^2 N_i\left\|\Sigma_i^{1/2}( \hat B w_i - \beta_i) \right\|^2 + (N_1\sigma^2_1+N_2\sigma^2_2)\right]\cdot \left( 1+\OO(p^{-(1-\e_0)/2+\e})\right),$$
-where we also used $N_i\ge p^{-1+\e_0}$. Inserting \eqref{hatB} into the above expression and using
- again the concentration result, Lemma \ref{largedeviation}, we get that
-$$ \sum_{i=1}^2 N_i\left\|\Sigma_i^{1/2}( \hat B w_1 - \beta_i) \right\|^2 = \val(v)\cdot \left( 1+\OO(p^{-1/2+\e})\right)$$
-with high probability.
-%-----old-------
-%Suppose that the entries of $\e_1$ and $\e_2$ have variance $\sigma^2$.  Using a validation set that is sub-sampled from the original training dataset, we get a validation loss as follows
-%\begin{align}
-%		&\val(\hat{B}; w_1, w_2):= \exarg{\varepsilon_1,\e_2} \sum_{i=1}^2 \left\|\Sigma_i^{1/2}( \hat B w_1 - \beta_i) \right\|^2 \\
-%	&=  n_1 \cdot \bignorm{\Sigma_1^{1/2}\left(\frac{w_1^2}{w_2^2} X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1}X_2^{\top}X_2\left (\beta_s - \frac{w_1}{w_2}\beta_t\right)}^2 \nonumber \\
-%		&+ n_1 \sigma^2 \cdot \frac{w_1^2}{w_2^2} \bigtr{\left(\frac{w_1^2}{w_2^2}  X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1}\Sigma_1} \nonumber \\
-%		&+ n_2 \cdot \frac{w_1^2}{w_2^2}\bignorm{\Sigma_2^{1/2}\left(\frac{w_1^2}{w_2^2} X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1}X_1^{\top}X_1\left(\beta_s - \frac{w_1}{w_2}\beta_t\right)}^2 \nonumber \\
-%		&+ n_2 \sigma^2 \cdot \bigtr{\left(\frac{w_1^2}{w_2^2} X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1}\Sigma_2}. \label{eq_val_mtl}
-%\end{align}
-%\nc
-%------------------
-Thus we conclude the proof.
-\end{proof}
+
+
 
 Hence to minimize $g(v)$, it suffices to minimize $\val(v)$ over $v$.
 Let $\hat v=\hat{w_1}/\hat{w_2}$ be the global minimizer of $g(v)$.
@@ -222,7 +189,7 @@ The prediction loss of using $\hat{\beta}_2^{\MTL}$ for the target task is
 			&+~  \bigtr{\Sigma_2(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-2}\left(\sigma_1^2 \cdot \hat v^2  X_1^{\top}X_1 + \sigma_2^2  \cdot X_2^{\top}X_2\right) }, \label{eq_te_mtl_2task}
 \end{align}
 which only depends on $\hat v$, the sample covariance matrices, and $\beta_1,\beta_2$.
-\fi
+%\fi
 
 %\begin{lemma}[Variance bound]\label{lem_cov_shift_informal}
 %	In the setting of two tasks,
