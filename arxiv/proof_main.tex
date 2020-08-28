@@ -288,28 +288,31 @@ for all $v\ge C_0$. Similar estimates hold for $v\le -C_0$ if we replace $C_0$ w
 	Intuitively, this is because $\cW$ only has $r \times t$ parameters, which is much smaller than $n$ by our assumption.
 	Hence we use standard concentration bounds and $\epsilon$-net arguments to show that the concentration error is small for $g(\cW)$.
 	To facilitate the analysis, we divide $g(\cW)$ into three parts based on their degree of dependence on the random noise:
+	\be\nonumber
+	g(\cal W)= g_0 + 2g_1 + g_2, 
+	\ee
+	where
 	\begin{align*}
-		Z_0 &= \sum_{j=1}^t \bignorm{XB^{\star} \cW^{\top} (\cW\cW^{\top})^{-1} W_j - X\beta_j}^2 = \bignorm{X B^{\star} (\cW^{\top} (\cW\cW^{\top})^{-1} \cW - \id_{t\times t})}^2, \\
-		Z_1 &= \sum_{j=1}^t \inner{XB^{\star} \cW^{\top} (\cW\cW^{\top})^{-1}W_j - X\beta_j}{U_X U_X^{\top} \bigbrace{\sum_{i=1}^t \varepsilon_i W_i^{\top}} (\cW\cW^{\top})^{-1} W_j - \varepsilon_j} \\
-				&= \sum_{j=1}^t \inner{-X B^{\star} \cW^{\top} (\cW \cW^{\top})^{-1} W_j + X\beta_j}{\varepsilon_j}, \\
-		Z_2 &= \sum_{j=1}^t \bignorm{U_X U_X^{\top} \bigbrace{\sum_{i=1}^t \varepsilon_i W_i^{\top}} (\cW\cW^{\top})^{-1}W_j - \varepsilon_j}^2 \\
-				&= \bigbrace{\sum_{j=1}^t \norm{\varepsilon_j}^2} - \sum_{1\le i,j\le t} \bigbrace{W_i^{\top} (\cW \cW^{\top})^{-1} W_j} \cdot \bigbrace{\varepsilon_i^{\top} U_X U_X^{\top} \varepsilon_j}.
-	\end{align*}
-	For the second equation of $Z_1$, we use the fact that $\sum_{j=1}^t X B^{\star} \cW^{\top} (\cW\cW^{\top})^{-1} W_j W_j^{\top} = X B^{\star} \cW^{\top} = \sum_{j=1}^t X \beta_j W_j^{\top}$.
-	For the second equation of $Z_2$, we observe that $\sum_{j=1}^t (\cW\cW^{\top})^{-1} W_j W_j^{\top} = \id$.
+		g_0(\cal W) &= \sum_{j=1}^t \bignorm{XB^{\star} \cW^{\top} (\cW\cW^{\top})^{-1} W_j - X\beta_j}^2 = \bignorm{X B^{\star} (\cW^{\top} (\cW\cW^{\top})^{-1} \cW - \id_{t\times t})}^2, \\
+		g_1(\cal W)  &= \sum_{j=1}^t \inner{XB^{\star} \cW^{\top} (\cW\cW^{\top})^{-1}W_j - X\beta_j}{U_X U_X^{\top} \bigbrace{\sum_{i=1}^t \varepsilon_i W_i^{\top}} (\cW\cW^{\top})^{-1} W_j - \varepsilon_j} ,\\
+				%&= \sum_{j=1}^t \inner{-X B^{\star} \cW^{\top} (\cW \cW^{\top})^{-1} W_j + X\beta_j}{\varepsilon_j}, \\
+		g_2(\cal W)  &= \sum_{j=1}^t \bignorm{U_X U_X^{\top} \bigbrace{\sum_{i=1}^t \varepsilon_i W_i^{\top}} (\cW\cW^{\top})^{-1}W_j - \varepsilon_j}^2 .
+					\end{align*}
+	
 	%Now we switch $\hat{B}$ back into equation \eqref{eq_mtl_same_cov} to
 	%Then as in \eqref{approxvalid}, we pick $N$ independent samples of the training set for each task with $N\ge n^{1-\e_0}$, and use the concentration result, Lemma \ref{largedeviation}, to get the validation loss as
 
 	\medskip
 	\noindent\textbf{The optimal solution of $\ex{g(\cW)}$.}
 	We observe that $\ex{g(\cW)}$ admits a bias-variance decomposition as follows.
-	First, we take expectation over $\varepsilon_1, \dots, \varepsilon_t$ conditional on $X$ and obtain the following:
-	\begin{align}
-		\exarg{\varepsilon_1, \dots, \varepsilon_t}{g(\cW) \mid X} - Z_0
-		= \exarg{\varepsilon_1, \dots, \varepsilon_t}{Z_2 \mid X}
+	First, we take expectation over $\varepsilon_1, \dots, \varepsilon_t$ conditional on $X$ and obtain that
+	\begin{align*}
+		\exarg{\varepsilon_1, \dots, \varepsilon_t}{g(\cW) \mid X} &= g_0(\cal W) 
+		+ \exarg{\varepsilon_1, \dots, \varepsilon_t}{g_2(\cal W)  \mid X} \\
+		&=g_0(\cal W) + \exarg{\varepsilon_1, \dots, \varepsilon_t} {\bigbrace{\sum_{j=1}^t \norm{\varepsilon_j}^2} - \sum_{1\le i\le t} \bigbrace{W_i^{\top} (\cW \cW^{\top})^{-1} W_i} \cdot \bigbrace{\varepsilon_i^{\top} U_X U_X^{\top} \varepsilon_i}}\\
 %		=& \sum_{j=1}^t \bigbrace{{\ex{\norm{\varepsilon_j}^2}} - \exarg{\varepsilon_1, \dots, \varepsilon_t}{\bignorm{U_X U_X^{\top} \bigbrace{\sum_{i=1}^t \varepsilon_i W_t^{\top}} (\cW\cW^{\top})^{-1} W_j}^2 } }  \label{eq_empirical_2}\\
-		= \sigma^2(n\cdot t - p\cdot r) \nonumber
-	\end{align}
+		&=g_0(\cal W) + \sigma^2(n\cdot t - p\cdot r), \nonumber
+	\end{align*}
 %	\begin{align}
 %		\exarg{\varepsilon_1, \dots, \varepsilon_t}{g(\cW) \mid X}
 %		=& \bignorm{X B^{\star} \cW^{\top} (\cW\cW^{\top})^{-1} \cW - X B^{\star}}^2 \nonumber \\
@@ -320,8 +323,10 @@ for all $v\ge C_0$. Similar estimates hold for $v\le -C_0$ if we replace $C_0$ w
 %			&+ \sum_{j=1}^t \bigbrace{{\ex{\norm{\varepsilon_j}^2}} - \exarg{\varepsilon_1, \dots, \varepsilon_t}{\bignorm{U_X U_X^{\top} \bigbrace{\sum_{i=1}^t \varepsilon_i W_t^{\top}} (\cW\cW^{\top})^{-1} W_j}^2 } }  \label{eq_empirical_2}\\
 %		=& \bignorm{X B^{\star} \cW^{\top} (\cW\cW^{\top})^{-1} \cW - XB^{\star}}^2 + \sigma^2(n\cdot t - p\cdot r) \nonumber
 %	\end{align}
-	The first equation uses the same fact the expectation of $Z_1$ over the random noise is zero.
-	The second equation uses the fact that $\varepsilon_i$ and $\varepsilon_j$ are pairwise independent for any $i \neq j$, and the variance of every entry of $\varepsilon_i$ is $\sigma^2$ for every $i = 1,\dots, t$.
+	where the first equation uses the fact the expectation of $Z_1$ over the random noise is zero;
+	the second equation uses the fact that $\varepsilon_i$ and $\varepsilon_j$ are pairwise independent for any $i \neq j$, and $\sum_{j=1}^t (\cW\cW^{\top})^{-1} W_j W_j^{\top} = \id$; the third equations uses that the variance of every entry of $\varepsilon_i$ is $\sigma^2$ for every $i = 1,\dots, t$, $\tr(U_X U_X^\top)=p$ and $\sum_{1\le i\le t} \bigbrace{W_i^{\top} (\cW \cW^{\top})^{-1} W_i}=\tr(\sum_i W_i W_i^{\top}(\cW \cW^{\top})^{-1})=r$.
+	
+	
 	We further take expectation over $X$ for $Z_0$ and obtain the following:
 	\begin{align*}
 		\ex{g(\cW)} = n \bignorm{\Sigma^{1/2} B^{\star} (\cW^{\top} (\cW \cW^{\top})^{-1} \cW - \id_{t\times t})}^2 + \sigma^2 (n\cdot t - p \cdot r).
@@ -365,11 +370,52 @@ where
 
 	\medskip
 	\noindent\textbf{The concentration error between $g(\cW)$ and $\ex{g(\cW)}$.}
-	Next, we show that the concentration errors of $Z_0, Z_1, Z_2$ are all lower order terms compared to $\ex{g(\cW)}$ and scale with $1/\sqrt{p}$.
-	For $Z_1$, using Lemma \ref{largedeviation} in Appendix \ref{sec_maintools} and the fact that all moments of $\varepsilon_i$ exist, we conclude that
-	\[ \abs{Z_1} \le \sum_{j=1}^t \sigma \cdot \norm{X B^{\star} \cW^{\top} (\cW\cW^{\top})^{-1} W_j - X \beta_j} \le \sigma \cdot \sqrt{t \cdot Z_0}, \]
-	where the second part follows by using Cauchy-Shwartz inequality.
-	For $Z_0$ and $Z_2$, \todo{add the spectral argument}
+	Next, we show that the concentration errors of $g_0, g_1, g_2$ are all lower order terms compared to $\ex{g(\cW)}$.
+	For $g_1$, using Lemma \ref{largedeviation} in Appendix \ref{sec_maintools} and the fact that all moments of $\varepsilon_i$ exist, we can obtain the following estimates: for $1\le i , j \le t,$
+	$$ |\inner{XB^{\star} \cW^{\top} (\cW\cW^{\top})^{-1}W_j - X\beta_j}{\varepsilon_j}| \le p^\e \sigma\|XB^{\star} \cW^{\top} (\cW\cW^{\top})^{-1}W_j - X\beta_j\|,$$
+	and
+	\begin{align*}  &|\inner{XB^{\star} \cW^{\top} (\cW\cW^{\top})^{-1}W_j - X\beta_j}{U_X U_X^{\top} \bigbrace{\varepsilon_i W_i^{\top}} (\cW\cW^{\top})^{-1} W_j }| \\
+	&\le p^\e \sigma |W_i^{\top} (\cW\cW^{\top})^{-1} W_j|\cdot \|U_X U_X^{\top}( {XB^{\star} \cW^{\top} (\cW\cW^{\top})^{-1}W_j - X\beta_j})\|
+	\end{align*}
+	with high probability for any constant $\e>0$. Inserting the above estimates into $g_1$, we get that
+	\begin{align*} 
+	 g_1(\cal W)    &\lesssim p^\e \sigma \sum_{j=1}^t \|  {XB^{\star} \cW^{\top} (\cW\cW^{\top})^{-1}W_j - X\beta_j}\| \\
+	&\le  p^\e \sigma \sum_{j=1}^t \|  \Sigma^{1/2}\left(B^{\star} \cW^{\top} (\cW\cW^{\top})^{-1}W_j - \beta_j\right)\| \cdot \|Z\| \\
+	&\lesssim p^{1/2+\e} \sigma \sum_{j=1}^t \|  \Sigma_1^{1/2}\left(B^{\star} \cW^{\top} (\cW\cW^{\top})^{-1}W_j - \beta_j\right)\| \\
+	& \le p^{1/2+\e} \bignorm{\Sigma^{1/2} B^{\star} (\cW^{\top} (\cW \cW^{\top})^{-1} \cW - \id_{t\times t})}^2 + \sigma^2 p^{1/2+\e} ,
+	\end{align*}
+	with high probability for any constant $\e>0$. Here in the second step we used $X=Z\Sigma^{1/2}$, in the third step we used the bound \eqref{eq_isometric} to bound the operator norm $\|Z\|$, and in the last step we used the simple AM-GM inequality.  
+
+For $g_2$, using Lemma \ref{largedeviation} in Appendix \ref{sec_maintools} and the fact that all moments of $\varepsilon_i$ exist, we can obtain the following estimates: for $1\le i \ne j \le t,$
+\begin{align*}
+& |\|\e_j\|^2 - n\sigma^2|=| \langle \e_j ,\e_j\rangle - \E\langle \e_j ,\e_j\rangle | \le \sigma^2 p^{1/2+\e},\\
+& |\inner{U_X U_X^{\top} \bigbrace{\varepsilon_i W_i^{\top}} (\cW\cW^{\top})^{-1}W_j}{\varepsilon_j}|\le |W_i^{\top} (\cW\cW^{\top})^{-1}W_j| \cdot \sigma^2 p^{\e} \tr \left[(U_X U_X^{\top})^2\right]\le \sigma^2 p^{1/2+\e},\\
+ &\left|\left(1-\mathop{\mathbb{E}}_{\varepsilon_j} \right)\left[\inner{U_X U_X^{\top} \bigbrace{\varepsilon_j W_j^{\top}} (\cW\cW^{\top})^{-1}W_j}{\varepsilon_j}\right]\right| \le |W_j^{\top} (\cW\cW^{\top})^{-1}W_j| \cdot \sigma^2 p^{\e} \tr \left[(U_X U_X^{\top})^2\right]\le \sigma^2 p^{1/2+\e},\\
+ &\left|\left(1-\mathop{\mathbb{E}}_{\varepsilon_j} \right)\left[\inner{U_X U_X^{\top} \bigbrace{\varepsilon_j W_j^{\top}} (\cW\cW^{\top})^{-1}W_j}{U_X U_X^{\top} \bigbrace{\varepsilon_j W_j^{\top}} (\cW\cW^{\top})^{-1}W_j}\right]\right|\\
+ &\le |W_j^{\top} (\cW\cW^{\top})^{-1}W_j|^2 \cdot \sigma^2 p^{\e} \tr \left[(U_X U_X^{\top})^4\right]\le \sigma^2 p^{1/2+\e},
+\end{align*}
+with high probability for any constant $\e>0$. Inserting the above estimates into $g_1$, we get that
+$$\left|g_2(\cal W)-\sigma^2(n\cdot t - p\cdot r)\right|=\left|g_2(\cal W)- \exarg{\varepsilon_1, \dots, \varepsilon_t} {g_2(\cal W)}\right| \lesssim \sigma^2 p^{1/2+\e}$$
+with high probability for any constant $\e>0$.
+
+	Finally, for $g_0$ we write it as
+	$$g_0(\cal W)= \sum_{j=1}^t\left\|Z v_j \right\|^2,\quad v_j:= \Sigma^{1/2}\left(B^{\star} \cW^{\top} (\cW\cW^{\top})^{-1} W_j -  \beta_j\right).$$
+	Note that $Zv_j\in \R^n$ is a random vector with i.i.d. entries of mean zero, variance $\|v_j\|^2$, and finite fourth moment by \eqref{assmAhigh}. Hence by law of large numbers, we have 
+	$$\frac{\left\|Z v_j \right\|^2 }{ n \|v_j\|^2}=  1+\oo(1) \quad \text{with probability} \ 1-\oo(1), $$
+	which implies that 
+	$$g_0(\cal W)=n \sum_{j=1}^t \|v_j\|^2 \cdot (1+\oo(1)) = n \bignorm{\Sigma^{1/2} B^{\star} (\cW^{\top} (\cW \cW^{\top})^{-1} \cW - \id_{t\times t})}^2 \cdot (1+\oo(1))$$
+	with probability $1-\oo(1)$.
+	
+	Combining all the above estimates, we obtain that for any constant $\e>0$,
+	\begin{align*} 
+	g(\cal W)&= n \bignorm{\Sigma^{1/2} B^{\star} (\cW^{\top} (\cW \cW^{\top})^{-1} \cW - \id_{t\times t})}^2 \cdot (1+\oo(1)) + \sigma^2 (n\cdot t - p \cdot r)+\OO(\sigma^2 p^{1/2+\e})\\
+	&=\ex{g(\cW)} \cdot (1+\oo(1)) 
+	\end{align*}
+	with probability $1-\oo(1)$.
+	
+%	\[ \abs{Z_1} \le \sum_{j=1}^t \sigma \cdot \norm{X B^{\star} \cW^{\top} (\cW\cW^{\top})^{-1} W_j - X \beta_j} \le \sigma \cdot \sqrt{t \cdot Z_0}, \]
+%	where the second part follows by using Cauchy-Shwartz inequality.
+	
 	%We provide tights bounds on the concentration error from the randomness of $\varepsilon_1, \dots, \varepsilon_t$, and $X$, respectively.
 	%\begin{align}
 	%	g(\cW) &= \exarg{\varepsilon_1, \dots, \varepsilon_t}{g(\cW) \mid X} \cdot (1 \pm \OO(p^{-1/2 + c})), \text{ and} \label{approxvalid_1} \\
