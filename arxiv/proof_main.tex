@@ -270,9 +270,13 @@ for all $v\ge C_0$. Similar estimates hold for $v\le -C_0$ if we replace $C_0$ w
 	To facilitate the analysis, we divide $g(\cW)$ into three parts based on their degree of dependence on the random noise:
 	\begin{align*}
 		Z_0 &= \sum_{j=1}^t \bignorm{XB^{\star} \cW^{\top} (\cW\cW^{\top})^{-1} W_j - X\beta_j}^2 = \bignorm{X B^{\star} (\cW^{\top} (\cW\cW^{\top})^{-1} \cW - \id_{t\times t})}^2, \\
-		Z_1 &= \sum_{j=1}^t \inner{XB^{\star} \cW^{\top} (\cW\cW^{\top})^{-1}W_j - X\beta_j}{U_X U_X^{\top} \bigbrace{\sum_{i=1}^t \varepsilon_i W_i^{\top}} (\cW\cW^{\top})^{-1} W_j - \varepsilon_j}, \\
-		Z_2 &= \sum_{j=1}^t \bignorm{U_X U_X^{\top} \bigbrace{\sum_{i=1}^t \varepsilon_i W_i^{\top}} (\cW\cW^{\top})^{-1}W_j - \varepsilon_j}^2.
+		Z_1 &= \sum_{j=1}^t \inner{XB^{\star} \cW^{\top} (\cW\cW^{\top})^{-1}W_j - X\beta_j}{U_X U_X^{\top} \bigbrace{\sum_{i=1}^t \varepsilon_i W_i^{\top}} (\cW\cW^{\top})^{-1} W_j - \varepsilon_j} \\
+				&= \sum_{j=1}^t \inner{-X B^{\star} \cW^{\top} (\cW \cW^{\top})^{-1} W_j + X\beta_j}{\varepsilon_j}, \\
+		Z_2 &= \sum_{j=1}^t \bignorm{U_X U_X^{\top} \bigbrace{\sum_{i=1}^t \varepsilon_i W_i^{\top}} (\cW\cW^{\top})^{-1}W_j - \varepsilon_j}^2 \\
+				&= \bigbrace{\sum_{j=1}^t \norm{\varepsilon_j}^2} - \sum_{1\le i,j\le t} \bigbrace{W_i^{\top} (\cW \cW^{\top})^{-1} W_j} \cdot \bigbrace{\varepsilon_i^{\top} U_X U_X^{\top} \varepsilon_j}.
 	\end{align*}
+	For the second equation of $Z_1$, we use the fact that $\sum_{j=1}^t X B^{\star} \cW^{\top} (\cW\cW^{\top})^{-1} W_j W_j^{\top} = X B^{\star} \cW^{\top} = \sum_{j=1}^t X \beta_j W_j^{\top}$.
+	For the second equation of $Z_2$, we observe that $\sum_{j=1}^t (\cW\cW^{\top})^{-1} W_j W_j^{\top} = \id$.
 	%Now we switch $\hat{B}$ back into equation \eqref{eq_mtl_same_cov} to
 	%Then as in \eqref{approxvalid}, we pick $N$ independent samples of the training set for each task with $N\ge n^{1-\e_0}$, and use the concentration result, Lemma \ref{largedeviation}, to get the validation loss as
 
@@ -281,17 +285,24 @@ for all $v\ge C_0$. Similar estimates hold for $v\le -C_0$ if we replace $C_0$ w
 	We observe that $\ex{g(\cW)}$ admits a bias-variance decomposition as follows.
 	First, we take expectation over $\varepsilon_1, \dots, \varepsilon_t$ conditional on $X$ and obtain the following:
 	\begin{align}
-		\exarg{\varepsilon_1, \dots, \varepsilon_t}{g(\cW) \mid X}
-		=& \bignorm{X B^{\star} \cW^{\top} (\cW\cW^{\top})^{-1} \cW - X B^{\star}}^2 \nonumber \\
-		&+ \sum_{j=1}^t\bigbrace{\exarg{\varepsilon_1, \dots, \varepsilon_t}{\norm{\varepsilon_j}^2 - 2\inner{U_X U_X^{\top} \sum_{i=1}^t\bigbrace{\varepsilon_i W_i^{\top}} (\cW\cW^{\top})^{-1} W_j}{\varepsilon_j}} } \nonumber \\
-		&+ \sum_{j=1}^t \exarg{\varepsilon_1, \dots, \varepsilon_t}{\bignorm{U_X U_X^{\top} \bigbrace{\sum_{i=1}^t  \varepsilon_i W_i^{\top}} (\cW\cW^{\top})^{-1} W_j}^2} \nonumber \\
-		=& \norm{XB^{\star} (\cW^{\top}(\cW\cW^{\top})^{-1}\cW - \id)}^2	\label{eq_empirical_1}\\
-			&+ \sum_{j=1}^t \bigbrace{{\ex{\norm{\varepsilon_j}^2}} - \exarg{\varepsilon_1, \dots, \varepsilon_t}{\bignorm{U_X U_X^{\top} \bigbrace{\sum_{i=1}^t \varepsilon_i W_t^{\top}} (\cW\cW^{\top})^{-1} W_j}^2 } }  \label{eq_empirical_2}\\
-		=& \bignorm{X B^{\star} \cW^{\top} (\cW\cW^{\top})^{-1} \cW - XB^{\star}}^2 + \sigma^2(n\cdot t - p\cdot r) \nonumber
+		\exarg{\varepsilon_1, \dots, \varepsilon_t}{g(\cW) \mid X} - Z_0
+		= \exarg{\varepsilon_1, \dots, \varepsilon_t}{Z_2 \mid X}
+%		=& \sum_{j=1}^t \bigbrace{{\ex{\norm{\varepsilon_j}^2}} - \exarg{\varepsilon_1, \dots, \varepsilon_t}{\bignorm{U_X U_X^{\top} \bigbrace{\sum_{i=1}^t \varepsilon_i W_t^{\top}} (\cW\cW^{\top})^{-1} W_j}^2 } }  \label{eq_empirical_2}\\
+		= \sigma^2(n\cdot t - p\cdot r) \nonumber
 	\end{align}
-	The first equation uses the fact that $\varepsilon_i$ and $\varepsilon_j$ are pairwise independent for any $i \neq j$.
-	The second equation uses the same fact and in addition uses that the variance of every entry of $\varepsilon_i$ is $\sigma^2$ for every $i = 1,\dots, t$.
-	We further take expectation over $X$ and obtain the following:
+%	\begin{align}
+%		\exarg{\varepsilon_1, \dots, \varepsilon_t}{g(\cW) \mid X}
+%		=& \bignorm{X B^{\star} \cW^{\top} (\cW\cW^{\top})^{-1} \cW - X B^{\star}}^2 \nonumber \\
+%		&+ \sum_{j=1}^t\bigbrace{\exarg{\varepsilon_1, \dots, \varepsilon_t}{\norm{\varepsilon_j}^2 - 2\inner{U_X U_X^{\top} \sum_{i=1}^t\bigbrace{\varepsilon_i W_i^{\top}} (\cW\cW^{\top})^{-1} W_j}{\varepsilon_j}} } \nonumber \\
+%		&+ \sum_{j=1}^t \exarg{\varepsilon_1, \dots, \varepsilon_t}{\bignorm{U_X U_X^{\top}
+%\bigbrace{\sum_{i=1}^t  \varepsilon_i W_i^{\top}} (\cW\cW^{\top})^{-1} W_j}^2} \nonumber \\
+%		=& \norm{XB^{\star} (\cW^{\top}(\cW\cW^{\top})^{-1}\cW - \id)}^2	\label{eq_empirical_1}\\
+%			&+ \sum_{j=1}^t \bigbrace{{\ex{\norm{\varepsilon_j}^2}} - \exarg{\varepsilon_1, \dots, \varepsilon_t}{\bignorm{U_X U_X^{\top} \bigbrace{\sum_{i=1}^t \varepsilon_i W_t^{\top}} (\cW\cW^{\top})^{-1} W_j}^2 } }  \label{eq_empirical_2}\\
+%		=& \bignorm{X B^{\star} \cW^{\top} (\cW\cW^{\top})^{-1} \cW - XB^{\star}}^2 + \sigma^2(n\cdot t - p\cdot r) \nonumber
+%	\end{align}
+	The first equation uses the same fact the expectation of $Z_1$ over the random noise is zero.
+	The second equation uses the fact that $\varepsilon_i$ and $\varepsilon_j$ are pairwise independent for any $i \neq j$, and the variance of every entry of $\varepsilon_i$ is $\sigma^2$ for every $i = 1,\dots, t$.
+	We further take expectation over $X$ for $Z_0$ and obtain the following:
 	\begin{align*}
 		\ex{g(\cW)} = n \bignorm{\Sigma^{1/2} B^{\star} (\cW^{\top} (\cW \cW^{\top})^{-1} \cW - \id_{t\times t})}^2 + \sigma^2 (n\cdot t - p \cdot r).
 	\end{align*}
@@ -334,41 +345,46 @@ where
 
 	\medskip
 	\noindent\textbf{The concentration error between $g(\cW)$ and $\ex{g(\cW)}$.}
-	We provide tights bounds on the concentration error from the randomness of $\varepsilon_1, \dots, \varepsilon_t$, and $X$, respectively.
-	\begin{align}
-		g(\cW) &= \exarg{\varepsilon_1, \dots, \varepsilon_t}{g(\cW) \mid X} \cdot (1 \pm \OO(p^{-1/2 + c})), \text{ and} \label{approxvalid_1} \\
-		\exarg{\varepsilon_1, \dots, \varepsilon_t}{g(\cW) \mid X} &= \ex{g(\cW)} \cdot(1 + o(1)) \label{approxvalid_2}
-	\end{align}
-	Together, they imply that $g(\cW) = \ex{g(\cW)} \cdot (1 + o(1))$. Therefore, next we focus on proving equation \eqref{approxvalid_1} and \eqref{approxvalid_2}.
+	Next, we show that the concentration errors of $Z_0, Z_1, Z_2$ are all lower order terms compared to $\ex{g(\cW)}$ and scale with $1/\sqrt{p}$.
+	For $Z_1$, using Lemma \ref{largedeviation} in Appendix \ref{sec_maintools} and the fact that all moments of $\varepsilon_i$ exist, we conclude that
+	\[ \abs{Z_1} \le \sum_{j=1}^t \sigma \cdot \norm{X B^{\star} \cW^{\top} (\cW\cW^{\top})^{-1} W_j - X \beta_j} \le \sigma \cdot \sqrt{t \cdot Z_0}, \]
+	where the second part follows by using Cauchy-Shwartz inequality.
+	For $Z_0$ and $Z_2$, \todo{add the spectral argument}
+	%We provide tights bounds on the concentration error from the randomness of $\varepsilon_1, \dots, \varepsilon_t$, and $X$, respectively.
+	%\begin{align}
+	%	g(\cW) &= \exarg{\varepsilon_1, \dots, \varepsilon_t}{g(\cW) \mid X} \cdot (1 \pm \OO(p^{-1/2 + c})), \text{ and} \label{approxvalid_1} \\
+	%	\exarg{\varepsilon_1, \dots, \varepsilon_t}{g(\cW) \mid X} &= \ex{g(\cW)} \cdot(1 + o(1)) \label{approxvalid_2}
+	%\end{align}
+	%Together, they imply that $g(\cW) = \ex{g(\cW)} \cdot (1 + o(1))$. Therefore, next we focus on proving equation \eqref{approxvalid_1} and \eqref{approxvalid_2}.
 
-	For equation \eqref{approxvalid_1}, we observe that the summands of $g(\cW)$ w.r.t. $\varepsilon_1, \dots, \varepsilon_t$ belong to either of the following three types:
-	\begin{enumerate}
-		\item[(i)] $\varepsilon_i^{\top} A \varepsilon_i$, for any $i = 1,\dots, t$ and a fixed $A\in\real^{n\times n}$ that is independent of $\varepsilon_i$;
-		\item[(ii)] $\varepsilon_i^{\top} A \varepsilon_j$, for any $i \neq j$ and a fixed $A$ that is independent of both $\varepsilon_i$ and $\varepsilon_j$;
-		\item[(iii)] $\varepsilon_i^{\top} A$, for any $i = 1,\dots, t$ and a fixed $A\in\real^n$ that is independent of $\varepsilon_i$.
-	\end{enumerate}
-	For all three types, using Lemma \ref{largedeviation} in Appendix \ref{sec_maintools} and the fact that all moments of $\varepsilon_i$ exist, we conclude that
-	\begin{enumerate}
-		\item[(i)] $\varepsilon_i^{\top} A \varepsilon_i = \sigma^2 (1 + \OO(p^{-1/2 + c})) \normFro{A}^2$;
-		\item[(ii)] $\abs{}$
-		\item[(iii)]
-	\end{enumerate}
+	%For equation \eqref{approxvalid_1}, we observe that the summands of $g(\cW)$ w.r.t. $\varepsilon_1, \dots, \varepsilon_t$ belong to either of the following three types:
+	%\begin{enumerate}
+	%	\item[(i)] $\varepsilon_i^{\top} A \varepsilon_i$, for any $i = 1,\dots, t$ and a fixed $A\in\real^{n\times n}$ that is independent of $\varepsilon_i$;
+	%	\item[(ii)] $\varepsilon_i^{\top} A \varepsilon_j$, for any $i \neq j$ and a fixed $A$ that is independent of both $\varepsilon_i$ and $\varepsilon_j$;
+	%	\item[(iii)] $\varepsilon_i^{\top} A$, for any $i = 1,\dots, t$ and a fixed $A\in\real^n$ that is independent of $\varepsilon_i$.
+	%\end{enumerate}
+	%For all three types, using Lemma \ref{largedeviation} in Appendix \ref{sec_maintools} and the fact that all moments of $\varepsilon_i$ exist, we conclude that
+	%\begin{enumerate}
+	%	\item[(i)] $\varepsilon_i^{\top} A \varepsilon_i = \sigma^2 (1 + \OO(p^{-1/2 + c})) \normFro{A}^2$;
+	%	\item[(ii)] $\abs{}$
+	%	\item[(iii)]
+	%\end{enumerate}
 
-	We use the fact that our random vectors have i.i.d. entries.
+	%We use the fact that our random vectors have i.i.d. entries.
 %Before doing that, we first need to fix the setting for the following discussions, because we want to keep track of the error rate carefully instead of obtaining an asymptotic result only.
-	Recall that $Y_i = X_i\beta_i + \varepsilon_i$ and $\wt Y_i = \wt X_i\beta_i + \wt\varepsilon_i$, $i=1,2$, all satisfy Assumption \ref{assm_secA2}. Then we rewrite \eqref{eq_mtl_2tasktilde} as
-$$	g( v) = \sum_{i=1}^2\left\| \wt X_i\wt\beta_i  - \wt \e_i\right\|^2 , \quad \wt\beta:=\hat B w_i-\beta_i.$$
-Since $ \wt X_i\wt\beta$ and $ \wt \e_i$ are independent random vectors with i.i.d. centered entries, we can use the concentration result,  to get that for any constant $\e>0$,
-\begin{align*}
-\left|\left\| \wt X_i\wt\beta_i  - \wt \e_i\right\|^2 -  \exarg{\wt X_i,\wt{\e}_i} {\left\| \wt X_i\wt\beta_i  - \wt \e_i\right\|^2} \right| & =\left|\left\| \wt X_i\wt\beta_i  - \wt \e_i\right\|^2 - N_i (\wt\beta_i^\top \Sigma_i \wt\beta_i + \sigma_i^2) \right| \\
-&\le N_i^{1/2+\e} (\wt\beta_i^\top \Sigma_i \wt\beta_i + \sigma_i^2),
-\end{align*}
-with high probability. Thus we obtain that
-$$g(v)= \left[\sum_{i=1}^2 N_i\left\|\Sigma_i^{1/2}( \hat B w_i - \beta_i) \right\|^2 + (N_1\sigma^2_1+N_2\sigma^2_2)\right]\cdot \left( 1+\OO(p^{-(1-\e_0)/2+\e})\right),$$
-where we also used $N_i\ge p^{-1+\e_0}$. Inserting \eqref{hatB} into the above expression and using
- again the concentration result, Lemma \ref{largedeviation}, we get that
-$$ \sum_{i=1}^2 N_i\left\|\Sigma_i^{1/2}( \hat B w_1 - \beta_i) \right\|^2 = \val(v)\cdot \left( 1+\OO(p^{-1/2+\e})\right)$$
-with high probability.
+	%Recall that $Y_i = X_i\beta_i + \varepsilon_i$ and $\wt Y_i = \wt X_i\beta_i + %\wt\varepsilon_i$, $i=1,2$, all satisfy Assumption \ref{assm_secA2}. Then we rewrite %\eqref{eq_mtl_2tasktilde} as
+%$$	g( v) = \sum_{i=1}^2\left\| \wt X_i\wt\beta_i  - \wt \e_i\right\|^2 , \quad \wt\beta:=\hat %B w_i-\beta_i.$$
+	%Since $ \wt X_i\wt\beta$ and $ \wt \e_i$ are independent random vectors with i.i.d. centered entries, we can use the concentration result,  to get that for any constant $\e>0$,
+	%\begin{align*}
+		%\left|\left\| \wt X_i\wt\beta_i  - \wt \e_i\right\|^2 -  \exarg{\wt X_i,\wt{\e}_i} {\left\| \wt X_i\wt\beta_i  - \wt \e_i\right\|^2} \right| & =\left|\left\| \wt X_i\wt\beta_i  %- \wt \e_i\right\|^2 - N_i (\wt\beta_i^\top \Sigma_i \wt\beta_i + \sigma_i^2) \right| \\
+%&\le N_i^{1/2+\e} (\wt\beta_i^\top \Sigma_i \wt\beta_i + \sigma_i^2),
+	%$\end{align*}
+	%with high probability. Thus we obtain that
+	%$$g(v)= \left[\sum_{i=1}^2 N_i\left\|\Sigma_i^{1/2}( \hat B w_i - \beta_i) \right\|^2 + (N_1\sigma^2_1+N_2\sigma^2_2)\right]\cdot \left( 1+\OO(p^{-(1-\e_0)/2+\e})\right),$$
+%where we also used $N_i\ge p^{-1+\e_0}$. Inserting \eqref{hatB} into the above expression and using
+	% again the concentration result, Lemma \ref{largedeviation}, we get that
+	%$$ \sum_{i=1}^2 N_i\left\|\Sigma_i^{1/2}( \hat B w_1 - \beta_i) \right\|^2 = \val(v)\cdot \left( 1+\OO(p^{-1/2+\e})\right)$$
+%with high probability.
 %-----old-------
 %Suppose that the entries of $\e_1$ and $\e_2$ have variance $\sigma^2$.  Using a validation set that is sub-sampled from the original training dataset, we get a validation loss as follows
 %\begin{align}
@@ -380,7 +396,7 @@ with high probability.
 %\end{align}
 %\nc
 %------------------
-Thus we conclude the proof.
+%Thus we conclude the proof.
 
 	\medskip
 	\noindent\textbf{Dealing with the empirical minimizer.}
