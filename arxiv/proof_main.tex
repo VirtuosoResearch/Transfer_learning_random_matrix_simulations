@@ -241,20 +241,7 @@ for all $v\ge C_0$. Similar estimates hold for $v\le -C_0$ if we replace $C_0$ w
 
 \subsection{Proof of the Multiple-task Case}\label{app_proof_many_tasks}
 
-%As a remark, since the spectral norm of $U_r$ is less than $1$, we have that $\norm{U_r(i)} < 1$ for all $1 \le i \le t$. Compared to Theorem \ref{thm_main_informal}, we can get a simple expression for the two functions $\Delta_{vari}$ and $\Delta_{\bias}$. The proof of Theorem \ref{thm_many_tasks} can be found in Appendix \ref{app_proof_many_tasks}.
-
-
-
-%In this section we consider the setting with $k$ many that have the same covariates.
-%Since every task has the same number of data points as well as the same covariance, the only differences between different tasks are their models $\set{\beta_i}_{i=1}^k$.
-%For this setting, we derive solutions for the multi-task training and the transfer learning setting that match our insights qualitatively from Section \ref{sec_denoise}.
-%Using Lemma \ref{lem_minv} and some concentration bounds, we can complete the proof of Theorem \ref{thm_many_tasks}.
-
-\begin{proof}[Proof of Theorem \ref{thm_many_tasks}]
-	We first introduce several notations.
-	Let $\cal W = [W_1, W_2, \dots, W_t] \in \real^{r\times t}$ be a matrix that contains all the parameters of the output layers.
-	Let $U_X U_X^{\top} = X (X^{\top} X)^{-1} X^{\top} \in\real^{n \times n}$ denote the projection matrix to $X$.
-
+	First, we provide the steps for showing equation \eqref{eq_bias_multiple} and \eqref{eq_var_multiple}.
 	Recall that all tasks have the same covariates in this setting.
 	Therefore, the optimization objective equation \eqref{eq_mtl} becomes the following
 	\begin{align}
@@ -270,6 +257,21 @@ for all $v\ge C_0$. Similar estimates hold for $v\le -C_0$ if we replace $C_0$ w
 	\begin{align}
 		g(\cal W) = \sum_{j=1}^t \bignorm{X B^{\star} \cW^{\top} (\cW\cW^{\top})^{-1} W_j + U_X U_X^{\top} \bigbrace{\sum_{i=1}^t \varepsilon_i W_i^{\top}} (\cW\cW^{\top})^{-1} W_j - Y_i}^2. \label{eq_mtl_output_layer}
 	\end{align}
+
+%As a remark, since the spectral norm of $U_r$ is less than $1$, we have that $\norm{U_r(i)} < 1$ for all $1 \le i \le t$. Compared to Theorem \ref{thm_main_informal}, we can get a simple expression for the two functions $\Delta_{vari}$ and $\Delta_{\bias}$. The proof of Theorem \ref{thm_many_tasks} can be found in Appendix \ref{app_proof_many_tasks}.
+
+
+
+%In this section we consider the setting with $k$ many that have the same covariates.
+%Since every task has the same number of data points as well as the same covariance, the only differences between different tasks are their models $\set{\beta_i}_{i=1}^k$.
+%For this setting, we derive solutions for the multi-task training and the transfer learning setting that match our insights qualitatively from Section \ref{sec_denoise}.
+%Using Lemma \ref{lem_minv} and some concentration bounds, we can complete the proof of Theorem \ref{thm_many_tasks}.
+
+\begin{proof}[Proof of Theorem \ref{thm_many_tasks}]
+	We first introduce several notations.
+	Let $U_X U_X^{\top} = X (X^{\top} X)^{-1} X^{\top} \in\real^{n \times n}$ denote the projection matrix to $X$.
+
+
 	Recall that we obtain $\hat{\cW}$ by minimizing $\cW$ in the above equation.
 	In order to derive the minimizer, our proof involves two steps.
 	First, we consider the expectation of $g(\cW)$ over $\varepsilon_1, \varepsilon_2, \dots, \varepsilon_t$, and $X$.

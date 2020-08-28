@@ -117,7 +117,7 @@ Finally, later on in Section \ref{sec_special}, we will study how varying each t
 %Based on the result, we show how to determine positive versus negative transfer as follows.
 %, where $\lambda_{\min}(M)$ is the smallest singular value of $M_1$
 
-%\iffalse
+\iffalse
 Next, we derive a closed-form solution of the multi-task learning estimator for the case of two tasks.
 From \cite{WZR20}, we know that we need to explicitly restrict the output dimension $r$ of $B$ so that there is transfer between the two tasks.
 Hence for the case of two tasks, we consider the setting where $r=1$.
@@ -189,7 +189,7 @@ The prediction loss of using $\hat{\beta}_2^{\MTL}$ for the target task is
 			&+~  \bigtr{\Sigma_2(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-2}\left(\sigma_1^2 \cdot \hat v^2  X_1^{\top}X_1 + \sigma_2^2  \cdot X_2^{\top}X_2\right) }, \label{eq_te_mtl_2task}
 \end{align}
 which only depends on $\hat v$, the sample covariance matrices, and $\beta_1,\beta_2$.
-%\fi
+\fi
 
 %\begin{lemma}[Variance bound]\label{lem_cov_shift_informal}
 %	In the setting of two tasks,
@@ -310,16 +310,22 @@ Combining the above two results, we provide the proof of Theorem \ref{thm_main_i
 %Our main technical contribution is to extend this result to two tasks.
 %We show how the variance of the multi-task estimator scales with sample size and covariate shift in the following result.
 
-Next, we describe our result for the multiple-task case where all tasks have the same covariates, that is, $X_i = X$ for all $i = 1, \dots, t$.
+Next, we describe our result for the multiple-task case where all tasks have the same covariates, that is, $X_i = X$ and $n_i = n$ for all $i = 1, \dots, t$.
 This setting is prevalent in applications of multi-task learning to image classification, where there are multiple prediction labels/tasks for every image \cite{chexnet17,EA20}.
 Similar to the two-task case, we consider an arbitrary local minimum $B, W_1, \dots, W_2$ of the optimization objective.
 We extend the bias-variance decomposition from the two-task case to the multiple-task case.
-More precisely, we observe that the expected prediction loss of $\hat{\beta}_t^{\MTL}$ conditional on $X$ consists of a bias and a variance equation as follows
+Let $\cal W = [W_1, W_2, \dots, W_t] \in \real^{r\times t}$ be a matrix that contains all the parameters of the output layers.
+We observe that the expected prediction loss of $\hat{\beta}_t^{\MTL}$ conditional on $X$ consists of a bias and a variance equation as follows
 \begin{align}
 	\exarg{\varepsilon_1, \dots, \varepsilon_t}{L(\hat{\beta}_t^{\MTL}) \mid X}
 	=& \bignorm{\Sigma^{1/2} \bigbrace{B^{\star} \cW^{\top} (\cW \cW^{\top})^{-1} W_t - \beta_t}}^2 \label{eq_bias_multiple} \\
-	&+ \sigma^2 \cdot (W_t^{\top} (\cW \cW^{\top})^{-1} W_t) \cdot \bigtr{\Sigma (X^{\top} X)^{-1}}
+	&+ \sigma^2 \cdot (W_t^{\top} (\cW \cW^{\top})^{-1} W_t) \cdot \bigtr{\Sigma (X^{\top} X)^{-1}} \label{eq_var_multiple}
 \end{align}
+One can see that equation \eqref{eq_bias_multiple} is the bias of the multi-task learning estimator and equation \eqref{eq_var_multiple} is its variance.
+Compared to the prediction loss of single-task learning (cf. equation \eqref{eq_var_stl}), we observe that the variance equation \eqref{eq_var_multiple} is always smaller because $W_t^{\top} (\cW \cW^{\top})^{-1} W_t \le 1$.
+On the other hand, the bias equation \eqref{eq_bias_multiple} is always larger because of the difference between the task models.
+
+Our main result for the multiple-task case provides generalization bounds that relate the empirical bias and variance of multi-task learning to the sample size $n$ and the distance between task models.
 
 \begin{theorem}[Multiple-task case with the same covariates]\label{thm_many_tasks}
 %Suppose $X=Z\Sigma^{1/2}\in \R^{n\times p}$ satisfy Assumption \ref{assm_secA1} with $\rho:=n/p>1$ being some fixed constant. Consider data models  $Y_i = X\beta_i + \varepsilon_i$, $i=1,2,\cdots, t$, where $\e_i\in \R^{n}$ are random vectors with i.i.d. entries with mean zero, variance $\sigma^2$ and all moments as in \eqref{assmAhigh}. Moreover, assume that $X$, $\beta_i$ and $\e_i$ are all independent of each other.
