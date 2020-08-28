@@ -19,7 +19,7 @@ We assume that the labels of each task $k$ satisfy the linear model with unknown
 where $e_i$ denotes random noise with mean zero and variance $\sigma^2$.
 To write the above notations more succiently, let $X_k \in \real^{n_k \times p}$ denote the covariates that consists of a feature vector in every row.
 Let
-	\[ Y_k = X_k \beta_k + \varepsilon_k, \text{ for all } 1\le i \le t \] denote the label vector of task $k$ and $\varepsilon_k$ denote an i.i.d. random vector with mean zero and variance $\sigma^2$.
+	\[ Y_k = X_k \beta_k + \varepsilon_k, \text{ for all } 1\le k \le t \] denote the label vector of task $k$ and $\varepsilon_k$ denote an i.i.d. random vector with mean zero and variance $\sigma^2$.
 
 Following \citet{HMRT19} and \citet{BLLT20},
 %In the high-dimensional linear regression setting (e.g. ), the features of the $k$-th task, denoted by $X_k\in\real^{n_i\times p}$, consist of $n_k$ feature vectors given by $x_1, x_2, \dots, x_{n_k}$.
@@ -44,6 +44,10 @@ First, for every entry of $z_i$, we assume that its $(4+\e)$-th moment exists, t
 \end{equation}
 Second, we assume that the spectral norm of $\Sigma_k$ is bounded by a fixed constant, for every $k = 1,\dots, t$.
 This is without loss of generality since we can always rescale $\Sigma_k$ so that its spectral norm satisfies the condition.
+Finally, for the noise vector $\varepsilon_k$, we assume that there exists an absolute constant such that for all $l$ \todo{check}, the $l$-th moment of the noise entries exists:
+\begin{align*}
+	\ex{\abs{\varepsilon_{k, j}}^l \le C}, \text{ for all } j = 1, \dots, n_k.
+\end{align*}
 
 \medskip
 \noindent\textbf{Hard parameter sharing.}
