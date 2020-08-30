@@ -448,10 +448,10 @@ where
 	\end{align}
 
 	Combining equation \eqref{eq_est_g1}, \eqref{eq_est_g2}, and \eqref{eq_est_g0}, we obtain that with high probability
-	\begin{align*}
-	g(\cal W)&= n \bignorm{\Sigma^{1/2} B^{\star} (\cW^{\top} (\cW \cW^{\top})^{-1} \cW - \id_{t\times t})}^2 \cdot (1+\oo(1)) + \sigma^2 (n\cdot t - p \cdot r)+\OO(\sigma^2 p^{1/2+\e})\\
-	&=\ex{g(\cW)} \cdot (1+\oo(1)).
-	\end{align*}
+	\begin{align}
+	g(\cal W)&= n \bignorm{\Sigma^{1/2} B^{\star} (\cW^{\top} (\cW \cW^{\top})^{-1} \cW - \id_{t\times t})}^2 \cdot (1+\oo(1)) + \sigma^2 (n\cdot t - p \cdot r)+\OO(\sigma^2 p^{1/2+\e}) \nonumber \\
+	&=\ex{g(\cW)} \cdot (1+\oo(1)) + \OO(\sigma^2 p^{1/2+\e}). \label{eq_est_g}
+	\end{align}
 
 %	\[ \abs{Z_1} \le \sum_{j=1}^t \sigma \cdot \norm{X B^{\star} \cW^{\top} (\cW\cW^{\top})^{-1} W_j - X \beta_j} \le \sigma \cdot \sqrt{t \cdot Z_0}, \]
 %	where the second part follows by using Cauchy-Shwartz inequality.
@@ -506,11 +506,25 @@ where
 
 	\medskip
 	\noindent\textbf{Dealing with the empirical minimizer.}
-	Let $\hat {\cal W}$ be the minimizer of $g$, and denote $\hat Q:= \hat{\cal W}^{\top} (\hat{\cal W}\hat{\cal W}^{\top})^{-1} \hat{\cal W} $. We claim that $\hat Q$ satisfies
-	\be\label{Q-Q}\|Q_0^{-1}\hat Q - \id\|_F = \oo(1) \quad \text{w.h.p.}\ee
-	In fact, if \eqref{Q-Q} does not hold, then using the condition $\lambda_{\min}((B^{\star})^\top\Sigma B^{\star})\gtrsim \sigma^2$ and that $\delta_{\vari}(\cal W)=\OO(\sigma^2)$ by  Lemma \ref{lem_minv}, we obtain that
-	$$   \val(\hat {Q}) + t  \sigma^2 > (\val( Q_0) + t \sigma^2 )\cdot (1+\oo(1)) \ \Rightarrow \ g( \hat{\cal W})>g( {\cal W}_0),$$
-	where $\cal W_0\in \R^{r\times t}$ is a matrix such that  $ \cal W_0^{\top} (\cal W_0\cal W_0^{\top})^{-1} \cal W_0=Q_0$. Hence $\hat {\cal W}$ is not a minimizer, which leads to a contradiction.
+	%eet $\hat {\cal W}$ be the minimizer of $g$, and denote $\hat Q:= \hat{\cal W}^{\top} (\hat{\cal W}\hat{\cal W}^{\top})^{-1} \hat{\cal W} $.
+	We show that $\norm{\hat{\cW}^{\top} (\hat{\cW}\hat{\cW}^{\top})^{-1} \cW - U_r U_r^{\top}} \le o(1)$ w.h.p.
+	%\be\label{Q-Q}\|Q_0^{-1}\hat Q - \id\|_F = \oo(1) \quad \text{w.h.p.}\ee
+	Since $\hat{\cW}$ is the minimizer of $g(\cdot)$, we have that
+	\begin{align*}
+		g(U_r) - g(\hat{\cW}) = \bigabs{g(\hat{\cW}) - g(U_r)} &= n \cdot \bigabs{\inner{{B^{\star}}^{\top} \Sigma B^{\star}}{U_r U_r^{\top} - \hat{\cW}^{\top} (\hat{\cW}\hat{\cW}^{\top})^{-1} \hat{\cW}}}\\
+		&\ge n \cdot \sigma_{\min}({B^{\star}}^{\top} \Sigma B^{\star}) \cdot \bignormFro{U_r U_r^{\top} - \hat{\cW}^{\top} (\hat{\cW}\hat{\cW}^{\top})^{-1} \hat{\cW}}.
+	\end{align*}
+	On the other hand, by equation \eqref{eq_est_g} and triangle inequality, we have that
+	\begin{align*}
+		g(U_r) - g(\hat{\cW}) &\le \bigabs{g(U_r) - \ex{g(U_r)}} + (\ex{g(U_r)} - \ex{g(\hat{\cW})}) + \bigabs{g(\hat{\cW}) - \ex{g(\hat{\cW})}} \\
+		&\le \bigabs{g(U_r) - \ex{g(U_r)}} +\bigabs{g(\hat{\cW}) - \ex{g(\hat{\cW})}} \\
+		&\le o(n) \cdot \sigma_{\max}({B^{\star}}^{\top} \Sigma B^{\star}) + O(\sigma^2 p^{1/2 +\e}).
+	\end{align*}
+	Combined together, and using the assumption that the condition number of ${B^{\star}}^{\top}\Sigma B^{\star}$ does not grow with $p$ and $\sigma_{\min}({B^{\star}}^{\top} \Sigma B^{\star}) \ge \sigma^2 / p^{1/2}$, we conclude that the distance between the two subspaces $\hat{\cW}^{\top}(\hat{\cW}\hat{\cW}^{\top})^{-1}\hat{\cW}$ and $U_r U_r^{\top}$ diminish as $p$ grows.
+	%The second step uses the fact that $U_r U_r^{\top}$ is the global minimum of $\ex{g(\cdot)}$.
+	%In fact, if \eqref{Q-Q} does not hold, then using the condition $\lambda_{\min}((B^{\star})^\top\Sigma B^{\star})\gtrsim \sigma^2$ and that $\delta_{\vari}(\cal W)=\OO(\sigma^2)$ by  Lemma \ref{lem_minv}, we obtain that
+	%$$   \val(\hat {Q}) + t  \sigma^2 > (\val( Q_0) + t \sigma^2 )\cdot (1+\oo(1)) \ \Rightarrow \ g( \hat{\cal W})>g( {\cal W}_0),$$
+	%where $\cal W_0\in \R^{r\times t}$ is a matrix such that  $ \cal W_0^{\top} (\cal W_0\cal W_0^{\top})^{-1} \cal W_0=Q_0$. Hence $\hat {\cal W}$ is not a minimizer, which leads to a contradiction.
 
 	\medskip
 	\noindent\textbf{Putting both steps together.}
