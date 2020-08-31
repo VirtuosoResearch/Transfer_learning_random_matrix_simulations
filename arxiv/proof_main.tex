@@ -241,30 +241,38 @@ for all $v\ge C_0$. Similar estimates hold for $v\le -C_0$ if we replace $C_0$ w
 
 \subsection{Proof of the Multiple-task Case}\label{app_proof_many_tasks}
 
-	First, we provide the steps for showing equation \eqref{eq_bias_multiple} and \eqref{eq_var_multiple}.
+	First, we provide the steps for showing the bias-variance decomposition in equation \eqref{eq_bias_multiple} and \eqref{eq_var_multiple}.
 	Recall that all tasks have the same covariates in this setting.
 	Therefore, the optimization objective equation \eqref{eq_mtl} becomes the following
 	\begin{align}
 		f(B; W_1, \dots, W_t) = \sum_{i=1}^t \bignorm{X B W_i - Y_i}^2, \label{eq_mtl_same_cov}
 	\end{align}
 	where $B \in \real^{p \times r}$ and $W_1, W_2, \dots, W_t \in \R^r$ for $1 < r < t$ by our assumption.
-	Using the local optimality condition over $B$, that is $\nabla_B f = 0$, we obtain a closed form solution $\hat{B}$ that depends on the output layers as follows
+	Using the local optimality condition over $B$, that is, $\nabla_B f = 0$, we obtain a closed form solution $\hat{B}$ that depends on the output layers as follows
 	\begin{align*}
 		\hat{B}(W_1, \dots, W_t) &= (X^{\top}X)^{-1} X^{\top} \bigbrace{\sum_{i=1}^t Y_i W_i^{\top}} (\cal W  \cal W^{\top})^{-1} \\
 		&= (B^\star \cal W ^{\top}) (\cal W \cal W ^{\top})^{-1} + (X^{\top}X)^{-1}X^{\top}   \bigbrace{\sum_{i=1}^t \varepsilon_i W_i^{\top}} (\cal W \cal W^{\top})^{-1}.
 	\end{align*}
-	Recall that $\hat{B}_t^{\MTL} = \hat{B} W_t$, and we obtain equation \eqref{eq_bias_multiple} and \eqref{eq_var_multiple} as follows
+	Recall that $\hat{B}_t^{\MTL} = \hat{B} W_t$, and we obtain equation \eqref{eq_bias_multiple} and \eqref{eq_var_multiple} by a decomposition of the expected prediction loss over the random noise condition on $X$ as follows
 	\begin{align*}
 		 & \exarg{\varepsilon_1, \dots, \varepsilon_t}{L(\hat{B}_t^{\MTL}) \mid X} \\
 		=& \exarg{\varepsilon_1, \dots, \varepsilon_t}{\bignorm{\Sigma^{1/2} \bigbrace{B^{\star} \cW^{\top} (\cW \cW^{\top})^{-1}W_t - \beta_t} + (X^{\top}X)^{-1} X^{\top} \bigbrace{\sum_{i=1}^t \varepsilon_i W_i^{\top}} (\cW \cW^{\top})^{-1} W_t}^2 \mid X} \\
 		=& \bignorm{\Sigma^{1/2} (B^{\star} \cW^{\top} (\cW \cW^{\top})^{-1} W_t - \beta_t)}^2
-		+ \exarg{\varepsilon_1, \dots, \varepsilon_t}{x}
+		+ \sum_{i=1}^t \bigtr{X (X^{\top}X)^{-1}\Sigma (X^{\top}X)^{-1}X^{\top} \exarg{\varepsilon_i}{\varepsilon_i \varepsilon_i^{\top}} (W_i^{\top} (\cW \cW^{\top})^{-1} W_t)^2} \\
+		=& \bignorm{\Sigma^{1/2}(B^{\star} \cW^{\top} (\cW \cW)^{-1} W_t - \beta_t)}^2
+		+ \sigma^2 \cdot (W_t^{\top} (\cW \cW^{\top})^{-1} W_t) \cdot \bigtr{\Sigma (X^{\top}X)^{-1}}.
 	\end{align*}
+	The third step uses the fact that $\varepsilon_i$ consists of i.i.d. entries with mean zero and variance $\sigma^2$.
+	The last step uses the fact that $\sum_{i=1}^t W_i W_i^{\top} = \cW \cW^{\top}$.
+	One can see that the first part of the last equation is the bias and the second part is the variance.
+	Hence the proof is complete.
 
-	Plugging in the equation $\hat{B}$ back into equation \eqref{eq_mtl_same_cov} we obtain
+	By plugging in the equation $\hat{B}$ back into equation \eqref{eq_mtl_same_cov}, we also obtain the objective $g(\cW)$.
 	\begin{align}
 		g(\cal W) = \sum_{j=1}^t \bignorm{X B^{\star} \cW^{\top} (\cW\cW^{\top})^{-1} W_j + U_X U_X^{\top} \bigbrace{\sum_{i=1}^t \varepsilon_i W_i^{\top}} (\cW\cW^{\top})^{-1} W_j - Y_i}^2. \label{eq_mtl_output_layer}
 	\end{align}
+	Now we are ready to prove Theorem \ref{thm_many_tasks}.
+	We use the notation $U_X U_X^{\top} = X (X^{\top} X)^{-1} X^{\top} \in\real^{n \times n}$ to denote the projection matrix to $X$, where $U_X\in\real^{n \times p}$.
 
 %As a remark, since the spectral norm of $U_r$ is less than $1$, we have that $\norm{U_r(i)} < 1$ for all $1 \le i \le t$. Compared to Theorem \ref{thm_main_informal}, we can get a simple expression for the two functions $\Delta_{vari}$ and $\Delta_{\bias}$. The proof of Theorem \ref{thm_many_tasks} can be found in Appendix \ref{app_proof_many_tasks}.
 
@@ -276,10 +284,6 @@ for all $v\ge C_0$. Similar estimates hold for $v\le -C_0$ if we replace $C_0$ w
 %Using Lemma \ref{lem_minv} and some concentration bounds, we can complete the proof of Theorem \ref{thm_many_tasks}.
 
 \begin{proof}[Proof of Theorem \ref{thm_many_tasks}]
-	We first introduce several notations.
-	Let $U_X U_X^{\top} = X (X^{\top} X)^{-1} X^{\top} \in\real^{n \times n}$ denote the projection matrix to $X$.
-
-
 	Recall that we obtain $\hat{\cW}$ by minimizing $\cW$ in the above equation.
 	In order to derive the minimizer, our proof involves two steps.
 	First, we consider the expectation of $g(\cW)$ over $\varepsilon_1, \varepsilon_2, \dots, \varepsilon_t$, and $X$.
