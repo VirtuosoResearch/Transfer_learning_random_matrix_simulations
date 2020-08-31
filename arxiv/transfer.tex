@@ -425,16 +425,16 @@ We introduce the following notations.
 
 Proposition \ref{prop_dist_transition} simplifies Theorem \ref{thm_main_informal} in the isotropic model, allowing for a more explicit statement of the bias-variance tradeoff.
 Concretely, $\Psi(\beta_1, \beta)$ and $\Phi(\rho_1, \rho_2)$ corresponds to $\Delta_{\bias}$ and $\Delta_{\vari}$, respectively.
-Roughly speaking, the transition threshold scales as $\frac{pd^2}{\sigma^2} - \frac{1}{\rho_1} - \frac{1}{\rho_2}$.
-%We apply Proposition \ref{prop_dist_transition} to the parameter setting of Figure \ref{fig_model_shift} (the details are left to Appendix \ref{app_synthetic}).
-%We can see that our result is able to predict positive or negative transfer  accurately and matches the empirical curve.
-%There are several unexplained observations near the transition threshold $0$, which are caused by the concentration error $\nu$.
+%Roughly speaking, the transition threshold scales as $\frac{pd^2}{\sigma^2} - \frac{1}{\rho_1} - \frac{1}{\rho_2}$.
+We apply Proposition \ref{prop_dist_transition} to the parameter setting of Figure \ref{fig_model_shift} (the details are left to Appendix \ref{app_synthetic}).
+We can see that our result is able to predict positive or negative transfer  accurately and matches the empirical curve.
+There are several unexplained observations near the transition threshold $0$, which are caused by the concentration error $\nu$.
 %We fix the target task and vary the source task, in particular the parameter $d$ which determines $\norm{\beta_1 - \beta_2}$.
 %Figure \ref{fig_model_shift} shows the result.
 %We observe that Proposition \ref{prop_dist_transition} explains most of the observations in Figure \ref{fig_model_shift}.
-%The proof of Proposition \ref{prop_dist_transition} involves two parts.
-%First, in equation \eqref{eq_te_var}, the positive variance reduction effect scales with $n_1 = \rho_1 p$, the number of source task data points.
-%Second, we show that the negative effect of model-shift bias scales with $pd^2$, which is the expectation of $\norm{\beta_1 - \beta_2}^2$.
+The proof of Proposition \ref{prop_dist_transition} involves two parts.
+First, in equation \eqref{eq_te_var}, the positive variance reduction effect scales with $n_1 = \rho_1 p$, the number of source task data points.
+Second, we show that the negative effect of model-shift bias scales with $pd^2$, which is the expectation of $\norm{\beta_1 - \beta_2}^2$.
 The proof of Proposition \ref{prop_dist_transition} can be found in Appendix \ref{app_proof_31}.
 A key part of the analysis shows that $\hat{W}_1 / \hat{W}_2$ is roughly equal to one in the isotropic model,
 thus simplifying the general condition in Theorem \ref{thm_main_informal}.
@@ -448,8 +448,8 @@ For such settings, we have also observed that adding more labeled data from one 
 %On the other hand, we have observed that adding more labeled data does not always improve performance in multi-task learning.
 In the isotropic model, we consider what happens if we vary the source task sample size.
 Our theory accurately predicts a curious phenomenon, where increasing the sample size of the source task results in negative transfer!
-%Figure \ref{fig_size} provides a simulation result for such a setting.
-%We observe that as $n_1 / n_2$ increases, there is a transition from positive to negative transfer.
+Figure \ref{fig_size} provides a simulation result for such a setting.
+We observe that as $n_1 / n_2$ increases, there is a transition from positive to negative transfer.
 
 \begin{proposition}[Source/target sample ratio]\label{prop_data_size}
 	In the isotropic model, suppose that $\rho_1 > 40$ and $\rho_2 > 110$ are fixed constants, and $\Psi(\beta_1, \beta_2) > 2/(\rho_2 - 1)$.
@@ -460,8 +460,8 @@ Our theory accurately predicts a curious phenomenon, where increasing the sample
 	\end{itemize}
 \end{proposition}
 Proposition \ref{prop_data_size} describes the bias-variance tradeoff in terms of the sample ratio $\rho_1 / \rho_2$.
-%We apply the result to the setting of Figure \ref{fig_size} (described in Appendix \ref{app_synthetic}).
-%There are several unexplained observations near $y = 0$ caused by $\nu$.
+We apply the result to the setting of Figure \ref{fig_size} (described in Appendix \ref{app_synthetic}).
+There are several unexplained observations near $y = 0$ caused by $\nu$.
 The proof of Proposition \ref{prop_data_size} can be found in Appendix \ref{app_proof_32}.
 
 \subsection{Covariate Shift}\label{sec_covshift}
@@ -477,7 +477,7 @@ We show that when $n_1 / n_2$ is large, MTL with covariate shift can be suboptim
 	We assume that the two tasks have the same ground truth model parameters, that is, $\beta_1 = \beta_2$ and $\Psi(\beta_1, \beta_2) = 0$.
 	We compare two cases: (i) when $M = \id_{p\times p}$; (ii) when $M$ has $p/2$ singular values that are equal to $\lambda$ and $p/2$ singular values that are equal to $1 / \lambda$.
 	Hence, $\lambda$ measures the severity of the covariate shift.
-%	Figure \ref{fig_covariate} shows a simulation of this setting by varying $\lambda$.
+	Figure \ref{fig_covariate} shows a simulation of this setting by varying $\lambda$.
 	We observe that as source/target sample ratio increases, the performance gap between the two cases increases.
 
 %By applying Lemma \ref{lem_cov_shift_informal}, we find that when $n_1 / n_2$ is large, having no covariate shift is the optimal choice provided that the determinant of $M^{\top}M$ is bounded.
@@ -489,7 +489,7 @@ Let $\mu_{\min} < \mu < \mu_{\max}$ be fixed values that do not grow with $p$.
 \end{align*}}
 %	We assume that $\beta_1$ and $\beta_2$ are generated following the isotropic model with $d = 0$.
 \begin{proposition}[Covariate shift]\label{prop_covariate}
-	For the two-task case, assume that $\beta_1 = \beta_2$, $\rho_1$ and $\rho_2$ are both greater than one.
+	For the setting of the example above, assume that $\beta_1 = \beta_2$, $\rho_1$ and $\rho_2$ are both greater than one.
 	Let $g(M)$ denote the prediction loss of $\hat{\beta}_t^{\MTL}$ when $M = \Sigma_1^{1/2}\Sigma_2^{-1/2} \in\cS_{\mu}$.
 	We have that
 		\[ g(\mu\id) \le \bigbrace{1+ \bigo{{\rho_2}/{\rho_1}  }} \min_{M\in\cS_{\mu}} g(M). \]
@@ -505,9 +505,6 @@ The proof of Proposition \ref{prop_covariate} can be found in Appendix \ref{app_
 %Understanding this question has implications for applying normalization methods in multi-task learning \cite{LV19,CBLR18,YKGLHF20}.
 %We show that if $n_1$ is much larger than $n_2$, then the optimal $M$ matrix should be proportional to identity, under certain assumptions on its range of singular values (to be formulated in Proposition \ref{prop_covariate}).
 %On the other hand, if $n_1$ is comparable or even smaller than $n_2$, we show an example where having ``complementary'' covariance matrices is better performing than having the same covariance matrices.
-
-
-\subsection{Extension to Multiple Tasks}
 
 
 
