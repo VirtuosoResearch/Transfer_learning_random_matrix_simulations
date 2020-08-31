@@ -310,7 +310,7 @@ Combining the above two results, we provide the proof of Theorem \ref{thm_main_i
 %Our main technical contribution is to extend this result to two tasks.
 %We show how the variance of the multi-task estimator scales with sample size and covariate shift in the following result.
 
-Next, we describe our result for the multiple-task case where all tasks have the same covariates, that is, $X_i = X$ and $n_i = n$ for all $i = 1, \dots, t$.
+Next, we describe our result for the multiple-task case where all tasks have the same covariates, that is, $X_i = X$, $n_i = n$, and $\Sigma_i = \Sigma$ for all $i = 1, \dots, t$.
 This setting is prevalent in applications of multi-task learning to image classification, where there are multiple prediction labels/tasks for every image \cite{chexnet17,EA20}.
 Similar to the two-task case, we consider an arbitrary local minimum $B, W_1, \dots, W_2$ of the optimization objective.
 We extend the bias-variance decomposition from the two-task case to the multiple-task case.
@@ -326,6 +326,11 @@ Compared to the prediction loss of single-task learning (cf. equation \eqref{eq_
 On the other hand, the bias equation \eqref{eq_bias_multiple} is always larger because of the difference between the task models.
 
 Our main result for the multiple-task case provides generalization bounds that relate the empirical bias and variance of multi-task learning to the sample size $n$ and the distance between task models.
+Before stating the result, we define the following notations.
+Let $B^\star := [{\beta}_1,{\beta}_2,\dots,{\beta}_{t}] \in \real^{p\times t}$ denote the ground truth model parameters.
+Let $U_r U_r^{\top}$ denote the best rank-$r$ subspace approximation of $(B^{\star})^\top\Sigma B^{\star}$, that is,
+\[ U_r \define \argmin_{X\in\real^{t\times r} : X^{\top} X = \id_{r\times r}} \inner{X X^{\top}} {B^{\star} \Sigma B^{\star}}. \]
+For $i = 1,\dots, t$, let $v_i \in\real^r$ denote the $i$-th row of $U_r$.
 
 \begin{theorem}[Multiple-task case with the same covariates]\label{thm_many_tasks}
 %Suppose $X=Z\Sigma^{1/2}\in \R^{n\times p}$ satisfy Assumption \ref{assm_secA1} with $\rho:=n/p>1$ being some fixed constant. Consider data models  $Y_i = X\beta_i + \varepsilon_i$, $i=1,2,\cdots, t$, where $\e_i\in \R^{n}$ are random vectors with i.i.d. entries with mean zero, variance $\sigma^2$ and all moments as in \eqref{assmAhigh}. Moreover, assume that $X$, $\beta_i$ and $\e_i$ are all independent of each other.
@@ -333,22 +338,20 @@ Our main result for the multiple-task case provides generalization bounds that r
 	%Let $X\in\real^{n\times p}$ and $Y_i = X\beta_i + \varepsilon_i$, for $i = 1,\dots,k$.
 %	Consider $t$ data models $Y_i = X\beta_i + \varepsilon_i$, $i=1,2,\cdots, t$, where $X$ has covariance matrix $\Sigma$, and the entries of $\e_i$ are i.i.d. with mean zero and variance $\sigma^2$.
 	%that satisfy Assumption \ref{assm_secA2} in the appendix.
-	For the setting of multiple tasks where $X_i = X$, for all $1\le i\le t$,
-	let $B^\star := [{\beta}_1,{\beta}_2,\dots,{\beta}_{t}]$ and $U_r\in\real^{t\times r}$ denote the linear model parameters.
-	Let $U_r U_r^{\top}$ denote the best rank-$r$ subspace approximation of $(B^{\star})^\top\Sigma B^{\star}$.
+	Consider the multiple-task case where all tasks have the same covariates.
 	Assume that $\lambda_{\min}({B^{\star}}^\top\Sigma B^{\star})\gtrsim \sigma^2$.
-	Let $v_i$ denote the $i$-th row vector of $U_r$.
-	Let $\delta$ be any fixed value such that $\delta \le \oo \left( \|B^\star\|^2 + \sigma^2\right)$ such that
+	Let $\delta$ be any fixed value such that $\delta \le \oo \left( \|B^\star\|^2 + \sigma^2\right)$.
+	Then, the following is true:
 	\begin{itemize}
-		\item If $\left(1 - \norm{v_t}^2 \right)\frac{\sigma^2}{\rho - 1} - \norm{\Sigma^{1/2} (B^{\star} U_r v_t - \beta_t)}^2 > \delta$, then w.h.p over the randomness of $X, \varepsilon_1, \dots, \varepsilon_t$, we have that
+		\item \textbf{Positive transfer:} If $\left(1 - \norm{v_t}^2 \right)\frac{\sigma^2}{\rho - 1} - \norm{\Sigma^{1/2} (B^{\star} U_r v_t - \beta_t)}^2 > \delta$, then w.h.p over the randomness of $X, \varepsilon_1, \dots, \varepsilon_t$, we have that
 		 \[ \te(\hat{\beta}_t^{\MTL}) < \te(\hat{\beta}_t^{\STL}). \]
-		\item If $\left(1 - \norm{v_t}^2\right)\frac{\sigma^2}{\rho - 1} - \norm{\Sigma^{1/2}(B^{\star} U_r v_t - \beta_t)}^2 < -\delta$, then w.h.p. over the randomness of $X, \varepsilon_1, \dots, \varepsilon_t$, we have that
+		\item \textbf{Negative transfer:} If $\left(1 - \norm{v_t}^2\right)\frac{\sigma^2}{\rho - 1} - \norm{\Sigma^{1/2}(B^{\star} U_r v_t - \beta_t)}^2 < -\delta$, then w.h.p. over the randomness of $X, \varepsilon_1, \dots, \varepsilon_t$, we have that
 		\[ \te(\hat{\beta}_t^{\MTL}) > \te(\hat{\beta}_t^{\STL}). \]
 	\end{itemize}
 \end{theorem}
-Theorem \ref{thm_many_tasks} provides a sharp analysis of the bias-variance tradeoff beyond two tasks.
-Specifically, $(1 - \norm{v_t}^2)\sigma^2/(\rho - 1)$ shows the amount of reduced variance and $\norm{\Sigma (B^{\star} U_r v_t - \beta_t)}$ shows the bias of the multi-task estimator.
-The proof of \ref{thm_many_tasks} can be found in Appendix \ref{app_proof_many_tasks}.
+Theorem \ref{thm_many_tasks} provides a sharp analysis of the bias-variance tradeoff in the multiple-task case.
+As shown in the proof of Theorem \ref{thm_many_tasks}, the equation $(1 - \norm{v_t}^2)\frac {\sigma^2}{\rho - 1}$ is the amount of variance reduced using multi-task learning and $\norm{\Sigma (B^{\star} U_r v_t - \beta_t)}$ is the bias.
+The proof of \ref{thm_many_tasks} can be found in Section \ref{app_proof_many_tasks}.
 
 
 
