@@ -365,7 +365,10 @@ The proof of \ref{thm_many_tasks} can be found in Section \ref{app_proof_many_ta
 \section{Special Case: Isotropic Covariance and Covariate Shift}\label{sec_special}
 
 %We provide precise explanations to the phenomena of negative transfer in multi-task learning.
-We provide tight bounds on the bias and variance of the multi-task estimator for two tasks.
+%We provide tight bounds on the bias and variance of the multi-task estimator for two tasks.
+The results in Section \ref{sec_general} provide conditions for when multi-task learning outperforms single-task learning for general task covariance matrices and ground truth model parameters.
+Next, we relate the general conditions to specific properties of task data.
+In particular, we consider an isotropic covariance setting that is described below and a simplified covariate-shifted setting.
 We show theoretical implications for understanding the performance of multi-task learning.
 (a) \textit{Task similarity}: we explain the phenomenon of negative transfer precisely as tasks become more different.
 (b) \textit{Sample ratio}: we further explain a curious phenomenon where increasing the sample ratio helps initially, but hurts eventually.
@@ -401,7 +404,7 @@ We show that as we increase the distance between $\beta_1$ and $\beta_2$, there 
 %Our result below will provide an explanation to this phenomenon.
 %Based on Theorem \ref{thm_model_shift}, we derive the transition threshold in the following proposition.
 We introduce the following notations.
-{\small\begin{align*}
+{\begin{align*}
 	\Psi(\beta_1, \beta_2) = {\ex{\bignorm{\beta_1 - \beta_2}^2}} / {\sigma^2},  \quad \Phi(\rho_1, \rho_2) = \frac{(\rho_1 + \rho_2 - 1)^2}{\rho_1 (\rho_1 + \rho_2) (\rho_2 - 1)}.
 \end{align*}}
 
@@ -409,10 +412,12 @@ We introduce the following notations.
 	In the isotropic model, suppose that $\rho_1$ and $\rho_2 > 1$.
 	Then
 	%Whether $\te(\hat{\beta}_t^{\MTL})$ is lower than $\te(\hat{\beta}_t^{\STL})$ is determined by the ratio between $\Psi(\beta_1, \beta_2)$ and $\Phi(\rho_1, \rho_2)$:
-	\squishlist
-		\item If $\Psi(\beta_1, \beta_2) < \frac{1}{\nu} \cdot  \Phi(\rho_1, \rho_2)$, then w.h.p. over the randomness of $X_1,X_2$, $\te(\hat{\beta}_t^{\MTL}) < \te(\hat{\beta}_t^{\STL})$.
-		\item If $\Psi(\beta_1, \beta_2) > {\nu} \cdot  \Phi(\rho_1, \rho_2)$, then w.h.p. over the randomness of $X_1,X_2$, $\te(\hat{\beta}_t^{\MTL}) > \te(\hat{\beta}_t^{\STL})$.
-	\squishend
+	\begin{itemize}
+		\item \textbf{Positive transfer:} If $\Psi(\beta_1, \beta_2) < \frac{1}{\nu} \cdot  \Phi(\rho_1, \rho_2)$, then w.h.p. over the randomness of $X_1,X_2$,
+			\[ \te(\hat{\beta}_2^{\MTL}) < \te(\hat{\beta}_2^{\STL}). \]
+		\item \textbf{Negative transfer:} If $\Psi(\beta_1, \beta_2) > {\nu} \cdot  \Phi(\rho_1, \rho_2)$, then w.h.p. over the randomness of $X_1,X_2$,
+			$$\te(\hat{\beta}_2^{\MTL}) > \te(\hat{\beta}_2^{\STL}).$$
+	\end{itemize}
 	Here {\small$\nu = (1+\oo(1)) \cdot (1 - 1/\sqrt{\rho_1})^{-4}$}.
 	Concretely, if $\rho_1 > 40$, then $\nu\in (1,2)$.
 \end{proposition}
@@ -421,9 +426,9 @@ We introduce the following notations.
 Proposition \ref{prop_dist_transition} simplifies Theorem \ref{thm_main_informal} in the isotropic model, allowing for a more explicit statement of the bias-variance tradeoff.
 Concretely, $\Psi(\beta_1, \beta)$ and $\Phi(\rho_1, \rho_2)$ corresponds to $\Delta_{\bias}$ and $\Delta_{\vari}$, respectively.
 Roughly speaking, the transition threshold scales as $\frac{pd^2}{\sigma^2} - \frac{1}{\rho_1} - \frac{1}{\rho_2}$.
-We apply Proposition \ref{prop_dist_transition} to the parameter setting of Figure \ref{fig_model_shift} (the details are left to Appendix \ref{app_synthetic}).
-We can see that our result is able to predict positive or negative transfer  accurately and matches the empirical curve.
-There are several unexplained observations near the transition threshold $0$, which are caused by the concentration error $\nu$.
+%We apply Proposition \ref{prop_dist_transition} to the parameter setting of Figure \ref{fig_model_shift} (the details are left to Appendix \ref{app_synthetic}).
+%We can see that our result is able to predict positive or negative transfer  accurately and matches the empirical curve.
+%There are several unexplained observations near the transition threshold $0$, which are caused by the concentration error $\nu$.
 %We fix the target task and vary the source task, in particular the parameter $d$ which determines $\norm{\beta_1 - \beta_2}$.
 %Figure \ref{fig_model_shift} shows the result.
 %We observe that Proposition \ref{prop_dist_transition} explains most of the observations in Figure \ref{fig_model_shift}.
@@ -431,8 +436,8 @@ There are several unexplained observations near the transition threshold $0$, wh
 %First, in equation \eqref{eq_te_var}, the positive variance reduction effect scales with $n_1 = \rho_1 p$, the number of source task data points.
 %Second, we show that the negative effect of model-shift bias scales with $pd^2$, which is the expectation of $\norm{\beta_1 - \beta_2}^2$.
 The proof of Proposition \ref{prop_dist_transition} can be found in Appendix \ref{app_proof_31}.
-A key part of the analysis shows that $\hat{v}\approx 1$ in the isotropic model,
-thus simplifying the result of Theorem \ref{thm_main_informal}.
+A key part of the analysis shows that $\hat{W}_1 / \hat{W}_2$ is roughly equal to one in the isotropic model,
+thus simplifying the general condition in Theorem \ref{thm_main_informal}.
 
 \subsection{Sample Ratio}\label{sec_data_size}
 
@@ -449,14 +454,14 @@ Our theory accurately predicts a curious phenomenon, where increasing the sample
 \begin{proposition}[Source/target sample ratio]\label{prop_data_size}
 	In the isotropic model, suppose that $\rho_1 > 40$ and $\rho_2 > 110$ are fixed constants, and $\Psi(\beta_1, \beta_2) > 2/(\rho_2 - 1)$.
 	Then we have that
-	\squishlist
-		\item If $\frac{n_1}{n_2} = \frac{\rho_1}{\rho_2} < \frac{1}{\nu} \cdot \frac{1 - 2\rho_2^{-1}}{\Psi(\beta_1, \beta_2) (\rho_2 - 1) - \nu^{-1}}$, then w.h.p. $\te(\hat{\beta}_t^{\MTL}) < \te(\hat{\beta}_t^{\STL})$.
-		\item If $\frac{n_1}{n_2} = \frac{\rho_1}{\rho_2} > {\nu} \cdot \frac{1 - 2\rho_2^{-1}}{\Psi(\beta_1, \beta_2) (\rho_2 - 1.5) - \nu}$, then w.h.p. $\te(\hat{\beta}_t^{\MTL}) > \te(\hat{\beta}_t^{\STL})$.
-	\squishend
+	\begin{itemize}
+		\item \textbf{Positive transfer:} If $\frac{n_1}{n_2} = \frac{\rho_1}{\rho_2} < \frac{1}{\nu} \cdot \frac{1 - 2\rho_2^{-1}}{\Psi(\beta_1, \beta_2) (\rho_2 - 1) - \nu^{-1}}$, then w.h.p. $$\te(\hat{\beta}_2^{\MTL}) < \te(\hat{\beta}_2^{\STL}).$$
+		\item \textbf{Negative transfer:} If $\frac{n_1}{n_2} = \frac{\rho_1}{\rho_2} > {\nu} \cdot \frac{1 - 2\rho_2^{-1}}{\Psi(\beta_1, \beta_2) (\rho_2 - 3/2) - \nu}$, then w.h.p. $$\te(\hat{\beta}_2^{\MTL}) > \te(\hat{\beta}_2^{\STL}).$$
+	\end{itemize}
 \end{proposition}
 Proposition \ref{prop_data_size} describes the bias-variance tradeoff in terms of the sample ratio $\rho_1 / \rho_2$.
-We apply the result to the setting of Figure \ref{fig_size} (described in Appendix \ref{app_synthetic}).
-There are several unexplained observations near $y = 0$ caused by $\nu$.
+%We apply the result to the setting of Figure \ref{fig_size} (described in Appendix \ref{app_synthetic}).
+%There are several unexplained observations near $y = 0$ caused by $\nu$.
 The proof of Proposition \ref{prop_data_size} can be found in Appendix \ref{app_proof_32}.
 
 \subsection{Covariate Shift}\label{sec_covshift}
@@ -467,31 +472,30 @@ In general, the covariance matrices of the two tasks may be different such as in
 In this part, we consider what happens when $\Sigma_1 \neq \Sigma_2$.
 We show that when $n_1 / n_2$ is large, MTL with covariate shift can be suboptimal compared to MTL without covariate shift.
 
-\textit{Example.}
-	We measure covariate shift by $M = \Sigma_1^{1/2} \Sigma_2^{-1/2}$.
-	Assume that $\Psi(\beta_1, \beta_2) = 0$ for simplicity.
-	We compare two cases: (i) when $M = \id$; (ii) when $M$ has $p/2$ singular values that are equal to $\lambda$ and $p/2$ singular values that are equal to $1 / \lambda$.
+\noindent\textit{Example.}
+	We measure covariate shift by $M = \Sigma_1^{1/2} \Sigma_2^{-1/2}$ similar to Theorem \ref{thm_main_informal}.
+	We assume that the two tasks have the same ground truth model parameters, that is, $\beta_1 = \beta_2$ and $\Psi(\beta_1, \beta_2) = 0$.
+	We compare two cases: (i) when $M = \id_{p\times p}$; (ii) when $M$ has $p/2$ singular values that are equal to $\lambda$ and $p/2$ singular values that are equal to $1 / \lambda$.
 	Hence, $\lambda$ measures the severity of the covariate shift.
-	Figure \ref{fig_covariate} shows a simulation of this setting by varying $\lambda$.
+%	Figure \ref{fig_covariate} shows a simulation of this setting by varying $\lambda$.
 	We observe that as source/target sample ratio increases, the performance gap between the two cases increases.
 
 %By applying Lemma \ref{lem_cov_shift_informal}, we find that when $n_1 / n_2$ is large, having no covariate shift is the optimal choice provided that the determinant of $M^{\top}M$ is bounded.
 We compare different choices of $M$ that belong to the following bounded set.
 Let $\lambda_i$ be the $i$-th singular value of $M$.
 Let $\mu_{\min} < \mu < \mu_{\max}$ be fixed values that do not grow with $p$.
-\vspace{-0.025in}
-{\small\begin{align*}
+{\begin{align*}
 		\cS_{\mu}\define\bigset{M \left| \prod_{i=1}^p \lambda_i \le \mu^p, \mu_{\min} \le \lambda_i\le \mu_{\max}, \text{ for all } 1\le i\le p\right.},
 \end{align*}}
 %	We assume that $\beta_1$ and $\beta_2$ are generated following the isotropic model with $d = 0$.
 \begin{proposition}[Covariate shift]\label{prop_covariate}
-	Assume that $\Psi(\beta_1, \beta_2) = 0$ and $\rho_1, \rho_2>1$.
+	For the two-task case, assume that $\beta_1 = \beta_2$, $\rho_1$ and $\rho_2$ are both greater than one.
 	Let $g(M)$ denote the prediction loss of $\hat{\beta}_t^{\MTL}$ when $M = \Sigma_1^{1/2}\Sigma_2^{-1/2} \in\cS_{\mu}$.
 	We have that
-	{\small\[ g(\mu\id) \le \bigbrace{1+ \bigo{{\rho_2}/{\rho_1}  }} \min_{M\in\cS_{\mu}} g(M). \]}
+		\[ g(\mu\id) \le \bigbrace{1+ \bigo{{\rho_2}/{\rho_1}  }} \min_{M\in\cS_{\mu}} g(M). \]
 \end{proposition}
-This proposition shows that when source/target sample ratio is large, then having no covariate shift is optimal.
-The proof of Proposition \ref{prop_covariate} is left to Appendix \ref{app_proof_33}.
+Proposition \ref{prop_covariate} shows that when the sample ratio is large, having no covariate shift gives the optimal performance for multi-task learning.
+The proof of Proposition \ref{prop_covariate} can be found in Appendix \ref{app_proof_33}.
 %Proposition \ref{prop_covariate} implies that when $\rho_1\gg \rho_2$, having no covariate shift is the optimal choice for choosing the source task.
 %This provides evidence that covariate shift is unfavorable when there are many source task datapoints,
 
