@@ -260,18 +260,13 @@ One can see that our result extends Lemma \ref{lem_minv} from a single sample co
 Interestingly, the asymptotic limit of the variance only depends on the sample sizes and the covariate shift matrix.
 Next, we derive the asymptotic limit of the bias equation \eqref{eq_bias_2task}, which depends on the scaled model distance in addition to sample size and covariate shift. %(cf. Lemma \ref{lem_cov_derivative} in Appendix \ref{app_proof_main_thm}).
 We will use the matrix fractional notation $\frac{X}{Y}$ for two PSD matrices that share the same eigenspace.
-That is, assuming that the SVD of $X, Y$ is $X = U D_1 U^{\top}$ and $Y = U D_2 U^{\top}$.
+That is, suppose that the SVD of $X, Y$ is $X = U D_1 U^{\top}$ and $Y = U D_2 U^{\top}$.
 We denote $\frac{X}{Y} = U D_{1} D_2^{-1} U^{\top}$.
+Using the notation, we introduce an important quantity that describes the limit of the bias equation as $p$ goes to infinity.
 
-\begin{lemma}[Bias asymptotics]\label{lem_cov_derivative}
-In the setting of Theorem \ref{thm_main_informal}, let $w \in \R^p$ be any vector that is independent of $X_1$ and $X_2$.
-With high probability, we have that
-\begin{equation}\label{lem_cov_derv_eq}
-\begin{split}
-\bignorm{\Sigma_2^{1/2} \bigbrace{\frac{X_1^{\top}X_1 + X_2^{\top}X_2}{n_1 + n_2}}^{-1} w}^2
-= w^{\top} \Sigma_2^{-1/2}  \frac{a_4 {M}^{\top}{M} + (1 + a_3)\id}{(a_1 {M}^{\top}{M}+a_2\id)^2} \Sigma_2^{-1/2} w + o(\|w\|^2),
-\end{split}
-\end{equation}
+\begin{definition}[Limiting bias]
+Recall that $a_1$ and $a_2$ are the solutions of the equation system \eqref{eq_a12extra}. Let
+	\[ \Pi \define  M \frac{a_4 M^{\top}M + (1 + a_3) \id_{p\times p}}{(a_1 M^{\top}M + a_2\id_{p\times p})^2} M^{\top}, \]
 where $a_{3}$ and $a_4$ are the solutions of the following two equations:
 \begin{gather}\label{eq_a34extra}
 		\left(\frac{\rho_2}{a_2^{2}}-  b_0\right)\cdot  a_3 - b_1 \cdot  a_4
@@ -279,11 +274,27 @@ where $a_{3}$ and $a_4$ are the solutions of the following two equations:
 %		\left(\frac{n_1}{\hat a_1^2} -  \sum_{i=1}^p \frac{\hat \lambda_i^4   }{  (\hat a_2 + \hat \lambda_i^2\hat a_1)^2  }\right)\hat a_4 -\left(\sum_{i=1}^p \frac{\hat \lambda_i^2  }{  (\hat a_2 + \hat \lambda_i^2\hat a_1)^2  }\right)\hat a_3
 %		= \sum_{i=1}^p \frac{\hat \lambda_i^2 }{  (\hat a_2 + \hat \lambda_i^2\hat a_1)^2  }. \label{eq_a4}
 	\end{gather}
-In the above equation, the definition of $b_0$, $b_1$ and $b_2$ is
-$$ b_k:= \frac1{p}\sum_{i=1}^p \frac{\lambda_i^{2k}}{ (\lambda_i^2 a_1 + a_2)^2  },\quad  \text{for } k=0,1,2.$$
+In the above equation, we denote $b_0$, $b_1$ and $b_2$ as
+$ b_k:= \frac1{p}\sum_{i=1}^p {\lambda_i^{2k}} / { (\lambda_i^2 a_1 + a_2)^2  }$, for $k = 0, 1, 2$.
+\end{definition}
+
+Our next result shows that the bias equation \eqref{eq_bias_2task} is described by the above limiting bias asymptotically.
+\begin{lemma}[Bias asymptotics]\label{lem_cov_derivative}
+In the setting of Theorem \ref{thm_main_informal}, let $w \in \R^p$ be any vector that is independent of $X_1$ and $X_2$.
+With high probability, we have that
+\begin{equation}\label{lem_cov_derv_eq}
+\begin{split}
+\bignorm{\Sigma_2^{1/2} \bigbrace{\frac{X_1^{\top}X_1 + X_2^{\top}X_2}{n_1 + n_2}}^{-1} \Sigma_1^{1/2} w}^2
+= w^{\top} \Pi w + o(\|w\|^2),
+\end{split}
+\end{equation}
+
 \end{lemma}
 To apply the above result to equation \eqref{eq_bias_2task}, we first approximate $X_1^{\top}X_1$ by $\Sigma_1$, and then use Lemma \ref{lem_cov_derivative} with $w = \Sigma_1 (\beta_1 - \frac{W_1}{W_2} \beta_2)$.
-The approximation of $X_1^{\top}X_1$ by $\Sigma_1$ incurs a generalization error that scales down with $\rho_1$, which is the $\delta / \sqrt{\rho_1}$ term in Theorem \ref{thm_main_informal} more precisely.
+Note that we can rescale $X_1$ by $W_1 / W_2$ and $\Sigma_1$ by $(W_1 / W_2)^2$, and the rest of the steps follows.
+As a remark, the approximation of $X_1^{\top}X_1$ by $\Sigma_1$ incurs a generalization error that scales down with $\rho_1$, which is the $\delta / \sqrt{\rho_1}$ term in Theorem \ref{thm_main_informal} more precisely.
+Finally, while the limiting bias $\Pi$ provides a precise connection with general covariate shift matrices $M$, it can be difficult to interpret.
+In Section \ref{sec_special}, we show that $\Pi$ can be significantly simplified in an isotropic covariance setting.
 
 \medskip
 \noindent\textbf{Proof overview.}
