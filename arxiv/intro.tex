@@ -1,6 +1,6 @@
 \begin{abstract}
-	Multi-task learning is a powerful approach in many applications such as image and text classification. Yet, there is little rigorous understanding of when multi-task learning outperforms single-task learning. In this work, we provide a rigorous study to anwer the question in the high-dimensional linear regression setting. We show that a bias-variance tradeoff of multi-task learning determines the effect of information transfer and develop new concentration bounds to analyze the tradeoff. Our key observation is that three properties of task data, namely \textit{task similarity}, \textit{sample ratio}, and \textit{covariate shift} can affect transfer in the high-dimensional linear regression setting. We relate each property to the bias and variance of multi-task learning and explain three negative effects with decreased task similarity,	increased sample ratio, and covariate shift under increased sample ratio. We validate the three effects on text classification tasks. Inspired by our theory, we show two practical connections of interest.
-	First, single-task results can help understand when multi-task learning gives gains. Second, incrementally adding training data can mitigate negative transfer and improve multi-task training efficiency.
+	Multi-task learning is a powerful approach in many applications such as image and text classification. Yet, there is little rigorous understanding of when multi-task learning outperforms single-task learning. In this work, we provide a rigorous study to answer the question in the high-dimensional linear regression setting. We show that a bias-variance tradeoff of multi-task learning determines the effect of information transfer, and develop new concentration bounds to analyze the tradeoff. Our key observation is that three properties of task data, namely \textit{task similarity}, \textit{sample ratio}, and \textit{covariate shift} can affect transfer in the high-dimensional linear regression setting. We relate each property to the bias and variance of multi-task learning and explain three negative effects with decreased task similarity,	increased sample ratio, and covariate shift under increased sample ratio. We validate the three effects on text classification tasks. Inspired by our theory, we show two practical connections of interest.
+	First, single-task results can help to understand when multi-task learning gives gains. Second, incrementally adding training data can mitigate negative transfer and improve multi-task training efficiency.
 \end{abstract}
 
 \section{Introduction}
@@ -11,7 +11,7 @@ Multi-task learning is a powerful approach to improve performance for many tasks
 %In multi-task learning, having related task data is fundamental to its performance.
 %Multi-task learning is particularly powerful when there is limited labeled data for a task to be solved, meanwhile more labeled data from different but related tasks is available.
 %By combining multiple information sources, it is possible to share all the information in the same model.
-In many settings, multiple source tasks are available to help predict a particular target task.
+In many settings, multiple source tasks are available to help with predicting a particular target task.
 \todo{clarify setting is different from traditional MTL}
 %For example, many applications in , and many other areas have been achieved by learning from multiple tasks together.
 The performance of multi-task learning depends on the relationship between the source and target tasks \cite{C97}.
@@ -39,10 +39,10 @@ From a practical standpoint, developing a better understanding of multi-task lea
 In this work, we study the bias and variance of multi-task learning in the high-dimensional linear regression setting \cite{HMRT19,BLLT20}.
 Our key observation is that three properties of task data, including \textit{task similarity}, \textit{sample ratio}, and \textit{covariate shift}, can affect whether multi-task learning outperforms single-task learning (which we refer to as \textit{positive transfer}).
 As an example, we vary each property in Figure \ref{fig_model_shift_phasetrans} for two linear regression tasks and measure the improvement of multi-task learning over single-task learning for a particular task.
-We observe that the effect of transfer can be positive or negative as we vary each property.
+We observe that the effect of transfer can be either positive or negative as we vary each property.
 These phenomena cannot be explained using previous techniques \cite{WZR20}.
 The high-dimensional linear regression setting allows us to measure the three properties precisely.
-We define each property for the case of two tasks and our definition applies to general settings.
+Here we define each property for the case of two tasks, while our definition applies to general settings.
 We refer to the first task as the source task and the second as the target task.
 \squishlist
 	\item \textbf{Task similarity:} Assume that both tasks follow a linear model with parameters $\beta_1, \beta_2\in\real^p$, respectively.
@@ -50,7 +50,7 @@ We refer to the first task as the source task and the second as the target task.
 	\item \textbf{Sample ratio:} Let $n_1 = \rho_1 \cdot p, n_2 = \rho_2 \cdot p$ be the sample size of each task, where $\rho_1, \rho_2>1$ are both fixed values that do not grow with $p$.
 	We measure the source/target sample ratio by $\rho_1 / \rho_2$.
 %	Importantly, $\rho_2$ can be a small constant (say $2$) to capture the need for more labeled data.
-	\item \textbf{Covariate shift:} Assume that the task features are random vectors with positive semidefinite covariance matrix $\Sigma_1,\Sigma_2\in\real^{p\times p}$, respectively.
+	\item \textbf{Covariate shift:} Assume that the task features are random vectors with positive semidefinite covariance matrices $\Sigma_1\in\real^{p\times p}$ and $\Sigma_2\in\real^{p\times p}$, respectively.
 	%$x = \Sigma_i^{1/2}z$, where $z\in\real^p$ consists of i.i.d. entries with mean zero and unit variance, and is a positive semidefinite matrix.
 	We measure covariate shift with matrix $\Sigma_1^{1/2}\Sigma_2^{-1/2}$.
 \squishend
@@ -137,7 +137,7 @@ Along the way, we analyze the benefit of MTL for reducing labeled data to achiev
 %		On the other hand, when $n_1 / n_2$ is small, there are counter examples where having the same covariance matrix is not necessarily the optimal choice.
 
 Our study also leads to several algorithmic consequences with practical interest.
-First, we show that single-task learning results can help predict positive or negative transfer for multi-task learning.
+First, we show that single-task learning results can help to predict positive or negative transfer for multi-task learning.
 We validate this observation on ChestX-ray14 \cite{chexnet17} and sentiment analysis datasets \cite{LZWDA18}.
 Second, we propose a new multi-task training schedule by incrementally adding task data batches to the training procedure.
 This is inspired by our observation in Figure \ref{fig_size} where adding more source task data helps initially, but hurts eventually.
@@ -147,7 +147,7 @@ We show that the alignment procedure provides more significant improvement when 
 Finally, we validate our three theoretical findings on sentiment analysis tasks.
 
 \paragraph{Organizations.}
-The appendix is organized as follows.
+\todo{revise} The appendix is organized as follows.
 In Section \ref{app_proof_sec3}, we describe an extended background and a further reivew of related work.
 In Section \ref{app_proof_main_thm}, we present the analysis of the bias-variance tradeoff for the case of two tasks.
 In Section \ref{app_iso_cov}, we illustrate the above analysis in simplified settings including the isotropic model and covariate shifted settings without model distance.
