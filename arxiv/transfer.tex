@@ -274,8 +274,7 @@ where $a_{3}$ and $a_4$ are the solutions of the following two equations:
 %		\left(\frac{n_1}{\hat a_1^2} -  \sum_{i=1}^p \frac{\hat \lambda_i^4   }{  (\hat a_2 + \hat \lambda_i^2\hat a_1)^2  }\right)\hat a_4 -\left(\sum_{i=1}^p \frac{\hat \lambda_i^2  }{  (\hat a_2 + \hat \lambda_i^2\hat a_1)^2  }\right)\hat a_3
 %		= \sum_{i=1}^p \frac{\hat \lambda_i^2 }{  (\hat a_2 + \hat \lambda_i^2\hat a_1)^2  }. \label{eq_a4}
 	\end{gather}
-In the above equation, we denote $b_0$, $b_1$ and $b_2$ as
-$ b_k:= \frac1{p}\sum_{i=1}^p {\lambda_i^{2k}} / { (\lambda_i^2 a_1 + a_2)^2  }$, for $k = 0, 1, 2$.
+In the above equation, we denote $b_k$ as $\frac1{p}\sum_{i=1}^p {\lambda_i^{2k}} / { (\lambda_i^2 a_1 + a_2)^2  }$, for $k = 0, 1, 2$.
 \end{definition}
 
 Our next result shows that the bias equation \eqref{eq_bias_2task} is described by the above limiting bias asymptotically.
@@ -377,13 +376,15 @@ The proof of \ref{thm_many_tasks} can be found in Section \ref{app_proof_many_ta
 
 %We provide precise explanations to the phenomena of negative transfer in multi-task learning.
 %We provide tight bounds on the bias and variance of the multi-task estimator for two tasks.
-The results in Section \ref{sec_general} provide conditions for when multi-task learning outperforms single-task learning for general task covariance matrices and ground truth model parameters.
-Next, we relate the general conditions to specific properties of task data.
-In particular, we consider an isotropic covariance setting that is described below and a simplified covariate-shifted setting.
-We show theoretical implications for understanding the performance of multi-task learning.
-(i) \textit{Task similarity}: we explain the phenomenon of negative transfer precisely as tasks become more different.
-(ii) \textit{Sample ratio}: we further explain a curious phenomenon where increasing the sample ratio helps initially, but hurts eventually.
-(iii) \textit{Covariate shift}: as the source sample size increases, we show that the covariate shift worsens the performance of the multi-task estimator.
+The results in Section \ref{sec_general} show when multi-task learning outperforms single-task learning for general task covariance matrices and ground truth model parameters.
+In particular, the general conditions depend on specific properties of task data such as the covariate shift matrix.
+However, the conditions given by the limiting bias and variance of multi-task learning can be difficult to interpret.
+The goal of this section is to address this issue.
+We interpret the limiting bias and variance equations in an isotropic covariance setting that is described below and a simplified covariate-shifted setting.
+We show that three properties of task data affect the performance of multi-task learning as follows.
+(i) \textit{Task similarity}: We explain the phenomenon of negative transfer precisely as tasks become more different.
+(ii) \textit{Sample ratio}: We further explain a curious phenomenon where increasing the sample ratio between the source and target task helps initially, but hurts eventually.
+(iii) \textit{Covariate shift}: Finally, we show that as the sample size of the source task increases, we show that the covariate shift worsens the performance of the multi-task estimator.
 %Finally, we provide a extend our results from two tasks to many tasks with the same features.
 %We explain from three perspectives, including \textit{task similarity}, \textit{sample size} and \textit{covariate shift}.
 %We show how negative transfer occurs by varying task similarity or sample size.
@@ -391,13 +392,13 @@ We show theoretical implications for understanding the performance of multi-task
 
 \smallskip
 \noindent\textbf{The isotropic covariance setting.}
-	Consider two tasks with isotropic covariances $\Sigma_1 = \Sigma_2 = \id$.
-	Each task has sample size $n_1 = \rho_1 \cdot p$ and $n_2 = \rho_2 \cdot p$.
+	For the two-task case, suppose that the covariates of both tasks have isotropic covariance matrices, that is, $\Sigma_1 = \Sigma_2 = \id$.
+%	Each task has sample size $n_1 = \rho_1 \cdot p$ and $n_2 = \rho_2 \cdot p$.
 	%And $X_1\in\real^{n_1\times p}, X_2\in\real^{n_2\times p}$ denote the covariates of the two tasks, respectively.
-	Assume that for  task two, $\beta_2$ has i.i.d. entries with mean zero and variance $\kappa^2$.
-	For the source task, $\beta_1 $ equals $\beta_2$ plus i.i.d. entries with mean $0$ and variance $d^2$.
-	The labels are $Y_i = X_i\beta_i + \varepsilon_i$, where $\e_i$ consists of i.i.d. entries with mean zero and variance $\sigma^2$.
-	For our purpose, it is enough to think of the order of $d$ being $1/\sqrt{p}$ and $pd^2/\sigma^2$ being constant.
+	Assume that for task two, its model parameter, denoted by $\beta_2$, consist of i.i.d. entries with mean zero and variance $\kappa^2$.
+	For task one, its model parameter, denoted by $\beta_1$, is equal to $\beta_2$ plus i.i.d. entries with mean $0$ and variance $d^2$.
+%	The labels are $Y_i = X_i\beta_i + \varepsilon_i$, where $\e_i$ consists of i.i.d. entries with mean zero and variance $\sigma^2$.
+%	For our purpose, it is enough to think of the order of $d$ being $1/\sqrt{p}$ and $pd^2/\sigma^2$ being constant.
 %The more precise conditions on the relations between $d^2$, $\sigma^2$ and $\kappa^2$ are given in  \eqref{choiceofpara}.
 %	We assume that all the random variables have subexponential decay, while keeping in mind that our results can be applied under weaker moments assumptions as shown in Appendix \ref{sec_maintools}.
 
