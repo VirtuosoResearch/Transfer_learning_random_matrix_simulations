@@ -4,18 +4,18 @@
 
 The main goal of this section is to prove Lemma \ref{lem_cov_shift} and Lemma \ref{lem_cov_derivative}.
 %In this section, we will work under the assumptions of Lemma \ref{lem_cov_shift}. However, 
-In random matrix theory, it is much more convenient to rescale the matrices $Z_1$ and $Z_2$ such that their entries have variance $n^{-1}$, where $n:=n_1+n_2$. The advantage of this scaling is that the singular eigenvalues of $Z_1$ and $Z_2$ all lie in a bounded support that does not grow with $n$. For reader's convenience, we now restate the setting with rescaled $Z_1$ and $Z_2$, and introduce a couple of other notations. 
+In random matrix theory, it is much more convenient to rescale the matrices $Z_1$ and $Z_2$ such that their entries have variance $n^{-1}$, where $n:=n_1+n_2$. The advantage of this scaling is that the singular eigenvalues of $n^{-1/2}Z_1$ and $n^{-1/2}Z_2$ all lie in a bounded support that does not grow with $n$. For reader's convenience, we now restate the problem setting and introduce a couple of other notations. 
 
 %\textbf{Basic setting.}
 %We denote the two sample covariance matrices by $\mathcal Q_1:=X_1^\top X_1$ and $\cal Q_2:= X_2^\top X_2$. 
-We assume that $Z_1=(z^{(1)}_{ij})$ and $Z_2=(z^{(2)}_{ij})$ are $n_1\times p$ and $n_2\times p$ random matrices with i.i.d. entries satisfying
+We assume that $Z_1$ and $Z_2$ are $n_1\times p$ and $n_2\times p$ random matrices with i.i.d. entries satisfying
 \begin{equation}\label{assm1}
-\mathbb{E} z^{(k)}_{ij} =0, \ \quad \ \mathbb{E} \vert z^{(k)}_{ij} \vert^2  =n^{-1},\quad k=1,2. 
+\mathbb{E} (Z_1)_{11} =\mathbb{E} (Z_2)_{11} =0, \ \quad \ \mathbb{E} \vert (Z_1)_{11} \vert^2=\mathbb{E} \vert (Z_2)_{11} \vert^2  =1. 
 \end{equation}
 %where we denote $n:=n_1+n_2$. Here we have chosen the scaling that is more standard in the random matrix theory literature---under this $n^{-1/2}$ scaling, the eigenvalues of $\cal Q_1$ and $\cal Q_2$ are all of order 1. 
 Moreover, we assume that the fourth moments exist:
 \be \label{conditionA2}
-\mathbb{E} \vert \sqrt{n}z^{(k)}_{ij} \vert^4  \le C, \quad k=1,2,
+\mathbb{E} \vert (Z_1)_{11} \vert^4 +\mathbb{E} \vert (Z_2)_{11} \vert^4  \le C, \quad k=1,2,
 \ee
 for some constant $C>0$. 
 %In this paper, we regard $N$ as the fundamental (large) parameter and $n \equiv n(N)$ as depending on $N$. 
@@ -109,16 +109,17 @@ We say an event $\Xi$ holds with high probability if $1\prec \mathbf 1_{\Xi}$, t
 Then we introduce the following bounded support condition.
 
 \begin{definition}\label{defn_support}
-We say a random matrix $Z$ satisfies the {\it{bounded support condition}} with $q$, if
+We say a random matrix $M$ satisfies the {\it{bounded support condition}} with $q$, if
 \begin{equation}
-\max_{i,j}\vert Z_{ij}\vert \prec q. \label{eq_support}
+\max_{i,j}\vert M_{ij}\vert \prec q. \label{eq_support}
 \end{equation}
-Here $q\equiv q(n)$ is a deterministic parameter and usually satisfies $ n^{-{1}/{2}} \leq q \leq n^{- \phi} $ for some (small) constant $\phi>0$. Whenever (\ref{eq_support}) holds, we say that $X$ has support $q$. 
+Here $q\equiv q(n)$ is a deterministic parameter and usually satisfies $ n^{-{1}/{2}} \leq q \leq n^{- \phi} $ for some (small) constant $\phi>0$. Whenever (\ref{eq_support}) holds, we say that $M$ has support $q$. 
 %Moreover, if the entries of $X$ satisfy (\ref{size_condition}), then $X$ trivially satisfies the bounded support condition with $q=N^{-\phi}$.
 \end{definition}
-
-Note that if the entries of $\sqrt{n}Z$ have finite moments up to any order, %as in \eqref{assmAhigh}, 
-then with Markov's inequality one can check that $Z$ has bounded support $n^{-1/2}$. More generally, if the entries of $\sqrt{n}Z$ have finite $a$-th moment for some fixed $a>4$, then using a standard cut-off argument and a simple union bound, it is easy to see that $Z$ has bounded support $q=n^{2/a-1/2}$ on a event with probability $1-\oo(1)$. Hence the bounded support condition is essentially introduced to deal with the moment conditions; see Corollary \ref{main_cor} below for more details.
+\begin{example}
+\todo{Talk about the Gaussian case and Bernoulli case.} Note that if the entries of $Z$ have finite moments up to any order, %as in \eqref{assmAhigh}, 
+then with Markov's inequality one can check that $n^{-1/2}Z$ has bounded support $n^{-1/2}$. More generally, if the entries of $Z$ have finite $a$-th moment for some fixed $a>4$, then using a standard cut-off argument and a simple union bound, it is easy to see that $n^{-1/2}Z$ has bounded support $q=n^{2/a-1/2}$ on a event with probability $1-\oo(1)$. Hence the bounded support condition is essentially introduced to deal with the moment conditions; see Corollary \ref{main_cor} below for more details.
+\end{example}
 
 %\begin{remark}
 %Note that the Gaussian distribution satisfies the condition (\ref{eq_support}) with $q< N^{-\phi}$ for any $\phi<1/2$. We also remark that if (\ref{eq_support}) holds, then the event $\left\{\vert x_{ij}\vert \le q, \forall 1\le i \le M,1\le j \le N\right\}$ holds with $\xi$-high probability for any fixed $\xi>0$ according to Definition \ref{high_prob}. For this reason, the bad event $\left\{\vert x_{ij}\vert > q \text{ for some }i,j\right\}$ is negligible, and we will not consider the case it happens throughout the proof.
@@ -126,19 +127,19 @@ then with Markov's inequality one can check that $Z$ has bounded support $n^{-1/
 
 %Since $Z_1^\top Z_1$ (resp.\;$Z_2^\top Z_2$) is a standard sample covariance matrix, and it is well-known that its nonzero eigenvalues are all inside the support of the Marchenko-Pastur law $[(1-\sqrt{d_1})^2 , (1+\sqrt{d_1})^2]$ (resp. $[(1-\sqrt{d_2})^2 , (1+\sqrt{d_2})^2]$) with probability $1-\oo(1)$ \cite{No_outside}. In our proof, we shall need a slightly stronger probability bound, which is given by the following lemma. 
 
-For $Z_1$ and $Z_2$ with bounded support $q$, we have the following estimates on their singular values. We have used it in our previous proofs; see \eqref{eq_isometric}.   
+For $n^{-1/2}Z_1$ and $n^{-1/2}Z_2$ with bounded support $q$, we have the following estimates on their singular values. We have used it in our previous proofs; see \eqref{eq_isometric}.   
 
  
 %Then we state the following lemma on the eigenvalues of $Z_1^\top Z_1$ and $Z_2^\top Z_2$, which are denoted as $\lambda_1 (Z_1^\top Z_1) \ge \cdots \ge \lambda_{p} (Z_1^\top Z_1)$ and $\lambda_1 (Z_2^\top Z_2) \ge \cdots \ge \lambda_p (Z_2^\top Z_2)$. We have used it in our previous proofs; see \eqref{eq_isometric}. 
  
 \begin{lemma}\label{SxxSyy}
-Suppose Assumption \ref{assm_big1} holds, and $Z_1$ and $Z_2$ satisfy the bounded support condition \eqref{eq_support} for some deterministic parameter $q$ satisfying $ n^{-{1}/{2}} \leq q \leq n^{- \phi} $ for a constant $\phi>0$. Then for any constant $\e>0$, we have that with high probability,
+Suppose Assumption \ref{assm_big1} holds, and $n^{-1/2}Z_1$ and $n^{-1/2}Z_2$ satisfy the bounded support condition \eqref{eq_support} for some deterministic parameter $q$ satisfying $ n^{-{1}/{2}} \leq q \leq n^{- \phi} $ for a constant $\phi>0$. Then for any constant $\e>0$, we have that with high probability,
 \be\label{op rough1} %(1-\sqrt{d_1})^2 - \e \le  \lambda_p(Z_1^\top Z_1)   \le  
-\lambda_1(Z_1^\top Z_1) \le \frac{(\sqrt{n_1}+\sqrt{p})^2}{n} + n^\e q,
+\lambda_1(Z_1^\top Z_1) \le {(\sqrt{n_1}+\sqrt{p})^2} + n^{1+\e} q,
 \ee
 and
 \be\label{op rough2} 
-\frac{(\sqrt{n_2}-\sqrt{p})^2}{n} -  n^\e q \le  \lambda_p (Z_2^\top Z_2)  \le  \lambda_1(Z_2^\top Z_2) \le \frac{(\sqrt{n_2}+\sqrt{p})^2}{n} +  n^\e q .
+ (\sqrt{n_2}-\sqrt{p})^2  -  n^{1+\e} q \le  \lambda_p (Z_2^\top Z_2)  \le  \lambda_1(Z_2^\top Z_2) \le  (\sqrt{n_2}+\sqrt{p})^2 +  n^{1+\e} q .
 \ee
 where $\lambda_i(Z_k^\top Z_k)$, $k=1,2$ and $i=1,\cdots,p$, is the $i$-th largest eigenvalue of $Z_k^\top Z_k$.
 \end{lemma}
@@ -146,30 +147,37 @@ where $\lambda_i(Z_k^\top Z_k)$, $k=1,2$ and $i=1,\cdots,p$, is the $i$-th large
 This lemma essentially follows from \cite[Theorem 2.10]{isotropic}, although the authors considered the case with $q = n^{-1/2}$ only. The results for the general case with $ n^{-{1}/{2}} \leq q \leq n^{- \phi} $ follows from \cite[Lemma 3.12]{DY}. 
 %, but only the bounds for largest eigenvalues are given there in order to avoid the issue with the smallest eigenvalue when $d_{2}$ is close to 1. However, under the assumption \eqref{assm2}, the lower bound for the smallest eigenvalue follows from the same arguments as in \cite{DY}. Hence we omit the details. 
 \end{proof}
+\begin{remark}
+\todo{It is stronger than conventional result.}
+\end{remark}
 
 The rest of the proof is organized as follows. In Section \ref{sec locallaw1}, we introduce the concept of resolvents, and give an almost optimal convergent estimate on it---Theorem \ref{LEM_SMALL}---in Section \ref{sec aymp_limit_G}. This estimate is conventionally called {\it local law} in random matrix literature. Based on Theorem \ref{LEM_SMALL}, we then complete the proof of Lemmas \ref{lem_cov_shift} and \ref{lem_cov_derivative} in Section \ref{sec pf RMTlemma}. The proof of Theorem \ref{LEM_SMALL} will be presented in Section \ref{sec_Gauss}.
 
 \subsection{Resolvents and Local Laws}\label{sec locallaw1}
 
 
-Our main goal is to study the matrix inverse $(X_1^\top X_1+X_2^\top X_2)^{-1}$ for $X_1=\sqrt{n}Z_1\Sigma_1^{1/2}$ and $X_2=\sqrt{n}Z_2\Sigma_2^{1/2}$. 
+Our main goal is to study the matrix inverse $(X_1^\top X_1+X_2^\top X_2)^{-1}$ for $X_1= Z_1\Sigma_1^{1/2}$ and $X_2= Z_2\Sigma_2^{1/2}$. 
 %\begin{align*}
 %(\cal Q_1+\cal Q_2)^{-1}=\left( \Sigma_1^{1/2}Z_1^\top Z_1\Sigma_1^{1/2}+\Sigma_2^{1/2}Z_2^\top Z_2\Sigma_2^{1/2}\right)^{-1} .
 %\end{align*}
 Using \eqref{eigen2}, we can rewrite it as
-\be\label{eigen2extra}(X_1^\top X_1+X_2^\top X_2)^{-1}=n^{-1}\Sigma_2^{-1/2}V\left(   \Lambda U^\top Z_1^\top Z_1 U\Lambda  + V^\top Z_2^\top Z_2V\right)^{-1}V^\top\Sigma_2^{-1/2}.\ee
+\be\label{eigen2extra}(X_1^\top X_1+X_2^\top X_2)^{-1}= \Sigma_2^{-1/2}V\left(   \Lambda U^\top Z_1^\top Z_1 U\Lambda  + V^\top Z_2^\top Z_2V\right)^{-1}V^\top\Sigma_2^{-1/2}.\ee
 For our purpose, we introduce a convenient self-adjoint linearization trick, 
 %This idea dates back at least to Girko, see e.g., the works \cite{girko1975random,girko1985spectral} and references therein. 
 which has been proved to be useful in studying the local laws of random matrices of the Gram type \cite{Anisotropic, AEK_Gram, XYY_circular}. We define the following $(p+n)\times (p+n)$ self-adjoint block matrix, which is a linear function of $Z_1$ and $Z_2$:
 %\begin{definition}[Linearizing block matrix]\label{def_linearHG}%definiton of the Green function
 %We define the $(n+N)\times (n+N)$ block matrix
  \begin{equation}\label{linearize_block}
-   H \equiv H(Z_1,Z_2): = \left( {\begin{array}{*{20}c}
+   H \equiv H(Z_1,Z_2): = n^{-1/2}\left( {\begin{array}{*{20}c}
    { 0 } & \Lambda U^{\top}Z_1^\top & V^\top Z_2^\top  \\
    {Z_1 U\Lambda  } & {0} & 0 \\
    {Z_2V} & 0 & 0
    \end{array}} \right).
  \end{equation}
+For simplicity of notations, we define the index sets
+$$\cal I_0:=\llbracket 1,p\rrbracket, \quad  \cal I_1:=\llbracket p+1,p+n_1\rrbracket, \quad \cal I_2:=\llbracket p+n_1+1,p+n_1+n_2\rrbracket ,\quad \cal I:=\cal I_0\cup \cal I_1\cup \cal I_2  .$$
+ We will consistently use the latin letters $i,j\in\sI_{0}$, greek letters $\mu,\nu\in\sI_{1}\cup \sI_{2}$, and $\fa,\fb,\mathfrak c\in \cal I$. Correspondingly, the indices of the matrices $Z_1$ and $Z_2$ are labelled as 
+ $$Z_1= (z_{\mu i}:i\in \mathcal I_0, \mu \in \mathcal I_1), \quad Z_2= (z_{\nu i}:i\in \mathcal I_0, \nu \in \mathcal I_2).$$
 Now we define the resolvents as follows. 
 \begin{definition}[Resolvents]
 We define the resolvent (or Green's function) of $H$ as
@@ -188,9 +196,9 @@ We define the resolvent (or Green's function) of $H$ as
 %$$\lambda_i(H)=0, \ \ n\wedge N + 1 \le i \le n\vee N.$$
 %where we used the notations $n\wedge N:=\min\{N,M\}$ and $n\vee N:=\max\{N,M\}$. 
 %\begin{definition}[Index sets]\label{def_index}
-and the resolvent of $  \Lambda U^\top Z_1^\top Z_1 U\Lambda  + V^\top Z_2^\top Z_2V$ as
+and the resolvent of $  n^{-1}\Lambda U^\top Z_1^\top Z_1 U\Lambda  + n^{-1}V^\top Z_2^\top Z_2V$ as
 \be\label{mainG}
-\cal G(z):=\left(   \Lambda U^\top Z_1^\top Z_1 U\Lambda  + V^\top Z_2^\top Z_2V -z\right)^{-1},\quad z\in \C.
+\cal G(z):=\left( n^{-1}  \Lambda U^\top Z_1^\top Z_1 U\Lambda  + n^{-1}V^\top Z_2^\top Z_2V -z\right)^{-1},\quad z\in \C.
 \ee
 Moreover, we also define the following averaged resolvents, which are the (weighted) partial traces of $G$:
 \be\label{defm}
@@ -201,6 +209,25 @@ m(z) :=\frac1p\sum_{i=1}^p G_{ii}(z) ,\quad & m_0(z):=\frac1p\sum_{i=1}^p \lambd
 \ee
 \end{definition}
 
+Then we define the resolvent minors, which are defined by removing certain rows and columns of the matrix $H$.
+
+\begin{definition}[Resolvent minors]\label{defn_Minor}
+ For any $ (p+n)\times (p+n)$ matrix $\cal A$ and $\fa \in \mathcal I$, we define the minor $\cal A^{(\mathfrak c)}:=(\cal A_{\fa\fb}:\fa,\fb \in \mathcal I\setminus \{\mathfrak a\})$ as the $ (p+n-1)\times (p+n-1)$ matrix obtained by removing the $\mathfrak c$-th row and column in $\cal A$. Note that we keep the names of indices when defining $\cal A^{(\mathfrak c)}$, i.e. $(\cal A^{(\mathfrak c)})_{\fa\fb}= \cal A_{\fa\fb}$ for $\fa,\fb \ne \mathfrak c$. Correspondingly, we define the resolvent minor as %(recall \eqref{green2})
+\begin{align*}
+G^{(\mathfrak c)}:&=\left[\left(H - \left( {\begin{array}{*{20}c}
+   { zI_{p}} & 0  \\
+   0 & { I_{n}}  \\
+\end{array}} \right)\right)^{(\mathfrak c)}\right]^{-1} ,
+%= \left( {\begin{array}{*{20}c}
+%   { \mathcal G^{(\mathbb T)}} & \mathcal G^{(\mathbb T)} W^{(\mathbb T)}  \\
+%   {\left(W^{(\mathbb T)}\right)^\top\mathcal G^{(\mathbb T)}} & { \mathcal G_R^{(\mathbb T)} }  \\
+%\end{array}} \right)  ,
+\end{align*}
+and define the partial traces $m^{(\mathfrak c)}$ and $m^{(\mathfrak c)}_k$, $k=0,1,2,$ by replacing $G$ with $G^{(\mathfrak c)}$ in \eqref{defm}. For convenience, we will adopt the convention that for the resolvent minor $G^{(\mathfrak c)}$ defined as above, $G^{(\mathfrak c)}_{\fa\fb} = 0$ if $\fa =\mathfrak c$ or $\fb =\mathfrak c$.
+\end{definition}
+
+Note that the resolvent minor $G^{(\mathfrak c)}$ is defined such that it is independent of the entries in the $\mathfrak c$-th row and column of $H$. One will see a crucial use of this fact in the heuristic proof below.
+
 Notice that using \eqref{mainG}, we can write  \eqref{eigen2extra} as
 \be\label{rewrite X as R} (X_1^\top X_1+X_2^\top X_2)^{-1}=n^{-1}\Sigma_2^{-1/2}V\cal G(0)V^\top\Sigma_2^{-1/2}.\ee
 In the above definition, we have taken the argument of $\cal G$ to be a general complex number, because we will need to use $\cal G'(0)$ in the proof of Lemma \ref{lem_cov_derivative}, which requires a good estimate of $\cal G(z)$ for $z$ around the origin. Moreover, by Schur complement formula, we can obtain that
@@ -210,7 +237,7 @@ In the above definition, we have taken the argument of $\cal G$ to be a general 
    W^\top \cal G(z) & z \cal G_R
 \end{array}} \right)^{-1},\quad \cal G_R:=(W^\top W - z)^{-1} ,
  \end{equation}
- where we abbreviated $W:=(\Lambda U^\top Z_1^\top, V^\top Z_2^\top)$, and
+ where we abbreviated $W:=n^{-1/2}(\Lambda U^\top Z_1^\top, V^\top Z_2^\top)$, and
 %one can find that %(recall \eqref{mainG})
 %\be \label{green2}
 %\begin{split}
@@ -320,6 +347,30 @@ We then define the matrix limit of $G(z)$ as
 \be \label{defn_piw}
 \Pi(z) := \begin{pmatrix} -(z+r_1 m_{1c}(z)\Lambda^2  +  r_2 m_{2c}(z))^{-1} & 0 & 0 \\ 0 &  m_{1c}(z)\id_{n_1} & 0 \\ 0 & 0 & m_{2c}(z)\id_{n_2}  \end{pmatrix}.\ee
 In particular, the matrix limit of $\cal G(z)$ is given by $-(z+r_1 m_{1c}\Lambda^2 + r_2 m_{2c})^{-1}$. 
+
+\vspace{5pt}
+\noindent{\bf Proof overview:} Now we give a heuristic derivation of the matrix limit when the entries of $Z_1$ and $Z_2$ are i.i.d. Gaussian. Note that in this case, 
+%However, notice that if the entries of $Z_1\equiv Z_1^{\text{Gauss}}$ and $Z_2\equiv Z_2^{\text{Gauss}}$ are i.i.d. Gaussian, then 
+by the rotational invariance of the multivariate Gaussian distribution we have
+\be\label{eq in Gauss} Z_1 U\Lambda \stackrel{d}{=} Z_1 \Lambda, \quad Z_2^{\text{Gauss}} V \stackrel{d}{=} Z_2^{\text{Gauss}} ,\ee
+where ``$\stackrel{d}{=}$" means ``equal in distribution". Hence it suffices to consider the following resolvent  
+ \begin{equation} \nonumber
+   G(z)= \left( {\begin{array}{*{20}c}
+   { -z\id_{p} } & n^{-1/2}\Lambda Z_1^\top & n^{-1/2} Z_2^\top  \\
+   {n^{-1/2} Z_1 \Lambda  } & {-\id_{n_1}} & 0 \\
+   {n^{-1/2} Z_2} & 0 & {-\id_{n_2}}
+   \end{array}} \right)^{-1}.
+ \end{equation}
+
+By (\ref{resolvent2}), (\ref{Zi}) and (\ref{Zmu}), we obtain that for $i \in \cal I_0$, $\mu \in \cal I_1$ and $\nu\in \cal I_2$,
+\begin{align}
+\frac{1}{{G_{ii} }}&=  - z - \frac{\lambda_i^2}{n} \sum_{\mu\in \mathcal I_1} G^{\left( i \right)}_{\mu\mu}- \frac{1}{n} \sum_{\mu\in \mathcal I_2} G^{\left( i \right)}_{\mu\mu} + Z_i =  - z - \lambda_i^2 r_1m_1 - r_2m_2 + \epsilon_i,  \label{0self_Gii}\\
+\frac{1}{{G_{\mu\mu} }}&=  - 1 - \frac{1}{n} \sum_{i\in \mathcal I_0}\lambda_i^2 G^{\left(\mu\right)}_{ii}+ Z_{\mu} =  - 1  - \gamma_n m_0 + \epsilon_\mu,  \label{0self_Gmu1}\\
+\frac{1}{{G_{\nu\nu} }}&=  - 1 - \frac{1}{n} \sum_{i\in \mathcal I_0} G^{\left(\nu\right)}_{ii}+ Z_{\nu} =   - 1 - \gamma_n m + \epsilon_\nu,  \label{0self_Gmu2}
+\end{align}
+where we recall Definition \ref{defnMinor}
+
+\vspace{5pt}
 
 If $z=0$, then the equations in \eqref{selfomega} in are reduced to 
 \begin{equation}\label{selfomega0}
@@ -1322,11 +1373,8 @@ We will prove the above statement using a continuous comparison argument develop
 %The proof is similar to the ones in Sections 7 and 8 of \cite{Anisotropic}, so we only describe briefly the basic ideas, without writing down all the details. 
 %We divide the proof into three subsections. In Sections \ref{subsec_interp}-\ref{section_words}, we prove Lemma \ref{lemm_comp_0} under the condition 
 
-For simplicity of notations, we define the index sets
-$$\cal I_0:=\llbracket 1,p\rrbracket, \quad  \cal I_1:=\llbracket p+1,p+n_1\rrbracket, \quad \cal I_2:=\llbracket p+n_1+1,p+n_1+n_2\rrbracket ,\quad \cal I:=\cal I_0\cup \cal I_1\cup \cal I_2  .$$
- We will consistently use the latin letters $i,j\in\sI_{0}$, greek letters $\mu,\nu\in\sI_{1}\cup \sI_{2}$, and $\fa,\fb\in \cal I$. Correspondingly, the indices of the matrices $Z_1$ and $Z_2$ are labelled as 
- $$Z_1= (z_{\mu i}:i\in \mathcal I_0, \mu \in \mathcal I_1), \quad Z_2= (z_{\nu i}:i\in \mathcal I_0, \nu \in \mathcal I_2).$$
-Then we define the following continuous sequence of interpolating matrices between $Z^{\text{Gauss}}$ and $Z$. 
+
+We define the following continuous sequence of interpolating matrices between $Z^{\text{Gauss}}$ and $Z$. 
 
 %\begin{subsection}{Interpolation and expansion} \label{subsec_interp}
 %The self-consistent comparison is performed with the following interpolation.
