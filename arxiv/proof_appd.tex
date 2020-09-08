@@ -177,7 +177,8 @@ which has been proved to be useful in studying the local laws of random matrices
 For simplicity of notations, we define the index sets
 $$\cal I_0:=\llbracket 1,p\rrbracket, \quad  \cal I_1:=\llbracket p+1,p+n_1\rrbracket, \quad \cal I_2:=\llbracket p+n_1+1,p+n_1+n_2\rrbracket ,\quad \cal I:=\cal I_0\cup \cal I_1\cup \cal I_2  .$$
  We will consistently use the latin letters $i,j\in\sI_{0}$, greek letters $\mu,\nu\in\sI_{1}\cup \sI_{2}$, and $\fa,\fb,\mathfrak c\in \cal I$. Correspondingly, the indices of the matrices $Z_1$ and $Z_2$ are labelled as 
- $$Z_1= (z_{\mu i}:i\in \mathcal I_0, \mu \in \mathcal I_1), \quad Z_2= (z_{\nu i}:i\in \mathcal I_0, \nu \in \mathcal I_2).$$
+ \be\label{labelZ}
+ Z_1= (z_{\mu i}:i\in \mathcal I_0, \mu \in \mathcal I_1), \quad Z_2= (z_{\nu i}:i\in \mathcal I_0, \nu \in \mathcal I_2).\ee
 Now we define the resolvents as follows. 
 \begin{definition}[Resolvents]
 We define the resolvent (or Green's function) of $H$ as
@@ -352,7 +353,7 @@ In particular, the matrix limit of $\cal G(z)$ is given by $-(z+r_1 m_{1c}\Lambd
 \noindent{\bf Proof overview:} Now we give a heuristic derivation of the matrix limit when the entries of $Z_1$ and $Z_2$ are i.i.d. Gaussian. Note that in this case, 
 %However, notice that if the entries of $Z_1\equiv Z_1^{\text{Gauss}}$ and $Z_2\equiv Z_2^{\text{Gauss}}$ are i.i.d. Gaussian, then 
 by the rotational invariance of the multivariate Gaussian distribution we have
-\be\label{eq in Gauss} Z_1 U\Lambda \stackrel{d}{=} Z_1 \Lambda, \quad Z_2^{\text{Gauss}} V \stackrel{d}{=} Z_2^{\text{Gauss}} ,\ee
+\be\label{eq in Gauss} Z_1 U\Lambda \stackrel{d}{=} Z_1 \Lambda, \quad Z_2 V \stackrel{d}{=} Z_2,\ee
 where ``$\stackrel{d}{=}$" means ``equal in distribution". Hence it suffices to consider the following resolvent  
  \begin{equation} \nonumber
    G(z)= \left( {\begin{array}{*{20}c}
@@ -361,14 +362,38 @@ where ``$\stackrel{d}{=}$" means ``equal in distribution". Hence it suffices to 
    {n^{-1/2} Z_2} & 0 & {-\id_{n_2}}
    \end{array}} \right)^{-1}.
  \end{equation}
-
-By (\ref{resolvent2}), (\ref{Zi}) and (\ref{Zmu}), we obtain that for $i \in \cal I_0$, $\mu \in \cal I_1$ and $\nu\in \cal I_2$,
+Using Schur complement formula (see (\ref{resolvent2})), we have that %for $i \in \cal I_0$, $\mu \in \cal I_1$ and $\nu\in \cal I_2$,
 \begin{align}
-\frac{1}{{G_{ii} }}&=  - z - \frac{\lambda_i^2}{n} \sum_{\mu\in \mathcal I_1} G^{\left( i \right)}_{\mu\mu}- \frac{1}{n} \sum_{\mu\in \mathcal I_2} G^{\left( i \right)}_{\mu\mu} + Z_i =  - z - \lambda_i^2 r_1m_1 - r_2m_2 + \epsilon_i,  \label{0self_Gii}\\
-\frac{1}{{G_{\mu\mu} }}&=  - 1 - \frac{1}{n} \sum_{i\in \mathcal I_0}\lambda_i^2 G^{\left(\mu\right)}_{ii}+ Z_{\mu} =  - 1  - \gamma_n m_0 + \epsilon_\mu,  \label{0self_Gmu1}\\
-\frac{1}{{G_{\nu\nu} }}&=  - 1 - \frac{1}{n} \sum_{i\in \mathcal I_0} G^{\left(\nu\right)}_{ii}+ Z_{\nu} =   - 1 - \gamma_n m + \epsilon_\nu,  \label{0self_Gmu2}
+\frac{1}{{G_{ii} }}&=  - z - \frac{\lambda_i^2}{n} \sum_{\mu,\nu\in \mathcal I_1} z_{\mu i}z_{\nu i}G^{\left( i \right)}_{\mu\nu} - \frac{1}{n} \sum_{\mu,\nu\in \mathcal I_2} z_{\mu i}z_{\nu i}G^{\left( i \right)}_{\mu\nu} -2 \frac{\lambda_i}{n} \sum_{\mu\in \cal I_1,\nu\in \mathcal I_2} z_{\mu i}z_{\nu i}G^{\left( i \right)}_{\mu\nu},  \ \ \text{for }\  i \in \cal I_0 , \label{0self_Gii}\\
+\frac{1}{{G_{\mu\mu} }}&=  - 1 - \frac{1}{n} \sum_{i,j\in \mathcal I_0}\lambda_i \lambda_j z_{\mu i}z_{\mu j} G^{\left(\mu\right)}_{ij}, \quad \frac{1}{{G_{\nu\nu} }}=  - 1 - \frac{1}{n} \sum_{i,j\in \mathcal I_0}  z_{\nu i}z_{\nu j}  G^{\left(\nu\right)}_{ij},  \ \ \text{for }\  \mu \in \cal I_1, \ \nu\in \cal I_2, \label{0self_Gmu1} 
 \end{align}
-where we recall Definition \ref{defnMinor}
+where we recall the notations in \eqref{labelZ}. For the right-hand side of \eqref{0self_Gii}, $G^{(i)}$ is independent of the entries $z_{\mu i}$ and $z_{\nu i}$. Hence by the concentration inequalities in Lemma \ref{largedeviation}, we have that the  right-hand side of \eqref{0self_Gii} concentrates around the partial expectation over the entries $\{z_{\mu i}: \mu \in \cal I_1\cup \cal I_2\}$, i.e., with high probability,
+\begin{align*}
+\frac{1}{{G_{ii} }}&=  - z - \frac{\lambda_i^2}{n} \sum_{\mu \in \mathcal I_1}  G^{\left( i \right)}_{\mu\mu} - \frac{1}{n} \sum_{\mu\in \mathcal I_2} G^{\left( i \right)}_{\mu\mu} +\oo(1)= - z - \lambda_i^2 r_1 m_1^{(i)}(z)-  r_2m_2^{(i)}(z)+\oo(1),  
+\end{align*}
+where we used the definition of $m_1^{(i)}$ and $m_2^{(i)}$ in \eqref{defm} with $G$ replaced by $G^{(i)}$. Intuitively, since we have only removed only one column and one row out of the $(p+n)$ columns and rows in $H$, $m_1^{(i)}$ and $m_2^{(i)}$ should be close to the original $m_1$ and $m_2$. Hence we obtain from the above equation that
+\begin{align}\label{1self_Gii}
+ G_{ii}  = -\frac{1}{ z +\lambda_i^2 r_1  m_1(z) + r_2 m_2(z)+\oo(1)}.
+\end{align}
+Similarly, we can obtain from \eqref{0self_Gmu1} that for $\mu \in \cal I_1$ and $\nu\in \cal I_2$,
+\be\label{1self_Gmu} G_{\mu \mu }=-\frac{1}{1+\gamma_n m_0 + \oo(1)},\quad G_{\nu\nu}=-\frac1{1+\gamma_n m+\oo(1)},\ee
+with high probability. Taking average we obtain that 
+\be\label{2self_Gmu} m_1= \frac{1}{n_1}\sum_{\mu \in \cal I_1}G_{\mu\mu}=-\frac{1}{1+\gamma_n m_0 + \oo(1)},\quad m_2=\frac{1}{n_2}\sum_{\nu \in \cal I_2}G_{\nu\nu}=-\frac{1}{1+\gamma_n m + \oo(1)},
+\ee
+with high probability. Together with the definition of $m$ and $m_0$ in \eqref{defm}, the two equations in \eqref{2self_Gmu} give that 
+\be\label{3self_Gmu}  \frac1{m_1}= -1- \frac{\gamma_n}{p} \sum_{i=1}^p \lambda_i^2 G_{ii}+ \oo(1),\quad \frac1{m_2}=-1-\frac{\gamma_n}{p} \sum_{i=1}^p G_{ii}  + \oo(1),\ee
+with high probability. Plugging \eqref{1self_Gii} into \eqref{3self_Gmu}, we obtain that
+\begin{align*}
+& \frac1{m_1}= -1+ \frac{\gamma_n}{p} \sum_{i=1}^p \frac{\lambda_i^2 }{ z +\lambda_i^2 r_1  m_1(z) + r_2 m_2(z)+\oo(1)}+ \oo(1),\\ 
+& \frac1{m_2}=-1+\frac{\gamma_n}{p} \sum_{i=1}^p \frac{1}{ z +\lambda_i^2 r_1  m_1(z) + r_2 m_2(z)+\oo(1)}  + \oo(1),
+\end{align*}
+with high probability, which give the approximate self-consistent equations for $(m_1,m_2)$. Compare them to the deterministic self-consistent equations in \eqref{selfomega}, one can observe that we should have $(m_1,m_2) =(m_{1c}, m_{2c})+\oo(1)$ with high probability. Inserting this approximate identity into \eqref{1self_Gii}-\eqref{2self_Gmu}, we see that for  $i \in \cal I_0$, $\mu \in \cal I_1$ and $\nu\in \cal I_2$,
+$$G_{ii}=-(z +\lambda_i^2 r_1  m_{1c} + r_2 m_{2c}+\oo(1))^{1/2},\quad G_{\mu\mu}=m_{1c}+\oo(1),\quad G_{\nu\nu}=m_{2c}+\oo(1),$$
+with high probability. These explain the diagonal entries of $\Pi$ in \eqref{defn_piw}. For the off-diagonal entries, they are close to zero due to concentration. For example, for $i\ne j\in \cal I_1$, by Schur complement formula (see (\ref{resolvent3})), we have
+$$G_{ij}=-G_{ii}\left(\frac{\lambda_i}{n^{1/2}}\sum_{\mu \in \cal I_1} z_{\mu i} G^{(i)}_{\mu j} + \frac{1}{n^{1/2}}\sum_{\mu \in \cal I_2} z_{\mu i} G^{(i)}_{\mu j} \right).$$
+Using Lemma \ref{largedeviation}, we can show that $n^{-1/2}\sum_{\mu \in \cal I_1} z_{\mu i} G^{(i)}_{\mu j}$ and $n^{-1/2}\sum_{\mu \in \cal I_2} z_{\mu i} G^{(i)}_{\mu j}$ are both close to zero. The other off-diagonal entries can be bounded in the same way.
+
+The above arguments are the core of the main proof. To have a rigorous proof, we need to estimate each error carefully, and extend the Gaussian case to the more general case where the entries of $Z_1$ and $Z_2$ only satisfy certain moment assumptions. These will make the real argument rather tedious, but the methods we used are standard in the random matrix literature \cite{erdos2017dynamical,Anisotropic}.
 
 \vspace{5pt}
 
@@ -2202,7 +2227,7 @@ The proof is divided into three steps. For simplicity, we will denote $G\equiv G
 \begin{equation*}
   Z_{\fa} :=(1-\mathbb E_{\fa})\big(G_{\fa\fa}\big)^{-1}, \quad \fa\notin \mathbb T,
 \end{equation*}
-where $\mathbb E_{\fa}[\cdot]:=\mathbb E[\cdot\mid H^{(\fa)}],$ i.e. it is the partial expectation over the randomness of the $\fa$-th row and column of $H$. Using (\ref{resolvent2}), we get that for $i \in \cal I_0$, $\mu\in \cal I_1$ and $\nu\in \cal I_2$,
+where $\mathbb E_{\fa}[\cdot]:=\mathbb E[\cdot\mid H^{(\fa)}],$ i.e. it is the partial expectation over the randomness of the $\fa$-th row and column of $H$. Using (\ref{resolvent2}), we get that for $i \in \cal I_0$, $\mu\in \cal I_1$ and $\nu\in \cal I_2$, {\cor revise: $Z_i$ has a cross term}
 \begin{align}
 &Z_i =  \lambda_i^2 \sum_{\mu ,\nu\in \mathcal I_1}  G^{(i)}_{\mu\nu} \left(\frac{1}{n}\delta_{\mu\nu} - z_{\mu i}z_{\nu i}\right)+ \sum_{\mu ,\nu\in \mathcal I_2}  G^{(i)}_{\mu\nu} \left(\frac{1}{n}\delta_{\mu\nu} - z_{\mu i}z_{\nu i}\right),  \label{Zi}\\
 & Z_\mu= \sum_{i,j \in \mathcal I_0}  {\lambda_i \lambda_j}G^{(\mu)}_{ij} \left(\frac{1}{n} \delta_{ij} - z_{\mu i}z_{\mu j}\right), \quad Z_\nu = \sum_{i,j \in \mathcal I_0} G^{(\nu)}_{ij} \left(\frac{1}{n} \delta_{ij} - z_{\nu i}z_{\nu j}\right).\label{Zmu} 
