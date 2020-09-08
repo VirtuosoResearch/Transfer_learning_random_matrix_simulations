@@ -4,7 +4,8 @@
 
 The main goal of this section is to prove Lemma \ref{lem_cov_shift} and Lemma \ref{lem_cov_derivative}.
 %In this section, we will work under the assumptions of Lemma \ref{lem_cov_shift}. However, 
-In random matrix theory, it is much more convenient to rescale the matrices $Z_1$ and $Z_2$ such that their entries have variance $n^{-1}$, where $n:=n_1+n_2$. The advantage of this scaling is that the singular eigenvalues of $n^{-1/2}Z_1$ and $n^{-1/2}Z_2$ all lie in a bounded support that does not grow with $n$. For reader's convenience, we now restate the problem setting and introduce a couple of other notations. 
+In random matrix theory, it is much more convenient to rescale the matrices $Z_1$ and $Z_2$ such that their entries have variance $n^{-1}$, where $n:=n_1+n_2$. \HZ{I don't think is the point; I think you want to say that the sample covariance of both tasks $(Z_1^{\top}Z_1 + Z_2^{\top}Z_2)/n$ is what matters} The advantage of this scaling is that the singular eigenvalues of $n^{-1/2}Z_1$ and $n^{-1/2}Z_2$ all lie in a bounded support that does not grow with $n$. For reader's convenience, we now restate the problem setting and introduce a couple of other notations.
+\HZ{Remove A.1 and A.2 below, which are already in Sec 2.}
 
 %\textbf{Basic setting.}
 %We denote the two sample covariance matrices by $\mathcal Q_1:=X_1^\top X_1$ and $\cal Q_2:= X_2^\top X_2$. 
@@ -12,6 +13,7 @@ We assume that $Z_1$ and $Z_2$ are $n_1\times p$ and $n_2\times p$ random matric
 \begin{equation}\label{assm1}
 \mathbb{E} (Z_1)_{11} =\mathbb{E} (Z_2)_{11} =0, \ \quad \ \mathbb{E} \vert (Z_1)_{11} \vert^2=\mathbb{E} \vert (Z_2)_{11} \vert^2  =1. 
 \end{equation}
+\HZ{What is the subscript $11$ above?}
 %where we denote $n:=n_1+n_2$. Here we have chosen the scaling that is more standard in the random matrix theory literature---under this $n^{-1/2}$ scaling, the eigenvalues of $\cal Q_1$ and $\cal Q_2$ are all of order 1. 
 Moreover, we assume that the fourth moments exist:
 \be \label{conditionA2}
@@ -19,11 +21,14 @@ Moreover, we assume that the fourth moments exist:
 \ee
 for some constant $C>0$. 
 %In this paper, we regard $N$ as the fundamental (large) parameter and $n \equiv n(N)$ as depending on $N$. 
-We assume that $\rho_1= n_1/p$ and $\rho_2=n_2/p$ satisfy that 
+We assume that $\rho_1= n_1/p$ and $\rho_2=n_2/p$ satisfy that
+\HZ{We have defined $\rho_1,\rho_2$ already in sec 2. Consider using ``Recall that $\rho_1 =, \rho_2 =$.''}
 \be\label{assm2}
 0\le \rho_1 \le \tau^{-1}, \quad 1+\tau \le \rho_{2} \le \tau^{-1},
 \ee
+\HZ{Remove $k$ above.}
 for a small constant $0<\tau<1$. Here the lower bound $\rho_2\ge 1+\tau$ is to ensure that the sample covariance matrix $X_2^\top X_2$ is non-singular with high probability; see Lemma \ref{SxxSyy} below. Moreover, we have allowed that $\rho_1=0$, because we want to state a general result that also covers the special case with no source task. We assume that $\Sig_1$ and $\Sig_2$ have eigendecompositions
+\HZ{Using $O_1, O_2$ in eigendecomposition seems non-standard; suggestion: change to $Q_1, Q_2$.}
 \be\label{eigen}\Sig_1= O_1\Lambda_1 O_1^\top, \ \ \Sig_2= O_2\Lambda_2 O_2^\top,\ \ \Lambda_1=\text{diag}(\lambda_1^{(1)}, \ldots, \lambda^{(1)}_p), \ \ \Lambda_2=\text{diag}( \lambda^{(2)}_1, \ldots, \lambda^{(2)}_p),
 \ee
 where the eigenvalues satisfy that
@@ -45,7 +50,7 @@ We summarize our basic assumptions here for future reference. Note that this ass
 We assume that $Z_1$ and $Z_2$ are independent $n_1\times p$ and $n_2\times p$ random matrices with real $i.i.d.$ entries satisfying \eqref{assm1} and \eqref{conditionA2}, $\Sigma_1$ and $\Sigma_2$ are deterministic non-negative definite symmetric matrices satisfying \eqref{eigen}-\eqref{assm32}, and $\rho_{1}$ and $\rho_2$ satisfy \eqref{assm2}.
  %and (\ref{assm2}). We assume that $T$ is an $M\times M$ deterministic diagonal matrix satisfying (\ref{simple_assumption}) and (\ref{assm3}).  
 \end{assumption}
-
+\HZ{This is restating what's stated above again. Remove redundant statements (unless there's something critical missing in Sec 2).}
 
 %\subsection{Notations and basic tools}
 
@@ -89,7 +94,8 @@ for large enough $n\ge n_0(\epsilon, D)$. Moreover, if $\xi$ and $\zeta$ depend 
 \[\sup_{u\in \cal U}\bbP\left(|\xi(u)|>n^\epsilon |\zeta(u)|\right)\le n^{-D}\]
 for large enough $n\ge n_0(\epsilon, D)$.
 
-%\item[(ii)] 
+%\item[(ii)]
+\HZ{Why is this below part of the def. of stochastic domination?}
 We say an event $\Xi$ holds with high probability if $1\prec \mathbf 1_{\Xi}$, that is, for any constant $D>0$, $\mathbb P(\Xi)\ge 1- n^{-D}$ for large enough $n$. Moreover, we say $\Xi$ holds with high probability in an event $\Omega$ if $\mathbf 1_{\Omega}\prec \mathbf 1_{\Xi}$. %for any constant $D>0$, $\mathbb P(\Omega\setminus \Xi)\le n^{-D}$ for large enough $n$.
 %\end{itemize}
 %(i) Let 
@@ -107,7 +113,7 @@ We say an event $\Xi$ holds with high probability if $1\prec \mathbf 1_{\Xi}$, t
 \end{definition}
 
 Then we introduce the following bounded support condition.
-
+\HZ{I would merge this def below to the earlier eqs. This seems to be a standard and simple assumption.}
 \begin{definition}\label{defn_support}
 We say a random matrix $M$ satisfies the {\it{bounded support condition}} with $q$, if
 \begin{equation}
@@ -144,6 +150,7 @@ and
 where $\lambda_i(Z_k^\top Z_k)$, $k=1,2$ and $i=1,\cdots,p$, is the $i$-th largest eigenvalue of $Z_k^\top Z_k$.
 \end{lemma}
 \begin{proof}
+\HZ{This proof does not parse.}
 This lemma essentially follows from \cite[Theorem 2.10]{isotropic}, although the authors considered the case with $q = n^{-1/2}$ only. The results for the general case with $ n^{-{1}/{2}} \leq q \leq n^{- \phi} $ follows from \cite[Lemma 3.12]{DY}. 
 %, but only the bounds for largest eigenvalues are given there in order to avoid the issue with the smallest eigenvalue when $d_{2}$ is close to 1. However, under the assumption \eqref{assm2}, the lower bound for the smallest eigenvalue follows from the same arguments as in \cite{DY}. Hence we omit the details. 
 \end{proof}
