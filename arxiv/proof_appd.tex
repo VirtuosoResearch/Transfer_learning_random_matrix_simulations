@@ -1,4 +1,243 @@
-\section{Proof of Bias and Variance Asymptotics} \label{sec_maintools}
+\section{Missing Proof of the Two-task Case} \label{sec_maintools}
+
+
+
+\subsection{The Two-task Case}\label{app_proof_main_thm}
+
+\todo{merge}
+In this subsection, we provide the proof of Theorem \ref{thm_main_informal} using Lemma  \ref{lem_cov_shift} and \ref{lem_cov_derivative}.
+First, we provide the steps for the bias-variance decomposition.
+Using the local optimality condition of $B$, we obtain that
+\begin{align*}
+	 \hat{B}(W_1, W_2) &= (W_1^2 X_1^{\top}X_1 + W_2^2 X_2^{\top}X_2)^{-1} (W_1 X_1^{\top}Y_1 + W_2 X_2^{\top}Y_2)\\
+	&= \frac{1}{W_2} \left( \frac{W_1^2}{W_2^2}  X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1} \left(\frac{W_1}{W_2} X_1^{\top}Y_1 + X_2^{\top}Y_2\right) \\
+	&= \frac{1}{W_2}\left[\beta_2 + \left(\frac{W_1^2}{W_2^2} X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1}\bigbrace{X_1^{\top}X_1\left(\frac{W_1}{W_2}\beta_1 - \frac{W_1^2}{W_2^2} \beta_2\right) + \left(\frac{W_1}{W_2} X_1^{\top}\varepsilon_1 + X_2^{\top}\varepsilon_2\right)}\right].
+\end{align*}
+Recall that $\hat{\beta}_2^{\MTL} = \hat{B}(W_1, W_2) W_2$, and one can verify that equation \eqref{eq_bias_2task} and \eqref{eq_var_2task} hold.
+
+During the proof we shall also give explicit expressions for $\Delta_{\bias}$ and $\Delta_{\vari}$, which might be of interest to some readers.
+With $a_i$, $i=1,2,3,4$, given in Lemma \ref{lem_cov_shift} and Lemma \ref{lem_cov_derivative},
+we define the following matrix
+\be\label{defnpihat}\Pi \equiv \Pi(\hat v)= \frac{\rho_1^2}{(\rho_1 + \rho_2)^2}\cdot \hat v^2{M} \frac{(1 +   a_3)\id + \hat v^2 a_4 {M}^{\top} {M}}{( \hat v^2 a_1 {M}^{\top} {M}+ a_2 )^2} {M}^{\top}.\ee
+%which is defined in a way such that {\it in certain sense} it is the asymptotic limit of the random matrix
+%$$\hat v\Sigma_1^{1/2} (\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} \Sigma_2 (\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_1^{1/2}.$$
+Moreover, we introduce two factors that will appear often in our statements and discussions:
+$$\al_-(\rho_1):=\left(1- \rho_1^{-1/2}\right)^2,\quad \al_+(\rho_1):=\left(1 + \rho_1^{-1/2}\right)^2.$$
+In fact, $\al_-(\rho_1)$ and $\al_+(\rho_1)$ correspond to the largest and smallest singular values of $Z_1/\sqrt{n_1}$, respectively, as given by the famous Mar{\v c}enko-Pastur law \cite{MP}. In particular, as $\rho_1$ increases, both $\al_-$ and $\al_+$ will converge to 1 and $Z_1/\sqrt{n_1}$ will be more close to an isometry. Finally, we introduce the error term
+\be\label{eq_deltaextra}
+ \delta(\hat v):=\frac{\al_+^2(\rho_1) - 1 }{\al_-^{2}(\rho_1)\hat v^2\lambda_{\min}^2(M)} \cdot  \norm{\Sigma_1^{1/2}(\beta_1 - \hat{v}\beta_2)}^2.\ee
+%where $\lambda_{\min}(\hat M)$ is the smallest singular value of $\hat M$.
+Note that this factor converges to 0 as $\rho_1$ increases. It is not hard to see that Theorem \ref{thm_main_informal} is an immediate consequence of the following lemma.
+
+%$$\delta:=\left[\frac{n_1 \lambda_1}{(\sqrt{n_1}-\sqrt{p})^2\lambda_p  +  (\sqrt{n_2}-\sqrt{p})^2}\right]^2\cdot \norm{\Sigma_1^{1/2}(\beta_1 - \hat{w}\beta_2)}^2.$$
+%{\cor may be able to get a better bound, but the statement will be long}
+
+
+
+
+
+\begin{lemma}%[Theorem \ref{thm_main_informal} restated]
+\label{thm_model_shift}
+%For $i=1,2$, let $Y_i = X_i\beta_i + \varepsilon_i$ be two independent data models, where $X_i$, $\beta_i$ and $\varepsilon_i$ are also independent of each other. Suppose that $X_i=Z_i\Sigma_i^{1/2}\in \R^{n_i\times p}$ satisfy Assumption \ref{assm_secA1} with $\rho_i:=n_i/p>1$ being fixed constants, and $\e_i\in \R^{n_i}$ are random vectors with i.i.d. entries with mean zero, variance $\sigma^2$ and all moments as in \eqref{assmAhigh}.
+Consider two data models $Y_i = X_i\beta_i + \varepsilon_i$, $i=1,2$, that satisfy Assumption \ref{assm_secA2} with $\sigma_1^2=\sigma_2^2=\sigma^2$. Then with high probability, we have
+	\begin{align}
+	 	\te(\hat{\beta}_{t}^{\MTL}) \le \te(\hat{\beta}_t^{\STL}) \quad \text{ when: } \ \ &\Delta_{\vari} - \Delta_{\bias} \ge   \delta(\hat v), \label{upper}\\
+		\te(\hat{\beta}_t^{\MTL}) \ge \te(\hat{\beta}_t^{\STL}) \quad \text{ when: } \ \ &\Delta_{\vari} - \Delta_{\bias} \le - \delta(\hat v), \label{lower}
+	\end{align}
+	where
+	\begin{align} %\bigtr{{\Sigma_2^{-1}}}
+		\Delta_{\vari} &\define {\sigma^2}\bigbrace{\frac{1}{\rho_2 - 1} -  \frac{1}{\rho_1 + \rho_2}\cdot \frac1p \bigtr{( \hat v^2 a_1 M^{\top}M +  a_2\id)^{-1}} } \label{Deltavarv} \\
+		\Delta_{\bias} &\define (\beta_1 - \hat{v}\beta_2)^{\top} \Sigma_1^{1/2} \Pi (\hat v)\Sigma_1^{1/2} (\beta_1 - \hat{v}\beta_2). \label{Deltabetav}
+	\end{align}
+\end{lemma}
+
+The proof of Lemma \ref{thm_model_shift} is based on Lemma \ref{lem_cov_shift}, Lemma \ref{lem_cov_derivative}, and the following bound on the singular values of $Z_1$: for any constant $\e>0$, we have
+\begin{align}
+\al_-(\rho_1) - \OO(p^{-1/2+e})  \preceq {n_1^{-1}}{Z_1^T Z_1}  \preceq   \al_+(\rho_1) + \OO(p^{-1/2+e}) \quad \text{w.h.p.}  \label{eq_isometric}
+\end{align}
+%with high probability.
+In fact, $n_1^{-1}Z_1^TZ_1$ is a standard sample covariance matrix, and it is well-known that its eigenvalues are all inside the support of the Marchenko-Pastur law $[\al_-(\rho_1)-\oo(1) ,\al_+(\rho_1)+\oo(1)]$ with probability $1-\oo(1)$ \cite{No_outside}. The estimate \eqref{eq_isometric} provides tight bounds on the concentration errors, and it will be formally proved in Lemma \ref{SxxSyy} below.
+
+%\begin{remark}
+The main error $\delta$ in Lemma \ref{thm_model_shift} comes from approximating $n_1^{-1}Z_1^TZ_1$ by $\id$ using \eqref{eq_isometric}; see the estimate \eqref{bounddelta-} below. In order to improve this estimate and obtain an exact asymptotic result, one needs to study the singular value distribution of the following random matrix:
+$$(X_1^{\top}X_1)^{-1}X_2^{\top}X_2 +  \hat{v}^2 .$$
+In fact, the eigenvalues of $\cal X:=(X_1^{\top}X_1)^{-1}X_2^{\top}X_2$ have been studied in the name of Fisher matrices; see e.g. \cite{Fmatrix}. However, since $\cal X$ is non-symmetric, it is known that the singular values of $\cal X$ are different from its eigenvalues. To the best of our knowledge, the asymptotic singular value behavior of $\cal X$ is still unknown in random matrix literature, and the study of the singular values of $\cal X +\hat v^2$ will be even harder. We leave this problem to future study.
+%\end{remark}
+
+
+
+
+
+\begin{proof}[Proof of Lemma \ref{thm_model_shift}]
+%\noindent
+%To prove Theorem \ref{thm_cov_shift}, we study the spectrum of the random matrix model:
+%$$Q= \Sigma_1^{1/2}  Z_1^{\top} Z_1 \Sigma_1^{1/2}  + \Sigma_2^{1/2}  Z_2^{\top} Z_2 \Sigma_2^{1/2} ,$$
+%where $\Sigma_{1,2}$ are $p\times p$ deterministic covariance matrices, and $X_1=(x_{ij})_{1\le i \le n_1, 1\le j \le p}$ and $X_2=(x_{ij})_{n_1+1\le i \le n_1+n_2, 1\le j \le p}$ are $n_1\times p$ and $n_2 \times p$ random matrices, respectively, where the entries $x_{ij}$, $1 \leq i \leq n_1+n_2\equiv n$, $1 \leq j \leq p$, are real independent random variables satisfying
+%\begin{equation}\label{eq_12moment} %\label{assm1}
+%\mathbb{E} z_{ij} =0, \ \quad \ \mathbb{E} \vert z_{ij} \vert^2  = 1.
+%\end{equation}
+%\todo{A proof outline; including the following key lemma.}
+By \eqref{eq_te_model_shift} and \eqref{eq_te_var}, we can write
+\begin{align*}
+L(\hat{\beta}_t^{\STL}) - L(\hat{\beta}_t^{\MTL})=\delta_{\vari}(\hat v) - \delta_{\bias}(\hat v),
+\end{align*}
+where we denote
+\begin{align*}
+\delta_{\vari}(\hat v)&=\sigma^2 \left(  \bigtr{(X_2^{\top}X_2)^{-1}\Sigma_2} -  \bigtr{( \hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} \Sigma_2}\right),
+\end{align*}
+and
+\begin{align}\label{revise_deltabias}
+ \delta_{\bias}(\hat v)&= \hat{v}^2 \bignorm{\Sigma_2^{1/2}(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} X_1^{\top}X_1 (\beta_1 - \hat{v} \beta_2)}^2.
+\end{align}
+We introduce the notation $\hat M \equiv \hat M(v)= v\Sigma_1^{1/2}\Sigma_2^{-1/2}$ for $v\in \R$. Then the proof is divided into the following four steps.
+\begin{itemize}
+\item[(i)] We first consider $ \hat M(v)$ for a fixed $v\in \R$. Then we use Lemma \ref{lem_minv} and Lemma \ref{lem_cov_shift} to calculate the variance reduction $\delta_{\vari}(v)$, which will lead to the $\Delta_{\vari}$ term.
+%$$\sigma^2 \cdot \bigtr{(X_2^{\top}X_2)^{-1}},\quad \sigma^2 \cdot \bigtr{({v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} \Sigma_2},$$
+%and the difference between them
+
+\item[(ii)] Using the approximate isometry property of $Z_1$ in \eqref{eq_isometric}, we will approximate the bias term $ \delta_{\bias}(v)$ by
+%$${v}^2 \bignorm{\Sigma_2^{1/2}({v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} X_1^{\top}X_1 (\beta_1 - {v} \beta_2)}^2$$
+%through
+\be\label{deltabetapf}
+\wt\delta_{\bias}(v):={v}^2 n_1^2\bignorm{\Sigma_2^{1/2}({v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} \Sigma_1 (\beta_1 - {v} \beta_2)}^2.\ee
+
+\item[(iii)] We use Lemma \ref{lem_cov_derivative} to calculate \eqref{deltabetapf}, which will lead to the $\Delta_{\bias}$ term.
+
+\item[(iv)] Finally we use a standard $\e$-net argument to extend the above results to $\hat M(\hat v)$ for a possibly random $\hat v$ which depends on $Y_1$ and $Y_2$.
+\end{itemize}
+
+
+\paragraph{Step I: Variance reduction.} Consider $\hat M(v)$ for a fixed $v\in \R$. Using Lemma \ref{lem_cov_shift}, we can obtain that for any constant $\e>0$,
+$$  \sigma^2 \cdot \bigtr{(X_2^{\top}X_2)^{-1}\Sigma_2} = \frac{\sigma^2}{\rho_2-1}\left( 1+ \OO(p^{-1/2+e})\right),$$
+and
+$$ \sigma^2 \cdot \bigtr{( {v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} \Sigma_2} =   \frac {\sigma^2} {\rho_1 + \rho_2}\cdot \frac1p \bigtr{( a_1(v) \hat M^{\top}\hat M + a_2(v)\id)^{-1}}\left( 1+ \OO(p^{-1/2+e})\right) ,$$
+with high probability, where $a_1(v)$ and $a_2(v)$ satify \eqref{eq_a12extra} with $\hat v$ replaced by $v$. The subtraction of these two terms gives
+\be\label{deltavaral-} \delta_{\vari}(v)=\Delta_{\vari}(v) +\OO( \sigma^2 p^{-1/2+e}) \quad \text{w.h.p.},
+\ee
+where $\Delta_{\vari}(v)$ is defined as in \eqref{Deltavarv} but with $\hat v$ replaced by $v$.
+
+
+
+\paragraph{Step II: Bounding the bias term.}
+Next we use \eqref{eq_isometric} to approximate $\delta_{\bias}(v)$ with $\wt\delta_{\bias}(v)$. %in \eqref{deltabetapf}.
+%relate the first term in equation \eqref{eq_te_model_shift} to $\Delta_{\bias}$.
+\begin{claim}\label{prop_model_shift}
+	In the setting of Lemma \ref{thm_model_shift},
+	we denote $K(v) := (v^2X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}$, and
+	\begin{align*}
+		%\delta_1 &= v^2 \bignorm{\Sigma_2^{1/2} K X_1^{\top}X_1(\beta_1 - v\beta_2)}^2, \\
+		%\delta_2 &= n_1^2\cdot v^2 \bignorm{\Sigma_2^{1/2}K\Sigma_1(\beta_1 - v\beta_2)}, \\
+		\delta_{err}(v) := n_1^2 v^2 \bignorm{\Sigma_1^{1/2} K(v) \Sigma_2 K(v) \Sigma_1^{1/2}} \cdot \bignorm{\Sigma_1^{1/2} (\beta_1 - v\beta_2)}^2.
+	\end{align*}
+	Then we have w.h.p.
+	\begin{align*}
+		 \left| \delta_{\bias}(v)-\wt\delta_{\bias}(v)\right|
+		\le  \left( \al_+^2(\rho_1)-1 + \OO(p^{-1/2+\e})\right)\delta_{err}(v).
+	\end{align*}
+%	We have that
+%	\begin{align*}
+%		-2n_1^2\bigbrace{{2\sqrt{\frac{p}{n_1}}} + {\frac{p}{n_1}}} \delta_3
+%		\le  \delta_1 - \delta_2
+%		\le n_1^2\bigbrace{2\sqrt{\frac{p}{n_1}} + \frac{p}{n_1}}\bigbrace{2 + 2\sqrt{\frac{p}{n_1}} + \frac{p}{n_1}}\delta_3.
+%	\end{align*}
+%	For the special case when $\Sigma_1 = \id$ and $\beta_1 - \beta_2$ is i.i.d. with mean $0$ and variance $d^2$, we further have
+%	\begin{align*}
+%		\bigbrace{1 - \sqrt{\frac{p}{n_1}}}^4 \Delta_{\bias}
+%		\le \bignorm{\Sigma_2^{1/2} (X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}X_1^{\top}X_1(\beta_1 - \beta_2)}^2.
+%	\end{align*}
+\end{claim}
+
+\begin{proof}
+	%The proof follows by applying equation \eqref{eq_isometric}.
+	%Recall that $X_1^{\top}X_1 = \Sigma_1^{1/2}Z_1^{\top}Z_1\Sigma_1^{1/2}$.
+We can calculate that
+%	Let $\alpha = \bignorm{\Sigma_2^{1/2} K \Sigma_1 (\beta_1 - \hat{w}\beta_2)}^2$.
+	%We have
+	\begin{align}
+%		& \bignorm{\Sigma_2^{1/2}(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}X_1^{\top}X_1(\beta_1 - \hat{w}\beta_2)}^2 \nonumber \\
+		 \delta_{\bias}(v)-\wt\delta_{\bias}(v)&= {2v^2n_1}(\beta_1 - v\beta_2)^{\top}\Sigma_1^{1/2} \cE\left(\Sigma_1^{1/2}K \Sigma_2 K \Sigma_1^{1/2}\right) \Sigma_1^{1/2} (\beta_1 - v\beta_2) \nonumber
+		\\
+		&+ v^2\bignorm{\Sigma_2^{1/2} K \Sigma_1^{1/2}\cE \Sigma_1^{1/2}(\beta_1 - v\beta_2)}^2. \label{eq_lem_model_shift_1}
+%		\le& n_1\bigbrace{{n_1^2}{} + \frac{2n_1}p(p + 2\sqrt{{n_1}p}) + (p + 2\sqrt{{n_1}p})^2} \alpha = n_1^2\bigbrace{1 + \sqrt{\frac{p}{n_1}}}^4 \alpha. \nonumber
+	\end{align}
+	where we denote $\cE: = Z_1^{\top}Z_1 - {n_1}\id$.
+  Using \eqref{eq_isometric}, we can bound
+	$$\|\cal E\|\le \left( \al_+(\rho_1)-1 + \OO(p^{-1/2+\e})\right)n_1, \quad \text{w.h.p.}$$
+	Thus we can estimate that
+	\begin{align*}
+	| \delta_{\bias}(v)-\wt\delta_{\bias}(v)|&\le v^2 \left( 2n_1  \|\cal E\| +  \|\cal E\|^2 \right) \bignorm{\Sigma_1^{1/2} K \Sigma_2 K \Sigma_1^{1/2}} \bignorm{\Sigma_1^{1/2} (\beta_1 - v\beta_2)}^2 \\
+	&=  v^2 \left[\left( n_1 + \|\cal E\|\right)^2 -n_1^2 \right] \bignorm{\Sigma_1^{1/2} K \Sigma_2 K \Sigma_1^{1/2}} \bignorm{\Sigma_1^{1/2} (\beta_1 - v\beta_2)}^2 \\
+	& \le v^2 n_1^2 \left[ \al_+^2(\rho_1) + \OO(p^{-1/2+\e}) -1\right]\bignorm{\Sigma_1^{1/2} K \Sigma_2 K \Sigma_1^{1/2}} \bignorm{\Sigma_1^{1/2} (\beta_1 - v\beta_2)}^2,
+	\end{align*}
+	which concludes the proof by the definition of $\delta_{err}$.
+%	we can bound the second term on the RHS of equation \eqref{eq_lem_model_shift_1} as
+%	\begin{align*}
+%		& \bigabs{(\beta_1 -  \beta_2)^{\top} \Sigma_1^{1/2} \cE \Sigma_1^{1/2} K \Sigma_2 K \Sigma_1 (\beta_1 - v\beta_2)}\le n_1  \|\cal E\| \cdot \bignorm{\Sigma_1^{1/2} K \Sigma_2 K \Sigma_1^{1/2}} \bignorm{\Sigma_1^{1/2} (\beta_1 - v\beta_2)}^2 \\
+%		= & \bigabs{\bigtr{\cE \Sigma_1^{1/2}K\Sigma_2 K \Sigma_1(\beta_1 - \hat{w}\beta_2)(\beta_1 - \hat{w}\beta_2)^{\top} \Sigma_1^{1/2}}} \\
+%		\le & \norm{\cE} \cdot \bignormNuclear{\Sigma_1^{1/2} K \Sigma_2 K \Sigma_1 (\beta_1 - \hat{w}\beta_2) (\beta_1 - \hat{w}\beta_2)^{\top} \Sigma_1^{1/2}} \\
+%		\le & n_1 \bigbrace{2\sqrt{\frac{p}{n_1}} + \frac{p}{n_1}} \cdot \bignormNuclear{\Sigma_1^{1/2} K \Sigma_2 K \Sigma_1 (\beta_1 - \hat{w}\beta_2)(\beta_1 - \hat{w}\beta_2)^{\top} \Sigma_1^{1/2}} \tag{by equation \eqref{eq_isometric}} \\
+%		\le   & n_1 \bigbrace{2\sqrt{\frac{p}{n_1}} + \frac{p}{n_1}} \bignorm{\Sigma_1^{1/2}K \Sigma_2 K \Sigma_1^{1/2}} \cdot \bignorm{\Sigma_1^{1/2}(\beta_1 - \hat{w}\beta_2)}^2 \tag{since the matrix inside is rank 1}
+%	\end{align*}
+%	The third term in equation \eqref{eq_lem_model_shift_1} can be bounded with
+%	\begin{align*}
+%		\bignorm{\Sigma_2^{1/2}K\Sigma_1^{1/2}\cE\Sigma_1^{1/2}(\beta_1 - v\beta_2)}^2
+%		\le n_1^2 \bigbrace{2\sqrt{\frac{p}{n_1}} + \frac{p}{n_1}}^2 \bignorm{\Sigma_1^{1/2}K\Sigma_{2}K\Sigma_1^{1/2}} \cdot \bignorm{\Sigma_1^{1/2}(\beta_1 -  \beta_2)}^2.
+%	\end{align*}
+%	Combined together we have shown the right direction for $\delta_1 - \delta_2$.
+%	For the left direction, we simply note that the third term in equation \eqref{eq_lem_model_shift_1} is positive.
+%	And the second term is bigger than $-2n_1^2(2\sqrt{\frac{p}{n_1}} + \frac{p}{n_1}) \alpha$ using equation \eqref{eq_isometric}.
+\end{proof}
+Note by \eqref{eq_isometric}, we also obtain that with high probability,
+\begin{align*}
+&v^2 n_1^2 \Sigma_1^{1/2} K \Sigma_2 K \Sigma_1^{1/2} =n_1^2 \hat M (\hat M^\top Z_1^\top Z_1 \hat M + Z_2^\top Z_2)^{-2}\hat M^\top \\
+&\preceq  n_1^2 \hat M \left[n_1 \al_-(\rho_1)\hat M^\top \hat M + n_2 \al_-(\rho_2) + \OO(p^{1/2+\e})\right]^{-2}\hat M^\top \\
+&\preceq  \left[ \al_-^2(\rho_1) \hat M\hat M^\top + 2\frac{\rho_2}{\rho_1} \al_-(\rho_1)\al_-(\rho_2) + \left(\frac{\rho_2}{\rho_1}\right)^2 \al_-^2(\rho_2) (\hat M \hat M^\top )^{-1}\right]^{-1}+  \OO(p^{-1/2+\e}) \\
+&\preceq [\al_-^2(\rho_1) \lambda_{\min}^2(\hat M)]^{-1}\cdot (1 - c)
+\end{align*}
+for a small enough constant $c>0$. Together with Claim \ref{prop_model_shift}, we get that with high probability,
+\be\label{bounddelta-}
+\left| \delta_{\bias}(v)-\wt\delta_{\bias}(v)\right|
+		\le (1-c) \delta(v)
+\ee
+for some small constant $c>0$, where recall that $\delta(v)$ was defined in \eqref{eq_deltaextra}.
+
+
+\paragraph{Step III: The limit of $\wt\delta_{\bias}(v)$.}
+Using Lemma \ref{lem_cov_derivative}, we obtain that with high probability,
+\begin{align*}
+\wt\delta_{\bias}(v) &=\frac{\rho_1^2}{(\rho_1 + \rho_2)^2}\cdot v^2 (\beta_1-v\beta_2)^\top\Sigma_1 \Sigma_2^{-1/2}  \frac{(1 +  a_3(v))\id +v^2 a_4(v) {M}^{\top}{M}}{( v^2 a_1(v) {M}^{\top}{M}+a_2(v) )^2} \Sigma_2^{-1/2} \Sigma_1(\beta_1-v\beta_2) +\OO(p^{-1/2+\e}) \\
+&= (\beta_1 - {v}\beta_2)^{\top} \Sigma_1^{1/2} \Pi(v) \Sigma_1^{1/2} (\beta_1 - {v}\beta_2) +\OO(p^{-1/2+\e}) =: \Delta_{\bias}(v) +\OO(p^{-1/2+\e}),
+\end{align*}
+where $a_3(v)$ and $a_4(v)$ satify \eqref{eq_a34extra} with $\hat v$ replaced by $v$, and $\Pi$ was defined in \eqref{defnpihat}. Together \eqref{deltavaral-} and \eqref{bounddelta-}, we obtain that w.h.p.,
+\be\label{dicho_varbeta}
+\begin{cases}\delta_{\vari}(v)>\delta_{\bias}(v), & \text{ if } \ \ \Delta_{\vari}(v) - \Delta_{\bias}(v) \ge   \delta(v),\\
+\delta_{\vari}(v)<\delta_{\bias}(v),  & \text{ if }  \ \ \Delta_{\vari}(v) - \Delta_{\bias}(v) \le -  \delta(v).\end{cases}
+\ee
+
+
+
+\paragraph{Step IV: An $\e$-net argument.} Finally, it remains to extend the above result \eqref{dicho_varbeta} to $v=\hat v$, which is random and depends on $X_1$ and $X_2$. We first show that for any fixed constant $C_0>0$, there exists a high probability event $\Xi$ on which \eqref{dicho_varbeta}
+%\eqref{lem_cov_shift_eq} and \eqref{lem_cov_derv_eq}
+holds uniformly for all $v\in [-C_0, C_0]$. In fact, we first consider $v$ that belongs to a discrete set
+$$V:=\{v_k = kp^{-1}: -(C_0p +1)\le k \le C_0p +1\}.$$
+Then using the arguments for the first three steps and a simple union bound, we get that
+\eqref{dicho_varbeta} holds simultaneously for all $v\in V$ with high probability. On the other hand, by \eqref{eq_isometric} the event
+$$\Xi_1:=\left\{ \al_-(\rho_1)/2 \preceq  \frac{Z_1^T Z_1}{n_1}  \preceq   2\al_+(\rho_1) ,\  \al_-(\rho_2)/2 \preceq  \frac{Z_2^T Z_2}{n_2}  \preceq   2\al_+(\rho_2)\right\}$$
+holds with high probability. Now it is easy to check that on $\Xi_1$, the following estimates holds simultaneously for all $v_k \le v\le v_{k+1}$:
+\begin{align*}
+& |\delta_{\vari}(v) -\delta_{\vari}(v_k)|\lesssim p^{-1}\delta_{\vari}(v_k),\ \ |\delta_{\bias}(v) -\delta_{\bias}(v_k)|\lesssim p^{-1}\delta_{\bias}(v_k), \ \   |\delta(v)-\delta(v_k)|\lesssim p^{-1}\delta(v_k),\\
+& |\Delta_{\bias}(v) -\Delta_{\bias}(v_k)|\lesssim p^{-1}\Delta_{\bias}(v_k),\ \ |\Delta_{\vari}(v) -\Delta_{\vari}(v_k)|\lesssim p^{-1}\Delta_{\vari}(v_k).
+\end{align*}
+Then a simple application of triangle inequality gives that the event
+$$\Xi_2=\{\eqref{dicho_varbeta} \text{ holds simultaneously for all }-C_0\le v \le C_0\}$$
+holds with high probability. On the other hand, on $\Xi_1$ it is easy to check that for any small constant $\e>0$, there exists a large enough constant $C_0>0$ depending on $\e$ such that
+\begin{align*}
+& |\delta_{\vari}(v) -\delta_{\vari}(C_0)|\le \e\delta_{\vari}(C_0),\quad |\delta_{\bias}(v) -\delta_{\bias}(C_0)|\le \e\delta_{\bias}(C_0), \quad  |\delta(v)-\delta(C_0)|\le \e\delta(C_0),\\
+& |\Delta_{\bias}(v) -\Delta_{\bias}(C_0)|\le \e\Delta_{\bias}(C_0),\quad |\Delta_{\vari}(v) -\Delta_{\vari}(C_0)|\le \e\Delta_{\vari}(C_0),
+\end{align*}
+for all $v\ge C_0$. Similar estimates hold for $v\le -C_0$ if we replace $C_0$ with $-C_0$ in the above estimates. Together with the estimate at $\pm C_0$, we get that \eqref{dicho_varbeta} holds simultaneously for all $v\in \R$ on the high probability event $\Xi_1\cap \Xi_2$. This concludes the proof of Lemma \ref{thm_model_shift}, since $\hat v$ must be one of the real values.
+\end{proof}
+
 
 
 

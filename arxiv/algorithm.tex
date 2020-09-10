@@ -1,0 +1,109 @@
+\section{Implication for Mitigating Sample Imbalance and Covariate Shift}
+
+
+\paragraph{Benefits of multi-task learning.}
+We can in fact extend the result to the cases where the noise variances are different.
+In this case, we will see that MTL is particularly effective.
+%As an extension of Proposition \ref{prop_dist_transition}, we observe that MTL is particular powerful when the labeled data of the source task is less noisy compared to the target task.
+Concretely, suppose the noise variance $\sigma_1^2$ of task $1$ differs from the noise variance $\sigma_2^2$ of task $2$.
+If $\sigma_1^2$ is too large, the source task provides a negative transfer to the target.
+If $\sigma_1^2$ is small, the source task is more helpful.
+We leave the result to Proposition \ref{prop_var_transition} in Appendix \ref{app_proof_31}.
+Next we consider the case where the two tasks have different noise variances $\sigma_1^2\ne \sigma_2^2$. In particular, we show Proposition \ref{prop_var_transition}, which gives a transition threshold with respect to the difference between the noise levels of the two tasks.
+
+\begin{proposition}[Label denoising]
+\label{prop_var_transition}
+	In the isotropic model, assume that $\rho_1 > 40$ and $\ex{\norm{\beta_1 - \beta_2}^2}< \frac{1}{2} {\sigma_2^2}  \cdot \Phi(\rho_1, \rho_2)$.
+	Then we have the following transition with respect to $\sigma_1^2$:
+	\begin{itemize}
+		\item If $\sigma_1^2 < - \nu^{1/2} \rho_1 \cdot p d^2+\left(1+ \nu^{-1/2}\rho_1 \Phi(\rho_1, \rho_2)\right)\cdot\sigma_2^2$, then w.h.p. $\te(\hat{\beta}_2^{\MTL}) < \te(\hat{\beta}_2^{\STL})$.
+		\item If $\sigma_1^2 > -\nu^{-1/2}\rho_1\cdot p d^2   +\left(1+ \nu^{1/2}\rho_1\Phi(\rho_1, \rho_2)\right) \cdot \sigma_2^2$, then w.h.p. $\te(\hat{\beta}_2^{\MTL}) > \te(\hat{\beta}_2^{\STL})$.
+	\end{itemize}
+\end{proposition}
+As a corollary, if $\sigma_1^2 \le \sigma_2^2$, then we always get positive transfer.
+
+
+
+
+
+
+We use our tools to explain a key result of Taskonomy by Zamir et al. \cite{ZSSGM18}, which shows that MTL can reduce the amount of labeled data needed to achieve comparable performance to STL.
+%More precisely, suppose we have $n_i$ datapoints for each task, for $i= 1, 2$.
+For $i = 1, 2$, let $\hat{\beta}_i^{\MTL}(x)$ denote the estimator trained using $x \cdot n_i$ datapoints from every task. The data efficiency ratio is defined as
+{\small\[ \argmin_{x\in(0, 1)} ~~
+		\te_1(\hat{\beta}_1^{\MTL}(x)) + \te_2(\hat{\beta}_2^{\MTL}(x))
+		\le \te_1(\hat{\beta}_1^{\STL}) + \te_2(\hat{\beta}_2^{\STL}). \]}
+For example, the data efficiency ratio is $1$ if there is negative transfer.
+Using our tools, we show that in the isotropic model, the data efficiency ratio is
+roughly
+{\small\[ \frac{1}{\rho_1 + \rho_2} {+ \frac{2}{(\rho_1 +\rho_2)(\rho_1^{-1} + \rho_2^{-1} - \Theta(\Psi(\beta_1, \beta_2)))}}. \]}%
+Compared with Proposition \ref{prop_dist_transition}, we see that when $\Psi(\beta_1, \beta_2)$ is smaller than $\rho_1^{-1} + \rho_2^{-1}$ (up to a constant multiple), the transfer is positive.
+Moreover, the data efficiency ratio quantifies how effective the positive transfer is using MTL.
+%In addition to $\rho_1,\rho_2$, the data efficiency ratio also scales with $\Psi(\beta_1, \beta_2)$, the model distance between the tasks.
+
+
+Next we state Proposition \ref{prop_data_efficiency}, which gives precise upper and lower bounds on the data efficiency ratio for Taskonomy. Its proof can be found in Appendix \ref{app_proof_32}. %In the statement, we shall denote the data efficiency ratio as $\al^\star$.
+
+\begin{proposition}[Labeling efficiency]
+\label{prop_data_efficiency}
+	In the isotropic model, assume that $\rho_1,\rho_2 \ge 9$ and $\Psi(\beta_1, \beta_2) < (5(\rho_1-1))^{-1} + (5(\rho_2-1))^{-1}$.
+	Then the data efficiency ratio $x^\star$ satisfies
+	\be\label{eq_uplowx} x_l  \le x^\star\le \frac{1}{\rho_1 + \rho_2} \bigbrace{  \frac{2}{(\rho_1-1)^{-1} + (\rho_2-1)^{-1} - 5\Psi(\beta_1, \beta_2)}+1}, \ee
+	where we denoted
+	$$x_l:= \frac1{\rho_1+\rho_2}\left(\frac{2}{(\rho_1-1)^{-1}+(\rho_2 -1)^{-1}}+1\right).$$
+\end{proposition}
+
+\paragraph{Algorithmic consequence.}
+
+\noindent\textit{Detecting negative transfer.}
+Inspired by the observation, we propose a single-task based metric to help understand MTL results using STL results.
+\squishlist
+	\item For each task, we train a single-task model.
+	Let $z_s$ and $z_t$ be the prediction accuracy of each task, respectively.
+	Let $\tau\in(0, 1)$ be a fixed threshold.
+	\item If $z_s - z_t > \tau$, then we predict that there will be positive transfer when combining the two tasks using MTL.
+	If $z_s - z_t < -\tau$, then we predict negative transfer.
+\squishend
+
+
+\noindent\textit{Mitigating negative transfer.}
+An interesting consequence of Proposition \ref{prop_data_size} is that $L(\hat{\beta}_t^{\MTL})$ is not monotone in $\rho_1$.
+In particular, Figure \ref{fig_size} (and our analysis) shows that $L(\hat{\beta}_t^{\MTL})$ behaves as a quadratic function over $\rho_1$.
+More generally, depending on how large $\Psi(\beta_1, \beta_2)$ is, $L(\hat{\beta}_t^{\MTL})$ may also be monotonically increasing or decreasing.
+Based on this insight, we propose an incremental optimization schedule to improve MTL training efficiency.
+\squishlist
+	\item We divide the source task data into $S$ batches.
+	For $S$ rounds, we incrementally add the source task data by adding one batch at a time.
+	\item After training $T$ epochs, if the validation accuracy becomes worse than the previous round's result, we terminate.
+	Algorithm \ref{alg_inc_train} in Appendix \ref{app_experiments} describes the procedure in detail.
+\squishend
+
+\begin{algorithm}[!t]
+	\caption{An incremental training schedule for efficient multi-task learning with two tasks}
+	\label{alg_inc_train}
+	\begin{algorithmic}[1]
+		\Input Two tasks $(X_1, Y_1)$ and $(X_2, Y_2)$.
+		\Param A shared module $B$, output layers $W_1, W_2$ as in the hard parameter sharing architecture.
+		\Req \# batches $S$, epochs $T$, task $2$'s validation accuracy $\hat{g}(B; W_2)$, a threshold $\tau\in(0,1)$.
+		\Output The trained modules $B, W_2$ optimized for task $2$.
+		\State Divide $(X_1, Y_1)$ randomly into $S$ batches: $(x^{(1)}, y^{(1)}), \dots, (x^{(S)}, y^{(S)})$.
+		\For{$i = 1,\dots, S$}
+			\For{$j = 1,\dots, T$}
+				\State Update $B, W_1, W_2$ using the training data $\set{x^{(k)}, x^{(k)}}_{k=1}^i$ and  $(X_2, Y_2)$.
+			\EndFor
+			\State Let $a_i = \hat{g}(B; W_2)$ be the validation accuracy.
+			\If{$a_i < a_{i-1}$ or $a_i > \tau$}
+				\State \textbf{break}
+			\EndIf
+		\EndFor
+	\end{algorithmic}
+\end{algorithm}
+
+\noindent\textit{Covariance alignemnt.}
+Our observation highlights the need to correct covariate shift when $n_1 / n_2$ is large.
+Hence for such settings, we expect procedures that aim at correcting covariate shift to provide more significant gains.
+We consider a covariance alignment procedure proposed in \cite{WZR20}, which is designed for the purpose of correcting covariate shift.
+The idea is to add an alignment module between the input and the shared module $B$.
+This new module is then trained together with $B$ and the output layers.
+We validate our insight on this procedure in the experiments.
+
