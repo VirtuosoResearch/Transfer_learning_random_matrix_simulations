@@ -239,66 +239,10 @@ for all $v\ge C_0$. Similar estimates hold for $v\le -C_0$ if we replace $C_0$ w
 \end{proof}
 
 
+\subsection{Proof of the Random Matrix Results}
 
-
-The main goal of this section is to prove Lemma \ref{lem_cov_shift} and Lemma \ref{lem_cov_derivative}.
-%In this section, we will work under the assumptions of Lemma \ref{lem_cov_shift}. However, 
-In random matrix theory, it is much more convenient to consider matrices $n^{-1/2}Z_1$ and $n^{-1/2}Z_2$ with an extra $n^{-1/2}$ factor, where we denote $n:=n_1+n_2$.
-%rescale the matrices $Z_1$ and $Z_2$ such that their entries have variance $n^{-1}$, where $n:=n_1+n_2$. \HZ{I don't think is the point; I think you want to say that the sample covariance of both tasks $(Z_1^{\top}Z_1 + Z_2^{\top}Z_2)/n$ is what matters} 
-The advantage of this scaling is that the singular eigenvalues of $n^{-1/2}Z_1$ and $n^{-1/2}Z_2$ all lie in a bounded support that does not grow with $n$. For reader's convenience, we first state the exact properties (some of which have already been stated in words in Section \ref{sec_prelim}) that we shall need for the results and proofs in this section. %Moreover, we will also introduce a couple of other notations.
-%\HZ{Remove A.1 and A.2 below, which are already in Sec 2.}
-
-%\textbf{Basic setting.}
-%We denote the two sample covariance matrices by $\mathcal Q_1:=X_1^\top X_1$ and $\cal Q_2:= X_2^\top X_2$. 
-We have assumed that $Z_1$ and $Z_2$ are $n_1\times p$ and $n_2\times p$ random matrices with i.i.d. entries satisfying
-\begin{equation}\label{assm1}
-\mathbb{E} (Z_1)_{11} =\mathbb{E} (Z_2)_{11} =0, \ \quad \ \mathbb{E} \vert (Z_1)_{11} \vert^2=\mathbb{E} \vert (Z_2)_{11} \vert^2  =1. 
-\end{equation}
-%\HZ{What is the subscript $11$ above?}
-%where we denote $n:=n_1+n_2$. Here we have chosen the scaling that is more standard in the random matrix theory literature---under this $n^{-1/2}$ scaling, the eigenvalues of $\cal Q_1$ and $\cal Q_2$ are all of order 1. 
-Moreover, we assume that the fourth moments exist:
-\be \label{conditionA2}
-\mathbb{E} \vert (Z_1)_{11} \vert^4 +\mathbb{E} \vert (Z_2)_{11} \vert^4  \le C, 
-\ee
-for some constant $C>0$. 
-%In this paper, we regard $N$ as the fundamental (large) parameter and $n \equiv n(N)$ as depending on $N$. 
-Recall that we have defined $\rho_1= n_1/p$ and $\rho_2=n_2/p$ in introduction. We assume that they satisfy 
-%\HZ{We have defined $\rho_1,\rho_2$ already in sec 2. Consider using ``Recall that $\rho_1 =, \rho_2 =$.''}
-\be\label{assm2}
-0\le \rho_1 \le \tau^{-1}, \quad 1+\tau \le \rho_{2} \le \tau^{-1},
-\ee
-%\HZ{Remove $k$ above.}
-for a small constant $0<\tau<1$. Here the lower bound $\rho_2\ge 1+\tau$ is to ensure that the sample covariance matrix $X_2^\top X_2$ is non-singular with high probability; see Lemma \ref{SxxSyy} below. Moreover, we have allowed that $\rho_1=0$, because we want to state a general result that also covers the special case with no source task. We assume that $\Sig_1$ and $\Sig_2$ have eigendecompositions
-%\HZ{Using $O_1, O_2$ in eigendecomposition seems non-standard; suggestion: change to $Q_1, Q_2$.}
-\be\label{eigen}\Sig_1= Q_1\Lambda_1 Q_1^\top, \ \ \Sig_2= Q_2\Lambda_2 Q_2^\top,\ \ \Lambda_1=\text{diag}(\lambda_1^{(1)}, \ldots, \lambda^{(1)}_p), \ \ \Lambda_2=\text{diag}( \lambda^{(2)}_1, \ldots, \lambda^{(2)}_p),
-\ee
-where the eigenvalues satisfy that
-\begin{equation}\label{assm3}
-\tau \le \lambda^{(1)}_p \le \ldots \le \lambda^{(1)}_2  \le \lambda^{(1)}_1 \le \tau^{-1}, \quad \tau \le   \lambda^{(2)}_p \le \ldots \le \lambda^{(2)}_2 \le \lambda^{(2)}_1 \le \tau^{-1}.
-\ee
-%such that $\Sigma_1$ and $\Sigma_2$ are both well-conditioned. 
-We assume that $M=\Sig_1^{1/2} \Sig_2^{-1/2}$ has a singular value decomposition \eqref{eigen2} .....
-\be%\label{eigen2}
-M= U\Lambda V^\top, \quad \Lambda=\text{diag}( \lambda_1, \ldots, \lambda_p),
-\ee
-where by equation \eqref{assm3} we have % the singular values satisfy that
-\begin{equation}\label{assm32}
-\tau \le \lambda_p \le \lambda_1 \le \tau^{-1} .%, \quad \max\left\{\pi_A^{(n)}([0,\tau]), \pi_B^{(n)}([0,\tau])\right\} \le 1 - \tau .
-\end{equation}
-%The first condition means that the operator norms of $A$ and $B$ are bounded by $\tau^{-1}$, and the second condition means that the spectrums of $A$ and $B$ do not concentrate at zero.
-We summarize our basic assumptions here for future reference. Note that this assumption is in accordance with the assumptions of Lemma \ref{lem_cov_shift} and Lemma \ref{lem_cov_derivative}, except that we rescale the entries of $Z_1$ and $Z_2$ by $n^{-1/2}$. %and allow $\rho_1$ to be smaller than 1.
-\begin{assumption}\label{assm_big1}
-We assume that $Z_1$ and $Z_2$ are independent $n_1\times p$ and $n_2\times p$ random matrices with real $i.i.d.$ entries satisfying equations \eqref{assm1} and \eqref{conditionA2}, $\Sigma_1$ and $\Sigma_2$ are deterministic non-negative definite symmetric matrices satisfying equations \eqref{eigen}-\eqref{assm32}, and $\rho_{1}$ and $\rho_2$ satisfy equation \eqref{assm2}.
- %and (\ref{assm2}). We assume that $T$ is an $M\times M$ deterministic diagonal matrix satisfying (\ref{simple_assumption}) and (\ref{assm3}).  
-\end{assumption}
-\HZ{This is restating what's stated above again. Remove redundant statements (unless there's something critical missing in Sec 2).} [\cor FY: The setting in sec 1 is too vague for the purpose of this section in the sense that it is hard to find the exact properties we need. In this section, I want to state rigorous statements with a reference to an exact assumption. Moreover, the above assumption contains more.\nc]
-
-%\subsection{Notations and basic tools}
-
-
-
+The main goal of this section is to prove Lemma \ref{lem_cov_shift} and Lemma \ref{lem_cov_derivative}. Recall that $n:=n_1+n_2$, which is the total number of data in the two tasks. 
 %Before giving the main proof, we first introduce some notations and tools. 
-
 %Following the notations in \cite{EKYY,EKYY1}, we will use the following definition to characterize events of high probability.
 %
 %\begin{definition}[High probability event] \label{high_prob}
@@ -319,9 +263,6 @@ We assume that $Z_1$ and $Z_2$ are independent $n_1\times p$ and $n_2\times p$ r
 %\end{equation}
 %$\Omega$ is also a $\xi$-high probability event.
 %\end{remark}
-
-
-
 For simplicity of notations, we will use the following notion of stochastic domination, which was first introduced in \cite{Average_fluc} and subsequently used in many works on random matrix theory. It greatly simplifies the presentation of the results and their proofs by systematizing statements of the form ``$\xi$ is bounded by $\zeta$ with high probability up to a small power of $n$".
 
 \begin{definition}[Stochastic domination]\label{stoch_domination}
@@ -329,12 +270,11 @@ For simplicity of notations, we will use the following notion of stochastic domi
 %\item[(i)] 
 Let $\xi\equiv \xi^{(n)}$ and $\zeta\equiv \zeta^{(n)}$ be two $n$-dependent random variables.  
 %\begin{itemize} \item[(i)] 
-We say $\xi$ is stochastically dominated by $\zeta$, denoted by $\xi\prec \zeta$ or $\xi=\OO_\prec(\zeta)$, if for any (small) constant $\epsilon>0$ and (large) constant $D>0$, 
-\[ \bbP\left(|\xi| >n^\epsilon |\zeta|\right)\le n^{-D}\]
-for large enough $n\ge n_0(\epsilon, D)$. Moreover, if $\xi$ and $\zeta$ depend on a parameter $u$, then we say $\xi$ is stochastically dominated by $\zeta$ uniformly in $u\in \cal U$,  if for any constants $\e,D>0$, 
-\[\sup_{u\in \cal U}\bbP\left(|\xi(u)|>n^\epsilon |\zeta(u)|\right)\le n^{-D}\]
-for large enough $n\ge n_0(\epsilon, D)$.
-
+We say $\xi$ is stochastically dominated by $\zeta$, denoted by $\xi\prec \zeta$ or $\xi=\OO_\prec(\zeta)$, if for any (small) constant $\e>0$ and (large) constant $D>0$, 
+\[ \bbP\left(|\xi| >n^\e |\zeta|\right)\le n^{-D}\]
+for large enough $n\ge n_0(\e, D)$. Moreover, if $\xi$ and $\zeta$ depend on a parameter $u$, then we say $\xi$ is stochastically dominated by $\zeta$ uniformly in $u\in \cal U$,  if for any constants $\e,D>0$, 
+\[\sup_{u\in \cal U}\bbP\left(|\xi(u)|>n^\e |\zeta(u)|\right)\le n^{-D}\]
+for large enough $n\ge n_0(\e, D)$.
 %\item[(ii)]
 %\end{itemize}
 %(i) Let 
@@ -350,25 +290,121 @@ for large enough $n\ge n_0(\epsilon, D)$.
 %\item[(iv)] 
 %\end{itemize}
 \end{definition}
+\begin{remark}
+Note that since we allow for an $n^\e$ factor in the definition of stochastic domination, we have the seemingly strange relation $(\log n)^C\prec 1$ for any constant $C>0$. 
+\end{remark}
+
+\begin{example}\label{example stoc}
+Given a random variable $\xi$, if its moments exist up to any order, then we have $|\xi|\prec 1$. In fact, for any constants $\e, D>0$, by Markov's inequality we have 
+$$ \P(|\xi|\ge n^{\e})\le n^{-k\e}{\E |\xi|^k}\le n^{-D},$$
+if we choose $k$ large enough such that $k\e>D$. As a special case, we have $|\xi|\prec 1$ for a Gaussian random variable $\xi$.
+\end{example}
 
 %\HZ{Why is this below part of the def. of stochastic domination?}
-In the proof, we say an event $\Xi$ holds with high probability if $1\prec \mathbf 1_{\Xi}$, that is, for any constant $D>0$, $\mathbb P(\Xi)\ge 1- n^{-D}$ for large enough $n$. Moreover, we say $\Xi$ holds with high probability in an event $\Omega$ if for any constant $D>0$, $\mathbb P(\Omega\setminus \Xi)\le n^{-D}$ for large enough $n$.
+In the following proof, we say an event $\Xi$ holds with high probability if $1\prec \mathbf 1_{\Xi}$, that is, for any constant $D>0$, $\mathbb P(\Xi)\ge 1- n^{-D}$ for large enough $n$. Moreover, we say $\Xi$ holds with high probability in an event $\Omega$ if for any constant $D>0$, $\mathbb P(\Omega\setminus \Xi)\le n^{-D}$ for large enough $n$.
 
+In this section, we shall prove a more fundamental random matrix result in a little more general setting than the one in Section \ref{sec_prelim}. Then Lemma \ref{lem_cov_shift} and Lemma \ref{lem_cov_derivative} will follow from this result as immediate corollaries. We first state the exact assumptions needed for our purpose.
 
-Then we introduce the following bounded support condition.
-%\HZ{I would merge this def below to the earlier eqs. This seems to be a standard and simple assumption.}
-\begin{definition}\label{defn_support}
-We say a (rescaled) random matrix $\cal M$ satisfies the {\it{bounded support condition}} with $q$, if
-\begin{equation}
-\max_{i,j}\vert \cal M_{ij}\vert \prec q. \label{eq_support}
+%We summarize our basic assumptions here for future reference. %Note that this assumption is in accordance with the assumptions of Lemma \ref{lem_cov_shift} and Lemma \ref{lem_cov_derivative}, except that we rescale the entries of $Z_1$ and $Z_2$ by $n^{-1/2}$. %and allow $\rho_1$ to be smaller than 1.
+\begin{assumption}\label{assm_big1}
+As in Section \ref{sec_prelim}, we consider random matrices $X_1=Z_1\Sigma_1^{1/2}$ and $X_2=Z_2\Sigma_2^{1/2}$, where $Z_1$ and $Z_2$ are independent $n_1\times p$ and $n_2\times p$ random matrices with i.i.d. entries of zero mean and unit variance. Recall that $\rho_1= n_1/p$ and $\rho_2=n_2/p$. We assume that for a small constant $0<\tau<1$,
+%\HZ{We have defined $\rho_1,\rho_2$ already in sec 2. Consider using ``Recall that $\rho_1 =, \rho_2 =$.''}
+\be\label{assm2}
+0\le \rho_1 \le \tau^{-1}, \quad 1+\tau \le \rho_{2} \le \tau^{-1}.
+\ee
+Assume that $M=\Sig_1^{1/2} \Sig_2^{-1/2}$ has a singular value decomposition as in \eqref{eigen2}, such that % the singular values satisfy that
+\begin{equation}\label{assm32}
+\tau \le \lambda_p \le \lambda_1 \le \tau^{-1} .%, \quad \max\left\{\pi_A^{(n)}([0,\tau]), \pi_B^{(n)}([0,\tau])\right\} \le 1 - \tau .
 \end{equation}
-Here $q\equiv q(n)$ is a deterministic parameter and usually satisfies $ n^{-{1}/{2}} \leq q \leq n^{- \phi} $ for some (small) constant $\phi>0$. Whenever (\ref{eq_support}) holds, we say that $M$ has support $q$. 
-%Moreover, if the entries of $X$ satisfy (\ref{size_condition}), then $X$ trivially satisfies the bounded support condition with $q=N^{-\phi}$.
-\end{definition}
-\begin{example}
-\todo{Talk about the Gaussian case and Bernoulli case.} Note that if the entries of $Z$ have finite moments up to any order, %as in equation \eqref{assmAhigh}, 
-then with Markov's inequality one can check that $n^{-1/2}Z$ has bounded support $n^{-1/2}$. More generally, if the entries of $Z$ have finite $a$-th moment for some fixed $a>4$, then using a standard cut-off argument and a simple union bound, it is easy to see that $n^{-1/2}Z$ has bounded support $q=n^{2/a-1/2}$ on a event with probability $1-\oo(1)$. Hence the bounded support condition is essentially introduced to deal with the moment conditions; see Corollary \ref{main_cor} below for more details.
-\end{example}
+Finally, we assume that $Z_1$ and $Z_2$ satisfy
+\begin{equation}
+n^{-1/2}\max_{i,j}\vert (Z_1)_{ij}\vert \prec q,\quad n^{-1/2}\max_{i,j}\vert (Z_2)_{ij}\vert \prec q, \label{eq_support}
+\end{equation}
+for some deterministic parameter $q$ satisfying $ n^{-{1}/{2}} \leq q \leq n^{- \phi} $ for a small constant $\phi>0$. 
+ %and (\ref{assm2}). We assume that $T$ is an $M\times M$ deterministic diagonal matrix satisfying (\ref{simple_assumption}) and (\ref{assm3}).  
+\end{assumption}
+%\HZ{This is restating what's stated above again. Remove redundant statements (unless there's something critical missing in Sec 2).} [\cor FY: The setting in sec 1 is too vague for the purpose of this section in the sense that it is hard to find the exact properties we need. In this section, I want to state rigorous statements with a reference to an exact assumption. Moreover, the above assumption contains more.\nc]
+
+
+ 
+
+\iffalse
+%In this section, we will work under the assumptions of Lemma \ref{lem_cov_shift}. However, 
+In random matrix theory, it is much more convenient to consider matrices $n^{-1/2}Z_1$ and $n^{-1/2}Z_2$ with an extra $n^{-1/2}$ factor, where we denote $n:=n_1+n_2$.
+%rescale the matrices $Z_1$ and $Z_2$ such that their entries have variance $n^{-1}$, where $n:=n_1+n_2$. \HZ{I don't think is the point; I think you want to say that the sample covariance of both tasks $(Z_1^{\top}Z_1 + Z_2^{\top}Z_2)/n$ is what matters} 
+The advantage of this scaling is that the singular eigenvalues of $n^{-1/2}Z_1$ and $n^{-1/2}Z_2$ all lie in a bounded support that does not grow with $n$. For reader's convenience, we first state the exact properties (some of which have already been stated in words in Section \ref{sec_prelim}) that we shall need for the results and proofs in this section. %Moreover, we will also introduce a couple of other notations.
+%\HZ{Remove A.1 and A.2 below, which are already in Sec 2.}
+
+
+%\textbf{Basic setting.}
+%We denote the two sample covariance matrices by $\mathcal Q_1:=X_1^\top X_1$ and $\cal Q_2:= X_2^\top X_2$. 
+We have assumed that $Z_1$ and $Z_2$ are $n_1\times p$ and $n_2\times p$ random matrices with i.i.d. entries satisfying
+\begin{equation}\label{assm1}
+\mathbb{E} (Z_1)_{11} =\mathbb{E} (Z_2)_{11} =0, \ \quad \ \mathbb{E} \vert (Z_1)_{11} \vert^2=\mathbb{E} \vert (Z_2)_{11} \vert^2  =1. 
+\end{equation}
+%\HZ{What is the subscript $11$ above?}
+%where we denote $n:=n_1+n_2$. Here we have chosen the scaling that is more standard in the random matrix theory literature---under this $n^{-1/2}$ scaling, the eigenvalues of $\cal Q_1$ and $\cal Q_2$ are all of order 1. 
+%Moreover, we assume that the fourth moments exist:
+%\be \label{conditionA2}
+%\mathbb{E} \vert (Z_1)_{11} \vert^4 +\mathbb{E} \vert (Z_2)_{11} \vert^4  \le C, 
+%\ee
+%for some constant $C>0$. 
+%In this paper, we regard $N$ as the fundamental (large) parameter and $n \equiv n(N)$ as depending on $N$. 
+Recall that we have defined $\rho_1= n_1/p$ and $\rho_2=n_2/p$ in introduction. We assume that they satisfy 
+%\HZ{We have defined $\rho_1,\rho_2$ already in sec 2. Consider using ``Recall that $\rho_1 =, \rho_2 =$.''}
+\be\label{assm2}
+0\le \rho_1 \le \tau^{-1}, \quad 1+\tau \le \rho_{2} \le \tau^{-1},
+\ee
+%\HZ{Remove $k$ above.}
+for a small constant $0<\tau<1$. 
+\fi
+
+\begin{remark}
+The lower bound $\rho_2\ge 1+\tau$ in \eqref{assm2} is to ensure that the sample covariance matrix $X_2^\top X_2$ is non-singular with high probability; see Lemma \ref{SxxSyy} below. Moreover, we have allowed that $\rho_1=0$, because we want to state a general result that also covers the special case with no source task. 
+\end{remark}
+
+ \iffalse
+We assume that $\Sig_1$ and $\Sig_2$ have eigendecompositions
+%\HZ{Using $O_1, O_2$ in eigendecomposition seems non-standard; suggestion: change to $Q_1, Q_2$.}
+\be\label{eigen}\Sig_1= Q_1\Lambda_1 Q_1^\top, \ \ \Sig_2= Q_2\Lambda_2 Q_2^\top,\ \ \Lambda_1=\text{diag}(\lambda_1^{(1)}, \ldots, \lambda^{(1)}_p), \ \ \Lambda_2=\text{diag}( \lambda^{(2)}_1, \ldots, \lambda^{(2)}_p),
+\ee
+where the eigenvalues satisfy that
+\begin{equation}\label{assm3}
+\tau \le \lambda^{(1)}_p \le \ldots \le \lambda^{(1)}_2  \le \lambda^{(1)}_1 \le \tau^{-1}, \quad \tau \le   \lambda^{(2)}_p \le \ldots \le \lambda^{(2)}_2 \le \lambda^{(2)}_1 \le \tau^{-1}.
+\ee
+%such that $\Sigma_1$ and $\Sigma_2$ are both well-conditioned. 
+
+
+We assume that $M=\Sig_1^{1/2} \Sig_2^{-1/2}$ has a singular value decomposition \eqref{eigen2} .....
+\be%\label{eigen2}
+M= U\Lambda V^\top, \quad \Lambda=\text{diag}( \lambda_1, \ldots, \lambda_p),
+\ee
+where by equation \eqref{assm3} we have % the singular values satisfy that
+\begin{equation}\label{assm32}
+\tau \le \lambda_p \le \lambda_1 \le \tau^{-1} .%, \quad \max\left\{\pi_A^{(n)}([0,\tau]), \pi_B^{(n)}([0,\tau])\right\} \le 1 - \tau .
+\end{equation}
+\fi
+
+\begin{remark}
+Whenever \eqref{eq_support} holds, we say $n^{-1/2}Z_1$ and $n^{-1/2}Z_1$ satisfy the {\it{bounded support condition}} with $q$, or $n^{-1/2}Z_1$ and $n^{-1/2}Z_1$ have support $q$. 
+%\begin{definition}\label{defn_support}
+%We say a (rescaled) random matrix $\cal M$ satisfies the {\it{bounded support condition}} with $q$, if
+%\begin{equation}
+%\max_{i,j}\vert \cal M_{ij}\vert \prec q. \label{eq_support}
+%\end{equation}
+%%Here $q\equiv q(n)$ is a deterministic parameter and usually satisfies $ n^{-{1}/{2}} \leq q \leq n^{- \phi} $ for some (small) constant $\phi>0$. 
+%Whenever (\ref{eq_support}) holds, we say that $M$ has support $q$. 
+%%Moreover, if the entries of $X$ satisfy (\ref{size_condition}), then $X$ trivially satisfies the bounded support condition with $q=N^{-\phi}$.
+%\end{definition}
+%\begin{example}
+%\todo{Talk about the Gaussian case and Bernoulli case.} 
+By Example \ref{example stoc}, we see that if the entries of $Z_1$ have finite moments up to any order, %as in equation \eqref{assmAhigh}, 
+then $n^{-1/2}Z_1$ has bounded support $n^{-1/2}$. More generally, if the entries of $Z_1$ have finite $a$-th moment for some constant $a>4$, then using Markov's inequality and a simple union bound we get that
+$$\P\left(n^{-1/2}\max_{i,j}|(Z_1)_{ij}|\ge (\log n) n^{2/a-1/2}\right)=\OO((\log n)^{-a}).$$
+In other words, $n^{-1/2}Z_1$ has bounded support $q=n^{2/a-1/2}$ on a event with probability $1-\oo(1)$. This fact will be used in the proof of Corollary \ref{main_cor} below. The above discussion shows that the bounded support condition provides great flexibility in dealing with finite moment conditions. 
+%is essentially introduced to deal with the moment conditions; see Corollary \ref{main_cor} below for more details.
+%\end{example}
+\end{remark}
 
 %\begin{remark}
 %Note that the Gaussian distribution satisfies the condition (\ref{eq_support}) with $q< N^{-\phi}$ for any $\phi<1/2$. We also remark that if (\ref{eq_support}) holds, then the event $\left\{\vert x_{ij}\vert \le q, \forall 1\le i \le M,1\le j \le N\right\}$ holds with $\xi$-high probability for any fixed $\xi>0$ according to Definition \ref{high_prob}. For this reason, the bad event $\left\{\vert x_{ij}\vert > q \text{ for some }i,j\right\}$ is negligible, and we will not consider the case it happens throughout the proof.
@@ -376,7 +412,8 @@ then with Markov's inequality one can check that $n^{-1/2}Z$ has bounded support
 
 %Since $Z_1^\top Z_1$ (resp.\;$Z_2^\top Z_2$) is a standard sample covariance matrix, and it is well-known that its nonzero eigenvalues are all inside the support of the Marchenko-Pastur law $[(1-\sqrt{d_1})^2 , (1+\sqrt{d_1})^2]$ (resp. $[(1-\sqrt{d_2})^2 , (1+\sqrt{d_2})^2]$) with probability $1-\oo(1)$ \cite{No_outside}. In our proof, we shall need a slightly stronger probability bound, which is given by the following lemma. 
 
-For $n^{-1/2}Z_1$ and $n^{-1/2}Z_2$ with bounded support $q$, we have the following estimates on their singular values. We have used it in our previous proofs; see equation \eqref{eq_isometric}.   
+
+Before entering into the formal proof, we state two preparation lemmas, both of which have been used crucially in some previous proofs. First, for $n^{-1/2}Z_1$ and $n^{-1/2}Z_2$ with bounded support $q$, we have the following estimates on their singular values. We have used it in our previous proofs; see equation \eqref{eq_isometric}.   
 
  
 %Then we state the following lemma on the eigenvalues of $Z_1^\top Z_1$ and $Z_2^\top Z_2$, which are denoted as $\lambda_1 (Z_1^\top Z_1) \ge \cdots \ge \lambda_{p} (Z_1^\top Z_1)$ and $\lambda_1 (Z_2^\top Z_2) \ge \cdots \ge \lambda_p (Z_2^\top Z_2)$. We have used it in our previous proofs; see equation \eqref{eq_isometric}. 
@@ -384,24 +421,43 @@ For $n^{-1/2}Z_1$ and $n^{-1/2}Z_2$ with bounded support $q$, we have the follow
 \begin{lemma}\label{SxxSyy}
 Suppose Assumption \ref{assm_big1} holds, and $n^{-1/2}Z_1$ and $n^{-1/2}Z_2$ satisfy the bounded support condition equation \eqref{eq_support} for some deterministic parameter $q$ satisfying $ n^{-{1}/{2}} \leq q \leq n^{- \phi} $ for a constant $\phi>0$. Then for any constant $\e>0$, we have that with high probability,
 \be\label{op rough1} %(1-\sqrt{d_1})^2 - \e \le  \lambda_p(Z_1^\top Z_1)   \le  
-\lambda_1(Z_1^\top Z_1) \le {(\sqrt{n_1}+\sqrt{p})^2} + n^{1+\e} q,
+\lambda_1(Z_1^\top Z_1) \le {(\sqrt{n_1}+\sqrt{p})^2} + n_1^{1+\e} q,
 \ee
 and
 \be\label{op rough2} 
- (\sqrt{n_2}-\sqrt{p})^2  -  n^{1+\e} q \le  \lambda_p (Z_2^\top Z_2)  \le  \lambda_1(Z_2^\top Z_2) \le  (\sqrt{n_2}+\sqrt{p})^2 +  n^{1+\e} q .
+ (\sqrt{n_2}-\sqrt{p})^2  -  n_2^{1+\e} q \le  \lambda_p (Z_2^\top Z_2)  \le  \lambda_1(Z_2^\top Z_2) \le  (\sqrt{n_2}+\sqrt{p})^2 +  n_2^{1+\e} q .
 \ee
 where $\lambda_i(Z_k^\top Z_k)$, $k=1,2$ and $i=1,\cdots,p$, is the $i$-th largest eigenvalue of $Z_k^\top Z_k$.
 \end{lemma}
 \begin{proof}
-\HZ{This proof does not parse.}
-This lemma essentially follows from \cite[Theorem 2.10]{isotropic}, although the authors considered the case with $q = n^{-1/2}$ only. The results for the general case with $ n^{-{1}/{2}} \leq q \leq n^{- \phi} $ follows from \cite[Lemma 3.12]{DY}. 
+%\HZ{This proof does not parse.}
+%This lemma essentially follows from \cite[Theorem 2.10]{isotropic}, although the authors considered the case with $q = n^{-1/2}$ only. The results for the general case with $ n^{-{1}/{2}} \leq q \leq n^{- \phi} $ follows from \cite[Lemma 3.12]{DY}. 
 %, but only the bounds for largest eigenvalues are given there in order to avoid the issue with the smallest eigenvalue when $d_{2}$ is close to 1. However, under the assumption equation \eqref{assm2}, the lower bound for the smallest eigenvalue follows from the same arguments as in \cite{DY}. Hence we omit the details. 
+This lemma is a corollary of  \cite[Theorem 2.10]{isotropic} and \cite[Lemma 3.12]{DY}. 
 \end{proof}
 \begin{remark}
-\todo{It is stronger than conventional result.}
+it is well-known that the eigenvalues of $n_2^{-1}Z_2^\top Z_2$ are all inside the support of the Marchenko-Pastur law $[(1-\sqrt{p/n_2})^2-\oo(1) ,(1+\sqrt{p/n_2})^2+\oo(1)]$ with probability $1-\oo(1)$ \cite{No_outside}. Here the estimate \eqref{op rough2} have improved the error to $n_2^\e q$ and the probability to $1-\OO(n^{-D})$.
 \end{remark}
 
-The rest of the proof is organized as follows. In Section \ref{sec locallaw1}, we introduce the concept of resolvents, and give an almost optimal convergent estimate on it---Theorem \ref{LEM_SMALL}---in Section \ref{sec aymp_limit_G}. This estimate is conventionally called {\it local law} in random matrix literature. Based on Theorem \ref{LEM_SMALL}, we then complete the proof of Lemmas \ref{lem_cov_shift} and \ref{lem_cov_derivative} in Section \ref{sec pf RMTlemma}. The proof of Theorem \ref{LEM_SMALL} will be presented in Section \ref{sec_Gauss}.
+The following lemma gives (almost) sharp concentration bounds for linear and quadratic forms of bounded supported random variables. 
+%Besides the proof of Lemma \ref{prop_entry}, we also use it in several other places of this paper, including the proofs in Section \ref{sec_proof_general} and Section \ref{app_iso_cov}.
+%It constitutes the main difference between our proof and the one in \cite{KY2}, where the authors used a large deviation bound for random variables with arbitrarily high moments.
+
+\begin{lemma}[Lemma 3.8 of \cite{EKYY1}]\label{largedeviation}
+Let $(x_i)$, $(y_j)$ be independent families of centered and independent random variables, and $(A_i)$, $(B_{ij})$ be families of deterministic complex numbers. Suppose the entries $x_i$, $y_j$ have variances at most $n^{-1}$ and satisfy the bounded support condition (\ref{eq_support}) with $q\le n^{-\phi}$ for some constant $\phi>0$. Then we have the following bounds:
+%for any fixed $\xi>0$, the following bounds hold with $\xi$-high probability:
+\begin{align*}
+\Big\vert \sum_i A_i x_i \Big\vert \prec  q \max_{i} \vert A_i \vert+ \frac{1}{\sqrt{n}}\Big(\sum_i |A_i|^2 \Big)^{1/2} , \quad &\Big\vert \sum_{i,j} x_i B_{ij} y_j \Big\vert \prec q^2 B_d  + qB_o + \frac{1}{n}\Big(\sum_{i\ne j} |B_{ij}|^2\Big)^{{1}/{2}}, \\
+\Big\vert \sum_{i} (|x_i|^2-\mathbb E|x_i|^2) B_{ii}  \Big\vert  \prec q B_d   , \quad &\Big\vert \sum_{i\ne j} \bar x_i B_{ij} x_j \Big\vert  \prec qB_o + \frac{1}{n}\Big(\sum_{i\ne j} |B_{ij}|^2\Big)^{{1}/{2}} ,
+\end{align*}
+where $B_d:=\max_{i} |B_{ii} |$ and $B_o:= \max_{i\ne j} |B_{ij}|.$ Moreover, if all the moments of $\sqrt{n}x_i$ and $\sqrt{n}y_j$ exist in the sense of equation \eqref{assmAhigh}, then we have stronger bounds
+\begin{align*}
+\Big\vert \sum_i A_i x_i \Big\vert \prec  \frac{1}{\sqrt{n}}\Big(\sum_i |A_i|^2 \Big)^{1/2} , \quad  & \Big\vert \sum_{i,j} x_i B_{ij} y_j \Big\vert \prec  \frac{1}{n}\Big(\sum_{i\ne j} |B_{ij}|^2\Big)^{{1}/{2}} , \\
+ \Big\vert   \sum_{i} (|x_i|^2-\mathbb E|x_i|^2) B_{ii}  \Big\vert  \prec \frac1{n}\Big( \sum_i |B_{ii} |^2\Big)^{1/2}  ,\quad & \Big\vert \sum_{i\ne j} \bar x_i B_{ij} x_j \Big\vert  \prec  \frac{1}{n}\Big(\sum_{i\ne j} |B_{ij}|^2\Big)^{{1}/{2}} .
+\end{align*}
+\end{lemma}  
+
+\todo{revise} The rest of the proof is organized as follows. In Section \ref{sec locallaw1}, we introduce the concept of resolvents, and give an almost optimal convergent estimate on it---Theorem \ref{LEM_SMALL}---in Section \ref{sec aymp_limit_G}. This estimate is conventionally called {\it local law} in random matrix literature. Based on Theorem \ref{LEM_SMALL}, we then complete the proof of Lemmas \ref{lem_cov_shift} and \ref{lem_cov_derivative} in Section \ref{sec pf RMTlemma}. The proof of Theorem \ref{LEM_SMALL} will be presented in Section \ref{sec_Gauss}.
 
 \iffalse
 \subsection{Resolvents and Local Laws}\label{sec locallaw1}
@@ -652,7 +708,7 @@ The above arguments are the core of the main proof. To have a rigorous proof, we
 
 \fi
 
-\subsection{The Local Laws}\label{sec locallaw1}
+\subsubsection{Analysis of the Limiting Equations}\label{sec contract}
 
 If $z=0$, then the equations in equation \eqref{selfomega} in are reduced to 
 \begin{equation}\label{selfomega0}
@@ -667,7 +723,7 @@ is strictly increasing on $[0,(1-\gamma_n)]$. Moreover, we have $f(0)=0<1$ and $
  r_1 \tau \le   a_1 \le \min\{ (1-\gamma_n) -r_1 \tau,r_1( 1-\tau)\},\quad \tau<a_1\le 1 -\gamma_n - r_1\tau .
 \ee 
 
-For general $z$ around the origin, the existence and uniqueness of the solution $(M_{1}(z),M_{2}(z))$ is given by the following lemma. {\cor Introduce $(M_1(z),M_2(z))$. First we define the deterministic limits of $(m_1(z), m_{2}(z))$, denoted by $(M_{1}(z),M_{2}(z))$ 
+\eqref{selfomega_a} reduces to the following equations ...... {\cor Introduce $(M_1(z),M_2(z))$. First we define the deterministic limits of $(m_1(z), m_{2}(z))$, denoted by $(M_{1}(z),M_{2}(z))$ 
 %\HZ{This $M_{1}, M_{2}$ notation is awkward; consider changing it to ${M}_1(z), {M}_2(z)$ (or  better, say $a_1(z), a_2(z)$? if they correspond to $a_1, a_2$ when $z=0$)}, 
 as the unique solution to the following system of equations
 \begin{equation}\label{selfomega}
@@ -680,6 +736,7 @@ such that $(M_{1}(z), M_{2}(z))\in \C_+^2$ for $z\in \C_+$, where, for simplicit
  \gamma_n :=\frac{p}{n}=\frac{1}{\rho_1+\rho_2},\quad r_1 :=\frac{n_1}{n}=\frac{\rho_1}{\rho_1+\rho_2},\quad r_2 :=\frac{n_2}{n}=\frac{\rho_2}{\rho_1+\rho_2}.
 \ee
 } 
+For general $z$ around the origin, the existence and uniqueness of the solution $(M_{1}(z),M_{2}(z))$ is given by the following lemma. 
 
 \begin{lemma} \label{lem_mbehaviorw}
 There exist constants $c_0, C_0>0$ depending only on $\tau$ in equation \eqref{assm2}, equation \eqref{assm3}, equation \eqref{assm32} and equation \eqref{a23} such that the following statements hold. 
@@ -730,6 +787,128 @@ where $\delta(z)$ is a deterministic $z$-dependent function satisfying $\delta(z
   \left|m_1(z)-M_{1}(z)\right| +  \left|m_2(z)-m_{2 c}(z)\right|\le C_0\delta(z).\label{Stability1}
 \end{equation}
 \end{lemma}
+
+...... In this section we give the proof of Lemmas \ref{lem_mbehaviorw} and \ref{lem_stabw} using the contraction principle. 
+ %We first prove the existence and continuity of the solutions to equation \eqref{falvww}. 
+ \begin{proof}[Proof of Lemma \ref{lem_mbehaviorw}]
+ It is easy to check that the equations in equation \eqref{selfomega} are equivalent to  
+\begin{equation}\label{selfalter}
+r_1M_{1}=-(1-\gamma_n) - r_2M_{2} - z\left( M_{2}^{-1}+1\right),\quad g_z(M_{2}(z))=1, 
+\ee
+where
+$$g_z(M_{2}):= - M_{2} +\frac1n\sum_{i=1}^p \frac{M_{2} }{  z -\lambda_i^2(1-\gamma_n)+ (1 - \lambda_i^2) r_2M_{2} - \lambda_i^2 z\left(  M_{2}^{-1}+1\right) }.$$
+We first show that (i) there exists a unique solution $M_{2}(z)$ to the equation $g_z(M_{2}(z))=1$ under the conditions in equation \eqref{prior1}, and (ii) the solution satisfies equation \eqref{Lipomega}. We abbreviate $\e(z):= M_{2}(z) - M_{2}(0)$. From equation \eqref{selfalter}, we obtain that 
+\begin{equation} \nonumber
+0=\left[g_z(M_{2}(z)) -  g_0(M_{2}(0)) -g_z'(M_{2}(0))\e(z)\right] + g_z'(M_{2}(0))\e(z),
+\ee
+which implies
+\be\nonumber%\label{selfomega1}
+ \e(z) =- \frac{ g_z(M_{2}(0)) - g_0(M_{2}(0)) }{g_z'(M_{2}(0))}- \frac{ g_z(M_{2}(0)+\e(z)) -  g_z(M_{2}(0))-g_z'(M_{2}(0))\e(z)}{g_z'(M_{2}(0))}.
+ \ee
+%By equation \eqref{selfomega}, we obtain the self-consistent equations for $(M_{2}(0),M_{2}(0))$ and $(M_{2}(z),M_{2}(z))$:
+% \begin{equation}\label{selfomega1}
+%\begin{split}
+%& \frac{r_1}{M_{2}(0) }=- 1 + \frac1n\sum_{i=1}^p \frac{\lambda_i^2}{\lambda_i^2M_{2}(0) + M_{2} (0) },\quad \frac{r_2}{M_{2} (0)}=  - 1 +\frac1n\sum_{i=1}^p \frac{1 }{ \lambda_i^2 M_{2} (0)+  M_{2}(0)  }.
+%\end{split}
+%\ee
+%Subtract equation \eqref{selfomega1} from equation \eqref{selfomega}, we get that
+% \begin{equation}\label{selfomega3}
+%\begin{split}
+%& \e_{2} \frac{r_1}{(M_{2} +\e_2) M_{2}}=  \frac1n\sum_{i=1}^p \frac{\lambda_i^2 (z+\lambda_i^2 \e_2 +\e_3)}{(\lambda_i^2M_{2}  + M_{2})(z+\lambda_i^2(M_{2}+\e_2)  + (M_{2}+\e_3) ) },\\
+%&  \e_3 \frac{r_2}{(M_{2}+\e_3) M_{2}}=  \frac1n\sum_{i=1}^p \frac{z+\lambda_i^2 \e_2 +\e_3}{(\lambda_i^2M_{2}  + M_{2})(z+\lambda_i^2(M_{2}+\e_2)  + (M_{2}+\e_3) ) }.
+%\end{split}
+%\ee
+Inspired by this equation, we define iteratively a sequence ${\e}^{(k)}(z) \in \C$ such that ${\e}^{(0)}=0$, and 
+\be\label{selfomega2}
+ \e^{(k+1)} =- \frac{g_z(M_{2}(0)) - g_0(M_{2}(0))}{g_z'(M_{2}(0))} -\frac{g_z(M_{2}(0)+ \e^{(k)}) -  g_z(M_{2}(0))-g_z'(M_{2}(0))\e^{(k)} }{g_z'(M_{2}(0))} .
+ \ee
+% \begin{equation}\nonumber%\label{selfomega4}
+%\begin{split}
+%& \left\{\frac{r_1}{M_{2}^2  } - \frac1n\sum_{i=1}^p \frac{\sigma_i^4   }{(\lambda_i^2M_{2}  + M_{2})(z+\lambda_i^2 M_{2}  + M_{2} ) } \right\} \e^{(k+1)}_{2}  -  \frac1n\sum_{i=1}^p \frac{\lambda_i^2   }{(\lambda_i^2M_{2}  + M_{2})(z+\lambda_i^2 M_{2}  + M_{2} ) } \e_3^{(k+1)} \\
+%& = \frac1n\sum_{i=1}^p \frac{\lambda_i^2 z}{(\lambda_i^2M_{2}  + M_{2})(z+\lambda_i^2M_{2}  + M_{2} ) } + \frac{r_1 [\e_2^{(k)}]^2}{M_{2}^2 (M_{2}+\e_2^{(k)})} \\
+%&+   \frac1n\sum_{i=1}^p \left( \frac{\lambda_i^2 (z+\lambda_i^2 \e_2^{(k)} +\e_3^{(k)})}{(\lambda_i^2M_{2}  + M_{2})(z+\lambda_i^2(M_{2}+\e_2^{(k)})  + (M_{2}+\e_3^{(k)}) ) } - \frac{\lambda_i^2 (z+\lambda_i^2 \e_2^{(k)} +\e_3^{(k)})}{(\lambda_i^2M_{2}  + M_{2})(z+\lambda_i^2M_{2}  + M_{2}) }\right),\\
+%& \left\{\frac{r_2}{M_{2}^2  } - \frac1n\sum_{i=1}^p \frac{1 }{(\lambda_i^2M_{2}  + M_{2})(z+\lambda_i^2 M_{2}  + M_{2} ) } \right\} \e^{(k+1)}_{3}  -  \frac1n\sum_{i=1}^p \frac{1 }{(\lambda_i^2M_{2}  + M_{2})(z+\lambda_i^2 M_{2}  + M_{2} ) } \e_2^{(k+1)} \\
+%& = \frac1n\sum_{i=1}^p \frac{ z}{(\lambda_i^2M_{2}  + M_{2})(z+\lambda_i^2M_{2}  + M_{2} ) } + \frac{r_2 [\e_3^{(k)}]^2}{M_{2}^2 (M_{2}+\e_3^{(k)})} \\
+%&+   \frac1n\sum_{i=1}^p \left( \frac{ z+\lambda_i^2 \e_2^{(k)} +\e_3^{(k)}}{(\lambda_i^2M_{2}  + M_{2})(z+\lambda_i^2(M_{2}+\e_2^{(k)})  + (M_{2}+\e_3^{(k)}) ) } - \frac{ z+\lambda_i^2 \e_2^{(k)} +\e_3^{(k)}}{(\lambda_i^2M_{2}  + M_{2})(z+\lambda_i^2M_{2}  + M_{2}) }\right).
+%\end{split}
+%\ee
+Then equation \eqref{selfomega2} defines a mapping $h:\C\to \C$, which maps $\e^{(k)}$ to $\e^{(k+1)}=h(\e^{(k)})$.
+ 
+%\be\label{iteration} 
+%{\e}^{(k+1)}= \mathbf f({ \e}^{(k)}), \quad \mathbf f(\mathbf x):=S^{-1}\mathbf x_0+ S^{-1} \mathbf e(\mathbf x),
+%\ee
+%where $S$ is a $2\times 2$ matrix with
+%\begin{align*}
+%S_{11}=\frac{r_1}{M_{2}^2  } - \frac1n\sum_{i=1}^p \frac{\sigma_i^4   }{(\lambda_i^2M_{2}  + M_{2})(z+\lambda_i^2 M_{2}  + M_{2} ) }, \quad S_{12}=-  \frac1n\sum_{i=1}^p \frac{\lambda_i^2   }{(\lambda_i^2M_{2}  + M_{2})(z+\lambda_i^2 M_{2}  + M_{2} ) },\\
+%S_{21}=-  \frac1n\sum_{i=1}^p \frac{1 }{(\lambda_i^2M_{2}  + M_{2})(z+\lambda_i^2 M_{2}  + M_{2} ) } , \quad S_{22}=\frac{r_2}{M_{2}^2  } - \frac1n\sum_{i=1}^p \frac{1 }{(\lambda_i^2M_{2}  + M_{2})(z+\lambda_i^2 M_{2}  + M_{2} ) } ,
+%\end{align*}
+%%$$
+%%S:=\begin{pmatrix} \frac{c_1}{M_{1}^2  } -  \frac{ \theta_l^2 (1-\theta_l )^2 }{ (1-t_l)^2}g(M_{2})^2  & -  \frac{ (1-\theta_l )^2\theta_l }{ (1-t_l)^2} \\ -   \frac{ (1-\theta_l )^2\theta_l }{ (1-t_l)^2}  &\frac{c_2}{M_{2}^2  } -  \frac{ \theta_l^2(1-\theta_l )^2 }{ (1-t_l)^2}g(M_{1})^2  \end{pmatrix},  
+%%$$
+%$\mathbf x_0$ is a vector with
+%$$\mathbf x_0=\begin{pmatrix} \frac1n\sum_{i=1}^p \frac{\lambda_i^2 z}{(\lambda_i^2M_{2}  + M_{2})(z+\lambda_i^2M_{2}  + M_{2} ) } \\ \frac1n\sum_{i=1}^p \frac{ z}{(\lambda_i^2M_{2}  + M_{2})(z+\lambda_i^2M_{2}  + M_{2} ) }  \end{pmatrix},$$
+%and $\mathbf e(\mathbf x)$ is
+%$$\mathbf e(\mathbf x):= \begin{pmatrix}\frac{r_1 [\e_2^{(k)}]^2}{M_{2}^2 (M_{2}+\e_2^{(k)})} +   \frac1n\sum_{i=1}^p \left( \frac{\lambda_i^2 (z+\lambda_i^2 \e_2^{(k)} +\e_3^{(k)})}{(\lambda_i^2M_{2}  + M_{2})(z+\lambda_i^2(M_{2}+\e_2^{(k)})  + (M_{2}+\e_3^{(k)}) ) } - \frac{\lambda_i^2 (z+\lambda_i^2 \e_2^{(k)} +\e_3^{(k)})}{(\lambda_i^2M_{2}  + M_{2})(z+\lambda_i^2M_{2}  + M_{2}) }\right) \\ 
+% \frac{r_2 [\e_3^{(k)}]^2}{M_{2}^2 (M_{2}+\e_3^{(k)})} +   \frac1n\sum_{i=1}^p \left( \frac{ z+\lambda_i^2 \e_2^{(k)} +\e_3^{(k)}}{(\lambda_i^2M_{2}  + M_{2})(z+\lambda_i^2(M_{2}+\e_2^{(k)})  + (M_{2}+\e_3^{(k)}) ) } - \frac{ z+\lambda_i^2 \e_2^{(k)} +\e_3^{(k)}}{(\lambda_i^2M_{2}  + M_{2})(z+\lambda_i^2M_{2}  + M_{2}) }\right) \end{pmatrix}.$$
+%%Here we have used $\theta_lg(M_{1})g( M_{2} ) = f_c(\theta_l) = t_l$ (recall equation \eqref{fcz}) to simplify the expressions a little bit.
+
+With direct calculation, we obtain that
+$$g_z'(M_{2}(0)) = -1 - \frac1n\sum_{i=1}^p \frac{ \lambda_i^2(1-\gamma_n) - z\left[1- \lambda_i^2 \left(  2M_{2}^{-1}(0)+1\right)\right]  }{  \left[z -\lambda_i^2(1-\gamma_n)+ (1 - \lambda_i^2) r_2M_{2}(0) - \lambda_i^2 z\left( M_{2}^{-1}(0)+1\right)\right]^2 }.$$
+%Using equation \eqref{a23}, 
+Then it is not hard to check that there exist constants $\wt c, \wt C>0$ depending only on $\tau$ in equation \eqref{assm32} and equation \eqref{a23} such that the following estimates hold: for all $z$, $\e_1$ and $\e_2$ such that $|z|\le \wt c$ and $|\e_1|  \le \wt c$, $|\e_2|  \le \wt c$,
+\be\label{dust}
+\left|[g_z'(M_{2}(0))]^{-1}\right|\le \wt C, \quad   \left|\frac{g_z(M_{2}(0)) - g_0(M_{2}(0))}{g_z'(M_{2}(0))}\right|  \le \wt C|z| ,
+\ee
+and 
+\be\label{dust222}
+\left|\frac{g_z(M_{2}(0)+ \e_1) -  g_z(M_{2}(0)+\e_2)-g_z'(M_{2}(0))(\e_1-\e_2) }{g_z'(M_{2}(0))}\right|  \le \wt C|\e_1-\e_2|^2 .
+\ee
+ By equation \eqref{dust} and equation \eqref{dust222}, there exists a sufficiently small constant $\delta>0$ depending only on $\wt C$, such that $h$ is a self-mapping 
+$$  h: B_r  \to B_r , \quad B_r:=\{\e \in \C: |\e| \le r \},$$
+as long as $r\le \delta$ and $|z| \le c_\delta$ for some constant $c_\delta>0$ depending only on $\wt C$ and $\delta$. 
+%\be\label{priori_cond}
+%\zeta+\| \b g\|_\infty+ |z-\wt z|\le c_r
+%\ee
+%for some constant $ c_r>0$ depending on $r$. 
+Now it suffices to prove that $h$ restricted to $B_r $ is a contraction, which then implies that ${\e}:=\lim_{k\to\infty} { \e}^{(k)}$ exists and $M_{2}(0)+\e(z)$ is a unique solution to the second equation of equation \eqref{selfalter} subject to the condition $\|{\e}\|_\infty \le r$. 
+
+
+From the iteration relation equation \eqref{selfomega2}, using equation \eqref{dust} one can readily check that
+\be\label{k1k}
+{ \e}^{(k+1)} - { \e}^{(k)}= h({\e}^{(k)}) - h({\e}^{(k-1)}) \le \wt C | { \e}^{(k)}-{ \e}^{(k-1)}|^2.
+\ee
+Hence as long as $r$ is chosen to be sufficiently small such that $2r\wt C\le 1/2$,  
+%compared to $\theta_l^{-1}-g(M_{1})g( M_{2} )= (1-t_l)\theta_l^{-1}$, we have
+%%where $q(\bx)$ denotes a vector with components $q(x_i)$. 
+%%Using $|q'(0)| = 0$ and equation \eqref{dust}, we get from equation \eqref{k1k} that
+%$$
+% \left\|\mathbf e({{} \e}^{(k)}) -\mathbf e({{} \e}^{(k-1)})\right\|_\infty \le C (\|\bx^{k }\|_\infty +\|\bx^{k-1 }\|_\infty)\|{{} \e}^{(k)} - {{} \e}^{(k-1)}\|_\infty
+% %\|\bx^{k+1}-\bx^k\|_\infty\le  C_\kappa \left(\zeta+\|\bx^{k }\|_\infty +\|\bx^{k-1 }\|_\infty  \right)\cdot \|\bx^{k }-\bx^{k-1}\|_\infty
+%$$
+%for some constant $C >0$ depending only on $c_1, c_2$ and $\delta_l$. Thus we can choose a sufficiently small constant $0<r \le \min\{\tau, (2C)^{-1}\}$ such that $Cr \le 1/2$, i.e. 
+$h$ is indeed a contraction mapping on $ B_r$. This proves both the existence and uniqueness of the solution $M_{2}(z)=M_{2}(0)+\e(z)$, if we choose $c_0$ in equation \eqref{prior1} as $c_0=\min\{c_\delta, r\}$. After obtaining $M_{2}(z)$, we can then find $M_{2}(z)$ using the first equation in equation \eqref{selfalter}. 
+
+Note that with equation \eqref{dust222} and ${\e}^{(0)}= 0$, we get from equation \eqref{selfomega2} that $ |{ \e}^{(1)}| \le \wt C|z| .$
+With the contraction mapping, we have the bound 
+\be\label{endalter}|{ \e}| \le \sum_{k=0}^\infty |{  \e}^{(k+1)}-{ \e}^{(k)}| \le 2\wt C|z| \ \Rightarrow \ |M_{2}(z)-M_{2}(0)|\le 2\wt C|z| .\ee
+%This gives the bound equation \eqref{Lipomega} for $M_{2}(z)$. 
+Using the first equation in equation \eqref{selfalter}, we immediately obtain the bound  $ r_1|M_{1}(z)-M_{1}(0)| \le C|z|$, which gives equation \eqref{Lipomega} as long as if $r_1\gtrsim 1$. To deal with the small $r_1$ case, we go back to the first equation in equation \eqref{selfomega} and treat $M_{1}(z)$ as the solution to the following equation:
+$$\wt g_z(M_{1}(z))=1,\quad \wt g_z(x):=- x + \frac{\gamma_n}p\sum_{i=1}^p \frac{\lambda_i^2 x}{  z+\lambda_i^2 r_1 x +r_2 M_{2}(z) }. $$
+%We can calculate that 
+%$$g_z'(M_{2}(0))= -1 +  \frac{\gamma_n}p\sum_{i=1}^p \frac{\lambda_i^2 (z + r_2M_{2}(z))}{  (z+\lambda_i^2 r_1 M_{1}(0) +r_2 M_{2}(z))^2 }.$$
+%At $z=0$, we have 
+%$$ |g_0'(M_{2}(0))|= \left|1+\frac{\gamma_n}p\sum_{i=1}^p \frac{\lambda_i^2  r_2 x_3}{  (\lambda_i^2 r_1 x_2 + r_2 x_3)^2 }\right|\ge 1,$$
+%where $x_2$ and $x_3$ satisfy equation \eqref{a23}. Thus under equation \eqref{prior1} we have $|g_z'(M_{2}(0))|\sim 1$ as long as $c_0$ is taken sufficiently small. 
+Then with a similar argument as the one between equation \eqref{selfalter} and equation \eqref{endalter}, we can conclude $|M_{2}(z)-M_{2}(0)|=\OO(|z|)$, which concludes equation \eqref{Lipomega} together with equation \eqref{endalter}. 
+%$c_0$ is taken sufficiently small. 
+This concludes the proof of Lemma \ref{lem_mbehaviorw}.
+\end{proof}
+
+\begin{proof}[Proof of Lemma \ref{lem_stabw}]
+Under equation \eqref{prior12}, we can obtain equation \eqref{selfalter} approximately up to some small error
+\be\label{selfalter2}r_1 m_{1}=-(1-\gamma_n) - r_2m_{2} - z\left(  {m_{2}^{-1}}+1\right) + \cal E'_1(z),\quad g_z(m_{2}(z))=1+ \cal E'_2(z),\ee
+ with $|\cal E'_1(z)|+ |\cal E'_2(z)|=\OO(\delta(z))$. Then we subtract the equations equation \eqref{selfalter} from equation \eqref{selfalter2}, and consider the contraction principle for the function $\e (z):= m_{2}(z) - m_{2 c}(z)$.  The rest of the proof is exactly the same as the one for Lemma \ref{lem_mbehaviorw}, so we omit the details.
+\end{proof}
 
 
 
@@ -1013,6 +1192,7 @@ where $\delta(z)$ is a deterministic $z$-dependent function satisfying $\delta(z
 %
 %The following theorem gives that anisotropic local law for $\cal R(z,0)$.
 
+\subsubsection{The Local Laws}\label{sec locallaw1}
 In the following proof, we choose a sufficiently small constants $c_0>0$ such that Lemma \ref{lem_mbehaviorw} and Lemma \ref{lem_stabw} hold. Then we define a domain of the spectral parameter $z$ as
 \begin{equation}
 \mathbf D:= \left\{z=E+ \ii \eta \in \C_+: |z|\le (\log n)^{-1} \right\}. \label{SSET1}
@@ -1230,130 +1410,8 @@ This concludes Lemma \ref{lem_cov_derivative}.
 
 
 
-\subsubsection{Analysis of the Limiting Equations}\label{sec contract}
-In this section we give the proof of Lemmas \ref{lem_mbehaviorw} and \ref{lem_stabw} using the contraction principle. 
- %We first prove the existence and continuity of the solutions to equation \eqref{falvww}. 
- \begin{proof}[Proof of Lemma \ref{lem_mbehaviorw}]
- It is easy to check that the equations in equation \eqref{selfomega} are equivalent to  
-\begin{equation}\label{selfalter}
-r_1M_{1}=-(1-\gamma_n) - r_2M_{2} - z\left( M_{2}^{-1}+1\right),\quad g_z(M_{2}(z))=1, 
-\ee
-where
-$$g_z(M_{2}):= - M_{2} +\frac1n\sum_{i=1}^p \frac{M_{2} }{  z -\lambda_i^2(1-\gamma_n)+ (1 - \lambda_i^2) r_2M_{2} - \lambda_i^2 z\left(  M_{2}^{-1}+1\right) }.$$
-We first show that (i) there exists a unique solution $M_{2}(z)$ to the equation $g_z(M_{2}(z))=1$ under the conditions in equation \eqref{prior1}, and (ii) the solution satisfies equation \eqref{Lipomega}. We abbreviate $\e(z):= M_{2}(z) - M_{2}(0)$. From equation \eqref{selfalter}, we obtain that 
-\begin{equation} \nonumber
-0=\left[g_z(M_{2}(z)) -  g_0(M_{2}(0)) -g_z'(M_{2}(0))\e(z)\right] + g_z'(M_{2}(0))\e(z),
-\ee
-which implies
-\be\nonumber%\label{selfomega1}
- \e(z) =- \frac{ g_z(M_{2}(0)) - g_0(M_{2}(0)) }{g_z'(M_{2}(0))}- \frac{ g_z(M_{2}(0)+\e(z)) -  g_z(M_{2}(0))-g_z'(M_{2}(0))\e(z)}{g_z'(M_{2}(0))}.
- \ee
-%By equation \eqref{selfomega}, we obtain the self-consistent equations for $(M_{2}(0),M_{2}(0))$ and $(M_{2}(z),M_{2}(z))$:
-% \begin{equation}\label{selfomega1}
-%\begin{split}
-%& \frac{r_1}{M_{2}(0) }=- 1 + \frac1n\sum_{i=1}^p \frac{\lambda_i^2}{\lambda_i^2M_{2}(0) + M_{2} (0) },\quad \frac{r_2}{M_{2} (0)}=  - 1 +\frac1n\sum_{i=1}^p \frac{1 }{ \lambda_i^2 M_{2} (0)+  M_{2}(0)  }.
-%\end{split}
-%\ee
-%Subtract equation \eqref{selfomega1} from equation \eqref{selfomega}, we get that
-% \begin{equation}\label{selfomega3}
-%\begin{split}
-%& \e_{2} \frac{r_1}{(M_{2} +\e_2) M_{2}}=  \frac1n\sum_{i=1}^p \frac{\lambda_i^2 (z+\lambda_i^2 \e_2 +\e_3)}{(\lambda_i^2M_{2}  + M_{2})(z+\lambda_i^2(M_{2}+\e_2)  + (M_{2}+\e_3) ) },\\
-%&  \e_3 \frac{r_2}{(M_{2}+\e_3) M_{2}}=  \frac1n\sum_{i=1}^p \frac{z+\lambda_i^2 \e_2 +\e_3}{(\lambda_i^2M_{2}  + M_{2})(z+\lambda_i^2(M_{2}+\e_2)  + (M_{2}+\e_3) ) }.
-%\end{split}
-%\ee
-Inspired by this equation, we define iteratively a sequence ${\e}^{(k)}(z) \in \C$ such that ${\e}^{(0)}=0$, and 
-\be\label{selfomega2}
- \e^{(k+1)} =- \frac{g_z(M_{2}(0)) - g_0(M_{2}(0))}{g_z'(M_{2}(0))} -\frac{g_z(M_{2}(0)+ \e^{(k)}) -  g_z(M_{2}(0))-g_z'(M_{2}(0))\e^{(k)} }{g_z'(M_{2}(0))} .
- \ee
-% \begin{equation}\nonumber%\label{selfomega4}
-%\begin{split}
-%& \left\{\frac{r_1}{M_{2}^2  } - \frac1n\sum_{i=1}^p \frac{\sigma_i^4   }{(\lambda_i^2M_{2}  + M_{2})(z+\lambda_i^2 M_{2}  + M_{2} ) } \right\} \e^{(k+1)}_{2}  -  \frac1n\sum_{i=1}^p \frac{\lambda_i^2   }{(\lambda_i^2M_{2}  + M_{2})(z+\lambda_i^2 M_{2}  + M_{2} ) } \e_3^{(k+1)} \\
-%& = \frac1n\sum_{i=1}^p \frac{\lambda_i^2 z}{(\lambda_i^2M_{2}  + M_{2})(z+\lambda_i^2M_{2}  + M_{2} ) } + \frac{r_1 [\e_2^{(k)}]^2}{M_{2}^2 (M_{2}+\e_2^{(k)})} \\
-%&+   \frac1n\sum_{i=1}^p \left( \frac{\lambda_i^2 (z+\lambda_i^2 \e_2^{(k)} +\e_3^{(k)})}{(\lambda_i^2M_{2}  + M_{2})(z+\lambda_i^2(M_{2}+\e_2^{(k)})  + (M_{2}+\e_3^{(k)}) ) } - \frac{\lambda_i^2 (z+\lambda_i^2 \e_2^{(k)} +\e_3^{(k)})}{(\lambda_i^2M_{2}  + M_{2})(z+\lambda_i^2M_{2}  + M_{2}) }\right),\\
-%& \left\{\frac{r_2}{M_{2}^2  } - \frac1n\sum_{i=1}^p \frac{1 }{(\lambda_i^2M_{2}  + M_{2})(z+\lambda_i^2 M_{2}  + M_{2} ) } \right\} \e^{(k+1)}_{3}  -  \frac1n\sum_{i=1}^p \frac{1 }{(\lambda_i^2M_{2}  + M_{2})(z+\lambda_i^2 M_{2}  + M_{2} ) } \e_2^{(k+1)} \\
-%& = \frac1n\sum_{i=1}^p \frac{ z}{(\lambda_i^2M_{2}  + M_{2})(z+\lambda_i^2M_{2}  + M_{2} ) } + \frac{r_2 [\e_3^{(k)}]^2}{M_{2}^2 (M_{2}+\e_3^{(k)})} \\
-%&+   \frac1n\sum_{i=1}^p \left( \frac{ z+\lambda_i^2 \e_2^{(k)} +\e_3^{(k)}}{(\lambda_i^2M_{2}  + M_{2})(z+\lambda_i^2(M_{2}+\e_2^{(k)})  + (M_{2}+\e_3^{(k)}) ) } - \frac{ z+\lambda_i^2 \e_2^{(k)} +\e_3^{(k)}}{(\lambda_i^2M_{2}  + M_{2})(z+\lambda_i^2M_{2}  + M_{2}) }\right).
-%\end{split}
-%\ee
-Then equation \eqref{selfomega2} defines a mapping $h:\C\to \C$, which maps $\e^{(k)}$ to $\e^{(k+1)}=h(\e^{(k)})$.
- 
-%\be\label{iteration} 
-%{\e}^{(k+1)}= \mathbf f({ \e}^{(k)}), \quad \mathbf f(\mathbf x):=S^{-1}\mathbf x_0+ S^{-1} \mathbf e(\mathbf x),
-%\ee
-%where $S$ is a $2\times 2$ matrix with
-%\begin{align*}
-%S_{11}=\frac{r_1}{M_{2}^2  } - \frac1n\sum_{i=1}^p \frac{\sigma_i^4   }{(\lambda_i^2M_{2}  + M_{2})(z+\lambda_i^2 M_{2}  + M_{2} ) }, \quad S_{12}=-  \frac1n\sum_{i=1}^p \frac{\lambda_i^2   }{(\lambda_i^2M_{2}  + M_{2})(z+\lambda_i^2 M_{2}  + M_{2} ) },\\
-%S_{21}=-  \frac1n\sum_{i=1}^p \frac{1 }{(\lambda_i^2M_{2}  + M_{2})(z+\lambda_i^2 M_{2}  + M_{2} ) } , \quad S_{22}=\frac{r_2}{M_{2}^2  } - \frac1n\sum_{i=1}^p \frac{1 }{(\lambda_i^2M_{2}  + M_{2})(z+\lambda_i^2 M_{2}  + M_{2} ) } ,
-%\end{align*}
-%%$$
-%%S:=\begin{pmatrix} \frac{c_1}{M_{1}^2  } -  \frac{ \theta_l^2 (1-\theta_l )^2 }{ (1-t_l)^2}g(M_{2})^2  & -  \frac{ (1-\theta_l )^2\theta_l }{ (1-t_l)^2} \\ -   \frac{ (1-\theta_l )^2\theta_l }{ (1-t_l)^2}  &\frac{c_2}{M_{2}^2  } -  \frac{ \theta_l^2(1-\theta_l )^2 }{ (1-t_l)^2}g(M_{1})^2  \end{pmatrix},  
-%%$$
-%$\mathbf x_0$ is a vector with
-%$$\mathbf x_0=\begin{pmatrix} \frac1n\sum_{i=1}^p \frac{\lambda_i^2 z}{(\lambda_i^2M_{2}  + M_{2})(z+\lambda_i^2M_{2}  + M_{2} ) } \\ \frac1n\sum_{i=1}^p \frac{ z}{(\lambda_i^2M_{2}  + M_{2})(z+\lambda_i^2M_{2}  + M_{2} ) }  \end{pmatrix},$$
-%and $\mathbf e(\mathbf x)$ is
-%$$\mathbf e(\mathbf x):= \begin{pmatrix}\frac{r_1 [\e_2^{(k)}]^2}{M_{2}^2 (M_{2}+\e_2^{(k)})} +   \frac1n\sum_{i=1}^p \left( \frac{\lambda_i^2 (z+\lambda_i^2 \e_2^{(k)} +\e_3^{(k)})}{(\lambda_i^2M_{2}  + M_{2})(z+\lambda_i^2(M_{2}+\e_2^{(k)})  + (M_{2}+\e_3^{(k)}) ) } - \frac{\lambda_i^2 (z+\lambda_i^2 \e_2^{(k)} +\e_3^{(k)})}{(\lambda_i^2M_{2}  + M_{2})(z+\lambda_i^2M_{2}  + M_{2}) }\right) \\ 
-% \frac{r_2 [\e_3^{(k)}]^2}{M_{2}^2 (M_{2}+\e_3^{(k)})} +   \frac1n\sum_{i=1}^p \left( \frac{ z+\lambda_i^2 \e_2^{(k)} +\e_3^{(k)}}{(\lambda_i^2M_{2}  + M_{2})(z+\lambda_i^2(M_{2}+\e_2^{(k)})  + (M_{2}+\e_3^{(k)}) ) } - \frac{ z+\lambda_i^2 \e_2^{(k)} +\e_3^{(k)}}{(\lambda_i^2M_{2}  + M_{2})(z+\lambda_i^2M_{2}  + M_{2}) }\right) \end{pmatrix}.$$
-%%Here we have used $\theta_lg(M_{1})g( M_{2} ) = f_c(\theta_l) = t_l$ (recall equation \eqref{fcz}) to simplify the expressions a little bit.
 
-With direct calculation, we obtain that
-$$g_z'(M_{2}(0)) = -1 - \frac1n\sum_{i=1}^p \frac{ \lambda_i^2(1-\gamma_n) - z\left[1- \lambda_i^2 \left(  2M_{2}^{-1}(0)+1\right)\right]  }{  \left[z -\lambda_i^2(1-\gamma_n)+ (1 - \lambda_i^2) r_2M_{2}(0) - \lambda_i^2 z\left( M_{2}^{-1}(0)+1\right)\right]^2 }.$$
-%Using equation \eqref{a23}, 
-Then it is not hard to check that there exist constants $\wt c, \wt C>0$ depending only on $\tau$ in equation \eqref{assm32} and equation \eqref{a23} such that the following estimates hold: for all $z$, $\e_1$ and $\e_2$ such that $|z|\le \wt c$ and $|\e_1|  \le \wt c$, $|\e_2|  \le \wt c$,
-\be\label{dust}
-\left|[g_z'(M_{2}(0))]^{-1}\right|\le \wt C, \quad   \left|\frac{g_z(M_{2}(0)) - g_0(M_{2}(0))}{g_z'(M_{2}(0))}\right|  \le \wt C|z| ,
-\ee
-and 
-\be\label{dust222}
-\left|\frac{g_z(M_{2}(0)+ \e_1) -  g_z(M_{2}(0)+\e_2)-g_z'(M_{2}(0))(\e_1-\e_2) }{g_z'(M_{2}(0))}\right|  \le \wt C|\e_1-\e_2|^2 .
-\ee
- By equation \eqref{dust} and equation \eqref{dust222}, there exists a sufficiently small constant $\delta>0$ depending only on $\wt C$, such that $h$ is a self-mapping 
-$$  h: B_r  \to B_r , \quad B_r:=\{\e \in \C: |\e| \le r \},$$
-as long as $r\le \delta$ and $|z| \le c_\delta$ for some constant $c_\delta>0$ depending only on $\wt C$ and $\delta$. 
-%\be\label{priori_cond}
-%\zeta+\| \b g\|_\infty+ |z-\wt z|\le c_r
-%\ee
-%for some constant $ c_r>0$ depending on $r$. 
-Now it suffices to prove that $h$ restricted to $B_r $ is a contraction, which then implies that ${\e}:=\lim_{k\to\infty} { \e}^{(k)}$ exists and $M_{2}(0)+\e(z)$ is a unique solution to the second equation of equation \eqref{selfalter} subject to the condition $\|{\e}\|_\infty \le r$. 
-
-
-From the iteration relation equation \eqref{selfomega2}, using equation \eqref{dust} one can readily check that
-\be\label{k1k}
-{ \e}^{(k+1)} - { \e}^{(k)}= h({\e}^{(k)}) - h({\e}^{(k-1)}) \le \wt C | { \e}^{(k)}-{ \e}^{(k-1)}|^2.
-\ee
-Hence as long as $r$ is chosen to be sufficiently small such that $2r\wt C\le 1/2$,  
-%compared to $\theta_l^{-1}-g(M_{1})g( M_{2} )= (1-t_l)\theta_l^{-1}$, we have
-%%where $q(\bx)$ denotes a vector with components $q(x_i)$. 
-%%Using $|q'(0)| = 0$ and equation \eqref{dust}, we get from equation \eqref{k1k} that
-%$$
-% \left\|\mathbf e({{} \e}^{(k)}) -\mathbf e({{} \e}^{(k-1)})\right\|_\infty \le C (\|\bx^{k }\|_\infty +\|\bx^{k-1 }\|_\infty)\|{{} \e}^{(k)} - {{} \e}^{(k-1)}\|_\infty
-% %\|\bx^{k+1}-\bx^k\|_\infty\le  C_\kappa \left(\zeta+\|\bx^{k }\|_\infty +\|\bx^{k-1 }\|_\infty  \right)\cdot \|\bx^{k }-\bx^{k-1}\|_\infty
-%$$
-%for some constant $C >0$ depending only on $c_1, c_2$ and $\delta_l$. Thus we can choose a sufficiently small constant $0<r \le \min\{\tau, (2C)^{-1}\}$ such that $Cr \le 1/2$, i.e. 
-$h$ is indeed a contraction mapping on $ B_r$. This proves both the existence and uniqueness of the solution $M_{2}(z)=M_{2}(0)+\e(z)$, if we choose $c_0$ in equation \eqref{prior1} as $c_0=\min\{c_\delta, r\}$. After obtaining $M_{2}(z)$, we can then find $M_{2}(z)$ using the first equation in equation \eqref{selfalter}. 
-
-Note that with equation \eqref{dust222} and ${\e}^{(0)}= 0$, we get from equation \eqref{selfomega2} that $ |{ \e}^{(1)}| \le \wt C|z| .$
-With the contraction mapping, we have the bound 
-\be\label{endalter}|{ \e}| \le \sum_{k=0}^\infty |{  \e}^{(k+1)}-{ \e}^{(k)}| \le 2\wt C|z| \ \Rightarrow \ |M_{2}(z)-M_{2}(0)|\le 2\wt C|z| .\ee
-%This gives the bound equation \eqref{Lipomega} for $M_{2}(z)$. 
-Using the first equation in equation \eqref{selfalter}, we immediately obtain the bound  $ r_1|M_{1}(z)-M_{1}(0)| \le C|z|$, which gives equation \eqref{Lipomega} as long as if $r_1\gtrsim 1$. To deal with the small $r_1$ case, we go back to the first equation in equation \eqref{selfomega} and treat $M_{1}(z)$ as the solution to the following equation:
-$$\wt g_z(M_{1}(z))=1,\quad \wt g_z(x):=- x + \frac{\gamma_n}p\sum_{i=1}^p \frac{\lambda_i^2 x}{  z+\lambda_i^2 r_1 x +r_2 M_{2}(z) }. $$
-%We can calculate that 
-%$$g_z'(M_{2}(0))= -1 +  \frac{\gamma_n}p\sum_{i=1}^p \frac{\lambda_i^2 (z + r_2M_{2}(z))}{  (z+\lambda_i^2 r_1 M_{1}(0) +r_2 M_{2}(z))^2 }.$$
-%At $z=0$, we have 
-%$$ |g_0'(M_{2}(0))|= \left|1+\frac{\gamma_n}p\sum_{i=1}^p \frac{\lambda_i^2  r_2 x_3}{  (\lambda_i^2 r_1 x_2 + r_2 x_3)^2 }\right|\ge 1,$$
-%where $x_2$ and $x_3$ satisfy equation \eqref{a23}. Thus under equation \eqref{prior1} we have $|g_z'(M_{2}(0))|\sim 1$ as long as $c_0$ is taken sufficiently small. 
-Then with a similar argument as the one between equation \eqref{selfalter} and equation \eqref{endalter}, we can conclude $|M_{2}(z)-M_{2}(0)|=\OO(|z|)$, which concludes equation \eqref{Lipomega} together with equation \eqref{endalter}. 
-%$c_0$ is taken sufficiently small. 
-This concludes the proof of Lemma \ref{lem_mbehaviorw}.
-\end{proof}
-
-\begin{proof}[Proof of Lemma \ref{lem_stabw}]
-Under equation \eqref{prior12}, we can obtain equation \eqref{selfalter} approximately up to some small error
-\be\label{selfalter2}r_1 m_{1}=-(1-\gamma_n) - r_2m_{2} - z\left(  {m_{2}^{-1}}+1\right) + \cal E'_1(z),\quad g_z(m_{2}(z))=1+ \cal E'_2(z),\ee
- with $|\cal E'_1(z)|+ |\cal E'_2(z)|=\OO(\delta(z))$. Then we subtract the equations equation \eqref{selfalter} from equation \eqref{selfalter2}, and consider the contraction principle for the function $\e (z):= m_{2}(z) - m_{2 c}(z)$.  The rest of the proof is exactly the same as the one for Lemma \ref{lem_mbehaviorw}, so we omit the details.
-\end{proof}
-
-\subsection{Proof of the Anisotropic Local Law}\label{sec_Gauss}
+\subsubsection{Proof of the Anisotropic Local Law}\label{sec_Gauss}
 
 %We divide the proof of Theorem \ref{LEM_SMALL} into two steps. We first prove Theorem \ref{LEM_SMALL} in the special case where $X$ is Gaussian. Then we use a self-consistent comparison arguments developed in \cite{Anisotropic} to prove Theorem \ref{LEM_SMALL} in the general case. 
  
@@ -1425,12 +1483,12 @@ Next we briefly describe how to extend Theorem \ref{LEM_SMALL} from the Gaussian
 
 
 
-\subsubsection{Comparison Argument with Continuous Interpolation}\label{sec_comparison}
+%\subsubsection{Comparison Argument with Continuous Interpolation}\label{sec_comparison}
 
 %Following the above discussions, we divide the proof of Theorem \ref{LEM_SMALL} into two steps. In Section \ref{sec_Gauss}, we give the proof for separable covariance matrices of the form $\Sig^{1/2} X \tilde \Sig X^\top \Sig^{1/2}$, which implies the local laws in the Gaussian $X$ case. In Section \ref{sec_comparison}, we apply the self-consistent comparison argument in \cite{Anisotropic} to extend the result to the general $X$ case. Compared with \cite{Anisotropic}, there are two differences in our setting: (1) the support of $X$ in Theorem \ref{LEM_SMALL} is $q=\OO(N^{-\phi})$ for some constant $0<\phi \le 1/2$, while \cite{Anisotropic} dealt with $X$ with smaller support $q=\OO(N^{-1/2})$; (2) one has $B=I$ in \cite{Anisotropic}, which simplifies the proof a little bit.
 
 
-In this subsection, we describe the proof of Theorem \ref{LEM_SMALL} for general $Z_1$ and $Z_2$ satisfying the bounded support condition (\ref{eq_support}) with $q\le n^{-\phi}$ for some constant $\phi>0$. 
+......... In this subsection, we describe the proof of Theorem \ref{LEM_SMALL} for general $Z_1$ and $Z_2$ satisfying the bounded support condition (\ref{eq_support}) with $q\le n^{-\phi}$ for some constant $\phi>0$. 
 %As remarked at the beginning of Section \ref{sec_Gauss},
 Proposition \ref{prop_diagonal} implies that equation \eqref{aniso_law} holds for Gaussian $Z_1^{\text{Gauss}}$ and $Z_2^{\text{Gauss}}$ as discussed above. Thus it suffices is to prove that for $Z_1$ and $Z_2$ satisfying the assumptions in Theorem \ref{LEM_SMALL}, we have
 \begin{equation*}%\label{Gaussian_starting}
@@ -2214,9 +2272,6 @@ Underlying the proof of (\ref{lemm_comp_4}) is an expansion approach, which is v
 %If $A$ or $B$ is diagonal, then by the remark at the end of Section \ref{subsec_3moment}, the anisotropic local law equation \eqref{aniso_law} holds for all $z\in S(c_0,C_0,\e)$ even in the case with $b_N=N^{1/2}$ in equation \eqref{assm_3moment}. Then with equation \eqref{aniso_law} and the self-consistent comparison argument in \cite[Section 9]{Anisotropic}, we can prove equation \eqref{aver_in1} and equation \eqref{aver_out1} for $z\in S(c_0,C_0,\e)$. Again most of the arguments are the same as the ones in \cite[Section 9]{Anisotropic}, hence we omit the details. 
 
 
-
-\subsubsection{Some Basic Estimates}\label{sec tools}
-
 \iffalse
 This section is organized as follows. In Section \ref{sec tools}, we collect some basic estimates and resolvent identities that will be used in the proof of Theorem \ref{LEM_SMALL} and Proposition \ref{prop_diagonal}. Then in Section \ref{sec entry} we give the proof of Proposition \ref{prop_diagonal}, which concludes Theorem \ref{LEM_SMALL} when $Z_1$ and $Z_2$ have i.i.d. Gaussian entries. In Section \ref{sec_comparison}, we describe how to extend the result in Theorem \ref{LEM_SMALL} from the Gaussian case to the case where the entries of $Z_1$ and $Z_2$ are generally distributed. Finally, in Section \ref{sec contract}, we give the proof of Lemma \ref{lem_mbehaviorw} and Lemma \ref{lem_stabw}. In the proof, we always denote the spectral parameter by $z=E+\ii\eta$. 
 \fi
@@ -2239,6 +2294,9 @@ With Lemma \ref{prop_entry}, we can complete the proof of the anisotropic local 
 With (\ref{entry_diagonal}), one can use the polynomialization method in \cite[Section 5]{isotropic} to get the anisotropic local law (\ref{aniso_law}) for $G_0$ with $q=n^{-1/2}$. The proof is exactly the same, except for some minor differences in notations. Hence we omit the details.
 \end{proof}
 
+
+%\subsubsection{Some Basic Estimates}\label{sec tools}
+\subsubsection{Entrywise Local Law}\label{sec entry}
  
  The rest of the proof is devoted to proving Lemma \ref{prop_entry}. In this subsection, we collect some basic estimates for the proof, while the main argument will be given in Section \ref{sec entry}. We remark that the estimates in this subsection work for general $G$, that is, we do not require $U$ and $V$ to be identity.
 
@@ -2299,40 +2357,40 @@ Let $\xi$ and $\zeta$ be two families of nonnegative random variables depending 
 \end{itemize}
 \end{lemma}
 
-Now we introduce the concept of minors, which are defined by removing certain rows and columns of the matrix $H$.
-
-\begin{definition}[Minors]\label{defnMinor}
-For any $ (p+n)\times (p+n)$ matrix $\cal A$ and index subset $\mathbb T \subseteq \mathcal I$, we define the minor $\cal A^{(\mathbb T)}:=(\cal A_{\fa\fb}:\fa,\fb \in \mathcal I\setminus \mathbb T)$ as the $ (p+n-|\mathbb T|)\times (p+n-|\mathbb T|)$ matrix obtained by removing all rows and columns indexed by $\mathbb T$. Note that we keep the names of indices when defining $\cal A^{(\mathbb T)}$, i.e. $(\cal A^{(\mathbb{T})})_{\fa\fb}= \cal A_{\fa\fb}$ for $\fa,\fb \notin \mathbb{{T}}$. Correspondingly, we define the resolvent minor as (recall equation \eqref{green2})
-\begin{align*}
-G^{(\mathbb T)}:&=\left[\left(H - \left( {\begin{array}{*{20}c}
-   { zI_{p}} & 0  \\
-   0 & { I_{n}}  \\
-\end{array}} \right)\right)^{(\mathbb T)}\right]^{-1} = \left( {\begin{array}{*{20}c}
-   { \mathcal G^{(\mathbb T)}} & \mathcal G^{(\mathbb T)} W^{(\mathbb T)}  \\
-   {\left(W^{(\mathbb T)}\right)^\top\mathcal G^{(\mathbb T)}} & { \mathcal G_R^{(\mathbb T)} }  \\
-\end{array}} \right)  ,
-%= \left( {\begin{array}{*{20}c}
-%   { z\mathcal G_1^{(\mathbb T)}} & Y^{(\mathbb T)}\mathcal G_2^{(\mathbb T)}   \\
-%   {\mathcal G_2^{(\mathbb T)}}\left(Y^{(\mathbb T)}\right)^\top & { \mathcal G_2^{(\mathbb T)} }  \\
-%\end{array}} \right),
-\end{align*}
-and define the partial traces $m^{(\mathbb T)}$ and $m^{(\mathbb T)}_k$, $k=0,1,2,$ by replacing $G$ with $G^{(\mathbb T)}$ in equation \eqref{defm}.
-%$$m_1^{(\mathbb T)}:=\frac{1}{Nz}\sum_{i\notin \mathbb T}\sigma_i G_{ii}^{(\mathbb T)},\ \ m_2^{(\mathbb T)}:= \frac{1}{N}\sum_{\mu \notin \mathbb T}\tilde \sigma_\mu G_{\mu\mu}^{(\mathbb T)}.$$ 
-%\be\label{m123}
-%\begin{split} 
-%m^{(\mathbb T)} := \frac1p \sum_{i \in \cal I_1}G^{(\mathbb T)}_{ii}(z),\quad & m^{(\mathbb T)}_1:=\frac1p\sum^{(\mathbb T)}_{i \in \cal I_1}\lambda_i^2 G^{(\mathbb T)}_{ii}(z),\\
-% m_2^{(\mathbb T)}(z):=  \frac1{n_1} \sum_{\mu\in \cal I_2} G_{\mu\mu}^{(\mathbb T)}(z),\quad  &m_3^{(\mathbb T)}(z):=  \frac1{n_2} \sum_{\mu\in \cal I_3} G_{\mu\mu}^{(\mathbb T)}(z),
-%\end{split}
-%\ee
-%where we abbreviated that $\sum_{a}^{(\mathbb T)} := \sum_{a\notin \mathbb T} $. 
-For convenience, we will adopt the convention that for any minor $\cal A^{(\mathbb T)}$ defined as above, $\cal A^{(\mathbb T)}_{\fa\fb} = 0$ if $\fa \in \mathbb T$ or $\fb \in \mathbb T$. Moreover, we will abbreviate $(\{\fa\})\equiv (\fa)$ and $(\{\fa, \fb\})\equiv (\fa\fb)$ for $\fa,\fb\in \cal I$.
-\end{definition}
+%Now we introduce the concept of minors, which are defined by removing certain rows and columns of the matrix $H$.
+%
+%\begin{definition}[Minors]\label{defnMinor}
+%For any $ (p+n)\times (p+n)$ matrix $\cal A$ and index subset $\mathbb T \subseteq \mathcal I$, we define the minor $\cal A^{(\mathbb T)}:=(\cal A_{\fa\fb}:\fa,\fb \in \mathcal I\setminus \mathbb T)$ as the $ (p+n-|\mathbb T|)\times (p+n-|\mathbb T|)$ matrix obtained by removing all rows and columns indexed by $\mathbb T$. Note that we keep the names of indices when defining $\cal A^{(\mathbb T)}$, i.e. $(\cal A^{(\mathbb{T})})_{\fa\fb}= \cal A_{\fa\fb}$ for $\fa,\fb \notin \mathbb{{T}}$. Correspondingly, we define the resolvent minor as (recall equation \eqref{green2})
+%\begin{align*}
+%G^{(\mathbb T)}:&=\left[\left(H - \left( {\begin{array}{*{20}c}
+%   { zI_{p}} & 0  \\
+%   0 & { I_{n}}  \\
+%\end{array}} \right)\right)^{(\mathbb T)}\right]^{-1} = \left( {\begin{array}{*{20}c}
+%   { \mathcal G^{(\mathbb T)}} & \mathcal G^{(\mathbb T)} W^{(\mathbb T)}  \\
+%   {\left(W^{(\mathbb T)}\right)^\top\mathcal G^{(\mathbb T)}} & { \mathcal G_R^{(\mathbb T)} }  \\
+%\end{array}} \right)  ,
+%%= \left( {\begin{array}{*{20}c}
+%%   { z\mathcal G_1^{(\mathbb T)}} & Y^{(\mathbb T)}\mathcal G_2^{(\mathbb T)}   \\
+%%   {\mathcal G_2^{(\mathbb T)}}\left(Y^{(\mathbb T)}\right)^\top & { \mathcal G_2^{(\mathbb T)} }  \\
+%%\end{array}} \right),
+%\end{align*}
+%and define the partial traces $m^{(\mathbb T)}$ and $m^{(\mathbb T)}_k$, $k=0,1,2,$ by replacing $G$ with $G^{(\mathbb T)}$ in equation \eqref{defm}.
+%%$$m_1^{(\mathbb T)}:=\frac{1}{Nz}\sum_{i\notin \mathbb T}\sigma_i G_{ii}^{(\mathbb T)},\ \ m_2^{(\mathbb T)}:= \frac{1}{N}\sum_{\mu \notin \mathbb T}\tilde \sigma_\mu G_{\mu\mu}^{(\mathbb T)}.$$ 
+%%\be\label{m123}
+%%\begin{split} 
+%%m^{(\mathbb T)} := \frac1p \sum_{i \in \cal I_1}G^{(\mathbb T)}_{ii}(z),\quad & m^{(\mathbb T)}_1:=\frac1p\sum^{(\mathbb T)}_{i \in \cal I_1}\lambda_i^2 G^{(\mathbb T)}_{ii}(z),\\
+%% m_2^{(\mathbb T)}(z):=  \frac1{n_1} \sum_{\mu\in \cal I_2} G_{\mu\mu}^{(\mathbb T)}(z),\quad  &m_3^{(\mathbb T)}(z):=  \frac1{n_2} \sum_{\mu\in \cal I_3} G_{\mu\mu}^{(\mathbb T)}(z),
+%%\end{split}
+%%\ee
+%%where we abbreviated that $\sum_{a}^{(\mathbb T)} := \sum_{a\notin \mathbb T} $. 
+%For convenience, we will adopt the convention that for any minor $\cal A^{(\mathbb T)}$ defined as above, $\cal A^{(\mathbb T)}_{\fa\fb} = 0$ if $\fa \in \mathbb T$ or $\fb \in \mathbb T$. Moreover, we will abbreviate $(\{\fa\})\equiv (\fa)$ and $(\{\fa, \fb\})\equiv (\fa\fb)$ for $\fa,\fb\in \cal I$.
+%\end{definition}
 
 %\begin{definition} [Minor of matrix] For a $M \times N$ matrix $X$, $\ \mathbb{T}$ is a subset of  $\ \{1,2,\cdots,N\}$, we define $X^{\{\mathbb{T}\}}$ as the $M \times (N- \vert \mathbb{T} \vert)$ minor of matrix $X$ by deleting the $i$-th($i \in \mathbb{T}$) columns of $X$. We will keep the name of index of $X$ for $X^{\{\mathbb{T} \}}$, namely,
 %$(X^{\{\mathbb{T}\}})_{ij}=\mathbf{1}_{ \{j \notin \mathbb{{T}}\}} X_{ij}$. 
 %\end{definition}
 
-The following simple resolvent identities are important tools for our proof. 
+The following simple resolvent identities are important tools for our proof. Recall that the resolvent minors have been defined in Definition \ref{defn_Minor}.
 \begin{lemma}\label{lemm_resolvent}
 We have the following resolvent identities. 
 \begin{itemize}
@@ -2395,22 +2453,7 @@ All these identities can be proved directly using Schur's complement formula. Th
 %
 
 
-The following lemma gives (almost) sharp concentration bounds for linear and quadratic forms of bounded supported random variables. Besides the proof of Lemma \ref{prop_entry}, we also use it in several other places of this paper, including the proofs in Section \ref{sec_proof_general} and Section \ref{app_iso_cov}.
-%It constitutes the main difference between our proof and the one in \cite{KY2}, where the authors used a large deviation bound for random variables with arbitrarily high moments.
 
-\begin{lemma}[Lemma 3.8 of \cite{EKYY1}]\label{largedeviation}
-Let $(x_i)$, $(y_j)$ be independent families of centered and independent random variables, and $(A_i)$, $(B_{ij})$ be families of deterministic complex numbers. Suppose the entries $x_i$, $y_j$ have variances at most $n^{-1}$ and satisfy the bounded support condition (\ref{eq_support}) with $q\le n^{-\phi}$ for some constant $\phi>0$. Then we have the following bounds:
-%for any fixed $\xi>0$, the following bounds hold with $\xi$-high probability:
-\begin{align*}
-\Big\vert \sum_i A_i x_i \Big\vert \prec  q \max_{i} \vert A_i \vert+ \frac{1}{\sqrt{n}}\Big(\sum_i |A_i|^2 \Big)^{1/2} , \quad &\Big\vert \sum_{i,j} x_i B_{ij} y_j \Big\vert \prec q^2 B_d  + qB_o + \frac{1}{n}\Big(\sum_{i\ne j} |B_{ij}|^2\Big)^{{1}/{2}}, \\
-\Big\vert \sum_{i} (|x_i|^2-\mathbb E|x_i|^2) B_{ii}  \Big\vert  \prec q B_d   , \quad &\Big\vert \sum_{i\ne j} \bar x_i B_{ij} x_j \Big\vert  \prec qB_o + \frac{1}{n}\Big(\sum_{i\ne j} |B_{ij}|^2\Big)^{{1}/{2}} ,
-\end{align*}
-where $B_d:=\max_{i} |B_{ii} |$ and $B_o:= \max_{i\ne j} |B_{ij}|.$ Moreover, if all the moments of $\sqrt{n}x_i$ and $\sqrt{n}y_j$ exist in the sense of equation \eqref{assmAhigh}, then we have stronger bounds
-\begin{align*}
-\Big\vert \sum_i A_i x_i \Big\vert \prec  \frac{1}{\sqrt{n}}\Big(\sum_i |A_i|^2 \Big)^{1/2} , \quad  & \Big\vert \sum_{i,j} x_i B_{ij} y_j \Big\vert \prec  \frac{1}{n}\Big(\sum_{i\ne j} |B_{ij}|^2\Big)^{{1}/{2}} , \\
- \Big\vert   \sum_{i} (|x_i|^2-\mathbb E|x_i|^2) B_{ii}  \Big\vert  \prec \frac1{n}\Big( \sum_i |B_{ii} |^2\Big)^{1/2}  ,\quad & \Big\vert \sum_{i\ne j} \bar x_i B_{ij} x_j \Big\vert  \prec  \frac{1}{n}\Big(\sum_{i\ne j} |B_{ij}|^2\Big)^{{1}/{2}} .
-\end{align*}
-\end{lemma}  
 
 
 
@@ -2442,7 +2485,7 @@ where $B_d:=\max_{i} |B_{ii} |$ and $B_o:= \max_{i\ne j} |B_{ij}|.$ Moreover, if
 %for some constant $\tau'>0$.
 %\end{proof}
 
-\subsubsection{Entrywise Local Law}\label{sec entry}
+
 
 %For the proof of Proposition \ref{prop_diagonal}, it is convenient to introduce the following random control parameters.
 %
