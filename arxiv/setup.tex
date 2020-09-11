@@ -1,15 +1,5 @@
-\subsection{Setup and Main Results}
-\label{sec_prelim}
 
-We begin by defining our problem setup including the multi-task estimator we study.
-Then, we describe the bias-variance tradeoff of the multi-task estimator and connect the bias and variance of the estimator to \textit{task similarity}, \textit{sample size}, and \textit{covariate shift}.
-%Finally, we show a tight concentration bound for the bias and variance quantities using random matrix theory.
-
-%\subsection{Problem Formulation}
-
-\todo{Consider adding some motivation later.}
-
-\noindent\textbf{Data model.}
+\paragraph{Linear models.}
 Suppose we have $t$ labeled regression tasks. %where $t$ is a fixed value that does not grow with the feature dimension $p$.
 For each task $k$ from $1$ to $t$, we have $n_k$ samples $x_1, x_2, \dots, x_{n_k}$ that are all $p$-dimensional feature vectors with real-valued labels $y_1, y_2, \dots, y_{n_k}$.
 Without loss of generality, we focus on predicting the $t$-th task and refer the $t$-th task as the target.
@@ -37,20 +27,7 @@ Second, as we will see soon in Section \ref{sec_general}, we can derive precise 
 %Following \cite{HMRT19,BLLT20}, we assume that for each task $i = 1,2,\dots,t$,  every feature vector is generated as $x = \Sigma_i^{1/2} z$, where $z\in\real^p$ is a random vector with i.i.d. entries of mean zero and unit variance and $\Sigma_i\in\real^{p\times p}$ is a positive semidefinite matrix.
 %Without loss of generality, let the $t$-th task be the target task.
 
-We make several standard assumptions on the covariance matrix $\Sigma_k$ and the random vector $z_i$, for $k = 1,\dots, t$ and $i = 1,\dots, n_k$.
-First, for every entry of $z_i$, we assume that its $(4+\e)$-th moment exists, that is, there exist constants $\e, C > 0$ such that
-\begin{equation}\label{assmAhigh}
-	\ex{\abs{z_{i,j}}^{4+\e}} \le C,\ 1\le j \le p.
-\end{equation}
-Second, we assume that the spectral norm of $\Sigma_k$ is bounded by a fixed constant, for every $k = 1,\dots, t$.
-This is without loss of generality since we can always rescale $\Sigma_k$ so that its spectral norm satisfies the condition.
-Finally, for the noise vector $\varepsilon_k$, we assume that there exists an absolute constant such that for all $l$ \todo{check}, the $l$-th moment of the noise entries exists:
-\begin{align*}
-	\ex{\abs{\varepsilon_{k, j}}^l \le C}, \text{ for all } j = 1, \dots, n_k.
-\end{align*}
-
-\medskip
-\noindent\textbf{Hard parameter sharing.}
+\paragraph{Hard parameter sharing estimators.}
 We study multi-task learning models that use hard parameter sharing, which is the most commonly used architecture in practice \cite{R17}.
 Specifically, we consider a two-layer neural network with a shared layer $B\in\real^{p\times r}$ for all tasks and $t$ output layers $W_1, \dots, W_t$ for every task from $1$ to $t$, where each output layer is a $r$-dimensional vector.
 The width of $B$, denoted by $r$, plays an important role in regularization.
@@ -81,9 +58,7 @@ In general, the multi-task learning objective $f(\cdot)$ is non-convex with resp
 Therefore, we first minimize $B$ in equation \eqref{eq_mtl} and then minimize $W_k$ given $B$ in equation \eqref{eq_mtl_eval}.
 For our results later in Section \ref{sec_general} and \ref{sec_special}, we will identify tractable cases and provide guarantees to the above procedure.
 
-
-\medskip
-\noindent\textbf{Problem statement.}
+\paragraph{Problem statement.}
 %We focus on predicting a particular task, say the $t$-th task, without loss of generality.
 For an estimator $\hat{\beta}$ of the target task model $\beta_t$, we define the prediction loss of the estimator $\hat{\beta}$ as
 	{\begin{align*}
@@ -98,6 +73,103 @@ We say that the source tasks provide a \textit{positive transfer} to the target 
 On the other hand, we say that the source tasks provide a \textit{negative transfer} to the target task if $L(\hat{\beta}_t^{\MTL}) < L(\hat{\beta}_t^{\STL})$.
 Our goal is to study when the source tasks provide a positive transfer to the target task.
 More specifically, we study how varying properties of task data including task similarity, sample ratio, and covariate shift affects information transfer in multi-task learning.
+
+
+
+\subsection{Summary of Results}
+\label{sec_prelim}
+
+%We begin by defining our problem setup including the multi-task estimator we study.
+%Then, we describe the bias-variance tradeoff of the multi-task estimator and connect the bias and variance of the estimator to \textit{task similarity}, \textit{sample size}, and \textit{covariate shift}.
+%Finally, we show a tight concentration bound for the bias and variance quantities using random matrix theory.
+
+%\subsection{Problem Formulation}
+
+\textbf{Main results.} First, we develop tight bounds for the bias and variance of the multi-task estimator for two tasks by applying recent development in random matrix theory \cite{erdos2017dynamical,isotropic,Anisotropic}.
+We observe that the variance of the multi-task estimator is \textit{always smaller} than single-task learning, because of added source task samples.
+On the other hand, the bias of the multi-task estimator is \textit{always larger} than single-task learning, because of model distances.
+Hence, the tradeoff between bias and variance determines whether the transfer is positive or negative.
+We provide a sharp analysis of the \textit{variance} that scales with sample size and covariate shift.
+We extend the analysis to the bias, which \textit{in addition} scales with {task similarity}.
+Combining both, we analyze the bias-variance tradeoff for two tasks in Theorem \ref{thm_main_informal} and extend the analysis to many tasks with the same features in Theorem \ref{thm_many_tasks}.
+%For the setting of two tasks, we show how the variance of the multi-task estimator  scales with sample size and covariate shift in the following result.
+%\textit{Our first contribution} is to develop a concentration bound that arises naturally from the bias-variance tradeoff of $\hat{\beta}_t^{\MTL}$ for two tasks.
+%Let $\hat{\beta}_t^{\STL}$ denote the single-task estimator.
+%Without loss of generality, let the $t$-th task denote the target task.
+%Importantly, the target task's data size is a fixed constant times $p$ in the high-dimensional setting.
+%Hence adding more labeled data can help improve its test performance.
+%$B\in\real^{p\times r}$
+%$\set{W_i \in \real^{r}}_{i=1}^t$
+
+
+
+
+%Concretely, we show a tight bound on the trace of $(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}$, which
+%Theorem \ref{lem_cov_shift_informal} allows us to analyze the bias-variance tradeoff of the multi-task estimator for two settings:
+%(i) two tasks with arbitrary covariate shift; (ii) many tasks with no covariate shift.
+
+%We shall assume that each task data follows a linear model, i.e. $y_i = X_i \beta_i + \varepsilon_i$, $1\le i\le k$.
+%Here $\beta_i\in\real^p$ is the model parameter for the $i$-th task.
+%Each row of $X_i\in\real^{n_i\times p}$ is assumed to be drawn i.i.d. from a fixed
+%distribution with covariance matrix $\Sigma_i$.
+
+%We extend our result to the transfer learning
+%in the setting of high-dimensional linear regression.
+%by pooling source task representations into the shared body of the hard parameter sharing architecture, following
+%setting of Taskonomy by Zamir et al. \cite{ZSSGM18}.
+%We prove that the bias of the transfer learning estimator is given by the projection of $\beta_t$ to the orthogonal subspace spanned by $\set{\beta_i}_{i=1}^{t-1}$.
+%These results are described more precisely in Section \ref{sec_main}.
+
+Second, we explain the phenomena in Figure \ref{fig_model_shift_phasetrans} in isotropic and covariate shifted settings.
+%We observe that negative transfer occurs as (a) \textit{task similarity}: tasks become more different; (b) \textit{data size}: source/target data size increases.
+%\textbf{Task similarity:}
+%\textbf{Data sizes:}
+%\textbf{Covariate shift:}
+%Furthermore, MTL performance is negatively affected when (c) \textit{covariate shift}: the covariance matrices of the two tasks become more different.
+\squishlist
+	\item We provide conditions to predict the effect of transfer as a parameter of model distance $\norm{\beta_1-\beta_2}$ (Section \ref{sec_similarity}).
+	As model distance increases, the bias becomes larger, resulting in negative transfer.
+%	Our result predicts most of the empirical observations in Figure \ref{fig_model_shift} correctly.
+%	It is crucial that the concentration result in Theorem \ref{lem_cov_shift_informal} is sufficiently precise so that we can explain the transition phenomena in Figure \ref{fig_model_shift} and \ref{fig_size}.
+%	The unexplained observations are caused by an error term from the bias.
+%	We discuss these in Section \ref{sec_insight}.
+	\item We provide conditions to predict transfer as a parameter of sample ratio $\rho_1/\rho_2$ (Section \ref{sec_data_size}).
+	Adding source task samples helps initially by reducing variance, but hurts eventually due to bias.
+	%namely adding more labeled data from the source task does not always improve performance (Proposition \ref{prop_data_size}).
+	%Theorem \ref{lem_cov_shift_informal} allows us to compare MTL performance under different covariate shifts.
+	\item For a special case of $\beta_1=\beta_2$, we show that MTL performs best when the singular values of $\Sigma_1^{1/2}\Sigma_2^{-1/2}$ are all equal  (Section \ref{sec_covshift}).
+	Otherwise, the variance reduces less with covariate shift.
+%	Our theoretical bound matches the empirical curve in Figure \ref{fig_covariate}.
+\squishend
+%In Section \ref{sec_insight}, we consider three components including task similarity, data size and covariate shift for a simplified isotropic setting of two tasks.
+%We measure task similarity by how small is the distance between $\beta_1$ and $\beta_2$.
+%Using our tool, we explain a transition from positive to negative transfer as task similarity decreases.
+%		Furthermore, we show that negative transfer is more likely to occur when the source task labels are particularly noisy.
+%		In Section \ref{sec_validate}, we validate the observation on text and image classification tasks.
+%	In , we provide the trade-off between $\norm{\beta_1 - \beta_2}^2$ and a certain function $\Phi(\rho_1, \rho_2)$ to determine the type of transfer.
+%We show that increasing the data size of the source task does not always improve performance for the target task in multi-task learning.
+Along the way, we analyze the benefit of MTL for reducing labeled data to achieve comparable performance to STL, which has been empirically observed in Taskonomy by Zamir et al. \cite{ZSSGM18}.
+%We show that covariate shift, measured by $\Sigma_1^{1/2}\Sigma_2^{-1/2}$, is another cause for suboptimal performance for $\hat{\beta}_t^{\MTL}$.
+%		We show that as $n_1 / n_2$ becomes large, having no covariate shift between the source and target tasks yields the optimal performance for the target task.
+%		On the other hand, when $n_1 / n_2$ is small, there are counter examples where having the same covariance matrix is not necessarily the optimal choice.
+
+Our study also leads to several algorithmic consequences with practical interest.
+First, we show that single-task learning results can help to predict positive or negative transfer for multi-task learning.
+We validate this observation on ChestX-ray14 \cite{chexnet17} and sentiment analysis datasets \cite{LZWDA18}.
+Second, we propose a new multi-task training schedule by incrementally adding task data batches to the training procedure.
+This is inspired by our observation in Figure \ref{fig_size} where adding more source task data helps initially, but hurts eventually.
+Using our incremental training schedule, we reduce the computational cost by $65\%$ compared to baseline multi-task training over six sentiment analysis datasets while keeping the accuracy the same.
+Third, we provide a fine-grained insight on a covariance alignment procedure proposed in \cite{WZR20}.
+We show that the alignment procedure provides more significant improvement when the source/target sample ratio is large.
+Finally, we validate our three theoretical findings on sentiment analysis tasks.
+
+
+We describe the main ideas for showing the generalization error of hard parameter sharing estimators.
+There are two key ideas in the proof.
+First, we study a bias-variance decomposition of hard parameter sharing, and show that the variance always reduces compared to single-task learning, while the bias always increases.
+Second, we study the limiting bias and variance of hard parameter sharing, and derive their asymptotics using recent development from the random matrix theory literature.
+The asymptotic results scale with key properties of task data such as sample size and covariance shift, and allow us to study the performance of multi-task learning by varying these properties, which will be the focus of Section \ref{sec_special}.
+
 
 
 %This part introduces a positive variance reduction effect from adding the source labels.
@@ -167,6 +239,20 @@ We shall refer to random matrices of the form $X^\top X$ as sample covariance ma
 
 \subsection{Hard Parameter Sharing}
 
-\subsection{Bias and Variance}
 
 \subsection{Random Matrices}
+
+We make several standard assumptions on the covariance matrix $\Sigma_k$ and the random vector $z_i$, for $k = 1,\dots, t$ and $i = 1,\dots, n_k$.
+First, for every entry of $z_i$, we assume that its $(4+\e)$-th moment exists, that is, there exist constants $\e, C > 0$ such that
+\begin{equation}\label{assmAhigh}
+	\ex{\abs{z_{i,j}}^{4+\e}} \le C,\ 1\le j \le p.
+\end{equation}
+Second, we assume that the spectral norm of $\Sigma_k$ is bounded by a fixed constant, for every $k = 1,\dots, t$.
+This is without loss of generality since we can always rescale $\Sigma_k$ so that its spectral norm satisfies the condition.
+Finally, for the noise vector $\varepsilon_k$, we assume that there exists an absolute constant such that for all $l$ \todo{check}, the $l$-th moment of the noise entries exists:
+\begin{align*}
+	\ex{\abs{\varepsilon_{k, j}}^l \le C}, \text{ for all } j = 1, \dots, n_k.
+\end{align*}
+
+
+
