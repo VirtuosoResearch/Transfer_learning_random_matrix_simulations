@@ -1,0 +1,50 @@
+	\section{Proof of Lemma \ref{lem_error_same_cov}}\label{app_proof_error_same_cov}
+	Next, we show that the concentration errors of $g_0(\cW), g_1(\cW), g_2(\cW)$ are all lower order terms compared to $\ex{g(\cW)}$.
+
+	First, for $g_1(\cW)$, using Lemma \ref{largedeviation} in Appendix \ref{sec_maintools} and the fact that all moments of $\varepsilon_i$ exist, we obtain that for a sufficiently small constant $\e>0$, the following holds with high probability:
+	\[ \text{for any } 1\le j \le t, |\inner{XB^{\star} \cW^{\top} (\cW\cW^{\top})^{-1}W_j - X\beta_j}{\varepsilon_j}| \le p^\e \sigma\|XB^{\star} \cW^{\top} (\cW\cW^{\top})^{-1}W_j - X\beta_j\|. \]
+	%and
+	%\begin{align*}  &|\inner{XB^{\star} \cW^{\top} (\cW\cW^{\top})^{-1}W_j - X\beta_j}{U_X U_X^{\top} \bigbrace{\varepsilon_i W_i^{\top}} (\cW\cW^{\top})^{-1} W_j }| \\
+	%&\le p^\e \sigma |W_i^{\top} (\cW\cW^{\top})^{-1} W_j|\cdot \|U_X U_X^{\top}( {XB^{\star} \cW^{\top} (\cW\cW^{\top})^{-1}W_j - X\beta_j})\|
+	%\end{align*}
+	Applying the above estimates into $g_1(\cW)$, we get that
+	\begin{align}
+	  \abs{g_1(\cal W)}    &\le p^\e \sigma \sum_{j=1}^t \|  {XB^{\star} \cW^{\top} (\cW\cW^{\top})^{-1}W_j - X\beta_j}\| \nonumber \\
+	&\le  p^\e \sigma \sum_{j=1}^t \bignorm{  \Sigma^{1/2}\left(B^{\star} \cW^{\top} (\cW\cW^{\top})^{-1}W_j - \beta_j\right)} \cdot \|Z\| \nonumber\\
+	&\lesssim p^{1/2+\e} \sigma \sum_{j=1}^t \bignorm{  \Sigma_1^{1/2}\left(B^{\star} \cW^{\top} (\cW\cW^{\top})^{-1}W_j - \beta_j\right)} \nonumber\\
+	& \le p^{1/2+\e} \bignorm{\Sigma^{1/2} B^{\star} (\cW^{\top} (\cW \cW^{\top})^{-1} \cW - \id_{t\times t})}^2 + t\sigma^2 p^{1/2+\e}.  \label{eq_est_g1}
+	\end{align}
+	In the second step, we use the fact that $X=Z\Sigma^{1/2}$.
+	In the third step, we use equation \eqref{eq_isometric} to bound the operator norm $\|Z\|$ by $\OO(\sqrt{p})$.
+	In the last step, we use the AM-GM inequality.
+
+	Second, for $g_2(\cW)$, using Lemma \ref{largedeviation} in Appendix \ref{sec_maintools} and the fact that all moments of $\varepsilon_i$ exist, we obtain that for any $1\le i, j \le t$, the following holds with high probability:
+	\begin{align*}
+		\bigabs{\norm{\varepsilon_j}^2 - \ex{\norm{\varepsilon_j}^2}} &\le \sigma^2 p^{1/2+\e},\\
+		%|\inner{U_X U_X^{\top} \bigbrace{\varepsilon_i W_i^{\top}} (\cW\cW^{\top})^{-1}W_j}{\varepsilon_j}|
+		\abs{W_i^{\top} (\cW\cW^{\top})^{-1} W_j \cdot \bigbrace{\varepsilon_i^{\top} U_X U_X^{\top} \varepsilon_j}}
+		&\le |W_i^{\top} (\cW\cW^{\top})^{-1}W_j| \cdot \sigma^2 p^{\e} \bigtr{(U_X U_X^{\top})^2}^{1/2} \le \sigma^2 p^{1/2+\e}
+  % &\left|\left(1-\mathop{\mathbb{E}}_{\varepsilon_j} \right)\left[\inner{U_X U_X^{\top} \bigbrace{\varepsilon_j W_j^{\top}} (\cW\cW^{\top})^{-1}W_j}{\varepsilon_j}\right]\right| \le |W_j^{\top} (\cW\cW^{\top})^{-1}W_j| \cdot \sigma^2 p^{\e} \tr \left[(U_X U_X^{\top})^2\right]\le \sigma^2 p^{1/2+\e},\\
+  % &\left|\left(1-\mathop{\mathbb{E}}_{\varepsilon_j} \right)\left[\inner{U_X U_X^{\top} \bigbrace{\varepsilon_j W_j^{\top}} (\cW\cW^{\top})^{-1}W_j}{U_X U_X^{\top} \bigbrace{\varepsilon_j W_j^{\top}} (\cW\cW^{\top})^{-1}W_j}\right]\right|\\
+  % &\le |W_j^{\top} (\cW\cW^{\top})^{-1}W_j|^2 \cdot \sigma^2 p^{\e} \tr \left[(U_X U_X^{\top})^4\right]\le \sigma^2 p^{1/2+\e},
+	\end{align*}
+	Combining the above two inequalities together, we get that with high probability
+	\begin{align}
+		\left|g_2(\cal W)-\sigma^2(n\cdot t - p\cdot r)\right|=\left|g_2(\cal W)- \exarg{\varepsilon_1, \dots, \varepsilon_t} {g_2(\cal W)}\right| \lesssim \sigma^2 p^{1/2+\e}. \label{eq_est_g2}
+	\end{align}
+
+	Finally, for $g_0(\cW)$, denote by $v_j:= \Sigma^{1/2}\left(B^{\star} \cW^{\top} (\cW\cW^{\top})^{-1} W_j -  \beta_j\right)$, for any $j = 1,\dots,t$, we have that $g_0(\cal W)= \sum_{j=1}^t\left\|Z v_j \right\|^2$.
+%	$$g_0(\cal W)= \sum_{j=1}^t\left\|Z v_j \right\|^2,\quad v_j:= \Sigma^{1/2}\left(B^{\star} \cW^{\top} (\cW\cW^{\top})^{-1} W_j -  \beta_j\right).$$
+	Note that $Zv_j\in \R^n$ is a random vector with i.i.d. entries of mean zero, variance $\|v_j\|^2$, and finite fourth moment by \eqref{assmAhigh}.
+	Hence by law of large numbers, we have that with high probability
+	${\left\|Z v_j \right\|^2 } = { n \|v_j\|^2} \cdot (1+\oo(1))$,
+	which implies that
+	\begin{align}
+		g_0(\cal W)=n \sum_{j=1}^t \|v_j\|^2 \cdot (1+\oo(1)) = n \bignorm{\Sigma^{1/2} B^{\star} (\cW^{\top} (\cW \cW^{\top})^{-1} \cW - \id_{t\times t})}^2 \cdot (1+\oo(1)). \label{eq_est_g0}
+	\end{align}
+
+	Combining equation \eqref{eq_est_g1}, \eqref{eq_est_g2}, and \eqref{eq_est_g0}, we obtain that with high probability
+	\begin{align}
+	g(\cal W)&= n \bignorm{\Sigma^{1/2} B^{\star} (\cW^{\top} (\cW \cW^{\top})^{-1} \cW - \id_{t\times t})}^2 \cdot (1+\oo(1)) + \sigma^2 (n\cdot t - p \cdot r)+\OO(\sigma^2 p^{1/2+\e}) \nonumber \\
+	&=\ex{g(\cW)} \cdot (1+\oo(1)) + \OO(\sigma^2 p^{1/2+\e}). \label{eq_est_g}
+	\end{align}
