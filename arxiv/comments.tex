@@ -119,3 +119,76 @@ We will not get deeper into this issue in this section, but refer the reader to 
 %For this setting, we derive solutions for the multi-task training and the transfer learning setting that match our insights qualitatively from Section \ref{sec_denoise}.
 %Using Lemma \ref{lem_minv} and some concentration bounds, we can complete the proof of Theorem \ref{thm_many_tasks}.
 
+\iffalse
+Next, we derive a closed-form solution of the multi-task learning estimator for the case of two tasks.
+From \cite{WZR20}, we know that we need to explicitly restrict the output dimension $r$ of $B$ so that there is transfer between the two tasks.
+Hence for the case of two tasks, we consider the setting where $r=1$.
+For simplicity of notations, we shall denote $(X_i^{tr},Y_i^{tr})$ and $(X_i^{val},Y_i^{val})$ as $(X_i,Y_i)$ and  $(\wt X_i,\wt Y_i)$, respectively. Then equation \eqref{eq_mtl} simplifies to
+\begin{align}\label{eq_mtl_2task}
+	f(B; w_1, w_2) = \bignorm{X_1 B w_1 - Y_1}^2 + \bignorm{X_2 B w_2 - Y_2}^2,
+\end{align}
+where $B\in\real^p$ and $w_1, w_2$ are both real numbers. To solve the above problem, suppose that $w_1, w_2$ are fixed, by local optimality, we find the optimal $B$ as
+\begin{align}
+	& \hat{B}(w_1, w_2) = (w_1^2 X_1^{\top}X_1 + w_2^2 X_2^{\top}X_2)^{-1} (w_1 X_1^{\top}Y_1 + w_2 X_2^{\top}Y_2) \label{hatB}\\
+	&= \frac{1}{w_2} \left( \frac{w_1^2}{w_2^2}  X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1} \left(\frac{w_1}{w_2} X_1^{\top}Y_1 + X_2^{\top}Y_2\right) \nonumber\\
+	&= \frac{1}{w_2}\left[\beta_2 + \left(\frac{w_1^2}{w_2^2} X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1}\bigbrace{X_1^{\top}X_1\left(\frac{w_1}{w_2}\beta_1 - \frac{w_1^2}{w_2^2} \beta_2\right) + \left(\frac{w_1}{w_2} X_1^{\top}\varepsilon_1 + X_2^{\top}\varepsilon_2\right)}\right]. \nonumber
+\end{align}
+As a remark, when $w_1 = w_2 = 1$, we obtain linear regression.
+If $\beta_1$ is a scaling of $\beta_2$, then  $w_1, w_2$ can be scaled accordingly to fix both tasks more accurately than linear regression.
+
+%For the discussions below, we assume that the entries of $\e_1$ and $\e_2$ all have the same variance $\sigma^2$. This holds for most parts of our discussion, except in Proposition \ref{prop_var_transition}. We will derive different expressions for the validation loss and the test error
+
+Next we consider $N_i$ independent samples of the training set $\{(\wt x_k^{(i)},\wt y_k^{(i)}): 1\le k \le N_i\}$ from task-$i$, $i=1,2$. With these sample, we form the random matrices $\wt X_i \in \R^{N_i\times p}$ and $\wt Y_i\in \R^{N_i}$, $i=1,2,$ whose row vectors are given by $\wt x_k^{(i)}$ and $\wt y_k^{(i)}$. We assume that $N_1$ and $N_2$ satisfy $N_1/N_2=n_1/n_2$ and $N_i \ge n_i^{1-\e_0}$ for some constant $\e_0>0$. Then we write the validation loss in \eqref{eq_mtl_eval} as
+\begin{align}\label{eq_mtl_2tasktilde}
+	g(w_1,w_2) = \bignorm{\wt X_1 \hat B w_1 - \wt Y_1}^2 + \bignorm{\wt X_2 \hat B w_2 - \wt Y_2}^2.
+\end{align}
+Inserting \eqref{hatB} into \eqref{eq_mtl_2tasktilde}, one can see that the optimal solution of $g$ only depends on the ratio $v:=w_1/w_2$.
+Hence we overload the notation by writing $g(v)$ in the following discussion.
+The expectation of $g(v)$ can be written as follows.
+\begin{align}
+		\val(v) \define& \exarg{\varepsilon_1,\e_2} {\sum_{i=1}^2 \left\|\Sigma_i^{1/2}( \hat B w_i - \beta_i) \right\|^2} \nonumber\\
+	=&  N_1 \cdot \bignorm{\Sigma_1^{1/2}\left(v^2 X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1}X_2^{\top}X_2\left (\beta_1 - v\beta_2\right)}^2 \nonumber \\
+	&+ N_2 \cdot v^2\bignorm{\Sigma_2^{1/2}\left(v^2 X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1}X_1^{\top}X_1\left(\beta_1 - v\beta_2\right)}^2 \nonumber \\
+		&+ N_1   \cdot v^2 \bigtr{\Sigma_1\left(v^2 X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-2} \left(\sigma_1^2 \cdot v^2X_1^{\top}X_1 + \sigma_2^2 \cdot X_2^{\top}X_2\right)} \nonumber \\
+		&+ N_2  \cdot \bigtr{\Sigma_2\left(v^2 X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-2} \left(\sigma_1^2 \cdot v^2  X_1^{\top}X_1 + \sigma_2^2  \cdot X_2^{\top}X_2\right)}. \label{revise_eq_val_mtl}
+\end{align}
+
+{\color{red}\begin{align*}
+			& f(W_1, W_2) = \bignorm{X_1 \hat B w_1 - Y_1}^2 + \bignorm{X_2 \hat B w_2 - Y_2}^2\\
+			& =\bignorm{X_1\left( v^2 X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1} \left(v^2 X_1^{\top}Y_1 + vX_2^{\top}Y_2\right) - Y_1}^2 \\
+			&+ \bignorm{X_2 \left( v^2 X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1} \left(vX_1^{\top}Y_1 + X_2^{\top}Y_2\right) - Y_2}^2 \\
+			& =\bignorm{X_1\left( v^2 X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1} \left(v^2 X_1^{\top}\e_1 + vX_2^{\top}\e_2\right) - \e_1 + X_1\left( v^2 X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1}  X_2^{\top}X_2(v\beta_2-\beta_1) }^2 \\
+			&+ \bignorm{X_2 \left( v^2 X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1} \left(vX_1^{\top}\e_1 + X_2^{\top}\e_2\right) - \e_2 + vX_2 \left( v^2 X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1}  X_1^{\top}X_1(\beta_1-v\beta_2) }^2 \\
+			&=\val(v)\cdot \left( 1+\OO(p^{-1/2\e})\right) \quad \text{w.h.p.},
+		\end{align*}
+		where
+		\begin{align*}
+		\val(v)&=\bignorm{X_1\left( v^2 X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1}  X_2^{\top}X_2(v\beta_2-\beta_1) }^2 \\
+			&+ v^2\bignorm{X_2 \left( v^2 X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1}  X_1^{\top}X_1(\beta_1-v\beta_2) }^2 \\
+			&+\sigma^2 \tr\left(v^2 X_1\left( v^2 X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1}   X_1^{\top} -\id\right)^2 \\
+			&+\sigma^2 \tr\left(v^2 X_1\left( v^2 X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1}X_2^{\top}X_2 \left( v^2 X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1} X_1^\top\right)\\
+			&+\sigma^2 \tr\left(X_2 \left( v^2 X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1} X_2^{\top} -\id\right)^2 \\
+			&+\sigma^2 \tr\left(v^2 X_2\left( v^2 X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1}X_1^{\top}X_1 \left( v^2 X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1} X_2^\top\right)\\
+			&=\bignorm{X_1\left( v^2 X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1}  X_2^{\top}X_2(v\beta_2-\beta_1) }^2 \\
+			&+ v^2\bignorm{X_2 \left( v^2 X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1}  X_1^{\top}X_1(\beta_1-v\beta_2) }^2 +(n_1+n_2-p)\sigma^2.
+		\end{align*}
+	}
+
+
+
+
+
+Hence to minimize $g(v)$, it suffices to minimize $\val(v)$ over $v$.
+Let $\hat v=\hat{w_1}/\hat{w_2}$ be the global minimizer of $g(v)$.
+Now we can define the multi-task learning estimator for the target task as
+	\[ \hat{\beta}_2^{\MTL} = \hat{w}_{2}\hat{B}(\hat{w}_1, \hat{w}_2) .\]
+%	where $t=2$ since we are considering the two task case, and it also stands for the ``target task".
+%The intuition for deriving $\hat{\beta}_2^{\MTL}$ is akin to performing multi-task training in practice.
+%Let $\hat{v} = \hat{w_1} / \hat{w_2}$ for the simplicity of notation.
+The prediction loss of using $\hat{\beta}_2^{\MTL}$ for the target task is
+\begin{align}
+	\te(\hat{\beta}_2^{\MTL}) =&~ \hat{v}^2 \bignorm{\Sigma_2^{1/2}(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} X_1^{\top}X_1 (\beta_1 - \hat{v} \beta_2)}^2 \nonumber \\
+			&+~  \bigtr{\Sigma_2(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-2}\left(\sigma_1^2 \cdot \hat v^2  X_1^{\top}X_1 + \sigma_2^2  \cdot X_2^{\top}X_2\right) }, \label{eq_te_mtl_2task}
+\end{align}
+which only depends on $\hat v$, the sample covariance matrices, and $\beta_1,\beta_2$.
+\fi
