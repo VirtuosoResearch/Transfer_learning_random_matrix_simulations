@@ -1,25 +1,10 @@
-%\section{Main Results}\label{sec_general}
-
-%\begin{proposition}[Bias-variance tradeoff]
-%	Variance always reduces and bias always increases.
-%\end{proposition}
-
-%In this section, we compare the prediction loss of the multi-task learning estimator to that of the single-task learning estimator.
-%First, we consider the two-task case.
-%We provide precise asymptotics of the bias and variance of the multi-task learning estimator.
-%We apply recent developments from the random matrix theory literature to characterize the bias and variance.
-%The results scale with key properties of task data such as sample size and covariance shift, and allow us to study the performance of multi-task learning by varying these properties (Section \ref{sec_special}).
-%Second, we consider the multiple-task case where all tasks have the same features but different labels.
-%We extend the bias-variance decomposition of the two-task case to this setting and show qualitatively similar results.
-%For the single-task learning estimator, there are well-known results that relate its prediction loss to sample size and noise variance.
-
-%We focus on the high-dimensional linear regression setting \cite{}
-
-\section{Bias-Variance Tradeoff in the Same Covariates Setting}
+\section{Warmup: Bias-Variance Tradeoff in the Same Covariates Setting}
 %A well-known result in the high-dimensional linear regression setting states that $\tr[(X_2^{\top}X_2)^{-1}\Sigma_2]$ is concentrated around $1 / (\rho_2 - 1)$ (e.g. Chapter 6 of \cite{S07}), which scales with the sample size of the target task.
 %Our main technical contribution is to extend this result to two tasks.
 %We show how the variance of the multi-task estimator scales with sample size and covariate shift in the following result.
-We begin by considering the multiple-task case where all tasks have the same covariates, that is, $X_i = X$, $n_i = n$, and $\Sigma_i = \Sigma$ for all $i = 1, \dots, t$.
+We begin by considering the case where all tasks have the same sample size and feature covariates, that is, $n_i = n$ and $X^{(i)} = X\in\real^{n\times p}$ for all $i = 1, \dots, t$.
+We provide a sharp generalization error bound of hard parameter sharing estimators.
+We show that the hard parameter sharing estimator finds a ``low-rank approximation of all tasks'', in the sense formalized below.
 %This setting is prevalent in applications of multi-task learning to image classification, where there are multiple prediction labels/tasks for every image \cite{chexnet17,EA20}.
 %We consider an arbitrary local minimum $B, W_1, \dots, W_2$ of the optimization objective.
 %We extend the bias-variance decomposition from the two-task case to the multiple-task case.
@@ -32,11 +17,12 @@ We begin by considering the multiple-task case where all tasks have the same cov
 %One can see that equation \eqref{eq_bias_multiple} is the bias of the multi-task learning estimator and equation \eqref{eq_var_multiple} is its variance.
 %Compared to the prediction loss of single-task learning (cf. equation \eqref{eq_var_stl}), we observe that the variance equation \eqref{eq_var_multiple} is always smaller because $W_t^{\top} (\cW \cW^{\top})^{-1} W_t \le 1$.
 %On the other hand, the bias equation \eqref{eq_bias_multiple} is always larger because of the difference between the task models.
-We show the generalization error of hard parameter sharing estimators.
-Before stating the result, we define the following notations.
+%We show the generalization error of hard parameter sharing estimators.
+%Before stating the result, we define the following notations.
 Let $B^\star := [{\beta}_1,{\beta}_2,\dots,{\beta}_{t}] \in \real^{p\times t}$ denote the ground truth model parameters.
-Let $U_r U_r^{\top}$ denote the best rank-$r$ subspace approximation of $(B^{\star})^\top\Sigma B^{\star}$, that is,
-\[ U_r \define \argmin_{X\in\real^{t\times r} : X^{\top} X = \id_{r\times r}} \inner{X X^{\top}} {B^{\star} \Sigma B^{\star}}. \]
+Let $\Sigma$ denote the (same) population covariance matrix of all tasks.
+Let $U_r U_r^{\top}$ denote the best rank-$r$ subspace approximation of ${B^{\star}}^\top\Sigma B^{\star}$, that is,
+\[ U_r \define \argmin_{U\in\real^{t\times r} : U^{\top} U = \id_{r\times r}} \inner{U U^{\top}} {{B^{\star}}^{\top} \Sigma B^{\star}}. \]
 For $i = 1,\dots, t$, let $v_i \in\real^r$ denote the $i$-th row of $U_r$.
 Our main result in this section is stated as follows.
 
