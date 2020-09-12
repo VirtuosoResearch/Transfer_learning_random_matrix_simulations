@@ -1,20 +1,10 @@
-%\section{Proofs}\label{sec_proof_general}
-
-
-
-%\subsection{The Multiple-task Case}\label{app_proof_many_tasks}
-
-
-
-
-
-
 %\subsection{The Bias and Variance Asymptotics}
-\paragraph{Proof overview.} \todo{merge} Finally, in this subsection, we describe briefly the main ideas in the proofs of Lemmas \ref{lem_cov_shift} and \ref{lem_cov_derivative}.
+\paragraph{Proof overview.} 
+%\todo{merge} Finally, in this subsection, we describe briefly the main ideas in the proofs of Lemmas \ref{lem_cov_shift} and \ref{lem_cov_derivative}.
 %We first describe the proof of Theorem \ref{lem_cov_shift_informal}.
 %We briefly describe the key ideas for proving Lemma \ref{lem_cov_shift} and Lemma \ref{lem_cov_derivative}.
 We use the standard Stieltjes transform method (or the resolvent method) in random matrix theory \cite{bai2009spectral,tao2012topics,erdos2017dynamical}. Both Lemma \ref{lem_cov_shift} and Lemma \ref{lem_cov_derivative} require a study of the matrix inverse $(X_1^\top X_1+X_2^\top X_2)^{-1}$ for $X_1= Z_1\Sigma_1^{1/2}$ and $X_2= Z_2\Sigma_2^{1/2}$.
-\HZ{Suggestion: focus on the proof overview of Lemma \ref{lem_cov_shift} only. Use one paragraph in the end to say how to extend the idea to Lemma \ref{lem_cov_derivative}}
+%\HZ{Suggestion: focus on the proof overview of Lemma \ref{lem_cov_shift} only. Use one paragraph in the end to say how to extend the idea to Lemma \ref{lem_cov_derivative}}
 Suppose $M=\Sig_1^{1/2} \Sig_2^{-1/2}$ has a singular value decomposition
 \be\label{eigen2}
 M= U\Lambda V^\top, \quad \Lambda=\text{diag}( \lambda_1, \ldots, \lambda_p).
@@ -121,34 +111,13 @@ We define the matrix limit of $G(z)$ as
 \be \label{defn_piw}
 \Gi(z) := \begin{pmatrix} (-z\id_p+a_{1}(z)\Lambda^2  +  a_{2}(z)\id_p)^{-1} & 0 & 0 \\ 0 & - \frac{\rho_1+\rho_2}{\rho_1} a_{1}(z)\id_{n_1} & 0 \\ 0 & 0 & -\frac{\rho_1+\rho_2}{\rho_2}a_{2}(z)\id_{n_2}  \end{pmatrix}.\ee
 In particular, the matrix limit of $\cal G(z)$ is given by $(-z\id_p+a_{1}(z)\Lambda^2 + a_{2}(z)\id_p)^{-1}$.
+
 \medskip
 \noindent{\bf Deriving the bias and variance asymptotics.} Using definition \eqref{mainG}, we can write equation \eqref{eigen2extra} as
 \be\label{rewrite X as R} (X_1^\top X_1+X_2^\top X_2)^{-1}=n^{-1}\Sigma_2^{-1/2}V\cal G(0)V^\top\Sigma_2^{-1/2}.\ee
 When $z=0$, it is easy to check that equation \eqref{selfomega_a} can be reduced to \eqref{eq_a12extra}, which means that we actually have $a_1(0)=a_1$ and $a_2(0)=a_2$. Hence the matrix limit of $\cal G(0)$ is given by $(a_{1}\Lambda^2 + a_{2}\id_p)^{-1}$. \alert{Together with equation \eqref{rewrite X as R} and $V \Lambda^2 V^\top=M^\top M=\Sigma_2^{-1/2}\Sigma_1\Sigma_2^{-1/2}$ by equation \eqref{eigen2}, we can obtain equation \eqref{lem_cov_shift_eq} in the large $n$ limit.}\HZ{I do not understand this sentence.}
-For the bias asymptotics, we can write the left-hand side of equation \eqref{lem_cov_derv_eq} using the derivative of $\cal G$ with respect to $z$ at $z=0$. More precisely, using equation \eqref{eigen2extra} we can obtain that
-\begin{align}
-n^2\bignorm{\Sigma_2^{1/2} \bigbrace{ X_1^{\top}X_1 + X_2^{\top}X_2 }^{-1} \Sigma_1^{1/2} w}^2&=n^2 w^\top \Sigma_1^{1/2}\Sigma_2^{-1/2}V\left(   \Lambda U^\top Z_1^\top Z_1 U\Lambda  + V^\top Z_2^\top Z_2V\right)^{-2}V^\top\Sigma_2^{-1/2}\Sigma_1^{1/2}w \nonumber\\
-&=  w^\top \Sigma_1^{1/2}\Sigma_2^{-1/2}V\cal G'(0)V^\top\Sigma_2^{-1/2}\Sigma_1^{1/2}w,\label{calculate G'}
-\end{align}
-where we used equation \eqref{rewrite X as R} in the second step. It is natural to guess that the matrix limit of $\cal G'(0)$ is given by
-\be\label{cal G'0}\cal G'(0) \approx \left.\frac{\dd}{\dd z}\right|_{z=0}(-z\id_p+a_{1}(z)\Lambda^2 + a_{2}(z)\id_p)^{-1} = \frac{\id_p- a_1'(0)\Lambda^2 - a_2'(0)\id_p}{(a_{1}(0)\Lambda^2 + a_{2}(0)\id_p)^2}.\ee
-If we let $a_3:=-a_1'(0)$ and $a_4:=-a_2'(0)$, then taking implicit differentiation of equation \eqref{selfomega_a} we can check that $(a_3,a_4)$ satisfies equation \eqref{eq_a34extra}. Then inserting \eqref{cal G'0} into \eqref{calculate G'}, we obtain that
-\begin{align*}
-n^2\bignorm{\Sigma_2^{1/2} \bigbrace{ X_1^{\top}X_1 + X_2^{\top}X_2 }^{-1} \Sigma_1^{1/2} w}^2&\approx  w^\top \Sigma_1^{1/2}\Sigma_2^{-1/2}V\frac{a_3\Lambda^2 +(1+ a_4)\id_p}{(a_{1}\Lambda^2 + a_{2}\id_p)^2}V^\top \Sigma_2^{-1/2}\Sigma_1^{1/2}w= w^{\top} \Pi w,
-\end{align*}
-which concludes \eqref{lem_cov_derv_eq}. Note that in order to have the approximate identity for $\cal G'(0)$ in \eqref{cal G'0}, we not only need to know the asymptotics of $\cal G(0)$, but also need to know the asymptotics of $\cal G(z)$ for general $z$ around $z=0$. This is the main reason why we need to take a general $z$ in the definition of resolvents.
-%In the above definition, we have taken the argument of $\cal G$ to be a general complex number, because we will need to use $\cal G'(0)$ in the proof of Lemma \ref{lem_cov_derivative}, which requires a good estimate of $\cal G(z)$ for $z$ around the origin.
-%For the variance asymptotic limit, we study the resolvent
-%	\[ R(z):= \bigbrace{\Sigma_2^{-1/2}( X_1^{\top}X_1 + X_2^{\top}X_2)\Sigma_2^{-1/2} - z \id}^{-1}, \text{ for any } z\in \C \text{ around } z=0. \]
-%Using the techniques from \citet{Anisotropic} and \citet{yang2019spiked}, we find the asymptotic limit of $R(z)$ for any $z$ as $p$ goes to infinity, denoted by $R_\infty(z)$, with an almost optimal convergence rate of $p$.
-%In particular, when $z=0$, the asymptotic limit of equation \eqref{lem_cov_shift_eq} is given by
-%	\[ \tr[\Sigma_2^{-1/2} \Sigma \Sigma_2^{-1/2}R_\infty(0)]. \]
-%
-%For the bias asymptotic limit, we show in \todo{where?} that
-%$$\bignorm{\Sigma_2^{1/2} (X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} w}^2= w^\top \Sigma_2^{-1/2}R'(0)\Sigma_2^{-1/2} w.$$
-%Hence its limit can be calculated through $R_\infty'(z)$, which gives the expression in \eqref{lem_cov_derv_eq}.
-%We leave the full proof of Lemma \ref{lem_cov_shift} and Lemma \ref{lem_cov_derivative} to Appendix \ref{sec_maintools}.
-%Combining the above two results, we provide the proof of Theorem \ref{thm_main_informal} in Section \ref{app_proof_main_thm}.
+ 
+
 \medskip
 \noindent{\bf Gaussian case.} Now we give a heuristic derivation of the matrix limit when the entries of $Z_1$ and $Z_2$ are i.i.d. Gaussian. In this case,
 %However, notice that if the entries of $Z_1\equiv Z_1^{\text{Gauss}}$ and $Z_2\equiv Z_2^{\text{Gauss}}$ are i.i.d. Gaussian, then
@@ -215,11 +184,39 @@ with high probability, which give a system of approximate self-consistent equati
 \be\label{approx m12 add}
 (m_1,m_2) =\left(-\frac{\rho_1+\rho_2}{\rho_1}a_{1}(z),-\frac{\rho_1+\rho_2}{\rho_2}a_{2}(z)\right)+\oo(1) \quad \text{with high probability. }
 \ee
+
 \medskip
 \noindent\textbf{Deriving the matrix limit.}  Inserting the approximate identity \eqref{approx m12 add} into equations \eqref{1self_Gii}-\eqref{2self_Gmu}, we get that for  $i \in \cal I_0$, $\mu \in \cal I_1$ and $\nu\in \cal I_2$,
 $$G_{ii}(z)=(-z +\lambda_i^2 a_{1}(z) + a_2(z)+\oo(1))^{-1},\quad G_{\mu\mu}=-\frac{\rho_1+\rho_2}{\rho_1}a_{1}(z)+\oo(1),\quad G_{\nu\nu}=-\frac{\rho_1+\rho_2}{\rho_2}a_{2}(z)+\oo(1),$$
 with high probability. These explain the diagonal entries of $\Gi$ in equation \eqref{defn_piw}. For the off-diagonal entries, they are close to zero due to concentration. For example, for $i\ne j\in \cal I_1$, by Schur complement formula (see (\ref{resolvent3})), we have
 $$G_{ij}=-G_{ii}\Big({\lambda_i}{n^{-1/2}}\sum_{\mu \in \cal I_1} z_{\mu i} G^{(i)}_{\mu j} + {n^{-1/2}}\sum_{\mu \in \cal I_2} z_{\mu i} G^{(i)}_{\mu j} \Big).$$
 Using Lemma \ref{largedeviation}, we can show that $n^{-1/2}\sum_{\mu \in \cal I_1} z_{\mu i} G^{(i)}_{\mu j}$ and $n^{-1/2}\sum_{\mu \in \cal I_2} z_{\mu i} G^{(i)}_{\mu j}$ are both close to zero. The other off-diagonal entries can be bounded in the same way.
-\nc
+
+\medskip
+\noindent{\bf Deriving the bias asymptotics.} Finally, we describe .......... For the bias asymptotics, we can write the left-hand side of equation \eqref{lem_cov_derv_eq} using the derivative of $\cal G$ with respect to $z$ at $z=0$. More precisely, using equation \eqref{eigen2extra} we can obtain that
+\begin{align}
+n^2\bignorm{\Sigma_2^{1/2} \bigbrace{ X_1^{\top}X_1 + X_2^{\top}X_2 }^{-1} \Sigma_1^{1/2} w}^2&=n^2 w^\top \Sigma_1^{1/2}\Sigma_2^{-1/2}V\left(   \Lambda U^\top Z_1^\top Z_1 U\Lambda  + V^\top Z_2^\top Z_2V\right)^{-2}V^\top\Sigma_2^{-1/2}\Sigma_1^{1/2}w \nonumber\\
+&=  w^\top \Sigma_1^{1/2}\Sigma_2^{-1/2}V\cal G'(0)V^\top\Sigma_2^{-1/2}\Sigma_1^{1/2}w,\label{calculate G'}
+\end{align}
+where we used equation \eqref{rewrite X as R} in the second step. It is natural to guess that the matrix limit of $\cal G'(0)$ is given by
+\be\label{cal G'0}\cal G'(0) \approx \left.\frac{\dd}{\dd z}\right|_{z=0}(-z\id_p+a_{1}(z)\Lambda^2 + a_{2}(z)\id_p)^{-1} = \frac{\id_p- a_1'(0)\Lambda^2 - a_2'(0)\id_p}{(a_{1}(0)\Lambda^2 + a_{2}(0)\id_p)^2}.\ee
+If we let $a_3:=-a_1'(0)$ and $a_4:=-a_2'(0)$, then taking implicit differentiation of equation \eqref{selfomega_a} we can check that $(a_3,a_4)$ satisfies equation \eqref{eq_a34extra}. Then inserting \eqref{cal G'0} into \eqref{calculate G'}, we obtain that
+\begin{align*}
+n^2\bignorm{\Sigma_2^{1/2} \bigbrace{ X_1^{\top}X_1 + X_2^{\top}X_2 }^{-1} \Sigma_1^{1/2} w}^2&\approx  w^\top \Sigma_1^{1/2}\Sigma_2^{-1/2}V\frac{a_3\Lambda^2 +(1+ a_4)\id_p}{(a_{1}\Lambda^2 + a_{2}\id_p)^2}V^\top \Sigma_2^{-1/2}\Sigma_1^{1/2}w= w^{\top} \Pi w,
+\end{align*}
+which concludes \eqref{lem_cov_derv_eq}. Note that in order to have the approximate identity for $\cal G'(0)$ in \eqref{cal G'0}, we not only need to know the asymptotics of $\cal G(0)$, but also need to know the asymptotics of $\cal G(z)$ for general $z$ around $z=0$. This is the main reason why we need to take a general $z$ in the definition of resolvents.
+%In the above definition, we have taken the argument of $\cal G$ to be a general complex number, because we will need to use $\cal G'(0)$ in the proof of Lemma \ref{lem_cov_derivative}, which requires a good estimate of $\cal G(z)$ for $z$ around the origin.
+%For the variance asymptotic limit, we study the resolvent
+%	\[ R(z):= \bigbrace{\Sigma_2^{-1/2}( X_1^{\top}X_1 + X_2^{\top}X_2)\Sigma_2^{-1/2} - z \id}^{-1}, \text{ for any } z\in \C \text{ around } z=0. \]
+%Using the techniques from \citet{Anisotropic} and \citet{yang2019spiked}, we find the asymptotic limit of $R(z)$ for any $z$ as $p$ goes to infinity, denoted by $R_\infty(z)$, with an almost optimal convergence rate of $p$.
+%In particular, when $z=0$, the asymptotic limit of equation \eqref{lem_cov_shift_eq} is given by
+%	\[ \tr[\Sigma_2^{-1/2} \Sigma \Sigma_2^{-1/2}R_\infty(0)]. \]
+%
+%For the bias asymptotic limit, we show in \todo{where?} that
+%$$\bignorm{\Sigma_2^{1/2} (X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} w}^2= w^\top \Sigma_2^{-1/2}R'(0)\Sigma_2^{-1/2} w.$$
+%Hence its limit can be calculated through $R_\infty'(z)$, which gives the expression in \eqref{lem_cov_derv_eq}.
+%We leave the full proof of Lemma \ref{lem_cov_shift} and Lemma \ref{lem_cov_derivative} to Appendix \ref{sec_maintools}.
+%Combining the above two results, we provide the proof of Theorem \ref{thm_main_informal} in Section \ref{app_proof_main_thm}.
+
+
 The above arguments are the core of the main proof. To have a rigorous proof, we need to estimate each error carefully, and extend the Gaussian case to the more general case where the entries of $Z_1$ and $Z_2$ only satisfy certain moment assumptions. These will make the real argument rather tedious, but the methods we used are standard in the random matrix literature \cite{erdos2017dynamical,Anisotropic}. For the full rigorous proof, we refer the reader to Section \ref{sec_maintools}.
