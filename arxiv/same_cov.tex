@@ -1,7 +1,6 @@
 \section{Warmup: Bias-Variance Tradeoff in the Same Covariates Setting}
-%A well-known result in the high-dimensional linear regression setting states that $\tr[(X_2^{\top}X_2)^{-1}\Sigma_2]$ is concentrated around $1 / (\rho_2 - 1)$ (e.g. Chapter 6 of \cite{S07}), which scales with the sample size of the target task.
-%Our main technical contribution is to extend this result to two tasks.
-%We show how the variance of the multi-task estimator scales with sample size and covariate shift in the following result.
+
+
 We begin by considering the case where all tasks have the same sample size and feature covariates, that is, $n_i = n$ and $X^{(i)} = X\in\real^{n\times p}$ for all $i = 1, \dots, t$.
 We provide a sharp generalization error bound of hard parameter sharing estimators.
 We show that the hard parameter sharing estimator finds a ``low-rank approximation of all tasks'', in the sense formalized below.
@@ -26,7 +25,7 @@ Let $U_r U_r^{\top}$ denote the best rank-$r$ subspace approximation of ${B^{\st
 For $i = 1,\dots, t$, let $v_i \in\real^r$ denote the $i$-th row of $U_r$.
 Our main result in this section is stated as follows.
 
-\begin{theorem}[Multiple-task case with the same covariates]\label{thm_many_tasks}
+\begin{theorem}[Multiple tasks with the same covariates]\label{thm_many_tasks}
 %Suppose $X=Z\Sigma^{1/2}\in \R^{n\times p}$ satisfy Assumption \ref{assm_secA1} with $\rho:=n/p>1$ being some fixed constant. Consider data models  $Y_i = X\beta_i + \varepsilon_i$, $i=1,2,\cdots, t$, where $\e_i\in \R^{n}$ are random vectors with i.i.d. entries with mean zero, variance $\sigma^2$ and all moments as in \eqref{assmAhigh}. Moreover, assume that $X$, $\beta_i$ and $\e_i$ are all independent of each other.
 	%Let $n = c \cdot p$.
 	%Let $X\in\real^{n\times p}$ and $Y_i = X\beta_i + \varepsilon_i$, for $i = 1,\dots,k$.
@@ -34,10 +33,10 @@ Our main result in this section is stated as follows.
 	%that satisfy Assumption \ref{assm_secA2} in the appendix.
 	Consider the multiple-task case where all tasks have the same covariates.
 	Assume that $\lambda_{\min}({B^{\star}}^\top\Sigma B^{\star})\gtrsim \sigma^2$.
-	Let $\delta$ be any fixed value such that $\delta \le \oo \left( \|B^\star\|^2 + \sigma^2\right)$.
-	Then, for any task $i$ from $1$ to $t$, the prediction loss of the hard parameter sharing estimator satisfies that
+	% Let $\delta$ be any fixed value such that $\delta \le \oo \left( \|B^\star\|^2 + \sigma^2\right)$.
+	Then, for any task $i$ from $1$ to $t$, the prediction loss of the hard parameter sharing estimator $\hat{\beta}_i^{\MTL}$ satisfies that
 	\begin{align}
-		\bigabs{L(\hat{\beta}_i^{\MTL}) - \norm{\Sigma^{1/2} (B^{\star} U_r v_t - \beta_t)}^2 - \norm{v_t}^2 \frac{\sigma^2}{\rho - 1}} \le o(\bigtr{{B^{\star}}^{\top}\Sigma B^{\star}} + \sigma^2).
+		\bigabs{L(\hat{\beta}_i^{\MTL}) - \norm{\Sigma^{1/2} (B^{\star} U_r v_i - \beta_i)}^2 - \frac{\sigma^2 \cdot \norm{v_i}^2 }{\rho - 1}} \lesssim p^{-\frac{c-4}{2c}}\bigbrace{\bigtr{{B^{\star}}^{\top}\Sigma B^{\star}} + \sigma^2}.
 	\end{align}
 	%\begin{itemize}
 	%	\item \textbf{Positive transfer:} If $\left(1 - \norm{v_t}^2 \right)\frac{\sigma^2}{\rho - 1} -  > \delta$, then w.h.p over the randomness of $X, \varepsilon_1, \dots, \varepsilon_t$, we have that
@@ -46,27 +45,28 @@ Our main result in this section is stated as follows.
 	%	\[ \te(\hat{\beta}_t^{\MTL}) > \te(\hat{\beta}_t^{\STL}). \]
 	%\end{itemize}
 \end{theorem}
-	Theorem \ref{thm_many_tasks} provides a sharp generalization error bound \todo{check}.
-	As shown in the proof of Theorem \ref{thm_many_tasks}, the equation $(1 - \norm{v_t}^2)\frac {\sigma^2}{\rho - 1}$ is the amount of variance reduced using multi-task learning and $\norm{\Sigma (B^{\star} U_r v_t - \beta_t)}$ is the bias.
-	\todo{check}
+	Theorem \ref{thm_many_tasks} provides a sharp generalization error bound that is asymptotically tight as $p$ goes to infinity.
+	The limiting loss of hard parameter sharing consists of two parts, a bias term that measures the error compared to the ground truth, and a variance term that scales with noise variance and sample size.
+	Our result implies that the variance of hard parameter sharing always reduces compared to single-task learning (cf. Lemma \ref{lem_stl}).
+	This is because $\norm{v_i}^2$ is at most one since the spectral norm of $U_r$, which is a projection matrix, is at most one.
 
 	%First, we provide the steps for showing the bias-variance decomposition in equation \eqref{eq_bias_multiple} and \eqref{eq_var_multiple}.
 	The key idea for proving Theorem \ref{thm_many_tasks} is a bias-variance decomposition of the prediction loss of hard parameter sharing.
-	We describe the idea in the following.
+	We obtain the decomposition as follows.
 	Since all tasks have the same covariates, the optimization objective \eqref{eq_mtl} becomes
 	\begin{align}
-		f(B; A_1, \dots, A_t) = \sum_{i=1}^t \bignorm{X B A_i - Y_i}^2, \label{eq_mtl_same_cov}
+		f(B; A) = \sum_{i=1}^t \bignorm{X B a_i - Y_i}^2, \label{eq_mtl_same_cov}
 	\end{align}
-	where $B \in \real^{p \times r}$ and $A_1, A_2, \dots, A_t \in \R^r$. % for $1 < r < t$ by our assumption.
-	Let $\cal A = [A_1, A_2, \dots, A_t] \in \real^{r\times t}$ be a matrix that contains all the parameters of the output layers.
-	Without loss of generality, we assume that $\cA\cA^{\top}$ is invertible.
-	Otherwise, we can add a small amount of random perturbation to $\cA$ (e.g. $O(1/ \poly(p))$ amount of isotropic Gaussian noise suffices), and the result still holds.
-	Using the local optimality condition over $B$, that is, $\nabla_B f = 0$, we obtain a closed form solution $\hat{B}$ that depends on the output layers as follows
+	where we recall that $B \in \real^{p \times r}$ and $a_1, a_2, \dots, a_t \in \R^r$. % for $1 < r < t$ by our assumption.
+	Without loss of generality, we assume that $AA^{\top}$ is invertible.
+	Otherwise, we can add a small amount of random perturbation to $A$ (e.g. an inverse exponential in $p$ amount of isotropic Gaussian noise), and the result still holds.
+	Using the local optimality condition over $B$, that is, $\nabla_B f(\cdot) = 0$, we obtain $\hat{B}(A)$ that depends on the output layers as follows
 	\begin{align*}
-		\hat{B}(\cA) &= (X^{\top}X)^{-1} X^{\top} \bigbrace{\sum_{i=1}^t Y_i A_i^{\top}} (\cal A  \cal A^{\top})^{-1} \\
-		&= (B^\star \cal A ^{\top}) (\cal A \cal A ^{\top})^{-1} + (X^{\top}X)^{-1}X^{\top}   \bigbrace{\sum_{i=1}^t \varepsilon_i A_i^{\top}} (\cal A \cal A^{\top})^{-1}.
+		\hat{B}(A) &= (X^{\top}X)^{-1} X^{\top} \bigbrace{\sum_{j=1}^t Y_i A_i^{\top}} (A  A^{\top})^{-1}. %\\
+		%&= (B^\star A ^{\top}) (A A^{\top})^{-1} + (X^{\top}X)^{-1}X^{\top}   \bigbrace{\sum_{j=1}^t \varepsilon_i A_i^{\top}} (A  A^{\top})^{-1}.
 	\end{align*}
-	Recall that $\hat{\beta}_i^{\MTL} = \hat{B} A_i$.
+	In the above, we use the fact that $AA^{\top}$ is invertible by our discussion above and $X^{\top}X$ is also invertible by Lemma ??.
+	%Recall that $\hat{\beta}_i^{\MTL} = \hat{B} A_i$.
 	The expected prediction loss over the random noise conditional on $X$ is equal to
 	\begin{align}
 		 & \exarg{\varepsilon_1, \dots, \varepsilon_t}{L(\hat{\beta}_i^{\MTL}) \mid X} \nonumber \\
