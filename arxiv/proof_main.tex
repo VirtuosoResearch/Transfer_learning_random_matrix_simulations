@@ -3,43 +3,47 @@
 %\todo{merge} Finally, in this subsection, we describe briefly the main ideas in the proofs of Lemmas \ref{lem_cov_shift} and \ref{lem_cov_derivative}.
 %We first describe the proof of Theorem \ref{lem_cov_shift_informal}.
 %We briefly describe the key ideas for proving Lemma \ref{lem_cov_shift} and Lemma \ref{lem_cov_derivative}.
-We use the standard Stieltjes transform method (or the resolvent method) in random matrix theory \cite{bai2009spectral,tao2012topics,erdos2017dynamical}. Both Lemma \ref{lem_cov_shift} and Lemma \ref{lem_cov_derivative} require a study of the matrix inverse $(X_1^\top X_1+X_2^\top X_2)^{-1}$ for $X_1= Z_1\Sigma_1^{1/2}$ and $X_2= Z_2\Sigma_2^{1/2}$.
+We use the standard Stieltjes transform method (or the resolvent method) in random matrix theory \cite{bai2009spectral,tao2012topics,erdos2017dynamical}. Both Lemma \ref{lem_cov_shift} and Lemma \ref{lem_cov_derivative} require a study of the matrix inverse $[(X^{(1)})^\top X^{(1)}+(X^{(2)})^\top X^{(2)}]^{-1}$ for $X^{(1)}= Z^{(1)}\Sigma_1^{1/2}$ and $X^{(2)}= Z^{(2)}\Sigma_2^{1/2}$.
 %\HZ{Suggestion: focus on the proof overview of Lemma \ref{lem_cov_shift} only. Use one paragraph in the end to say how to extend the idea to Lemma \ref{lem_cov_derivative}}
 Suppose $M=\Sig_1^{1/2} \Sig_2^{-1/2}$ has a singular value decomposition
 \be\label{eigen2}
 M= U\Lambda V^\top, \quad \Lambda=\text{diag}( \lambda_1, \ldots, \lambda_p).
 \ee
 Then using equation \eqref{eigen2}, we can write
-\be\label{eigen2extra}(X_1^\top X_1+X_2^\top X_2)^{-1}= \Sigma_2^{-1/2}V\left(   \Lambda U^\top Z_1^\top Z_1 U\Lambda  + V^\top Z_2^\top Z_2V\right)^{-1}V^\top\Sigma_2^{-1/2}.\ee
+\be\label{eigen2extra}[(X^{(1)})^\top (X^{(1)})+(X^{(2)})^\top (X^{(2)})]^{-1}= \Sigma_2^{-1/2}V\left(   \Lambda U^\top (Z^{(1)})^\top Z^{(1)} U\Lambda  + V^\top (Z^{(2)})^\top Z^{(2)}V\right)^{-1}V^\top\Sigma_2^{-1/2}.\ee
 We divide the discussion into the following parts.
 
 \medskip
-\noindent\textbf{Defining the resolvents.} For our purpose, we introduce a convenient \alert{self-adjoint linearization trick}\HZ{what does this trick mean? use less technical words},
+\noindent\textbf{Defining the resolvents.} For our purpose, we use a convenient linearization trick in linear algebra, that is, the SVD of a rectangular matrix $A$ is equivalent to the study of the eigendecomposition of the symmetric block matrix 
+$$H(A):=\begin{pmatrix}0 & A \\ A^\top & 0\end{pmatrix},$$
+which is linear in $A$. This trick has been used in many random matrix literatures, such as \cite{Anisotropic, AEK_Gram, XYY_circular,DY20201}. Our goal is to study the SVD of the rectangular matrix $(\Lambda U^\top (Z^{(1)})^\top,V^\top (Z^{(2)})^\top)$. %For this purpose, 
+%}\HZ{what does this trick mean? use less technical words},
 %This idea dates back at least to Girko, see e.g., the works \cite{girko1975random,girko1985spectral} and references therein.
-which has been proved to be useful in studying the local laws of random matrices of the Gram type \cite{Anisotropic, AEK_Gram, XYY_circular,DY20201}. We define the following $(p+n)\times (p+n)$ symmetric block matrix, which is a linear function of $Z_1$ and $Z_2$:
+Then we define the following $(p+n)\times (p+n)$ symmetric block matrix 
+%which is a linear function of $(Z^{(1)})$ and $(Z^{(2)})$:
 %\begin{definition}[Linearizing block matrix]\label{def_linearHG}%definiton of the Green function
 %We define the $(n+N)\times (n+N)$ block matrix
  \begin{equation}\label{linearize_block}
-    H(Z_1,Z_2): = n^{-1/2}\left( {\begin{array}{*{20}c}
-   { 0 } & \Lambda U^{\top}Z_1^\top & V^\top Z_2^\top  \\
-   {Z_1 U\Lambda  } & {0} & 0 \\
-   {Z_2V} & 0 & 0
+    H\left(\Lambda U^\top (Z^{(1)})^\top,V^\top (Z^{(2)})^\top\right): = n^{-1/2}\left( {\begin{array}{*{20}c}
+   { 0 } & \Lambda U^{\top}(Z^{(1)})^\top & V^\top (Z^{(2)})^\top  \\
+   {Z^{(1)} U\Lambda  } & {0} & 0 \\
+   {Z^{(2)}V} & 0 & 0
    \end{array}} \right).
  \end{equation}
-For simplicity of notations, we define the index sets
+For simplicity of notations, we abbreviate it as $H$ in the following discussion, and define the index sets
 $$\cal I_0:=\llbracket 1,p\rrbracket, \quad  \cal I_1:=\llbracket p+1,p+n_1\rrbracket, \quad \cal I_2:=\llbracket p+n_1+1,p+n_1+n_2\rrbracket ,\quad \cal I:=\cal I_0\cup \cal I_1\cup \cal I_2  .$$
- We will consistently use the latin letters $i,j\in\sI_{0}$, greek letters $\mu,\nu\in\sI_{1}\cup \sI_{2}$, and $\fa,\fb,\mathfrak c\in \cal I$ \HZ{This $\fa, \fb$ notation is ugly. Why not just use $a,b$?}. Correspondingly, the indices of the matrices $Z_1$ and $Z_2$ are labelled as
+ We will consistently use the latin letters $i,j\in\sI_{0}$ and greek letters $\mu,\nu\in\sI_{1}\cup \sI_{2}$. Correspondingly, the indices of the matrices $Z^{(1)}$ and $Z^{(2)}$ are labelled as
  \be\label{labelZ}
- Z_1= (z_{\mu i}:i\in \mathcal I_0, \mu \in \mathcal I_1), \quad Z_2= (z_{\nu i}:i\in \mathcal I_0, \nu \in \mathcal I_2).\ee
+ Z^{(1)}= (Z^{(1)}_{\mu i}:i\in \mathcal I_0, \mu \in \mathcal I_1), \quad Z^{(2)}= (Z^{(2)}_{\nu i}:i\in \mathcal I_0, \nu \in \mathcal I_2).\ee
 Now we define the resolvents as follows.
 \begin{definition}[Resolvents]
 We define the resolvent (or Green's function) of $H$ as
  \begin{equation}\label{eqn_defG}
- G (Z_1,Z_2,z):= \left[H(Z_1,Z_2)-\left( {\begin{array}{*{20}c}
+ G (z):= \left[H -\left( {\begin{array}{*{20}c}
    { z\id_{p}} & 0 & 0 \\
    0 & { \id_{n_1}}  & 0\\
       0 & 0  & { \id_{n_2}}\\
-\end{array}} \right)\right]^{-1} , \quad z\in \mathbb C .
+\end{array}} \right)\right]^{-1} , \quad z\in \mathbb C ,
  \end{equation}
 %It is easy to verify that the eigenvalues $\lambda_1(H)\ge \ldots \ge \lambda_{n+N}(H)$ of $H$ are related to the ones of $\mathcal Q_1$ through
 %\begin{equation}\label{Heigen}
@@ -49,9 +53,9 @@ We define the resolvent (or Green's function) of $H$ as
 %$$\lambda_i(H)=0, \ \ n\wedge N + 1 \le i \le n\vee N.$$
 %where we used the notations $n\wedge N:=\min\{N,M\}$ and $n\vee N:=\max\{N,M\}$.
 %\begin{definition}[Index sets]\label{def_index}
-and the resolvent of $  n^{-1}\left(\Lambda U^\top Z_1^\top Z_1 U\Lambda  + V^\top Z_2^\top Z_2V\right)$ as
+and the resolvent of $  n^{-1}\left(\Lambda U^\top (Z^{(1)})^\top Z^{(1)} U\Lambda  + V^\top (Z^{(2)})^\top Z^{(2)}V\right)$ as
 \be\label{mainG}
-\cal G(z):=\left( n^{-1}  \Lambda U^\top Z_1^\top Z_1 U\Lambda  + n^{-1}V^\top Z_2^\top Z_2V -z\right)^{-1},\quad z\in \C.
+\cal G(z):=\left( n^{-1}  \Lambda U^\top (Z^{(1)})^\top Z^{(1)} U\Lambda  + n^{-1}V^\top (Z^{(2)})^\top Z^{(2)}V -z\right)^{-1},\quad z\in \C.
 \ee
 Moreover, we also define the following averaged resolvents, which are the (weighted) partial traces of $G$:
 \be\label{defm}
@@ -60,15 +64,18 @@ m(z) :=\frac1p\sum_{i\in \cal I_0} G_{ii}(z) ,\quad & m_0(z):=\frac1p\sum_{i\in 
  m_1(z):= \frac{1}{n_1}\sum_{\mu \in \cal I_1}G_{\mu\mu}(z) ,\quad & m_2(z):= \frac{1}{n_2}\sum_{\nu\in \cal I_2}G_{\nu\nu}(z) .
 \end{split}
 \ee
+We will show that these averaged resolvents satisfy some deterministic self-consistent equations asymptotically, which will be the core part of the proof. We refer the reader to the discussions below \eqref{0self_Gii} and \eqref{0self_Gmu1}.
 \end{definition}
-With Schur complement formula, we can check that \HZ{Has $G(z)$ been defined before?}
+With Schur complement formula, we can check that %\HZ{Has $G(z)$ been defined before?}
  \begin{equation} \label{green2}
  G (z):=  \left( {\begin{array}{*{20}c}
-   { \cal G (z)} & \cal G(z)W  \\
-   W^\top \cal G(z) & z (W^\top W - z)^{-1}
+   { \cal G (z)} & \cal G(z)A  \\
+   A^\top \cal G(z) & z (A^\top A - z)^{-1}
 \end{array}} \right)^{-1}, %\quad \cal G_R:=(W^\top W - z)^{-1} ,
  \end{equation}
- where we abbreviated $W:=n^{-1/2}(\Lambda U^\top Z_1^\top, V^\top Z_2^\top)$. \HZ{$W$ is overloaded with the output layers} This shows that a control of $G(z)$ yields directly a control of $\mathcal G(z)$ as the upper-left block. On the other hand, $G(z)$ is a little  easier to use than $\cal G(z)$, and obviously contains more information.
+ where we abbreviated $A:= n^{-1/2}(\Lambda U^\top (Z^{(1)})^\top, V^\top (Z^{(2)})^\top)$. 
+ %\HZ{$W$ is overloaded with the output layers} 
+ This shows that a control of $G(z)$ yields directly a control of $\mathcal G(z)$ as the upper-left block. On the other hand, $G(z)$ is a little  easier to use than $\cal G(z)$, and obviously contains more information.
 %one can find that %(recall equation \eqref{mainG})
 %\be \label{green2}
 %\begin{split}
@@ -110,69 +117,92 @@ satisfying that $\im a_{1}(z)>0$ and $\im a_{2}(z)>0$ for $z\in \C_+$ with $\im 
 We define the matrix limit of $G(z)$ as
 \be \label{defn_piw}
 \Gi(z) := \begin{pmatrix} (-z\id_p+a_{1}(z)\Lambda^2  +  a_{2}(z)\id_p)^{-1} & 0 & 0 \\ 0 & - \frac{\rho_1+\rho_2}{\rho_1} a_{1}(z)\id_{n_1} & 0 \\ 0 & 0 & -\frac{\rho_1+\rho_2}{\rho_2}a_{2}(z)\id_{n_2}  \end{pmatrix}.\ee
-In particular, the matrix limit of $\cal G(z)$ is given by $(-z\id_p+a_{1}(z)\Lambda^2 + a_{2}(z)\id_p)^{-1}$.
+In particular, the matrix limit of $\cal G(z)$ is given by 
+\be\label{matrix limit}(-z\id_p+a_{1}(z)\Lambda^2 + a_{2}(z)\id_p)^{-1}.\ee
 
 \medskip
-\noindent{\bf Deriving the bias and variance asymptotics.} Using definition \eqref{mainG}, we can write equation \eqref{eigen2extra} as
-\be\label{rewrite X as R} (X_1^\top X_1+X_2^\top X_2)^{-1}=n^{-1}\Sigma_2^{-1/2}V\cal G(0)V^\top\Sigma_2^{-1/2}.\ee
-When $z=0$, it is easy to check that equation \eqref{selfomega_a} can be reduced to \eqref{eq_a12extra}, which means that we actually have $a_1(0)=a_1$ and $a_2(0)=a_2$. Hence the matrix limit of $\cal G(0)$ is given by $(a_{1}\Lambda^2 + a_{2}\id_p)^{-1}$. \alert{Together with equation \eqref{rewrite X as R} and $V \Lambda^2 V^\top=M^\top M=\Sigma_2^{-1/2}\Sigma_1\Sigma_2^{-1/2}$ by equation \eqref{eigen2}, we can obtain equation \eqref{lem_cov_shift_eq} in the large $n$ limit.}\HZ{I do not understand this sentence.}
+\noindent{\bf Deriving the variance asymptotics.} Using definition \eqref{mainG}, we can write equation \eqref{eigen2extra} as
+\be\label{rewrite X as R} [(X^{(1)})^\top X^{(1)}+(X^{(2)})^\top X^{(2)}]^{-1}=n^{-1}\Sigma_2^{-1/2}V\cal G(0)V^\top\Sigma_2^{-1/2}.\ee
+When $z=0$, it is easy to check that equation \eqref{selfomega_a} can be reduced to \eqref{eq_a12extra}, which means that we actually have $a_1(0)=a_1$ and $a_2(0)=a_2$. Hence the matrix limit of $\cal G(0)$ is given by $(a_{1}\Lambda^2 + a_{2}\id_p)^{-1}$. Then inserting this limit into \eqref{rewrite X as R}, we can write the left-hand side of \eqref{lem_cov_shift_eq} as
+\begin{align*}
+&\bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} \Sigma}\approx n^{-1}\bigtr{\Sigma_2^{-1/2}V\cal (a_{1}\Lambda^2 + a_{2}\id_p)^{-1}V^\top\Sigma_2^{-1/2}\Sigma}  \\
+&=n^{-1}\bigtr{\Sigma_2^{-1/2}\cal (a_{1}\Sigma_2^{-1/2}\Sigma_1\Sigma_2^{-1/2} + a_{2}\id_p)^{-1}\Sigma_2^{-1/2}\Sigma}  = n^{-1}\bigtr{\cal (a_{1} \Sigma_1  + a_{2}\Sigma_2)^{-1}\Sigma}  ,
+\end{align*}
+where in the second step we used $V \Lambda^2 V^\top=M^\top M=\Sigma_2^{-1/2}\Sigma_1\Sigma_2^{-1/2}$ by equation \eqref{eigen2}.  This concludes \eqref{lem_cov_shift_eq} up to a small error.
+
+%\alert{Together with equation \eqref{rewrite X as R} and $V \Lambda^2 V^\top=M^\top M=\Sigma_2^{-1/2}\Sigma_1\Sigma_2^{-1/2}$ by equation \eqref{eigen2}, we can obtain equation \eqref{lem_cov_shift_eq} in the large $n$ limit.}\HZ{I do not understand this sentence.}
  
 
 \medskip
-\noindent{\bf Gaussian case.} Now we give a heuristic derivation of the matrix limit when the entries of $Z_1$ and $Z_2$ are i.i.d. Gaussian. In this case,
-%However, notice that if the entries of $Z_1\equiv Z_1^{\text{Gauss}}$ and $Z_2\equiv Z_2^{\text{Gauss}}$ are i.i.d. Gaussian, then
+\noindent{\bf Gaussian case.} Now we give a heuristic derivation of the matrix limit when the entries of $Z^{(1)}$ and $Z^{(2)}$ are i.i.d. Gaussian. In this case,
+%However, notice that if the entries of $(Z^{(1)})\equiv (Z^{(1)})^{\text{Gauss}}$ and $(Z^{(2)})\equiv (Z^{(2)})^{\text{Gauss}}$ are i.i.d. Gaussian, then
 by the rotational invariance of the multivariate Gaussian distribution we have
-\be\label{eq in Gauss} Z_1 U\Lambda \stackrel{d}{=} Z_1 \Lambda, \quad Z_2 V \stackrel{d}{=} Z_2,\ee
+\be\label{eq in Gauss} Z^{(1)} U\Lambda \stackrel{d}{=} Z^{(1)} \Lambda, \quad Z^{(2)} V \stackrel{d}{=} Z^{(2)},\ee
 where ``$\stackrel{d}{=}$" means ``equal in distribution". Hence it suffices to consider the following resolvent
  \begin{equation} \label{resolv Gauss1}
    G(z)= \left( {\begin{array}{*{20}c}
-   { -z\id_{p} } & n^{-1/2}\Lambda Z_1^\top & n^{-1/2} Z_2^\top  \\
-   {n^{-1/2} Z_1 \Lambda  } & {-\id_{n_1}} & 0 \\
-   {n^{-1/2} Z_2} & 0 & {-\id_{n_2}}
+   { -z\id_{p} } & n^{-1/2}\Lambda (Z^{(1)})^\top & n^{-1/2} (Z^{(2)})^\top  \\
+   {n^{-1/2} Z^{(1)} \Lambda  } & {-\id_{n_1}} & 0 \\
+   {n^{-1/2} Z^{(2)}} & 0 & {-\id_{n_2}}
    \end{array}} \right)^{-1}.
  \end{equation}
+ 
 \medskip
-\noindent{\bf Schur complements and concentration.}
+\noindent{\bf Schur complements.}
 %Now we discuss about how to obtain the matrix limit in equation \eqref{defn_piw}.
 %\HZ{Divide into several parts like sec 7 to improve readability.}
 The core quantities of the derivation are the following resolvent minors, which are defined by removing certain rows and columns of the matrix $H$.
 \begin{definition}[Resolvent minors]\label{defn_Minor}
- For any $ (p+n)\times (p+n)$ matrix $\cal A$ and $\fa \in \mathcal I$, we define the minor $\cal A^{(\mathfrak c)}:=(\cal A_{\fa\fb}:\fa,\fb \in \mathcal I\setminus \{\mathfrak a\})$ as the $ (p+n-1)\times (p+n-1)$ matrix obtained by removing the $\mathfrak c$-th row and column in $\cal A$. Note that we keep the names of indices when defining $\cal A^{(\mathfrak c)}$, i.e. $(\cal A^{(\mathfrak c)})_{\fa\fb}= \cal A_{\fa\fb}$ for $\fa,\fb \ne \mathfrak c$. Correspondingly, we define the resolvent minor for $G$ in \eqref{resolv Gauss1} as %(recall equation \eqref{green2})
+ For any $ (p+n)\times (p+n)$ matrix $\cal A$ and $a\in \mathcal I$, we define the minor $\cal A^{(a)}:=(\cal A_{a_1 a_2}:a_1, a_2 \in \mathcal I\setminus \{a\})$ as the $ (p+n-1)\times (p+n-1)$ matrix obtained by removing the $a$-th row and column in $\cal A$. Note that we keep the names of indices when defining $\cal A^{(a)}$, i.e. $(\cal A^{(a)})_{a_1a_2}= \cal A_{a_1 a_2}$ for $a_1,a_2\ne a$. Correspondingly, we define the resolvent minor for $G$ in \eqref{resolv Gauss1} as %(recall equation \eqref{green2})
 \begin{align*}
 G^{(\mathfrak c)}:&=\left[ \left( {\begin{array}{*{20}c}
-   { -z\id_{p} } & n^{-1/2}\Lambda Z_1^\top & n^{-1/2} Z_2^\top  \\
-   {n^{-1/2} Z_1 \Lambda  } & {-\id_{n_1}} & 0 \\
-   {n^{-1/2} Z_2} & 0 & {-\id_{n_2}}
-   \end{array}} \right)^{(\mathfrak c)}\right]^{-1} ,
+   { -z\id_{p} } & n^{-1/2}\Lambda (Z^{(1)})^\top & n^{-1/2} (Z^{(2)})^\top  \\
+   {n^{-1/2} Z^{(1)} \Lambda  } & {-\id_{n_1}} & 0 \\
+   {n^{-1/2} Z^{(2)}} & 0 & {-\id_{n_2}}
+   \end{array}} \right)^{(a)}\right]^{-1} ,
 %= \left( {\begin{array}{*{20}c}
 %   { \mathcal G^{(\mathbb T)}} & \mathcal G^{(\mathbb T)} W^{(\mathbb T)}  \\
 %   {\left(W^{(\mathbb T)}\right)^\top\mathcal G^{(\mathbb T)}} & { \mathcal G_R^{(\mathbb T)} }  \\
 %\end{array}} \right)  ,
 \end{align*}
-and define the partial traces $m^{(\mathfrak c)}$ and $m^{(\mathfrak c)}_k$, $k=0,1,2,$ by replacing $G$ with $G^{(\mathfrak c)}$ in equation \eqref{defm}. For convenience, we adopt the convention that for the resolvent minor $G^{(\mathfrak c)}$ defined as above, $G^{(\mathfrak c)}_{\fa\fb} = 0$ if $\fa =\mathfrak c$ or $\fb =\mathfrak c$.
+and define the partial traces $m^{(a)}$, $m_0^{(a)}$, $m_1^{(a)}$ and $m_2^{(a)}$ by replacing $G$ with $G^{(a)}$ in equation \eqref{defm}. We adopt the convention that for the resolvent minor $G^{(a)}$ defined as above, $G^{(a)}_{a_1a_2} = 0$ if $a_1 =a$ or $a_2=a$.
 \end{definition}
 %Note that the resolvent minor $G^{(\mathfrak c)}$ is defined such that it is independent of the entries in the $\mathfrak c$-th row and column of $H$. One will see a crucial use of this fact in the heuristic proof below.
- Using Schur complement formula (see {equation} (\ref{resolvent2})), we have that %for $i \in \cal I_0$, $\mu \in \cal I_1$ and $\nu\in \cal I_2$,
-\HZ{This part needs more explanation - cannot understand.}
+ Using Schur complement formula (see {equation} (\ref{resolvent2})), we have that for $i \in \cal I_0$, %$\mu \in \cal I_1$ and $\nu\in \cal I_2$,
+%\HZ{This part needs more explanation - cannot understand.}
 \begin{align}
-\frac{1}{{G_{ii} }}&=  - z - \frac{\lambda_i^2}{n} \sum_{\mu,\nu\in \mathcal I_1} z_{\mu i}z_{\nu i}G^{\left( i \right)}_{\mu\nu} - \frac{1}{n} \sum_{\mu,\nu\in \mathcal I_2} z_{\mu i}z_{\nu i}G^{\left( i \right)}_{\mu\nu} -2 \frac{\lambda_i}{n} \sum_{\mu\in \cal I_1,\nu\in \mathcal I_2} z_{\mu i}z_{\nu i}G^{\left( i \right)}_{\mu\nu},  \ \ \text{for }\  i \in \cal I_0 , \label{0self_Gii}\\
-\frac{1}{{G_{\mu\mu} }}&=  - 1 - \frac{1}{n} \sum_{i,j\in \mathcal I_0}\lambda_i \lambda_j z_{\mu i}z_{\mu j} G^{\left(\mu\right)}_{ij}, \quad \frac{1}{{G_{\nu\nu} }}=  - 1 - \frac{1}{n} \sum_{i,j\in \mathcal I_0}  z_{\nu i}z_{\nu j}  G^{\left(\nu\right)}_{ij},  \ \ \text{for }\  \mu \in \cal I_1, \ \nu\in \cal I_2, \label{0self_Gmu1}
+\frac{1}{{G_{ii} }}&=  - z - \frac{\lambda_i^2}{n} \sum_{\mu,\nu\in \mathcal I_1} Z^{(1)}_{\mu i}Z^{(1)}_{\nu i}G^{\left( i \right)}_{\mu\nu} - \frac{1}{n} \sum_{\mu,\nu\in \mathcal I_2} Z^{(2)}_{\mu i}Z^{(2)}_{\nu i}G^{\left( i \right)}_{\mu\nu} -2 \frac{\lambda_i}{n} \sum_{\mu\in \cal I_1,\nu\in \mathcal I_2} Z^{(1)}_{\mu i}Z^{(2)}_{\nu i}G^{\left( i \right)}_{\mu\nu} , \label{0self_Gii}
 \end{align}
-where we recall the notations in equation \eqref{labelZ}. For the right-hand side of equation \eqref{0self_Gii}, notice that the resolvent minor $G^{(i)}$ is defined such that it is independent of the entries $z_{\mu i}$ and $z_{\nu i}$. Hence by the concentration inequalities in Lemma \ref{largedeviation}, we have that the  right-hand side of equation \eqref{0self_Gii} concentrates around the partial expectation over the entries $\{z_{\mu i}: \mu \in \cal I_1\cup \cal I_2\}$, i.e., with high probability,
+and for $\mu \in \cal I_1$ and $\nu\in \cal I_2$,
+\begin{align}
+\frac{1}{{G_{\mu\mu} }}&=  - 1 - \frac{1}{n} \sum_{i,j\in \mathcal I_0}\lambda_i \lambda_j Z^{(1)}_{\mu i}Z^{(1)}_{\mu j} G^{\left(\mu\right)}_{ij}, \quad \frac{1}{{G_{\nu\nu} }}=  - 1 - \frac{1}{n} \sum_{i,j\in \mathcal I_0}  Z^{(2)}_{\nu i}Z^{(2)}_{\nu j}  G^{\left(\nu\right)}_{ij},
+\label{0self_Gmu1}
+\end{align}
+where we recall the notations in equation \eqref{labelZ}. To see why equation \eqref{0self_Gii} holds, we have that by Schur complement formula,
+\begin{align*}
+\frac{1}{G_{ii}}= -z - H_i G^{(i)}H_{i}^\top, \quad H_i = \left( \mathbf 0_{p-1}, (n^{-1/2}\lambda_i (Z^{(1)})^\top_{i\mu }:\mu \in \cal I_1),(n^{-1/2} (Z^{(2)})^\top_{i\nu }:\nu \in \cal I_2)\right),
+\end{align*}
+where $H_i$ is actually the $i$-th row of $H$ with the $(i,i)$-th entry removed. Expanding the above expression, we obtain equation \eqref{0self_Gii}. The two expressions in \eqref{0self_Gmu1} are easier to obtain using Schur complement formula.
+
+\medskip
+\noindent{\bf Concentration estimates.} Now for the right-hand side of equation \eqref{0self_Gii}, notice that the resolvent minor $G^{(i)}$ is defined such that it is independent of the entries $Z^{(1)}_{\mu i}$ and $Z^{(2)}_{\nu i}$. Hence by the concentration inequalities in Lemma \ref{largedeviation}, we have that the  right-hand side of equation \eqref{0self_Gii} concentrates around the partial expectation over the entries $\{Z^{(1)}_{\mu i}: \mu \in \cal I_1 \}\cup \{Z^{(2)}_{\nu i}: \nu \in \cal I_2\}$, i.e., with high probability,
 \begin{align*}
 \frac{1}{{G_{ii} }}&=  - z - \frac{\lambda_i^2}{n} \sum_{\mu \in \mathcal I_1}  G^{\left( i \right)}_{\mu\mu} - \frac{1}{n} \sum_{\mu\in \mathcal I_2} G^{\left( i \right)}_{\mu\mu} +\oo(1)= - z - \lambda_i^2 \frac{\rho_1}{\rho_1+\rho_2} m_1^{(i)}(z)-  \frac{\rho_2}{\rho_1+\rho_2} m_2^{(i)}(z)+\oo(1),
 \end{align*}
 where we used the definition of $m_1^{(i)}$ and $m_2^{(i)}$ in equation \eqref{defm} with $G$ replaced by $G^{(i)}$. Intuitively, since we have removed only one column and one row out of the $(p+n)$ columns and rows in $H$, $m_1^{(i)}$ and $m_2^{(i)}$ should be close to the original $m_1$ and $m_2$. Hence we obtain from the above equation that
 \begin{align}\label{1self_Gii}
- G_{ii}  = -\left( z +\lambda_i^2 \frac{\rho_1}{\rho_1+\rho_2} m_1(z) +  \frac{\rho_2}{\rho_1+\rho_2}m_2(z)+\oo(1)\right)^{-1}.
+ G_{ii}  = -\left( z +\lambda_i^2 \frac{\rho_1}{\rho_1+\rho_2} m_1 +  \frac{\rho_2}{\rho_1+\rho_2}m_2+\oo(1)\right)^{-1}.
 \end{align}
 Similarly, we can obtain from equation \eqref{0self_Gmu1} that for $\mu \in \cal I_1$ and $\nu\in \cal I_2$,
 \be\label{1self_Gmu} G_{\mu \mu }=-\left(1+\frac{p}{n} m_0 + \oo(1)\right)^{-1},\quad G_{\nu\nu}=-\left(1+\frac{p}{n} m+\oo(1)\right)^{-1},\ee
 with high probability.
+
 \medskip
-\noindent\textbf{Deriving the self-consistent equations.} Taking average of \eqref{1self_Gmu}, we obtain that
+\noindent\textbf{Deriving the self-consistent equations.} Now taking average of \eqref{1self_Gmu}, we obtain that
 \be\label{2self_Gmu} m_1= \frac{1}{n_1}\sum_{\mu \in \cal I_1}G_{\mu\mu}=-\left(1+\frac{p}{n} m_0 + \oo(1)\right)^{-1},\quad m_2=\frac{1}{n_2}\sum_{\nu \in \cal I_2}G_{\nu\nu}=-\left(1+\frac{p}{n} m+\oo(1)\right)^{-1},
 \ee
+with high probability. As a byproduct, comparing \eqref{1self_Gmu}  with \eqref{2self_Gmu}, we obtain that for $\mu \in \cal I_1$ and $\nu\in \cal I_2$,
+\be\label{2.5self_Gmu} G_{\mu \mu }=m_1 +\oo(1),\quad G_{\nu\nu}=m_2+\oo(1),\ee
 with high probability. Together with the definition of $m$ and $m_0$ in equation \eqref{defm}, the two equations in equation \eqref{2self_Gmu} give that
 \be\label{3self_Gmu}  \frac1{m_1}= -1- \frac{1}{n} \sum_{i=1}^p \lambda_i^2 G_{ii}+ \oo(1),\quad \frac1{m_2}=-1-\frac{1}{n} \sum_{i=1}^p G_{ii}  + \oo(1),\ee
 with high probability. Plugging equation \eqref{1self_Gii} into equation \eqref{3self_Gmu}, we obtain that
@@ -185,38 +215,42 @@ with high probability, which give a system of approximate self-consistent equati
 (m_1,m_2) =\left(-\frac{\rho_1+\rho_2}{\rho_1}a_{1}(z),-\frac{\rho_1+\rho_2}{\rho_2}a_{2}(z)\right)+\oo(1) \quad \text{with high probability. }
 \ee
 
-\medskip
-\noindent\textbf{Deriving the matrix limit.}  Inserting the approximate identity \eqref{approx m12 add} into equations \eqref{1self_Gii}-\eqref{2self_Gmu}, we get that for  $i \in \cal I_0$, $\mu \in \cal I_1$ and $\nu\in \cal I_2$,
-$$G_{ii}(z)=(-z +\lambda_i^2 a_{1}(z) + a_2(z)+\oo(1))^{-1},\quad G_{\mu\mu}=-\frac{\rho_1+\rho_2}{\rho_1}a_{1}(z)+\oo(1),\quad G_{\nu\nu}=-\frac{\rho_1+\rho_2}{\rho_2}a_{2}(z)+\oo(1),$$
-with high probability. These explain the diagonal entries of $\Gi$ in equation \eqref{defn_piw}. For the off-diagonal entries, they are close to zero due to concentration. For example, for $i\ne j\in \cal I_1$, by Schur complement formula (see (\ref{resolvent3})), we have
-$$G_{ij}=-G_{ii}\Big({\lambda_i}{n^{-1/2}}\sum_{\mu \in \cal I_1} z_{\mu i} G^{(i)}_{\mu j} + {n^{-1/2}}\sum_{\mu \in \cal I_2} z_{\mu i} G^{(i)}_{\mu j} \Big).$$
-Using Lemma \ref{largedeviation}, we can show that $n^{-1/2}\sum_{\mu \in \cal I_1} z_{\mu i} G^{(i)}_{\mu j}$ and $n^{-1/2}\sum_{\mu \in \cal I_2} z_{\mu i} G^{(i)}_{\mu j}$ are both close to zero. The other off-diagonal entries can be bounded in the same way.
 
 \medskip
-\noindent{\bf Deriving the bias asymptotics.} Finally, we describe .......... For the bias asymptotics, we can write the left-hand side of equation \eqref{lem_cov_derv_eq} using the derivative of $\cal G$ with respect to $z$ at $z=0$. More precisely, using equation \eqref{eigen2extra} we can obtain that
+\noindent\textbf{Deriving the matrix limit.}  Inserting the approximate identity \eqref{approx m12 add} into equations \eqref{1self_Gii} and \eqref{2.5self_Gmu}, we get that for  $i \in \cal I_0$, $\mu \in \cal I_1$ and $\nu\in \cal I_2$,
+$$G_{ii}(z)=(-z +\lambda_i^2 a_{1}(z) + a_2(z)+\oo(1)^{-1},\quad G_{\mu\mu}=-\frac{\rho_1+\rho_2}{\rho_1}a_{1}(z)+\oo(1),\quad G_{\nu\nu}=-\frac{\rho_1+\rho_2}{\rho_2}a_{2}(z)+\oo(1),$$
+with high probability. These explain the diagonal entries of $\Gi$ in equation \eqref{defn_piw}. For the off-diagonal entries, they are close to zero due to concentration. For example, for $i\ne j\in \cal I_1$, by Schur complement formula (see (\ref{resolvent3})), we have
+$$G_{ij}=-G_{ii}\Big({\lambda_i}{n^{-1/2}}\sum_{\mu \in \cal I_1} Z^{(1)}_{\mu i} G^{(i)}_{\mu j} + {n^{-1/2}}\sum_{\mu \in \cal I_2} Z^{(2)}_{\mu i} G^{(i)}_{\mu j} \Big).$$
+Using Lemma \ref{largedeviation}, we can show that $n^{-1/2}\sum_{\mu \in \cal I_1} Z^{(1)}_{\mu i} G^{(i)}_{\mu j}$ and $n^{-1/2}\sum_{\mu \in \cal I_2} Z^{(2)}_{\mu i} G^{(i)}_{\mu j}$ are both close to zero. The other off-diagonal entries can be bounded in the same way.
+
+
+\medskip
+\noindent{\bf Deriving the bias asymptotics.} Finally, we describe how to derive the bias asymptotics. We can write the left-hand side of equation \eqref{lem_cov_derv_eq} using the derivative of $\cal G$ with respect to $z$ at $z=0$. More precisely, using equation \eqref{eigen2extra} we can obtain that
 \begin{align}
-n^2\bignorm{\Sigma_2^{1/2} \bigbrace{ X_1^{\top}X_1 + X_2^{\top}X_2 }^{-1} \Sigma_1^{1/2} w}^2&=n^2 w^\top \Sigma_1^{1/2}\Sigma_2^{-1/2}V\left(   \Lambda U^\top Z_1^\top Z_1 U\Lambda  + V^\top Z_2^\top Z_2V\right)^{-2}V^\top\Sigma_2^{-1/2}\Sigma_1^{1/2}w \nonumber\\
+&n^2\bignorm{\Sigma_2^{1/2} \bigbrace{ (X^{(1)})^{\top}X^{(1)} + (X^{(2)})^{\top}X^{(2)} }^{-1} \Sigma_1^{1/2} w}^2 \nonumber\\
+&=n^2 w^\top \Sigma_1^{1/2}\Sigma_2^{-1/2}V\left(   \Lambda U^\top (Z^{(1)})^\top Z^{(1)} U\Lambda  + V^\top (Z^{(2)})^\top Z^{(2)}V\right)^{-2}V^\top\Sigma_2^{-1/2}\Sigma_1^{1/2}w \nonumber\\
 &=  w^\top \Sigma_1^{1/2}\Sigma_2^{-1/2}V\cal G'(0)V^\top\Sigma_2^{-1/2}\Sigma_1^{1/2}w,\label{calculate G'}
 \end{align}
-where we used equation \eqref{rewrite X as R} in the second step. It is natural to guess that the matrix limit of $\cal G'(0)$ is given by
+where we used equation \eqref{rewrite X as R} in the second step. Since the matrix limit of $\cal G(z)$ is given by \eqref{matrix limit}, it is natural to guess that the matrix limit of $\cal G'(0)$ is given by
 \be\label{cal G'0}\cal G'(0) \approx \left.\frac{\dd}{\dd z}\right|_{z=0}(-z\id_p+a_{1}(z)\Lambda^2 + a_{2}(z)\id_p)^{-1} = \frac{\id_p- a_1'(0)\Lambda^2 - a_2'(0)\id_p}{(a_{1}(0)\Lambda^2 + a_{2}(0)\id_p)^2}.\ee
 If we let $a_3:=-a_1'(0)$ and $a_4:=-a_2'(0)$, then taking implicit differentiation of equation \eqref{selfomega_a} we can check that $(a_3,a_4)$ satisfies equation \eqref{eq_a34extra}. Then inserting \eqref{cal G'0} into \eqref{calculate G'}, we obtain that
 \begin{align*}
-n^2\bignorm{\Sigma_2^{1/2} \bigbrace{ X_1^{\top}X_1 + X_2^{\top}X_2 }^{-1} \Sigma_1^{1/2} w}^2&\approx  w^\top \Sigma_1^{1/2}\Sigma_2^{-1/2}V\frac{a_3\Lambda^2 +(1+ a_4)\id_p}{(a_{1}\Lambda^2 + a_{2}\id_p)^2}V^\top \Sigma_2^{-1/2}\Sigma_1^{1/2}w= w^{\top} \Pi w,
+& n^2\bignorm{\Sigma_2^{1/2} \bigbrace{ (X^{(1)})^{\top}(X^{(1)}) + (X^{(2)})^{\top}(X^{(2)}) }^{-1} \Sigma_1^{1/2} w}^2\\
+&\approx  w^\top \Sigma_1^{1/2}\Sigma_2^{-1/2}V\frac{a_3\Lambda^2 +(1+ a_4)\id_p}{(a_{1}\Lambda^2 + a_{2}\id_p)^2}V^\top \Sigma_2^{-1/2}\Sigma_1^{1/2}w= w^{\top} \Pi w,
 \end{align*}
-which concludes \eqref{lem_cov_derv_eq}. Note that in order to have the approximate identity for $\cal G'(0)$ in \eqref{cal G'0}, we not only need to know the asymptotics of $\cal G(0)$, but also need to know the asymptotics of $\cal G(z)$ for general $z$ around $z=0$. This is the main reason why we need to take a general $z$ in the definition of resolvents.
+where in the last step we used $M = \Sigma_1^{1/2}\Sigma_2^{-1/2}$ and $V \Lambda^2 V^\top=M^\top M$. This concludes \eqref{lem_cov_derv_eq}. Note that in order to have the approximate identity for $\cal G'(0)$ in \eqref{cal G'0}, we not only need to know the asymptotics of $\cal G(0)$, but also need to know the asymptotics of $\cal G(z)$ for general $z$ around $z=0$. This is the main reason why we need to take a general $z$ in the definition of resolvents.
 %In the above definition, we have taken the argument of $\cal G$ to be a general complex number, because we will need to use $\cal G'(0)$ in the proof of Lemma \ref{lem_cov_derivative}, which requires a good estimate of $\cal G(z)$ for $z$ around the origin.
 %For the variance asymptotic limit, we study the resolvent
-%	\[ R(z):= \bigbrace{\Sigma_2^{-1/2}( X_1^{\top}X_1 + X_2^{\top}X_2)\Sigma_2^{-1/2} - z \id}^{-1}, \text{ for any } z\in \C \text{ around } z=0. \]
+%	\[ R(z):= \bigbrace{\Sigma_2^{-1/2}( (X^{(1)})^{\top}(X^{(1)}) + (X^{(2)})^{\top}(X^{(2)}))\Sigma_2^{-1/2} - z \id}^{-1}, \text{ for any } z\in \C \text{ around } z=0. \]
 %Using the techniques from \citet{Anisotropic} and \citet{yang2019spiked}, we find the asymptotic limit of $R(z)$ for any $z$ as $p$ goes to infinity, denoted by $R_\infty(z)$, with an almost optimal convergence rate of $p$.
 %In particular, when $z=0$, the asymptotic limit of equation \eqref{lem_cov_shift_eq} is given by
 %	\[ \tr[\Sigma_2^{-1/2} \Sigma \Sigma_2^{-1/2}R_\infty(0)]. \]
 %
 %For the bias asymptotic limit, we show in \todo{where?} that
-%$$\bignorm{\Sigma_2^{1/2} (X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} w}^2= w^\top \Sigma_2^{-1/2}R'(0)\Sigma_2^{-1/2} w.$$
+%$$\bignorm{\Sigma_2^{1/2} ((X^{(1)})^{\top}(X^{(1)}) + (X^{(2)})^{\top}(X^{(2)})^{-1} w}^2= w^\top \Sigma_2^{-1/2}R'(0)\Sigma_2^{-1/2} w.$$
 %Hence its limit can be calculated through $R_\infty'(z)$, which gives the expression in \eqref{lem_cov_derv_eq}.
 %We leave the full proof of Lemma \ref{lem_cov_shift} and Lemma \ref{lem_cov_derivative} to Appendix \ref{sec_maintools}.
 %Combining the above two results, we provide the proof of Theorem \ref{thm_main_informal} in Section \ref{app_proof_main_thm}.
 
 
-The above arguments are the core of the main proof. To have a rigorous proof, we need to estimate each error carefully, and extend the Gaussian case to the more general case where the entries of $Z_1$ and $Z_2$ only satisfy certain moment assumptions. These will make the real argument rather tedious, but the methods we used are standard in the random matrix literature \cite{erdos2017dynamical,Anisotropic}. For the full rigorous proof, we refer the reader to Section \ref{sec_maintools}.
+The above arguments are the core of the main proof. To have a rigorous proof, we need to estimate each error carefully, and extend the Gaussian case to the more general case where the entries of $Z^{(1)}$ and $Z^{(2)}$ only satisfy certain moment assumptions. These will make the real argument rather tedious, but the methods we used are standard in the random matrix literature \cite{erdos2017dynamical,Anisotropic}. For the full rigorous proof, we refer the reader to Section \ref{sec_maintools}.
