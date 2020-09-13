@@ -801,7 +801,7 @@ Similar estimates also hold for $\wt Z^{(2)}$.
 Then we can centralize and rescale $\wt Z^{(1)}$ and $\wt Z^{(2)}$ as
 $$ \wh Z^{(1)} :=\frac{\wt Z^{(1)} - \E \wt Z^{(1)} }{\left(\E|\wt Z^{(1)}_{\mu i}|^2\right)^{1/2}},\quad \wh Z^{(2)} :=\frac{\wt Z^{(2)} - \E \wt Z^{(2)} }{\left(\E|\wt Z^{(2)}_{\mu i}|^2\right)^{1/2}}.$$ 
 Now $\wh Z^{(1)}$ and $\wh Z^{(2)}$ satisfy the assumptions of Theorem \ref{LEM_SMALL} with bounded support $q$, so we get that %and equation \eqref{aniso_law} gives that
-\be\label{GwhZZ}\left| \mathbf u^\top (G(\wh Z^{(1)},\wh Z^{(2)},z)-\Pi(z)) \mathbf v \right|  \prec  q,\ee
+\be\label{GwhZZ}\left| \mathbf u^\top (G(\wh Z^{(1)},\wh Z^{(2)},z)-\Gi(z)) \mathbf v \right|  \prec  q,\ee
 where $G(\wh Z^{(1)},\wh Z^{(2)},z)$ is defined in the same way as $G(z)\equiv G(Z^{(1)}, Z^{(2)},z)$ in \eqref{eqn_defG}, but with $(Z^{(1)}, Z^{(2)})$ replaced by $(\wh Z^{(1)},\wh Z^{(2)})$.
 
 Note that by equations \eqref{meanshif} and \eqref{EZ norm}, we can bound that for $k=1,2,$
@@ -836,15 +836,20 @@ and that the entries of $Z^{(1)}$ and $Z^{(2)}$ have finite $(4+\e)$-th moments 
 %Suppose $\Sigma=\sum_i \lambda_i(\Sigma)\mathbf u_i \mathbf v_i^\top$ is a SVD of $\Sigma$ with $\{\mathbf u_i\}$ and $\{\bv_i\}$ being the left and right singular vectors. 
 Then by Corollary \ref{main_cor}, for $1\le i \le p$ we have that
 %$Z^{(1)}$ and $Z^{(2)}$ have bounded support $q=n^{-1/2}$. Using Theorem \ref{LEM_SMALL}, %Now by Corollary \ref{main_cor}, we obtain that for any small constant $\e>0$, %with probability $1-\oo(1)$,
-\begin{align}\label{G0Pi0}
-& \left| \left[\left((X^{(1)})^\top X^{(1)}+(X^{(2)})^\top X^{(2)}\right)^{-1}\Sigma - n^{-1}  \Sigma_2^{-1/2}V \Pi(0)V^\top\Sigma_2^{-1/2}\Sigma\right]_{ii}\right| \\
-&=n^{-1} \left| \left[ \Sigma_2^{-1/2}V \left(\cal G(0)-\Pi(0)\right)V^\top\Sigma_2^{-1/2}\Sigma \right]_{ii}\right| 
-\prec q\|A\| ,
+\begin{align}
+& \left| \left[\left((X^{(1)})^\top X^{(1)}+(X^{(2)})^\top X^{(2)}\right)^{-1}\Sigma - n^{-1}  \Sigma_2^{-1/2}V \Gi(0)V^\top\Sigma_2^{-1/2}\Sigma\right]_{ii}\right| \nonumber\\
+&=n^{-1} \left|\mathbf e_i^\top \Sigma_2^{-1/2}V \left(\cal G(0)-\Gi(0)\right)V^\top\Sigma_2^{-1/2}\Sigma\mathbf e_i\right| \prec n^{-1}q\|\Sigma\mathbf e_i\| ,\label{G0Pi0}
 \end{align}
-for $q= n^{-\e/(8+2\e)}$ on an event $\Omega$ with $\P(\Omega)=1-\oo(1)$. Here $\mathbf e_i$ denotes the standard basis vector along the $i$-th direction. By equation \eqref{defn_piw}, we have
-$$\Pi(0)= -(r_1M_{1}(0)\Lambda^2  +  r_2M_{2}(0))^{-1}= (a_1 V^\top M^\top M V +  a_2)^{-1},$$
-with $(a_1,a_2)$ satisfying equation \eqref{selfomega0}. Thus from equation \eqref{G0Pi0} we get that
-$$ \tr (A((X^{(1)})^\top X^{(1)}+(X^{(2)})^\top X^{(2)})^{-1}) = n^{-1}\tr \left[ A(a_1  \Sigma_1  +  a_2\Sigma_2)^{-1}\right] +\OO_\prec(q \|A\|) \quad \text{on $\Omega$}.$$
+on an event $\Omega$ with $\P(\Omega)=1-\oo(1)$, where $ q= n^{-\e/(8+2\e)}$ and $\mathbf e_i$ denotes the standard basis vector along the $i$-th direction. Then with the calculations in equation \eqref{Gi00}, we get that
+$$ n^{-1}  \Sigma_2^{-1/2}V \Gi(0)V^\top\Sigma_2^{-1/2}\Sigma= n^{-1}(a_1\Sigma_1 +  a_2\Sigma_2)^{-1}\Sigma.$$
+%$$\Gi(0)= -(a_{1}(0)\Lambda^2  +  a_{2}(0))^{-1}= (a_1 V^\top M^\top M V +  a_2)^{-1},$$
+%with $(a_1,a_2)$ satisfying equation \eqref{selfomega0}. 
+Together with equation \eqref{G0Pi0}, this identity implies that % we get that
+\begin{align*}
+ \tr \left[\left((X^{(1)})^\top X^{(1)}+(X^{(2)})^\top X^{(2)}\right)^{-1}\Sigma\right]& = \sum_{i=1}^p\left[\left((X^{(1)})^\top X^{(1)}+(X^{(2)})^\top X^{(2)}\right)^{-1}\Sigma\right]_{ii} \\
+ &= n^{-1}\tr \left[ \left(a_1  \Sigma_1  +  a_2\Sigma_2\right)^{-1}\Sigma\right] +\OO_\prec(q \|A\|) 
+ \end{align*}
+ on event $\Omega$.
 %with probability $1-\oo(1)$. 
 This concludes equation \eqref{lem_cov_shift_eq}. %if we rename $(r_1X^{(2)},r_2x_3)$ to $(a_1,a_2)$. 
 %For equation \eqref{lem_cov_shift_eq}, it is a well-known result for inverse Whishart matrices {\color{red}(add some references)}. 
@@ -853,34 +858,34 @@ This concludes equation \eqref{lem_cov_shift_eq}. %if we rename $(r_1X^{(2)},r_2
  
 
 \begin{proof}[Proof of Lemma \ref{lem_cov_derivative}]
-In the setting of Lemma \ref{lem_cov_derivative}, we can write 
-\begin{align*}
- n^2\bignorm{\Sigma_2^{1/2} ( (X^{(1)})^{\top}X^{(1)} + (X^{(2)})^{\top}X^{(2)})^{-1}\beta}^2 =\beta^\top \Sigma_2^{-1/2}  \left(M^\top (Z^{(1)})^{\top} Z^{(1)} M +  (Z^{(2)})^\top Z^{(2)} \right)^{-2}   \Sigma_2^{-1/2}\beta,
-\end{align*}
-%where $\wt\Sigma_1:= w^2 \Sigma_1$, $\Sigma_2$, $Z^{(1)}$ and $Z^{(2)}$ satisfy Assumption \ref{assm_big1} and $M:=\wt\Sig_1^{1/2} \Sig_2^{-1/2}$. 
-where in the second step the $n^{2}$ factor disappeared due to the choice of scaling in equation \eqref{assm1}. 
+Recall that in the setting of Lemma \ref{lem_cov_derivative}, we have equation \eqref{calculate G'}. 
+%\begin{align*}
+% n^{2}\bignorm{\Sigma_2^{1/2} ( (X^{(1)})^{\top}X^{(1)} + (X^{(2)})^{\top}X^{(2)})^{-1}\Sigma_1^{1/2}w}^2 =\beta^\top \Sigma_2^{-1/2}  \left(M^\top (Z^{(1)})^{\top} Z^{(1)} M +  (Z^{(2)})^\top Z^{(2)} \right)^{-2}   \Sigma_2^{-1/2}\beta,
+%\end{align*}
+%%where $\wt\Sigma_1:= w^2 \Sigma_1$, $\Sigma_2$, $Z^{(1)}$ and $Z^{(2)}$ satisfy Assumption \ref{assm_big1} and $M:=\wt\Sig_1^{1/2} \Sig_2^{-1/2}$. 
+%where in the second step the $n^{2}$ factor disappeared due to the choice of scaling in equation \eqref{assm1}. 
 %Again we assume that $M$ has the singular value decomposition equation \eqref{tildeM}. 
-With equation \eqref{eigen2}, we can write the above expression as
-$$n^2\bignorm{\Sigma_2^{1/2} ( (X^{(1)})^{\top}X^{(1)} + (X^{(2)})^{\top}X^{(2)})^{-1}\beta}^2= \bv^\top \cal G^2(0)  \bv,\quad \bv:=V^\top  \Sigma_2^{-1/2} \beta .$$ 
-Note that $\cal G^2(0)=\partial_z \cal G|_{z=0}$. Under the moment condition equation \eqref{assmAhigh}, using Corollary \ref{main_cor} we obtain that
+%With equation \eqref{eigen2}, we can write the above expression as
+%$$n^2\bignorm{\Sigma_2^{1/2} ( (X^{(1)})^{\top}X^{(1)} + (X^{(2)})^{\top}X^{(2)})^{-1}\beta}^2= \bv^\top \cal G^2(0)  \bv,\quad \bv:=V^\top  \Sigma_2^{-1/2} \beta .$$ 
+For simplicity, we denote the vector $\bv:=V^\top  \Sigma_2^{-1/2} \Sigma_1^{1/2}w$. 
+%Note that $\cal G^2(0)=\partial_z \cal G|_{z=0}$. 
+Under the moment condition \eqref{assmAhigh}, using Corollary \ref{main_cor} we obtain that
 %$Z^{(1)}$ and $Z^{(2)}$ have bounded support $q=n^{-1/2}$. Using Theorem \ref{LEM_SMALL}, %Now by Corollary \ref{main_cor}, we obtain that for any small constant $\e>0$, %with probability $1-\oo(1)$,
 \be\nonumber 
-\max_{z\in \C:|z|=(\log n)^{-1}}|\mathbf v^\top (G(z)-\Pi(z))\mathbf v| \prec q \|\mathbf v\|^2,\quad q= n^{-\e/(8+2\e)},
+\max_{z\in \C:|z|=(\log n)^{-1}}|\mathbf v^\top (G(z)-\Gi(z))\mathbf v| \prec q \|\mathbf v\|^2,\quad q:= n^{-\e/(8+2\e)},
 \ee
 on an event $\Omega$ with $\P(\Omega)=1-\oo(1)$. Now combining this estimate with Cauchy's integral formula, we get that on $\Omega$, %with probability $1-\oo(1)$, 
 \be\label{apply derivlocal}
 \begin{split}
-  \bv^\top \cal G^2(0)\bv  = \frac{1}{2\pi \ii}\oint_{\cal C} \frac{ \bv^\top \cal G(z)\bv }{z^2}\dd z &=  \frac{1}{2\pi \ii}\oint_{\cal C} \frac{ \bv^\top\Pi(z)\bv}{z^2}\dd z +\OO_\prec(q\|\beta\|^2) \\
-  &=  \bv^\top \Pi'(0)\bv + \OO_\prec(q\|\beta\|^2),
+  \bv^\top \cal G'(0)\bv  = \frac{1}{2\pi \ii}\oint_{\cal C} \frac{ \bv^\top \cal G(z)\bv }{z^2}\dd z &=  \frac{1}{2\pi \ii}\oint_{\cal C} \frac{ \bv^\top\Gi(z)\bv}{z^2}\dd z +\OO_\prec(q\|\mathbf v\|^2) \\
+  &=  \bv^\top \Gi'(0)\bv + \OO_\prec(q\|\mathbf v\|^2),
 \end{split}
 \ee
-where $\cal C$ is the contour $\{z\in \C: |z| = (\log n)^{-1} \}$. Hence it remains to study the derivatives 
+where $\cal C$ is the contour $\{z\in \C: |z| = (\log n)^{-1} \}$. We can calculate the derivative $\bv^\top \Gi'(0)\bv$ as
 \be\label{dervPi}
-\bv^\top \Pi'(0)\bv = \bv \frac{1+r_1M_{1}'(0)\Lambda^2 + r_2M_{2}'(0)}{(r_1M_{1}(0)\Lambda^2 + r_2M_{2}(0))^2}\bv,
+\bv^\top \Gi'(0)\bv = \bv  \frac{a_3\Lambda^2+(1+a_4)\id_p}{(a_{1}\Lambda^2 + a_{2}\id_p)^2}\bv,
 \ee
-where we need to calculate the derivatives $ M_{1}'(0)$ and $ m_{2 c}'(0)$. 
-
-	
+where we recall \eqref{cal G'0} and that $a_3=-a_1'(0)$ and $a_4=-a_2'(0)$. 
 %Then we have
 %$$  \left\|(X^{(1)})^{\top}X^{(1)} (\beta_s - \beta_t)  - \frac{n_1}{n}(\beta_s - \beta_t)\right\|_2 \le C \sqrt{\frac{p}{n}} \left\| (\beta_s - \beta_t)\right\|_2. $$
 %\todo{(revise the following proof)} It remain to study the following expression
@@ -904,85 +909,95 @@ where we need to calculate the derivatives $ M_{1}'(0)$ and $ m_{2 c}'(0)$.
 %\begin{align}\label{m34shift}
 %\frac{n_2}{n}\frac1{m_3} = - z +\frac1n\sum_{i=1}^p \frac1{  1+m_3 + \lambda_i^2m_4  } ,\quad \frac{n_1}{n}\frac1{m_4} = - z +\frac1n\sum_{i=1}^p \frac{\lambda_i^2 }{  1+m_3 + \lambda_i^2m_4  } .
 %\end{align}
-
-
-Taking implicit differentiation of equation \eqref{selfomega}, we obtain that
+It remains to derive equation \eqref{eq_a34extra} for $(a_3,a_4)$. Taking implicit differentiation of equation \eqref{selfomega_a}, we obtain that
 \be \nonumber%\label{dotm34}
 \begin{split}
- \frac{m'_{1c}(0) }{M_{1}^2(0)}=   \frac1n\sum_{i=1}^p \frac{\lambda_i^2\left(1+\lambda_i^2 r_1m'_{1c}(0) + r_2 m'_{2c}(0)\right) }{  ( \lambda_i^2 r_1 M_{1}(0) +r_2 M_{2}(0))^2 } ,\quad \frac{m'_{2c}(0)}{M_{2}^2(0)} &=  \frac1n\sum_{i=1}^p \frac{1+\lambda_i^2 r_1m'_{1c}(0) + r_2 m'_{2c}(0)}{ ( \lambda_i^2 r_1 M_{1}(0) +r_2 M_{2}(0))^2  } .
+ \rho_1\frac{-a'_{1}(0) }{a_{1}^2(0)}=   \frac1p\sum_{i=1}^p \frac{\lambda_i^2\left(1-\lambda_i^2 a'_{1}(0) - a'_{2}(0)\right) }{  ( \lambda_i^2 a_{1}(0) +a_{2}(0))^2 } ,\quad \rho_2\frac{-a'_{2}(0)}{a_2^2(0)} &=  \frac1p\sum_{i=1}^p \frac{1-\lambda_i^2 a'_{1}(0) - a'_{2}(0)}{ ( \lambda_i^2a_{1}(0) +a_{2}(0))^2  } .
 \end{split}
 \ee
-Recalling that we have denoted  $(a_1, a_2)=(-r_1M_{1}(0),-r_2M_{2}(0))$, we can rewrite these two equations as
-%\be%\label{dotm34}
+%Using $(a_1,a_2)=(a_1(0),a_2(0))$ and $(a_3,a_4)=(-a_1'(0),-a_2'(0))$,
+%Recalling that we have denoted  $(a_1, a_2)=(-r_1M_{1}(0),-r_2M_{2}(0))$, we can rewrite these two equations as
+%%\be%\label{dotm34}
+%%\begin{split}
+%% r_1 \frac1{a_1^2}a_4 &=   \frac1n\sum_{i=1}^p \frac{\lambda_i^2\left(1+ \lambda_i^2 a_4 + a_3\right) }{  ( \lambda_i^2 a_1 +a_2)^2 } ,\\
+%%r_2\frac1{a_2^2}a_3 &=  \frac1n\sum_{i=1}^p \frac{1+\lambda_i^2 a_4 + a_3}{ ( \lambda_i^2 a_1 +a_2)^2  } .
+%%\end{split}
+%%\ee
+%%We can solve the above equations to get $u'_3$ and $u'_4$. Then we have
+%%$$ G^2(z) \approx   \frac{1 +  u_3'(z) +\Lambda^2 u'_4(z)}{ \left( z+ u_3(z) + \Lambda^2  u_4(z)\right)^2}  $$
+%%{\cob in certain sense}.
+%%\cob $a_3\to a_2$, $a_4\to a_1$ \nc
+%%We now simplify the expressions for $z\to 0$ case. When $z\to 0$, we shall have
+%%$$u_3(z)= -  {a_3} + \OO(z), \quad u_4(z)= -  a_4 + \OO(z), \quad a_3,a_4 >0.$$
+%%For $z\to0$, the equations in equation \eqref{m34shift} are reduced to
+%%\begin{align}\label{m35shift}
+%%\frac{n_2}{n}\frac{1}{\todo{a_2}} = 1 +\frac1n\sum_{i=1}^p \frac{1}{\todo{a_2} + \lambda_i^2\todo{a_1}  } ,\quad \frac{n_1}{n}\frac1{\todo{a_1}} = 1 +\frac1n\sum_{i=1}^p \frac{\lambda_i^2 }{  \todo{a_2} + \lambda_i^2 \todo{a_1} }.
+%%\end{align}
+%%It is easy to see that these equations are equivalent to
+%%\begin{align} a_1 + a_2 = 1- \gamma_n, \quad a_1 +\frac1n\sum_{i=1}^p \frac{a_1}{a_1 + a_2/\lambda_i^2}=\frac{n_1}{n}  .\end{align}
+%%The equations in equation \eqref{dotm34} reduce to
+%\be \label{dotm34red}
 %\begin{split}
-% r_1 \frac1{a_1^2}a_4 &=   \frac1n\sum_{i=1}^p \frac{\lambda_i^2\left(1+ \lambda_i^2 a_4 + a_3\right) }{  ( \lambda_i^2 a_1 +a_2)^2 } ,\\
-%r_2\frac1{a_2^2}a_3 &=  \frac1n\sum_{i=1}^p \frac{1+\lambda_i^2 a_4 + a_3}{ ( \lambda_i^2 a_1 +a_2)^2  } .
+%\left(\frac{r_2}{a_2^2}- \frac1n\sum_{i=1}^p \frac{1 }{ (   \lambda_i^2a_1+a_2   )^2  }\right) a_4 -  \left(\frac1n\sum_{i=1}^p \frac{  \lambda_i^2 }{ (   \lambda_i^2a_1+a_2   )^2  }\right)a_3 =  \frac1n\sum_{i=1}^p \frac{1 }{ (   \lambda_i^2a_1+a_2   )^2  } ,\\
+% %\frac{n_1}{n}\frac1{a_4^2}b_4 =   \frac1n\sum_{i=1}^p \frac{\lambda_i^2\left(1+x_3 + \lambda_i^2 b_4\right) }{  (a_3 + \lambda_i^2a_4)^2  } , \\
+% \left(  \frac{r_1}{a_1^2} -  \frac1n\sum_{i=1}^p \frac{\lambda_i^4   }{  (\lambda_i^2a_1+a_2)^2  }\right)a_3 -\left( \frac1n\sum_{i=1}^p \frac{\lambda_i^2  }{  (\lambda_i^2a_1+a_2  )^2  }\right)a_4 =   \frac1n\sum_{i=1}^p \frac{\lambda_i^2 }{  (\lambda_i^2a_1+a_2 )^2  } ,
 %\end{split}
 %\ee
-%We can solve the above equations to get $u'_3$ and $u'_4$. Then we have
-%$$ G^2(z) \approx   \frac{1 +  u_3'(z) +\Lambda^2 u'_4(z)}{ \left( z+ u_3(z) + \Lambda^2  u_4(z)\right)^2}  $$
-%{\cob in certain sense}.
-%\cob $a_3\to a_2$, $a_4\to a_1$ \nc
-%We now simplify the expressions for $z\to 0$ case. When $z\to 0$, we shall have
-%$$u_3(z)= -  {a_3} + \OO(z), \quad u_4(z)= -  a_4 + \OO(z), \quad a_3,a_4 >0.$$
-%For $z\to0$, the equations in equation \eqref{m34shift} are reduced to
-%\begin{align}\label{m35shift}
-%\frac{n_2}{n}\frac{1}{\todo{a_2}} = 1 +\frac1n\sum_{i=1}^p \frac{1}{\todo{a_2} + \lambda_i^2\todo{a_1}  } ,\quad \frac{n_1}{n}\frac1{\todo{a_1}} = 1 +\frac1n\sum_{i=1}^p \frac{\lambda_i^2 }{  \todo{a_2} + \lambda_i^2 \todo{a_1} }.
-%\end{align}
-%It is easy to see that these equations are equivalent to
-%\begin{align} a_1 + a_2 = 1- \gamma_n, \quad a_1 +\frac1n\sum_{i=1}^p \frac{a_1}{a_1 + a_2/\lambda_i^2}=\frac{n_1}{n}  .\end{align}
-%The equations in equation \eqref{dotm34} reduce to
-\be \label{dotm34red}
-\begin{split}
-\left(\frac{r_2}{a_2^2}- \frac1n\sum_{i=1}^p \frac{1 }{ (   \lambda_i^2a_1+a_2   )^2  }\right) a_4 -  \left(\frac1n\sum_{i=1}^p \frac{  \lambda_i^2 }{ (   \lambda_i^2a_1+a_2   )^2  }\right)a_3 =  \frac1n\sum_{i=1}^p \frac{1 }{ (   \lambda_i^2a_1+a_2   )^2  } ,\\
- %\frac{n_1}{n}\frac1{a_4^2}b_4 =   \frac1n\sum_{i=1}^p \frac{\lambda_i^2\left(1+x_3 + \lambda_i^2 b_4\right) }{  (a_3 + \lambda_i^2a_4)^2  } , \\
- \left(  \frac{r_1}{a_1^2} -  \frac1n\sum_{i=1}^p \frac{\lambda_i^4   }{  (\lambda_i^2a_1+a_2)^2  }\right)a_3 -\left( \frac1n\sum_{i=1}^p \frac{\lambda_i^2  }{  (\lambda_i^2a_1+a_2  )^2  }\right)a_4 =   \frac1n\sum_{i=1}^p \frac{\lambda_i^2 }{  (\lambda_i^2a_1+a_2 )^2  } ,
-\end{split}
-\ee
-where we denoted  $(a_3 ,a_4):=(r_1M_{1}'(0),r_2M'_{2}(0))$. It is not hard to see that these equations are equivalent to equation \eqref{eq_a34extra}. Then by equation \eqref{apply derivlocal} and equation \eqref{dervPi}, we get
-\begin{align*}
-n^2\bignorm{\Sigma_2^{1/2} ( (X^{(1)})^{\top}X^{(1)} + (X^{(2)})^{\top}X^{(2)})^{-1}\beta}^2&=\beta^\top \Sigma_2^{-1/2} V  \frac{1 + a_4+ a_3\Lambda^2 }{(a_1\Lambda^2 + a_2)^2}  V^\top  \Sigma_2^{-1/2} \beta \\
-&=\beta^\top \Sigma_2^{-1/2} \frac{1 + a_4+ a_3M^\top M }{(a_1M^\top M + a_2)^2} \Sigma_2^{-1/2} \beta,
-\end{align*}
-where we used $M^\top M= V\Lambda^2 V^\top$ in the second step. 
-%where we denote $x_3:=u_3'(0)$ and $b_4:=u_4'(0)$. Thus we have
-%$$\left(\frac{1}{\Lambda (Z^{(1)})^{\top}Z^{(1)} \Lambda + (Z^{(2)})^{\top}Z^{(2)}} \right)^2  = G^2(0) \approx   \frac{ 1 + x_3 + \Lambda^2  b_4}{\left( a_3 + \Lambda^2  a_4\right)^2} .$$
-%This gives that
-%\be\label{derivative}
-%\begin{split}
-%& \frac{1}{(X^{(1)})^{\top}X^{(1)} + (X^{(2)})^{\top}X^{(2)}}  \Sigma_2 \frac{1}{(X^{(1)})^{\top}X^{(1)} + (X^{(2)})^{\top}X^{(2)}} =\Sigma_2^{-1/2}V \left(\frac{1}{\Lambda (Z^{(1)})^{\top}Z^{(1)} \Lambda + (Z^{(2)})^{\top}Z^{(2)}} \right)^2 V^T \Sigma_2^{-1/2}\\
-%& \approx  \Sigma_2^{-1/2}V \frac{ 1 + x_3 + \Lambda^2  b_4}{\left( a_3 + \Lambda^2  a_4\right)^2}V^T \Sigma_2^{-1/2}= \Sigma_2^{-1/2}  \frac{ 1 + x_3 +  b_4 A^\top A }{\left( a_3 +   a_4 A^\top A\right)^2}\Sigma_2^{-1/2} .
-%\end{split}
-%\ee
-%Hence we have
+%where we denoted  $(a_3 ,a_4):=(r_1M_{1}'(0),r_2M'_{2}(0))$. 
+It is not hard to see that this equation is equivalent to equation \eqref{eq_a34extra}. 
+Finally, we can calculate $\bv^\top \Gi'(0)\bv$ as in \eqref{calculatePibias}, which concludes Lemma \ref{lem_cov_derivative} by equation \eqref{apply derivlocal}. 
+%Then by equation \eqref{apply derivlocal} and equation \eqref{dervPi}, we get
 %\begin{align*}
-%& (\beta_s - \beta_t)^{\top}(X^{(1)})^{\top}X^{(1)} \frac{1}{(X^{(1)})^{\top}X^{(1)} + (X^{(2)})^{\top}X^{(2)}}  \Sigma_2 \frac{1}{(X^{(1)})^{\top}X^{(1)} + (X^{(2)})^{\top}X^{(2)}} (X^{(1)})^{\top}X^{(1)} (\beta_s - \beta_t) \\
-% & \approx (\beta_s - \beta_t)^{\top}\Sigma_1 \Sigma_2^{-1/2}  \frac{ 1 + a_3 +  a_4 A^\top A }{\left( a_2 +   a_1 A^\top A\right)^2}\Sigma_2^{-1/2} \Sigma_1(\beta_s - \beta_t).
+%n^2\bignorm{\Sigma_2^{1/2} ( (X^{(1)})^{\top}X^{(1)} + (X^{(2)})^{\top}X^{(2)})^{-1}\beta}^2&=\beta^\top \Sigma_2^{-1/2} V  \frac{1 + a_4+ a_3\Lambda^2 }{(a_1\Lambda^2 + a_2)^2}  V^\top  \Sigma_2^{-1/2} \beta \\
+%&=\beta^\top \Sigma_2^{-1/2} \frac{1 + a_4+ a_3M^\top M }{(a_1M^\top M + a_2)^2} \Sigma_2^{-1/2} \beta,
 %\end{align*}
-This concludes Lemma \ref{lem_cov_derivative}.
+%where we used $M^\top M= V\Lambda^2 V^\top$ in the second step. 
+%%where we denote $x_3:=u_3'(0)$ and $b_4:=u_4'(0)$. Thus we have
+%%$$\left(\frac{1}{\Lambda (Z^{(1)})^{\top}Z^{(1)} \Lambda + (Z^{(2)})^{\top}Z^{(2)}} \right)^2  = G^2(0) \approx   \frac{ 1 + x_3 + \Lambda^2  b_4}{\left( a_3 + \Lambda^2  a_4\right)^2} .$$
+%%This gives that
+%%\be\label{derivative}
+%%\begin{split}
+%%& \frac{1}{(X^{(1)})^{\top}X^{(1)} + (X^{(2)})^{\top}X^{(2)}}  \Sigma_2 \frac{1}{(X^{(1)})^{\top}X^{(1)} + (X^{(2)})^{\top}X^{(2)}} =\Sigma_2^{-1/2}V \left(\frac{1}{\Lambda (Z^{(1)})^{\top}Z^{(1)} \Lambda + (Z^{(2)})^{\top}Z^{(2)}} \right)^2 V^T \Sigma_2^{-1/2}\\
+%%& \approx  \Sigma_2^{-1/2}V \frac{ 1 + x_3 + \Lambda^2  b_4}{\left( a_3 + \Lambda^2  a_4\right)^2}V^T \Sigma_2^{-1/2}= \Sigma_2^{-1/2}  \frac{ 1 + x_3 +  b_4 A^\top A }{\left( a_3 +   a_4 A^\top A\right)^2}\Sigma_2^{-1/2} .
+%%\end{split}
+%%\ee
+%%Hence we have
+%%\begin{align*}
+%%& (\beta_s - \beta_t)^{\top}(X^{(1)})^{\top}X^{(1)} \frac{1}{(X^{(1)})^{\top}X^{(1)} + (X^{(2)})^{\top}X^{(2)}}  \Sigma_2 \frac{1}{(X^{(1)})^{\top}X^{(1)} + (X^{(2)})^{\top}X^{(2)}} (X^{(1)})^{\top}X^{(1)} (\beta_s - \beta_t) \\
+%% & \approx (\beta_s - \beta_t)^{\top}\Sigma_1 \Sigma_2^{-1/2}  \frac{ 1 + a_3 +  a_4 A^\top A }{\left( a_2 +   a_1 A^\top A\right)^2}\Sigma_2^{-1/2} \Sigma_1(\beta_s - \beta_t).
+%%\end{align*}
+%This concludes Lemma \ref{lem_cov_derivative}.
 \end{proof}
 
-The rest of this section is devoted to the proof of Theorem \ref{LEM_SMALL}. \todo{revise} In Section \ref{sec locallaw1}, we introduce the concept of resolvents, and give an almost optimal convergent estimate on it---Theorem \ref{LEM_SMALL}---in Section \ref{sec aymp_limit_G}. This estimate is conventionally called {\it local law} in random matrix literature. Based on Theorem \ref{LEM_SMALL}, we then complete the proof of Lemmas \ref{lem_cov_shift} and \ref{lem_cov_derivative} in Section \ref{sec pf RMTlemma}. The proof of Theorem \ref{LEM_SMALL} will be presented in Section \ref{sec_Gauss}.
+
+%\todo{revise} In Section \ref{sec locallaw1}, we introduce the concept of resolvents, and give an almost optimal convergent estimate on it---Theorem \ref{LEM_SMALL}---in Section \ref{sec aymp_limit_G}. This estimate is conventionally called {\it local law} in random matrix literature. Based on Theorem \ref{LEM_SMALL}, we then complete the proof of Lemmas \ref{lem_cov_shift} and \ref{lem_cov_derivative} in Section \ref{sec pf RMTlemma}. The proof of Theorem \ref{LEM_SMALL} will be presented in Section \ref{sec_Gauss}.
 
 \subsubsection{Analysis of the Limiting Equations}\label{sec contract}
 
-The main goal of this section is to show 
-In order the show that 
+The rest of this section is devoted to the proof of Theorem \ref{LEM_SMALL}. First in this section, we show that the limiting equation \eqref{selfomega_a} has a unique solution $(a_1(z), a_2(z))$ for any $z\in \mathbf D$ in \eqref{SSET1}. Otherwise, Theorem \ref{LEM_SMALL} will be a vacuous statement. 
 
-\eqref{selfomega_a} reduces to the following equations ...... 
 
-If $z=0$, then the equations in equation \eqref{selfomega} in are reduced to 
-\begin{equation}\label{selfomega0}
-\begin{split}
-&a_1 + a_2= 1-\gamma_n,\quad    a_1 +\frac{\gamma_n}p\sum_{i=1}^p \frac{\lambda_i^2 a_1}{ \lambda_i^2 a_1+ (1-\gamma_n - a_1) }=r_1 .
-\end{split}
-\ee
-where $a_1:=-r_1M_{1}(0)$ and $a_2:=-r_2M_{2}(0)$. Note that the function 
-$$f(a_1):=a_1 +\frac{\gamma_n}p\sum_{i=1}^p \frac{\lambda_i^2 a_1}{ \lambda_i^2 a_1+ (1-\gamma_n - a_1) } $$
-is strictly increasing on $[0,(1-\gamma_n)]$. Moreover, we have $f(0)=0<1$ and $f(1-\gamma_n)=1>r_1$. Hence by mean value theorem, there exists a unique solution $a_1 \in (0,1-\gamma_n)$. Moreover, it is easy to check that $f'(x)=\OO(1)$ for $x\in [0, 1-\gamma_n]$, and $f(r_1)>r_1$ if $r_1\le 1-\gamma_n$. Hence there exists a constant $\tau>0$, such that 
+First observe that when $z=0$, equation \eqref{selfomega_a} can be reduced to \eqref{eq_a12extra}, from which we can derive an equation of $a_1$ only: 
+%Note that the function 
+$$f(a_1)=0,\quad \text{with}\quad f(a_1):=a_1 +\frac{1}{\rho_1+\rho_2}\cdot\frac{1}p\sum_{i=1}^p \frac{\lambda_i^2 a_1}{ \lambda_i^2 a_1+ (1- (\rho_1+\rho_2)^{-1} - a_1) } .$$
+It is not hard to see that $f$ is strictly increasing on $[0,1-(\rho_1+\rho_2)^{-1}]$. {\cor here.....} Moreover, we have $f(0)=0<1$ and $f(1-\gamma_n)=1>r_1$. Hence by mean value theorem, there exists a unique solution $a_1 \in (0,1-\gamma_n)$. Moreover, it is easy to check that $f'(x)=\OO(1)$ for $x\in [0, 1-\gamma_n]$, and $f(r_1)>r_1$ if $r_1\le 1-\gamma_n$. Hence there exists a constant $\tau>0$, such that 
 \be\label{a23}
  r_1 \tau \le   a_1 \le \min\{ (1-\gamma_n) -r_1 \tau,r_1( 1-\tau)\},\quad \tau<a_1\le 1 -\gamma_n - r_1\tau .
 \ee 
+
+
+\cor
+\begin{align*}
+		a_1 + a_2 = 1- \frac{1}{\rho_1 + \rho_2},\quad a_1 + \frac1{\rho_1 + \rho_2}\cdot \bigbrace{\frac{1}{p}\sum_{i=1}^p \frac{\lambda_i^2 a_1}{\lambda_i^2 a_1 + a_2}} = \frac{\rho_1}{\rho_1 + \rho_2}. 
+\end{align*}
+\nc
+	
+%\begin{equation}\label{selfomega0}
+%\begin{split}
+%&a_1 + a_2= 1-\gamma_n,\quad    a_1 +\frac{\gamma_n}p\sum_{i=1}^p \frac{\lambda_i^2 a_1}{ \lambda_i^2 a_1+ (1-\gamma_n - a_1) }=r_1 .
+%\end{split}
+%\ee
+%where $a_1:=-r_1M_{1}(0)$ and $a_2:=-r_2M_{2}(0)$. 
 
 {\cor Introduce $(M_1(z),M_2(z))$. First we define the deterministic limits of $(m_1(z), m_{2}(z))$, denoted by $(M_{1}(z),M_{2}(z))$ 
 %\HZ{This $M_{1}, M_{2}$ notation is awkward; consider changing it to ${M}_1(z), {M}_2(z)$ (or  better, say $a_1(z), a_2(z)$? if they correspond to $a_1, a_2$ when $z=0$)}, 
