@@ -29,14 +29,15 @@ Our main result in this section is stated as follows.
 %Suppose $X=Z\Sigma^{1/2}\in \R^{n\times p}$ satisfy Assumption \ref{assm_secA1} with $\rho:=n/p>1$ being some fixed constant. Consider data models  $Y_i = X\beta_i + \varepsilon_i$, $i=1,2,\cdots, t$, where $\e_i\in \R^{n}$ are random vectors with i.i.d. entries with mean zero, variance $\sigma^2$ and all moments as in \eqref{assmAhigh}. Moreover, assume that $X$, $\beta_i$ and $\e_i$ are all independent of each other.
 	%Let $n = c \cdot p$.
 	%Let $X\in\real^{n\times p}$ and $Y_i = X\beta_i + \varepsilon_i$, for $i = 1,\dots,k$.
-%	Consider $t$ data models $Y_i = X\beta_i + \varepsilon_i$, $i=1,2,\cdots, t$, where $X$ has covariance matrix $\Sigma$, and the entries of $\e_i$ are i.i.d. with mean zero and variance $\sigma^2$.
+%	Consider $t$ data models $Y_i = X\beta_i + \varepsilon_i$, $i=1,2,\cdots, t$, where $X$ has covariance matrix $\Sigma$, and the entries of $\e_i$ are i.i.d. with mean zero and variance $\sigma^2$.gT
 	%that satisfy Assumption \ref{assm_secA2} in the appendix.
-	Consider the multiple-task case where all tasks have the same covariates.
+	Consider the multiple-task case where all tasks have the same covariates $X = \Sigma^{1/2} Z \in \real^{n \times p}$.
+	Assume that $Z$
 	Assume that $\lambda_{\min}({B^{\star}}^\top\Sigma B^{\star})\gtrsim \sigma^2$.
 	% Let $\delta$ be any fixed value such that $\delta \le \oo \left( \|B^\star\|^2 + \sigma^2\right)$.
 	Then, for any task $i$ from $1$ to $t$, the prediction loss of the hard parameter sharing estimator $\hat{\beta}_i^{\MTL}$ satisfies that
 	\begin{align}
-		\bigabs{L(\hat{\beta}_i^{\MTL}) - \norm{\Sigma^{1/2} (B^{\star} U_r v_i - \beta_i)}^2 - \frac{\sigma^2 \cdot \norm{v_i}^2 }{\rho - 1}} \lesssim p^{-\frac{c-4}{2c}}\bigbrace{\bigtr{{B^{\star}}^{\top}\Sigma B^{\star}} + \sigma^2}.
+		\bigabs{L(\hat{\beta}_i^{\MTL}) - \norm{\Sigma^{1/2} (B^{\star} U_r v_i - \beta_i)}^2 - \norm{v_i}^2 \cdot  \frac{\sigma^2  \cdot p}{n - p}} \lesssim p^{-\frac{c-4}{2c}}\bigbrace{\bigtr{{B^{\star}}^{\top}\Sigma B^{\star}} + \sigma^2}.
 	\end{align}
 	%\begin{itemize}
 	%	\item \textbf{Positive transfer:} If $\left(1 - \norm{v_t}^2 \right)\frac{\sigma^2}{\rho - 1} -  > \delta$, then w.h.p over the randomness of $X, \varepsilon_1, \dots, \varepsilon_t$, we have that
@@ -47,7 +48,7 @@ Our main result in this section is stated as follows.
 \end{theorem}
 	Theorem \ref{thm_many_tasks} provides a sharp generalization error bound that is asymptotically tight as $p$ goes to infinity.
 	The limiting loss of hard parameter sharing consists of two parts, a bias term that measures the error compared to the ground truth, and a variance term that scales with noise variance and sample size.
-	Our result implies that the variance of hard parameter sharing always reduces compared to single-task learning (cf. Lemma \ref{lem_stl}).
+	Our result implies that the variance of hard parameter sharing always reduces compared to single-task learning, whose variance is equal to $\sigma^2 \cdot p / (n - p)$ (cf. Lemma \ref{lem_stl}).
 	This is because $\norm{v_i}^2$ is at most one since the spectral norm of $U_r$, which is a projection matrix, is at most one.
 
 	%First, we provide the steps for showing the bias-variance decomposition in equation \eqref{eq_bias_multiple} and \eqref{eq_var_multiple}.

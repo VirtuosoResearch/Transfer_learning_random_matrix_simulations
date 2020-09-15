@@ -244,15 +244,32 @@ Let $A = [a_1, a_2, \dots, a_t] \in \real^{r\times t}$ be a matrix notation that
 
 
 \subsection{Random Matrices}
-\todo{merge w/ theorem}
-We make several standard assumptions on the covariance matrix $\Sigma_k$ and the random vector $z_i$, for $k = 1,\dots, t$ and $i = 1,\dots, n_k$.
-First, for every entry of $z_i$, we assume that its $(4+\e)$-th moment exists, that is, there exist constants $\e, C > 0$ such that
-\begin{equation}\label{assmAhigh}
-	\ex{\abs{z_{i,j}}^{4+\e}} \le C,\ 1\le j \le p.
-\end{equation}
-Second, we assume that the spectral norm of $\Sigma_k$ is bounded by a fixed constant, for every $k = 1,\dots, t$.
-This is without loss of generality since we can always rescale $\Sigma_k$ so that its spectral norm satisfies the condition.
-Finally, for the noise vector $\varepsilon_k$, we assume that there exists an absolute constant such that for all $l$ \todo{check, remove $c$ and $o(1)$ in main body}, the $l$-th moment of the noise entries exists:
+
+We introduce several standard assumptions on the random matrices we study.
+\begin{assumption}\label{assume_rm}
+	Let $c > 4$ be a fixed value.
+	Let $X = Z \Sigma^{1/2} \in\real^{n\times p}$ be a random matrix where $Z \in \real^{n\times p}$ consists of i.i.d. entries with zero mean and unit variance and $\Sigma \in \real^{p\times p}$ is a positive semidefinite matrix.
+	We assume that $\Sigma$ and $Z$ satisfy the following (standard) conditions, respectively.
+	\begin{enumerate}
+		\item[i)] Bounded moments: for every entry of $Z$, we assume that its $c$-th moment exists, that is, there exist a fixed constant $C > 0$ such that
+			\begin{equation}\label{assmAhigh}
+				\ex{\abs{Z_{i,j}}^{c}} \le C, \text{ for any } 1\le i \le n, 1\le j \le p.
+			\end{equation}
+		\item[ii)] Bounded singular values: the singular values of $\Sigma$ are bounded within a fixed range, that is, there exists two fixed values $C > C' > 0$ such that all of $\Sigma$'s singular values are bounded within $C'$ and $C$.
+	\end{enumerate}
+\end{assumption}
+
+\begin{lemma}[cf. Theorem 2.4 in \citet{isotropic}]\label{lem_minv}
+	Let $X  \in \real^{n\times p}$ be a random matrix that satisfies Assumption \ref{assume_rm}.
+	Let $\Sigma\in\real^{p\times p}$ denote the population covariance matrix of $X$.
+	Let $\e$ be any fixed value within $(0, \frac{c - 4}{2c})$.
+	With high probability over the randomness of $X$, we have that
+	\[ \bigtr{\Sigma (X^{\top} X)^{-1}} = \frac{\sigma^2 \cdot p}{n - p} + \OO(p^{-\e}). \]
+\end{lemma}
+
+%Second, we assume that the spectral norm of $\Sigma_k$ is bounded by a fixed constant, for every $k = 1,\dots, t$.
+%This is without loss of generality since we can always rescale $\Sigma_k$ so that its spectral norm satisfies the condition.
+Finally, for the random noise of every task, we assume that all $l$, the $l$-th moment of the noise entries exists:
 \begin{align}\label{assmAhigh2}
 	\ex{\abs{\varepsilon_{k, j}}^l \le C}, \text{ for all } j = 1, \dots, n_k.
 \end{align}
