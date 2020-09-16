@@ -229,7 +229,7 @@ Finally in Section \ref{app_experiments}, we fill in the missing details of our 
 
 
 
-\subsection{Notations.}
+\subsection{Notations}
 We shall say an event $\Xi$ holds with high probability (w.h.p.) if for any fixed $D>0$, $\P(\Xi)\ge 1- p^{-D}$ for large enough $p$. Moreover, we shall use $\oo(1)$ to mean a small positive quantity that converges to 0 as $p\to \infty$.
 For a matrix $X$, let $\lambda_{\min}(X)$ denote its smallest singular value and $\norm{X}$ denote its spectral norm.
 We shall refer to random matrices of the form $\frac {X^\top X} n$ as sample covariance matrices following the standard notations in high-dimensional statistics.
@@ -251,27 +251,33 @@ We introduce several standard assumptions on the random matrices we study.
 	Let $X = Z \Sigma^{1/2} \in\real^{n\times p}$ be a random matrix where $Z \in \real^{n\times p}$ consists of i.i.d. entries with zero mean and unit variance and $\Sigma \in \real^{p\times p}$ is a positive semidefinite matrix.
 	We assume that $\Sigma$ and $Z$ satisfy the following (standard) conditions, respectively.
 	\begin{enumerate}
-		\item[i)] Bounded moments: for every entry of $Z$, we assume that its $c$-th moment exists, that is, there exist a fixed constant $C > 0$ such that
-			\begin{equation}\label{assmAhigh}
-				\ex{\abs{Z_{i,j}}^{c}} \le C, \text{ for any } 1\le i \le n, 1\le j \le p.
-			\end{equation}
-		\item[ii)] Bounded singular values: the singular values of $\Sigma$ are bounded within a fixed range, that is, there exists two fixed values $C > C' > 0$ such that all of $\Sigma$'s singular values are bounded within $C'$ and $C$.
+		\item Bounded moments: for every entry of $Z$, we assume that its $c$-th moment exists, that is, there exist a fixed constant $C > 0$ such that
+			\begin{align}\label{assmAhigh}
+				\ex{\abs{Z_{i,j}}^{c}} \le C, \text{ for any } 1\le i \le n \text{ and } 1\le j \le p.
+			\end{align}
+		\item Bounded singular values: the singular values of $\Sigma$ are bounded within a fixed range, that is, there exists two fixed values $C_{\max} > C_{\min} > 0$ such that all of $\Sigma$'s singular values are bounded within $C_{\min}$ and $C_{\max}$.
 	\end{enumerate}
 \end{assumption}
 
-\begin{lemma}[cf. Theorem 2.4 in \citet{isotropic}]\label{lem_minv}
-	Let $X  \in \real^{n\times p}$ be a random matrix that satisfies Assumption \ref{assume_rm}.
-	Let $\Sigma\in\real^{p\times p}$ denote the population covariance matrix of $X$.
+Under the above assumption, we state several well-known facts regarding the random matrix $X$.
+
+\begin{fact}\label{lem_minv}
 	Let $\e$ be any fixed value within $(0, \frac{c - 4}{2c})$.
+	%Let $X  \in \real^{n\times p}$ be a random matrix that satisfies Assumption \ref{assume_rm}.
+	%Let $\Sigma\in\real^{p\times p}$ denote the population covariance matrix of $X$.
 	With high probability over the randomness of $X$, we have that
-	\[ \bigtr{\Sigma (X^{\top} X)^{-1}} = \frac{\sigma^2 \cdot p}{n - p} + \OO(p^{-\e}). \]
-\end{lemma}
+	\begin{enumerate}
+		\item The sample covariance matrix $\frac{X^{\top}X}{n}$ is full rank.
+		\item $\bigtr{\Sigma (X^{\top} X)^{-1}} = \frac{p}{n - p} + \OO(p^{-\e})$, cf. Theorem 2.4 in \citet{isotropic}.
+	\end{enumerate}
+\end{fact}
 
 %Second, we assume that the spectral norm of $\Sigma_k$ is bounded by a fixed constant, for every $k = 1,\dots, t$.
 %This is without loss of generality since we can always rescale $\Sigma_k$ so that its spectral norm satisfies the condition.
-Finally, for the random noise of every task, we assume that all $l$, the $l$-th moment of the noise entries exists:
+Finally, for the random noise component, we assume that all of its moments exist.
+More precisely, there exists a fixed function $C(\cdot) : \mathbb{Z} \rightarrow \real^+$ such that for any $a = 1, 2, \dots, \infty$, we have that
 \begin{align}\label{assmAhigh2}
-	\ex{\abs{\varepsilon_{k, j}}^l \le C}, \text{ for all } j = 1, \dots, n_k.
+	\ex{\abs{\varepsilon_{j}^{(i)}}^a} \le C(a), \text{ for any } 1\le i\le t \text{ and } 1\le j\le n_i.
 \end{align}
 
 

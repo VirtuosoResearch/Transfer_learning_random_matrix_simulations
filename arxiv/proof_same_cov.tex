@@ -1,5 +1,50 @@
-	\section{Proof of Lemma \ref{lem_error_same_cov}}\label{app_proof_error_same_cov}
-	Next, we show that the concentration errors of $g_0(\cW), g_1(\cW), g_2(\cW)$ are all lower order terms compared to $\ex{g(\cW)}$.
+	\section{Missing Proofs of Theorem \ref{thm_many_tasks}}\label{app_proof_error_same_cov}
+
+	\paragraph{Proof of equation \eqref{eq_gA}.}
+	To facilitate the analysis, we introduce the following notations.
+	Let
+		\[ \cE \define {\sum_{k=1}^t \varepsilon^{(k)} A_k^{\top}}, \text{ and } \cW \define U_X U_X^{\top} \cE (AA^{\top})^{-1}. \]
+	For any $j = 1,2,\dots, t$, let
+	\begin{align*}
+		H_j &\define B^{\star} A^{\top} (AA^{\top})^{-1} A_j - \beta^{(j)}, \\
+		E_j &\define \cW A_j - \varepsilon^{(j)}.
+	\end{align*}
+	Then, we have that
+	\[ g(A) = \sum_{j=1}^t \bignorm{H_j + E_j}^2. \]
+	To compute the expectation of $g(A)$, we first observe that for any first order terms of $\varepsilon^{(1)}, \dots, \varepsilon^{(t)}$, their expectation is zero. Therefore,
+	\begin{align*}
+		\exarg{\set{\varepsilon^{(j)}}_{j=1}^t }{g(A)} = \sum_{j=1}^t \norm{H_j}^2 + \exarg{\set{\varepsilon^{(j)}}_{j=1}^t, X}{\sum_{j=1}^t \norm{E_j}^2}.
+	\end{align*}
+	Hence, it suffices to show that the second part of the equation above is equal to $\sigma^2 (n\cdot t - p\cdot r)$.
+	Conditional on $X$, we have that
+	\begin{align*}
+		\exarg{\set{\varepsilon^{(j)}}_{j=1}^t}{\norm{E_j}^2}
+		= \exarg{\set{\varepsilon^{(j)}}_{j=1}^t}{\sum_{j=1}^t \bigbrace{\bignorm{\cW A_j}^2 - 2\inner{\cW A_j}{\varepsilon^{(j)}} }} + \sigma^2 \cdot n \cdot t.
+	\end{align*}
+	We consider both terms in the above equation one by one.
+	First, note that
+	\begin{align}
+		\sum_{j=1}^t \norm{\cW A_j}^2 = \sum_{j=1}^t \bigtr{\cW A_j A_j^{\top} \cW^{\top}} = \bigtr{\cW AA^{\top} \cW^{\top}} = \bigtr{U_X U_X^{\top} \cE (AA^{\top})^{-1} \cE^{\top}}. \label{eq_proof_same_cov_1}
+	\end{align}
+	We observe that
+	\begin{align*}
+			\exarg{\set{\varepsilon^{(j)}}_{i=1}^t}{\cE (AA^{\top})^{-1} \cE^{\top}}
+		&= \exarg{\set{\varepsilon^{(j)}}_{i=1}^t}{\sum_{j=1}^t \sum_{k=1}^t \varepsilon^{(j)} A_j^{\top} (AA^{\top})^{-1} A_k {\varepsilon^{(k)}}^{\top}} \\
+		&= \exarg{\set{\varepsilon^{(j)}}_{i=1}^t}{\sum_{j=1}^t \varepsilon^{(j)} A_j^{\top} (AA^{\top})^{-1} A_j {\varepsilon^{(j)}}^{\top}} \\
+		&= \sigma^2 \cdot r \cdot \id_{n\times n}.
+	\end{align*}
+	In the above, the first equation uses the fact that for any $j\neq k$, $\varepsilon^{(j)}$ and $\varepsilon^{(k)}$ are pairwise independent.
+	The second equation uses the fact that $\sum_{j=1}^t A_j^{\top} (AA^{\top})^{-1} A_j = \bigtr{\id_{r\times r}} = r$, and $\ex{\varepsilon^{(j)} {\varepsilon^{(j)}}^{\top}} = \sigma^2 \cdot \id_{n\times n}$.
+	Therefore, we have that
+	\begin{align*}
+		\sum_{j=1}^t \norm{\cW A_j}^2 = \sigma^2 \cdot r \cdot \bigtr{U_X U_X^{\top}} = \sigma^2 \cdot r \cdot p,
+	\end{align*}
+	because $U_X$ has rank $p$ by Fact \ref{lem_minv}.
+	Next, note that
+	\[ \sum_{j=1}^t \inner{\cW A_j}{\varepsilon^{(j)}} = \bigtr{\cW \cE^{\top}}, \]
+	which is equal to equation \eqref{eq_proof_same_cov_1} by the definition of $\cW$. Hence the proof is complete.
+
+	\paragraph{Proof of Lemma \ref{lem_error_same_cov}.} Next, we show that the concentration errors of $g_0(\cW), g_1(\cW), g_2(\cW)$ are all lower order terms compared to $\ex{g(\cW)}$.
 
 	First, for $g_1(\cW)$, using Lemma \ref{largedeviation} in Appendix \ref{sec_maintools} and the fact that all moments of $\varepsilon_i$ exist, we obtain that for a sufficiently small constant $\e>0$, the following holds with high probability:
 	\[ \text{for any } 1\le j \le t, |\inner{XB^{\star} \cW^{\top} (\cW\cW^{\top})^{-1}W_j - X\beta_j}{\varepsilon_j}| \le p^\e \sigma\|XB^{\star} \cW^{\top} (\cW\cW^{\top})^{-1}W_j - X\beta_j\|. \]
