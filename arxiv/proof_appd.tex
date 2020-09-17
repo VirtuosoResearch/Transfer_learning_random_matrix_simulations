@@ -3,33 +3,42 @@
 
 
 \subsection{The Two-task Case}\label{app_proof_main_thm}
-
-\todo{merge}
 In this subsection, we provide the proof of Theorem \ref{thm_main_informal} using Lemma  \ref{lem_cov_shift} and \ref{lem_cov_derivative}.
+
+\todo{merge}\todo{derive the test loss} Expectation was given in \eqref{eq_bias_2task} and \eqref{eq_var_2task}. 
+
+The proof of Lemma \ref{thm_model_shift} is based on Lemma \ref{lem_cov_shift}, Lemma \ref{lem_cov_derivative}, and the following bound on the singular values of $Z^{(1)}$: for any constant $\e>0$, we have
+\begin{align}
+\al_-(\rho_1) - \OO(p^{-1/2+e})  \preceq {n_1^{-1}}{(Z^{(1)})^{\top} Z^{(1)}}  \preceq   \al_+(\rho_1) + \OO(p^{-1/2+e}) \quad \text{w.h.p.}  \label{eq_isometric}
+\end{align}
+%with high probability.
+In fact, $n_1^{-1}(Z^{(1)})^{\top}Z^{(1)}$ is a standard sample covariance matrix, and it is well-known that its eigenvalues are all inside the support of the Marchenko-Pastur law $[\al_-(\rho_1)-\oo(1) ,\al_+(\rho_1)+\oo(1)]$ with probability $1-\oo(1)$ \cite{No_outside}. The estimate \eqref{eq_isometric} provides tight bounds on the concentration errors, and it will be formally proved in Lemma \ref{SxxSyy} below.
+
+
 %First, we provide the steps for the bias-variance decomposition.
 %Using the local optimality condition of $B$, we obtain that
 %\begin{align*}
-%	 \hat{B}(W_1, W_2) &= (W_1^2 (X^{(1)})^{\top}X^{(1)} + W_2^2 (X^{(2)})^{\top}X^{(2)})^{-1} (W_1 (X^{(1)})^{\top}Y_1 + W_2 (X^{(2)})^{\top}Y_2)\\
+%	 \wh{B}(W_1, W_2) &= (W_1^2 (X^{(1)})^{\top}X^{(1)} + W_2^2 (X^{(2)})^{\top}X^{(2)})^{-1} (W_1 (X^{(1)})^{\top}Y_1 + W_2 (X^{(2)})^{\top}Y_2)\\
 %	&= \frac{1}{W_2} \left( \frac{W_1^2}{W_2^2}  (X^{(1)})^{\top}X^{(1)} + (X^{(2)})^{\top}X^{(2)}\right)^{-1} \left(\frac{W_1}{W_2} (X^{(1)})^{\top}Y_1 + (X^{(2)})^{\top}Y_2\right) \\
 %	&= \frac{1}{W_2}\left[\beta_2 + \left(\frac{W_1^2}{W_2^2} (X^{(1)})^{\top}X^{(1)} + (X^{(2)})^{\top}X^{(2)}\right)^{-1}\bigbrace{(X^{(1)})^{\top}X^{(1)}\left(\frac{W_1}{W_2}\beta_1 - \frac{W_1^2}{W_2^2} \beta_2\right) + \left(\frac{W_1}{W_2} (X^{(1)})^{\top}\varepsilon_1 + (X^{(2)})^{\top}\varepsilon_2\right)}\right].
 %\end{align*}
-%Recall that $\hat{\beta}_2^{\MTL} = \hat{B}(W_1, W_2) W_2$, and one can verify that equation \eqref{eq_bias_2task} and \eqref{eq_var_2task} hold.
+%Recall that $\wh{\beta}_2^{\MTL} = \wh{B}(W_1, W_2) W_2$, and one can verify that equation \eqref{eq_bias_2task} and \eqref{eq_var_2task} hold.
 
 During the proof we shall also give explicit expressions for $\Delta_{\bias}$ and $\Delta_{\vari}$, which might be of interest to some readers.
 With $a_i$, $i=1,2,3,4$, given in Lemma \ref{lem_cov_shift} and Lemma \ref{lem_cov_derivative},
 we define the following matrix
-\be\label{defnpihat}\Pi \equiv \Pi(\hat v)= \frac{\rho_1^2}{(\rho_1 + \rho_2)^2}\cdot \hat v^2{M} \frac{(1 +   a_3)\id + \hat v^2 a_4 {M}^{\top} {M}}{( \hat v^2 a_1 {M}^{\top} {M}+ a_2 )^2} {M}^{\top}.\ee
+\be\label{defnpihat}\Pi \equiv \Pi(\wh v)= \frac{\rho_1^2}{(\rho_1 + \rho_2)^2}\cdot \wh v^2{M} \frac{(1 +   a_3)\id + \wh v^2 a_4 {M}^{\top} {M}}{( \wh v^2 a_1 {M}^{\top} {M}+ a_2 )^2} {M}^{\top}.\ee
 %which is defined in a way such that {\it in certain sense} it is the asymptotic limit of the random matrix
-%$$\hat v\Sigma_1^{1/2} (\hat{v}^2 (X^{(1)})^{\top}X^{(1)} + (X^{(2)})^{\top}X^{(2)})^{-1} \Sigma_2 (\hat{v}^2 (X^{(1)})^{\top}X^{(1)} + (X^{(2)})^{\top}X^{(2)})^{-1}\Sigma_1^{1/2}.$$
+%$$\wh v\Sigma_1^{1/2} (\wh{v}^2 (X^{(1)})^{\top}X^{(1)} + (X^{(2)})^{\top}X^{(2)})^{-1} \Sigma_2 (\wh{v}^2 (X^{(1)})^{\top}X^{(1)} + (X^{(2)})^{\top}X^{(2)})^{-1}\Sigma_1^{1/2}.$$
 Moreover, we introduce two factors that will appear often in our statements and discussions:
 $$\al_-(\rho_1):=\left(1- \rho_1^{-1/2}\right)^2,\quad \al_+(\rho_1):=\left(1 + \rho_1^{-1/2}\right)^2.$$
 In fact, $\al_-(\rho_1)$ and $\al_+(\rho_1)$ correspond to the largest and smallest singular values of $Z^{(1)}/\sqrt{n_1}$, respectively, as given by the famous Mar{\v c}enko-Pastur law \cite{MP}. In particular, as $\rho_1$ increases, both $\al_-$ and $\al_+$ will converge to 1 and $Z^{(1)}/\sqrt{n_1}$ will be more close to an isometry. Finally, we introduce the error term
 \be\label{eq_deltaextra}
- \delta(\hat v):=\frac{\al_+^2(\rho_1) - 1 }{\al_-^{2}(\rho_1)\hat v^2\lambda_{\min}^2(M)} \cdot  \norm{\Sigma_1^{1/2}(\beta_1 - \hat{v}\beta_2)}^2.\ee
-%where $\lambda_{\min}(\hat M)$ is the smallest singular value of $\hat M$.
+ \delta(\wh v):=\frac{\al_+^2(\rho_1) - 1 }{\al_-^{2}(\rho_1)\wh v^2\lambda_{\min}^2(M)} \cdot  \norm{\Sigma_1^{1/2}(\beta_1 - \wh{v}\beta_2)}^2.\ee
+%where $\lambda_{\min}(\wh M)$ is the smallest singular value of $\wh M$.
 Note that this factor converges to 0 as $\rho_1$ increases. It is not hard to see that Theorem \ref{thm_main_informal} is an immediate consequence of the following lemma.
 
-%$$\delta:=\left[\frac{n_1 \lambda_1}{(\sqrt{n_1}-\sqrt{p})^2\lambda_p  +  (\sqrt{n_2}-\sqrt{p})^2}\right]^2\cdot \norm{\Sigma_1^{1/2}(\beta_1 - \hat{w}\beta_2)}^2.$$
+%$$\delta:=\left[\frac{n_1 \lambda_1}{(\sqrt{n_1}-\sqrt{p})^2\lambda_p  +  (\sqrt{n_2}-\sqrt{p})^2}\right]^2\cdot \norm{\Sigma_1^{1/2}(\beta_1 - \wh{w}\beta_2)}^2.$$
 %{\cor may be able to get a better bound, but the statement will be long}
 
 
@@ -41,27 +50,22 @@ Note that this factor converges to 0 as $\rho_1$ increases. It is not hard to se
 %For $i=1,2$, let $Y_i = X_i\beta_i + \varepsilon_i$ be two independent data models, where $X_i$, $\beta_i$ and $\varepsilon_i$ are also independent of each other. Suppose that $X_i=Z_i\Sigma_i^{1/2}\in \R^{n_i\times p}$ satisfy Assumption \ref{assm_secA1} with $\rho_i:=n_i/p>1$ being fixed constants, and $\e_i\in \R^{n_i}$ are random vectors with i.i.d. entries with mean zero, variance $\sigma^2$ and all moments as in \eqref{assmAhigh}.
 Consider two data models $Y_i = X_i\beta_i + \varepsilon_i$, $i=1,2$, that satisfy Assumption \ref{assm_secA2} with $\sigma_1^2=\sigma_2^2=\sigma^2$. Then with high probability, we have
 	\begin{align}
-	 	\te(\hat{\beta}_{t}^{\MTL}) \le \te(\hat{\beta}_t^{\STL}) \quad \text{ when: } \ \ &\Delta_{\vari} - \Delta_{\bias} \ge   \delta(\hat v), \label{upper}\\
-		\te(\hat{\beta}_t^{\MTL}) \ge \te(\hat{\beta}_t^{\STL}) \quad \text{ when: } \ \ &\Delta_{\vari} - \Delta_{\bias} \le - \delta(\hat v), \label{lower}
+	 	\te(\wh{\beta}_{t}^{\MTL}) \le \te(\wh{\beta}_t^{\STL}) \quad \text{ when: } \ \ &\Delta_{\vari} - \Delta_{\bias} \ge   \delta(\wh v), \label{upper}\\
+		\te(\wh{\beta}_t^{\MTL}) \ge \te(\wh{\beta}_t^{\STL}) \quad \text{ when: } \ \ &\Delta_{\vari} - \Delta_{\bias} \le - \delta(\wh v), \label{lower}
 	\end{align}
 	where
 	\begin{align} %\bigtr{{\Sigma_2^{-1}}}
-		\Delta_{\vari} &\define {\sigma^2}\bigbrace{\frac{1}{\rho_2 - 1} -  \frac{1}{\rho_1 + \rho_2}\cdot \frac1p \bigtr{( \hat v^2 a_1 M^{\top}M +  a_2\id)^{-1}} } \label{Deltavarv} \\
-		\Delta_{\bias} &\define (\beta_1 - \hat{v}\beta_2)^{\top} \Sigma_1^{1/2} \Pi (\hat v)\Sigma_1^{1/2} (\beta_1 - \hat{v}\beta_2). \label{Deltabetav}
+		\Delta_{\vari} &\define {\sigma^2}\bigbrace{\frac{1}{\rho_2 - 1} -  \frac{1}{\rho_1 + \rho_2}\cdot \frac1p \bigtr{( \wh v^2 a_1 M^{\top}M +  a_2\id)^{-1}} } \label{Deltavarv} \\
+		\Delta_{\bias} &\define (\beta_1 - \wh{v}\beta_2)^{\top} \Sigma_1^{1/2} \Pi (\wh v)\Sigma_1^{1/2} (\beta_1 - \wh{v}\beta_2). \label{Deltabetav}
 	\end{align}
 \end{lemma}
 
-The proof of Lemma \ref{thm_model_shift} is based on Lemma \ref{lem_cov_shift}, Lemma \ref{lem_cov_derivative}, and the following bound on the singular values of $Z^{(1)}$: for any constant $\e>0$, we have
-\begin{align}
-\al_-(\rho_1) - \OO(p^{-1/2+e})  \preceq {n_1^{-1}}{(Z^{(1)})^{\top} Z^{(1)}}  \preceq   \al_+(\rho_1) + \OO(p^{-1/2+e}) \quad \text{w.h.p.}  \label{eq_isometric}
-\end{align}
-%with high probability.
-In fact, $n_1^{-1}(Z^{(1)})^{\top}Z^{(1)}$ is a standard sample covariance matrix, and it is well-known that its eigenvalues are all inside the support of the Marchenko-Pastur law $[\al_-(\rho_1)-\oo(1) ,\al_+(\rho_1)+\oo(1)]$ with probability $1-\oo(1)$ \cite{No_outside}. The estimate \eqref{eq_isometric} provides tight bounds on the concentration errors, and it will be formally proved in Lemma \ref{SxxSyy} below.
+
 
 %\begin{remark}
 The main error $\delta$ in Lemma \ref{thm_model_shift} comes from approximating $n_1^{-1}(Z^{(1)})^{\top}Z^{(1)}$ by $\id$ using estimate \eqref{eq_isometric}; see the estimate \eqref{bounddelta-} below. In order to improve this estimate and obtain an exact asymptotic result, one needs to study the singular value distribution of the following random matrix:
-$$((X^{(1)})^{\top}X^{(1)})^{-1}(X^{(2)})^{\top}X^{(2)} +  \hat{v}^2 .$$
-In fact, the eigenvalues of $\cal X:=((X^{(1)})^{\top}X^{(1)})^{-1}(X^{(2)})^{\top}X^{(2)}$ have been studied in the name of Fisher matrices; see e.g. \cite{Fmatrix}. However, since $\cal X$ is non-symmetric, it is known that the singular values of $\cal X$ are different from its eigenvalues. To the best of our knowledge, the asymptotic singular value behavior of $\cal X$ is still unknown in random matrix literature, and the study of the singular values of $\cal X +\hat v^2$ will be even harder. We leave this problem to future study.
+$$((X^{(1)})^{\top}X^{(1)})^{-1}(X^{(2)})^{\top}X^{(2)} +  \wh{v}^2 .$$
+In fact, the eigenvalues of $\cal X:=((X^{(1)})^{\top}X^{(1)})^{-1}(X^{(2)})^{\top}X^{(2)}$ have been studied in the name of Fisher matrices; see e.g. \cite{Fmatrix}. However, since $\cal X$ is non-symmetric, it is known that the singular values of $\cal X$ are different from its eigenvalues. To the best of our knowledge, the asymptotic singular value behavior of $\cal X$ is still unknown in random matrix literature, and the study of the singular values of $\cal X +\wh v^2$ will be even harder. We leave this problem to future study.
 %\end{remark}
 
 
@@ -79,19 +83,19 @@ In fact, the eigenvalues of $\cal X:=((X^{(1)})^{\top}X^{(1)})^{-1}(X^{(2)})^{\t
 %\todo{A proof outline; including the following key lemma.}
 By equations \eqref{eq_te_model_shift} and \eqref{eq_te_var}, we can write
 \begin{align*}
-L(\hat{\beta}_t^{\STL}) - L(\hat{\beta}_t^{\MTL})=\delta_{\vari}(\hat v) - \delta_{\bias}(\hat v),
+L(\wh{\beta}_t^{\STL}) - L(\wh{\beta}_t^{\MTL})=\delta_{\vari}(\wh v) - \delta_{\bias}(\wh v),
 \end{align*}
 where we denote
 \begin{align*}
-\delta_{\vari}(\hat v)&=\sigma^2 \left(  \bigtr{((X^{(2)})^{\top}X^{(2)})^{-1}\Sigma_2} -  \bigtr{( \hat{v}^2 (X^{(1)})^{\top}X^{(1)} + (X^{(2)})^{\top}X^{(2)})^{-1} \Sigma_2}\right),
+\delta_{\vari}(\wh v)&=\sigma^2 \left(  \bigtr{((X^{(2)})^{\top}X^{(2)})^{-1}\Sigma_2} -  \bigtr{( \wh{v}^2 (X^{(1)})^{\top}X^{(1)} + (X^{(2)})^{\top}X^{(2)})^{-1} \Sigma_2}\right),
 \end{align*}
 and
 \begin{align}\label{revise_deltabias}
- \delta_{\bias}(\hat v)&= \hat{v}^2 \bignorm{\Sigma_2^{1/2}(\hat{v}^2 (X^{(1)})^{\top}X^{(1)} + (X^{(2)})^{\top}X^{(2)})^{-1} (X^{(1)})^{\top}X^{(1)} (\beta_1 - \hat{v} \beta_2)}^2.
+ \delta_{\bias}(\wh v)&= \wh{v}^2 \bignorm{\Sigma_2^{1/2}(\wh{v}^2 (X^{(1)})^{\top}X^{(1)} + (X^{(2)})^{\top}X^{(2)})^{-1} (X^{(1)})^{\top}X^{(1)} (\beta_1 - \wh{v} \beta_2)}^2.
 \end{align}
-We introduce the notation $\hat M \equiv \hat M(v)= v\Sigma_1^{1/2}\Sigma_2^{-1/2}$ for $v\in \R$. Then the proof is divided into the following four steps.
+We introduce the notation $\wh M \equiv \wh M(v)= v\Sigma_1^{1/2}\Sigma_2^{-1/2}$ for $v\in \R$. Then the proof is divided into the following four steps.
 \begin{itemize}
-\item[(i)] We first consider $ \hat M(v)$ for a fixed $v\in \R$. Then we use Lemma \ref{lem_minv} and Lemma \ref{lem_cov_shift} to calculate the variance reduction $\delta_{\vari}(v)$, which will lead to the $\Delta_{\vari}$ term.
+\item[(i)] We first consider $ \wh M(v)$ for a fixed $v\in \R$. Then we use Lemma \ref{lem_minv} and Lemma \ref{lem_cov_shift} to calculate the variance reduction $\delta_{\vari}(v)$, which will lead to the $\Delta_{\vari}$ term.
 %$$\sigma^2 \cdot \bigtr{((X^{(2)})^{\top}X^{(2)})^{-1}},\quad \sigma^2 \cdot \bigtr{({v}^2 (X^{(1)})^{\top}X^{(1)} + (X^{(2)})^{\top}X^{(2)})^{-1} \Sigma_2},$$
 %and the difference between them
 
@@ -103,18 +107,18 @@ We introduce the notation $\hat M \equiv \hat M(v)= v\Sigma_1^{1/2}\Sigma_2^{-1/
 
 \item[(iii)] We use Lemma \ref{lem_cov_derivative} to calculate \eqref{deltabetapf}, which will lead to the $\Delta_{\bias}$ term.
 
-\item[(iv)] Finally we use a standard $\e$-net argument to extend the above results to $\hat M(\hat v)$ for a possibly random $\hat v$ which depends on $Y_1$ and $Y_2$.
+\item[(iv)] Finally we use a standard $\e$-net argument to extend the above results to $\wh M(\wh v)$ for a possibly random $\wh v$ which depends on $Y_1$ and $Y_2$.
 \end{itemize}
 
 
-\paragraph{Step I: Variance reduction.} Consider $\hat M(v)$ for a fixed $v\in \R$. Using Lemma \ref{lem_cov_shift}, we can obtain that for any constant $\e>0$,
+\paragraph{Step I: Variance reduction.} Consider $\wh M(v)$ for a fixed $v\in \R$. Using Lemma \ref{lem_cov_shift}, we can obtain that for any constant $\e>0$,
 $$  \sigma^2 \cdot \bigtr{((X^{(2)})^{\top}X^{(2)})^{-1}\Sigma_2} = \frac{\sigma^2}{\rho_2-1}\left( 1+ \OO(p^{-1/2+e})\right),$$
 and
-$$ \sigma^2 \cdot \bigtr{( {v}^2 (X^{(1)})^{\top}X^{(1)} + (X^{(2)})^{\top}X^{(2)})^{-1} \Sigma_2} =   \frac {\sigma^2} {\rho_1 + \rho_2}\cdot \frac1p \bigtr{( a_1(v) \hat M^{\top}\hat M + a_2(v)\id)^{-1}}\left( 1+ \OO(p^{-1/2+e})\right) ,$$
-with high probability, where $a_1(v)$ and $a_2(v)$ satify equation \eqref{eq_a12extra} with $\hat v$ replaced by $v$. The subtraction of these two terms gives
+$$ \sigma^2 \cdot \bigtr{( {v}^2 (X^{(1)})^{\top}X^{(1)} + (X^{(2)})^{\top}X^{(2)})^{-1} \Sigma_2} =   \frac {\sigma^2} {\rho_1 + \rho_2}\cdot \frac1p \bigtr{( a_1(v) \wh M^{\top}\wh M + a_2(v)\id)^{-1}}\left( 1+ \OO(p^{-1/2+e})\right) ,$$
+with high probability, where $a_1(v)$ and $a_2(v)$ satify equation \eqref{eq_a12extra} with $\wh v$ replaced by $v$. The subtraction of these two terms gives
 \be\label{deltavaral-} \delta_{\vari}(v)=\Delta_{\vari}(v) +\OO( \sigma^2 p^{-1/2+e}) \quad \text{w.h.p.},
 \ee
-where $\Delta_{\vari}(v)$ is defined as in equation \eqref{Deltavarv} but with $\hat v$ replaced by $v$.
+where $\Delta_{\vari}(v)$ is defined as in equation \eqref{Deltavarv} but with $\wh v$ replaced by $v$.
 
 
 
@@ -151,10 +155,10 @@ Next we use equation \eqref{eq_isometric} to approximate $\delta_{\bias}(v)$ wit
 	%The proof follows by applying equation \eqref{eq_isometric}.
 	%Recall that $(X^{(1)})^{\top}X^{(1)} = \Sigma_1^{1/2}(Z^{(1)})^{\top}Z^{(1)}\Sigma_1^{1/2}$.
 We can calculate that
-%	Let $\alpha = \bignorm{\Sigma_2^{1/2} K \Sigma_1 (\beta_1 - \hat{w}\beta_2)}^2$.
+%	Let $\alpha = \bignorm{\Sigma_2^{1/2} K \Sigma_1 (\beta_1 - \wh{w}\beta_2)}^2$.
 	%We have
 	\begin{align}
-%		& \bignorm{\Sigma_2^{1/2}((X^{(1)})^{\top}X^{(1)} + (X^{(2)})^{\top}X^{(2)})^{-1}(X^{(1)})^{\top}X^{(1)}(\beta_1 - \hat{w}\beta_2)}^2 \nonumber \\
+%		& \bignorm{\Sigma_2^{1/2}((X^{(1)})^{\top}X^{(1)} + (X^{(2)})^{\top}X^{(2)})^{-1}(X^{(1)})^{\top}X^{(1)}(\beta_1 - \wh{w}\beta_2)}^2 \nonumber \\
 		 \delta_{\bias}(v)-\wt\delta_{\bias}(v)&= {2v^2n_1}(\beta_1 - v\beta_2)^{\top}\Sigma_1^{1/2} \cE\left(\Sigma_1^{1/2}K \Sigma_2 K \Sigma_1^{1/2}\right) \Sigma_1^{1/2} (\beta_1 - v\beta_2) \nonumber
 		\\
 		&+ v^2\bignorm{\Sigma_2^{1/2} K \Sigma_1^{1/2}\cE \Sigma_1^{1/2}(\beta_1 - v\beta_2)}^2. \label{eq_lem_model_shift_1}
@@ -173,10 +177,10 @@ We can calculate that
 %	we can bound the second term on the RHS of equation \eqref{eq_lem_model_shift_1} as
 %	\begin{align*}
 %		& \bigabs{(\beta_1 -  \beta_2)^{\top} \Sigma_1^{1/2} \cE \Sigma_1^{1/2} K \Sigma_2 K \Sigma_1 (\beta_1 - v\beta_2)}\le n_1  \|\cal E\| \cdot \bignorm{\Sigma_1^{1/2} K \Sigma_2 K \Sigma_1^{1/2}} \bignorm{\Sigma_1^{1/2} (\beta_1 - v\beta_2)}^2 \\
-%		= & \bigabs{\bigtr{\cE \Sigma_1^{1/2}K\Sigma_2 K \Sigma_1(\beta_1 - \hat{w}\beta_2)(\beta_1 - \hat{w}\beta_2)^{\top} \Sigma_1^{1/2}}} \\
-%		\le & \norm{\cE} \cdot \bignormNuclear{\Sigma_1^{1/2} K \Sigma_2 K \Sigma_1 (\beta_1 - \hat{w}\beta_2) (\beta_1 - \hat{w}\beta_2)^{\top} \Sigma_1^{1/2}} \\
-%		\le & n_1 \bigbrace{2\sqrt{\frac{p}{n_1}} + \frac{p}{n_1}} \cdot \bignormNuclear{\Sigma_1^{1/2} K \Sigma_2 K \Sigma_1 (\beta_1 - \hat{w}\beta_2)(\beta_1 - \hat{w}\beta_2)^{\top} \Sigma_1^{1/2}} \tag{by equation \eqref{eq_isometric}} \\
-%		\le   & n_1 \bigbrace{2\sqrt{\frac{p}{n_1}} + \frac{p}{n_1}} \bignorm{\Sigma_1^{1/2}K \Sigma_2 K \Sigma_1^{1/2}} \cdot \bignorm{\Sigma_1^{1/2}(\beta_1 - \hat{w}\beta_2)}^2 \tag{since the matrix inside is rank 1}
+%		= & \bigabs{\bigtr{\cE \Sigma_1^{1/2}K\Sigma_2 K \Sigma_1(\beta_1 - \wh{w}\beta_2)(\beta_1 - \wh{w}\beta_2)^{\top} \Sigma_1^{1/2}}} \\
+%		\le & \norm{\cE} \cdot \bignormNuclear{\Sigma_1^{1/2} K \Sigma_2 K \Sigma_1 (\beta_1 - \wh{w}\beta_2) (\beta_1 - \wh{w}\beta_2)^{\top} \Sigma_1^{1/2}} \\
+%		\le & n_1 \bigbrace{2\sqrt{\frac{p}{n_1}} + \frac{p}{n_1}} \cdot \bignormNuclear{\Sigma_1^{1/2} K \Sigma_2 K \Sigma_1 (\beta_1 - \wh{w}\beta_2)(\beta_1 - \wh{w}\beta_2)^{\top} \Sigma_1^{1/2}} \tag{by equation \eqref{eq_isometric}} \\
+%		\le   & n_1 \bigbrace{2\sqrt{\frac{p}{n_1}} + \frac{p}{n_1}} \bignorm{\Sigma_1^{1/2}K \Sigma_2 K \Sigma_1^{1/2}} \cdot \bignorm{\Sigma_1^{1/2}(\beta_1 - \wh{w}\beta_2)}^2 \tag{since the matrix inside is rank 1}
 %	\end{align*}
 %	The third term in equation \eqref{eq_lem_model_shift_1} can be bounded with
 %	\begin{align*}
@@ -189,10 +193,10 @@ We can calculate that
 \end{proof}
 Note by equation \eqref{eq_isometric}, we also obtain that with high probability,
 \begin{align*}
-&v^2 n_1^2 \Sigma_1^{1/2} K \Sigma_2 K \Sigma_1^{1/2} =n_1^2 \hat M (\hat M^\top (Z^{(1)})^{\top} Z^{(1)} \hat M + (Z^{(2)})^\top Z^{(2)})^{-2}\hat M^\top \\
-&\preceq  n_1^2 \hat M \left[n_1 \al_-(\rho_1)\hat M^\top \hat M + n_2 \al_-(\rho_2) + \OO(p^{1/2+\e})\right]^{-2}\hat M^\top \\
-&\preceq  \left[ \al_-^2(\rho_1) \hat M\hat M^\top + 2\frac{\rho_2}{\rho_1} \al_-(\rho_1)\al_-(\rho_2) + \left(\frac{\rho_2}{\rho_1}\right)^2 \al_-^2(\rho_2) (\hat M \hat M^\top )^{-1}\right]^{-1}+  \OO(p^{-1/2+\e}) \\
-&\preceq [\al_-^2(\rho_1) \lambda_{\min}^2(\hat M)]^{-1}\cdot (1 - c)
+&v^2 n_1^2 \Sigma_1^{1/2} K \Sigma_2 K \Sigma_1^{1/2} =n_1^2 \wh M (\wh M^\top (Z^{(1)})^{\top} Z^{(1)} \wh M + (Z^{(2)})^\top Z^{(2)})^{-2}\wh M^\top \\
+&\preceq  n_1^2 \wh M \left[n_1 \al_-(\rho_1)\wh M^\top \wh M + n_2 \al_-(\rho_2) + \OO(p^{1/2+\e})\right]^{-2}\wh M^\top \\
+&\preceq  \left[ \al_-^2(\rho_1) \wh M\wh M^\top + 2\frac{\rho_2}{\rho_1} \al_-(\rho_1)\al_-(\rho_2) + \left(\frac{\rho_2}{\rho_1}\right)^2 \al_-^2(\rho_2) (\wh M \wh M^\top )^{-1}\right]^{-1}+  \OO(p^{-1/2+\e}) \\
+&\preceq [\al_-^2(\rho_1) \lambda_{\min}^2(\wh M)]^{-1}\cdot (1 - c)
 \end{align*}
 for a small enough constant $c>0$. Together with Claim \ref{prop_model_shift}, we get that with high probability,
 \be\label{bounddelta-}
@@ -208,7 +212,7 @@ Using Lemma \ref{lem_cov_derivative}, we obtain that with high probability,
 \wt\delta_{\bias}(v) &=\frac{\rho_1^2}{(\rho_1 + \rho_2)^2}\cdot v^2 (\beta_1-v\beta_2)^\top\Sigma_1 \Sigma_2^{-1/2}  \frac{(1 +  a_3(v))\id +v^2 a_4(v) {M}^{\top}{M}}{( v^2 a_1(v) {M}^{\top}{M}+a_2(v) )^2} \Sigma_2^{-1/2} \Sigma_1(\beta_1-v\beta_2) +\OO(p^{-1/2+\e}) \\
 &= (\beta_1 - {v}\beta_2)^{\top} \Sigma_1^{1/2} \Pi(v) \Sigma_1^{1/2} (\beta_1 - {v}\beta_2) +\OO(p^{-1/2+\e}) =: \Delta_{\bias}(v) +\OO(p^{-1/2+\e}),
 \end{align*}
-where $a_3(v)$ and $a_4(v)$ satify equation \eqref{eq_a34extra} with $\hat v$ replaced by $v$, and $\Pi$ was defined in equation \eqref{defnpihat}. Together equations \eqref{deltavaral-} and \eqref{bounddelta-}, we obtain that w.h.p.,
+where $a_3(v)$ and $a_4(v)$ satify equation \eqref{eq_a34extra} with $\wh v$ replaced by $v$, and $\Pi$ was defined in equation \eqref{defnpihat}. Together equations \eqref{deltavaral-} and \eqref{bounddelta-}, we obtain that w.h.p.,
 \be\label{dicho_varbeta}
 \begin{cases}\delta_{\vari}(v)>\delta_{\bias}(v), & \text{ if } \ \ \Delta_{\vari}(v) - \Delta_{\bias}(v) \ge   \delta(v),\\
 \delta_{\vari}(v)<\delta_{\bias}(v),  & \text{ if }  \ \ \Delta_{\vari}(v) - \Delta_{\bias}(v) \le -  \delta(v).\end{cases}
@@ -216,7 +220,7 @@ where $a_3(v)$ and $a_4(v)$ satify equation \eqref{eq_a34extra} with $\hat v$ re
 
 
 
-\paragraph{Step IV: An $\e$-net argument.} Finally, it remains to extend the above result \eqref{dicho_varbeta} to $v=\hat v$, which is random and depends on $X^{(1)}$ and $X^{(2)}$. We first show that for any fixed constant $C_0>0$, there exists a high probability event $\Xi$ on which equation \eqref{dicho_varbeta}
+\paragraph{Step IV: An $\e$-net argument.} Finally, it remains to extend the above result \eqref{dicho_varbeta} to $v=\wh v$, which is random and depends on $X^{(1)}$ and $X^{(2)}$. We first show that for any fixed constant $C_0>0$, there exists a high probability event $\Xi$ on which equation \eqref{dicho_varbeta}
 %\eqref{lem_cov_shift_eq} and \eqref{lem_cov_derv_eq}
 holds uniformly for all $v\in [-C_0, C_0]$. In fact, we first consider $v$ that belongs to a discrete set
 $$V:=\{v_k = kp^{-1}: -(C_0p +1)\le k \le C_0p +1\}.$$
@@ -235,7 +239,7 @@ holds with high probability. On the other hand, on $\Xi_1$ it is easy to check t
 & |\delta_{\vari}(v) -\delta_{\vari}(C_0)|\le \e\delta_{\vari}(C_0),\quad |\delta_{\bias}(v) -\delta_{\bias}(C_0)|\le \e\delta_{\bias}(C_0), \quad  |\delta(v)-\delta(C_0)|\le \e\delta(C_0),\\
 & |\Delta_{\bias}(v) -\Delta_{\bias}(C_0)|\le \e\Delta_{\bias}(C_0),\quad |\Delta_{\vari}(v) -\Delta_{\vari}(C_0)|\le \e\Delta_{\vari}(C_0),
 \end{align*}
-for all $v\ge C_0$. Similar estimates hold for $v\le -C_0$ if we replace $C_0$ with $-C_0$ in the above estimates. Together with the estimate at $\pm C_0$, we get that equation \eqref{dicho_varbeta} holds simultaneously for all $v\in \R$ on the high probability event $\Xi_1\cap \Xi_2$. This concludes the proof of Lemma \ref{thm_model_shift}, since $\hat v$ must be one of the real values.
+for all $v\ge C_0$. Similar estimates hold for $v\le -C_0$ if we replace $C_0$ with $-C_0$ in the above estimates. Together with the estimate at $\pm C_0$, we get that equation \eqref{dicho_varbeta} holds simultaneously for all $v\in \R$ on the high probability event $\Xi_1\cap \Xi_2$. This concludes the proof of Lemma \ref{thm_model_shift}, since $\wh v$ must be one of the real values.
 \end{proof}
 
 
@@ -980,7 +984,7 @@ The rest of this section is devoted to the proof of Theorem \ref{LEM_SMALL}. In 
 
 First observe that when $z=0$, equation \eqref{selfomega_a} can be reduced to equation \eqref{eq_a12extra}, from which we can derive an equation of $a_1$ only: 
 %Note that the function 
-$$f(a_1)=\frac{\rho_1}{\rho_1 + \rho_2},\quad \text{with}\quad f(a_1):=a_1 +\frac{1}{\rho_1+\rho_2}\cdot\frac{1}p\sum_{i=1}^p \frac{\lambda_i^2 a_1}{ \lambda_i^2 a_1+ (1- (\rho_1+\rho_2)^{-1} - a_1) } .$$
+\be\label{fa1}f(a_1)=\frac{\rho_1}{\rho_1 + \rho_2},\quad \text{with}\quad f(a_1):=a_1 +\frac{1}{\rho_1+\rho_2}\cdot\frac{1}p\sum_{i=1}^p \frac{\lambda_i^2 a_1}{ \lambda_i^2 a_1+ (1- (\rho_1+\rho_2)^{-1} - a_1) } .\ee
 It is not hard to see that $f$ is strictly increasing on $[0,1-(\rho_1+\rho_2)^{-1}]$. Moreover, we have $f(0)=0<1$, $f(1-(\rho_1+\rho_2)^{-1})=1>\rho_1/(\rho_1+\rho_2)$, and $f(\rho_1/(\rho_1+\rho_2))>\rho_1/(\rho_1+\rho_2)$ if $\rho_1/(\rho_1+\rho_2)\le 1-(\rho_1+\rho_2)^{-1}$. Hence by mean value theorem, there exists a unique solution $a_1$ satisfying
 $$0< a_1 <\min(1-(\rho_1+\rho_2)^{-1}, \rho_1/(\rho_1+\rho_2)).$$ 
 Moreover, it is easy to check that $f'(x)=\OO(1)$ for $x\in [0, 1-(\rho_1+\rho_2)^{-1}]$. Hence there exists a constant $\tau>0$, such that 
@@ -996,7 +1000,9 @@ Moreover, it is easy to check that $f'(x)=\OO(1)$ for $x\in [0, 1-(\rho_1+\rho_2
 %where $a_1:=-r_1M_{1}(0)$ and $a_2:=-r_2M_{2}(0)$. 
 
 Then we prove the existence and uniqueness of the solution to the self-consistent equation \eqref{selfomega_a} for a general $z\in \mathbf D$. For later proof, it is more convenient to deal with functions
-$$M_1(z):= -\frac{\rho_1+\rho_2}{\rho_1}a_1(z),\quad M_2(z):= -\frac{\rho_1+\rho_2}{\rho_2}a_2(z),$$  
+\be\label{M1M2a1a2}
+M_1(z):= -\frac{\rho_1+\rho_2}{\rho_1}a_1(z),\quad M_2(z):= -\frac{\rho_1+\rho_2}{\rho_2}a_2(z),
+\ee
 which, as shown in equation \eqref{approx m12 add}, give the asymptotic limits of $m_1(z)$ and $m_2(z)$.
 Then the equation \eqref{selfomega_a} can be written as 
 % Introduce $(M_1(z),M_2(z))$. First we define the deterministic limits of $(m_1(z), m_{2}(z))$, denoted by $(M_{1}(z),M_{2}(z))$ 
@@ -1833,7 +1839,7 @@ equation \eqref{aniso_law} through interpolation matrices $Z^\theta$ between $Z^
 %As remarked above (\ref{Gaussian_starting}), the anisotropic law (\ref{goal_ani}) holds for $X^0$, i.e. $F_{\mathbf v}^p(X^0,w)\prec \Phi^p$. Now to apply (iii) of Lemma \ref{lem_stodomin}, we need an upper bound $\mathbb E\left(F_{\mathbf v}^p(X^0,w)\right)^2 \le N^{C_p}$ for some constant $C_p$. This follows easily from (\ref{eq_gbound}) and
 %(\ref{estimate_Piw12}).
 %\end{proof}
-Using (\ref{law_interpol}) and fundamental calculus, we get the following basic interpolation formula:
+Using the definition in (\ref{law_interpol}) and fundamental calculus, we get the following basic interpolation formula:
 %\begin{lemma}\label{lemm_comp_3}
 for differentiable $F:\mathbb R^{n \times p}\rightarrow \mathbb C$,
 \begin{equation}\label{basic_interp}
@@ -1857,7 +1863,7 @@ We shall apply equation \eqref{basic_interp} to $F(Z):=F_{\bu\mathbf v}^s(Z,z)$ 
 %%   \mathbf y \\
 %%\end{array}} \right)$ in $\mathbb C^{\mathcal I}$.
 %The exact meanings will be clear from the context. 
-The main part of the proof is to show the following self-consistent estimate for the right-hand side of (\ref{basic_interp}): for any fixed $s\in 2\N$, any constant $\e>0$ and all $\theta\in[0,1]$,
+The main part of the proof is to show the following self-consistent estimate for the right-hand side of equation (\ref{basic_interp}): for any fixed $s\in 2\N$, any constant $\e>0$ and all $\theta\in[0,1]$,
 %\begin{lemma}\label{lemm_comp_4}
  %Fix $p\in 2\mathbb N$ and $m\le \delta^{-1}$. Suppose (\ref{3moment}) and $\mathbf{(A_{m-1})}$ hold, then we have
  \begin{equation}\label{lemm_comp_4}
@@ -1872,7 +1878,7 @@ Finally applying Markov's inequality and noticing that $\e$ can be chosen arbitr
 %\sum_{i\in\mathcal I_0}\sum_{\mu\in\mathcal I_1\cup \cal I_2}\left[\mathbb EF_{\bu\mathbf v}^p\left(Z^{\theta,Z_{\mu i}^a}_{(\mu i)},z\right)-\mathbb EF_{\mathbf v}^p\left(Z^{\theta,0}_{(\mu i)},z\right)\right]= \OO\left((n^\e q)^{p}+\E F_{\bu\mathbf v}^p\left(Z^{\theta},z\right) \right)
 % \end{equation}
 %for all $a\in \{0,1\}$ and $\theta\in[0,1]$. 
-Underlying the proof of (\ref{lemm_comp_4}) is an expansion approach, which is very similar to the ones for Lemma 7.10 of \cite{Anisotropic} and Lemma 6.11 of \cite{yang2019spiked}. So we omit the details.
+Underlying the proof of the estimate (\ref{lemm_comp_4}) is an expansion approach, which is very similar to the ones for Lemma 7.10 of \cite{Anisotropic} and Lemma 6.11 of \cite{yang2019spiked}. So we omit the details.
 \end{proof}
 %This follows from an improved self-consistent comparison argument for sample covariance matrices in \cite[Section 8]{Anisotropic}. The argument for our case is almost the same except for some notational differences, so we omit the details. 
 
@@ -2367,7 +2373,7 @@ the following estimate holds uniformly in $z\in \mathbf D$: %there exist constan
 With Lemma \ref{prop_entry}, we can complete the proof of the anisotropic local law  \eqref{aniso_law} in Proposition \ref{prop_diagonal}. %using a standard polynomialization method. %as we will explain later. 
 
 \begin{proof}[Proof of Proposition \ref{prop_diagonal}]
-With (\ref{entry_diagonal}), one can use the polynomialization method in \cite[Section 5]{isotropic} to get the anisotropic local law (\ref{aniso_law}) with $q=n^{-1/2}$. The proof is exactly the same, except for some minor differences in notations. Hence we omit the details.
+With estimate (\ref{entry_diagonal}), one can use the polynomialization method in \cite[Section 5]{isotropic} to get the anisotropic local law (\ref{aniso_law}) with $q=n^{-1/2}$. The proof is exactly the same, except for some minor differences in notations. Hence we omit the details.
 \end{proof}
 
 
@@ -2387,18 +2393,18 @@ Suppose Assumption \ref{assm_big1} holds. Then there exists a constant $C>0$ suc
 \ee
 and %for any deterministic unit vectors $\mathbf u, \mathbf v \in \mathbb R^{p+n}$,
 \be\label{priordiff} 
-\left\|G  (z) - G(z')\right| \le C|z-z'|.
+\left\|G  (z) - G(z')\right\| \le C|z-z'|.
 \ee
 \end{lemma}
 \begin{proof}
-Our proof is a simple application of the spectral decomposition of $G$. Recall the matrix $A$ defined in \eqref{abbr_A}. Let 
+Our proof is a simple application of the spectral decomposition of $G$. Recall the matrix $A$ defined in equation \eqref{abbr_A}. Let 
 \be\label{SVDW}
 A= \sum_{k = 1}^{p} {\sqrt {\mu_k} \xi_k } \zeta _{k}^\top ,\quad \mu_1\ge \mu_2 \ge \ldots \ge \mu_{p} \ge 0 =\mu_{p+1} = \ldots = \mu_{n},\ee
 be the singular value decomposition of $A$, where
 %$\lambda_1\ge \lambda_2 \ge \ldots \ge \lambda_{p} \ge 0 = \lambda_{p+1} = \ldots = \lambda_{n}$ are the eigenvalues, 
 $\{\xi_{k}\}_{k=1}^{p}$ are the left-singular vectors and $\{\zeta_{k}\}_{k=1}^{n}$ are the right-singular vectors.
 %orthonormal bases of $\mathbb R^{\mathcal I_1}$ and $\mathbb R^{\mathcal I_2}$, respectively. 
-Then using (\ref{green2}), we get that for $i,j\in \mathcal I_1$ and $\mu,\nu\in \mathcal I_1\cup \cal I_2$,
+Then using the definition (\ref{green2}), we get that for $i,j\in \mathcal I_1$ and $\mu,\nu\in \mathcal I_1\cup \cal I_2$,
 \be\label{spectral}
 \begin{split}
 & G_{ij} = \sum_{k = 1}^{p} \frac{\xi_k(i) \xi_k^\top(j)}{\mu_k-z}, \ \ G_{\mu\nu} = 
@@ -2612,39 +2618,39 @@ For the rest of this subsection, we present the proof of Lemma \ref{prop_entry},
 Recall that under the assumptions of Lemma \ref{prop_entry},  we have %have %$q=n^{-1/2}$ and
 \be\label{diagW}A \stackrel{d}{=} n^{-1/2}(\Lambda (Z^{(1)})^{\top}, (Z^{(2)})^\top),\ee
 %Hence in the following proof, 
-and it suffices to consider the resolvent in \eqref{resolv Gauss1} throughout the whole proof. 
+and it suffices to consider the resolvent in equation \eqref{resolv Gauss1} throughout the whole proof. 
 %For simplicity, we will denote $G\equiv G_0$ in the following proof, while keeping in mind that $W$ takes the form in equation \eqref{diagW}. 
 The proof is divided into three steps. For simplicity, we introduce the following notations: for two (deterministic or random) nonnegative quantities $\xi$ and $\zeta$, we write $\xi\lesssim \zeta$ if there exists a constant $C>0$ such that $\xi\le C\zeta$, and we write $\xi\sim \zeta$ if $\xi\lesssim \zeta$ and $\zeta\lesssim \xi$.
 
 \vspace{5pt}
 
-\noindent{\bf Step 1: Large deviation estimates.} In this step, we prove some (almost) optimal large deviation estimates on the off-diagonal entries of $G$, and on the following $Z$ variables. In analogy to \cite[Section 3]{EKYY1} and \cite[Section 5]{Anisotropic}, we introduce the $Z$ variables  
+\noindent{\bf Step 1: Large deviation estimates.} In this step, we prove some (almost) optimal large deviation estimates on the off-diagonal entries of $G$, and on the following $\cal Z$ variables. In analogy to \cite[Section 3]{EKYY1} and \cite[Section 5]{Anisotropic}, we introduce the $\cal Z$ variables  
 \begin{equation*}
-  Z_{{a}} :=(1-\mathbb E_{{a}})\big(G_{{a}{a}}\big)^{-1}, %\quad {a}\notin \mathbb T,
+ \cal  Z_{{a}} :=(1-\mathbb E_{{a}})\big(G_{{a}{a}}\big)^{-1}, %\quad {a}\notin \mathbb T,
 \end{equation*}
-where $\mathbb E_{{a}}[\cdot]:=\mathbb E[\cdot\mid H^{({a})}]$ denotes the partial expectation over the entries in the ${a}$-th row and column of $H$. Now using (\ref{resolvent2}), we get that for $i \in \cal I_0$, 
+where $\mathbb E_{{a}}[\cdot]:=\mathbb E[\cdot\mid H^{({a})}]$ denotes the partial expectation over the entries in the ${a}$-th row and column of $H$. Now using equation (\ref{resolvent2}), we get that for $i \in \cal I_0$, 
 \begin{align}
-&Z_i =  \frac{\lambda_i^2}{n} \sum_{\mu ,\nu\in \mathcal I_1}  G^{(i)}_{\mu\nu} \left(\delta_{\mu\nu} - Z^{(1)}_{\mu i}Z^{(1)}_{\nu i}\right)+\frac1n \sum_{\mu ,\nu\in \mathcal I_2}  G^{(i)}_{\mu\nu} \left( \delta_{\mu\nu} - Z^{(2)}_{\mu i}Z^{(2)}_{\nu i}\right) - 2 \frac{\lambda_i}{n} \sum_{\mu\in \cal I_1,\nu\in \mathcal I_2} Z^{(1)}_{\mu i}Z^{(2)}_{\nu i}G^{\left( i \right)}_{\mu\nu},  \label{Zi}
+\cal Z_i =  \frac{\lambda_i^2}{n} \sum_{\mu ,\nu\in \mathcal I_1}  G^{(i)}_{\mu\nu} \left(\delta_{\mu\nu} - Z^{(1)}_{\mu i}Z^{(1)}_{\nu i}\right)+\frac1n \sum_{\mu ,\nu\in \mathcal I_2}  G^{(i)}_{\mu\nu} \left( \delta_{\mu\nu} - Z^{(2)}_{\mu i}Z^{(2)}_{\nu i}\right) - 2 \frac{\lambda_i}{n} \sum_{\mu\in \cal I_1,\nu\in \mathcal I_2} Z^{(1)}_{\mu i}Z^{(2)}_{\nu i}G^{\left( i \right)}_{\mu\nu},  \label{Zi}
 \end{align}
 and for $\mu\in \cal I_1$ and $\nu\in \cal I_2$, 
 \begin{align}
-& Z_\mu= \frac{1}{n} \sum_{i,j \in \mathcal I_0}  {\lambda_i \lambda_j}G^{(\mu)}_{ij} \left(\delta_{ij} - Z^{(1)}_{\mu i}Z^{(1)}_{\mu j}\right), \quad Z_\nu = \frac{1}{n} \sum_{i,j \in \mathcal I_0} G^{(\nu)}_{ij} \left( \delta_{ij} - Z^{(2)}_{\nu i}Z^{(2)}_{\nu j}\right).\label{Zmu} 
+&\cal  Z_\mu= \frac{1}{n} \sum_{i,j \in \mathcal I_0}  {\lambda_i \lambda_j}G^{(\mu)}_{ij} \left(\delta_{ij} - Z^{(1)}_{\mu i}Z^{(1)}_{\mu j}\right), \quad \cal Z_\nu = \frac{1}{n} \sum_{i,j \in \mathcal I_0} G^{(\nu)}_{ij} \left( \delta_{ij} - Z^{(2)}_{\nu i}Z^{(2)}_{\nu j}\right).\label{Zmu} 
 \end{align}
 Moreover, we introduce the random error
-%\begin{equation} \nonumber % \label{eqn_randomerror}
+\begin{equation}  \label{eqn_randomerror}
 %\begin{split}
-$ \Lambda _o : = % \max_{{a} \ne {b} } \left|  G_{{a}{b}}   \right| +  
- \max_{{a} \ne {b} } \left|  G_{{a}{a}}^{-1}G_{{a}{b}}   \right| ,$
+ \Lambda _o : = % \max_{{a} \ne {b} } \left|  G_{{a}{b}}   \right| +  
+ \max_{{a} \ne {b} } \left|  G_{{a}{a}}^{-1}G_{{a}{b}}   \right| ,
 %\end{split}
-%\end{equation}
-which controls the size of the off-diagonal entries. The following lemma gives the desired large deviation estimate on $\Lambda_o$ and $Z$ variables.
+\end{equation}
+which controls the size of the off-diagonal entries. The following lemma gives the desired large deviation estimate on $\Lambda_o$ and $\cal Z$ variables.
 
 \begin{lemma}\label{Z_lemma}
 %Suppose the assumptions of Lemma \ref{prop_entry} hold. 
 %Let $c_0>0$ be a sufficiently small constant and fix $C_0, \epsilon >0$. Define the $z$-dependent event $\Xi(z):=\{\Lambda(z) \le (\log N)^{-1}\}$. Then there exists constant $C>0$ such that 
 Under the assumptions of Proposition \ref{prop_diagonal}, the estimate 
 \begin{align}
-\Lambda_o + \max_{{a}\in \cal I} |Z_{{a}}|  \prec n^{-1/2} \label{Zestimate1}
+\Lambda_o + \max_{{a}\in \cal I} |\cal Z_{{a}}|  \prec n^{-1/2} \label{Zestimate1}
 \end{align}
 holds uniformly in all $z\in \mathbf D$.
 %and 
@@ -2663,7 +2669,7 @@ Note that for any ${a}\in \cal I$, $H^{({a})}$ and $G^{({a})}$ also satisfies th
 we get that for any $i\in \cal I_0$, %on $\Xi$,
 \begin{equation}\nonumber%\label{estimate_Zi}
 \begin{split}
-\left| Z_{i}\right|&\lesssim \frac{1}{n} \left|\sum_{\mu ,\nu\in \mathcal I_1}  G^{(i)}_{\mu\nu} \left(\delta_{\mu\nu} - Z^{(1)}_{\mu i}Z^{(1)}_{\nu i}\right)\right|+\frac1n \left|\sum_{\mu ,\nu\in \mathcal I_2}  G^{(i)}_{\mu\nu} \left( \delta_{\mu\nu} - Z^{(2)}_{\mu i}Z^{(2)}_{\nu i}\right)\right| + \frac{1}{n} \left|\sum_{\mu\in \cal I_1,\nu\in \mathcal I_2} Z^{(1)}_{\mu i}Z^{(2)}_{\nu i}G^{\left( i \right)}_{\mu\nu}\right| \\
+\left| \cal Z_{i}\right|&\lesssim \frac{1}{n} \left|\sum_{\mu ,\nu\in \mathcal I_1}  G^{(i)}_{\mu\nu} \left(\delta_{\mu\nu} - Z^{(1)}_{\mu i}Z^{(1)}_{\nu i}\right)\right|+\frac1n \left|\sum_{\mu ,\nu\in \mathcal I_2}  G^{(i)}_{\mu\nu} \left( \delta_{\mu\nu} - Z^{(2)}_{\mu i}Z^{(2)}_{\nu i}\right)\right| + \frac{1}{n} \left|\sum_{\mu\in \cal I_1,\nu\in \mathcal I_2} Z^{(1)}_{\mu i}Z^{(2)}_{\nu i}G^{\left( i \right)}_{\mu\nu}\right| \\
 &\prec n^{-1/2}+ \frac{1}{n} \Big( \sum_{\mu,\nu \in \cal I_1\cup \cal I_2 }  {| G_{\mu\nu}^{(i)}|^2 }  \Big)^{1/2} \prec n^{-1/2} , 
 %+ \frac{1}{\sqrt{n}} \left( \frac{1}{n}\sum_{\mu \in \cal I_{\al+2}}  {\left(\cal R^{(i)} J_{\al+2} (\cal R^{(i)})^*\right)_{\mu\mu} }  \right)^{1/2} \prec n^{-1/2},
 %\\& \prec  \phi_n + \frac{1}{n} \left[ \sum_{\mu\in \cal I_3} \left( 1+ \frac{ \im \left( U(z) G_{[\mu\mu]}^{(i)} \right)_{11} }{\eta}   \right]  \right)^{1/2} ,%= q+ \frac{1}{N}\left( {\sum_\mu \frac{\wt \sigma_\mu  \im G_{\mu\mu}^{(i)} }{\eta} } \right)^{1/2}= q + \sqrt { \frac{ \Im\, m_2^{(i)}  } {N\eta} },
@@ -2671,7 +2677,7 @@ we get that for any $i\in \cal I_0$, %on $\Xi$,
 \end{equation}
 where in the last step we used equation \eqref{priorim} to get that for any $\mu\in \cal I_1\cup \cal I_2$,
 \be\label{GG*}\sum_{\nu \in \cal I_1\cup \cal I_2 }  | G_{\mu\nu}^{(i)} |^2\le \sum_{{a} \in \cal I } | G_{\mu{a}}^{(i)} |^2 =\left[G^{(i)}(G^{(i)})^* \right]_{\mu\mu} =\OO(1),\quad \text{with high probability,}\ee
-where $(G^{(i)})^*$ denotes the complex conjugate transpose of $G^{(a)}$. Similarly, applying bounds \eqref{eq largedev1} and \eqref{eq largedev2} to $Z_{\mu}$ and $Z_\nu$ in equation (\ref{Zmu}) and using the estimate \eqref{priorim}, we can obtain the same bound.
+where $(G^{(i)})^*$ denotes the complex conjugate transpose of $G^{(a)}$. Similarly, applying bounds \eqref{eq largedev1} and \eqref{eq largedev2} to $\cal Z_{\mu}$ and $\cal Z_\nu$ in equation (\ref{Zmu}) and using the estimate \eqref{priorim}, we can obtain the same bound.
 %\begin{equation}\label{estimate_Zmu} \|Z_{[\mu]}\|\prec \frac{1}{n} \left( \sum_{i,j \in \cal I_{1}\cup \cal I_2}  {\left| \cal R_{ij}^{[\mu]}  \right|^2 }  \right)^{1/2} =  \frac{1}{\sqrt{n}} \left(  \frac{1}{n}\sum_{i \in \cal I_{1}\cup \cal I_2}  {\left(\cal R^{[\mu]} (J_{1}+J_2) (\cal R^{[\mu]})^*\right)_{ii} } \right)^{1/2} \prec n^{-1/2}.\ee
 %This completes the proof of equation \eqref{Zestimate1}.
 %we have
@@ -2722,7 +2728,7 @@ Note that combining $\max_a|G_{aa}|=\OO(1)$ by \eqref{priorim} with equation \eq
 
 \noindent{\bf Step 2: Self-consistent equations.} 
 %This is the key step of the proof for Lemma \ref{prop_entry}, where 
-In this step, we derive the approximate self-consistent equations satisfied by $m_1(z)$ and $m_2(z)$ defined in \eqref{defm}. More precisely, we will show that $(m_1(z),m_2(z))$ satisfies equation \eqref{selfomegaerror} for some small errors $|\cal E_{1}|+ |\cal E_{2}|\prec n^{-1/2}$. Then in Step 3, we will apply Lemma \ref{lem_stabw} to show that $(m_1(z),m_2(z))$ is close to $(M_{1}(z),M_{2}(z))$. %---this will discussed .
+In this step, we derive the approximate self-consistent equations satisfied by $m_1(z)$ and $m_2(z)$ defined in equation \eqref{defm}. More precisely, we will show that $(m_1(z),m_2(z))$ satisfies equation \eqref{selfomegaerror} for some small errors $|\cal E_{1}|+ |\cal E_{2}|\prec n^{-1/2}$. Then in Step 3, we will apply Lemma \ref{lem_stabw} to show that $(m_1(z),m_2(z))$ is close to $(M_{1}(z),M_{2}(z))$. %---this will discussed .
 
 We define the following $z$-dependent event 
 %\be\label{Xiz}\Xi(z):=\left\{\max_{{a}\in \cal I}|G_{{a}{a}}(z)-\Pi_{{a}{a}}(z)| \le (\log n)^{-1/2}\right\}.\ee
@@ -2748,60 +2754,40 @@ Together with equations \eqref{a23} and \eqref{assm32}, we obtain the following 
 %\be\label{Gsim1}
 %\mathbf 1(\Xi)|G_{{a}{a}}(z)| \sim 1 .
 %\ee 
-Then we prove the following key lemma, which shows that $(m_1(z),m_2(z))$ satisfies \eqref{selfomegaerror} with some small errors $\cal E_{1}$ and $\cal E_{2}$.
+Then we prove the following key lemma, which shows that $(m_1(z),m_2(z))$ satisfies equation \eqref{selfomegaerror} with some small errors $\cal E_{1}$ and $\cal E_{2}$.
 %that $M_{2}(z)$ is the solution to the equation $z=f(m)$ for $f$ defined in (\ref{deformed_MP2}).
 
 \begin{lemma}\label{lemm_selfcons_weak}
-Under the assumptions of Proposition \ref{prop_diagonal}, the following estimates hold uniformly in $z \in \mathbf D$: %with $\xi$-high probability:
-%\begin{equation}
-%{\mathbf 1}(\eta \ge 1)\left| f(z, m_2) \right|\prec N^{-1/2}, \quad {\mathbf 1}(\eta\ge 1)\left|  m_1(z) - d_N \int\frac{x}{-z\left[1+xm_{2}(z) \right]} \pi_A^{(n)}(dx)\right| \prec N^{-1/2}, \label{selfcons_lemm2}
-%\end{equation}
-%and
-%\begin{equation}
-%{\mathbf 1}(\Xi)\left| f(z, m_2) \right| \prec \Psi_\theta, \quad {\mathbf 1}(\Xi)\left|  m_1(z) - d_N \int\frac{x}{-z\left[1+xm_{2}(z) \right]} \pi_A^{(n)}(dx)\right| \prec \Psi_\theta, \label{selfcons_lemm}
-%\end{equation}
+Under the assumptions of Proposition \ref{prop_diagonal}, the following estimates hold uniformly in $z \in \mathbf D$: 
 \begin{equation} \label{selfcons_lemm}
-\begin{split}
-&{\mathbf 1}(\Xi) \left|\frac{1}{m_{1}} + 1 -\frac{\gamma_n}p\sum_{i=1}^p \frac{\lambda_i^2}{  z+\lambda_i^2r_1m_{1} + r_2m_{2}  } \right|\prec n^{-1/2},\\
-&  {\mathbf 1}(\Xi)\left|\frac{1}{m_{2}} + 1 -\frac{\gamma_n}p\sum_{i=1}^p \frac{1 }{  z+\lambda_i^2 r_1m_{1} +  r_2m_{2}  }\right|\prec n^{-1/2}.
-\end{split}
+{\mathbf 1}(\Xi) \left|\frac{1}{m_{1}} + 1 -\frac{\gamma_n}p\sum_{i=1}^p \frac{\lambda_i^2}{  z+\lambda_i^2r_1m_{1} + r_2m_{2}  } \right|\prec n^{-1/2},\ee
+and
+\begin{equation} \label{selfcons_lemm2}
+  {\mathbf 1}(\Xi)\left|\frac{1}{m_{2}} + 1 -\frac{\gamma_n}p\sum_{i=1}^p \frac{1 }{  z+\lambda_i^2 r_1m_{1} +  r_2m_{2}  }\right|\prec n^{-1/2}.
 \ee
-%Moreover, we have the finer estimates
-%\begin{equation}\label{selfcons_improved}
-%\begin{split}
-%&{\mathbf 1}(\Xi) \left|\frac{r_1}{m_{2}} + 1 -\frac1n\sum_{i=1}^p \frac{\lambda_i^2}{  z+\lambda_i^2m_{2} + m_{3}  } \right|\prec {\mathbf 1}(\Xi)\left( \left|[Z]_1\right|+ \left|[Z]_2\right| \right) + n^{-1},\\
-%&  {\mathbf 1}(\Xi)\left|\frac{r_2}{m_{3}} + 1 -\frac1n\sum_{i=1}^p \frac{1 }{  z+\lambda_i^2 m_{2} +  m_{3}  }\right|\prec {\mathbf 1}(\Xi)\left(\left|[Z]\right|+ \left|[Z]_3\right|\right) + n^{-1} 
-%  %\\ {\mathbf 1}(\Xi)\left|f(z, m_2)\right| \prec  {\mathbf 1}(\Xi)\left(\left|[Z]_1\right| + \left|[Z]_2\right|\right) + \Psi^2_\theta, 
-%\end{split}
-%\end{equation}
-%%and
-%%\be\label{selfcons_improved2}
-%%{\mathbf 1}(\Xi)\left|  m_1(z) - d_N \int\frac{x}{-z\left[1+xm_{2}(z) \right]} \pi_A^{(n)}(dx)\right| \prec {\mathbf 1}(\Xi)\left|[Z]_1\right| + \Psi^2_\theta,
-%%\ee
-% where
-%\begin{equation}\label{def_Zaver}
-%[Z]:=\frac{1}{n}\sum_{i\in \mathcal I_1}\frac{Z_i}{\left(z + \lambda_i^2 r_1 m_2+r_2 m_3\right)^2}, \quad [Z]_1:=\frac{1}{n}\sum_{i\in \mathcal I_1}\frac{\lambda_i^2 Z_i}{\left(z + \lambda_i^2 r_1 m_2+r_2 m_3\right)^2}, \ \ [Z]_\al:=\frac{1}{n}\sum_{\mu \in \mathcal I_\al}  {Z_\mu} ,\ \ \al=2,3  .
-%\end{equation}
 \end{lemma}
 
 \begin{proof}
-{\cor here} By (\ref{resolvent2}), (\ref{Zi}) and (\ref{Zmu}), we obtain that for $i \in \cal I_0$, $\mu \in \cal I_1$ and $\nu\in \cal I_2$,
+By equations (\ref{resolvent2}), (\ref{Zi}) and (\ref{Zmu}), we obtain that %for  $\mu \in \cal I_1$ and $\nu\in \cal I_2$,
 \begin{align}
-\frac{1}{{G_{ii} }}&=  - z - \frac{\lambda_i^2}{n} \sum_{\mu\in \mathcal I_1} G^{\left( i \right)}_{\mu\mu}- \frac{1}{n} \sum_{\mu\in \mathcal I_2} G^{\left( i \right)}_{\mu\mu} + Z_i =  - z - \lambda_i^2 r_1m_1 - r_2m_2 + \epsilon_i,  \label{self_Gii}\\
-\frac{1}{{G_{\mu\mu} }}&=  - 1 - \frac{1}{n} \sum_{i\in \mathcal I_0}\lambda_i^2 G^{\left(\mu\right)}_{ii}+ Z_{\mu} =  - 1  - \gamma_n m_0 + \epsilon_\mu,  \label{self_Gmu1}\\
-\frac{1}{{G_{\nu\nu} }}&=  - 1 - \frac{1}{n} \sum_{i\in \mathcal I_0} G^{\left(\nu\right)}_{ii}+ Z_{\nu} =   - 1 - \gamma_n m + \epsilon_\nu,  \label{self_Gmu2}
+\frac{1}{{G_{ii} }}&=  - z - \frac{\lambda_i^2}{n} \sum_{\mu\in \mathcal I_1} G^{\left( i \right)}_{\mu\mu}- \frac{1}{n} \sum_{\mu\in \mathcal I_2} G^{\left( i \right)}_{\mu\mu} + \cal Z_i =  - z - \lambda_i^2 r_1m_1 - r_2m_2 + \cal E_i, \quad \text{for }i \in \cal I_0, \label{self_Gii}\\
+\frac{1}{{G_{\mu\mu} }}&=  - 1 - \frac{1}{n} \sum_{i\in \mathcal I_0}\lambda_i^2 G^{\left(\mu\right)}_{ii}+ \cal Z_{\mu} =  - 1  - \gamma_n m_0 + \cal E_\mu, \quad \text{for }\mu \in \cal I_1,  \label{self_Gmu1}\\
+\frac{1}{{G_{\nu\nu} }}&=  - 1 - \frac{1}{n} \sum_{i\in \mathcal I_0} G^{\left(\nu\right)}_{ii}+\cal Z_{\nu} =   - 1 - \gamma_n m + \cal E_\nu, \quad \text{for }\nu \in \cal I_2, \label{self_Gmu2}
 \end{align}
-where we recall Definition \ref{defnMinor}, and define %equation \eqref{m123}, and 
-$$\epsilon_i := Z_i + \lambda_i^2 r_1\left(m_1 - m_1^{(i)}\right) + r_2\left(m_2-m_2^{(i)}\right) ,\quad \epsilon_\mu := \begin{cases}Z_{\mu} + \gamma_n(m_0-m_0^{(\mu)}) , \ &\text{if } \mu \in \cal I_1\\ Z_{\mu} +\gamma_n(m-m^{(\mu)}) , \ &\text{if } \mu \in \cal I_2\end{cases}.$$
-Using (\ref{resolvent8}), we can bound that
+where we denoted (recall equation \eqref{defm} and Definition \ref{defn_Minor}) %, and define %equation \eqref{m123}, and 
+$$\cal E_i :=\cal Z_i + \lambda_i^2 r_1\left(m_1 - m_1^{(i)}\right) + r_2\left(m_2-m_2^{(i)}\right) ,$$
+and
+$$\cal E_\mu :=\cal Z_{\mu} + \gamma_n(m_0-m_0^{(\mu)}),\quad \cal E_\nu:=\cal Z_{\nu} +\gamma_n(m-m^{(\nu)}) .$$
+Now using equations (\ref{resolvent8}), \eqref{eqn_randomerror} and (\ref{Zestimate1}), we can bound that  
 \begin{equation}\nonumber
-  |m_1 - m_1^{(i)}| \le   \frac1{n_1}\sum_{\mu\in \mathcal I_1}  \left|\frac{G_{\mu i} G_{i\mu}}{G_{ii}}\right|  \prec n^{-1},
+  |m_1 - m_1^{(i)}| \le   \frac1{n_1}\sum_{\mu\in \mathcal I_1}  \left|\frac{G_{\mu i} G_{i\mu}}{G_{ii}}\right| \le |\Lambda_o|^2|G_{ii}| \prec n^{-1}.
 \end{equation}
-where we used (\ref{Zestimate1}) in the second step. Similarly, we can get that 
-\be\label{higherr} |m - m^{(\mu)}| + |m_0-m_0^{(\mu)}| + |m_1 - m_1^{(i)}| +  |m_2 - m_2^{(i)}| \prec n^{-1}  \ee
-for any $i\in \cal I_0$ and $\mu \in \cal I_{1}\cup \cal I_2$. Together with (\ref{Zestimate1}), we obtain that %for all $i$ and $\mu$,
+where we also used bound \eqref{priorim} in the last step. Similarly, we can get that 
+\be \nonumber%\label{higherr}  
+ |m_2 - m_2^{(i)}| \prec n^{-1} , \quad |m_0 - m_0^{(\mu)}| \prec n^{-1},\quad  |m-m^{(\nu)}| \prec n^{-1},  \ee
+for any $i\in \cal I_0$, $\mu \in \cal I_{1}$ and $\nu\in \cal I_2$. Together with equation (\ref{Zestimate1}), we obtain the bound %for all $i$ and $\mu$,
 \begin{equation}\label{erri}
-\max_{i\in \cal I_0} |\epsilon_i | +\max_{\mu \in \cal I_1\cup \cal I_2} |\epsilon_\mu|  \prec n^{-1/2}.
+\max_{i\in \cal I_0} |\cal E_i | +\max_{\mu \in \cal I_1\cup \cal I_2} |\cal E_\mu|  \prec n^{-1/2}.
 \end{equation}
 %with $\xi $-high probability.
 %Similarly, we can also get that
@@ -2812,37 +2798,39 @@ for any $i\in \cal I_0$ and $\mu \in \cal I_{1}\cup \cal I_2$. Together with (\r
 %$$\epsilon_\mu := Z_{\mu} + \frac{1}{N} \sum_{i\in \mathcal I_1}\sigma_i \left(G^{\left( \mu\right)}_{ii}-G_{ii}\right).$$
 %Moreover, we have
 
-With equation \eqref{Gsim1} and the definition of $\Xi$, we get that $\mathbf 1(\Xi)|z + \lambda_i^2 r_1m_1+r_2m_2|\sim1$. Hence using (\ref{self_Gii}) and equation \eqref{erri}, we obtain that
+ With equation \eqref{Gsim1} and the definition of the event $\Xi$, we get that 
+ $$\mathbf 1(\Xi)|z + \lambda_i^2 r_1m_1+r_2m_2|\sim1.$$ 
+ Combining it with equations (\ref{self_Gii}) and \eqref{erri}, we obtain that
 \be\label{Gmumu0}
 \mathbf 1(\Xi)G_{ii}=\mathbf 1(\Xi)\left[-\frac{1}{z + \lambda_i^2 r_1 m_1+r_2 m_2} +\OO_\prec\left(n^{-1/2}\right)\right].
 \ee
-Plugging it into the definitions of $m$ and $m_0$ in equation \eqref{defm}, we get
+Plugging \eqref{Gmumu0} into the definitions of $m$ and $m_0$ in equation \eqref{defm}, we get
 \begin{align}
 \mathbf 1(\Xi)m&=\mathbf 1(\Xi)\left[-\frac1p\sum_{i\in \cal I_0}\frac{1}{z + \lambda_i^2 r_1 m_1+r_2 m_2}  +\OO_\prec\left(n^{-1/2}\right)\right],\label{Gmumu} \\
 \mathbf 1(\Xi)m_0&=\mathbf 1(\Xi)\left[-\frac1p\sum_{i\in \cal I_0}\frac{\lambda_i^2}{z + \lambda_i^2 r_1 m_1+r_2 m_2}   +\OO_\prec\left(n^{-1/2}\right)\right]. \label{Gmumu2}
 \end{align}
 As a byproduct, we obtain from these two estimates and equation \eqref{defn mc1c} that  
 \be\label{Gsim11}
-\mathbf 1(\Xi)\left(|m-M| +|m_0-M_{0}| \right)\lesssim (\log n)^{-1/2}, \quad \text{with high probability}. 
+\mathbf 1(\Xi)\left(|m(z)-M(z)| +|m_0(z)-M_{0}(z)| \right)\lesssim (\log n)^{-1/2}, \quad \text{with high probability on } \Xi. 
 \ee
-Together with equation \eqref{Gsim1}, we get that %from equation \eqref{self_Gmu1} and equation \eqref{self_Gmu2} that
+Together with equation \eqref{Gsim0}, we get that %from equation \eqref{self_Gmu1} and equation \eqref{self_Gmu2} that
 \be\label{Gsim2}
-|1+\gamma_nm_0|\sim 1, \quad |1+\gamma_nm|\sim 1, \quad \text{with high probability on } \Xi.
+|1+\gamma_nm_0(z)|\sim 1, \quad |1+\gamma_nm(z)|\sim 1, \quad \text{with high probability on } \Xi.
 \ee
-Now combining equation \eqref{self_Gmu1}, equation \eqref{self_Gmu2}, equation \eqref{erri} and equation \eqref{Gsim2}, we obtain that for $\mu \in \cal I_1$ and $\nu \in \cal I_2,$ %can obtain that with high probability,
+Now combining equations \eqref{self_Gmu1}, \eqref{self_Gmu2}, \eqref{erri} and  \eqref{Gsim2}, we obtain that for $\mu \in \cal I_1$ and $\nu \in \cal I_2,$ %can obtain that with high probability,
 \begin{align}\label{Gii0} 
 &\mathbf 1(\Xi)\left(G_{\mu\mu}+\frac{1}{1 + \gamma_nm_0}\right) =\OO_\prec\left(n^{-1/2}\right) , \quad \mathbf 1(\Xi)\left(G_{\nu\nu}+\frac{1}{1 + \gamma_nm}\right)= \OO_\prec\left(n^{-1/2}\right) .
 %\\ \quad \nu \in \cal I_3.\label{Gii1}
 \end{align}
-Taking average over $\mu\in \cal I_1$ and $\nu\in \cal I_2$, we get that with high probability,
-\begin{align}\label{Gii}
-& \mathbf 1(\Xi)\left(m_1+\frac{1}{1 + \gamma_n m_0}\right)  = \OO_\prec\left(n^{-1/2}\right) ,\quad  \mathbf 1(\Xi)\left(m_2+\frac{1}{1 +\gamma_n  m}\right)= \OO_\prec\left(n^{-1/2}\right) .
+Taking average over $\mu\in \cal I_1$ and $\nu\in \cal I_2$, we get that %with high probability,
+\begin{align}\label{Gii000}
+& \mathbf 1(\Xi)\left(m_1+\frac{1}{1 + \gamma_n m_0}\right)  = \OO_\prec\left(n^{-1/2}\right) ,\quad  \mathbf 1(\Xi)\left(m_2+\frac{1}{1 +\gamma_n  m}\right)= \OO_\prec\left(n^{-1/2}\right) ,
 \end{align}
-%which further implies
-%\be\label{Gii}
-% \mathbf 1(\Xi)\left(\frac{1}{m_2} + 1 + \gamma_nm_1\right) \prec  n^{-1/2} ,\quad \mathbf 1(\Xi)\left(\frac{1}{m_3} + 1 + \gamma_nm\right) \prec  n^{-1/2} .
-%\ee
-Finally, plugging equation \eqref{Gmumu} and equation \eqref{Gmumu2} into equation \eqref{Gii}, we conclude (\ref{selfcons_lemm}). 
+which further implies
+\be\label{Gii}
+ \mathbf 1(\Xi)\left(\frac{1}{m_1} + 1 + \gamma_nm_0\right) \prec  n^{-1/2} ,\quad \mathbf 1(\Xi)\left(\frac{1}{m_2} + 1 + \gamma_nm\right) \prec  n^{-1/2} .
+\ee
+Finally, plugging equations \eqref{Gmumu} and \eqref{Gmumu2} into equation \eqref{Gii}, we conclude equations (\ref{selfcons_lemm}) and (\ref{selfcons_lemm2}). 
 \end{proof}
 
 %The following lemma gives the stability of the equation $ f(z,m)=0$. Roughly speaking, it states that if $f(z, m_{2}(z))$ is small and $m_2(\wt  z)-M_{2}(\wt  z)$ is small for $\Im\, \wt  z \ge \Im\, z$, then $m_{2}(z)-M_{2}(z)$ is small. For an arbitrary $z\in S(c_0,C_0, \e)$, we define the discrete set
@@ -2869,45 +2857,49 @@ Finally, plugging equation \eqref{Gmumu} and equation \eqref{Gmumu2} into equati
 
 %\vspace{5pt}
 
-\noindent{\bf Step 3: $\Xi$ holds with high probability.} In this step, we show that the event $\Xi(z)$ in fact holds with high probability for all $z\in \mathbf D$. Once we have proved this fact, applying Lemma \ref{lem_stabw} to equation \eqref{selfcons_lemm} immediately shows that $(m_1(z),m_2(z))$ is close to $(M_{1}(z),M_{2}(z))$ up to an error of order $\OO_\prec(n^{-1/2})$. 
+\noindent{\bf Step 3: $\Xi$ holds with high probability.} In this step, we show that the event $\Xi(z)$ in \eqref{Xiz} actually holds with high probability for all $z\in \mathbf D$. Once we have proved this fact, applying Lemma \ref{lem_stabw} to equations \eqref{selfcons_lemm} and  \eqref{selfcons_lemm2} immediately shows that $(m_1(z),m_2(z))$ is close to $(M_{1}(z),M_{2}(z))$ up to an error of order $\OO_\prec(n^{-1/2})$. 
 
-We claim that it suffices to show
+We claim that it suffices to show that
 \be\label{Xiz0}
 |m_{1}(0)-M_{1}(0)| + |m_{2}(0)-M_{2}(0)| \prec n^{-1/2}.
 \ee
-Note that by equation \eqref{Lipomega} and equation \eqref{priordiff} we get 
+ In fact, notice that by equations \eqref{Lipomega} and \eqref{priordiff} we have
 $$ |M_{1}(z)-M_{1}(0)|+|M_2(z)-M_2(0)|=\OO((\log n)^{-1}),\quad  |m_{1}(z)-m_{1}(0)|+ |m_{2}(z)-m_{2}(0)|=\OO((\log n)^{-1})$$ 
 with high probability for all $z\in \mathbf D$. Thus if equation \eqref{Xiz0} holds, we can obtain that 
 \be\label{roughh1} 
 \sup_{z\in \mathbf D} \left(|m_{1}(z)-M_{1}(z)| + |m_{2}(z)-M_{2}(z)|\right)  \lesssim (\log n)^{-1} \quad \text{with high probability},\ee
 and %Moreover, with this estimate and equation \eqref{Lipomega}, we conclude that 
 \be\label{roughh2} \sup_{z\in \mathbf D} \left( |m_{1}(z)-M_{1}(0)|+ |m_{2}(z)-M_{2}(0)|\right) \lesssim (\log n)^{-1} \quad \text{with high probability}.\ee
-The condition equation \eqref{roughh1} shows that $\Xi$ holds with high probability, and the condition equation \eqref{roughh2} verifies the condition equation \eqref{prior1} of Lemma \ref{lem_stabw}. Then applying Lemma \ref{lem_stabw} to equation \eqref{selfcons_lemm}, we obtain that
+The equation \eqref{roughh1} shows that $\Xi$ holds with high probability, while the equation \eqref{roughh2} verifies the condition \eqref{prior12} of Lemma \ref{lem_stabw}. Now applying Lemma \ref{lem_stabw} to equations \eqref{selfcons_lemm} and \eqref{selfcons_lemm2}, we obtain that
 \be\label{Xizz}
 |m_{1}(z)-M_{1}(z)|+ |m_{2}(z)-M_2(z)| \prec n^{-1/2} 
 \ee
-uniformly for all $z\in \mathbf D$. Together with equation \eqref{Gii0} and equation \eqref{Gii}, equation \eqref{Xizz} implies that
-\be\label{Xizz2} \max_{\mu\in \cal I_1} |G_{\mu\mu}-M_{1}|+ \max_{\nu\in \cal I_2} |G_{\nu\nu}-M_{2}|\prec n^{-1/2}.
+uniformly for all $z\in \mathbf D$. Together with equations \eqref{Gii0} and \eqref{Gii000}, equation \eqref{Xizz} implies that
+\be\label{Xizz2} \max_{\mu\in \cal I_1} |G_{\mu\mu}(z)-M_{1}(z)|+ \max_{\nu\in \cal I_2} |G_{\nu\nu}(z)-M_{2}(z)|\prec n^{-1/2}.
 \ee
-Now plugging equation \eqref{Xizz} into equation \eqref{self_Gii} and using equation \eqref{Xizz2}, we get the diagonal estimate
+Then plugging estimate \eqref{Xizz} into equation \eqref{Gmumu0} and recalling \eqref{M1M2a1a2}, we obtain that 
+$$\max_{{i}\in \cal I_1}|G_{ii}(z)-\Gi_{ii}(z)| \prec n^{-1/2}. 
+$$
+Together with equation \eqref{Xizz2}, it gives the diagonal estimate
 \be\label{diagest}
 \max_{{a}\in \cal I}|G_{{a}{a}}(z)-\Pi_{{a}{a}}(z)| \prec n^{-1/2}. 
 \ee
-Together with the off-diagonal estimate in equation \eqref{Zestimate1}, we conclude the proof of Lemma \ref{prop_entry}. 
+Combining equation \eqref{diagest} with the off-diagonal estimate on $\Lambda_o$ in equation \eqref{Zestimate1}, we conclude the proof of Lemma \ref{prop_entry}. 
 \end{proof}
-Now we give the proof of equation \eqref{Xiz0}.
+Finally, we give the proof of equation \eqref{Xiz0}.
 %It remains to show that equation \eqref{Xiz0} holds.% In the following lemma, we pick $0=0$.
 %\begin{lemma}
 %Under the assumptions of Proposition \ref{prop_diagonal}, the estimate equation \eqref{Xiz0} holds.
 %\end{lemma}
 \begin{proof}[Proof of equation \eqref{Xiz0}]
 By equation \eqref{spectral}, we get
-$$ m(0)=\frac1p\sum_{i\in \cal I_0}G_{ii}(0) = \frac1p\sum_{i\in \cal I_0}\sum_{k = 1}^{p} \frac{|\xi_k(i)|^2 }{\lambda_k} \ge \lambda_1^{-1} \gtrsim 1. $$
+$$ m(0)=\frac1p\sum_{i\in \cal I_0}G_{ii}(0) = \frac1p\sum_{i\in \cal I_0}\sum_{k = 1}^{p} \frac{|\xi_k(i)|^2 }{\lambda_k} \ge \lambda_1^{-1} \gtrsim 1,$$
+where we used Lemma \ref{SxxSyy} in the last step.
 Similarly, we can also get that $m_0(0)$ is positive and has size $m_0(0)\sim 1$. Hence we have the estimates
 $$1+\gamma_n m(0)\sim 1,\quad 1+\gamma_n m_0(0)\sim 1.$$ 
-Together with equation \eqref{self_Gmu1}, equation \eqref{self_Gmu2} and equation \eqref{erri}, we obtain that equation \eqref{Gii} holds at $z=0$ even without the indicator function $\mathbf 1(\Xi)$. Furthermore, we have that with high probability,
+Combining these estimates with equations \eqref{self_Gmu1}, \eqref{self_Gmu2} and  \eqref{erri}, we obtain that equation \eqref{Gii000} holds at $z=0$ even without the indicator function $\mathbf 1(\Xi)$. Furthermore, we have that with high probability,
 $$  \left|\lambda_i^2 r_1m_1(0)+r_2m_2(0)\right|=\left|\frac{\lambda_i^2 r_1}{ 1+\gamma_n m_0(0)} +\frac{r_2}{1+\gamma_n m(0)}+ \OO_\prec (n^{-1/2})\right| \sim 1 .$$
- Then combining this estimate with (\ref{self_Gii}) and equation \eqref{erri}, we obtain that equation \eqref{Gmumu} and equation \eqref{Gmumu2} hold at $z=0$ even without the indicator function $\mathbf 1(\Xi)$. Finally, plugging equation \eqref{Gmumu} and equation \eqref{Gmumu2} into equation \eqref{Gii}, we conclude that equation \eqref{selfcons_lemm} holds at $z=0$, that is,
+ Then combining this estimate with equations (\ref{self_Gii}) and \eqref{erri}, we obtain that equations \eqref{Gmumu} and \eqref{Gmumu2} also hold at $z=0$ even without the indicator function $\mathbf 1(\Xi)$. Finally, plugging equations \eqref{Gmumu} and \eqref{Gmumu2} into equation \eqref{Gii}, we conclude that equations \eqref{selfcons_lemm} and  \eqref{selfcons_lemm2}  hold at $z=0$, that is,
 \begin{equation} \label{selfcons_lemma222}
 \begin{split}
 & \left|\frac{1}{m_{1}(0)} + 1 -\frac1n\sum_{i=1}^p \frac{\lambda_i^2}{ \lambda_i^2r_1m_{1}(0) + r_2m_{2}(0)  } \right|\prec n^{-1/2},\\ 
@@ -2924,13 +2916,15 @@ Hence there exists a constant $c>0$ such that
 %c \le  \omega_2 \le 1 - \gamma_n - c,\quad c \le  \omega_3 \le 1 - \gamma_n - c , \quad \text{with high probability},
 %\ee
 %where we also used $1-\gamma_n - r_{1,2}\gtrsim 1$ by equation \eqref{assm2}. 
-Also one can verify from equation \eqref{selfcons_lemma222} that $(r_1y_1,r_2y_2)$ satisfies approximately the same system of equations as equation \eqref{selfomega0}:
+Also one can verify from equation \eqref{selfcons_lemma222} that $(r_1y_1,r_2y_2)$ satisfies approximately the same system of equations as equation \eqref{eq_a12extra}:
 \be\label{selfcons_lemm000}
-\begin{split}
-r_1y_1+r_2 y_2 = 1-\gamma_n + \OO_\prec (n^{-1/2}),\quad f(r_1y_1)=1 + \OO_\prec (n^{-1/2}).
-\end{split}
+r_1y_1+r_2 y_2 = 1-\gamma_n + \OO_\prec (n^{-1/2}),\quad r_1^{-1}f(r_1y_1)=1 + \OO_\prec (n^{-1/2}),
 \ee
-The first equation and equation \eqref{omega12} imply that $y_1 \in [0,r_1^{-1}(1-\gamma_n)]$ with high probability. Since $f$ is strictly increasing and has bounded derivative on $[0,r_1^{-1}(1-\gamma_n)]$, by basic calculus the second equation in equation \eqref{selfcons_lemm000} gives that $|y_1-r_1^{-1}a_1|\prec n^{-1/2}$. Plugging it into the first equation of equation \eqref{selfcons_lemm000}, we get $|y_2-r_2^{-1}a_2|\prec n^{-1/2}$. This concludes equation \eqref{Xiz0}.
+where recall that the function $f$ was defined in equation \eqref{fa1}. The first equation of \eqref{selfcons_lemm000} and equation \eqref{omega12} together imply that $y_1 \in [0,r_1^{-1}(1-\gamma_n)]$ with high probability. For the second equation of \eqref{selfcons_lemm000}, we know that $y_1=r_1^{-1}a_1$ is a solution. Moreover, it is easy to check that the function $g(y_1):= r_1^{-1}f(r_1y_1)$ is strictly increasing and has bounded derivative on $[0,r_1^{-1}(1-\gamma_n)]$. So by basic calculus, %the second equation in equation \eqref{selfcons_lemm000} gives 
+we obtain that 
+$$|m_1(0)-M_1(0)|=|y_1-r_1^{-1}a_1|\prec n^{-1/2}.$$ 
+Plugging it into the first equation of equation \eqref{selfcons_lemm000}, we get 
+$$|m_2(0)-M_2(0)|=|y_2-r_2^{-1}a_2|\prec n^{-1/2}.$$ The above two estimates conclude equation \eqref{Xiz0}.
 \end{proof}
 %\begin{lemma}[Weak entrywise local law]\label{alem_weak} 
 %Let $c_0>0$ be a sufficiently small constant and fix $C_0,\epsilon>0$. Then we have %there exists $C>0$ such that with $\xi$-high probability,
