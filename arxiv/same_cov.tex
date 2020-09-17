@@ -62,52 +62,52 @@ Our main result in this section is stated as follows.
 	Without loss of generality, we assume that $AA^{\top}$ is invertible.
 	Otherwise, we can add a small amount of random perturbation to $A$ (e.g. an inverse exponential in $p$ amount of isotropic Gaussian noise), and the result still holds.
 	Using the local optimality condition over $B$, that is, $\frac{\partial f}{\partial B} = 0$, we obtain $\hat{B}$ as a function of the output layers as follows
-	\begin{align*}
-		\hat{B} \define (X^{\top}X)^{-1} X^{\top} \bigbrace{\sum_{j=1}^t Y^{(j)} A_j^{\top}} (A  A^{\top})^{-1}. %\\
+	\begin{align}
+		\hat{B} \define (X^{\top}X)^{-1} X^{\top} \bigbrace{\sum_{j=1}^t Y^{(j)} A_j^{\top}} (A  A^{\top})^{-1}. \label{eq_Bhat} %\\
 		%&= (B^\star A ^{\top}) (A A^{\top})^{-1} + (X^{\top}X)^{-1}X^{\top}   \bigbrace{\sum_{j=1}^t \varepsilon_i A_i^{\top}} (A  A^{\top})^{-1}.
-	\end{align*}
+	\end{align}
 	In the above, we use the fact that $AA^{\top}$ is invertible by our discussion above and $X^{\top}X$ is invertible by Fact \ref{lem_minv}.
 	By plugging in $\hat{B}$ back into equation \eqref{eq_mtl_same_cov}, we obtain an objective that only depends on the output layer as follows:
 	\begin{align}
 		g(A) \define \sum_{j=1}^t \bignorm{X (X^{\top}X)^{-1}X^{\top} \bigbrace{\sum_{k=1}^t Y^{(k)} A_{k}^{\top}} (AA^{\top})^{-1} A_j - Y^{(j)}}^2. \label{eq_mtl_output_layer}
 	\end{align}
 
-	\begin{lemma}
+	\begin{claim}[Bias-variance decomposition]\label{lem_exp_opt}
 		In the setting of Theorem \ref{thm_many_tasks}, we have that
 		\begin{align}
 			\exarg{\set{\varepsilon^{(j)}}_{j=1}^t, X}{g(A)} = n \bignorm{\Sigma^{1/2} B^{\star} \bigbrace{A^{\top} (AA^{\top})^{-1} A - \id_{t\times t}}}^2 + \sigma^2 (n\cdot t - p \cdot r). \label{eq_gA}
 		\end{align}
-		As a result, the minimum solution of $\ex{g(A)}$, denoted by $A^{\star}$, satisfies that $A^{\star}(A^{\star}{A^{\star}}^{\top})^{-1} {A^{\star}}^{\top} = U_r U_r^{\top}$.
-	\end{lemma}
+		As a result, the minimum of $\ex{g(A)}$, denoted by $A^{\star}$, satisfies that $A^{\star}(A^{\star}{A^{\star}}^{\top})^{-1} {A^{\star}}^{\top} = U_r U_r^{\top}$.
+	\end{claim}
 
-	One can see that equation \eqref{eq_gA} provides a bias-variance decomposition of the prediction loss.
-	The first part measures the bias of multi-task learning compared to single-task learning for all tasks.
-	The second part measures the variance of multi-task learning and scales with $\sigma^2$.
-	In order to minimize $\ex{g(\cW)}$, it suffices to minimize the bias equation over $\cal W$, since the variance equation does not depend on $\cal W$.
+	One can see that the expected prediction loss admits a bias-variance decomposition in equation \eqref{eq_gA}.
+	The first part measures the bias of hard parameter sharing compared to single-task learning for all tasks.
+	The second part measures the variance of hard parameter sharing and scales with $\sigma^2$.
+	In order to minimize the expected prediction loss, it suffices to minimize the bias equation since the variance equation does not depend on $A$.
 	%We denote $Q := \cal W^{\top} (\cal W\cal W^{\top})^{-1} \cal W \in\real^{t\times t}$, whose $(i,j)$-th entry is given by $W_i^{\top} (\cal W\cal W^{\top})^{-1} W_j$.
 	%Let $B^{\star} = [\beta_1, \beta_2, \dots, \beta_k] \in\real^{p \times k}$ denote the true model parameters.
 	%Now we can write $\delta_{\bias}(\cal W)$ succinctly as
 	%\begin{align*}
 	%	\delta_{\bias}(Q) \equiv \delta_{\bias}(\cal W) = \bignormFro{\Sigma^{1/2}B^{\star}  %\bigbrace{Q -\id}}^2 .
 	%\end{align*}
-	From the bias equation, we observe that the minimizer is equal to the best rank-$r$ (subspace) approximation to ${B^{\star}}^{\top} \Sigma B^{\star}$, which is denoted by $U_{r} U_r^{\top}$.
-	The proof of equation \eqref{eq_gA} can be found in Appendix \ref{app_proof_error_same_cov}.
+	For the bias equation, we observe that the minimizer is equal to the best rank-$r$ (subspace) approximation to ${B^{\star}}^{\top} \Sigma B^{\star}$, which is denoted by $U_{r} U_r^{\top}$.
+	A proof of equation \eqref{eq_gA}, which is based on elementary calculations, can be found in Appendix \ref{app_proof_error_same_cov}.
+	Provided with the bias-variance decomposition of the expected prediction loss, we are ready to show the generalization error of the hard parameter sharing estimator.
 
+	%We state a concentration error bound between $g(\cal W)$ and its expectation.
 
-	We state a concentration error bound between $g(\cal W)$ and its expectation.
-
-	\begin{lemma}\label{lem_error_same_cov}
-		In the setting of Theorem \ref{thm_many_tasks}, we have that
-		\[ g(\cW) = \ex{g(\cW)} \cdot (1 + o(1)) + \OO(\sigma^2 p^{1/2 + c}). \]
-	\end{lemma}
-	The proof of Lemma \ref{lem_error_same_cov} is via standard concentration bounds.
-	The details can be found in Appendix \ref{app_proof_error_same_cov}.
-	Based on the above result, we are ready to prove Theorem \ref{thm_many_tasks}.
-	We use the notation $U_X U_X^{\top} = X (X^{\top} X)^{-1} X^{\top} \in\real^{n \times n}$ to denote the projection matrix to $X$, where $U_X\in\real^{n \times p}$.
+	%\begin{lemma}\label{lem_error_same_cov}
+	%	In the setting of Theorem \ref{thm_many_tasks}, we have that
+	%	\[ g(\cW) = \ex{g(\cW)} \cdot (1 + o(1)) + \OO(\sigma^2 p^{1/2 + c}). \]
+	%\end{lemma}
+	%The proof of Lemma \ref{lem_error_same_cov} is via standard concentration bounds.
+	%The details can be found in Appendix \ref{app_proof_error_same_cov}.
+	%Based on the above result, we are ready to prove Theorem \ref{thm_many_tasks}.
+	%We use the notation $U_X U_X^{\top} = X (X^{\top} X)^{-1} X^{\top} \in\real^{n \times n}$ to denote the projection matrix to $X$, where $U_X\in\real^{n \times p}$.
 
 
 \begin{proof}[Proof of Theorem \ref{thm_many_tasks}]
-	Recall that we obtain $\hat{\cW}$ by minimizing $\cW$ in the above equation.
+	Recall that we obtain the hard parameter sharing estimator $\hat{\beta}_i^{\MTL} = \hat{B} \hat{A}_i$ from a global minimum solution $\hat{A}, \hat{B}$ of the training objective $f(A, B)$.
 	In order to derive the minimizer, our proof involves two steps.
 	First, we consider the expectation of $g(\cW)$ over $\varepsilon_1, \varepsilon_2, \dots, \varepsilon_t$, and $X$.
 	We show that the minimizer of $\ex{g(\cW)}$ has a simple closed form solution similar to principal component analysis.
