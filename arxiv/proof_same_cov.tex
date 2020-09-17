@@ -1,19 +1,19 @@
 	\section{Missing Proofs of Theorem \ref{thm_many_tasks}}\label{app_proof_error_same_cov}
 
 	\paragraph{Proof of equation \eqref{eq_gA}.}
-	To facilitate the analysis, we introduce the following notations.
+	To facilitate the analysis, we consider the following matrix notations.
 	Let
-		\[ \cE \define {\sum_{k=1}^t \varepsilon^{(k)} A_k^{\top}}, \text{ and } \cW \define U_X U_X^{\top} \cE (AA^{\top})^{-1}. \]
+		\[ \cE A^{\top} = {\sum_{k=1}^t \varepsilon^{(k)} A_k^{\top}}, \text{ and } \cW \define X(X^{\top} X)^{\top} X^{\top} \cE A^{\top} (AA^{\top})^{-1}. \]
 	For any $j = 1,2,\dots, t$, let
 	\begin{align*}
 		H_j &\define B^{\star} A^{\top} (AA^{\top})^{-1} A_j - \beta^{(j)}, \\
 		E_j &\define \cW A_j - \varepsilon^{(j)}.
 	\end{align*}
-	Then, we have that
-	\[ g(A) = \sum_{j=1}^t \bignorm{H_j + E_j}^2. \]
+	Then, we can write the function $g(A)$ conveniently as
+	\[ g(A) = \sum_{j=1}^t \bignorm{X H_j + E_j}^2. \]
 	To compute the expectation of $g(A)$, we first observe that for any first order terms of $\varepsilon^{(1)}, \dots, \varepsilon^{(t)}$, their expectation is zero. Therefore,
 	\begin{align*}
-		\exarg{\set{\varepsilon^{(j)}}_{j=1}^t }{g(A)} = \sum_{j=1}^t \norm{H_j}^2 + \exarg{\set{\varepsilon^{(j)}}_{j=1}^t, X}{\sum_{j=1}^t \norm{E_j}^2}.
+		\exarg{\set{\varepsilon^{(j)}}_{j=1}^t, X}{g(A)} = n \sum_{j=1}^t \norm{\Sigma^{1/2} H_j}^2 + \exarg{\set{\varepsilon^{(j)}}_{j=1}^t, X}{\sum_{j=1}^t \norm{E_j}^2}.
 	\end{align*}
 	Hence, it suffices to show that the second part of the equation above is equal to $\sigma^2 (n\cdot t - p\cdot r)$.
 	Conditional on $X$, we have that
@@ -24,7 +24,7 @@
 	We consider both terms in the above equation one by one.
 	First, note that
 	\begin{align}
-		\sum_{j=1}^t \norm{\cW A_j}^2 = \sum_{j=1}^t \bigtr{\cW A_j A_j^{\top} \cW^{\top}} = \bigtr{\cW AA^{\top} \cW^{\top}} = \bigtr{U_X U_X^{\top} \cE (AA^{\top})^{-1} \cE^{\top}}. \label{eq_proof_same_cov_1}
+		\sum_{j=1}^t \norm{\cW A_j}^2 = \sum_{j=1}^t \bigtr{\cW A_j A_j^{\top} \cW^{\top}} = \bigtr{\cW AA^{\top} \cW^{\top}} = \bigtr{U_X U_X^{\top} \cE A^{\top} (AA^{\top})^{-1} \cE^{\top} A}. \label{eq_proof_same_cov_1}
 	\end{align}
 	We observe that
 	\begin{align*}
@@ -41,7 +41,7 @@
 	\end{align*}
 	because $U_X$ has rank $p$ by Fact \ref{lem_minv}.
 	Next, note that
-	\[ \sum_{j=1}^t \inner{\cW A_j}{\varepsilon^{(j)}} = \bigtr{\cW \cE^{\top}}, \]
+	\[ \sum_{j=1}^t \inner{\cW A_j}{\varepsilon^{(j)}} = \bigtr{\cW \cE^{\top} A}, \]
 	which is equal to equation \eqref{eq_proof_same_cov_1} by the definition of $\cW$. Hence the proof is complete.
 
 	\paragraph{Proof of Lemma \ref{lem_error_same_cov}.} Next, we show that the concentration errors of $g_0(\cW), g_1(\cW), g_2(\cW)$ are all lower order terms compared to $\ex{g(\cW)}$.
