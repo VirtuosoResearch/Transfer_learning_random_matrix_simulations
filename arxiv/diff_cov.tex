@@ -28,7 +28,7 @@ Therefore, whether multi-task learning outperforms single-task learning is deter
 
 
 Based on the above intuition, in the following we develop generalization bounds that relate the bias and variance of multi-task learning to the sample sizes and the covariance matrices of both tasks.
-We introduce a key quantity $M = \Sigma_1^{1/2}\Sigma_2^{-1/2}$ that captures the covariate shift between task $1$ and task $2$.
+We introduce a key matrix $M\equiv M(W_1/W_2): =\frac{W_1}{W_2} \Sigma_1^{1/2}\Sigma_2^{-1/2}$ that captures the covariate shift between task $1$ and task $2$.
 
 \begin{definition}[Limiting variance]
 	Define the following
@@ -43,7 +43,7 @@ We introduce a key quantity $M = \Sigma_1^{1/2}\Sigma_2^{-1/2}$ that captures th
 
 \begin{definition}[Limiting bias]
 Recall that $a_1$ and $a_2$ are the solutions of the equation system \eqref{eq_a12extra}. Let
-	\[ \Pi_\bias \define  M \frac{a_3 M^{\top}M + (1 + a_4) \id_{p\times p}}{(a_1 M^{\top}M + a_2\id_{p\times p})^2} M^{\top}, \]
+	\be\label{def Pibias} \Pi_\bias \define  M \frac{a_3 M^{\top}M + (1 + a_4) \id_{p\times p}}{(a_1 M^{\top}M + a_2\id_{p\times p})^2} M^{\top}, \ee
 where $a_{3}$ and $a_4$ are the solutions of the following two equations:
 \begin{gather}\label{eq_a34extra}
 		\left(\frac{\rho_1}{a_1^{2}} -  b_2  \right)\cdot  a_3 -  b_1 \cdot  a_4 = b_1,\quad \left(\frac{\rho_2}{a_2^{2}}-  b_0\right)\cdot  a_4 - b_1 \cdot  a_3
@@ -136,9 +136,9 @@ For the covariate shift matrix $M$, let $\lambda_1, \lambda_2, \dots, \lambda_p$
 	with probability $1-\oo(1)$ over the randomness of $X_1$ and $X_2$, we have that %for any constant $\e>0$,
 	%When $n_1 = c_1 p$ and $n_2 = c_2 p$, we have that with high probability over the randomness of $X_1$ and $X_2$, the following equation holds
 	\begin{align}\label{lem_cov_shift_eq}
-		\bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} \Sigma} = \bigtr{ (a_1 \Sigma_1 + a_2\Sigma_2)^{-1} \Sigma} + o(\norm{\Sigma}). %\bigo{\|\| p^{-1/2+\epsilon}}
+		\bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} \Sigma} = \bigtr{ (a_1 \Sigma_1 + a_2\Sigma_2)^{-1} \Sigma} + o(\norm{\Sigma}), %\bigo{\|\| p^{-1/2+\epsilon}}
 	\end{align}
-
+where $(a_1,a_2)$ is the solution to equation \eqref{eq_a12extra} with $\lambda_i$ being the singular values of $M\equiv M(1): = \Sigma_1^{1/2}\Sigma_2^{-1/2}$.
 \end{lemma}
 
 Lemma \ref{lem_cov_shift} derives the asymptotic limit of the variance equation \eqref{eq_var_2task}.
@@ -182,7 +182,7 @@ With high probability, we have that
 = w^{\top} \Pi_\bias w + o(\|w\|^2),
 \end{split}
 \end{equation}
-
+where $\Pi_\bias$ was defined in \eqref{def Pibias} with $M\equiv M(1): = \Sigma_1^{1/2}\Sigma_2^{-1/2}$.
 \end{lemma}
 To apply the above result to equation \eqref{eq_bias_2task}, we first approximate $X_1^{\top}X_1$ by $\Sigma_1$, and then use Lemma \ref{lem_cov_derivative} with $w = \Sigma_1 (\beta_1 - \frac{W_1}{W_2} \beta_2)$.
 Note that we can rescale $X_1$ by $W_1 / W_2$ and $\Sigma_1$ by $(W_1 / W_2)^2$, and the rest of the steps follows.
