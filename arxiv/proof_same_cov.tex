@@ -93,8 +93,8 @@
 	\end{align}
 	For the inner product between $\cW A$ and $\cE$, we have that
 	\begin{align}
-		\bigabs{\inner{\cW A}{\cE} - \ex{\inner{\cW A}{\cE}}} &= \bigabs{\bigtr{U_X U_X^{\top} (\cE U_AU_A^{\top} \cE^{\top} - \sigma^2 \cdot r \id_{n\times n})}} \nonumber \\
-		&\le \bignormFro{U_{X} U_X^{\top}} \cdot \bignorm{\cE U_A U_A^{\top} \cE^{\top} - \sigma^2 \cdot r \id_{n\times n}} \\
+		\bigabs{\inner{\cW A}{\cE} - \ex{\inner{\cW A}{\cE}}} &= \bigabs{\bigtr{U_X U_X^{\top} (\cE U_AU_A^{\top} \cE^{\top} - \sigma^2 \cdot r \id_{n\times n})}} \nonumber  \\
+		&\le \bignormFro{U_{X} U_X^{\top}} \cdot \bignorm{\cE U_A U_A^{\top} \cE^{\top} - \sigma^2 \cdot r \id_{n\times n}} \nonumber \\
 		&\le p^{1/2 + \e} \cdot \sigma^2 r. \label{eq_gA_err4}
 	\end{align}
 	%\begin{align*}
@@ -110,43 +110,52 @@
 	%	\left|g_2(\cal W)-\sigma^2(n\cdot t - p\cdot r)\right|=\left|g_2(\cal W)- \exarg{\varepsilon_1, \dots, \varepsilon_t} {g_2(\cal W)}\right| \lesssim \sigma^2 p^{1/2+\e}. \label{eq_gA_err}
 	%\end{align}
 	Combining equation \eqref{eq_gA_err1}, \eqref{eq_gA_err2}, \eqref{eq_gA_err3}, and \eqref{eq_gA_err4}, we obtain that  equation \eqref{eq_gA_err} holds.
-
-	Next, we simplify $g(A)$ as follows
+	Next, using triangle inequality, we have that
+	\begin{align}
+		g(U_r) - g(\hat{A}) &\le \bigabs{g(U_r) - \ex{g(U_r)}} + (\ex{g(U_r)} - \ex{g(\hat{A})}) + \bigabs{g(\hat{A}) - \ex{g(\hat{A})}} \nonumber \\
+		&\le \bigabs{g(U_r) - \ex{g(U_r)}} +\bigabs{g(\hat{A}) - \ex{g(\hat{A})}} \nonumber \\
+		&\le p^{-c} \cdot n \bignormFro{\Sigma^{1/2} B^{\star}}^2 + p^{-1/2 + e}\cdot \sigma^2 n \cdot t. \label{eq_g_gap}
+	\end{align}
+	The second equation uses the fact that $U_r$ is a global minimum of $\ex{g(\cdot)}$.
+	The third equation uses equation \eqref{eq_gA_err} and the fact that the spectral norm of an identity matrix minus a projection matrix is at most one.
+	On the other hand, we simplify $g(A)$ as follows
 	\begin{align*}
-		g(A)  &= \normFro{X (X^{\top}X)^{-1} X^{\top} Y A^{\top} (AA^{\top})^{-1} A - Y}^2 \\
-					&= \normFro{Y}^2 - \inner{A^{\top} (AA^{\top})^{-1} A}{Y^{\top} X (X^{\top} X)^{-1} X^{\top} Y}.
+		g(A)  &= \normFro{X (X^{\top}X)^{-1} X^{\top} Y U_A U_A^{\top} - Y}^2 \\
+					&= \normFro{Y}^2 - \inner{U_A U_A^{\top}}{Y^{\top} X (X^{\top} X)^{-1} X^{\top} Y}.
 	\end{align*}
-	We denote $H = Y^{\top} X (X^{\top} X)^{-1} X^{\top} Y$, which appears in the equation above.
+	We denote $M = Y^{\top} X (X^{\top} X)^{-1} X^{\top} Y$, which appears in the equation above.
 	Since $\hat{A}$ is a global minimum of $g(A)$, we have that
-	\begin{align*}
-		g(U_r) - g(\hat{A}) &= \abs{g(U_r) - g(\hat{A})} = \abs{\inner{H}{U_r U_r^{\top} - U_{\hat{A}} U_{\hat{A}}^{\top})^{-1} \hat{A}^{\top}}} \\
-												&\ge \lambda_{\min}(H) \cdot \normFro{U_r U_r^{\top} - U_{\hat{A}} U_{\hat{A}}^{\top}}.
-	\end{align*}
+	\begin{align}
+		g(U_r) - g(\hat{A}) &= \abs{g(U_r) - g(\hat{A})} = \abs{\inner{M}{U_r U_r^{\top} - U_{\hat{A}} U_{\hat{A}}^{\top}}} \nonumber \\
+												&\ge \lambda_{\min}(M) \cdot \normFro{U_r U_r^{\top} - U_{\hat{A}} U_{\hat{A}}^{\top}}. \label{eq_g_gap1}
+	\end{align}
 	Recall that $Y = X B^{\star} + \cE$. Therefore, the minimum singular value of $H$ can be lowered bounded as follows
-	\begin{align*}
-		\lambda_{\min}(H) &= \lambda_{\min}({B^{\star}}^{\top} X^{\top} X B^{\star} + \cE^{\top} X (X^{\top} X)^{-1} X^{\top} \cE) \\
-		&\ge \lambda_{\min}({B^{\star}}^{\top}X^{\top}X B^{\star}) + \lambda_{\min}(\cE^{\top} X (X^{\top} X)^{-1} X^{\top} \cE) \\
-		&\ge \lambda_{\min}({B^{\star}}^{\top}\Sigma B^{\star}) \cdot \lambda_{\min}(Z^{\top}Z) + \lambda_{\min}(\cE^{\top} X (X^{\top} X)^{-1} X^{\top} \cE),
-	\end{align*}
-	where the second equation uses the fact that the minimum singular value of the sum of two PSD matrices is greater than the sum of the minimum singular value of each matrix, and the third equation uses the fact that $X = Z \Sigma^{1/2}$ and Fact \ref{fact_la} in Appendix ??.
+	\begin{align}
+		\lambda_{\min}(H) &= \lambda_{\min}({B^{\star}}^{\top} X^{\top} X B^{\star} + \cE^{\top} X (X^{\top} X)^{-1} X^{\top} \cE) \nonumber \\
+		&\ge \lambda_{\min}({B^{\star}}^{\top}X^{\top}X B^{\star}) + \lambda_{\min}(\cE^{\top} X (X^{\top} X)^{-1} X^{\top} \cE) \nonumber \\
+		&\ge \lambda_{\min}({B^{\star}}^{\top}\Sigma B^{\star}) \cdot \lambda_{\min}(Z^{\top}Z) + \lambda_{\min}(\cE^{\top} X (X^{\top} X)^{-1} X^{\top} \cE) \nonumber \\
+		&\ge \lambda_{\min}({B^{\star}}^{\top}\Sigma B^{\star}) \cdot ((\sqrt n - \sqrt p)^2 - n \cdot p^{-c}) + \sigma^2 \cdot p \cdot (1 - p^{-1/2 + \e}). \label{eq_g_gap2}
+	\end{align}
+	The second equation uses the fact that the minimum singular value of the sum of two PSD matrices is greater than the sum of the minimum singular value of each matrix.
+	The third equation uses the fact that $X = Z \Sigma^{1/2}$ and Fact \ref{fact_la} in Appendix ??.
+	The last equation uses Fact \ref{lem_minv} for the minimum singular value of $Z^{\top}Z$ and Lemma \ref{largedeviation} for $\cE\cE^{\top}$.
 
-		\medskip
-	\noindent\textbf{Dealing with the empirical minimizer.}
+	%\noindent\textbf{Dealing with the empirical minimizer.}
 	%eet $\hat {\cal W}$ be the minimizer of $g$, and denote $\hat Q:= \hat{\cal W}^{\top} (\hat{\cal W}\hat{\cal W}^{\top})^{-1} \hat{\cal W} $.
-	We show that $\norm{\hat{\cW}^{\top} (\hat{\cW}\hat{\cW}^{\top})^{-1} \cW - U_r U_r^{\top}} \le o(1)$ w.h.p.
+	%We show that $\norm{\hat{\cW}^{\top} (\hat{\cW}\hat{\cW}^{\top})^{-1} \cW - U_r U_r^{\top}} \le o(1)$ w.h.p.
 	%\be\label{Q-Q}\|Q_0^{-1}\hat Q - \id\|_F = \oo(1) \quad \text{w.h.p.}\ee
-	Since $\hat{\cW}$ is the minimizer of $g(\cdot)$, we have that
+	%Since $\hat{\cW}$ is the minimizer of $g(\cdot)$, we have that
+	%\begin{align*}
+	%	g(U_r) - g(\hat{\cW}) = \bigabs{g(\hat{\cW}) - g(U_r)} &= n \cdot \bigabs{\inner{{B^{\star}}^{\top} \Sigma B^{\star}}{U_r U_r^{\top} - \hat{\cW}^{\top} (\hat{\cW}\hat{\cW}^{\top})^{-1} \hat{\cW}}}\\
+	%	&\ge n \cdot \sigma_{\min}({B^{\star}}^{\top} \Sigma B^{\star}) \cdot \bignormFro{U_r U_r^{\top} - \hat{\cW}^{\top} (\hat{\cW}\hat{\cW}^{\top})^{-1} \hat{\cW}}.
+	%\end{align*}
+	Combining equation \eqref{eq_g_gap}, \eqref{eq_g_gap1}, and \eqref{eq_g_gap2}, we conclude that
 	\begin{align*}
-		g(U_r) - g(\hat{\cW}) = \bigabs{g(\hat{\cW}) - g(U_r)} &= n \cdot \bigabs{\inner{{B^{\star}}^{\top} \Sigma B^{\star}}{U_r U_r^{\top} - \hat{\cW}^{\top} (\hat{\cW}\hat{\cW}^{\top})^{-1} \hat{\cW}}}\\
-		&\ge n \cdot \sigma_{\min}({B^{\star}}^{\top} \Sigma B^{\star}) \cdot \bignormFro{U_r U_r^{\top} - \hat{\cW}^{\top} (\hat{\cW}\hat{\cW}^{\top})^{-1} \hat{\cW}}.
+		\bignormFro{U_r U_r^{\top} - U_{\hat{A}} U_{\hat{A}}^{\top}}
+		\le \frac{p^{-c} \rho \normFro{\Sigma^{1/2} B^{\star}}^2 + p^{-1/2 + \e} \cdot \sigma^2 \rho t}{\lambda_{\min}^2(\Sigma^{1/2} B^{\star}) ((\sqrt{\rho} - 1)^2 - \rho \cdot p^{-c}) + \sigma^2 (1 - p^{-1/2 + \e})}.
 	\end{align*}
-	On the other hand, by equation \eqref{eq_est_g} and triangle inequality, we have that
-	\begin{align*}
-		g(U_r) - g(\hat{\cW}) &\le \bigabs{g(U_r) - \ex{g(U_r)}} + (\ex{g(U_r)} - \ex{g(\hat{\cW})}) + \bigabs{g(\hat{\cW}) - \ex{g(\hat{\cW})}} \\
-		&\le \bigabs{g(U_r) - \ex{g(U_r)}} +\bigabs{g(\hat{\cW}) - \ex{g(\hat{\cW})}} \\
-		&\le o(n) \cdot \sigma_{\max}({B^{\star}}^{\top} \Sigma B^{\star}) + O(\sigma^2 p^{1/2 +\e}).
-	\end{align*}
-	Combined together, and using the assumption that the condition number of ${B^{\star}}^{\top}\Sigma B^{\star}$ does not grow with $p$ and $\sigma_{\min}({B^{\star}}^{\top} \Sigma B^{\star}) \ge \sigma^2 / p^{1/2}$, we conclude that the distance between the two subspaces $\hat{\cW}^{\top}(\hat{\cW}\hat{\cW}^{\top})^{-1}\hat{\cW}$ and $U_r U_r^{\top}$ diminish to $o(1)$ as $p$ grows.
+	Hence for large enough $p$, we obtain that Claim \ref{claim_opt_dist} holds.
+	The proof is complete.
 	%The second step uses the fact that $U_r U_r^{\top}$ is the global minimum of $\ex{g(\cdot)}$.
 	%In fact, if \eqref{Q-Q} does not hold, then using the condition $\lambda_{\min}((B^{\star})^\top\Sigma B^{\star})\gtrsim \sigma^2$ and that $\delta_{\vari}(\cal W)=\OO(\sigma^2)$ by  Lemma \ref{lem_minv}, we obtain that
 	%$$   \val(\hat {Q}) + t  \sigma^2 > (\val( Q_0) + t \sigma^2 )\cdot (1+\oo(1)) \ \Rightarrow \ g( \hat{\cal W})>g( {\cal W}_0),$$
@@ -172,7 +181,7 @@
 %	In the last step, we use the AM-GM inequality.
 
 
-	\paragraph{Proof of Lemma \ref{lem_error_same_cov}.} Next, we show that the concentration errors of $g_0(\cW), g_1(\cW), g_2(\cW)$ are all lower order terms compared to $\ex{g(\cW)}$.
+	%\paragraph{Proof of Lemma \ref{lem_error_same_cov}.} Next, we show that the concentration errors of $g_0(\cW), g_1(\cW), g_2(\cW)$ are all lower order terms compared to $\ex{g(\cW)}$.
 
 
 	%and
@@ -182,9 +191,9 @@
 
 
 
-		\begin{align*}
-		g_0(\cal W) &= \sum_{j=1}^t \bignorm{XB^{\star} \cW^{\top} (\cW\cW^{\top})^{-1} W_j - X\beta_j}^2 = \bignorm{X B^{\star} (\cW^{\top} (\cW\cW^{\top})^{-1} \cW - \id_{t\times t})}^2, \\
-		g_1(\cal W)  &= \sum_{j=1}^t \inner{XB^{\star} \cW^{\top} (\cW\cW^{\top})^{-1}W_j - X\beta_j}{U_X U_X^{\top} \bigbrace{\sum_{i=1}^t \varepsilon_i W_i^{\top}} (\cW\cW^{\top})^{-1} W_j - \varepsilon_j} ,\\
-				&= \sum_{j=1}^t \inner{-X B^{\star} \cW^{\top} (\cW \cW^{\top})^{-1} W_j + X\beta_j}{\varepsilon_j},\\
-		g_2(\cal W)  &= \sum_{j=1}^t \bignorm{U_X U_X^{\top} \bigbrace{\sum_{i=1}^t \varepsilon_i W_i^{\top}} (\cW\cW^{\top})^{-1}W_j - \varepsilon_j}^2 .
-					\end{align*}
+	%	\begin{align*}
+	%	g_0(\cal W) &= \sum_{j=1}^t \bignorm{XB^{\star} \cW^{\top} (\cW\cW^{\top})^{-1} W_j - X\beta_j}^2 = \bignorm{X B^{\star} (\cW^{\top} (\cW\cW^{\top})^{-1} \cW - \id_{t\times t})}^2, \\
+	%	g_1(\cal W)  &= \sum_{j=1}^t \inner{XB^{\star} \cW^{\top} (\cW\cW^{\top})^{-1}W_j - X\beta_j}{U_X U_X^{\top} \bigbrace{\sum_{i=1}^t \varepsilon_i W_i^{\top}} (\cW\cW^{\top})^{-1} W_j - \varepsilon_j} ,\\
+	%			&= \sum_{j=1}^t \inner{-X B^{\star} \cW^{\top} (\cW \cW^{\top})^{-1} W_j + X\beta_j}{\varepsilon_j},\\
+	%	g_2(\cal W)  &= \sum_{j=1}^t \bignorm{U_X U_X^{\top} \bigbrace{\sum_{i=1}^t \varepsilon_i W_i^{\top}} (\cW\cW^{\top})^{-1}W_j - \varepsilon_j}^2 .
+	%				\end{align*}
