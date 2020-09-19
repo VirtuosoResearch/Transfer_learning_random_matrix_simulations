@@ -1,9 +1,9 @@
 	\section{Missing Proofs of Theorem \ref{thm_many_tasks}}\label{app_proof_error_same_cov}
 
-	\paragraph{Proof of equation \eqref{eq_gA}.}
+	\paragraph{Proof of Claim \eqref{lem_exp_opt}.}
 	To facilitate the analysis, we consider the following matrix notations.
 	Let
-		\[ \cE A^{\top} = {\sum_{k=1}^t \varepsilon^{(k)} A_k^{\top}}, \text{ and } \cW \define X(X^{\top} X)^{\top} X^{\top} \cE A^{\top} (AA^{\top})^{-1}. \]
+		\[ \cE A^{\top} = {\sum_{k=1}^t \varepsilon^{(k)} A_k^{\top}}, \text{ and } \cW \define X(X^{\top} X)^{-1} X^{\top} \cE A^{\top} (AA^{\top})^{-1}. \]
 	For any $j = 1,2,\dots, t$, let
 	\begin{align*}
 		H_j &\define B^{\star} A^{\top} (AA^{\top})^{-1} A_j - \beta^{(j)}, \\
@@ -11,85 +11,180 @@
 	\end{align*}
 	Then, we can write the function $g(A)$ conveniently as
 	\[ g(A) = \sum_{j=1}^t \bignorm{X H_j + E_j}^2. \]
-	To compute the expectation of $g(A)$, we first observe that for any first order terms of $\varepsilon^{(1)}, \dots, \varepsilon^{(t)}$, their expectation is zero. Therefore,
-	\begin{align*}
-		\exarg{\set{\varepsilon^{(j)}}_{j=1}^t, X}{g(A)} = n \sum_{j=1}^t \norm{\Sigma^{1/2} H_j}^2 + \exarg{\set{\varepsilon^{(j)}}_{j=1}^t, X}{\sum_{j=1}^t \norm{E_j}^2}.
-	\end{align*}
-	Hence, it suffices to show that the second part of the equation above is equal to $\sigma^2 (n\cdot t - p\cdot r)$.
-	Conditional on $X$, we have that
-	\begin{align*}
-		\exarg{\set{\varepsilon^{(j)}}_{j=1}^t}{\norm{E_j}^2}
-		= \exarg{\set{\varepsilon^{(j)}}_{j=1}^t}{\sum_{j=1}^t \bigbrace{\bignorm{\cW A_j}^2 - 2\inner{\cW A_j}{\varepsilon^{(j)}} }} + \sigma^2 \cdot n \cdot t.
-	\end{align*}
-	We consider both terms in the above equation one by one.
-	First, note that
-	\begin{align}
-		\sum_{j=1}^t \norm{\cW A_j}^2 = \sum_{j=1}^t \bigtr{\cW A_j A_j^{\top} \cW^{\top}} = \bigtr{\cW AA^{\top} \cW^{\top}} = \bigtr{U_X U_X^{\top} \cE A^{\top} (AA^{\top})^{-1} A \cE^{\top}}. \label{eq_proof_same_cov_1}
+	We will divide $g(A)$ into three parts.
+	First, we have that
+	\begin{align}\label{eq_gA_p1}
+		\sum_{j=1}^t \bignorm{X H_j}^2 = \bignorm{X (B^{\star} U_A U_A^{\top} - B^{\star})}^2,
 	\end{align}
-	We observe that
+	whose expectation over $X$ is $\bignorm{\Sigma^{1/2}(B^{\star} U_A U_A^{\top} - B^{\star})}^2$.
+	Second, one can verify that the cross terms are equal to the following
+	\begin{align}\label{eq_gA_p2}
+		\sum_{j=1}^t\inner{XH_j}{E_j} = \inner{X(B^{\star} U_A U_A^{\top} - B^{\star})}{\cW A - \cE}
+		= - \inner{X (B^{\star} U_A U_A^{\top} - B^{\star})}{\cE},
+	\end{align}
+	which is zero in expectation over $\cE$.
+	Finally, we have that
+	\begin{align}\label{eq_gA_p3}
+		\sum_{j=1}^t \norm{E_j}^2 &= \bignorm{\cW A - \cE}^2
+		= \bignorm{\cE}^2 - \inner{\cW A}{\cE},
+	\end{align}
+	which is because $\norm{\cW A}^2 = \inner{\cW A}{\cE}$.
+	Hence, it suffices to show that the expectation of equation \eqref{eq_gA_p3} is equal to $\sigma^2 (n\cdot t - p\cdot r)$.
+	First, we have that $\ex{\cE} = \sigma^2 \cdot n \cdot t$.
+%	Conditional on $X$, we have that
+%	\begin{align*}
+%		\exarg{\cE}{\norm{E_j}^2}
+%		= \exarg{\cE}{\sum_{j=1}^t \bigbrace{\bignorm{\cW A_j}^2 - 2\inner{\cW A_j}{\varepsilon^{(j)}} }} + \sigma^2 \cdot n \cdot t.
+%	\end{align*}
+%	We consider both terms in the above equation one by one.
+	Second, note that
+	%\begin{align}
+	%	\sum_{j=1}^t \norm{\cW A_j}^2 = \sum_{j=1}^t \bigtr{\cW A_j A_j^{\top} \cW^{\top}} = \bigtr{\cW AA^{\top} \cW^{\top}} = \bigtr{U_X U_X^{\top} \cE A^{\top} (AA^{\top})^{-1} A \cE^{\top}}. \label{eq_proof_same_cov_1}
+	%\end{align}
+	%We observe that
 	\begin{align*}
-			\exarg{\set{\varepsilon^{(j)}}_{i=1}^t}{\cE A^{\top} (AA^{\top})^{-1} A \cE^{\top}}
-		&= \exarg{\set{\varepsilon^{(j)}}_{i=1}^t}{\sum_{j=1}^t \sum_{k=1}^t \varepsilon^{(j)} A_j^{\top} (AA^{\top})^{-1} A_k {\varepsilon^{(k)}}^{\top}} \\
-		&= \exarg{\set{\varepsilon^{(j)}}_{i=1}^t}{\sum_{j=1}^t \varepsilon^{(j)} A_j^{\top} (AA^{\top})^{-1} A_j {\varepsilon^{(j)}}^{\top}} \\
+			\exarg{\cE}{\cE A^{\top} (AA^{\top})^{-1} A \cE^{\top}}
+		&= \exarg{\cE}{\sum_{j=1}^t \sum_{k=1}^t \varepsilon^{(j)} A_j^{\top} (AA^{\top})^{-1} A_k {\varepsilon^{(k)}}^{\top}} \\
+		&= \exarg{\cE}{\sum_{j=1}^t \varepsilon^{(j)} A_j^{\top} (AA^{\top})^{-1} A_j {\varepsilon^{(j)}}^{\top}} \\
 		&= \sigma^2 \cdot r \cdot \id_{n\times n}.
 	\end{align*}
 	In the above, the first equation uses the fact that for any $j\neq k$, $\varepsilon^{(j)}$ and $\varepsilon^{(k)}$ are pairwise independent.
 	The second equation uses the fact that $\sum_{j=1}^t A_j^{\top} (AA^{\top})^{-1} A_j = \bigtr{\id_{r\times r}} = r$, and $\ex{\varepsilon^{(j)} {\varepsilon^{(j)}}^{\top}} = \sigma^2 \cdot \id_{n\times n}$.
 	Therefore, we have that
 	\begin{align*}
-		\sum_{j=1}^t \norm{\cW A_j}^2 = \sigma^2 \cdot r \cdot \bigtr{U_X U_X^{\top}} = \sigma^2 \cdot r \cdot p,
+		\inner{\cW A}{\cE} = \sigma^2 \cdot r \cdot \bigtr{U_X U_X^{\top}} = \sigma^2 \cdot r \cdot p,
 	\end{align*}
 	because $U_X$ has rank $p$ by Fact \ref{lem_minv}.
-	Next, note that
-	\[ \sum_{j=1}^t \inner{\cW A_j}{\varepsilon^{(j)}} = \bigtr{\cW \cE^{\top} A}, \]
-	which is equal to equation \eqref{eq_proof_same_cov_1} by the definition of $\cW$. Hence the proof is complete.
+	%Next, note that
+	%\[ \sum_{j=1}^t \inner{\cW A_j}{\varepsilon^{(j)}} = \bigtr{\cW A\cE^{\top}}, \]
+	%which is equal to equation \eqref{eq_proof_same_cov_1} by the definition of $\cW$.
+	Hence the proof is complete.
+
+	\paragraph{Proof of Claim \ref{claim_opt_dist}.}
+	In order to show that the subspace spanned by the rows of $\hat{A}$ is close to $U_r$, we first show that $g(A)$ and its expectation is close as follows.
+	\begin{align}\label{eq_gA_err}
+		\bigabs{g(A) - \exarg{\cE, X}{g(A)}} \lesssim p^{-c} \cdot n \bignorm{\Sigma^{1/2} B^{\star} (U_AU_A^{\top} - \id)}^2 + p^{-1/2 + e} \cdot \sigma^2 \cdot n \cdot t.
+	\end{align}
+	To show the above result, we consider the concentration error of each part of $g(A)$.
+
+	For equation \eqref{eq_gA_p1}, % $g_0(\cal W)= \sum_{j=1}^t\left\|Z v_j \right\|^2$.
+%	$$g_0(\cal W)= \sum_{j=1}^t\left\|Z v_j \right\|^2,\quad v_j:= \Sigma^{1/2}\left(B^{\star} \cW^{\top} (\cW\cW^{\top})^{-1} W_j -  \beta_j\right).$$
+	note that $X H_j = Z \Sigma^{1/2} H_j \in \real^n$ is a random vector with i.i.d. entries of mean zero, variance $\|\Sigma^{1/2}H_j\|^2$, and finite $\varphi$-th moment by Assumption \eqref{assume_rm}.
+	Hence by the law of large numbers, we have that with high probability
+	${\left\|Z v_j \right\|^2 } = { n \|v_j\|^2} \cdot (1 + \OO(p^{-c}))$,
+	which implies that
+	\begin{align}
+		\abs{\sum_{j=1}^t \|X H_j\|^2 - \exarg{X}{\sum_{j=1}^t \norm{X H_j}^2}} \lesssim p^{-c} \cdot n \bignorm{\Sigma^{1/2} B^{\star} (U_{A}U_A^{\top} - \id_{t\times t})}^2. \label{eq_gA_err1}
+	\end{align}
+
+	For equation \eqref{eq_gA_p2}, using Lemma \ref{largedeviation} in Appendix \ref{sec_maintools} and the fact that all moments of $\varepsilon_i$ exist by Assumption \eqref{assmAhigh2}, we obtain that the following holds with high probability:
+	\begin{align}
+		|\inner{XB^{\star} (U_AU_A^{\top} - \id)}{\cE}| &\le p^\e \cdot \sigma \cdot \bignormFro{XB^{\star} (U_AU_A^{\top} - \id)} \nonumber \\
+		&\le p^{\e} \cdot \sigma \cdot \norm{Z} \cdot \bignormFro{\Sigma^{1/2} B^{\star}(U_AU_A^{\top} -\id)} \nonumber \\
+		&\le p^{1/2 + \e} \cdot \sigma \cdot \bignormFro{\Sigma^{1/2} B^{\star}(U_AU_A^{\top} -\id)}, \label{eq_gA_err2}
+	\end{align}
+	which is less than the right hand side of equation \eqref{eq_gA_err} by Cauchy-Schwartz inequality.
+	In the second step, we use the fact that $X=Z\Sigma^{1/2}$.
+	In the third step, we use equation \eqref{eq_isometric} to bound the operator norm $\|Z\|$ by $\OO(\sqrt{p})$.
+
+	For equation \eqref{eq_gA_p3}, using Lemma \ref{largedeviation} and the fact that all moments of $\varepsilon_i$ exist, we obtain that with high probability
+	\begin{align}
+		\abs{\norm{\cE}^2 - \ex{\norm{\cE}^2}} \le p^{-1/2 + \e} \ex{\norm{\cE}^2}. \label{eq_gA_err3}
+	\end{align}
+	For the inner product between $\cW A$ and $\cE$, we have that
+	\begin{align}
+		\bigabs{\inner{\cW A}{\cE} - \ex{\inner{\cW A}{\cE}}} &= \bigabs{\bigtr{U_X U_X^{\top} (\cE U_AU_A^{\top} \cE^{\top} - \sigma^2 \cdot r \id_{n\times n})}} \nonumber \\
+		&\le \bignormFro{U_{X} U_X^{\top}} \cdot \bignorm{\cE U_A U_A^{\top} \cE^{\top} - \sigma^2 \cdot r \id_{n\times n}}
+		&\le p^{1/2 + \e} \cdot sigma^2 r. \label{eq_gA_err4}
+	\end{align}
+	%\begin{align*}
+	%	%|\inner{U_X U_X^{\top} \bigbrace{\varepsilon_i W_i^{\top}} (\cW\cW^{\top})^{-1}W_j}{\varepsilon_j}|
+	%	\abs{W_i^{\top} (\cW\cW^{\top})^{-1} W_j \cdot \bigbrace{\varepsilon_i^{\top} U_X U_X^{\top} \varepsilon_j}}
+	%	&\le |W_i^{\top} (\cW\cW^{\top})^{-1}W_j| \cdot \sigma^2 p^{\e} \bigtr{(U_X U_X^{\top})^2}^{1/2} \le \sigma^2 p^{1/2+\e}
+  % &\left|\left(1-\mathop{\mathbb{E}}_{\varepsilon_j} \right)\left[\inner{U_X U_X^{\top} \bigbrace{\varepsilon_j W_j^{\top}} (\cW\cW^{\top})^{-1}W_j}{\varepsilon_j}\right]\right| \le |W_j^{\top} (\cW\cW^{\top})^{-1}W_j| \cdot \sigma^2 p^{\e} \tr \left[(U_X U_X^{\top})^2\right]\le \sigma^2 p^{1/2+\e},\\
+  % &\left|\left(1-\mathop{\mathbb{E}}_{\varepsilon_j} \right)\left[\inner{U_X U_X^{\top} \bigbrace{\varepsilon_j W_j^{\top}} (\cW\cW^{\top})^{-1}W_j}{U_X U_X^{\top} \bigbrace{\varepsilon_j W_j^{\top}} (\cW\cW^{\top})^{-1}W_j}\right]\right|\\
+  % &\le |W_j^{\top} (\cW\cW^{\top})^{-1}W_j|^2 \cdot \sigma^2 p^{\e} \tr \left[(U_X U_X^{\top})^4\right]\le \sigma^2 p^{1/2+\e},
+	%\end{align*}
+	%Combining equation \eqref{eq_gA_}, we get that with high probability
+	%\begin{align}
+	%	\left|g_2(\cal W)-\sigma^2(n\cdot t - p\cdot r)\right|=\left|g_2(\cal W)- \exarg{\varepsilon_1, \dots, \varepsilon_t} {g_2(\cal W)}\right| \lesssim \sigma^2 p^{1/2+\e}. \label{eq_gA_err}
+	%\end{align}
+	Combining equation \eqref{eq_gA_err1}, \eqref{eq_gA_err2}, \eqref{eq_gA_err3}, and \eqref{eq_gA_err4}, we obtain that  equation \eqref{eq_gA_err} holds.
+
+	Next, we simplify $g(A)$ as follows
+	\begin{align*}
+		g(A)  &= \normFro{X (X^{\top}X)^{-1} X^{\top} Y A^{\top} (AA^{\top})^{-1} A - Y}^2 \\
+					&= \normFro{Y}^2 - \inner{A^{\top} (AA^{\top})^{-1} A}{Y^{\top} X (X^{\top} X)^{-1} X^{\top} Y}.
+	\end{align*}
+	We denote $H = Y^{\top} X (X^{\top} X)^{-1} X^{\top} Y$, which appears in the equation above.
+	Since $\hat{A}$ is a global minimum of $g(A)$, we have that
+	\begin{align*}
+		g(U_r) - g(\hat{A}) &= \abs{g(U_r) - g(\hat{A})} = \abs{\inner{H}{U_r U_r^{\top} - U_{\hat{A}} U_{\hat{A}}^{\top})^{-1} \hat{A}^{\top}}} \\
+												&\ge \lambda_{\min}(H) \cdot \normFro{U_r U_r^{\top} - U_{\hat{A}} U_{\hat{A}}^{\top}}.
+	\end{align*}
+	Recall that $Y = X B^{\star} + \cE$. Therefore, the minimum singular value of $H$ can be lowered bounded as follows
+	\begin{align*}
+		\lambda_{\min}(H) &= \lambda_{\min}({B^{\star}}^{\top} X^{\top} X B^{\star} + \cE^{\top} X (X^{\top} X)^{-1} X^{\top} \cE) \\
+		&\ge \lambda_{\min}({B^{\star}}^{\top}X^{\top}X B^{\star}) + \lambda_{\min}(\cE^{\top} X (X^{\top} X)^{-1} X^{\top} \cE) \\
+		&\ge \lambda_{\min}({B^{\star}}^{\top}\Sigma B^{\star}) \cdot \lambda_{\min}(Z^{\top}Z) + \lambda_{\min}(\cE^{\top} X (X^{\top} X)^{-1} X^{\top} \cE),
+	\end{align*}
+	where the second equation uses the fact that the minimum singular value of the sum of two PSD matrices is greater than the sum of the minimum singular value of each matrix, and the third equation uses the fact that $X = Z \Sigma^{1/2}$ and Fact \ref{fact_la} in Appendix ??.
+
+		\medskip
+	\noindent\textbf{Dealing with the empirical minimizer.}
+	%eet $\hat {\cal W}$ be the minimizer of $g$, and denote $\hat Q:= \hat{\cal W}^{\top} (\hat{\cal W}\hat{\cal W}^{\top})^{-1} \hat{\cal W} $.
+	We show that $\norm{\hat{\cW}^{\top} (\hat{\cW}\hat{\cW}^{\top})^{-1} \cW - U_r U_r^{\top}} \le o(1)$ w.h.p.
+	%\be\label{Q-Q}\|Q_0^{-1}\hat Q - \id\|_F = \oo(1) \quad \text{w.h.p.}\ee
+	Since $\hat{\cW}$ is the minimizer of $g(\cdot)$, we have that
+	\begin{align*}
+		g(U_r) - g(\hat{\cW}) = \bigabs{g(\hat{\cW}) - g(U_r)} &= n \cdot \bigabs{\inner{{B^{\star}}^{\top} \Sigma B^{\star}}{U_r U_r^{\top} - \hat{\cW}^{\top} (\hat{\cW}\hat{\cW}^{\top})^{-1} \hat{\cW}}}\\
+		&\ge n \cdot \sigma_{\min}({B^{\star}}^{\top} \Sigma B^{\star}) \cdot \bignormFro{U_r U_r^{\top} - \hat{\cW}^{\top} (\hat{\cW}\hat{\cW}^{\top})^{-1} \hat{\cW}}.
+	\end{align*}
+	On the other hand, by equation \eqref{eq_est_g} and triangle inequality, we have that
+	\begin{align*}
+		g(U_r) - g(\hat{\cW}) &\le \bigabs{g(U_r) - \ex{g(U_r)}} + (\ex{g(U_r)} - \ex{g(\hat{\cW})}) + \bigabs{g(\hat{\cW}) - \ex{g(\hat{\cW})}} \\
+		&\le \bigabs{g(U_r) - \ex{g(U_r)}} +\bigabs{g(\hat{\cW}) - \ex{g(\hat{\cW})}} \\
+		&\le o(n) \cdot \sigma_{\max}({B^{\star}}^{\top} \Sigma B^{\star}) + O(\sigma^2 p^{1/2 +\e}).
+	\end{align*}
+	Combined together, and using the assumption that the condition number of ${B^{\star}}^{\top}\Sigma B^{\star}$ does not grow with $p$ and $\sigma_{\min}({B^{\star}}^{\top} \Sigma B^{\star}) \ge \sigma^2 / p^{1/2}$, we conclude that the distance between the two subspaces $\hat{\cW}^{\top}(\hat{\cW}\hat{\cW}^{\top})^{-1}\hat{\cW}$ and $U_r U_r^{\top}$ diminish to $o(1)$ as $p$ grows.
+	%The second step uses the fact that $U_r U_r^{\top}$ is the global minimum of $\ex{g(\cdot)}$.
+	%In fact, if \eqref{Q-Q} does not hold, then using the condition $\lambda_{\min}((B^{\star})^\top\Sigma B^{\star})\gtrsim \sigma^2$ and that $\delta_{\vari}(\cal W)=\OO(\sigma^2)$ by  Lemma \ref{lem_minv}, we obtain that
+	%$$   \val(\hat {Q}) + t  \sigma^2 > (\val( Q_0) + t \sigma^2 )\cdot (1+\oo(1)) \ \Rightarrow \ g( \hat{\cal W})>g( {\cal W}_0),$$
+	%where $\cal W_0\in \R^{r\times t}$ is a matrix such that  $ \cal W_0^{\top} (\cal W_0\cal W_0^{\top})^{-1} \cal W_0=Q_0$. Hence $\hat {\cal W}$ is not a minimizer, which leads to a contradiction.
+	%with high probability
+	%\begin{align}
+	%g(\cal W)&= n \bignorm{\Sigma^{1/2} B^{\star} (\cW^{\top} (\cW \cW^{\top})^{-1} \cW - \id_{t\times t})}^2 \cdot (1+\oo(1)) + \sigma^2 (n\cdot t - p \cdot r)+\OO(\sigma^2 p^{1/2+\e}) \nonumber \\
+	%&=\ex{g(\cW)} \cdot (1+\oo(1)) + \OO(\sigma^2 p^{1/2+\e}). \label{eq_est_g}
+	%\end{align}
+
+%		Applying the above estimates into $g_1(\cW)$, we get that
+%	First, for $g_1(\cW)$, using Lemma \ref{largedeviation} in Appendix \ref{sec_maintools} and the fact that all moments of $\varepsilon_i$ exist, we obtain that for a sufficiently small constant $\e>0$, the following holds with high probability:
+%	\[ \text{for any } 1\le j \le t, |\inner{XB^{\star} \cW^{\top} (\cW\cW^{\top})^{-1}W_j - X\beta_j}{\varepsilon_j}| \le p^\e \sigma\|XB^{\star} \cW^{\top} (\cW\cW^{\top})^{-1}W_j - X\beta_j\|. \]
+%		Applying the above estimates into $g_1(\cW)$, we get that
+%	\begin{align}
+%	  \abs{g_1(\cal W)}    &\le p^\e \sigma \sum_{j=1}^t \|  {XB^{\star} \cW^{\top} (\cW\cW^{\top})^{-1}W_j - X\beta_j}\| \nonumber \\
+%	&\le  p^\e \sigma \sum_{j=1}^t \bignorm{  \Sigma^{1/2}\left(B^{\star} \cW^{\top} (\cW\cW^{\top})^{-1}W_j - \beta_j\right)} \cdot \|Z\| \nonumber\\
+%	&\lesssim p^{1/2+\e} \sigma \sum_{j=1}^t \bignorm{  \Sigma_1^{1/2}\left(B^{\star} \cW^{\top} (\cW\cW^{\top})^{-1}W_j - \beta_j\right)} \nonumber\\
+%	& \le p^{1/2+\e} \bignorm{\Sigma^{1/2} B^{\star} (\cW^{\top} (\cW \cW^{\top})^{-1} \cW - \id_{t\times t})}^2 + t\sigma^2 p^{1/2+\e}.  \label{eq_est_g1}
+%	\end{align}
+%	In the second step, we use the fact that $X=Z\Sigma^{1/2}$.
+%	In the third step, we use equation \eqref{eq_isometric} to bound the operator norm $\|Z\|$ by $\OO(\sqrt{p})$.
+%	In the last step, we use the AM-GM inequality.
+
 
 	\paragraph{Proof of Lemma \ref{lem_error_same_cov}.} Next, we show that the concentration errors of $g_0(\cW), g_1(\cW), g_2(\cW)$ are all lower order terms compared to $\ex{g(\cW)}$.
 
-	First, for $g_1(\cW)$, using Lemma \ref{largedeviation} in Appendix \ref{sec_maintools} and the fact that all moments of $\varepsilon_i$ exist, we obtain that for a sufficiently small constant $\e>0$, the following holds with high probability:
-	\[ \text{for any } 1\le j \le t, |\inner{XB^{\star} \cW^{\top} (\cW\cW^{\top})^{-1}W_j - X\beta_j}{\varepsilon_j}| \le p^\e \sigma\|XB^{\star} \cW^{\top} (\cW\cW^{\top})^{-1}W_j - X\beta_j\|. \]
+
 	%and
 	%\begin{align*}  &|\inner{XB^{\star} \cW^{\top} (\cW\cW^{\top})^{-1}W_j - X\beta_j}{U_X U_X^{\top} \bigbrace{\varepsilon_i W_i^{\top}} (\cW\cW^{\top})^{-1} W_j }| \\
 	%&\le p^\e \sigma |W_i^{\top} (\cW\cW^{\top})^{-1} W_j|\cdot \|U_X U_X^{\top}( {XB^{\star} \cW^{\top} (\cW\cW^{\top})^{-1}W_j - X\beta_j})\|
 	%\end{align*}
-	Applying the above estimates into $g_1(\cW)$, we get that
-	\begin{align}
-	  \abs{g_1(\cal W)}    &\le p^\e \sigma \sum_{j=1}^t \|  {XB^{\star} \cW^{\top} (\cW\cW^{\top})^{-1}W_j - X\beta_j}\| \nonumber \\
-	&\le  p^\e \sigma \sum_{j=1}^t \bignorm{  \Sigma^{1/2}\left(B^{\star} \cW^{\top} (\cW\cW^{\top})^{-1}W_j - \beta_j\right)} \cdot \|Z\| \nonumber\\
-	&\lesssim p^{1/2+\e} \sigma \sum_{j=1}^t \bignorm{  \Sigma_1^{1/2}\left(B^{\star} \cW^{\top} (\cW\cW^{\top})^{-1}W_j - \beta_j\right)} \nonumber\\
-	& \le p^{1/2+\e} \bignorm{\Sigma^{1/2} B^{\star} (\cW^{\top} (\cW \cW^{\top})^{-1} \cW - \id_{t\times t})}^2 + t\sigma^2 p^{1/2+\e}.  \label{eq_est_g1}
-	\end{align}
-	In the second step, we use the fact that $X=Z\Sigma^{1/2}$.
-	In the third step, we use equation \eqref{eq_isometric} to bound the operator norm $\|Z\|$ by $\OO(\sqrt{p})$.
-	In the last step, we use the AM-GM inequality.
 
-	Second, for $g_2(\cW)$, using Lemma \ref{largedeviation} in Appendix \ref{sec_maintools} and the fact that all moments of $\varepsilon_i$ exist, we obtain that for any $1\le i, j \le t$, the following holds with high probability:
-	\begin{align*}
-		\bigabs{\norm{\varepsilon_j}^2 - \ex{\norm{\varepsilon_j}^2}} &\le \sigma^2 p^{1/2+\e},\\
-		%|\inner{U_X U_X^{\top} \bigbrace{\varepsilon_i W_i^{\top}} (\cW\cW^{\top})^{-1}W_j}{\varepsilon_j}|
-		\abs{W_i^{\top} (\cW\cW^{\top})^{-1} W_j \cdot \bigbrace{\varepsilon_i^{\top} U_X U_X^{\top} \varepsilon_j}}
-		&\le |W_i^{\top} (\cW\cW^{\top})^{-1}W_j| \cdot \sigma^2 p^{\e} \bigtr{(U_X U_X^{\top})^2}^{1/2} \le \sigma^2 p^{1/2+\e}
-  % &\left|\left(1-\mathop{\mathbb{E}}_{\varepsilon_j} \right)\left[\inner{U_X U_X^{\top} \bigbrace{\varepsilon_j W_j^{\top}} (\cW\cW^{\top})^{-1}W_j}{\varepsilon_j}\right]\right| \le |W_j^{\top} (\cW\cW^{\top})^{-1}W_j| \cdot \sigma^2 p^{\e} \tr \left[(U_X U_X^{\top})^2\right]\le \sigma^2 p^{1/2+\e},\\
-  % &\left|\left(1-\mathop{\mathbb{E}}_{\varepsilon_j} \right)\left[\inner{U_X U_X^{\top} \bigbrace{\varepsilon_j W_j^{\top}} (\cW\cW^{\top})^{-1}W_j}{U_X U_X^{\top} \bigbrace{\varepsilon_j W_j^{\top}} (\cW\cW^{\top})^{-1}W_j}\right]\right|\\
-  % &\le |W_j^{\top} (\cW\cW^{\top})^{-1}W_j|^2 \cdot \sigma^2 p^{\e} \tr \left[(U_X U_X^{\top})^4\right]\le \sigma^2 p^{1/2+\e},
-	\end{align*}
-	Combining the above two inequalities together, we get that with high probability
-	\begin{align}
-		\left|g_2(\cal W)-\sigma^2(n\cdot t - p\cdot r)\right|=\left|g_2(\cal W)- \exarg{\varepsilon_1, \dots, \varepsilon_t} {g_2(\cal W)}\right| \lesssim \sigma^2 p^{1/2+\e}. \label{eq_est_g2}
-	\end{align}
 
-	Finally, for $g_0(\cW)$, denote by $v_j:= \Sigma^{1/2}\left(B^{\star} \cW^{\top} (\cW\cW^{\top})^{-1} W_j -  \beta_j\right)$, for any $j = 1,\dots,t$, we have that $g_0(\cal W)= \sum_{j=1}^t\left\|Z v_j \right\|^2$.
-%	$$g_0(\cal W)= \sum_{j=1}^t\left\|Z v_j \right\|^2,\quad v_j:= \Sigma^{1/2}\left(B^{\star} \cW^{\top} (\cW\cW^{\top})^{-1} W_j -  \beta_j\right).$$
-	Note that $Zv_j\in \R^n$ is a random vector with i.i.d. entries of mean zero, variance $\|v_j\|^2$, and finite fourth moment by \eqref{assmAhigh}.
-	Hence by law of large numbers, we have that with high probability
-	${\left\|Z v_j \right\|^2 } = { n \|v_j\|^2} \cdot (1+\oo(1))$,
-	which implies that
-	\begin{align}
-		g_0(\cal W)=n \sum_{j=1}^t \|v_j\|^2 \cdot (1+\oo(1)) = n \bignorm{\Sigma^{1/2} B^{\star} (\cW^{\top} (\cW \cW^{\top})^{-1} \cW - \id_{t\times t})}^2 \cdot (1+\oo(1)). \label{eq_est_g0}
-	\end{align}
 
-	Combining equation \eqref{eq_est_g1}, \eqref{eq_est_g2}, and \eqref{eq_est_g0}, we obtain that with high probability
-	\begin{align}
-	g(\cal W)&= n \bignorm{\Sigma^{1/2} B^{\star} (\cW^{\top} (\cW \cW^{\top})^{-1} \cW - \id_{t\times t})}^2 \cdot (1+\oo(1)) + \sigma^2 (n\cdot t - p \cdot r)+\OO(\sigma^2 p^{1/2+\e}) \nonumber \\
-	&=\ex{g(\cW)} \cdot (1+\oo(1)) + \OO(\sigma^2 p^{1/2+\e}). \label{eq_est_g}
-	\end{align}
+		\begin{align*}
+		g_0(\cal W) &= \sum_{j=1}^t \bignorm{XB^{\star} \cW^{\top} (\cW\cW^{\top})^{-1} W_j - X\beta_j}^2 = \bignorm{X B^{\star} (\cW^{\top} (\cW\cW^{\top})^{-1} \cW - \id_{t\times t})}^2, \\
+		g_1(\cal W)  &= \sum_{j=1}^t \inner{XB^{\star} \cW^{\top} (\cW\cW^{\top})^{-1}W_j - X\beta_j}{U_X U_X^{\top} \bigbrace{\sum_{i=1}^t \varepsilon_i W_i^{\top}} (\cW\cW^{\top})^{-1} W_j - \varepsilon_j} ,\\
+				&= \sum_{j=1}^t \inner{-X B^{\star} \cW^{\top} (\cW \cW^{\top})^{-1} W_j + X\beta_j}{\varepsilon_j},\\
+		g_2(\cal W)  &= \sum_{j=1}^t \bignorm{U_X U_X^{\top} \bigbrace{\sum_{i=1}^t \varepsilon_i W_i^{\top}} (\cW\cW^{\top})^{-1}W_j - \varepsilon_j}^2 .
+					\end{align*}

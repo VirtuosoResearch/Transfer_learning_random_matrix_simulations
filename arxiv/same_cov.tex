@@ -1,4 +1,4 @@
-\section{Warmup: Bias-Variance Tradeoff in the Same Covariates Setting}
+\section{Bias-Variance Tradeoff in the Same Covariates Setting}
 
 
 We begin by considering the case where all tasks have the same sample size and feature covariates, that is, $n_i = n$ and $X^{(i)} = X\in\real^{n\times p}$ for all $i = 1, \dots, t$.
@@ -34,7 +34,7 @@ Our main result in this section is stated as follows.
 	Consider the multiple-task case where all tasks have the same covariates $X\in\real^{n\times p}$ and population covariance matrix $\Sigma\in\real^{p\times p}$.
 	Assume that $X$ satisfies Assumption \ref{assume_rm}, and $\lambda_{\min}({B^{\star}}^\top\Sigma B^{\star})\gtrsim \sigma^2$.
 	% Let $\delta$ be any fixed value such that $\delta \le \oo \left( \|B^\star\|^2 + \sigma^2\right)$.
-	Let $\e$ be any fixed value within $(0, \frac{c-4}{2c})$.
+	Let $c$ be any fixed value within $(0, \frac{\varphi-4}{2\varphi})$.
 	Then, for any task $i = 1, 2, \dots, t$, the prediction loss of the hard parameter sharing estimator $\hat{\beta}_i^{\MTL}$ satisfies that
 	\begin{align}
 		\bigabs{L(\hat{\beta}_i^{\MTL}) - \norm{\Sigma^{1/2} (B^{\star} U_r v_i - \beta_i)}^2 - \norm{v_i}^2 \cdot  \frac{\sigma^2  \cdot p}{n - p}} \lesssim p^{-\e}\bigbrace{\bigtr{{B^{\star}}^{\top}\Sigma B^{\star}} + \sigma^2}.
@@ -63,7 +63,7 @@ Our main result in this section is stated as follows.
 	Otherwise, we can add a small amount of random perturbation to $A$ (e.g. an inverse exponential in $p$ amount of isotropic Gaussian noise), and the result still holds.
 	Using the local optimality condition over $B$, that is, $\frac{\partial f}{\partial B} = 0$, we obtain $\hat{B}$ as a function of the output layers as follows
 	\begin{align}
-		\hat{B} \define (X^{\top}X)^{-1} X^{\top} \bigbrace{\sum_{j=1}^t Y^{(j)} A_j^{\top}} (A  A^{\top})^{-1}. \label{eq_Bhat} %\\
+		\hat{B}(A) \define (X^{\top}X)^{-1} X^{\top} \bigbrace{\sum_{j=1}^t Y^{(j)} A_j^{\top}} (A  A^{\top})^{-1}. \label{eq_Bhat} %\\
 		%&= (B^\star A ^{\top}) (A A^{\top})^{-1} + (X^{\top}X)^{-1}X^{\top}   \bigbrace{\sum_{j=1}^t \varepsilon_i A_i^{\top}} (A  A^{\top})^{-1}.
 	\end{align}
 	In the above, we use the fact that $AA^{\top}$ is invertible by our discussion above and $X^{\top}X$ is invertible by Fact \ref{lem_minv}.
@@ -72,7 +72,7 @@ Our main result in this section is stated as follows.
 		g(A) \define \sum_{j=1}^t \bignorm{X (X^{\top}X)^{-1}X^{\top} \bigbrace{\sum_{k=1}^t Y^{(k)} A_{k}^{\top}} (AA^{\top})^{-1} A_j - Y^{(j)}}^2. \label{eq_mtl_output_layer}
 	\end{align}
 
-	\begin{claim}[Bias-variance decomposition]\label{lem_exp_opt}
+	\begin{claim}\label{lem_exp_opt}
 		In the setting of Theorem \ref{thm_many_tasks}, we have that
 		\begin{align}
 			\exarg{\set{\varepsilon^{(j)}}_{j=1}^t, X}{g(A)} = n \bignorm{\Sigma^{1/2} B^{\star} \bigbrace{A^{\top} (AA^{\top})^{-1} A - \id_{t\times t}}}^2 + \sigma^2 (n\cdot t - p \cdot r). \label{eq_gA}
@@ -91,7 +91,17 @@ Our main result in this section is stated as follows.
 	%	\delta_{\bias}(Q) \equiv \delta_{\bias}(\cal W) = \bignormFro{\Sigma^{1/2}B^{\star}  %\bigbrace{Q -\id}}^2 .
 	%\end{align*}
 	For the bias equation, we observe that the minimizer is equal to the best rank-$r$ (subspace) approximation to ${B^{\star}}^{\top} \Sigma B^{\star}$, which is denoted by $U_{r} U_r^{\top}$.
-	A proof of equation \eqref{eq_gA}, which is based on elementary calculations, can be found in Appendix \ref{app_proof_error_same_cov}.
+	Recall that we obtain the hard parameter sharing estimator $\hat{\beta}_i^{\MTL} = \hat{B} \hat{A}_i$ from a global minimum solution $\hat{A}, \hat{B}$ of the training objective $f(A, B)$.
+	Since $\hat{A}, \hat{B}$ is a global minimum of the training objective, we know that $\hat{B}$ is equal to $\hat{B}(\hat{A})$ given by equation \eqref{eq_Bhat}.
+	Therefore, $\hat{A}$ is a global minimum of $g(A)$ in equation \eqref{eq_mtl_output_layer}.
+	Our next claim shows that the subspace spanned by the rows of $\hat{A}$ is close to that of $U_r$.
+	\begin{claim}\label{claim_opt_dist}
+		Let $U_{\hat{A}} U_{\hat{A}}^{\top} \in\real^{t\times t}$ denote the subspace $\hat{A}^{\top} (\hat{A}\hat{A}^{\top})^{-1} \hat{A}$.
+		In the setting of Theorem \ref{thm_many_tasks}, we have that
+		\[ \bignormFro{U_{\hat{A}} U_{\hat{A}}^{\top} - U_r U_r^{\top}} \lesssim p^{-c} \cdot \frac{\lambda_{\max}({B^{\star}}^{\top}\Sigma B^{\star})}{\lambda_{\min}({B^{\star}}^{\top} \Sigma B^{\star}) + \sigma^2}. \]
+	\end{claim}
+
+	%A proof of equation \eqref{eq_gA}, which is based on elementary calculations, can be found in Appendix \ref{app_proof_error_same_cov}.
 	Provided with the bias-variance decomposition of the expected prediction loss, we are ready to show the generalization error of the hard parameter sharing estimator.
 
 	%We state a concentration error bound between $g(\cal W)$ and its expectation.
@@ -107,13 +117,14 @@ Our main result in this section is stated as follows.
 
 
 \begin{proof}[Proof of Theorem \ref{thm_many_tasks}]
-	Recall that we obtain the hard parameter sharing estimator $\hat{\beta}_i^{\MTL} = \hat{B} \hat{A}_i$ from a global minimum solution $\hat{A}, \hat{B}$ of the training objective $f(A, B)$.
-	In order to derive the minimizer, our proof involves two steps.
-	First, we consider the expectation of $g(\cW)$ over $\varepsilon_1, \varepsilon_2, \dots, \varepsilon_t$, and $X$.
-	We show that the minimizer of $\ex{g(\cW)}$ has a simple closed form solution similar to principal component analysis.
-	Second, we show that the concentration error between $g(\cW)$ and $\ex{g(\cW)}$ is small provided with $n$ samples.
-	Intuitively, this is because $\cW$ only has $r \times t$ parameters, which is much smaller than $n$ by our assumption.
-	Hence we use standard concentration bounds and $\epsilon$-net arguments to show that the concentration error is small for $g(\cW)$.
+
+
+	%In order to derive the minimizer, our proof involves two steps.
+	%First, we consider the expectation of $g(\cW)$ over $\varepsilon_1, \varepsilon_2, \dots, \varepsilon_t$, and $X$.
+	%We show that the minimizer of $\ex{g(\cW)}$ has a simple closed form solution similar to principal component analysis.
+	%Second, we show that the concentration error between $g(\cW)$ and $\ex{g(\cW)}$ is small provided with $n$ samples.
+	%Intuitively, this is because $\cW$ only has $r \times t$ parameters, which is much smaller than $n$ by our assumption.
+	%Hence we use standard concentration bounds and $\epsilon$-net arguments to show that the concentration error is small for $g(\cW)$.
 
 	%Now we switch $\hat{B}$ back into equation \eqref{eq_mtl_same_cov} to
 	%Then as in \eqref{approxvalid}, we pick $N$ independent samples of the training set for each task with $N\ge n^{1-\e_0}$, and use the concentration result, Lemma \ref{largedeviation}, to get the validation loss as
@@ -171,27 +182,7 @@ Our main result in this section is stated as follows.
 %------------------
 %Thus we conclude the proof.
 
-	\medskip
-	\noindent\textbf{Dealing with the empirical minimizer.}
-	%eet $\hat {\cal W}$ be the minimizer of $g$, and denote $\hat Q:= \hat{\cal W}^{\top} (\hat{\cal W}\hat{\cal W}^{\top})^{-1} \hat{\cal W} $.
-	We show that $\norm{\hat{\cW}^{\top} (\hat{\cW}\hat{\cW}^{\top})^{-1} \cW - U_r U_r^{\top}} \le o(1)$ w.h.p.
-	%\be\label{Q-Q}\|Q_0^{-1}\hat Q - \id\|_F = \oo(1) \quad \text{w.h.p.}\ee
-	Since $\hat{\cW}$ is the minimizer of $g(\cdot)$, we have that
-	\begin{align*}
-		g(U_r) - g(\hat{\cW}) = \bigabs{g(\hat{\cW}) - g(U_r)} &= n \cdot \bigabs{\inner{{B^{\star}}^{\top} \Sigma B^{\star}}{U_r U_r^{\top} - \hat{\cW}^{\top} (\hat{\cW}\hat{\cW}^{\top})^{-1} \hat{\cW}}}\\
-		&\ge n \cdot \sigma_{\min}({B^{\star}}^{\top} \Sigma B^{\star}) \cdot \bignormFro{U_r U_r^{\top} - \hat{\cW}^{\top} (\hat{\cW}\hat{\cW}^{\top})^{-1} \hat{\cW}}.
-	\end{align*}
-	On the other hand, by equation \eqref{eq_est_g} and triangle inequality, we have that
-	\begin{align*}
-		g(U_r) - g(\hat{\cW}) &\le \bigabs{g(U_r) - \ex{g(U_r)}} + (\ex{g(U_r)} - \ex{g(\hat{\cW})}) + \bigabs{g(\hat{\cW}) - \ex{g(\hat{\cW})}} \\
-		&\le \bigabs{g(U_r) - \ex{g(U_r)}} +\bigabs{g(\hat{\cW}) - \ex{g(\hat{\cW})}} \\
-		&\le o(n) \cdot \sigma_{\max}({B^{\star}}^{\top} \Sigma B^{\star}) + O(\sigma^2 p^{1/2 +\e}).
-	\end{align*}
-	Combined together, and using the assumption that the condition number of ${B^{\star}}^{\top}\Sigma B^{\star}$ does not grow with $p$ and $\sigma_{\min}({B^{\star}}^{\top} \Sigma B^{\star}) \ge \sigma^2 / p^{1/2}$, we conclude that the distance between the two subspaces $\hat{\cW}^{\top}(\hat{\cW}\hat{\cW}^{\top})^{-1}\hat{\cW}$ and $U_r U_r^{\top}$ diminish to $o(1)$ as $p$ grows.
-	%The second step uses the fact that $U_r U_r^{\top}$ is the global minimum of $\ex{g(\cdot)}$.
-	%In fact, if \eqref{Q-Q} does not hold, then using the condition $\lambda_{\min}((B^{\star})^\top\Sigma B^{\star})\gtrsim \sigma^2$ and that $\delta_{\vari}(\cal W)=\OO(\sigma^2)$ by  Lemma \ref{lem_minv}, we obtain that
-	%$$   \val(\hat {Q}) + t  \sigma^2 > (\val( Q_0) + t \sigma^2 )\cdot (1+\oo(1)) \ \Rightarrow \ g( \hat{\cal W})>g( {\cal W}_0),$$
-	%where $\cal W_0\in \R^{r\times t}$ is a matrix such that  $ \cal W_0^{\top} (\cal W_0\cal W_0^{\top})^{-1} \cal W_0=Q_0$. Hence $\hat {\cal W}$ is not a minimizer, which leads to a contradiction.
+
 
 	\medskip
 	\noindent\textbf{Putting all parts together.}
