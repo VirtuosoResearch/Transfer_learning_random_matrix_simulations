@@ -1,9 +1,33 @@
-\section{Missing Proof of the Two-task Case} \label{sec_maintools}
+\section{Missing Proof of the Different Covariates Setting} \label{sec_maintools}
 
 
 
-\subsection{The Two-task Case}\label{app_proof_main_thm}
-In this subsection, we provide the proof of Theorem \ref{thm_main_informal} using Lemma  \ref{lem_cov_shift} and \ref{lem_cov_derivative}.
+\subsection{Proof of Corollary \ref{thm_main_informal}}\label{app_proof_main_thm}
+In this subsection, we provide the proof of Corollary \ref{thm_main_informal} using Lemma  \ref{lem_cov_shift} and \ref{lem_cov_derivative}.
+
+Our key insight is a bias-variance decomposition of the expected prediction loss of $\hat{\beta}_2^{\MTL} = \hat{B} W_2$.
+Using the local optimality condition of $B$, we obtain that
+\begin{align*}
+	 \hat{B}(W_1, W_2) &= (W_1^2 X_1^{\top}X_1 + W_2^2 X_2^{\top}X_2)^{-1} (W_1 X_1^{\top}Y_1 + W_2 X_2^{\top}Y_2)\\
+	&= \frac{1}{W_2} \left( \frac{W_1^2}{W_2^2}  X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1} \left(\frac{W_1}{W_2} X_1^{\top}Y_1 + X_2^{\top}Y_2\right) \\
+	&= \frac{1}{W_2}\left[\beta_2 + \left(\frac{W_1^2}{W_2^2} X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1}\bigbrace{X_1^{\top}X_1\left(\frac{W_1}{W_2}\beta_1 - \frac{W_1^2}{W_2^2} \beta_2\right) + \left(\frac{W_1}{W_2} X_1^{\top}\varepsilon_1 + X_2^{\top}\varepsilon_2\right)}\right].
+\end{align*}
+Recall that $\hat{\beta}_i^{\MTL} = \hat{B} W_i$. Therefore, we have
+\begin{align}
+	\exarg{\epsilon_1, \epsilon_2}{L(\hat{\beta}_2^{\MTL}) \mid X_1, X_2}
+	=&~ \frac{W_1^2}{W_2^2} \bignorm{\Sigma_2^{1/2}(\frac{W_1^2}{W_2^2} X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} X_1^{\top}X_1 (\beta_1 - \frac{W_1}{W_2} \beta_2)}^2 \label{eq_bias_2task} \\
+			&+~  \sigma^2\cdot \bigtr{\Sigma_2(\frac{W_1^2}{W_2^2} X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} }. \label{eq_var_2task}
+\end{align}
+Equation \eqref{eq_bias_2task} is the bias of $\hat{\beta}_t^{\MTL}$ and
+equation \eqref{eq_var_2task} is the variance of $\hat{\beta}_t^{\MTL}$.
+%minus the variance of $\hat{\beta}_t^{\STL}$, which is always negative.
+Comparing the above to single-task learning, that is,
+\begin{align}
+	\exarg{\epsilon_2}{L(\hat{\beta}_2^{\STL}) \mid X_2} = \sigma^2 \cdot \bigtr{\Sigma_2 (X_2^{\top} X_2)^{-1}}, \label{eq_var_stl}
+\end{align}
+we observe that while the bias of $\hat{\beta}_2^{\MTL}$ is always larger than that of $\hat{\beta}_2^{\STL}$, which is zero, the variance of $\hat{\beta}_2^{\MTL}$ is always lower than that of $\hat{\beta}_2^{\STL}$.\footnote{To see why this is true, we apply the Woodbury matrix identity over equation \eqref{eq_var_2task} and use the fact that for the product of two PSD matrices, its trace is always nonnegative.}
+In other words, training both tasks together helps predict the target task by reducing variance while incurring a bias.
+Therefore, whether multi-task learning outperforms single-task learning is determined by the bias-variance decomposition!
 
 \todo{merge}\todo{derive the test loss} Expectation was given in \eqref{eq_bias_2task} and \eqref{eq_var_2task}. 
 
@@ -243,7 +267,7 @@ for all $v\ge C_0$. Similar estimates hold for $v\le -C_0$ if we replace $C_0$ w
 \end{proof}
 
 
-\subsection{Proof of the Random Matrix Results}\label{appendix RMT}
+\subsection{Proof of the Bias and Variance Asymptotics}\label{appendix RMT}
 
 The main goal of this section is to prove Lemma \ref{lem_cov_shift} and Lemma \ref{lem_cov_derivative}. Recall that $n:=n_1+n_2$, which is the total number of data in the two tasks. 
 %Before giving the main proof, we first introduce some notations and tools. 
@@ -419,13 +443,14 @@ In other words, $n^{-1/2}Z^{(1)}$ has bounded support $q=n^{2/a-1/2}$ on a event
 
 %Since $(Z^{(1)})^{\top} Z^{(1)}$ (resp.\;$(Z^{(2)})^\top Z^{(2)}$) is a standard sample covariance matrix, and it is well-known that its nonzero eigenvalues are all inside the support of the Marchenko-Pastur law $[(1-\sqrt{d_1})^2 , (1+\sqrt{d_1})^2]$ (resp. $[(1-\sqrt{d_2})^2 , (1+\sqrt{d_2})^2]$) with probability $1-\oo(1)$ \cite{No_outside}. In our proof, we shall need a slightly stronger probability bound, which is given by the following lemma. 
 
-
+\iffalse
 Before entering into the formal proof, we state two preparation lemmas, both of which have been used crucially in some previous proofs. First, for $n^{-1/2}Z^{(1)}$ and $n^{-1/2}Z^{(2)}$ with bounded support $q$, we have the following estimates on their singular values. 
 %We have used it in our previous proofs; see equation \eqref{eq_isometric}.   
 
  
 %Then we state the following lemma on the eigenvalues of $(Z^{(1)})^{\top} Z^{(1)}$ and $(Z^{(2)})^\top Z^{(2)}$, which are denoted as $\lambda_1 ((Z^{(1)})^{\top} Z^{(1)}) \ge \cdots \ge \lambda_{p} ((Z^{(1)})^{\top} Z^{(1)})$ and $\lambda_1 ((Z^{(2)})^\top Z^{(2)}) \ge \cdots \ge \lambda_p ((Z^{(2)})^\top Z^{(2)})$. We have used it in our previous proofs; see equation \eqref{eq_isometric}. 
- 
+
+
 \begin{lemma}\label{SxxSyy}
 Suppose Assumption \ref{assm_big1} holds. % and $n^{-1/2}Z^{(1)}$ and $n^{-1/2}Z^{(2)}$ satisfy the bounded support condition \eqref{eq_support} for some deterministic parameter $q$ satisfying $ n^{-{1}/{2}} \leq q \leq n^{- \phi} $ for a small constant $\phi>0$. 
 Then for any constant $\e>0$, we have that with high probability,
@@ -447,24 +472,8 @@ This lemma is a corollary of  \cite[Theorem 2.10]{isotropic} and \cite[Lemma 3.1
 \begin{remark}
 it is well-known that the eigenvalues of $n_2^{-1}(Z^{(2)})^\top Z^{(2)}$ are all inside the support of the Marchenko-Pastur law $[(1-\sqrt{p/n_2})^2-\oo(1) ,(1+\sqrt{p/n_2})^2+\oo(1)]$ with probability $1-\oo(1)$ \cite{No_outside}. Here the estimate \eqref{op rough2} has improved the error to $n_2^\e q$ and the probability to $1-\OO(n^{-D})$.
 \end{remark}
+\fi
 
-The following lemma gives (almost) sharp concentration bounds for linear and quadratic forms of bounded supported random variables. 
-%Besides the proof of Lemma \ref{prop_entry}, we also use it in several other places of this paper, including the proofs in Section \ref{sec_proof_general} and Section \ref{app_iso_cov}.
-%It constitutes the main difference between our proof and the one in \cite{KY2}, where the authors used a large deviation bound for random variables with arbitrarily high moments.
-
-\begin{lemma}[Lemma 3.8 of \cite{EKYY1} and Theorem B.1 of \cite{Delocal}]\label{largedeviation}
-Let $(x_i)$, $(y_j)$ be independent families of centered and independent random variables, and $(A_i)$, $(B_{ij})$ be families of deterministic complex numbers. Suppose the entries $x_i$ and $y_j$ have variances at most $1$, and $n^{-1/2}x_i$ and $n^{-1/2}y_j$ satisfy the bounded support condition (\ref{eq_support}) with $q\le n^{-\phi}$ for a small constant $\phi>0$. Then we have the following bounds:
-%for any fixed $\xi>0$, the following bounds hold with $\xi$-high probability:
-\begin{align*}
-\Big| \frac{1}{\sqrt{n}}\sum_i A_i x_i \Big\vert \prec  q \max_{i} \vert A_i \vert+ \frac{1}{\sqrt{n}}\Big(\sum_i |A_i|^2 \Big)^{1/2} , \quad &\Big\vert \frac1n\sum_{i,j} x_i B_{ij} y_j \Big\vert \prec q^2 B_d  + qB_o + \frac{1}{n}\Big(\sum_{i\ne j} |B_{ij}|^2\Big)^{{1}/{2}}, \\
-\Big\vert \frac1n\sum_{i} (|x_i|^2-\mathbb E|x_i|^2) B_{ii}  \Big\vert  \prec q B_d   , \quad &\Big\vert \frac1n\sum_{i\ne j} \bar x_i B_{ij} x_j \Big\vert  \prec qB_o + \frac{1}{n}\Big(\sum_{i\ne j} |B_{ij}|^2\Big)^{{1}/{2}} ,
-\end{align*}
-where $B_d:=\max_{i} |B_{ii} |$ and $B_o:= \max_{i\ne j} |B_{ij}|.$ Moreover, if all the moments of $\sqrt{n}x_i$ and $\sqrt{n}y_j$ exist in the sense of equation \eqref{assmAhigh2}, then we have stronger bounds
-\begin{align}
-\Big\vert \frac1{\sqrt{n}}\sum_i A_i x_i \Big\vert \prec  \frac{1}{\sqrt{n}}\Big(\sum_i |A_i|^2 \Big)^{1/2} , \quad  & \Big\vert \frac1n\sum_{i,j} x_i B_{ij} y_j \Big\vert \prec  \frac{1}{n}\Big(\sum_{i\ne j} |B_{ij}|^2\Big)^{{1}/{2}} ,\label{eq largedev1} \\
- \Big\vert  \frac1n \sum_{i} (|x_i|^2-\mathbb E|x_i|^2) B_{ii}  \Big\vert  \prec \frac1{n}\Big( \sum_i |B_{ii} |^2\Big)^{1/2}  ,\quad & \Big\vert \frac1n\sum_{i\ne j} \bar x_i B_{ij} x_j \Big\vert  \prec  \frac{1}{n}\Big(\sum_{i\ne j} |B_{ij}|^2\Big)^{{1}/{2}} .\label{eq largedev2}
-\end{align}
-\end{lemma}  
 
 
 
