@@ -35,7 +35,7 @@ The proof of Lemma \ref{thm_model_shift} is based on Lemma \ref{lem_cov_shift}, 
 \begin{align}
 \al_-(\rho_1) - \OO(p^{-1/2+e})  \preceq {n_1^{-1}}{(Z^{(1)})^{\top} Z^{(1)}}  \preceq   \al_+(\rho_1) + \OO(p^{-1/2+e}) \quad \text{w.h.p.}  \label{eq_isometric}
 \end{align}
-%with high probability.
+%with overwhelming probability.
 In fact, $n_1^{-1}(Z^{(1)})^{\top}Z^{(1)}$ is a standard sample covariance matrix, and it is well-known that its eigenvalues are all inside the support of the Marchenko-Pastur law $[\al_-(\rho_1)-\oo(1) ,\al_+(\rho_1)+\oo(1)]$ with probability $1-\oo(1)$ \cite{No_outside}. The estimate \eqref{eq_isometric} provides tight bounds on the concentration errors, and it will be formally proved in Lemma \ref{SxxSyy} below.
 
 
@@ -72,7 +72,7 @@ Note that this factor converges to 0 as $\rho_1$ increases. It is not hard to se
 \begin{lemma}%[Theorem \ref{thm_main_informal} restated]
 \label{thm_model_shift}
 %For $i=1,2$, let $Y_i = X_i\beta_i + \varepsilon_i$ be two independent data models, where $X_i$, $\beta_i$ and $\varepsilon_i$ are also independent of each other. Suppose that $X_i=Z_i\Sigma_i^{1/2}\in \R^{n_i\times p}$ satisfy Assumption \ref{assm_secA1} with $\rho_i:=n_i/p>1$ being fixed constants, and $\e_i\in \R^{n_i}$ are random vectors with i.i.d. entries with mean zero, variance $\sigma^2$ and all moments as in \eqref{assmAhigh}.
-Consider two data models $Y_i = X_i\beta_i + \varepsilon_i$, $i=1,2$, that satisfy Assumption \ref{assm_secA2} with $\sigma_1^2=\sigma_2^2=\sigma^2$. Then with high probability, we have
+Consider two data models $Y_i = X_i\beta_i + \varepsilon_i$, $i=1,2$, that satisfy Assumption \ref{assm_secA2} with $\sigma_1^2=\sigma_2^2=\sigma^2$. Then with overwhelming probability, we have
 	\begin{align}
 	 	\te(\wh{\beta}_{t}^{\MTL}) \le \te(\wh{\beta}_t^{\STL}) \quad \text{ when: } \ \ &\Delta_{\vari} - \Delta_{\bias} \ge   \delta(\wh v), \label{upper}\\
 		\te(\wh{\beta}_t^{\MTL}) \ge \te(\wh{\beta}_t^{\STL}) \quad \text{ when: } \ \ &\Delta_{\vari} - \Delta_{\bias} \le - \delta(\wh v), \label{lower}
@@ -139,7 +139,7 @@ We introduce the notation $\wh M \equiv \wh M(v)= v\Sigma_1^{1/2}\Sigma_2^{-1/2}
 $$  \sigma^2 \cdot \bigtr{((X^{(2)})^{\top}X^{(2)})^{-1}\Sigma_2} = \frac{\sigma^2}{\rho_2-1}\left( 1+ \OO(p^{-1/2+e})\right),$$
 and
 $$ \sigma^2 \cdot \bigtr{( {v}^2 (X^{(1)})^{\top}X^{(1)} + (X^{(2)})^{\top}X^{(2)})^{-1} \Sigma_2} =   \frac {\sigma^2} {\rho_1 + \rho_2}\cdot \frac1p \bigtr{( a_1(v) \wh M^{\top}\wh M + a_2(v)\id)^{-1}}\left( 1+ \OO(p^{-1/2+e})\right) ,$$
-with high probability, where $a_1(v)$ and $a_2(v)$ satify equation \eqref{eq_a12extra} with $\wh v$ replaced by $v$. The subtraction of these two terms gives
+with overwhelming probability, where $a_1(v)$ and $a_2(v)$ satify equation \eqref{eq_a12extra} with $\wh v$ replaced by $v$. The subtraction of these two terms gives
 \be\label{deltavaral-} \delta_{\vari}(v)=\Delta_{\vari}(v) +\OO( \sigma^2 p^{-1/2+e}) \quad \text{w.h.p.},
 \ee
 where $\Delta_{\vari}(v)$ is defined as in equation \eqref{Deltavarv} but with $\wh v$ replaced by $v$.
@@ -215,14 +215,14 @@ We can calculate that
 %	For the left direction, we simply note that the third term in equation \eqref{eq_lem_model_shift_1} is positive.
 %	And the second term is bigger than $-2n_1^2(2\sqrt{\frac{p}{n_1}} + \frac{p}{n_1}) \alpha$ using equation \eqref{eq_isometric}.
 \end{proof}
-Note by equation \eqref{eq_isometric}, we also obtain that with high probability,
+Note by equation \eqref{eq_isometric}, we also obtain that with overwhelming probability,
 \begin{align*}
 &v^2 n_1^2 \Sigma_1^{1/2} K \Sigma_2 K \Sigma_1^{1/2} =n_1^2 \wh M (\wh M^\top (Z^{(1)})^{\top} Z^{(1)} \wh M + (Z^{(2)})^\top Z^{(2)})^{-2}\wh M^\top \\
 &\preceq  n_1^2 \wh M \left[n_1 \al_-(\rho_1)\wh M^\top \wh M + n_2 \al_-(\rho_2) + \OO(p^{1/2+\e})\right]^{-2}\wh M^\top \\
 &\preceq  \left[ \al_-^2(\rho_1) \wh M\wh M^\top + 2\frac{\rho_2}{\rho_1} \al_-(\rho_1)\al_-(\rho_2) + \left(\frac{\rho_2}{\rho_1}\right)^2 \al_-^2(\rho_2) (\wh M \wh M^\top )^{-1}\right]^{-1}+  \OO(p^{-1/2+\e}) \\
 &\preceq [\al_-^2(\rho_1) \lambda_{\min}^2(\wh M)]^{-1}\cdot (1 - c)
 \end{align*}
-for a small enough constant $c>0$. Together with Claim \ref{prop_model_shift}, we get that with high probability,
+for a small enough constant $c>0$. Together with Claim \ref{prop_model_shift}, we get that with overwhelming probability,
 \be\label{bounddelta-}
 \left| \delta_{\bias}(v)-\wt\delta_{\bias}(v)\right|
 		\le (1-c) \delta(v)
@@ -231,7 +231,7 @@ for some small constant $c>0$, where recall that $\delta(v)$ was defined in equa
 
 
 \paragraph{Step III: The limit of $\wt\delta_{\bias}(v)$.}
-Using Lemma \ref{lem_cov_derivative}, we obtain that with high probability,
+Using Lemma \ref{lem_cov_derivative}, we obtain that with overwhelming probability,
 \begin{align*}
 \wt\delta_{\bias}(v) &=\frac{\rho_1^2}{(\rho_1 + \rho_2)^2}\cdot v^2 (\beta_1-v\beta_2)^\top\Sigma_1 \Sigma_2^{-1/2}  \frac{(1 +  a_3(v))\id +v^2 a_4(v) {M}^{\top}{M}}{( v^2 a_1(v) {M}^{\top}{M}+a_2(v) )^2} \Sigma_2^{-1/2} \Sigma_1(\beta_1-v\beta_2) +\OO(p^{-1/2+\e}) \\
 &= (\beta_1 - {v}\beta_2)^{\top} \Sigma_1^{1/2} \Pi(v) \Sigma_1^{1/2} (\beta_1 - {v}\beta_2) +\OO(p^{-1/2+\e}) =: \Delta_{\bias}(v) +\OO(p^{-1/2+\e}),
@@ -244,26 +244,26 @@ where $a_3(v)$ and $a_4(v)$ satify equation \eqref{eq_a34extra} with $\wh v$ rep
 
 
 
-\paragraph{Step IV: An $\e$-net argument.} Finally, it remains to extend the above result \eqref{dicho_varbeta} to $v=\wh v$, which is random and depends on $X^{(1)}$ and $X^{(2)}$. We first show that for any fixed constant $C_0>0$, there exists a high probability event $\Xi$ on which equation \eqref{dicho_varbeta}
+\paragraph{Step IV: An $\e$-net argument.} Finally, it remains to extend the above result \eqref{dicho_varbeta} to $v=\wh v$, which is random and depends on $X^{(1)}$ and $X^{(2)}$. We first show that for any fixed constant $C_0>0$, there exists a overwhelming probability event $\Xi$ on which equation \eqref{dicho_varbeta}
 %\eqref{lem_cov_shift_eq} and \eqref{lem_cov_derv_eq}
 holds uniformly for all $v\in [-C_0, C_0]$. In fact, we first consider $v$ that belongs to a discrete set
 $$V:=\{v_k = kp^{-1}: -(C_0p +1)\le k \le C_0p +1\}.$$
 Then using the arguments for the first three steps and a simple union bound, we get that equation 
-\eqref{dicho_varbeta} holds simultaneously for all $v\in V$ with high probability. On the other hand, by equation \eqref{eq_isometric} the event
+\eqref{dicho_varbeta} holds simultaneously for all $v\in V$ with overwhelming probability. On the other hand, by equation \eqref{eq_isometric} the event
 $$\Xi_1:=\left\{ \al_-(\rho_1)/2 \preceq  \frac{(Z^{(1)})^{\top} Z^{(1)}}{n_1}  \preceq   2\al_+(\rho_1) ,\  \al_-(\rho_2)/2 \preceq  \frac{(Z^{(2)})^\top Z^{(2)}}{n_2}  \preceq   2\al_+(\rho_2)\right\}$$
-holds with high probability. Now it is easy to check that on $\Xi_1$, the following estimates holds simultaneously for all $v_k \le v\le v_{k+1}$:
+holds with overwhelming probability. Now it is easy to check that on $\Xi_1$, the following estimates holds simultaneously for all $v_k \le v\le v_{k+1}$:
 \begin{align*}
 & |\delta_{\vari}(v) -\delta_{\vari}(v_k)|\lesssim p^{-1}\delta_{\vari}(v_k),\ \ |\delta_{\bias}(v) -\delta_{\bias}(v_k)|\lesssim p^{-1}\delta_{\bias}(v_k), \ \   |\delta(v)-\delta(v_k)|\lesssim p^{-1}\delta(v_k),\\
 & |\Delta_{\bias}(v) -\Delta_{\bias}(v_k)|\lesssim p^{-1}\Delta_{\bias}(v_k),\ \ |\Delta_{\vari}(v) -\Delta_{\vari}(v_k)|\lesssim p^{-1}\Delta_{\vari}(v_k).
 \end{align*}
 Then a simple application of triangle inequality gives that the event
 $$\Xi_2=\{\eqref{dicho_varbeta} \text{ holds simultaneously for all }-C_0\le v \le C_0\}$$
-holds with high probability. On the other hand, on $\Xi_1$ it is easy to check that for any small constant $\e>0$, there exists a large enough constant $C_0>0$ depending on $\e$ such that
+holds with overwhelming probability. On the other hand, on $\Xi_1$ it is easy to check that for any small constant $\e>0$, there exists a large enough constant $C_0>0$ depending on $\e$ such that
 \begin{align*}
 & |\delta_{\vari}(v) -\delta_{\vari}(C_0)|\le \e\delta_{\vari}(C_0),\quad |\delta_{\bias}(v) -\delta_{\bias}(C_0)|\le \e\delta_{\bias}(C_0), \quad  |\delta(v)-\delta(C_0)|\le \e\delta(C_0),\\
 & |\Delta_{\bias}(v) -\Delta_{\bias}(C_0)|\le \e\Delta_{\bias}(C_0),\quad |\Delta_{\vari}(v) -\Delta_{\vari}(C_0)|\le \e\Delta_{\vari}(C_0),
 \end{align*}
-for all $v\ge C_0$. Similar estimates hold for $v\le -C_0$ if we replace $C_0$ with $-C_0$ in the above estimates. Together with the estimate at $\pm C_0$, we get that equation \eqref{dicho_varbeta} holds simultaneously for all $v\in \R$ on the high probability event $\Xi_1\cap \Xi_2$. This concludes the proof of Lemma \ref{thm_model_shift}, since $\wh v$ must be one of the real values.
+for all $v\ge C_0$. Similar estimates hold for $v\le -C_0$ if we replace $C_0$ with $-C_0$ in the above estimates. Together with the estimate at $\pm C_0$, we get that equation \eqref{dicho_varbeta} holds simultaneously for all $v\in \R$ on the overwhelming probability event $\Xi_1\cap \Xi_2$. This concludes the proof of Lemma \ref{thm_model_shift}, since $\wh v$ must be one of the real values.
 \end{proof}
 
 
@@ -271,27 +271,27 @@ for all $v\ge C_0$. Similar estimates hold for $v\le -C_0$ if we replace $C_0$ w
 
 The main goal of this section is to prove Lemma \ref{lem_cov_shift} and Lemma \ref{lem_cov_derivative}. Recall that $n:=n_1+n_2$, which is the total number of data in the two tasks. 
 %Before giving the main proof, we first introduce some notations and tools. 
-%Following the notations in \cite{EKYY,EKYY1}, we will use the following definition to characterize events of high probability.
+%Following the notations in \cite{EKYY,EKYY1}, we will use the following definition to characterize events of overwhelming probability.
 %
-%\begin{definition}[High probability event] \label{high_prob}
+%\begin{definition}[overwhelming probability event] \label{high_prob}
 %Define
 %\begin{equation}\label{def_phi}
 %\varphi:=(\log N)^{\log \log N}.
 %\end{equation} 
-%We say that an $N$-dependent event $\Omega$ holds with {\it{$\xi$-high probability}} if there exist constant $c,C>0$ independent of $N$, such that
+%We say that an $N$-dependent event $\Omega$ holds with {\it{$\xi$-overwhelming probability}} if there exist constant $c,C>0$ independent of $N$, such that
 %\begin{equation}
 %\mathbb{P}(\Omega) \geq 1-N^{C} \exp(- c\varphi^{\xi}),  \label{D25}
 %\end{equation}
-%for all sufficiently large $N$. For simplicity, for the case $\xi=1$, we just say {\it{high probability}}. Note that if (\ref{D25}) holds, then $\mathbb P(\Omega) \ge 1 - \exp(-c'\varphi^{\xi})$ for any constant $0\le c' <c$. 
+%for all sufficiently large $N$. For simplicity, for the case $\xi=1$, we just say {\it{overwhelming probability}}. Note that if (\ref{D25}) holds, then $\mathbb P(\Omega) \ge 1 - \exp(-c'\varphi^{\xi})$ for any constant $0\le c' <c$. 
 %\end{definition}
 %\begin{remark}
 %For any $c, C>0$, there exists a $0< c^{\prime}<c$, such that $N^{C} \exp(-c \varphi^{\xi}) \leq \exp(-c^{\prime} \varphi^{\xi})$. Hence, if
 %\begin{equation}
 %\mathbb{P}(\Omega) \geq 1- \exp(-c \varphi^{\xi})
 %\end{equation}
-%$\Omega$ is also a $\xi$-high probability event.
+%$\Omega$ is also a $\xi$-overwhelming probability event.
 %\end{remark}
-For simplicity of notations, we will use the following notion of stochastic domination, which was first introduced in \cite{Average_fluc} and subsequently used in many works on random matrix theory. It greatly simplifies the presentation of the results and their proofs by systematizing statements of the form ``$\xi$ is bounded by $\zeta$ with high probability up to a small power of $n$".
+For simplicity of notations, we will use the following notion of stochastic domination, which was first introduced in \cite{Average_fluc} and subsequently used in many works on random matrix theory. It greatly simplifies the presentation of the results and their proofs by systematizing statements of the form ``$\xi$ is bounded by $\zeta$ with overwhelming probability up to a small power of $n$".
 
 \begin{definition}[Stochastic domination]\label{stoch_domination}
 %\begin{itemize}
@@ -329,7 +329,7 @@ if we choose $k$ large enough such that $k\e>D$. As a special case, we have $|\x
 \end{example}
 
 %\HZ{Why is this below part of the def. of stochastic domination?}
-In the following proof, we say an event $\Xi$ holds with high probability if for any constant $D>0$, $\mathbb P(\Xi)\ge 1- n^{-D}$ for large enough $n$. Moreover, we say $\Xi$ holds with high probability in an event $\Omega$ if for any constant $D>0$, $\mathbb P(\Omega\setminus \Xi)\le n^{-D}$ for large enough $n$.
+In the following proof, we say an event $\Xi$ holds with overwhelming probability if for any constant $D>0$, $\mathbb P(\Xi)\ge 1- n^{-D}$ for large enough $n$. Moreover, we say $\Xi$ holds with overwhelming probability in an event $\Omega$ if for any constant $D>0$, $\mathbb P(\Omega\setminus \Xi)\le n^{-D}$ for large enough $n$.
 
 In this section, we shall prove a more fundamental random matrix result in a little more general setting than the one in Section \todo{add reference}; see Theorem \ref{LEM_SMALL} below. %\ref{sec_prelim}. 
  Then Lemma \ref{lem_cov_shift} and Lemma \ref{lem_cov_derivative} will follow from this result as immediate corollaries. We first state the exact assumptions needed for our purpose.
@@ -390,7 +390,7 @@ for a small constant $0<\tau<1$.
 \fi
 
 \begin{remark}
-The lower bound $\rho_2\ge 1+\tau$ in equation \eqref{assm2} is to ensure that the sample covariance matrix $(X^{(2)})^\top X^{(2)}$ is non-singular with high probability; see Lemma \ref{SxxSyy} below. Moreover, we have allowed that $\rho_1=0$, because we want to state a general result that also covers the special case with no source task. 
+The lower bound $\rho_2\ge 1+\tau$ in equation \eqref{assm2} is to ensure that the sample covariance matrix $(X^{(2)})^\top X^{(2)}$ is non-singular with overwhelming probability; see Lemma \ref{SxxSyy} below. Moreover, we have allowed that $\rho_1=0$, because we want to state a general result that also covers the special case with no source task. 
 \end{remark}
 
  \iffalse
@@ -439,7 +439,7 @@ The above discussion shows that the bounded support condition provides great fle
 \end{remark}
 
 %\begin{remark}
-%Note that the Gaussian distribution satisfies the condition (\ref{eq_support}) with $q< N^{-\phi}$ for any $\phi<1/2$. We also remark that if (\ref{eq_support}) holds, then the event $\left\{\vert x_{ij}\vert \le q, \forall 1\le i \le M,1\le j \le N\right\}$ holds with $\xi$-high probability for any fixed $\xi>0$ according to Definition \ref{high_prob}. For this reason, the bad event $\left\{\vert x_{ij}\vert > q \text{ for some }i,j\right\}$ is negligible, and we will not consider the case it happens throughout the proof.
+%Note that the Gaussian distribution satisfies the condition (\ref{eq_support}) with $q< N^{-\phi}$ for any $\phi<1/2$. We also remark that if (\ref{eq_support}) holds, then the event $\left\{\vert x_{ij}\vert \le q, \forall 1\le i \le M,1\le j \le N\right\}$ holds with $\xi$-overwhelming probability for any fixed $\xi>0$ according to Definition \ref{high_prob}. For this reason, the bad event $\left\{\vert x_{ij}\vert > q \text{ for some }i,j\right\}$ is negligible, and we will not consider the case it happens throughout the proof.
 %\end{remark}
 
 %Since $(Z^{(1)})^{\top} Z^{(1)}$ (resp.\;$(Z^{(2)})^\top Z^{(2)}$) is a standard sample covariance matrix, and it is well-known that its nonzero eigenvalues are all inside the support of the Marchenko-Pastur law $[(1-\sqrt{d_1})^2 , (1+\sqrt{d_1})^2]$ (resp. $[(1-\sqrt{d_2})^2 , (1+\sqrt{d_2})^2]$) with probability $1-\oo(1)$ \cite{No_outside}. In our proof, we shall need a slightly stronger probability bound, which is given by the following lemma. 
@@ -454,7 +454,7 @@ Before entering into the formal proof, we state two preparation lemmas, both of 
 
 \begin{lemma}\label{SxxSyy}
 Suppose Assumption \ref{assm_big1} holds. % and $n^{-1/2}Z^{(1)}$ and $n^{-1/2}Z^{(2)}$ satisfy the bounded support condition \eqref{eq_support} for some deterministic parameter $q$ satisfying $ n^{-{1}/{2}} \leq q \leq n^{- \phi} $ for a small constant $\phi>0$. 
-Then for any constant $\e>0$, we have that with high probability,
+Then for any constant $\e>0$, we have that with overwhelming probability,
 \be\label{op rough1} %(1-\sqrt{d_1})^2 - \e \le  \lambda_p((Z^{(1)})^{\top} Z^{(1)})   \le  
 \lambda_1\left((Z^{(1)})^{\top} Z^{(1)}\right) \le {(\sqrt{n_1}+\sqrt{p})^2} + n_1^{1+\e} q,
 \ee
@@ -697,7 +697,7 @@ Using Schur complement formula (see \alert{equation} (\ref{resolvent2}) \HZ{chec
 \frac{1}{{G_{ii} }}&=  - z - \frac{\lambda_i^2}{n} \sum_{\mu,\nu\in \mathcal I_1} z_{\mu i}z_{\nu i}G^{\left( i \right)}_{\mu\nu} - \frac{1}{n} \sum_{\mu,\nu\in \mathcal I_2} z_{\mu i}z_{\nu i}G^{\left( i \right)}_{\mu\nu} -2 \frac{\lambda_i}{n} \sum_{\mu\in \cal I_1,\nu\in \mathcal I_2} z_{\mu i}z_{\nu i}G^{\left( i \right)}_{\mu\nu},  \ \ \text{for }\  i \in \cal I_0 , \label{0self_Gii}\\
 \frac{1}{{G_{\mu\mu} }}&=  - 1 - \frac{1}{n} \sum_{i,j\in \mathcal I_0}\lambda_i \lambda_j z_{\mu i}z_{\mu j} G^{\left(\mu\right)}_{ij}, \quad \frac{1}{{G_{\nu\nu} }}=  - 1 - \frac{1}{n} \sum_{i,j\in \mathcal I_0}  z_{\nu i}z_{\nu j}  G^{\left(\nu\right)}_{ij},  \ \ \text{for }\  \mu \in \cal I_1, \ \nu\in \cal I_2, \label{0self_Gmu1} 
 \end{align}
-where we recall the notations in equation \eqref{labelZ}. For the right-hand side of equation \eqref{0self_Gii}, $G^{(i)}$ is independent of the entries $z_{\mu i}$ and $z_{\nu i}$. Hence by the concentration inequalities in Lemma \ref{largedeviation}, we have that the  right-hand side of equation \eqref{0self_Gii} concentrates around the partial expectation over the entries $\{z_{\mu i}: \mu \in \cal I_1\cup \cal I_2\}$, i.e., with high probability,
+where we recall the notations in equation \eqref{labelZ}. For the right-hand side of equation \eqref{0self_Gii}, $G^{(i)}$ is independent of the entries $z_{\mu i}$ and $z_{\nu i}$. Hence by the concentration inequalities in Lemma \ref{largedeviation}, we have that the  right-hand side of equation \eqref{0self_Gii} concentrates around the partial expectation over the entries $\{z_{\mu i}: \mu \in \cal I_1\cup \cal I_2\}$, i.e., with overwhelming probability,
 \begin{align*}
 \frac{1}{{G_{ii} }}&=  - z - \frac{\lambda_i^2}{n} \sum_{\mu \in \mathcal I_1}  G^{\left( i \right)}_{\mu\mu} - \frac{1}{n} \sum_{\mu\in \mathcal I_2} G^{\left( i \right)}_{\mu\mu} +\oo(1)= - z - \lambda_i^2 r_1 m_1^{(i)}(z)-  r_2m_2^{(i)}(z)+\oo(1),  
 \end{align*}
@@ -707,19 +707,19 @@ where we used the definition of $m_1^{(i)}$ and $m_2^{(i)}$ in equation \eqref{d
 \end{align}
 Similarly, we can obtain from equation \eqref{0self_Gmu1} that for $\mu \in \cal I_1$ and $\nu\in \cal I_2$,
 \be\label{1self_Gmu} G_{\mu \mu }=-\frac{1}{1+\gamma_n m_0 + \oo(1)},\quad G_{\nu\nu}=-\frac1{1+\gamma_n m+\oo(1)},\ee
-with high probability. Taking average we obtain that 
+with overwhelming probability. Taking average we obtain that 
 \be\label{2self_Gmu} m_1= \frac{1}{n_1}\sum_{\mu \in \cal I_1}G_{\mu\mu}=-\frac{1}{1+\gamma_n m_0 + \oo(1)},\quad m_2=\frac{1}{n_2}\sum_{\nu \in \cal I_2}G_{\nu\nu}=-\frac{1}{1+\gamma_n m + \oo(1)},
 \ee
-with high probability. Together with the definition of $m$ and $m_0$ in equation \eqref{defm}, the two equations in equation \eqref{2self_Gmu} give that 
+with overwhelming probability. Together with the definition of $m$ and $m_0$ in equation \eqref{defm}, the two equations in equation \eqref{2self_Gmu} give that 
 \be\label{3self_Gmu}  \frac1{m_1}= -1- \frac{\gamma_n}{p} \sum_{i=1}^p \lambda_i^2 G_{ii}+ \oo(1),\quad \frac1{m_2}=-1-\frac{\gamma_n}{p} \sum_{i=1}^p G_{ii}  + \oo(1),\ee
-with high probability. Plugging equation \eqref{1self_Gii} into equation \eqref{3self_Gmu}, we obtain that
+with overwhelming probability. Plugging equation \eqref{1self_Gii} into equation \eqref{3self_Gmu}, we obtain that
 \begin{align*}
 & \frac1{m_1}= -1+ \frac{\gamma_n}{p} \sum_{i=1}^p \frac{\lambda_i^2 }{ z +\lambda_i^2 r_1  m_1(z) + r_2 m_2(z)+\oo(1)}+ \oo(1),\\ 
 & \frac1{m_2}=-1+\frac{\gamma_n}{p} \sum_{i=1}^p \frac{1}{ z +\lambda_i^2 r_1  m_1(z) + r_2 m_2(z)+\oo(1)}  + \oo(1),
 \end{align*}
-with high probability, which give the approximate self-consistent equations for $(m_1,m_2)$. Compare them to the deterministic self-consistent equations in equation \eqref{selfomega}, one can observe that we should have $(m_1,m_2) =(M_{1}, M_{2})+\oo(1)$ with high probability. Inserting this approximate identity into equation \eqref{1self_Gii}-equation \eqref{2self_Gmu}, we see that for  $i \in \cal I_0$, $\mu \in \cal I_1$ and $\nu\in \cal I_2$,
+with overwhelming probability, which give the approximate self-consistent equations for $(m_1,m_2)$. Compare them to the deterministic self-consistent equations in equation \eqref{selfomega}, one can observe that we should have $(m_1,m_2) =(M_{1}, M_{2})+\oo(1)$ with overwhelming probability. Inserting this approximate identity into equation \eqref{1self_Gii}-equation \eqref{2self_Gmu}, we see that for  $i \in \cal I_0$, $\mu \in \cal I_1$ and $\nu\in \cal I_2$,
 $$G_{ii}=-(z +\lambda_i^2 r_1  M_{1} + r_2 M_{2}+\oo(1))^{1/2},\quad G_{\mu\mu}=M_{1}+\oo(1),\quad G_{\nu\nu}=M_{2}+\oo(1),$$
-with high probability. These explain the diagonal entries of $\Pi$ in equation \eqref{defn_piw}. For the off-diagonal entries, they are close to zero due to concentration. For example, for $i\ne j\in \cal I_1$, by Schur complement formula (see (\ref{resolvent3})), we have
+with overwhelming probability. These explain the diagonal entries of $\Pi$ in equation \eqref{defn_piw}. For the off-diagonal entries, they are close to zero due to concentration. For example, for $i\ne j\in \cal I_1$, by Schur complement formula (see (\ref{resolvent3})), we have
 $$G_{ij}=-G_{ii}\left(\frac{\lambda_i}{n^{1/2}}\sum_{\mu \in \cal I_1} z_{\mu i} G^{(i)}_{\mu j} + \frac{1}{n^{1/2}}\sum_{\mu \in \cal I_2} z_{\mu i} G^{(i)}_{\mu j} \right).$$
 Using Lemma \ref{largedeviation}, we can show that $n^{-1/2}\sum_{\mu \in \cal I_1} z_{\mu i} G^{(i)}_{\mu j}$ and $n^{-1/2}\sum_{\mu \in \cal I_2} z_{\mu i} G^{(i)}_{\mu j}$ are both close to zero. The other off-diagonal entries can be bounded in the same way.
 
@@ -822,9 +822,9 @@ where $G(\wh Z^{(1)},\wh Z^{(2)},z)$ is defined in the same way as $G(z)\equiv G
 
 Note that by equations \eqref{meanshif} and \eqref{EZ norm}, we can bound that for $k=1,2,$
 $$ \|\wh Z^{(k)} - \wt Z^{(k)}\|\lesssim n^{-1}\|\wt Z^{(k)}\| + \|\E \wt Z^{(k)}\|\lesssim n^{-1/2}$$
-with high probability, where we also used Lemma \ref{SxxSyy} to bound the operator norm of $\wt Z^{(k)}$. Together with equation \eqref{priorim} below, this bound implies that % check that  
+with overwhelming probability, where we also used Lemma \ref{SxxSyy} to bound the operator norm of $\wt Z^{(k)}$. Together with equation \eqref{priorim} below, this bound implies that % check that  
 $$\left| \mathbf u^\top (G(\wh Z^{(1)},\wh Z^{(2)},z)-G(Z^{(1)},Z^{(2)},z)) \mathbf v \right|  \lesssim  n^{-1/2}\|\wh Z^{(1)} - \wt Z^{(1)}\|+ n^{-1/2}\|\wh Z^{(2)} - \wt Z^{(2)}\|\lesssim n^{-1},$$
-with high probability on the event $\{\wt Z^{(1)} = Z^{(1)},  \wt Z^{(2)} = Z^{(2)}\}$. Combining this estimate with equation \eqref{GwhZZ}, we obtain that estimate \eqref{aniso_law} also holds for $G(z)$ on the event $\{\wt Z^{(1)} = Z^{(1)},  \wt Z^{(2)} = Z^{(2)}\}$, which concludes the proof by equation \eqref{XneX}.
+with overwhelming probability on the event $\{\wt Z^{(1)} = Z^{(1)},  \wt Z^{(2)} = Z^{(2)}\}$. Combining this estimate with equation \eqref{GwhZZ}, we obtain that estimate \eqref{aniso_law} also holds for $G(z)$ on the event $\{\wt Z^{(1)} = Z^{(1)},  \wt Z^{(2)} = Z^{(2)}\}$, which concludes the proof by equation \eqref{XneX}.
 \end{proof}
 
 
@@ -1546,7 +1546,7 @@ This problem can be handled using the standard resolvent methods as in e.g. \cit
 \begin{proposition}\label{prop_diagonal}
  Suppose Assumption \ref{assm_big1} holds, and that the entries of $Z^{(1)}$ and $Z^{(2)}$ are i.i.d. Gaussian random variables, which satisfy the bounded support condition  \eqref{eq_support} with $q= n^{-1/2}$. Suppose $U$ and $V$ are identity. 
 Then the estimate \eqref{aniso_law} holds for all $z\in \mathbf D$.
-%Suppose $X$ satisfies the bounded support condition (\ref{eq_support}) with $q= N^{-1/2}$. Suppose $A$ and $B$ are diagonal, i.e. $U=I_{n\times n}$ and $V=I_{N\times N}$. Fix $C_0>1$ and let $c_0>0$ be a sufficiently small constant. Then for any fixed $\epsilon>0$, the following estimates hold. %there exist constants $C_1>0$ and $\xi_1 \ge 3$ such that the following events hold with $\xi_1$-high probability:
+%Suppose $X$ satisfies the bounded support condition (\ref{eq_support}) with $q= N^{-1/2}$. Suppose $A$ and $B$ are diagonal, i.e. $U=I_{n\times n}$ and $V=I_{N\times N}$. Fix $C_0>1$ and let $c_0>0$ be a sufficiently small constant. Then for any fixed $\epsilon>0$, the following estimates hold. %there exist constants $C_1>0$ and $\xi_1 \ge 3$ such that the following events hold with $\xi_1$-overwhelming probability:
 %\begin{itemize}
 %\item[(1)] {\bf Anisotropic local law}:  For any $z\in S(c_0,C_0,\epsilon)$ and deterministic unit vectors $\mathbf u, \mathbf v \in \mathbb C^{\mathcal I}$,
 %\begin{equation}\label{aniso_diagonal}
@@ -1915,7 +1915,7 @@ Underlying the proof of the estimate (\ref{lemm_comp_4}) is an expansion approac
 % \begin{equation}\label{comp_eq_apriori}
 %   G_{(\mu i)}^{\theta,y}=\OO (1),\quad i\in\sI_1, \ \mu\in\sI_2 \cup \cal I_3,
 % \end{equation}
-% with high probability.
+% with overwhelming probability.
 %% for all $i\in\sI^M_1$ and $\mu\in\sI_2$.
 %%\end{lemma}
 %%\begin{proof} The proof is the same as the one for \cite[Lemma 7.14]{Anisotropic}. \end{proof}
@@ -1924,7 +1924,7 @@ Underlying the proof of the estimate (\ref{lemm_comp_4}) is an expansion approac
 %%To handle the rest term, we use the rough bound $G_{(\mu i)}^{\theta,\lambda'}\prec N$ coming from a simple modification of (\ref{eq_gbound}).
 %%\end{proof}
 %
-%In the following proof, for simplicity of notations, we introduce $f_{(\mu i)}(\lambda):=F_{\mathbf v}^p(Z_{(\mu i)}^{\theta, \lambda})$. We use $f_{(\mu i)}^{(r)}$ to denote the $r$-th derivative of $f_{(\mu i)}$. By equation \eqref{comp_eq_apriori}, it is easy to see that for any fixed $r\in\bbN$, $ f_{(\mu i)}^{(r)}(y) =\OO(1)$ with high probability for any random variable $y$ satisfying $|y|\prec q$. 
+%In the following proof, for simplicity of notations, we introduce $f_{(\mu i)}(\lambda):=F_{\mathbf v}^p(Z_{(\mu i)}^{\theta, \lambda})$. We use $f_{(\mu i)}^{(r)}$ to denote the $r$-th derivative of $f_{(\mu i)}$. By equation \eqref{comp_eq_apriori}, it is easy to see that for any fixed $r\in\bbN$, $ f_{(\mu i)}^{(r)}(y) =\OO(1)$ with overwhelming probability for any random variable $y$ satisfying $|y|\prec q$. 
 %% With Lemma \ref{lemm_comp_6} and (\ref{eq_comp_expansion}), it is easy to prove the following result.
 %%\begin{lemma}
 %%Suppose that $y$ is a random variable satisfying $|y|\prec q$. Then for fixed $r\in\bbN$,
@@ -2074,7 +2074,7 @@ Underlying the proof of the estimate (\ref{lemm_comp_4}) is an expansion approac
 %%   \end{array}} \right)$ for ${\mathbf v}_1 \in\mathbb C^{\mathcal I_1}$ and ${\mathbf v}_2\in\mathbb C^{\mathcal I_2}$. 
 %Using equation \eqref{priorim} and a similar argument as in equation \eqref{GG*}, we get that
 %\begin{align}
-%\sum_{i\in\sI_1}(\mathcal R_i^{(\mu)})^2 =\OO(1),\quad  \sum_{\mu\in\sI_2 \cup \cal I_3}\mathcal R_{\mu}^2 =\OO(1), \quad \text{with high probability}.\label{eq_comp_r2}
+%\sum_{i\in\sI_1}(\mathcal R_i^{(\mu)})^2 =\OO(1),\quad  \sum_{\mu\in\sI_2 \cup \cal I_3}\mathcal R_{\mu}^2 =\OO(1), \quad \text{with overwhelming probability}.\label{eq_comp_r2}
 %\end{align}
 %%where in the second step we used the two bounds in Lemma \ref{lemm_comp_2} and $\eta =\OO(\im M_{2})$ by equation \eqref{Immc}, and in the last step the definition of $\Psi$ in equation \eqref{eq_defpsi}. Using the same method we can get
 %%\begin{equation}\label{eq_comp_r3}
@@ -2223,7 +2223,7 @@ Underlying the proof of the estimate (\ref{lemm_comp_4}) is an expansion approac
 %\begin{lemma} \label{thm_largerigidity2}
 %Suppose the assumptions in Theorem \ref{thm_largerigidity} hold. %Fix the constants $c_0$ and $C_0$ as given in Theorem \ref{LEM_SMALL}. 
 %Then for any fixed $\epsilon>0$, we have
-%%there exists constant $C_1>0$, depending only on $c_0$, $C_0$, $B$ and $\phi$, such that %with high probability we have
+%%there exists constant $C_1>0$, depending only on $c_0$, $C_0$, $B$ and $\phi$, such that %with overwhelming probability we have
 %\begin{equation}
 % \vert m(z)-M(z) \vert \prec  q^2 + (N \eta)^{-1}, \label{NEWMPBOUNDS2}
 %\end{equation}
@@ -2398,7 +2398,7 @@ With estimate (\ref{entry_diagonal}), one can use the polynomialization method i
 First with Lemma \ref{SxxSyy}, we can obtain the following a priori estimate on the resolvent $G(z)$ for $z\in \mathbf D$.% (recall equation \eqref{SSET1}).
 
 \begin{lemma}\label{lemm apri}
-Suppose Assumption \ref{assm_big1} holds. Then there exists a constant $C>0$ such that the following estimates hold uniformly in $z,z'\in \mathbf D$ with high probability: 
+Suppose Assumption \ref{assm_big1} holds. Then there exists a constant $C>0$ such that the following estimates hold uniformly in $z,z'\in \mathbf D$ with overwhelming probability: 
 \be\label{priorim}
 \|G(z)\| \le C,%|\im \langle \bu,\cal R  (z,0)\bv\rangle| \le C\eta, 
 \ee
@@ -2425,7 +2425,7 @@ z\sum_{k = 1}^{n} \frac{\zeta_k(\mu) \zeta_k^\top(\nu)}{\mu_k-z} , \ \ G_{i\mu} 
 \end{split}
 \ee
 %As in equation \eqref{SVDW}, $\{\mu_k\}_{1\le k \le p}$ are the eigenvalues of $WW^\top$. 
-By Lemma \ref{SxxSyy} and equation \eqref{assm2}, we have that with high probability 
+By Lemma \ref{SxxSyy} and equation \eqref{assm2}, we have that with overwhelming probability 
 %\be\label{lambdap} 
 $\mu_p \ge \lambda_p((Z^{(2)})^\top Z^{(2)}) \ge c_\tau $ for some constant $c_\tau>0$ depending only on $\tau$. This further implies that
 $$ \inf_{z\in \mathbf D}\min_{1\le k \le p}|\mu_k-z| \ge c_\tau - (\log n)^{-1}.$$
@@ -2436,7 +2436,7 @@ Combining this bound with equation \eqref{spectral}, we can easily conclude esti
 %\be\label{roughinitial}
 %\max_{z\in \mathbf D} \max_{{a} , {b}\in \cal I}|\cal R_{{a} {b}} (z)- \Pi_{{a}{b}}(\theta_l)|\le C(\log n)^{-1} 
 %\ee
-%with high probability. 
+%with overwhelming probability. 
 
 %For simplicity, we denote $Y:=\Sig^{1/2} X \wt  \Sig^{1/2}$. 
 
@@ -2672,7 +2672,7 @@ holds uniformly in all $z\in \mathbf D$.
 %\begin{align}
 %1(\Xi)\Lambda_0 \le C(\log N)^{2\xi}\left(q+\Psi_\theta\right) \label{offestimate}
 %\end{align}
-%holds with $\xi$-high probability.
+%holds with $\xi$-overwhelming probability.
 \end{lemma}
 \begin{proof}
 %Suppose $\Xi$ holds, then we have $|G_{{a}{a}} -\Pi|\lesssim (\log N)^{-1}$ on $\Xi$, and  
@@ -2687,7 +2687,7 @@ we get that for any $i\in \cal I_0$, %on $\Xi$,
 \end{split}
 \end{equation}
 where in the last step we used equation \eqref{priorim} to get that for any $\mu\in \cal I_1\cup \cal I_2$,
-\be\label{GG*}\sum_{\nu \in \cal I_1\cup \cal I_2 }  | G_{\mu\nu}^{(i)} |^2\le \sum_{{a} \in \cal I } | G_{\mu{a}}^{(i)} |^2 =\left[G^{(i)}(G^{(i)})^* \right]_{\mu\mu} =\OO(1),\quad \text{with high probability,}\ee
+\be\label{GG*}\sum_{\nu \in \cal I_1\cup \cal I_2 }  | G_{\mu\nu}^{(i)} |^2\le \sum_{{a} \in \cal I } | G_{\mu{a}}^{(i)} |^2 =\left[G^{(i)}(G^{(i)})^* \right]_{\mu\mu} =\OO(1),\quad \text{with overwhelming probability,}\ee
 where $(G^{(i)})^*$ denotes the complex conjugate transpose of $G^{(a)}$. Similarly, applying bounds \eqref{eq largedev1} and \eqref{eq largedev2} to $\cal Z_{\mu}$ and $\cal Z_\nu$ in equation (\ref{Zmu}) and using the estimate \eqref{priorim}, we can obtain the same bound.
 %\begin{equation}\label{estimate_Zmu} \|Z_{[\mu]}\|\prec \frac{1}{n} \left( \sum_{i,j \in \cal I_{1}\cup \cal I_2}  {\left| \cal R_{ij}^{[\mu]}  \right|^2 }  \right)^{1/2} =  \frac{1}{\sqrt{n}} \left(  \frac{1}{n}\sum_{i \in \cal I_{1}\cup \cal I_2}  {\left(\cal R^{[\mu]} (J_{1}+J_2) (\cal R^{[\mu]})^*\right)_{ii} } \right)^{1/2} \prec n^{-1/2}.\ee
 %This completes the proof of equation \eqref{Zestimate1}.
@@ -2800,7 +2800,7 @@ for any $i\in \cal I_0$, $\mu \in \cal I_{1}$ and $\nu\in \cal I_2$. Together wi
 \begin{equation}\label{erri}
 \max_{i\in \cal I_0} |\cal E_i | +\max_{\mu \in \cal I_1\cup \cal I_2} |\cal E_\mu|  \prec n^{-1/2}.
 \end{equation}
-%with $\xi $-high probability.
+%with $\xi $-overwhelming probability.
 %Similarly, we can also get that
 %\begin{equation}\label{self_Gmu}
 %\frac{1}{{G_{\mu\mu} }}=  - z - \frac{1}{N} \sum_{i\in \mathcal I_1}\sigma_i G^{\left( \mu\right)}_{ii}+ Z_{\mu} =  - z - \frac{1}{N} \sum_{i\in \mathcal I_1}\sigma_i G_{ii} + \epsilon_\mu,
@@ -2822,18 +2822,18 @@ Plugging \eqref{Gmumu0} into the definitions of $m$ and $m_0$ in equation \eqref
 \end{align}
 As a byproduct, we obtain from these two estimates and equation \eqref{defn mc1c} that  
 \be\label{Gsim11}
-\mathbf 1(\Xi)\left(|m(z)-M(z)| +|m_0(z)-M_{0}(z)| \right)\lesssim (\log n)^{-1/2}, \quad \text{with high probability on } \Xi. 
+\mathbf 1(\Xi)\left(|m(z)-M(z)| +|m_0(z)-M_{0}(z)| \right)\lesssim (\log n)^{-1/2}, \quad \text{with overwhelming probability on } \Xi. 
 \ee
 Together with equation \eqref{Gsim0}, we get that %from equation \eqref{self_Gmu1} and equation \eqref{self_Gmu2} that
 \be\label{Gsim2}
-|1+\gamma_nm_0(z)|\sim 1, \quad |1+\gamma_nm(z)|\sim 1, \quad \text{with high probability on } \Xi.
+|1+\gamma_nm_0(z)|\sim 1, \quad |1+\gamma_nm(z)|\sim 1, \quad \text{with overwhelming probability on } \Xi.
 \ee
-Now combining equations \eqref{self_Gmu1}, \eqref{self_Gmu2}, \eqref{erri} and  \eqref{Gsim2}, we obtain that for $\mu \in \cal I_1$ and $\nu \in \cal I_2,$ %can obtain that with high probability,
+Now combining equations \eqref{self_Gmu1}, \eqref{self_Gmu2}, \eqref{erri} and  \eqref{Gsim2}, we obtain that for $\mu \in \cal I_1$ and $\nu \in \cal I_2,$ %can obtain that with overwhelming probability,
 \begin{align}\label{Gii0} 
 &\mathbf 1(\Xi)\left(G_{\mu\mu}+\frac{1}{1 + \gamma_nm_0}\right) =\OO_\prec\left(n^{-1/2}\right) , \quad \mathbf 1(\Xi)\left(G_{\nu\nu}+\frac{1}{1 + \gamma_nm}\right)= \OO_\prec\left(n^{-1/2}\right) .
 %\\ \quad \nu \in \cal I_3.\label{Gii1}
 \end{align}
-Taking average over $\mu\in \cal I_1$ and $\nu\in \cal I_2$, we get that %with high probability,
+Taking average over $\mu\in \cal I_1$ and $\nu\in \cal I_2$, we get that %with overwhelming probability,
 \begin{align}\label{Gii000}
 & \mathbf 1(\Xi)\left(m_1+\frac{1}{1 + \gamma_n m_0}\right)  = \OO_\prec\left(n^{-1/2}\right) ,\quad  \mathbf 1(\Xi)\left(m_2+\frac{1}{1 +\gamma_n  m}\right)= \OO_\prec\left(n^{-1/2}\right) ,
 \end{align}
@@ -2868,7 +2868,7 @@ Finally, plugging equations \eqref{Gmumu} and \eqref{Gmumu2} into equation \eqre
 
 %\vspace{5pt}
 
-\noindent{\bf Step 3: $\Xi$ holds with high probability.} In this step, we show that the event $\Xi(z)$ in \eqref{Xiz} actually holds with high probability for all $z\in \mathbf D$. Once we have proved this fact, applying Lemma \ref{lem_stabw} to equations \eqref{selfcons_lemm} and  \eqref{selfcons_lemm2} immediately shows that $(m_1(z),m_2(z))$ is close to $(M_{1}(z),M_{2}(z))$ up to an error of order $\OO_\prec(n^{-1/2})$. 
+\noindent{\bf Step 3: $\Xi$ holds with overwhelming probability.} In this step, we show that the event $\Xi(z)$ in \eqref{Xiz} actually holds with overwhelming probability for all $z\in \mathbf D$. Once we have proved this fact, applying Lemma \ref{lem_stabw} to equations \eqref{selfcons_lemm} and  \eqref{selfcons_lemm2} immediately shows that $(m_1(z),m_2(z))$ is close to $(M_{1}(z),M_{2}(z))$ up to an error of order $\OO_\prec(n^{-1/2})$. 
 
 We claim that it suffices to show that
 \be\label{Xiz0}
@@ -2876,12 +2876,12 @@ We claim that it suffices to show that
 \ee
  In fact, notice that by equations \eqref{Lipomega} and \eqref{priordiff} we have
 $$ |M_{1}(z)-M_{1}(0)|+|M_2(z)-M_2(0)|=\OO((\log n)^{-1}),\quad  |m_{1}(z)-m_{1}(0)|+ |m_{2}(z)-m_{2}(0)|=\OO((\log n)^{-1})$$ 
-with high probability for all $z\in \mathbf D$. Thus if equation \eqref{Xiz0} holds, we can obtain that 
+with overwhelming probability for all $z\in \mathbf D$. Thus if equation \eqref{Xiz0} holds, we can obtain that 
 \be\label{roughh1} 
-\sup_{z\in \mathbf D} \left(|m_{1}(z)-M_{1}(z)| + |m_{2}(z)-M_{2}(z)|\right)  \lesssim (\log n)^{-1} \quad \text{with high probability},\ee
+\sup_{z\in \mathbf D} \left(|m_{1}(z)-M_{1}(z)| + |m_{2}(z)-M_{2}(z)|\right)  \lesssim (\log n)^{-1} \quad \text{with overwhelming probability},\ee
 and %Moreover, with this estimate and equation \eqref{Lipomega}, we conclude that 
-\be\label{roughh2} \sup_{z\in \mathbf D} \left( |m_{1}(z)-M_{1}(0)|+ |m_{2}(z)-M_{2}(0)|\right) \lesssim (\log n)^{-1} \quad \text{with high probability}.\ee
-The equation \eqref{roughh1} shows that $\Xi$ holds with high probability, while the equation \eqref{roughh2} verifies the condition \eqref{prior12} of Lemma \ref{lem_stabw}. Now applying Lemma \ref{lem_stabw} to equations \eqref{selfcons_lemm} and \eqref{selfcons_lemm2}, we obtain that
+\be\label{roughh2} \sup_{z\in \mathbf D} \left( |m_{1}(z)-M_{1}(0)|+ |m_{2}(z)-M_{2}(0)|\right) \lesssim (\log n)^{-1} \quad \text{with overwhelming probability}.\ee
+The equation \eqref{roughh1} shows that $\Xi$ holds with overwhelming probability, while the equation \eqref{roughh2} verifies the condition \eqref{prior12} of Lemma \ref{lem_stabw}. Now applying Lemma \ref{lem_stabw} to equations \eqref{selfcons_lemm} and \eqref{selfcons_lemm2}, we obtain that
 \be\label{Xizz}
 |m_{1}(z)-M_{1}(z)|+ |m_{2}(z)-M_2(z)| \prec n^{-1/2} 
 \ee
@@ -2908,7 +2908,7 @@ $$ m(0)=\frac1p\sum_{i\in \cal I_0}G_{ii}(0) = \frac1p\sum_{i\in \cal I_0}\sum_{
 where we used Lemma \ref{SxxSyy} in the last step.
 Similarly, we can also get that $m_0(0)$ is positive and has size $m_0(0)\sim 1$. Hence we have the estimates
 $$1+\gamma_n m(0)\sim 1,\quad 1+\gamma_n m_0(0)\sim 1.$$ 
-Combining these estimates with equations \eqref{self_Gmu1}, \eqref{self_Gmu2} and  \eqref{erri}, we obtain that equation \eqref{Gii000} holds at $z=0$ even without the indicator function $\mathbf 1(\Xi)$. Furthermore, we have that with high probability,
+Combining these estimates with equations \eqref{self_Gmu1}, \eqref{self_Gmu2} and  \eqref{erri}, we obtain that equation \eqref{Gii000} holds at $z=0$ even without the indicator function $\mathbf 1(\Xi)$. Furthermore, we have that with overwhelming probability,
 $$  \left|\lambda_i^2 r_1m_1(0)+r_2m_2(0)\right|=\left|\frac{\lambda_i^2 r_1}{ 1+\gamma_n m_0(0)} +\frac{r_2}{1+\gamma_n m(0)}+ \OO_\prec (n^{-1/2})\right| \sim 1 .$$
  Then combining this estimate with equations (\ref{self_Gii}) and \eqref{erri}, we obtain that equations \eqref{Gmumu} and \eqref{Gmumu2} also hold at $z=0$ even without the indicator function $\mathbf 1(\Xi)$. Finally, plugging equations \eqref{Gmumu} and \eqref{Gmumu2} into equation \eqref{Gii}, we conclude that equations \eqref{selfcons_lemm} and  \eqref{selfcons_lemm2}  hold at $z=0$, that is,
 \begin{equation} \label{selfcons_lemma222}
@@ -2921,24 +2921,24 @@ $$  \left|\lambda_i^2 r_1m_1(0)+r_2m_2(0)\right|=\left|\frac{\lambda_i^2 r_1}{ 1
 Denoting $y_{1}=-m_{1}(0)$ and $y_{2}=-m_{2}(0)$, by equation \eqref{Gii} we have
 $$y_1= \frac{1}{1+\gamma_n m_{0}(0)} +\OO_\prec(n^{-1/2}),\quad y_2= \frac{1}{1+\gamma_n m(0)}+\OO_\prec(n^{-1/2}).$$ 
 Hence there exists a constant $c>0$ such that 
-\be\label{omega12} c \le y_1 \le 1, \quad  c\le y_2\le 1, \quad \text{with high probability}.\ee
+\be\label{omega12} c \le y_1 \le 1, \quad  c\le y_2\le 1, \quad \text{with overwhelming probability}.\ee
 %This shows that we can choose a sufficiently small constant $c_1$ such that 
 %\be \nonumber %\label{omega12}
-%c \le  \omega_2 \le 1 - \gamma_n - c,\quad c \le  \omega_3 \le 1 - \gamma_n - c , \quad \text{with high probability},
+%c \le  \omega_2 \le 1 - \gamma_n - c,\quad c \le  \omega_3 \le 1 - \gamma_n - c , \quad \text{with overwhelming probability},
 %\ee
 %where we also used $1-\gamma_n - r_{1,2}\gtrsim 1$ by equation \eqref{assm2}. 
 Also one can verify from equation \eqref{selfcons_lemma222} that $(r_1y_1,r_2y_2)$ satisfies approximately the same system of equations as equation \eqref{eq_a12extra}:
 \be\label{selfcons_lemm000}
 r_1y_1+r_2 y_2 = 1-\gamma_n + \OO_\prec (n^{-1/2}),\quad r_1^{-1}f(r_1y_1)=1 + \OO_\prec (n^{-1/2}),
 \ee
-where recall that the function $f$ was defined in equation \eqref{fa1}. The first equation of \eqref{selfcons_lemm000} and equation \eqref{omega12} together imply that $y_1 \in [0,r_1^{-1}(1-\gamma_n)]$ with high probability. For the second equation of \eqref{selfcons_lemm000}, we know that $y_1=r_1^{-1}a_1$ is a solution. Moreover, it is easy to check that the function $g(y_1):= r_1^{-1}f(r_1y_1)$ is strictly increasing and has bounded derivative on $[0,r_1^{-1}(1-\gamma_n)]$. So by basic calculus, %the second equation in equation \eqref{selfcons_lemm000} gives 
+where recall that the function $f$ was defined in equation \eqref{fa1}. The first equation of \eqref{selfcons_lemm000} and equation \eqref{omega12} together imply that $y_1 \in [0,r_1^{-1}(1-\gamma_n)]$ with overwhelming probability. For the second equation of \eqref{selfcons_lemm000}, we know that $y_1=r_1^{-1}a_1$ is a solution. Moreover, it is easy to check that the function $g(y_1):= r_1^{-1}f(r_1y_1)$ is strictly increasing and has bounded derivative on $[0,r_1^{-1}(1-\gamma_n)]$. So by basic calculus, %the second equation in equation \eqref{selfcons_lemm000} gives 
 we obtain that 
 $$|m_1(0)-M_1(0)|=|y_1-r_1^{-1}a_1|\prec n^{-1/2}.$$ 
 Plugging it into the first equation of equation \eqref{selfcons_lemm000}, we get 
 $$|m_2(0)-M_2(0)|=|y_2-r_2^{-1}a_2|\prec n^{-1/2}.$$ The above two estimates conclude equation \eqref{Xiz0}.
 \end{proof}
 %\begin{lemma}[Weak entrywise local law]\label{alem_weak} 
-%Let $c_0>0$ be a sufficiently small constant and fix $C_0,\epsilon>0$. Then we have %there exists $C>0$ such that with $\xi$-high probability,
+%Let $c_0>0$ be a sufficiently small constant and fix $C_0,\epsilon>0$. Then we have %there exists $C>0$ such that with $\xi$-overwhelming probability,
 %\begin{equation} \label{localweakm}
 %\Lambda(z) \prec (N\eta)^{-1/4},
 %\end{equation}
@@ -2965,11 +2965,11 @@ $$|m_2(0)-M_2(0)|=|y_2-r_2^{-1}a_2|\prec n^{-1/2}.$$ The above two estimates con
 %\begin{equation}\label{flucaver_ZZ}
 %|[Z]|+|[Z^{(1)}]|+|[Z^{(2)}]|+|[Z_3]| \prec n^{-1}.
 %\end{equation}
-%%Fix a constant $\xi>0$. Suppose $q\le \varphi^{-5\xi}$ and that there exists $\wt  S\subseteq S(c_0,C_0,L)$ with $L\ge 18\xi$ such that with $\xi$-high probability,
+%%Fix a constant $\xi>0$. Suppose $q\le \varphi^{-5\xi}$ and that there exists $\wt  S\subseteq S(c_0,C_0,L)$ with $L\ge 18\xi$ such that with $\xi$-overwhelming probability,
 %%\begin{equation} 
 %%\Lambda(z) \le \gamma(z) \text{ for } z\in \wt  S,
 %%\end{equation}
-%%where $\gamma$ is a deterministic function satisfying $\gamma(z)\le \varphi^{-\xi}$. Then we have that with $(\xi-\tau_N)$-high probability,
+%%where $\gamma$ is a deterministic function satisfying $\gamma(z)\le \varphi^{-\xi}$. Then we have that with $(\xi-\tau_N)$-overwhelming probability,
 %%\begin{equation}
 %%\left|[Z]_1(z)\right|+ \left|[Z]_2(z)\right| \le \varphi^{18\xi} \left(q^2 + \frac{1}{(N\eta)^2} + \frac{\Im \, M_{2}(z) + \gamma(z)}{N\eta} \right),
 %%\end{equation}
@@ -2986,9 +2986,9 @@ $$|m_2(0)-M_2(0)|=|y_2-r_2^{-1}a_2|\prec n^{-1/2}.$$ The above two estimates con
 %%\begin{equation}\label{goal_law1}
 %%\bigcap_{z \in S(c_0,C_0,L)} \left\{ \Lambda(z) \leq C\varphi^{20\wt  \xi}\left(q+ \sqrt{\frac{\operatorname{Im} M_{2}(z) }{N \eta}}+ \frac{1}{N\eta}\right) \right\},
 %%\end{equation}
-%%with $\xi$-high probability. %For notational convenience, we shall denote $m_c:=M_{1}+M_{2}$. 
+%%with $\xi$-overwhelming probability. %For notational convenience, we shall denote $m_c:=M_{1}+M_{2}$. 
 %
-%By Lemma \ref{alem_weak}, the event $\Xi$ holds with high probability. Then by Lemma \ref{alem_weak} and Lemma \ref{Z_lemma}, we can take
+%By Lemma \ref{alem_weak}, the event $\Xi$ holds with overwhelming probability. Then by Lemma \ref{alem_weak} and Lemma \ref{Z_lemma}, we can take
 %\be\label{initial_phio}
 %\Phi_o = \sqrt{\frac{\im M_{2} + (N\eta)^{-1/4}}{N\eta}} + \frac{1}{N\eta},\quad \Phi= \frac{1}{(N\eta)^{1/4}},
 %\ee
