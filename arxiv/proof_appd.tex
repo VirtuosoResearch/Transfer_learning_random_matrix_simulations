@@ -325,7 +325,7 @@ Finally, recalling the notations in equation \eqref{labelZ}, we assume that $Z^{
 \begin{equation}
 n^{-1/2}\max_{i\in \cal I_0,\mu \in \cal I_1}\vert Z^{(1)}_{\mu i}\vert \prec q,\quad n^{-1/2}\max_{i\in \cal I_0,\nu \in \cal I_2}\vert Z^{(2)}_{\nu i}\vert \prec q, \label{eq_support}
 \end{equation}
-for some deterministic parameter $q$ satisfying $ n^{-{1}/{2}} \leq q \leq n^{- \phi} $ for a small constant $\phi>0$. 
+for some deterministic parameter $q$ satisfying $ n^{-{1}/{2}} \leq q \leq n^{- \tau} $ for a small constant $\tau>0$. 
 %Here we recall the notations in \eqref{labelZ}.
  %and (\ref{assm2}). We assume that $T$ is an $M\times M$ deterministic diagonal matrix satisfying (\ref{simple_assumption}) and (\ref{assm3}).  
 \end{assumption}
@@ -405,10 +405,11 @@ Whenever the estimates in equation \eqref{eq_support} hold, we say $n^{-1/2}Z^{(
 %\begin{example}
 %\todo{Talk about the Gaussian case and Bernoulli case.} 
 By Example \ref{example stoc}, if the entries of $Z^{(1)}$ have finite moments up to any order, %as in equation \eqref{assmAhigh}, 
-then $n^{-1/2}Z^{(1)}$ has bounded support $n^{-1/2}$. More generally, if the entries of $Z^{(1)}$ have finite $a$-th moment for some constant $a>4$, then using Markov's inequality and a simple union bound we get that
+then $n^{-1/2}Z^{(1)}$ has bounded support $n^{-1/2}$. More generally, if the entries of $Z^{(1)}$ have finite $\varphi$-th moment as in \eqref{assmAhigh}, then using Markov's inequality and a simple union bound we get that
 \be\label{Ptrunc}
-\P\left(n^{-1/2}\max_{i,\mu}|(Z^{(1)})_{\mu i}|\ge (\log n) n^{2/a-1/2}\right)=\OO((\log n)^{-a}).\ee
-In other words, $n^{-1/2}Z^{(1)}$ has bounded support $q=n^{2/a-1/2}$ on a event with probability $1-\oo(1)$. This fact will be used in the proof of Corollary \ref{main_cor} below. The above discussion shows that the bounded support condition provides great flexibility in dealing with finite moment conditions. 
+\P\left(n^{-1/2}\max_{i,\mu}|(Z^{(1)})_{\mu i}|\ge (\log n) n^{-\frac{\varphi-4}{2\varphi}}\right)=\OO((\log n)^{-\varphi}).\ee
+In other words, $n^{-1/2}Z^{(1)}$ has bounded support $q=n^{-\frac{\varphi-4}{2\varphi}}$ on a event with probability $1-\oo(1)$. This leads to the exponent $\frac{\varphi-4}{2\varphi}$ in Fact \ref{lem_minv}. %This fact will be used in the proof of Corollary \ref{main_cor} below. 
+The above discussion shows that the bounded support condition provides great flexibility in dealing with finite moment conditions. 
 %is essentially introduced to deal with the moment conditions; see Corollary \ref{main_cor} below for more details.
 %\end{example}
 \end{remark}
@@ -755,22 +756,23 @@ where recall that $\Gi$ was defined in equation \eqref{defn_piw}.
 As discussed in Remark \ref{rem_athmoment}, using a simple cutoff argument, it is easy to obtain from Theorem \ref{LEM_SMALL} the following corollary under certain finite moment condition. 
 
 \begin{corollary}\label{main_cor}
-Assume that the entries of $Z^{(1)}$ and $Z^{(2)}$ are i.i.d. random variables of zero mean, unit variance, and finite $a$-th moment
-\be\label{condition_4e} 
- \max_{i\in \cal I_0,\mu \in \cal I_1}\E \vert Z^{(1)}_{\mu i}\vert ^{a}  =\OO(1), \quad \max_{i\in \cal I_0,\nu \in \cal I_2}\E\vert Z^{(2)}_{\nu i}\vert^{a}  =\OO(1), 
-\ee 
-for a constant $a>4$. Assume that conditions \eqref{assm2} and \eqref{assm32} hold. Then equation \eqref{aniso_law} holds for $q= n^{2/a-1/2}$ on an event $\Omega$ with $\P(\Omega)=1-\oo(1)$.
+Assume that the entries of $Z^{(1)}$ and $Z^{(2)}$ are i.i.d. random variables of zero mean, unit variance, and finite $\varphi$-th moment as in \eqref{assmAhigh}.
+%\be\label{condition_4e} 
+% \max_{i\in \cal I_0,\mu \in \cal I_1}\E \vert Z^{(1)}_{\mu i}\vert ^{a}  =\OO(1), \quad \max_{i\in \cal I_0,\nu \in \cal I_2}\E\vert Z^{(2)}_{\nu i}\vert^{a}  =\OO(1), 
+%\ee 
+%for a constant $a>4$. 
+Assume that conditions \eqref{assm2} and \eqref{assm32} hold. Then equation \eqref{aniso_law} holds for $q= n^{-\frac{\varphi - 4}{2\varphi}}$ on an event $\Omega$ with $\P(\Omega)=1-\oo(1)$.
 \end{corollary}
 \begin{proof}%[Proof of Corollary \ref{main_cor}]
 %Fix any sufficiently small constant $\e>0$. We choose $q= n^{-c_a +\e}$ with $c_a:=1/2-2/a $. Then 
 As discussed in Remark \ref{rem_athmoment}, we introduce the truncated matrices $\wt Z^{(1)}$ and $\wt Z^{(2)}$ with entries
 $$ \wt Z^{(1)}_{\mu i}:= \mathbf 1\left( n^{-1/2}|Z^{(1)}_{\mu i}|\le q \log n \right)\cdot Z^{(1)}_{\mu i}, \quad \wt Z^{(2)}_{\nu i}:= \mathbf 1\left( n^{-1/2}|Z^{(2)}_{\nu i}|\le q \log n \right)\cdot Z^{(2)}_{\nu i}, $$
 %where, for convenience, we again use $j$ to denote the column index of $X$. 
-for $q= n^{2/a-1/2}$. By equation \eqref{Ptrunc}, 
+for $q= n^{-\frac{\varphi - 4}{2\varphi}}$. By equation \eqref{Ptrunc}, 
 %the moment conditions (\ref{condition_4e}) and a simple union bound, 
 we have
 \begin{equation}\label{XneX}
-\mathbb P(\wt Z^{(1)} = Z^{(1)},  \wt Z^{(2)} = Z^{(2)}) =1-\OO ( (\log n)^{-a}).
+\mathbb P(\wt Z^{(1)} = Z^{(1)},  \wt Z^{(2)} = Z^{(2)}) =1-\OO ( (\log n)^{-\varphi}).
 \end{equation}
 By definition, we have 
 \be\label{EwtZ}\E  \wt  Z^{(1)}_{\mu i} = - \mathbb E \left[ \mathbf 1\left( |Z^{(1)}_{\mu i}|> qn^{1/2} \log n \right)Z^{(1)}_{\mu i}\right] ,\quad \E  |\wt  Z^{(1)}_{\mu i}|^2 = 1 - \mathbb E \left[ \mathbf 1\left( |Z^{(1)}_{\mu i}|> qn^{1/2} \log n \right)|Z^{(1)}_{\mu i}|^2\right] .\ee
@@ -778,15 +780,15 @@ Using the formula for expectation in terms of the tail probabilities, we can che
 \begin{align*}
 &  \mathbb E \left| \mathbf 1\left( |Z^{(1)}_{\mu i}|> q n^{1/2}\log n \right)Z^{(1)}_{\mu i}\right| = \int_0^\infty \P\left( \left| \mathbf 1\left(  |Z^{(1)}_{\mu i}|> q n^{1/2}\log n \right)Z^{(1)}_{\mu i}\right| \ge s\right)\dd s \\
 &  = \int_0^{qn^{1/2}\log n}\P\left( |Z^{(1)}_{\mu i}|> q  n^{1/2}\log n \right)\dd s +\int_{qn^{1/2}\log n}^\infty \P\left(|Z^{(1)}_{\mu i}| \ge s\right)\dd s  \\
-&\lesssim \int_0^{qn^{1/2}\log n}\left(q  n^{1/2}\log n \right)^{-a}\dd s +\int_{qn^{1/2}\log n}^\infty s^{-a}\dd s \le n^{-2(a-1)/a}.
+&\lesssim \int_0^{qn^{1/2}\log n}\left(q  n^{1/2}\log n \right)^{-\varphi}\dd s +\int_{qn^{1/2}\log n}^\infty s^{-\varphi}\dd s \le n^{-2(\varphi-1)/\varphi}.
 \end{align*}
-where in the third step we used condition \eqref{condition_4e} and Markov's inequality. Similarly, we can obtain that 
+where in the third step we used condition \eqref{assmAhigh} and Markov's inequality. Similarly, we can obtain that 
 \begin{align*}
 &  \mathbb E \left| \mathbf 1\left( |Z^{(1)}_{\mu i}|> qn^{1/2} \log n \right)Z^{(1)}_{\mu i}\right|^2 = 2\int_0^\infty s \P\left( \left| \mathbf 1\left( |Z^{(1)}_{\mu i}|> q n^{1/2}\log n \right)Z^{(1)}_{\mu i}\right| \ge s\right)\dd s \\
 &  = 2\int_0^{qn^{1/2}\log n} s \P\left( |Z^{(1)}_{\mu i}|> q  n^{1/2}\log n \right)\dd s +2\int_{qn^{1/2}\log n}^\infty s\P\left(|Z^{(1)}_{\mu i}| \ge s\right)\dd s  \\
-&\lesssim \int_0^{qn^{1/2}\log n}s\left(q  n^{1/2}\log n \right)^{-a}\dd s +\int_{qn^{1/2}\log n}^\infty s^{-a+1}\dd s \le n^{-2(a-2)/a}.
+&\lesssim \int_0^{qn^{1/2}\log n}s\left(q  n^{1/2}\log n \right)^{-\varphi}\dd s +\int_{qn^{1/2}\log n}^\infty s^{-\varphi+1}\dd s \le n^{-2(\varphi-2)/\varphi}.
 \end{align*}
-Plugging the above two estimates into equation \eqref{EwtZ} and using $a>4$, we get that
+Plugging the above two estimates into equation \eqref{EwtZ} and using $\varphi>4$, we get that
 %Using (\ref{condition_4e}) and integration by parts, it is easy to verify that %we can get that
 %\begin{align*}
 %\mathbb E  |z^{(\al)}_{ij}|1_{|z^{(\al)}_{ij}|> q} =\OO(n^{-2-\e}), \quad \mathbb E |z^{(\al)}_{ij}|^2 1_{|z^{(\al)}_{ij}|> q} =\OO(n^{-2-\e}), \quad \al=1,2,
@@ -845,7 +847,7 @@ Then by Corollary \ref{main_cor}, for $1\le i \le p$ we have that
 & \left| \left[\left((X^{(1)})^\top X^{(1)}+(X^{(2)})^\top X^{(2)}\right)^{-1}\Sigma - n^{-1}  \Sigma_2^{-1/2}V \Gi(0)V^\top\Sigma_2^{-1/2}\Sigma\right]_{ii}\right| \nonumber\\
 &=n^{-1} \left|\mathbf e_i^\top \Sigma_2^{-1/2}V \left(\cal G(0)-\Gi(0)\right)V^\top\Sigma_2^{-1/2}\Sigma\mathbf e_i\right| \prec n^{-1}q\|\Sigma\mathbf e_i\| ,\label{G0Pi0}
 \end{align}
-on an event $\Omega$ with $\P(\Omega)=1-\oo(1)$, where $ q= n^{-\e/(8+2\e)}$ and $\mathbf e_i$ denotes the standard basis vector along the $i$-th direction. Then with the calculations in equation \eqref{Gi00}, we get that
+on an event $\Omega$ with $\P(\Omega)=1-\oo(1)$, where $ q= n^{-\frac{\varphi - 4}{2\varphi}}$ and $\mathbf e_i$ denotes the standard basis vector along the $i$-th direction. Then with the calculations in equation \eqref{Gi00}, we get that
 $$ n^{-1}  \Sigma_2^{-1/2}V \Gi(0)V^\top\Sigma_2^{-1/2}\Sigma= n^{-1}(a_1\Sigma_1 +  a_2\Sigma_2)^{-1}\Sigma.$$
 %$$\Gi(0)= -(a_{1}(0)\Lambda^2  +  a_{2}(0))^{-1}= (a_1 V^\top M^\top M V +  a_2)^{-1},$$
 %with $(a_1,a_2)$ satisfying equation \eqref{selfomega0}. 
@@ -877,7 +879,7 @@ For simplicity, we denote the vector $\bv:=V^\top  \Sigma_2^{-1/2} \Sigma_1^{1/2
 Under the moment condition \eqref{assmAhigh}, using Corollary \ref{main_cor} we obtain that
 %$Z^{(1)}$ and $Z^{(2)}$ have bounded support $q=n^{-1/2}$. Using Theorem \ref{LEM_SMALL}, %Now by Corollary \ref{main_cor}, we obtain that for any small constant $\e>0$, %with probability $1-\oo(1)$,
 \be\nonumber 
-\max_{z\in \C:|z|=(\log n)^{-1}}|\mathbf v^\top (G(z)-\Gi(z))\mathbf v| \prec q \|\mathbf v\|^2,\quad q:= n^{-\e/(8+2\e)},
+\max_{z\in \C:|z|=(\log n)^{-1}}|\mathbf v^\top (G(z)-\Gi(z))\mathbf v| \prec q \|\mathbf v\|^2,\quad q:= n^{-\frac{\varphi - 4}{2\varphi}},
 \ee
 on an event $\Omega$ with $\P(\Omega)=1-\oo(1)$. Now combining this estimate with Cauchy's integral formula, we get that on $\Omega$, %with probability $1-\oo(1)$, 
 \be\label{apply derivlocal}
