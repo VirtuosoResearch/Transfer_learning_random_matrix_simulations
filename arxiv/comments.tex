@@ -310,3 +310,98 @@ which only depends on $\hat v$, the sample covariance matrices, and $\beta_1,\be
 	The last step uses the fact that for any $j\neq j'$, $\varepsilon^{(j)}$ and $\varepsilon^{(j')}$ are pairwise independent, and $\exarg{\varepsilon^{(j)}}{\varepsilon^{j}{\varepsilon^{j}}^{\top}} = \sigma^2 \id_{n\times n}$.
 	One can see that the first part of the last equation is the bias and the second part is the variance.
 
+	%A proof of equation \eqref{eq_gA}, which is based on elementary calculations, can be found in Appendix \ref{app_proof_error_same_cov}.
+	%Provided with the bias-variance decomposition of the expected prediction loss, we are ready to show the generalization error of the hard parameter sharing estimator.
+
+	%We state a concentration error bound between $g(\cal W)$ and its expectation.
+
+	%\begin{lemma}\label{lem_error_same_cov}
+	%	In the setting of Theorem \ref{thm_many_tasks}, we have that
+	%	\[ g(\cW) = \ex{g(\cW)} \cdot (1 + o(1)) + \OO(\sigma^2 p^{1/2 + c}). \]
+	%\end{lemma}
+	%The proof of Lemma \ref{lem_error_same_cov} is via standard concentration bounds.
+	%The details can be found in Appendix \ref{app_proof_error_same_cov}.
+	%Based on the above result, we are ready to prove Theorem \ref{thm_many_tasks}.
+	%We use the notation $U_X U_X^{\top} = X (X^{\top} X)^{-1} X^{\top} \in\real^{n \times n}$ to denote the projection matrix to $X$, where $U_X\in\real^{n \times p}$.
+
+
+
+
+	%In order to derive the minimizer, our proof involves two steps.
+	%First, we consider the expectation of $g(\cW)$ over $\varepsilon_1, \varepsilon_2, \dots, \varepsilon_t$, and $X$.
+	%We show that the minimizer of $\ex{g(\cW)}$ has a simple closed form solution similar to principal component analysis.
+	%Second, we show that the concentration error between $g(\cW)$ and $\ex{g(\cW)}$ is small provided with $n$ samples.
+	%Intuitively, this is because $\cW$ only has $r \times t$ parameters, which is much smaller than $n$ by our assumption.
+	%Hence we use standard concentration bounds and $\epsilon$-net arguments to show that the concentration error is small for $g(\cW)$.
+
+	%Now we switch $\hat{B}$ back into equation \eqref{eq_mtl_same_cov} to
+	%Then as in \eqref{approxvalid}, we pick $N$ independent samples of the training set for each task with $N\ge n^{1-\e_0}$, and use the concentration result, Lemma \ref{largedeviation}, to get the validation loss as
+
+
+
+%	\[ \abs{Z_1} \le \sum_{j=1}^t \sigma \cdot \norm{X B^{\star} \cW^{\top} (\cW\cW^{\top})^{-1} W_j - X \beta_j} \le \sigma \cdot \sqrt{t \cdot Z_0}, \]
+%	where the second part follows by using Cauchy-Shwartz inequality.
+
+	%We provide tights bounds on the concentration error from the randomness of $\varepsilon_1, \dots, \varepsilon_t$, and $X$, respectively.
+	%\begin{align}
+	%	g(\cW) &= \exarg{\varepsilon_1, \dots, \varepsilon_t}{g(\cW) \mid X} \cdot (1 \pm \OO(p^{-1/2 + c})), \text{ and} \label{approxvalid_1} \\
+	%	\exarg{\varepsilon_1, \dots, \varepsilon_t}{g(\cW) \mid X} &= \ex{g(\cW)} \cdot(1 + o(1)) \label{approxvalid_2}
+	%\end{align}
+	%Together, they imply that $g(\cW) = \ex{g(\cW)} \cdot (1 + o(1))$. Therefore, next we focus on proving equation \eqref{approxvalid_1} and \eqref{approxvalid_2}.
+
+	%For equation \eqref{approxvalid_1}, we observe that the summands of $g(\cW)$ w.r.t. $\varepsilon_1, \dots, \varepsilon_t$ belong to either of the following three types:
+	%\begin{enumerate}
+	%	\item[(i)] $\varepsilon_i^{\top} A \varepsilon_i$, for any $i = 1,\dots, t$ and a fixed $A\in\real^{n\times n}$ that is independent of $\varepsilon_i$;
+	%	\item[(ii)] $\varepsilon_i^{\top} A \varepsilon_j$, for any $i \neq j$ and a fixed $A$ that is independent of both $\varepsilon_i$ and $\varepsilon_j$;
+	%	\item[(iii)] $\varepsilon_i^{\top} A$, for any $i = 1,\dots, t$ and a fixed $A\in\real^n$ that is independent of $\varepsilon_i$.
+	%\end{enumerate}
+	%For all three types, using Lemma \ref{largedeviation} in Appendix \ref{sec_maintools} and the fact that all moments of $\varepsilon_i$ exist, we conclude that
+	%\begin{enumerate}
+	%	\item[(i)] $\varepsilon_i^{\top} A \varepsilon_i = \sigma^2 (1 + \OO(p^{-1/2 + c})) \normFro{A}^2$;
+	%	\item[(ii)] $\abs{}$
+	%	\item[(iii)]
+	%\end{enumerate}
+
+	%We use the fact that our random vectors have i.i.d. entries.
+%Before doing that, we first need to fix the setting for the following discussions, because we want to keep track of the error rate carefully instead of obtaining an asymptotic result only.
+	%Recall that $Y_i = X_i\beta_i + \varepsilon_i$ and $\wt Y_i = \wt X_i\beta_i + %\wt\varepsilon_i$, $i=1,2$, all satisfy Assumption \ref{assm_secA2}. Then we rewrite %\eqref{eq_mtl_2tasktilde} as
+%$$	g( v) = \sum_{i=1}^2\left\| \wt X_i\wt\beta_i  - \wt \e_i\right\|^2 , \quad \wt\beta:=\hat %B w_i-\beta_i.$$
+	%Since $ \wt X_i\wt\beta$ and $ \wt \e_i$ are independent random vectors with i.i.d. centered entries, we can use the concentration result,  to get that for any constant $\e>0$,
+	%\begin{align*}
+		%\left|\left\| \wt X_i\wt\beta_i  - \wt \e_i\right\|^2 -  \exarg{\wt X_i,\wt{\e}_i} {\left\| \wt X_i\wt\beta_i  - \wt \e_i\right\|^2} \right| & =\left|\left\| \wt X_i\wt\beta_i  %- \wt \e_i\right\|^2 - N_i (\wt\beta_i^\top \Sigma_i \wt\beta_i + \sigma_i^2) \right| \\
+%&\le N_i^{1/2+\e} (\wt\beta_i^\top \Sigma_i \wt\beta_i + \sigma_i^2),
+	%$\end{align*}
+	%with high probability. Thus we obtain that
+	%$$g(v)= \left[\sum_{i=1}^2 N_i\left\|\Sigma_i^{1/2}( \hat B w_i - \beta_i) \right\|^2 + (N_1\sigma^2_1+N_2\sigma^2_2)\right]\cdot \left( 1+\OO(p^{-(1-\e_0)/2+\e})\right),$$
+%where we also used $N_i\ge p^{-1+\e_0}$. Inserting \eqref{hatB} into the above expression and using
+	% again the concentration result, Lemma \ref{largedeviation}, we get that
+	%$$ \sum_{i=1}^2 N_i\left\|\Sigma_i^{1/2}( \hat B w_1 - \beta_i) \right\|^2 = \val(v)\cdot \left( 1+\OO(p^{-1/2+\e})\right)$$
+%with high probability.
+%-----old-------
+%Suppose that the entries of $\e_1$ and $\e_2$ have variance $\sigma^2$.  Using a validation set that is sub-sampled from the original training dataset, we get a validation loss as follows
+%\begin{align}
+%		&\val(\hat{B}; w_1, w_2):= \exarg{\varepsilon_1,\e_2} \sum_{i=1}^2 \left\|\Sigma_i^{1/2}( \hat B w_1 - \beta_i) \right\|^2 \\
+%	&=  n_1 \cdot \bignorm{\Sigma_1^{1/2}\left(\frac{w_1^2}{w_2^2} X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1}X_2^{\top}X_2\left (\beta_s - \frac{w_1}{w_2}\beta_t\right)}^2 \nonumber \\
+%		&+ n_1 \sigma^2 \cdot \frac{w_1^2}{w_2^2} \bigtr{\left(\frac{w_1^2}{w_2^2}  X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1}\Sigma_1} \nonumber \\
+%		&+ n_2 \cdot \frac{w_1^2}{w_2^2}\bignorm{\Sigma_2^{1/2}\left(\frac{w_1^2}{w_2^2} X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1}X_1^{\top}X_1\left(\beta_s - \frac{w_1}{w_2}\beta_t\right)}^2 \nonumber \\
+%		&+ n_2 \sigma^2 \cdot \bigtr{\left(\frac{w_1^2}{w_2^2} X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1}\Sigma_2}. \label{eq_val_mtl}
+%\end{align}
+%\nc
+%------------------
+%Thus we conclude the proof.
+
+
+
+
+%From the above we can obtain three conceptual insights that are consistent with Section \ref{sec_denoise} and \ref{sec_insight}.
+%\begin{itemize}
+%	\item The de-noising effect of multi-task learning.
+%	\item Multi-task training vs single-task training can be either positive or negative.
+%	\item Transfer learning is better than the other two. And the improvement over multi-task training increases as the model distances become larger.
+%\end{itemize}
+
+
+
+
+
+

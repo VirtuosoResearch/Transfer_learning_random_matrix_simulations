@@ -1,7 +1,22 @@
 \section{The Different Covariates Setting}
+
 As mentioned in Section \ref{sec_prelim}, the optimization objective \eqref{eq_mtl} is non-convex in general.
-Therefore, we consider an arbitrary local minimum $B, W_1, W_2$, in particular when $B = \hat{B}(W_1, W_2)$ satisfies the local optimality condition.
-We derive deterministic conditions to compare the prediction loss of the local minimum to single-task learning.
+Therefore, we consider an arbitrary local minimum and provide generalization bounds that scale with key properties of task data such as sample sizes and covariate shifts.
+We focus on the two-task case to better understand the impact of having different sample sizes and different covariates in hard parameter sharing. %We derive deterministic conditions to compare the prediction loss of the local minimum to single-task learning.
+
+We first provide a key technical tool that we derived using recent developments in random matrix theory \cite{??}.
+To motivate our study, we consider a specialized setting where the output layer weights $A_1, A_2$ are both equal to one.
+Without loss of generality, we consider task two.
+For this setting, we can obtain the hard parameter sharing estimator $\hat{\beta}_2^{\MTL} = B A_2 = B$ by solving $B$ in equation \eqref{eq_mtl} as follows:
+\begin{align*}
+	\hat{\beta}_2^{\MTL} = {\hat{\Sigma}}^{-1} ({X^{(1)}}^{\top} Y^{(1)} + {X^{(2)}}^{\top} Y^{(2)}), \text{ where } \hat{\Sigma} = {X^{(1)}}^{\top} X^{(1)} + {X^{(2)}}^{\top} X^{(2)}
+\end{align*}
+Next, we derive the prediction loss of hard parameter sharing in expectation over the random noise, since the empirical quantity is close to the expectation similar to what we have shown in Claim \ref{claim_pred_err}:
+\begin{align*}
+	\exarg{\cE}{L(\hat{\beta}_2^{\MTL}) \mid X^{(1)}, X^{(2)}} =
+	\bignorm{(\Sigma^{(2)})^{1/2} \hat{\Sigma}^{-1} {X^{(1)}}^{\top} X^{(1)} (\beta^{(1)} - \beta^{(2)})}^2
+	+ \sigma^2 \bigtr{\Sigma^{(2)}\hat{\Sigma}^{-1}}.
+\end{align*}
 
 
 Based on the above intuition, in the following we develop generalization bounds that relate the bias and variance of multi-task learning to the sample sizes and the covariance matrices of both tasks.
@@ -11,7 +26,7 @@ We introduce a key matrix $M\equiv M(W_1/W_2): =\frac{W_1}{W_2} \Sigma_1^{1/2}\S
 	Define the following
 	\[ \Pi_{\vari} \define \frac{1}{n_1 + n_2}\cdot \bigtr{ (a_1 \Sigma_1 + a_2\Sigma_2)^{-1} \Sigma_2}. \]
 
-	In the above equation, $a_1$ and $a_2$ are the solutions of the following two equations that only depend on the sample sizes $\rho_1, \rho_2$, and the singluar values of the covariate shift matrix $M$:
+	In the above equation, $a_1$ and $a_2$ are the solutions of the following two equations that only depend on the sample sizes $\rho_1, \rho_2$, and the singular values of the covariate shift matrix $M$:
 	\begin{align}
 		a_1 + a_2 = 1- \frac{1}{\rho_1 + \rho_2},\quad a_1 + \frac1{\rho_1 + \rho_2}\cdot \bigbrace{\frac{1}{p}\sum_{i=1}^p \frac{\lambda_i^2 a_1}{\lambda_i^2 a_1 + a_2}} = \frac{\rho_1}{\rho_1 + \rho_2}. \label{eq_a12extra}
 	\end{align}
