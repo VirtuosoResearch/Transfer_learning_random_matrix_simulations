@@ -13,12 +13,21 @@ M= U\Lambda V^\top, \quad \Lambda=\text{diag}( \lambda_1, \ldots, \lambda_p).
 Then using equation \eqref{eigen2}, we can write
 \be\label{eigen2extra}[(X^{(1)})^\top (X^{(1)})+(X^{(2)})^\top (X^{(2)})]^{-1}= \Sigma_2^{-1/2}V\left(   \Lambda U^\top (Z^{(1)})^\top Z^{(1)} U\Lambda  + V^\top (Z^{(2)})^\top Z^{(2)}V\right)^{-1}V^\top\Sigma_2^{-1/2}.\ee
 %We divide the discussion into the following parts.
-To study the inverse $(   \Lambda U^\top (Z^{(1)})^\top Z^{(1)} U\Lambda  + V^\top (Z^{(2)})^\top Z^{(2)}V)^{-1}$, we shall use the standard Stieltjes transform method (or the resolvent method) in random matrix theory \cite{bai2009spectral,tao2012topics,erdos2017dynamical}. We now give some preliminaries about 
-this method before describing the proof strategy.  
+To study this expression, we shall use the standard Stieltjes transform method (or the resolvent method) in random matrix theory \cite{bai2009spectral,tao2012topics,erdos2017dynamical}. We now give some preliminaries about this method before discussing the proof strategy.  
 
-\cor
-This has been more formal in work on deterministic equivalents, see e.g., \cite{Hachem2007deterministic,DS18}. 
-\nc
+For any measure $\mu$ supported on $[0,\infty)$, it defines a Stieltjes transform through
+$$m_\mu(z):= \int_0^\infty \frac{\dd\mu(x)}{x-z},\quad z\in \C\setminus [0,\infty).$$
+Conversely, given a Stieltjes transform $m_{\mu}(z)$, we can recover the measure $\mu$ through the inverse formula
+$$ \rho(x)=\frac{1}{\pi}\lim_{\eta \downarrow 0}\im m_{\mu}(x+\ii \eta),$$
+where $\rho(x)$ is the density for $\mu$, i.e. $\dd \mu(x)=\rho(x)\dd x$. Hence the Stieltjes transform method reduces the study of a measure $\mu$ to the study of an analytic function $m_\mu(z)$. Let $\mu=p^{-1}\sum_{i=1}^p \delta_{\sigma_i}$ be the empirical spectral distribution of the matrix $Y_p:=(n_1+n_2)^{-1}(\Lambda U^\top (Z^{(1)})^\top Z^{(1)} U\Lambda  + V^\top (Z^{(2)})^\top Z^{(2)}V)$, where $\sigma_i$ denote the eigenvalues of $Y_p$, and the scaling $(n_1+n_2)^{-1}$ is chosen such that $\pi$ is supported on a bounded interval. Then with the above notations, the Stieltjes transform of the empirical spectral distribution $\mu$ is 
+$$ m_{\mu}=\frac{1}{p}\sum_{i=1}^p \frac{1}{\sigma_i - z}= p^{-1}\tr\left[ (Y_p-z\id_p)^{-1}\right].$$ 
+The Stieltjes transform method in random matrix theory aims to show that $m_{\mu}$ satisfies a fixed-point equation asymptotically, which allows us to derive the asymptotic limit of $\mu$.
+
+
+However, for our purpose, we not only need to know the limit of the trace $\tr\left[ (Y_p-z\id_p)^{-1}\right]$, but also need to obtain the limit of $\tr\left[ (Y_p-z\id_p)^{-1}B\right]$ for any given deterministic matrix $B$. This  requires us to study the matrix $(Y_p-z\id_p)^{-1}$ directly, which is called resolvent or Green's function. Roughly speaking, the resolvent can be regarded as a matrix version of the Stieltjes transform. The convergence of resolvent can be formulated formally in a slightly more modern language in terms of local laws, see e.g. \cite{isotropic,erdos2017dynamical,Anisotropic}, or deterministic equivalents, see e.g., \cite{Hachem2007deterministic,DS18}. More precisely, given a deterministic $p\times p$ matrix, say $R_p(z)$, of growing dimensions, we say that it is a deterministic equivalent of $(Y_p-z\id_p)^{-1}$ if for any sequence of deterministic matrices $B_p$ of uniformly bounded operator norms,
+$$\tr \left\{\left[ (Y_p-z\id_p)^{-1}-R_p(z)\right]B_p\right\}\to 0.$$
+If this holds, then we shall say that $(Y_p-z\id_p)^{-1}$ has a matrix limit $R_p$. In this paper, we shall prove a stronger convergence of the resolvent $(Y_p-z\id_p)^{-1}$ in the sense of local laws, which also gives an (almost) sharp convergence rate. Our proof will be centralized around the resolvent and its local law.
+ 
 
 \paragraph{Proof overview.} We divide the discussion into the following parts.
 
