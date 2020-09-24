@@ -54,22 +54,22 @@ observed in Taskonomy \cite{ZSSGM18}.
 	For task one, we assume that its model parameter, denoted by $\beta_1$, is equal to $\beta_2$ plus i.i.d. Gaussian entries with mean $0$ and variance $d^2$.
 	Therefore, the two tasks have different ground truth models. In particular, the distance between $\beta_1$ and $\beta_2$ roughly scales as $d^2 \cdot p$.
 
-\begin{example}[Varying model distance]
-\end{example}
+%\begin{example}[Varying model distance]
+%\end{example}
 
 Using Theorem \ref{thm main RMT}, %our techniques described later in Section \ref{sec_general}, 
 we derive the limiting prediction loss of the hard parameter sharing estimator.
 Without loss of generality, we describe the result for task two and remark that a similar result for task one holds.
 
-\begin{corollary}[Derived from Theorem \ref{thm main RMT}]
+\begin{corollary}[Derived from Theorem \ref{thm main RMT}]\label{cor MTL loss}
 	Assume that the isotropic setting described above holds, and that there exists a small constant $c_0>0$ such that the signal-to-noise ratios satisfy that
 \be\label{choiceofpara0}
 p^{ c_0} \le \frac{p\kappa^2}{\sigma^2 }  \le p^{1-c_0},\quad  \frac{pd^2}{\sigma^2}=\OO(1).
 \ee
 	Let $B, W_1, W_2$ be the global minimum of equation \eqref{eq_mtl}. Then with high probability, the prediction loss of the hard parameter sharing estimator for task two satisfies:
 	\begin{align*}
-	 \left( 1-\frac{1}{\sqrt{\rho_1}}\right)^4 pd^2\cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3} +\OO(p^{-c}\sigma^2)  \le L(\hat{\beta}_2^{\MTL}) -\frac{\sigma^2}{\rho_1+\rho_2-1} \\
-	 \le  \left( 1+\frac{1}{\sqrt{\rho_1}}\right)^4 pd^2\cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3} +\OO(p^{-c}\sigma^2 )
+	%-\left[1- \left( 1-\frac{1}{\sqrt{\rho_1}}\right)^4\right] pd^2\cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3} +\OO(p^{-c}\sigma^2)  \le 
+	 & \left|L(\hat{\beta}_2^{\MTL}) -\frac{\sigma^2}{\rho_1+\rho_2-1} - pd^2\cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3}\right|  \le  \left[\left( 1+\frac{1}{\sqrt{\rho_1}}\right)^4-1\right] pd^2\cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3} +\OO(p^{-c}\sigma^2 )
 	 \end{align*}
 	 for any constant $c\in (0,c_0)$.
 	 \iffalse
@@ -83,10 +83,19 @@ p^{ c_0} \le \frac{p\kappa^2}{\sigma^2 }  \le p^{1-c_0},\quad  \frac{pd^2}{\sigm
 \end{corollary}
 
 
-It is well-known since the seminal work of Caruana \cite{C97} that how well multi-task learning performs depends on task relatedness.
-We formalize this connection in the above isotropic setting, where we can perform explicit calculations.
-We show that as we increase the distance between $\beta_1$ and $\beta_2$, there is a transition from positive transfer to negative transfer in MTL.
-In particular, the bias of MTL increases as the distance between $\beta_1$ and $\beta_2$ increases.
+It is well-known since the seminal work of Caruana \cite{C97} that how well multi-task learning performs depends on task relatedness.We formalize this connection in the above isotropic setting, where we can perform explicit calculations. The prediction loss of MTL has been given in Corollary \ref{cor MTL loss}. We can also calculate the prediction STL easily using Fact \ref{lem_minv} (ii). The proof of the following claim will be given in Section \ref{app_iso_cov}.
+\begin{claim}
+Under the above isotropic setting for task two, we have that with high probability,
+\begin{align*}
+	 L(\hat{\beta}_2^{\STL}) = \frac{\sigma^2}{ \rho_2-1}  +\OO(p^{-c}\sigma^2 )
+	 \end{align*}
+	 for any constant $c\in (0,1/2)$.
+\end{claim}
+
+\medskip
+
+\noindent{\bf Varying model distance.} We show that as we increase the distance between $\beta_1$ and $\beta_2$, there is a transition from positive transfer to negative transfer in MTL.
+ In particular, the bias of MTL increases as the distance between $\beta_1$ and $\beta_2$ increases.
 Therefore, while the variance of MTL still reduces compared to STL, if the bias increases more than the amount of variance reduced, we will observe negative transfer.
 
 
@@ -150,7 +159,8 @@ thus simplifying the general condition in Theorem \ref{thm_main_informal}.
 
 %\subsection{Sample Ratio}\label{sec_data_size}
 
-In classical Rademacher or VC based theory of multi-task learning, the generalization bounds are usually presented for settings where the sample sizes are equal for all tasks \cite{B00,M06,MPR16}.
+\medskip
+\noindent{\bf Varying sample ratio.} In classical Rademacher or VC based theory of multi-task learning, the generalization bounds are usually presented for settings where the sample sizes are equal for all tasks \cite{B00,M06,MPR16}.
 %More generally, such results are still applicable when all task data are being added simultaneously.
 On the other hand, uneven sample sizes between different tasks (or even dominating tasks) have been empirically observed as a cause of negative transfer \cite{YKGLHF20}.
 For such settings, we have also observed that adding more labeled data from one task does not always help.
