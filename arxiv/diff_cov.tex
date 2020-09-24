@@ -3,7 +3,7 @@
 When the covariates across tasks are different, we can no longer obtain an optimal solution for minimizing equation \eqref{eq_mtl} as in Claim \ref{lem_exp_opt}.
 This is because the minimization problem is non-convex with respect to $A$ and $B$.
 Therefore, we consider an arbitrary local minimum of equation \eqref{eq_mtl} and provide generalization bounds that scale with key properties of task data such as sample sizes and covariate shifts.
-We focus on the two-task case to better understand the impact of having different sample sizes and different covariates in hard parameter sharing. %We derive deterministic conditions to compare the prediction loss of the local minimum to single-task learning.
+We focus on the two-task case to better understand the impact of having different sample sizes and different covariates in hard parameter sharing.
 We will develop the key technical results in this section, and describe their implications in the next section.
 
 We first provide a key technical tool that we derived using recent developments in random matrix theory \cite{??}.
@@ -25,41 +25,30 @@ Interestingly, the prediction loss admits a bias-variance decomposition similar 
 In both the bias and variance equations, the matrix inverse $\hat{\Sigma}^{-1}$ is a crucial quantity.
 Intuitively, this matrix inverse combines the sample covariance matrix of both tasks, and it is not hard to see that the expectation of $\hat{\Sigma}$ is equal to a mixture of their population covariance matrices, with mixing proportions determined by the sample sizes.
 However, since the two tasks have different covariates, the scaling of $\hat{\Sigma}^{-1}$ not only depends on the tasks' sample sizes, but also depends on the covariate shift between the two tasks.
-We introduce a key result that show tight asymptotic convergence rate of the bias equation \eqref{eq_bias_2task} and the variance equation  as sample sizes increase to infinity.
-%The following two lemmas  are the main random matrix theoretical results of this paper, which will be used to estimate the two terms on the right-hand side of \eqref{eq_te_mtl_2task}.
+Building on the intuition, We introduce a key result that shows tight asymptotic convergence rate of the bias and variance as $p$ goes to infinity.
 We define a key quantity $M \define \Sigma_1^{1/2}\Sigma_2^{-1/2}$ that captures the covariate shift between task $1$ and task $2$.
-Let $\lambda_1, \lambda_2, \dots, \lambda_p$ be the singular values of $M$ in descending order.
-%Based on the above intuition, in the following we develop generalization bounds that relate the bias and variance of multi-task learning to the sample sizes and the covariance matrices of both tasks.
+Let $U\Lambda V^\top$ denote the singular value decomposition of $M$, where $\Lambda\in\real^{p\times p}$ consists of $M$'s singular values $\lambda_1, \lambda_2, \dots, \lambda_p$ as its diagonal entries in descending order.
 
 \begin{theorem}\label{thm main RMT}
 	Suppose that $X_1$ and $X_2$ are both random matrices that satisfy Assumption \ref{assume_rm}.
-	Then we have the following asymptotic limits:
+	With high probability over the randomness of $X_1$ and $X_2$, we have the following limits:
 	\begin{enumerate}
-		\item[i)] Limiting variance:
-		 	Define the following
-			\[ \Pi_{\vari} \define \frac{1}{n_1 + n_2}\cdot \bigtr{ (a_1 \Sigma_1 + a_2\Sigma_2)^{-1} \Sigma_2}. \]
-			In the above equation, $a_1$ and $a_2$ are the solutions of the following two equations that only depend on the sample sizes $\rho_1, \rho_2$, and the singular values of the covariate shift matrix $M$:
+		\item[i)]  The variance equation converges to the following asymptotic limit
+			\begin{align}\label{lem_cov_shift_eq}
+				\bigabs{\bigtr{\Sigma^{(2)} \bigbrace{(n_1 + n_2){\hat{\Sigma}^{-1}} - (a_1 \Sigma^{(1)} + a_2 \Sigma^{(2)})^{-1}}}} \lesssim p^{-c_{\varphi}}\norm{\Sigma^{(2)}},
+			\end{align}
+			where $a_1$ and $a_2$ are the solutions of the following two equations:
 			\begin{align}
 				a_1 + a_2 = 1- \frac{1}{\rho_1 + \rho_2},\quad a_1 + \frac1{\rho_1 + \rho_2}\cdot \bigbrace{\frac{1}{p}\sum_{i=1}^p \frac{\lambda_i^2 a_1}{\lambda_i^2 a_1 + a_2}} = \frac{\rho_1}{\rho_1 + \rho_2}. \label{eq_a12extra}
 			\end{align}
-			Then we have that
-			\begin{align}\label{lem_cov_shift_eq}
-				\bigtr{\Sigma^{(2)} \hat{\Sigma}^{-1}} = \bigtr{\Pi_{\vari}} + \OO(p^{-c}\norm{\Sigma^{(2)}}), %\bigo{\|\| p^{-1/2+\epsilon}}
+		\item[ii)] For any fixed vector $w\in\real^p$ with unit norm, the bias equation converges to the following asymptotic limit
+			\begin{align}\label{def Pibias}
+				\bigabs{w^{\top} \Sigma^{(1)} \bigbrace{(n_1+n_2)^2\hat{\Sigma}^{-1} \Sigma^{(2)} \hat{\Sigma}^{-1} - {\Sigma^{(2)}}^{-1/2} V {\frac{a_3 \Lambda^2 + (a_4 + 1)\id}{(a_1 \Lambda + a_2\id)^2}} V^{\top} {\Sigma^{(2)}}^{-1/2}} \Sigma^{(1)} w} \lesssim p^{-c_{\varphi}},
 			\end{align}
-		\item[ii)] Limiting bias: Let
-			\be\label{def Pibias} \Pi_\bias \define  M \frac{a_3 M^{\top}M + (1 + a_4) \id_{p\times p}}{(a_1 M^{\top}M + a_2\id_{p\times p})^2} M^{\top}, \ee
-				where $a_{3}$ and $a_4$ are the solutions of the following two equations:
-			\begin{gather}\label{eq_a34extra}
+				where $a_{3}$ and $a_4$ are the solutions of the following two equations with $b_k = \frac1{p}\sum_{i=1}^p \frac{\lambda_i^{2k}} {(\lambda_i^2 a_1 + a_2)^2}$, for $k = 0, 1, 2$:
+			\begin{align}\label{eq_a34extra}
 				\left(\frac{\rho_1}{a_1^{2}} -  b_2  \right)\cdot  a_3 -  b_1 \cdot  a_4 = b_1,\quad \left(\frac{\rho_2}{a_2^{2}}-  b_0\right)\cdot  a_4 - b_1 \cdot  a_3
-				= b_0 .
-%		\left(\frac{n_1}{\hat a_1^2} -  \sum_{i=1}^p \frac{\hat \lambda_i^4   }{  (\hat a_2 + \hat \lambda_i^2\hat a_1)^2  }\right)\hat a_4 -\left(\sum_{i=1}^p \frac{\hat \lambda_i^2  }{  (\hat a_2 + \hat \lambda_i^2\hat a_1)^2  }\right)\hat a_3
-%		= \sum_{i=1}^p \frac{\hat \lambda_i^2 }{  (\hat a_2 + \hat \lambda_i^2\hat a_1)^2  }. \label{eq_a4}
-			\end{gather}
-				In the above equation, we denote $b_k$ as $\frac1{p}\sum_{i=1}^p {\lambda_i^{2k}} / { (\lambda_i^2 a_1 + a_2)^2  }$, for $k = 0, 1, 2$.
-			Then, we have that
-			\begin{align}\label{lem_cov_derv_eq}
-				\bignorm{\Sigma_2^{1/2} \bigbrace{\hat{\Sigma}{n_1 + n_2}}^{-1} \Sigma_1^{1/2} w}^2
-						= w^{\top} \Pi_\bias w + o(\|w\|^2),
+				= b_0.
 			\end{align}
 	\end{enumerate}
 \end{theorem}
@@ -92,11 +81,6 @@ The full proof of Lemma \ref{lem_cov_shift} and Lemma \ref{lem_cov_derivative} w
 %We briefly describe the key ideas for proving Lemma \ref{lem_cov_shift} and Lemma \ref{lem_cov_derivative}.
 
 \paragraph{Preliminaries.} Both Lemma \ref{lem_cov_shift} and Lemma \ref{lem_cov_derivative} require a study of the matrix inverse $[(X^{(1)})^\top X^{(1)}+(X^{(2)})^\top X^{(2)}]^{-1}$ for $X^{(1)}= Z^{(1)}\Sigma_1^{1/2}$ and $X^{(2)}= Z^{(2)}\Sigma_2^{1/2}$.
-%\HZ{Suggestion: focus on the proof overview of Lemma \ref{lem_cov_shift} only. Use one paragraph in the end to say how to extend the idea to Lemma \ref{lem_cov_derivative}}
-Suppose $M=\Sig_1^{1/2} \Sig_2^{-1/2}$ has a singular value decomposition
-\be\label{eigen2}
-M= U\Lambda V^\top, \quad \Lambda=\text{diag}( \lambda_1, \ldots, \lambda_p).
-\ee
 Then using equation \eqref{eigen2}, we can write
 \be\label{eigen2extra}[(X^{(1)})^\top (X^{(1)})+(X^{(2)})^\top (X^{(2)})]^{-1}= \Sigma_2^{-1/2}V\left(   \Lambda U^\top (Z^{(1)})^\top Z^{(1)} U\Lambda  + V^\top (Z^{(2)})^\top Z^{(2)}V\right)^{-1}V^\top\Sigma_2^{-1/2}.\ee
 %We divide the discussion into the following parts.
@@ -242,245 +226,8 @@ where in the second step we used $V \Lambda^2 V^\top=M^\top M=\Sigma_2^{-1/2}\Si
 %\alert{Together with equation \eqref{rewrite X as R} and $V \Lambda^2 V^\top=M^\top M=\Sigma_2^{-1/2}\Sigma_1\Sigma_2^{-1/2}$ by equation \eqref{eigen2}, we can obtain equation \eqref{lem_cov_shift_eq} in the large $n$ limit.}\HZ{I do not understand this sentence.}
 
 
-\begin{corollary}[Two tasks with different covariates]\label{thm_main_informal}
-	%For the setting of two tasks, let $\delta > 0$ be a fixed error margin, $\rho_2 > 1$ and $\rho_1 \gtrsim \delta^{-2}\cdot \lambda_{\min}(M)^{-4} \norm{\Sigma_1} \max(\norm{\beta_1}^2, \norm{\beta_2}^2)$.
-	For the setting of two tasks, let $C$ be a fixed constant.
-	Let $B, W_1, W_2$ be any local minimum of equation \eqref{eq_mtl}.
- 	%There exist two deterministic functions $\Delta_{\bias}$ and $\Delta_{\vari}$ that only depend on scaled model distance $\beta_1 - \frac{W_1}{W_2} \beta_2$, sample sizes $n_1 = \rho_1 \cdot p, n_2 = \rho_2 \cdot p$, and covariate shift matrix $M$ such that
-	We have that
-	\begin{align*}
-		\bigabs{L(\hat{\beta}_2^{\MTL}) - \Pi_{\vari} - (\beta_1 - \frac{W_1}{W_2}\beta_2)^{\top}\Pi_{\bias} (\beta_1 - \frac{W_1}{W_2}\beta_2)} \le \frac{ C\cdot \max(\norm{\beta_1}, \norm{\beta_2}) \cdot \sqrt{\norm{\Sigma_1}} } {\lambda_{\min}^2(M)) } \cdot \frac{1}{\sqrt{\rho_1}}
-	\end{align*}
-%	\begin{enumerate}
-%		\item[a)] \textbf{Positive transfer:} If $\Delta_{\bias} < \Delta_{\vari} -  \frac{\delta}{\sqrt{\rho_1}} $, then w.h.p. over the randomness of $X_1, X_2, \varepsilon_1, \varepsilon_2$, we have
-%			\[ \te(\hat{\beta}_2^{\MTL}) < \te(\hat{\beta}_2^{\STL}).  \]
-%		\item[b)] \textbf{Negative transfer:} If $\Delta_{\bias} > \Delta_{\vari} + \frac{\delta}{\sqrt{\rho_1}}$, then w.h.p. over the randomness of $X_1, X_2, \varepsilon_1, \varepsilon_2$, we have
-%			\[ \te(\hat{\beta}_2^{\MTL}) > \te(\hat{\beta}_2^{\STL}). \]
-%	\end{enumerate}
-\end{corollary}
-In words, the above result shows that a deterministic function $\Delta_{\bias} - \Delta_{\vari}$ determines whether the prediction loss of the empirical multi-task learning estimator is lower than that of single-task learning, up to an error that scales as $\delta / \sqrt{\rho_1}$.
-We make several remarks about Corollary \ref{thm_main_informal}.
-First, as the amount of data from the source task increases, we get more accurate predictions  since the error scales down.
-This applies to many practical settings where collecting labeled data for the target task is expensive and auxillary (source) task data is easier to obtain.
-%Theorem \ref{thm_main_informal} applies to settings where large amounts of source task data are available but the target sample size is small.
-%For such settings, we obtain a sharp transition from positive transfer to negative transfer determined by $\Delta_{\bias} - \Delta_{\vari}$.
-%determined by the covariate shift matrix and the model shift.
-%The bounds get tighter and tighter as $\rho_1$ increases.
-Second, the deterministic function $\Delta_{\bias} - \Delta_{\vari}$ depends on the three task properties that we care about and the precise form can be found in Section \ref{sec_proof_general}.
-Finally, later on in Section \ref{sec_special}, we will study how varying each task property affects the performance of multi-task learning in depth.
-
-Lemma \ref{lem_cov_shift} derives the asymptotic limit of the variance equation \eqref{eq_var_2task}.
-To see this, we rescale $X_1$ with $W_1 / W_2$ and set the matrix $\Sigma$ as $\sigma^2 \Sigma_2$.
-%allows us to get a tight bound on equation \eqref{eq_te_var}, that only depends on \textit{sample size}, \textit{covariate shift} and the scalar $\hat{v}$.
-As a remark, the concentration error $o(\|A\|)$ on the right hand side of equation \eqref{lem_cov_shift_eq} reduces provided with stronger moment assumptions on $X_1$ and $X_2$. % p^{-1/2+\epsilon}
-Recall from Section \ref{sec_prelim} that the feature vectors are generated by $\Sigma_i^{1/2} z$, where $z\in\real^p$ consists of i.i.d. entries with mean zero and unit variance.
-Provided that for every entry of $z$, its $k$-th moment exists, then we can obtain a concentration error at most $\bigo{\norm{A} p^{-1/2 + 2/k + o(1)}}$.
-\todo{We remark that one can probably derive the same asymptotic result using free probability theory (see e.g. \cite{nica2006lectures}), but our results \eqref{lem_cov_shift_eq} and \eqref{lem_cov_derv_eq} also give an almost sharp error bound $\bigo{ p^{-1/2+\epsilon}}$.}
-%We will use the matrix fractional notation $\frac{X}{Y}$ for two PSD matrices that share the same eigenspace.
-%That is, suppose that the SVD of $X, Y$ is $X = U D_1 U^{\top}$ and $Y = U D_2 U^{\top}$.
-%We denote $\frac{X}{Y} = U D_{1} D_2^{-1} U^{\top}$.
-%Using the notation, we introduce an important quantity that describes the limit of the bias equation as $p$ goes to infinity.
-%Our next result shows that the bias equation \eqref{eq_bias_2task} is described by the above limiting bias asymptotically.
-%\begin{lemma}[Bias asymptotics]\label{lem_cov_derivative}
-%In the setting of Theorem \ref{thm_main_informal}, let $w \in \R^p$ be any vector that is independent of $X_1$ and $X_2$.
-%With high probability, we have that
-%\begin{equation}\label{lem_cov_derv_eq}
-%\begin{split}
-%\bignorm{\Sigma_2^{1/2} \bigbrace{\frac{X_1^{\top}X_1 + X_2^{\top}X_2}{n_1 + n_2}}^{-1} \Sigma_1^{1/2} w}^2
-%= w^{\top} \Pi_\bias w + o(\|w\|^2),
-%\end{split}
-%\end{equation}
-%where $\Pi_\bias$ was defined in \eqref{def Pibias} with $M\equiv M(1): = \Sigma_1^{1/2}\Sigma_2^{-1/2}$.
-%\end{lemma}
-To apply the above result to equation \eqref{eq_bias_2task}, we first approximate $X_1^{\top}X_1$ by $\Sigma_1$, and then use Lemma \ref{lem_cov_derivative} with $w = \Sigma_1 (\beta_1 - \frac{W_1}{W_2} \beta_2)$.
-Note that we can rescale $X_1$ by $W_1 / W_2$ and $\Sigma_1$ by $(W_1 / W_2)^2$, and the rest of the steps follows.
-As a remark, the approximation of $X_1^{\top}X_1$ by $\Sigma_1$ incurs a generalization error that scales down with $\rho_1$, which is the $\delta / \sqrt{\rho_1}$ term in Theorem \ref{thm_main_informal} more precisely. The formal proof of Theorem \ref{thm_main_informal} using Lemma \ref{lem_cov_shift} and Lemma \ref{lem_cov_derivative} will be presented in Section \ref{app_proof_main_thm}.
-Finally, while the limiting bias $\Pi$ provides a precise connection with general covariate shift matrices $M$, it can be difficult to interpret.
-In Section \ref{sec_special}, we show that $\Pi$ can be significantly simplified in an isotropic covariance setting.
-%While the general form of these functions can be complex (as are previous generalization bounds for MTL), they admit interpretable forms for simplified settings.
-
-%\textbf{Proof overview.}\todo{}
-%Theorem \ref{lem_cov_shift_informal} extends a well-known result for the single-task setting when $X_1, \rho_1, a_1$ are all equal to zero \cite{S07}.
-%Applying Theorem \ref{lem_cov_shift_informal} to \eqref{eq_te_var}, we can calculate the amount of reduced variance compared to STL, which is given asymptotically by $\Delta_{\vari}$.
-%For the bias term in equation \eqref{eq_te_model_shift}, we apply the approximate isometry property to $X_1^{\top}X_1$, which is close to $n_1^2\Sigma_1$. This results in the error term $\delta$, which scales as $(1 + 1/\sqrt{\rho_1})^4-1$.
-%Then, we apply a similar identity to Theorem \ref{lem_cov_shift_informal} for bounding the bias term, noting that the derivative of $R(z)$ with respect to $z$ can be approximated by $R_\infty'(z)$.
-%This estimates the negative effect given by $\Delta_{\bias}$. %, which will be used to estimate the first term on the right hand side of \eqref{eq_te_model_shift}.
-%During this process, we will get the $\Delta_{\bias}$ term up to an error $\delta$ depending on $\rho_1$.
-%The proof of Theorem \ref{thm_main_informal} is presented in Appendix \ref{app_proof_main_thm} and the proof of Lemma \ref{lem_cov_shift_informal} is in Appendix \ref{sec_maintools}.
-%
-%
-%
-%The formal statement is stated in Theorem \ref{thm_many_tasks} and its proof can be found in Appendix \ref{app_proof_many_tasks}.
-%The technical crux of our approach is to derive the asymptotic limit of $\te(\hat{\beta}_t^{\MTL})$ in the high-dimensional setting, when $p$ approaches infinity.
-%We derive a precise limit of $\bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2}$, which is a deterministic function that only depends on $\Sigma_1, \Sigma_2$ and $n_1/p, n_2/p$ (see Lemma \ref{lem_cov_shift} in Appendix \ref{app_proof_main} for the result).
-%Based on the result, we show how to determine positive versus negative transfer as follows.
-%, where $\lambda_{\min}(M)$ is the smallest singular value of $M_1$
-
-
-%\begin{lemma}[Variance bound]\label{lem_cov_shift_informal}
-%	In the setting of two tasks,
-%	let $n_1 = \rho_1 \cdot p$ and $n_2 = \rho_2 \cdot$ be the sample size of the two tasks.
-%	Let $\lambda_1, \dots, \lambda_p$ be the singular values of the covariate shift matrix $\Sigma_1^{1/2}\Sigma_2^{-1/2}$ in decreasing order.
-%	%let $n_1 = \rho_1 \cdot p$ and $n_2 = \rho_2 \cdot p$ denote the sample sizes of each task.
-%	%Let $\Sigma_1$ and $\Sigma_2$ denote the covariance matrix of each task.
-%	With high probability, the variance of the multi-task estimator $\hat{\beta}_t^{\MTL}$ equals
-%	%let $M = \Sigma_1^{1/2}\Sigma_2^{-1/2}$ and $\lambda_1, \lambda_2, \dots, \lambda_p$ be the singular values of $M^{\top}M$ in descending order.
-%%	For any constant $\e>0$, w.h.p. over the randomness of $X_1, X_2$, we have that
-%	{\small\begin{align*}%\label{eq_introX1X2}
-%		%\bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2} =
-%		\frac{\sigma^2}{n_1+n_2}\cdot \bigtr{ (\hat{v}^2 a_1 \Sigma_2^{-1/2}\Sigma_1\Sigma_2^{-1/2} + a_2\id)^{-1}} +\bigo{{p^{-1/2+o(1)}}},
-%	\end{align*}}%
-%	where $a_1, a_2$ are solutions of the following equations:
-%	{\small\begin{align*}
-%		a_1 + a_2 = 1- \frac{1}{\rho_1 + \rho_2},\quad a_1 + \frac1{\rho_1 + \rho_2}\cdot \frac{1}{p}\sum_{i=1}^p \frac{\hat{v}^2\lambda_i^2 a_1}{\hat{v}^2\lambda_i^2 a_1 + a_2} = \frac{\rho_1}{\rho_1 + \rho_2}.
-%	\end{align*}}
-%%are both fixed values that roughly scales with the sample sizes $\rho_1, \rho_2$, and satisfy $a_1 + a_2 = 1 - (\rho_1 + \rho_2)^{-1}$ plus another deterministic equation.
-%\end{lemma}
-
-
-%which deals with the inverse of the sum of two random matrices, which
-%any is can be viewed as a special case of Theorem \ref{thm_model_shift}.
-
-%\begin{lemma}[Variance asymptotics]\label{lem_cov_shift}
-	%Let $X_i\in\real^{n_i\times p}$ be a random matrix that contains i.i.d. row vectors with mean $0$ and variance $\Sigma_i\in\real^{p\times p}$, for $i = 1, 2$.
-	%Suppose $X_1=Z_1\Sigma_1^{1/2}\in \R^{n_1\times p}$ and $X_2=Z_2\Sigma_2^{1/2}\in \R^{n_2\times p}$ satisfy Assumption \ref{assm_secA1} with $\rho_1:=n_1/p>1$ and $\rho_2:=n_2/p>1$ being fixed constants.
-	%Denote by $M = \Sigma_1^{1/2}\Sigma_2^{-1/2}$ and
-%	Let $\Sigma \in \real^{p \times p}$ be any fixed and deterministic matrix.
-%	In the setting of Theorem \ref{thm_main_informal},
-%	with probability $1-\oo(1)$ over the randomness of $X_1$ and $X_2$, we have that %for any constant $\e>0$,
-	%When $n_1 = c_1 p$ and $n_2 = c_2 p$, we have that with high probability over the randomness of $X_1$ and $X_2$, the following equation holds
-%	\begin{align}\label{lem_cov_shift_eq}
-%		\bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} \Sigma} = \bigtr{ (a_1 \Sigma_1 + a_2\Sigma_2)^{-1} \Sigma} + o(\norm{\Sigma}), %\bigo{\|\| p^{-1/2+\epsilon}}
-%	\end{align}
-%where $(a_1,a_2)$ is the solution to equation \eqref{eq_a12extra} with $\lambda_i$ being the singular values of $M\equiv M(1): = \Sigma_1^{1/2}\Sigma_2^{-1/2}$.
-%\end{lemma}
 
 
 
 
-\subsection{Warmup: Proof Overview for the Gaussian Case}
-Now we give a heuristic derivation of the matrix limit when the entries of $Z^{(1)}$ and $Z^{(2)}$ are i.i.d. Gaussian. In this case,
-%However, notice that if the entries of $(Z^{(1)})\equiv (Z^{(1)})^{\text{Gauss}}$ and $(Z^{(2)})\equiv (Z^{(2)})^{\text{Gauss}}$ are i.i.d. Gaussian, then
-by the rotational invariance of the multivariate Gaussian distribution we have
-\be\label{eq in Gauss} Z^{(1)} U\Lambda \stackrel{d}{=} Z^{(1)} \Lambda, \quad Z^{(2)} V \stackrel{d}{=} Z^{(2)},\ee
-where ``$\stackrel{d}{=}$" means ``equal in distribution". Hence it suffices to consider the following resolvent
- \begin{equation} \label{resolv Gauss1}
-   G(z)= \left( {\begin{array}{*{20}c}
-   { -z\id_{p} } & n^{-1/2}\Lambda (Z^{(1)})^\top & n^{-1/2} (Z^{(2)})^\top  \\
-   {n^{-1/2} Z^{(1)} \Lambda  } & {-\id_{n_1}} & 0 \\
-   {n^{-1/2} Z^{(2)}} & 0 & {-\id_{n_2}}
-   \end{array}} \right)^{-1}.
- \end{equation}
 
-\medskip
-\noindent{\bf Schur complements.}
-%Now we discuss about how to obtain the matrix limit in equation \eqref{defn_piw}.
-%\HZ{Divide into several parts like sec 7 to improve readability.}
-The core quantities of the derivation are the following resolvent minors, which are defined by removing certain rows and columns of the matrix $H$.
-\begin{definition}[Resolvent minors]\label{defn_Minor}
- For any $ (p+n)\times (p+n)$ matrix $\cal A$ and $a\in \mathcal I$, we define the minor $\cal A^{(a)}:=(\cal A_{a_1 a_2}:a_1, a_2 \in \mathcal I\setminus \{a\})$ as the $ (p+n-1)\times (p+n-1)$ matrix obtained by removing the $a$-th row and column in $\cal A$. Note that we keep the names of indices when defining $\cal A^{(a)}$, i.e. $(\cal A^{(a)})_{a_1a_2}= \cal A_{a_1 a_2}$ for $a_1,a_2\ne a$. Correspondingly, we define the resolvent minor for $G$ in equation \eqref{resolv Gauss1} as %(recall equation \eqref{green2})
-\begin{align*}
-G^{(\mathfrak c)}:&=\left[ \left( {\begin{array}{*{20}c}
-   { -z\id_{p} } & n^{-1/2}\Lambda (Z^{(1)})^\top & n^{-1/2} (Z^{(2)})^\top  \\
-   {n^{-1/2} Z^{(1)} \Lambda  } & {-\id_{n_1}} & 0 \\
-   {n^{-1/2} Z^{(2)}} & 0 & {-\id_{n_2}}
-   \end{array}} \right)^{(a)}\right]^{-1} ,
-%= \left( {\begin{array}{*{20}c}
-%   { \mathcal G^{(\mathbb T)}} & \mathcal G^{(\mathbb T)} W^{(\mathbb T)}  \\
-%   {\left(W^{(\mathbb T)}\right)^\top\mathcal G^{(\mathbb T)}} & { \mathcal G_R^{(\mathbb T)} }  \\
-%\end{array}} \right)  ,
-\end{align*}
-and define the partial traces $m^{(a)}$, $m_0^{(a)}$, $m_1^{(a)}$ and $m_2^{(a)}$ by replacing $G$ with $G^{(a)}$ in equation \eqref{defm}. We adopt the convention that for the resolvent minor $G^{(a)}$ defined as above, $G^{(a)}_{a_1a_2} = 0$ if $a_1 =a$ or $a_2=a$.
-\end{definition}
-%Note that the resolvent minor $G^{(\mathfrak c)}$ is defined such that it is independent of the entries in the $\mathfrak c$-th row and column of $H$. One will see a crucial use of this fact in the heuristic proof below.
- Using Schur complement formulas in equation (\ref{resolvent2}), we have that for $i \in \cal I_0$, %$\mu \in \cal I_1$ and $\nu\in \cal I_2$,
-%\HZ{This part needs more explanation - cannot understand.}
-\begin{align}
-\frac{1}{{G_{ii} }}&=  - z - \frac{\lambda_i^2}{n} \sum_{\mu,\nu\in \mathcal I_1} Z^{(1)}_{\mu i}Z^{(1)}_{\nu i}G^{\left( i \right)}_{\mu\nu} - \frac{1}{n} \sum_{\mu,\nu\in \mathcal I_2} Z^{(2)}_{\mu i}Z^{(2)}_{\nu i}G^{\left( i \right)}_{\mu\nu} -2 \frac{\lambda_i}{n} \sum_{\mu\in \cal I_1,\nu\in \mathcal I_2} Z^{(1)}_{\mu i}Z^{(2)}_{\nu i}G^{\left( i \right)}_{\mu\nu} , \label{0self_Gii}
-\end{align}
-and for $\mu \in \cal I_1$ and $\nu\in \cal I_2$,
-\begin{align}
-\frac{1}{{G_{\mu\mu} }}&=  - 1 - \frac{1}{n} \sum_{i,j\in \mathcal I_0}\lambda_i \lambda_j Z^{(1)}_{\mu i}Z^{(1)}_{\mu j} G^{\left(\mu\right)}_{ij}, \quad \frac{1}{{G_{\nu\nu} }}=  - 1 - \frac{1}{n} \sum_{i,j\in \mathcal I_0}  Z^{(2)}_{\nu i}Z^{(2)}_{\nu j}  G^{\left(\nu\right)}_{ij},
-\label{0self_Gmu1}
-\end{align}
-where we recall the notations in equation \eqref{labelZ}. To see why equation \eqref{0self_Gii} holds, we have that by Schur complement formula,
-\begin{align*}
-\frac{1}{G_{ii}}= -z - H_i G^{(i)}H_{i}^\top, \quad H_i = \left( \mathbf 0_{p-1}, (n^{-1/2}\lambda_i (Z^{(1)})^\top_{i\mu }:\mu \in \cal I_1),(n^{-1/2} (Z^{(2)})^\top_{i\nu }:\nu \in \cal I_2)\right),
-\end{align*}
-where $H_i$ is actually the $i$-th row of $H$ with the $(i,i)$-th entry removed. Expanding the above expression, we obtain equation \eqref{0self_Gii}. The two expressions in equation \eqref{0self_Gmu1} are easier to obtain using Schur complement formula.
-
-\medskip
-\noindent{\bf Concentration estimates.} Now for the right-hand side of equation \eqref{0self_Gii}, notice that the resolvent minor $G^{(i)}$ is defined such that it is independent of the entries $Z^{(1)}_{\mu i}$ and $Z^{(2)}_{\nu i}$. Hence by the concentration inequalities in Lemma \ref{largedeviation}, we have that the  right-hand side of equation \eqref{0self_Gii} concentrates around the partial expectation over the entries $\{Z^{(1)}_{\mu i}: \mu \in \cal I_1 \}\cup \{Z^{(2)}_{\nu i}: \nu \in \cal I_2\}$, i.e., with overwhelming probability,
-\begin{align*}
-\frac{1}{{G_{ii} }}&=  - z - \frac{\lambda_i^2}{n} \sum_{\mu \in \mathcal I_1}  G^{\left( i \right)}_{\mu\mu} - \frac{1}{n} \sum_{\mu\in \mathcal I_2} G^{\left( i \right)}_{\mu\mu} +\oo(1)= - z - \lambda_i^2 \frac{\rho_1}{\rho_1+\rho_2} m_1^{(i)}(z)-  \frac{\rho_2}{\rho_1+\rho_2} m_2^{(i)}(z)+\oo(1),
-\end{align*}
-where we used the definition of $m_1^{(i)}$ and $m_2^{(i)}$ in equation \eqref{defm} with $G$ replaced by $G^{(i)}$. Intuitively, since we have removed only one column and one row out of the $(p+n)$ columns and rows in $H$, $m_1^{(i)}$ and $m_2^{(i)}$ should be close to the original $m_1$ and $m_2$. Hence we obtain from the above equation that
-\begin{align}\label{1self_Gii}
- G_{ii}  = -\left( z +\lambda_i^2 \frac{\rho_1}{\rho_1+\rho_2} m_1 +  \frac{\rho_2}{\rho_1+\rho_2}m_2+\oo(1)\right)^{-1}.
-\end{align}
-Similarly, we can obtain from equation \eqref{0self_Gmu1} that for $\mu \in \cal I_1$ and $\nu\in \cal I_2$,
-\be\label{1self_Gmu} G_{\mu \mu }=-\left(1+\frac{p}{n} m_0 + \oo(1)\right)^{-1},\quad G_{\nu\nu}=-\left(1+\frac{p}{n} m+\oo(1)\right)^{-1},\ee
-with overwhelming probability. The rigorous derivation of the above concentration estimates will be given in the proof of Lemma \ref{lemm_selfcons_weak}; see equations \eqref{self_Gii}-\eqref{erri}.
-
-\medskip
-\noindent\textbf{Deriving the self-consistent equations.} Now taking average of equation \eqref{1self_Gmu}, we obtain that
-\be\label{2self_Gmu} m_1= \frac{1}{n_1}\sum_{\mu \in \cal I_1}G_{\mu\mu}=-\left(1+\frac{p}{n} m_0 + \oo(1)\right)^{-1},\quad m_2=\frac{1}{n_2}\sum_{\nu \in \cal I_2}G_{\nu\nu}=-\left(1+\frac{p}{n} m+\oo(1)\right)^{-1},
-\ee
-with overwhelming probability. As a byproduct, comparing equations \eqref{1self_Gmu} and \eqref{2self_Gmu}, we obtain that for $\mu \in \cal I_1$ and $\nu\in \cal I_2$,
-\be\label{2.5self_Gmu} G_{\mu \mu }=m_1 +\oo(1),\quad G_{\nu\nu}=m_2+\oo(1),\ee
-with overwhelming probability. Together with the definition of $m$ and $m_0$ in equation \eqref{defm}, the two equations in equation \eqref{2self_Gmu} give that
-\be\label{3self_Gmu}  \frac1{m_1}= -1- \frac{1}{n} \sum_{i=1}^p \lambda_i^2 G_{ii}+ \oo(1),\quad \frac1{m_2}=-1-\frac{1}{n} \sum_{i=1}^p G_{ii}  + \oo(1),\ee
-with overwhelming probability. Plugging equation \eqref{1self_Gii} into equation \eqref{3self_Gmu}, we obtain that
-\be\label{approximate m1m2}
-\begin{split}
-& \frac1{m_1}= -1+ \frac{1}{n} \sum_{i=1}^p \frac{\lambda_i^2 }{ z +\lambda_i^2 \frac{\rho_1}{\rho_1+\rho_2} m_1(z) +  \frac{\rho_2}{\rho_1+\rho_2}m_2(z)+\oo(1)}+ \oo(1),\\
-& \frac1{m_2}=-1+\frac{1}{n} \sum_{i=1}^p \frac{1}{ z +\lambda_i^2 \frac{\rho_1}{\rho_1+\rho_2} m_1(z) +  \frac{\rho_2}{\rho_1+\rho_2}m_2(z)+\oo(1)}  + \oo(1),
-\end{split}
-\ee
-with overwhelming probability, which give a system of approximate self-consistent equations for $(m_1,m_2)$.
-A rigorous derivation of these two equations will be given in the proof of Lemma \ref{lemm_selfcons_weak}. Compare \eqref{approximate m1m2} to the deterministic self-consistent equations in equation \eqref{selfomega_a}, one can observe that we should have
-\be\label{approx m12 add}
-(m_1,m_2) =\left(-\frac{\rho_1+\rho_2}{\rho_1}a_{1}(z),-\frac{\rho_1+\rho_2}{\rho_2}a_{2}(z)\right)+\oo(1) \quad \text{with overwhelming probability. }
-\ee
-To justify this identity rigorously, we need to know that the self-consistent equations are stable, that is, a small perturbation of the equations leads to a small perturbation of the solution. This will be given by Lemma \ref{lem_stabw}.
-
-
-\medskip
-\noindent\textbf{Deriving the matrix limit.}  Inserting the approximate identity \eqref{approx m12 add} into equations \eqref{1self_Gii} and \eqref{2.5self_Gmu}, we get that for  $i \in \cal I_0$, $\mu \in \cal I_1$ and $\nu\in \cal I_2$,
-$$G_{ii}(z)=(-z +\lambda_i^2 a_{1}(z) + a_2(z)+\oo(1)^{-1},\quad G_{\mu\mu}=-\frac{\rho_1+\rho_2}{\rho_1}a_{1}(z)+\oo(1),\quad G_{\nu\nu}=-\frac{\rho_1+\rho_2}{\rho_2}a_{2}(z)+\oo(1),$$
-with overwhelming probability. These explain the diagonal entries of $\Gi$ in equation \eqref{defn_piw}. For the off-diagonal entries, they are close to zero due to concentration. For example, for $i\ne j\in \cal I_1$, by Schur complement formula in equation (\ref{resolvent3}), we have
-$$G_{ij}=-G_{ii}\Big({\lambda_i}{n^{-1/2}}\sum_{\mu \in \cal I_1} Z^{(1)}_{\mu i} G^{(i)}_{\mu j} + {n^{-1/2}}\sum_{\mu \in \cal I_2} Z^{(2)}_{\mu i} G^{(i)}_{\mu j} \Big).$$
-Using Lemma \ref{largedeviation}, we can show that $n^{-1/2}\sum_{\mu \in \cal I_1} Z^{(1)}_{\mu i} G^{(i)}_{\mu j}$ and $n^{-1/2}\sum_{\mu \in \cal I_2} Z^{(2)}_{\mu i} G^{(i)}_{\mu j}$ are both close to zero. The other off-diagonal entries can be bounded in the same way. The bound on the off-diagonal entries will be proved rigorously in Lemma \ref{Z_lemma}.
-
-
-\medskip
-\noindent{\bf Deriving the bias asymptotics.} Finally, we describe how to derive the bias asymptotics. We can write the left-hand side of equation \eqref{lem_cov_derv_eq} using the derivative of $\cal G$ with respect to $z$ at $z=0$. More precisely, using equation \eqref{eigen2extra} we can obtain that
-\begin{align}
-&n^2\bignorm{\Sigma_2^{1/2} \bigbrace{ (X^{(1)})^{\top}X^{(1)} + (X^{(2)})^{\top}X^{(2)} }^{-1} \Sigma_1^{1/2} w}^2 \nonumber\\
-&=n^2 w^\top \Sigma_1^{1/2}\Sigma_2^{-1/2}V\left(   \Lambda U^\top (Z^{(1)})^\top Z^{(1)} U\Lambda  + V^\top (Z^{(2)})^\top Z^{(2)}V\right)^{-2}V^\top\Sigma_2^{-1/2}\Sigma_1^{1/2}w \nonumber\\
-&=  w^\top \Sigma_1^{1/2}\Sigma_2^{-1/2}V\cal G'(0)V^\top\Sigma_2^{-1/2}\Sigma_1^{1/2}w,\label{calculate G'}
-\end{align}
-where we used equation \eqref{rewrite X as R} in the second step. Since the matrix limit of $\cal G(z)$ is given by equation \eqref{matrix limit}, it is natural to guess that the matrix limit of $\cal G'(0)$ is given by
-\be\label{cal G'0}\cal G'(0) \approx \left.\frac{\dd}{\dd z}\right|_{z=0}(-z\id_p+a_{1}(z)\Lambda^2 + a_{2}(z)\id_p)^{-1} = \frac{\id_p- a_1'(0)\Lambda^2 - a_2'(0)\id_p}{(a_{1}(0)\Lambda^2 + a_{2}(0)\id_p)^2}.\ee
-If we let $a_3:=-a_1'(0)$ and $a_4:=-a_2'(0)$, then taking implicit differentiation of equation \eqref{selfomega_a} we can check that $(a_3,a_4)$ satisfies equation \eqref{eq_a34extra}. Then inserting \eqref{cal G'0} into \eqref{calculate G'}, we obtain that
-\begin{align}
-& n^2\bignorm{\Sigma_2^{1/2} \bigbrace{ (X^{(1)})^{\top}(X^{(1)}) + (X^{(2)})^{\top}(X^{(2)}) }^{-1} \Sigma_1^{1/2} w}^2 \nonumber\\
-&\approx  w^\top \Sigma_1^{1/2}\Sigma_2^{-1/2}V\frac{a_3\Lambda^2 +(1+ a_4)\id_p}{(a_{1}\Lambda^2 + a_{2}\id_p)^2}V^\top \Sigma_2^{-1/2}\Sigma_1^{1/2}w= w^{\top} \Pi_\bias w, \label{calculatePibias}
-\end{align}
-where in the last step we used $M = \Sigma_1^{1/2}\Sigma_2^{-1/2}$ and $V \Lambda^2 V^\top=M^\top M$. This concludes equation \eqref{lem_cov_derv_eq}.
-Note that in order to have the approximate identity for $\cal G'(0)$ in equation \eqref{cal G'0}, we not only need to know the asymptotics of $\cal G(0)$, but also need to know the asymptotics of $\cal G(z)$ for general $z$ around $z=0$. This is the main reason why we need to take a general $z$ in the definition of resolvents. The rigorous proof of equation \eqref{lem_cov_derv_eq} will be given in Section \ref{sec pf RMTlemma}, where we justify the approximate identity in equation \eqref{cal G'0}.
-%In the above definition, we have taken the argument of $\cal G$ to be a general complex number, because we will need to use $\cal G'(0)$ in the proof of Lemma \ref{lem_cov_derivative}, which requires a good estimate of $\cal G(z)$ for $z$ around the origin.
-%For the variance asymptotic limit, we study the resolvent
-%	\[ R(z):= \bigbrace{\Sigma_2^{-1/2}( (X^{(1)})^{\top}(X^{(1)}) + (X^{(2)})^{\top}(X^{(2)}))\Sigma_2^{-1/2} - z \id}^{-1}, \text{ for any } z\in \C \text{ around } z=0. \]
-%Using the techniques from \citet{Anisotropic} and \citet{yang2019spiked}, we find the asymptotic limit of $R(z)$ for any $z$ as $p$ goes to infinity, denoted by $R_\infty(z)$, with an almost optimal convergence rate of $p$.
-%In particular, when $z=0$, the asymptotic limit of equation \eqref{lem_cov_shift_eq} is given by
-%	\[ \tr[\Sigma_2^{-1/2} \Sigma \Sigma_2^{-1/2}R_\infty(0)]. \]
-%
-%For the bias asymptotic limit, we show in \todo{where?} that
-%$$\bignorm{\Sigma_2^{1/2} ((X^{(1)})^{\top}(X^{(1)}) + (X^{(2)})^{\top}(X^{(2)})^{-1} w}^2= w^\top \Sigma_2^{-1/2}R'(0)\Sigma_2^{-1/2} w.$$
-%Hence its limit can be calculated through $R_\infty'(z)$, which gives the expression in \eqref{lem_cov_derv_eq}.
-%We leave the full proof of Lemma \ref{lem_cov_shift} and Lemma \ref{lem_cov_derivative} to Appendix \ref{sec_maintools}.
-%Combining the above two results, we provide the proof of Theorem \ref{thm_main_informal} in Section \ref{app_proof_main_thm}.
-
-
-The above arguments are the core of the main proof. To have a rigorous proof, we need to estimate each error carefully, and extend the Gaussian case to the more general case where the entries of $Z^{(1)}$ and $Z^{(2)}$ only satisfy certain moment assumptions. These will make the real argument rather tedious, but the methods we used are standard in the random matrix literature \cite{erdos2017dynamical,Anisotropic}. For the full rigorous proof, we refer the reader to Section \ref{appendix RMT}.
