@@ -3,7 +3,7 @@
 When the covariates across tasks are different, we can no longer obtain an optimal solution for minimizing equation \eqref{eq_mtl} as in Claim \ref{lem_exp_opt}.
 This is because the minimization problem is non-convex with respect to $A$ and $B$.
 Therefore, we consider an arbitrary local minimum of equation \eqref{eq_mtl} and provide generalization bounds that scale with key properties of task data such as sample sizes and covariate shifts.
-We focus on the two-task case to better understand the impact of having different sample sizes and different covariates in hard parameter sharing. %We derive deterministic conditions to compare the prediction loss of the local minimum to single-task learning.
+We focus on the two-task case to better understand the impact of having different sample sizes and different covariates in hard parameter sharing.
 We will develop the key technical results in this section, and describe their implications in the next section.
 
 We first provide a key technical tool that we derived using recent developments in random matrix theory \cite{??}.
@@ -25,28 +25,23 @@ Interestingly, the prediction loss admits a bias-variance decomposition similar 
 In both the bias and variance equations, the matrix inverse $\hat{\Sigma}^{-1}$ is a crucial quantity.
 Intuitively, this matrix inverse combines the sample covariance matrix of both tasks, and it is not hard to see that the expectation of $\hat{\Sigma}$ is equal to a mixture of their population covariance matrices, with mixing proportions determined by the sample sizes.
 However, since the two tasks have different covariates, the scaling of $\hat{\Sigma}^{-1}$ not only depends on the tasks' sample sizes, but also depends on the covariate shift between the two tasks.
-We introduce a key result that show tight asymptotic convergence rate of the bias equation \eqref{eq_bias_2task} and the variance equation  as sample sizes increase to infinity.
-%The following two lemmas  are the main random matrix theoretical results of this paper, which will be used to estimate the two terms on the right-hand side of \eqref{eq_te_mtl_2task}.
+Building on the intuition, We introduce a key result that shows tight asymptotic convergence rate of the bias and variance as $p$ goes to infinity.
 We define a key quantity $M \define \Sigma_1^{1/2}\Sigma_2^{-1/2}$ that captures the covariate shift between task $1$ and task $2$.
-Let $\lambda_1, \lambda_2, \dots, \lambda_p$ be the singular values of $M$ in descending order.
-%Based on the above intuition, in the following we develop generalization bounds that relate the bias and variance of multi-task learning to the sample sizes and the covariance matrices of both tasks.
+Let $U\Lambda V^\top$ denote the singular value decomposition of $M$, where $\Lambda\in\real^{p\times p}$ consists of the singular values of $M$, $\lambda_1, \lambda_2, \dots, \lambda_p$ in descending order.
 
 \begin{theorem}
 	Suppose that $X_1$ and $X_2$ are both random matrices that satisfy Assumption \ref{assume_rm}.
-	Then we have the following asymptotic limits:
+	With high probability over the randomness of $X_1$ and $X_2$, we have the following limits:
 	\begin{enumerate}
-		\item[i)] Limiting variance:
-		 	Define the following
-			\[ \Pi_{\vari} \define \frac{1}{n_1 + n_2}\cdot \bigtr{ (a_1 \Sigma_1 + a_2\Sigma_2)^{-1} \Sigma_2}. \]
-			In the above equation, $a_1$ and $a_2$ are the solutions of the following two equations that only depend on the sample sizes $\rho_1, \rho_2$, and the singular values of the covariate shift matrix $M$:
+		\item[i)]  The variance equation converges to the following asymptotic limit
+			\begin{align}\label{lem_cov_shift_eq}
+				\bigabs{\bigtr{\Sigma^{(2)} \bigbrace{\frac{\hat{\Sigma}^{-1}}{n_1 + n_2} - (a_1 \Sigma^{(1)} + a_2 \Sigma^{(2)})^{-1}}}} \lesssim p^{-c_{\varphi}}\norm{\Sigma^{(2)}},
+			\end{align}
+			where $a_1$ and $a_2$ are the solutions of the following two equations:
 			\begin{align}
 				a_1 + a_2 = 1- \frac{1}{\rho_1 + \rho_2},\quad a_1 + \frac1{\rho_1 + \rho_2}\cdot \bigbrace{\frac{1}{p}\sum_{i=1}^p \frac{\lambda_i^2 a_1}{\lambda_i^2 a_1 + a_2}} = \frac{\rho_1}{\rho_1 + \rho_2}. \label{eq_a12extra}
 			\end{align}
-			Then we have that
-			\begin{align}\label{lem_cov_shift_eq}
-				\bigtr{\Sigma^{(2)} \hat{\Sigma}^{-1}} = \bigtr{\Pi_{\vari}} + \OO(p^{-c}\norm{\Sigma^{(2)}}), %\bigo{\|\| p^{-1/2+\epsilon}}
-			\end{align}
-		\item[ii)] Limiting bias: Let
+		\item[ii)] For any fixed vector $w\in\real^p$, the bias equation converges to the following asymptotic limit
 			\be\label{def Pibias} \Pi_\bias \define  M \frac{a_3 M^{\top}M + (1 + a_4) \id_{p\times p}}{(a_1 M^{\top}M + a_2\id_{p\times p})^2} M^{\top}, \ee
 				where $a_{3}$ and $a_4$ are the solutions of the following two equations:
 			\begin{gather}\label{eq_a34extra}
@@ -92,11 +87,6 @@ The full proof of Lemma \ref{lem_cov_shift} and Lemma \ref{lem_cov_derivative} w
 %We briefly describe the key ideas for proving Lemma \ref{lem_cov_shift} and Lemma \ref{lem_cov_derivative}.
 
 \paragraph{Preliminaries.} Both Lemma \ref{lem_cov_shift} and Lemma \ref{lem_cov_derivative} require a study of the matrix inverse $[(X^{(1)})^\top X^{(1)}+(X^{(2)})^\top X^{(2)}]^{-1}$ for $X^{(1)}= Z^{(1)}\Sigma_1^{1/2}$ and $X^{(2)}= Z^{(2)}\Sigma_2^{1/2}$.
-%\HZ{Suggestion: focus on the proof overview of Lemma \ref{lem_cov_shift} only. Use one paragraph in the end to say how to extend the idea to Lemma \ref{lem_cov_derivative}}
-Suppose $M=\Sig_1^{1/2} \Sig_2^{-1/2}$ has a singular value decomposition
-\be\label{eigen2}
-M= U\Lambda V^\top, \quad \Lambda=\text{diag}( \lambda_1, \ldots, \lambda_p).
-\ee
 Then using equation \eqref{eigen2}, we can write
 \be\label{eigen2extra}[(X^{(1)})^\top (X^{(1)})+(X^{(2)})^\top (X^{(2)})]^{-1}= \Sigma_2^{-1/2}V\left(   \Lambda U^\top (Z^{(1)})^\top Z^{(1)} U\Lambda  + V^\top (Z^{(2)})^\top Z^{(2)}V\right)^{-1}V^\top\Sigma_2^{-1/2}.\ee
 %We divide the discussion into the following parts.
