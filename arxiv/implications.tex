@@ -16,7 +16,7 @@
 %We explain from three perspectives, including \textit{task similarity}, \textit{sample size} and \textit{covariate shift}.
 %We show how negative transfer occurs by varying task similarity or sample size.
 %Then we show that when source task sample size becomes large, covariate shift causes more negative effects.
-We illustrate our main results (to be described in Section \ref{sec_general}) in a simplified setting.
+We illustrate our main results, Theorem \ref{thm_many_tasks}, Theorem \ref{thm main RMT} and Corollary \ref{thm_main_informal}, in a simplified setting.
 For this setting, we simulate several empirical phenomena that are well-known in hard parameter sharing approaches.
 We use our results to explain the empirical phenomena.
 
@@ -57,22 +57,34 @@ observed in Taskonomy \cite{ZSSGM18}.
 \begin{example}[Varying model distance]
 \end{example}
 
-Using our techniques described later in Section \ref{sec_general}, we derive the limiting prediction loss of the hard parameter sharing estimator.
+Using Theorem \ref{thm main RMT}, %our techniques described later in Section \ref{sec_general}, 
+we derive the limiting prediction loss of the hard parameter sharing estimator.
 Without loss of generality, we describe the result for task two and remark that a similar result for task one holds.
 
-\begin{corollary}[Derived from Lemma \ref{lem_cov_shift} and Lemma \ref{lem_cov_derivative}]
-	In the isotropic setting described above, with high probability, the prediction loss of the hard parameter sharing estimator for task two satisfies:
+\begin{corollary}[Derived from Theorem \ref{thm main RMT}]
+	Assume that the isotropic setting described above holds, and that there exists a small constant $c_0>0$ such that the signal-to-noise ratios satisfy that
+\be\label{choiceofpara0}
+p^{ c_0} \le \frac{p\kappa^2}{\sigma^2 }  \le p^{1-c_0},\quad  \frac{pd^2}{\sigma^2}=\OO(1).
+\ee
+	Let $B, W_1, W_2$ be the global minimum of equation \eqref{eq_mtl}. Then with high probability, the prediction loss of the hard parameter sharing estimator for task two satisfies:
+	\begin{align*}
+	 \left( 1-\frac{1}{\sqrt{\rho_1}}\right)^4 pd^2\cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3} +\OO(p^{-c}\sigma^2)  \le L(\hat{\beta}_2^{\MTL}) -\frac{\sigma^2}{\rho_1+\rho_2-1} \\
+	 \le  \left( 1+\frac{1}{\sqrt{\rho_1}}\right)^4 pd^2\cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3} +\OO(p^{-c}\sigma^2 )
+	 \end{align*}
+	 for any constant $c\in (0,c_0)$.
+	 \iffalse
 	\begin{align*}
 		& \bigabs{ L(\hat{\beta}_2^{\MTL}) - \frac{\sigma^2}{\rho_1 + \rho_2 - 1} - (1 + \frac{6}{\rho_1} + \frac{1}{\rho_1^2})pd^2\cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3} } \\
 		\le & 	\frac{4}{\sqrt{\rho_1}}(1 + \frac{1}{\rho_1})	pd^2\cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3} + \oo(\sigma^2 + pd^2).
 %	 \frac{\sigma^2}{\rho_1+\rho_2-1}+\left( 1-\frac{1}{\sqrt{\rho_1}}\right)^4  +\oo(\sigma^2 + pd^2)  \le \\
 %	 \le  \frac{\sigma^2}{\rho_1+\rho_2-1}+\left( 1+\frac{1}{\sqrt{\rho_1}}\right)^4 pd^2\cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3} +\oo(\sigma^2 + pd^2)
 	 \end{align*}
+	 \fi
 \end{corollary}
 
 
 It is well-known since the seminal work of Caruana \cite{C97} that how well multi-task learning performs depends on task relatedness.
-We formalize this connection in the following simplified setting, where we can perform explicit calculations.
+We formalize this connection in the above isotropic setting, where we can perform explicit calculations.
 We show that as we increase the distance between $\beta_1$ and $\beta_2$, there is a transition from positive transfer to negative transfer in MTL.
 In particular, the bias of MTL increases as the distance between $\beta_1$ and $\beta_2$ increases.
 Therefore, while the variance of MTL still reduces compared to STL, if the bias increases more than the amount of variance reduced, we will observe negative transfer.
@@ -190,7 +202,9 @@ Let $\mu_{\min} < \mu < \mu_{\max}$ be fixed values that do not grow with $p$.
 	We have that
 		\[ g(\mu\id) \le \bigbrace{1+ \bigo{{\rho_2}/{\rho_1}  }} \min_{M\in\cS_{\mu}} g(M). \]
 \end{proposition}
-\cor
+
+
+\iffalse
 
  \begin{claim}\label{claim_covar_shift}
 		In the setting of Proposition \ref{prop_covariate}, for any $M\in \cal S_\mu$ we have that
@@ -243,7 +257,7 @@ g(\mu \id)&= \frac{\sigma^2}{\rho_1+\rho_2}\cdot \frac1p\tr\left( \frac{1}{\mu^2
 Combining \eqref{est_a12extra}, \eqref{approximateteM}, \eqref{AMGM} and \eqref{gvar_extra2}, we conclude the proof.
 %, we conclude that the sum $\sum_{i=1}^p\lambda_i^{-1}$ is smallest when $\lambda_1=\cdots=\lambda_p = a$.
 \end{proof}
-\nc
+\fi
 
 Proposition \ref{prop_covariate} shows that when the sample ratio is large, having no covariate shift gives the optimal performance for multi-task learning.
 The proof of Proposition \ref{prop_covariate} can be found in Appendix \ref{app_proof_33}.
