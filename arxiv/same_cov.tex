@@ -33,13 +33,13 @@ Our main result in this section is stated as follows.
 	%that satisfy Assumption \ref{assm_secA2} in the appendix.
 	Consider the multiple-task case where all tasks have the same covariates $X\in\real^{n\times p}$ and population covariance matrix $\Sigma\in\real^{p\times p}$.
 	Suppose that $X$ satisfies Assumption \ref{assume_rm}.
-	Recall that $c$ is any fixed value within $(0, \frac{\varphi-4}{2\varphi})$.
+	Recall that $c_{\varphi}$ is any fixed value within $(0, \frac{\varphi-4}{2\varphi})$.
 	% Let $\delta$ be any fixed value such that $\delta \le \oo \left( \|B^\star\|^2 + \sigma^2\right)$.
 	Let $L(B^{\star}a_i^{\star}) = \norm{\Sigma^{1/2} (B^{\star} a_i^{\star}- \beta^{(i)})}^2$.
 	Let $C_1 = \frac{\rho\cdot \normFro{\Sigma^{1/2} B^{\star}}^2}{(\sqrt{\rho} - 1)^2\lambda_{\min}^2(\Sigma^{1/2} B^{\star}) + \sigma^2}$ and $C_2 =  C_1\cdot \norm{\Sigma^{1/2} B^{\star}}$, both of which do not grow with $p$.
 	Then, for any task $i = 1, 2, \dots, t$, the prediction loss of the hard parameter sharing estimator $\hat{\beta}_i^{\MTL}$ satisfies that
 	\begin{align}
-		\bigabs{L(\hat{\beta}_i^{\MTL}) - L(B^{\star}a_i^{\star}) - \sigma^2  \cdot \frac{p \cdot \norm{a_i^{\star}}^2}{n - p}} \lesssim p^{-c}\bigbrace{C_1 L(B^{\star}a_i^{\star}) + C_1 \sigma^2 \frac{p \cdot{\norm{a_i^{\star}}^2}}{n-p} + C_2}. \label{eq_thm_many}
+		\bigabs{L(\hat{\beta}_i^{\MTL}) - L(B^{\star}a_i^{\star}) - \sigma^2  \cdot \frac{p \cdot \norm{a_i^{\star}}^2}{n - p}} \lesssim p^{-c_{\varphi}}\bigbrace{C_1 L(B^{\star}a_i^{\star}) + C_1 \sigma^2 \frac{p \cdot{\norm{a_i^{\star}}^2}}{n-p} + C_2}. \label{eq_thm_many}
 	\end{align}
 	%\begin{itemize}
 	%	\item \textbf{Positive transfer:} If $\left(1 - \norm{v_t}^2 \right)\frac{\sigma^2}{\rho - 1} -  > \delta$, then w.h.p over the randomness of $X, \varepsilon_1, \dots, \varepsilon_t$, we have that
@@ -101,7 +101,7 @@ Our main result in this section is stated as follows.
 		Let $U_{\hat{A}} U_{\hat{A}}^{\top} \in\real^{t\times t}$ denote the subspace $\hat{A}^{\top} (\hat{A}\hat{A}^{\top})^{-1} \hat{A}$.
 		In the setting of Theorem \ref{thm_many_tasks}, we have that
 		\[ \bignormFro{U_{\hat{A}} U_{\hat{A}}^{\top} - A^{\star} {A^{\star}}^{\top}}
-				\lesssim p^{-c} \cdot C_1. \]
+				\lesssim p^{-c_{\varphi}} \cdot C_1. \]
 	\end{claim}
 	The above claim shows that as $p$ goes to infinity, the distance between the column subspace of $U_{\hat{A}}$ and ${A^{\star}}$ goes to zero.
 	Finally, the following claim shows that the prediction loss of the hard parameter sharing estimator and the optimal solution of Claim \ref{lem_exp_opt} is small.
@@ -111,13 +111,13 @@ Our main result in this section is stated as follows.
 		We have that the prediction loss of $\hat{\beta}_i^{\MTL} = \hat{B} \hat{A}_i$ satisfies that
 		\begin{align*}
 			\bigabs{L(\hat{\beta}_i^{\MTL}) - L(B^{\star} \hat{a}_i) - \norm{\hat{a}_i}^2 \cdot \bigtr{\Sigma (X^{\top}X)^{-1}}}
-			\le 2\cdot p^{-1/2 + \e} \cdot \bigbrace{L(B^{\star} \hat{a}_i) + \norm{\hat{a}_i}^2 \cdot \bigtr{\Sigma (X^{\top}X)^{-1}}}.
+			\le 2\cdot p^{-\e} \cdot \bigbrace{L(B^{\star} \hat{a}_i) + \norm{\hat{a}_i}^2 \cdot \bigtr{\Sigma (X^{\top}X)^{-1}}}.
 		\end{align*}
 	\end{claim}
 	The proof of Claim \ref{lem_exp_opt}, Claim \ref{claim_opt_dist}, and Claim \ref{claim_pred_err} can be found in Appendix \ref{app_proof_error_same_cov}.
 	Provided with these results, we are ready to prove Theorem \ref{thm_many_tasks}.
 	\begin{proof}[Proof of Theorem \ref{thm_many_tasks}]
-		Using Claim \ref{claim_pred_err}, we get that the prediction loss of $\hat{\beta}_i^{\MTL}$ is within an $\OO(p^{-1/2+\e})$ fraction from $L(B^{\star}\hat{a}_i)$ and $\norm{\hat{a}_i}^2 \bigtr{\Sigma(X^{\top}X)^{-1}}$.
+		Using Claim \ref{claim_pred_err}, we get that the prediction loss of $\hat{\beta}_i^{\MTL}$ is within an $\OO(p^{-\e})$ fraction from $L(B^{\star}\hat{a}_i)$ and $\norm{\hat{a}_i}^2 \bigtr{\Sigma(X^{\top}X)^{-1}}$.
 		For the latter, we use Claim \ref{claim_opt_dist} to upper bound the difference between $\norm{\hat{a}_i}^2$ and $\norm{A^{\star}}^2$, and Fact \ref{lem_minv} to get a precise estimate of $\bigtr{\Sigma (X^{\top}X)^{-1}}$.
 		For $L(B^{\star}\hat{a}_i)$, we again use Claim \ref{claim_opt_dist} to upper bound the distance between $\hat{a}_i$ and $A^{\star}$.
 		Combined together, we have shown that equation \eqref{eq_thm_many} holds and the proof is complete.
