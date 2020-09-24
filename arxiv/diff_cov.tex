@@ -62,35 +62,44 @@ For a non-Gaussian random matrix, the result can be obtained using the Stieltjes
 By combining the bias and variance asymptotics, we obtain the generalization error of $\hat{\beta}_2^{\MTL}$.
 Since the proof is similar to the same covariates setting, we describe the key differences and omit the rest of the details.
 First, we will rescale $X_1$ by $A_1 / A_2$ before appling Theorem \ref{thm_main_RMT}.
-Second, we approximate ${X^{(1)}}^{\top}X^{(1)}$ with $n_1 \Sigma^{(1)}$ in equation \eqref{eq_diff_cov}.
-In the rest of section, we briefly the main ideas in the proof of Theorem \ref{thm_main_RMT}.
+Second, we approximate ${X^{(1)}}^{\top}X^{(1)}$ with $n_1 \Sigma^{(1)}$ in equation \eqref{eq_diff_cov} using Fact \ref{lem_minv}.
+For the rest of this section, we the main ideas in the proof of Theorem \ref{thm_main_RMT}.
 %We will give a simple (although not totally rigorous) derivation of the equations \eqref{eq_a12extra} and \eqref{eq_a34extra}.
 The full proof can be found in Section \ref{sec_maintools}.
 
-\paragraph{Preliminaries.} Both Lemma \ref{lem_cov_shift} and Lemma \ref{lem_cov_derivative} require a study of the matrix inverse $[(X^{(1)})^\top X^{(1)}+(X^{(2)})^\top X^{(2)}]^{-1}$ for $X^{(1)}= Z^{(1)}\Sigma_1^{1/2}$ and $X^{(2)}= Z^{(2)}\Sigma_2^{1/2}$.
-Then using equation \eqref{eigen2}, we can write
-\be\label{eigen2extra}[(X^{(1)})^\top (X^{(1)})+(X^{(2)})^\top (X^{(2)})]^{-1}= \Sigma_2^{-1/2}V\left(   \Lambda U^\top (Z^{(1)})^\top Z^{(1)} U\Lambda  + V^\top (Z^{(2)})^\top Z^{(2)}V\right)^{-1}V^\top\Sigma_2^{-1/2}.\ee
-%We divide the discussion into the following parts.
-To study this expression, we shall use the standard Stieltjes transform method (or the resolvent method) in random matrix theory \cite{bai2009spectral,tao2012topics,erdos2017dynamical}. We now give some preliminaries about this method before discussing the proof strategy.
-
-For any measure $\mu$ supported on $[0,\infty)$, it defines a Stieltjes transform through
+\paragraph{Proof overview.} The central quantify of interest is the matrix inverse $\hat{\Sigma}^{-1}$.
+To study this quantity, we use the Stieltjes transform or the resolvent method in random matrix theory \cite{bai2009spectral,tao2012topics,erdos2017dynamical}.
+%We give some preliminaries about this method before discussing the proof strategy.
+For any probability measure $\mu$ supported on $[0,\infty)$, the Stieltjes transform of $\mu$ is given by
 $$m_\mu(z):= \int_0^\infty \frac{\dd\mu(x)}{x-z},\quad z\in \C\setminus [0,\infty).$$
-Conversely, given a Stieltjes transform $m_{\mu}(z)$, we can recover the measure $\mu$ through the inverse formula
-$$ \rho(x)=\frac{1}{\pi}\lim_{\eta \downarrow 0}\im m_{\mu}(x+\ii \eta),$$
-where $\rho(x)$ is the density for $\mu$, i.e. $\dd \mu(x)=\rho(x)\dd x$. Hence the Stieltjes transform method reduces the study of a measure $\mu$ to the study of an analytic function $m_\mu(z)$. Let $\mu=p^{-1}\sum_{i=1}^p \delta_{\sigma_i}$ be the empirical spectral distribution of the matrix $Y_p:=(n_1+n_2)^{-1}(\Lambda U^\top (Z^{(1)})^\top Z^{(1)} U\Lambda  + V^\top (Z^{(2)})^\top Z^{(2)}V)$, where $\sigma_i$ denote the eigenvalues of $Y_p$, and the scaling $(n_1+n_2)^{-1}$ is chosen such that $\pi$ is supported on a bounded interval. Then with the above notations, the Stieltjes transform of the empirical spectral distribution $\mu$ is
-$$ m_{\mu}=\frac{1}{p}\sum_{i=1}^p \frac{1}{\sigma_i - z}= p^{-1}\tr\left[ (Y_p-z\id_p)^{-1}\right].$$
-The Stieltjes transform method in random matrix theory aims to show that $m_{\mu}$ satisfies a fixed-point equation asymptotically, which allows us to derive the asymptotic limit of $\mu$.
+Conversely, given a Stieltjes transform $m_{\mu}(z)$, we can recover the measure $\mu$ through the inverse formula \HZ{add a ref to the equation below}
+$$ \frac{\dd \mu(x)}{\dd x} = \frac{1}{\pi}\lim_{\eta \downarrow 0}\im m_{\mu}(x+\ii \eta).$$
+%where $\rho(x)$ is the density for $\mu$, i.e. $\dd \mu(x)=\rho(x)\dd x$.
+Hence the Stieltjes transform method reduces the study of a probability measure $\mu$ to the study of a complex function $m_\mu(z)$.
+To study the matrix inverse $\hat{\Sigma}^{-1}$, we consider its empirical spectral distribution.
+More precisely, since
+\begin{align}\label{eigen2extra}
+	\hat{\Sigma}^{-1}= \Sigma_2^{-1/2}V \frac{Y^{-1}}{n_1 + n_2} V^\top\Sigma_2^{-1/2}. \text{ where } Y \define \frac{1}{n_1 + n_2}(\Lambda U^\top (Z^{(1)})^\top Z^{(1)} U\Lambda  + V^\top (Z^{(2)})^\top Z^{(2)}V),
+\end{align}
+let $\mu=p^{-1}\sum_{i} \delta_{\lambda_i}$ denote the empirical spectral distribution of $Y$.
+The scaling $(n_1+n_2)^{-1}$ ensures such that the support of $\mu$ is bounded.
+The Stieltjes transform of the empirical spectral distribution $\mu$ is as follows
+ \[ m_{\mu}(z) \define \frac{1}{p}\sum_{i=1}^p \frac{1}{\sigma_i - z}= p^{-1}\tr\left[ (Y_p-z\id_p)^{-1}\right], \]
+and when $p$ goes to infinity, $m_{\mu}(z)$ converges to a fixed-point governed by a set of self-consistent equations.
+These self-consistent equations give the asymptotic limit of the trace of $\hat{\Sigma}^{-1}$.
 
-
-However, for our purpose, we not only need to know the limit of the trace $\tr\left[ (Y_p-z\id_p)^{-1}\right]$, but also need to obtain the limit of $\tr\left[ (Y_p-z\id_p)^{-1}B\right]$ for any given deterministic matrix $B$. This  requires us to study the matrix $(Y_p-z\id_p)^{-1}$ directly, which is called resolvent or Green's function. Roughly speaking, the resolvent can be regarded as a matrix version of the Stieltjes transform. The convergence of resolvent can be formulated formally in a slightly more modern language in terms of local laws, see e.g. \cite{isotropic,erdos2017dynamical,Anisotropic}, or deterministic equivalents, see e.g., \cite{Hachem2007deterministic,DS18}. More precisely, given a deterministic $p\times p$ matrix, say $R_p(z)$, of growing dimensions, we say that it is a deterministic equivalent of $(Y_p-z\id_p)^{-1}$ if for any sequence of deterministic matrices $B_p$ of uniformly bounded operator norms,
-$$\tr \left\{\left[ (Y_p-z\id_p)^{-1}-R_p(z)\right]B_p\right\}\to 0.$$
-If this holds, then we shall say that $(Y_p-z\id_p)^{-1}$ has a matrix limit $R_p$. In this paper, we shall prove a stronger convergence of the resolvent $(Y_p-z\id_p)^{-1}$ in the sense of local laws, which also gives an (almost) sharp convergence rate. Our proof will be centralized around the resolvent and its local law.
-
-
-\paragraph{Proof overview.} We divide the discussion into the following parts.
+The above approach applies when $\Sigma^{(2)}$ is isotropic in Theorem \ref{thm_main_RMT}.
+For general covariances, we want to study the limit of $\tr\left[ (Y - z\id)^{-1}V^{\top}{\Sigma^{(2)}}^{-1}V \right]$ as shown in equation \eqref{eigen2extra}.
+Hence, we study the resolvent matrix or Green's function $(Y-z\id)^{-1}$.
+Compared to the Stieltjes transform, the resolvent also applies to random matrices.
+The convergence of resolvent is formally shown using the so-called ``local laws'' (cf. \cite{isotropic,erdos2017dynamical,Anisotropic}) or ``deterministic equivalents'' (cf. \cite{Hachem2007deterministic,DS18}).
+More precisely, given a deterministic $p\times p$ matrix $R(z)$, we say that $R(Z)$ and $(Y-z\id)^{-1}$ are equivalent if for any sequence of deterministic matrices $B$ of uniformly bounded operator norms,
+$$\tr \left\{\left[ (Y-z\id)^{-1}-R(z)\right]B\right\}\to 0.$$
+If the above equation holds for all $p$, then we say that $(Y-z\id)^{-1}$ has a matrix limit $R$.
+For our result, we shall prove the convergence of the resolvent $(Y-z\id)^{-1}$ using ``local laws'' with a sharp convergence rate.
 
 \medskip
-\noindent\textbf{Defining the resolvents.} For our purpose, we use a convenient linearization trick in linear algebra, that is, the SVD of a rectangular matrix $A$ is equivalent to the study of the eigendecomposition of the symmetric block matrix
+\noindent\textbf{Resolvents.} For our purpose, we use a convenient linearization trick in linear algebra, that is, the SVD of a rectangular matrix $A$ is equivalent to the study of the eigendecomposition of the symmetric block matrix
 $$H(A):=\begin{pmatrix}0 & A \\ A^\top & 0\end{pmatrix},$$
 which is linear in $A$. This trick has been used in many random matrix literatures, such as \cite{Anisotropic, AEK_Gram, XYY_circular,DY20201}. Our goal is to study the SVD of the rectangular matrix $(\Lambda U^\top (Z^{(1)})^\top,V^\top (Z^{(2)})^\top)$. %For this purpose,
 %}\HZ{what does this trick mean? use less technical words},
@@ -177,7 +186,7 @@ With Schur complement formula, we can check that %\HZ{Has $G(z)$ been defined be
 %where $\mathcal G_{1,2}$ are defined in (\ref{def_green}).
 
 \medskip
-\noindent\textbf{Defining the asymptotic limits of the resolvents.}
+\noindent\textbf{Asymptotic limits of resolvents.}
 %\label{sec aymp_limit_G}
 %\subsection{Resolvents and limiting law}
 We now describe the asymptotic limit of $G(z)$ as $n\to \infty$. First we define the deterministic limits of $(m_1(z), m_{2}(z))$ by $\left(-\frac{\rho_1+\rho_2}{\rho_1}a_{1}(z),-\frac{\rho_1+\rho_2}{\rho_2}a_{2}(z)\right)$, where $(a_1(z), a_2(z))$ is
@@ -201,7 +210,7 @@ In particular, the matrix limit of $\cal G(z)$ is given by
 \be\label{matrix limit}(-z\id_p+a_{1}(z)\Lambda^2 + a_{2}(z)\id_p)^{-1}.\ee
 
 \medskip
-\noindent{\bf Deriving the variance asymptotics.} Using definition \eqref{mainG}, we can write equation \eqref{eigen2extra} as
+\noindent{\bf Variance asymptotics.} Using definition \eqref{mainG}, we can write equation \eqref{eigen2extra} as
 \be\label{rewrite X as R} [(X^{(1)})^\top X^{(1)}+(X^{(2)})^\top X^{(2)}]^{-1}=n^{-1}\Sigma_2^{-1/2}V\cal G(0)V^\top\Sigma_2^{-1/2}.\ee
 When $z=0$, it is easy to check that equation \eqref{selfomega_a} can be reduced to equation \eqref{eq_a12extra}, which means that we actually have $a_1(0)=a_1$ and $a_2(0)=a_2$. Hence the matrix limit of $\cal G(0)$ is given by $(a_{1}\Lambda^2 + a_{2}\id_p)^{-1}$. Then inserting this limit into equation \eqref{rewrite X as R}, we can write the left-hand side of equation \eqref{lem_cov_shift_eq} as
 \begin{align}
