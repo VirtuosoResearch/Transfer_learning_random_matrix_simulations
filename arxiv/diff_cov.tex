@@ -1,4 +1,4 @@
-\section{The Different Covariates Setting}
+\section{The Different Covariates Setting}\label{sec_diff}
 
 When the covariates across tasks are different, we can no longer obtain an optimal solution for minimizing equation \eqref{eq_mtl} as in Claim \ref{lem_exp_opt}.
 This is because the minimization problem is non-convex with respect to $A$ and $B$.
@@ -15,13 +15,14 @@ By solving $B$ in equation \eqref{eq_mtl}, we obtain the hard parameter sharing 
 \end{align*}
 For the prediction loss, the empirical loss is close to the expected loss similar to what we have shown in Claim \ref{claim_pred_err}.
 Hence, we consider the expected loss conditional on the covariates as follows:
-\begin{align*}
+\begin{align}\label{eq_diff_cov}
 	\exarg{\cE}{L(\hat{\beta}_2^{\MTL}) \mid X^{(1)}, X^{(2)}} =
 	\bignorm{(\Sigma^{(2)})^{1/2} \hat{\Sigma}^{-1} {X^{(1)}}^{\top} X^{(1)} (\beta^{(1)} - \beta^{(2)})}^2
 	+ \sigma^2 \bigtr{\Sigma^{(2)}\hat{\Sigma}^{-1}}.
-\end{align*}
+\end{align}
 
 Interestingly, the prediction loss admits a bias-variance decomposition similar to the same covariates setting.
+The variance equation scales with the sample covariance matrice of both tsks, whereas the bias equation scales additionally with the distance between the beta vectors.
 In both the bias and variance equations, the matrix inverse $\hat{\Sigma}^{-1}$ is a crucial quantity.
 Intuitively, this matrix inverse combines the sample covariance matrix of both tasks, and it is not hard to see that the expectation of $\hat{\Sigma}$ is equal to a mixture of their population covariance matrices, with mixing proportions determined by the sample sizes.
 However, since the two tasks have different covariates, the scaling of $\hat{\Sigma}^{-1}$ not only depends on the tasks' sample sizes, but also depends on the covariate shift between the two tasks.
@@ -29,7 +30,7 @@ Building on the intuition, We introduce a key result that shows tight asymptotic
 We define a key quantity $M \define \Sigma_1^{1/2}\Sigma_2^{-1/2}$ that captures the covariate shift between task $1$ and task $2$.
 Let $U\Lambda V^\top$ denote the singular value decomposition of $M$, where $\Lambda\in\real^{p\times p}$ consists of $M$'s singular values $\lambda_1, \lambda_2, \dots, \lambda_p$ as its diagonal entries in descending order.
 
-\begin{theorem}\label{thm main RMT}
+\begin{theorem}\label{thm_main_RMT}
 	Suppose that $X_1$ and $X_2$ are both random matrices that satisfy Assumption \ref{assume_rm}.
 	With high probability over the randomness of $X_1$ and $X_2$, we have the following limits:
 	\begin{enumerate}
@@ -52,33 +53,19 @@ Let $U\Lambda V^\top$ denote the singular value decomposition of $M$, where $\La
 			\end{align}
 	\end{enumerate}
 \end{theorem}
+\noindent{\textbf{Remark.}} Our result extends a well-known result on the inverse of sample covariance matrices.
+In particular, by setting $X_1 = 0$, we obtain the second result in Fact \ref{lem_minv}.
+When $X_1=0$, it is not hard to solve $a_1 = 0$ and $a_2 = (n_2-p) / n_2$ from equation \eqref{eq_a12extra}, and our result reduces to the case of a single sample covariance matrix.
+For the single-task case of a multivariate Gaussian random matrix, the result follows from the classical result for the mean of inverse Wishart distribution \cite{anderson1958introduction}.
+For a non-Gaussian random matrix, the result can be obtained using the Stieltjes transform method (cf. Lemma 3.11 of \citet{bai2009spectral}).
 
-Lemma \ref{lem_cov_shift} also implies the asymptotic limit of the prediction loss of single-task learning.
-%The next lemma, which is , helps to determine the asymptotic limit of $\te(\hat{\beta}_t^{\STL})=\sigma^2   \bigtr{(X_2^{\top}X_2)^{-1}\Sigma_2}$ as $p\to \infty$.
-In particular, by setting $X_1 = 0$, we obtain Lemma \ref{lem_minv}.
-%\begin{corollary}[See e.g. Theorem 2.4 in \citet{isotropic}]\label{lem_minv}
-%	In the setting of Lemma \ref{lem_cov_shift}, with high probability we have that
-%	\be\label{XXA}  \bigtr{(X_2^{\top}X_2)^{-1}\Sigma} = \frac{1}{n_2 - p} \cdot \bigtr{\Sigma_2^{-1}\Sigma} + o(\norm{\Sigma}). \ee
-%\end{corollary} %\bigo{ \|A\|p^{-1/2+\epsilon}}
-To see this, note that when $n_1=0$, $a_1 = 0$ and $a_2 = (n_2-p) / n_2$ is the solution of \eqref{eq_a12extra}, and one can see that equation \eqref{lem_cov_shift_eq} reduces to equation \eqref{XXA}.
-We briefly describe the history behind the above well-known result.
-When the entries of $X_2$ are multivariate Gaussian, this result recovers the classical result for the mean of inverse Wishart distribution \cite{anderson1958introduction}.
-For general non-Gaussian random matrices, it can be obtained using Stieltjes transform method; see e.g., Lemma 3.11 of \cite{bai2009spectral}.
-Here we have stated a result from Theorem 2.4 in \cite{isotropic}, which gives an almost sharp concentration error bound.
-One can see that our result extends Lemma \ref{lem_minv} from a single sample covariance matrix to the sum of two independent sample covariance matrices.
-%We now state our main result for two tasks with both covariate and model shift. It shows that the information transfer is determined by two deterministic quantities $\Delta_{\bias}$ and $\Delta_{\vari}$, which give the change of model shift bias and the change of variance, respectively. The exact forms of $\Delta_{\bias}$ and $\Delta_{\vari}$ will be given in Lemma \ref{thm_model_shift}.
-
-Interestingly, the asymptotic limit of the variance only depends on the sample sizes and the covariate shift matrix.
-Next, we derive the asymptotic limit of the bias equation \eqref{eq_bias_2task}, which depends on the scaled model distance in addition to sample size and covariate shift. %(cf. Lemma \ref{lem_cov_derivative} in Appendix \ref{app_proof_main_thm}).
-
-
-In the rest of section, we describe briefly the main ideas in the proof of Lemma \ref{lem_cov_shift} and Lemma \ref{lem_cov_derivative}. In particular, we will give a simple (although not totally rigorous) derivation of the equations \eqref{eq_a12extra} and \eqref{eq_a34extra}.
-The full proof of Lemma \ref{lem_cov_shift} and Lemma \ref{lem_cov_derivative} will be given in Section \ref{appendix RMT}.
-%\subsection{The Bias and Variance Asymptotics}
-
-%\todo{merge} Finally, in this subsection, we describe briefly the main ideas in the proofs of Lemmas \ref{lem_cov_shift} and \ref{lem_cov_derivative}.
-%We first describe the proof of Theorem \ref{lem_cov_shift_informal}.
-%We briefly describe the key ideas for proving Lemma \ref{lem_cov_shift} and Lemma \ref{lem_cov_derivative}.
+By combining the bias and variance asymptotics, we obtain the generalization error of $\hat{\beta}_2^{\MTL}$.
+Since the proof is similar to the same covariates setting, we describe the key differences and omit the rest of the details.
+First, we will rescale $X_1$ by $A_1 / A_2$ before appling Theorem \ref{thm_main_RMT}.
+Second, we approximate ${X^{(1)}}^{\top}X^{(1)}$ with $n_1 \Sigma^{(1)}$ in equation \eqref{eq_diff_cov}.
+In the rest of section, we briefly the main ideas in the proof of Theorem \ref{thm_main_RMT}.
+%We will give a simple (although not totally rigorous) derivation of the equations \eqref{eq_a12extra} and \eqref{eq_a34extra}.
+The full proof can be found in Section \ref{sec_maintools}.
 
 \paragraph{Preliminaries.} Both Lemma \ref{lem_cov_shift} and Lemma \ref{lem_cov_derivative} require a study of the matrix inverse $[(X^{(1)})^\top X^{(1)}+(X^{(2)})^\top X^{(2)}]^{-1}$ for $X^{(1)}= Z^{(1)}\Sigma_1^{1/2}$ and $X^{(2)}= Z^{(2)}\Sigma_2^{1/2}$.
 Then using equation \eqref{eigen2}, we can write
@@ -222,12 +209,3 @@ When $z=0$, it is easy to check that equation \eqref{selfomega_a} can be reduced
 &=n^{-1}\bigtr{\Sigma_2^{-1/2}\cal (a_{1}\Sigma_2^{-1/2}\Sigma_1\Sigma_2^{-1/2} + a_{2}\id_p)^{-1}\Sigma_2^{-1/2}\Sigma}  = n^{-1}\bigtr{\cal (a_{1} \Sigma_1  + a_{2}\Sigma_2)^{-1}\Sigma}  ,\label{Gi00}
 \end{align}
 where in the second step we used $V \Lambda^2 V^\top=M^\top M=\Sigma_2^{-1/2}\Sigma_1\Sigma_2^{-1/2}$ by equation \eqref{eigen2}.  This concludes equation \eqref{lem_cov_shift_eq} up to a small error. The rigorous proof of equation \eqref{lem_cov_shift_eq} will be given in Section \ref{sec pf RMTlemma}.
-
-%\alert{Together with equation \eqref{rewrite X as R} and $V \Lambda^2 V^\top=M^\top M=\Sigma_2^{-1/2}\Sigma_1\Sigma_2^{-1/2}$ by equation \eqref{eigen2}, we can obtain equation \eqref{lem_cov_shift_eq} in the large $n$ limit.}\HZ{I do not understand this sentence.}
-
-
-
-
-
-
-
