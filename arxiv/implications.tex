@@ -57,20 +57,20 @@ observed in Taskonomy \cite{ZSSGM18}.
 %\begin{example}[Varying model distance]
 %\end{example}
 
-Using Theorem \ref{thm main RMT}, %our techniques described later in Section \ref{sec_general}, 
-we derive the limiting prediction loss of the hard parameter sharing estimator.
+Using Theorem \ref{thm_main_RMT}, %our techniques described later in Section \ref{sec_general}, 
+we can derive the limiting prediction loss of the hard parameter sharing estimator.
 Without loss of generality, we describe the result for task two and remark that a similar result for task one holds.
 
-\begin{corollary}[Derived from Theorem \ref{thm main RMT}]\label{cor MTL loss}
+\begin{corollary}[Derived from Theorem \ref{thm_main_RMT}]\label{cor_MTL_loss}
 	Assume that the isotropic setting described above holds, and that there exists a small constant $c_0>0$ such that the signal-to-noise ratios satisfy that
 \be\label{choiceofpara0}
 p^{ c_0} \le \frac{p\kappa^2}{\sigma^2 }  \le p^{1-c_0},\quad  \frac{pd^2}{\sigma^2}=\OO(1).
 \ee
 	Let $B, W_1, W_2$ be the global minimum of equation \eqref{eq_mtl}. Then with high probability, the prediction loss of the hard parameter sharing estimator for task two satisfies:
-	\begin{align*}
+	\begin{align}\label{cor_MTL_error}
 	%-\left[1- \left( 1-\frac{1}{\sqrt{\rho_1}}\right)^4\right] pd^2\cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3} +\OO(p^{-c}\sigma^2)  \le 
 	 & \left|L(\hat{\beta}_2^{\MTL}) -\frac{\sigma^2}{\rho_1+\rho_2-1} - pd^2\cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3}\right|  \le  \left[\left( 1+\frac{1}{\sqrt{\rho_1}}\right)^4-1\right] pd^2\cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3} +\OO(p^{-c}\sigma^2 )
-	 \end{align*}
+	 \end{align}
 	 for any constant $c\in (0,c_0)$.
 	 \iffalse
 	\begin{align*}
@@ -83,8 +83,8 @@ p^{ c_0} \le \frac{p\kappa^2}{\sigma^2 }  \le p^{1-c_0},\quad  \frac{pd^2}{\sigm
 \end{corollary}
 
 
-It is well-known since the seminal work of Caruana \cite{C97} that how well multi-task learning performs depends on task relatedness.We formalize this connection in the above isotropic setting, where we can perform explicit calculations. The prediction loss of MTL has been given in Corollary \ref{cor MTL loss}. We can also calculate the prediction STL easily using Fact \ref{lem_minv} (ii). The proof of the following claim will be given in Section \ref{app_iso_cov}.
-\begin{claim}
+It is well-known since the seminal work of Caruana \cite{C97} that how well multi-task learning performs depends on task relatedness. We formalize this connection in the above isotropic setting, where we can perform explicit calculations. The prediction loss of MTL has been given in Corollary \ref{cor_MTL_loss}. We can also calculate the prediction loss of STL easily using Fact \ref{lem_minv} (ii). The proof of the following claim will be given in Section \ref{app_iso_cov}.
+\begin{claim} \label{claim_STL_loss}
 Under the above isotropic setting for task two, we have that with high probability,
 \begin{align*}
 	 L(\hat{\beta}_2^{\STL}) = \frac{\sigma^2}{ \rho_2-1}  +\OO(p^{-c}\sigma^2 )
@@ -92,14 +92,17 @@ Under the above isotropic setting for task two, we have that with high probabili
 	 for any constant $c\in (0,1/2)$.
 \end{claim}
 
+We now discuss two implications of Corollary \ref{cor_MTL_loss} and Claim \ref{claim_STL_loss} regarding the information transfer in MTL: the transition from positive transfer to negative transfer with respect to varying model distance and varying sample ratio, respectively.
+
 \medskip
 
-\noindent{\bf Varying model distance.} We show that as we increase the distance between $\beta_1$ and $\beta_2$, there is a transition from positive transfer to negative transfer in MTL.
- In particular, the bias of MTL increases as the distance between $\beta_1$ and $\beta_2$ increases.
-Therefore, while the variance of MTL still reduces compared to STL, if the bias increases more than the amount of variance reduced, we will observe negative transfer.
+\noindent{\bf Varying model distance.} 
+%With Corollary \ref{cor_MTL_loss} and Claim \ref{claim_STL_loss}, it is not hard to see 
+One can observe that as we increase the distance $pd^2$ between $\beta_1$ and $\beta_2$, there is a transition from positive transfer to negative transfer in MTL. More precisely, the bias term $  pd^2\cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3}$ of MTL increases as the distance between $\beta_1$ and $\beta_2$ increases, while variance reduction from STL to MTL is $\frac{\sigma^2}{ \rho_2-1}  -\frac{\sigma^2}{\rho_1+\rho_2-1}$.
+%Therefore, while the variance of MTL still reduces compared to STL, 
+If the bias increases more than the amount of variance reduced, we will observe negative transfer.
 
-
-
+\iffalse
 \begin{proposition}[Task model distance]\label{prop_dist_transition}
 	In the isotropic model, suppose that $\rho_1$ and $\rho_2 > 1$.
 	Then
@@ -113,23 +116,25 @@ Therefore, while the variance of MTL still reduces compared to STL, if the bias 
 	Here {\small$\nu = (1+\oo(1)) \cdot (1 - 1/\sqrt{\rho_1})^{-4}$}.
 	Concretely, if $\rho_1 > 40$, then $\nu\in (1,2)$.
 \end{proposition}
-
-
 Proposition \ref{prop_dist_transition} simplifies Theorem \ref{thm_main_informal} in the isotropic model, allowing for a more explicit statement of the bias-variance tradeoff.
 Concretely, $\Psi(\beta_1, \beta)$ and $\Phi(\rho_1, \rho_2)$ corresponds to $\Delta_{\bias}$ and $\Delta_{\vari}$, respectively.
 %Roughly speaking, the transition threshold scales as $\frac{pd^2}{\sigma^2} - \frac{1}{\rho_1} - \frac{1}{\rho_2}$.
-We apply Proposition \ref{prop_dist_transition} to the parameter setting of Figure \ref{fig_model_shift} (the details are left to Appendix \ref{app_synthetic}).
-We can see that our result is able to predict positive or negative transfer  accurately and matches the empirical curve.
-There are several unexplained observations near the transition threshold $0$, which are caused by the concentration error $\nu$.
+\fi
+
+We apply Corollary \ref{cor_MTL_loss} and Claim \ref{claim_STL_loss} to the parameter setting of Figure \ref{fig_model_shift} (the details are left to Appendix \ref{app_synthetic}). We can see that our result is able to predict positive or negative transfer  accurately and matches the empirical curve.
+There are several unexplained observations near the transition threshold $0$, which are caused by the concentration error on the right-hand side of \eqref{cor_MTL_error}.
 %We fix the target task and vary the source task, in particular the parameter $d$ which determines $\norm{\beta_1 - \beta_2}$.
 %Figure \ref{fig_model_shift} shows the result.
 %We observe that Proposition \ref{prop_dist_transition} explains most of the observations in Figure \ref{fig_model_shift}.
+
+\iffalse
 The proof of Proposition \ref{prop_dist_transition} involves two parts.
 First, in equation \eqref{eq_te_var}, the positive variance reduction effect scales with $n_1 = \rho_1 p$, the number of source task data points.
 Second, we show that the negative effect of model-shift bias scales with $pd^2$, which is the expectation of $\norm{\beta_1 - \beta_2}^2$.
 The proof of Proposition \ref{prop_dist_transition} can be found in Appendix \ref{app_proof_31}.
 A key part of the analysis shows that $\hat{W}_1 / \hat{W}_2$ is roughly equal to one in the isotropic model,
 thus simplifying the general condition in Theorem \ref{thm_main_informal}.
+\fi
 
 \begin{figure}[!t]
 	\begin{subfigure}[b]{0.32\textwidth}
@@ -165,11 +170,14 @@ thus simplifying the general condition in Theorem \ref{thm_main_informal}.
 On the other hand, uneven sample sizes between different tasks (or even dominating tasks) have been empirically observed as a cause of negative transfer \cite{YKGLHF20}.
 For such settings, we have also observed that adding more labeled data from one task does not always help.
 %On the other hand, we have observed that adding more labeled data does not always improve performance in multi-task learning.
-In the isotropic model, we consider what happens if we vary the source task sample size.
-Our theory accurately predicts a curious phenomenon, where increasing the sample size of the source task results in negative transfer!
-Figure \ref{fig_size} provides a simulation result for such a setting.
-We observe that as $n_1 / n_2$ increases, there is a transition from positive to negative transfer.
+In the isotropic model, we consider what happens if we vary the source task sample size. More precisely, for fixed model distance $pd^2$, the bias term $  pd^2\cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3}$ of MTL increases and converges to $pd^2$ as the sample ratio $\rho_1/\rho_2$ increases. On the other hand, the variance reduction $\frac{\sigma^2}{ \rho_2-1}  -\frac{\sigma^2}{\rho_1+\rho_2-1}$ also increases and converges to $\frac{\sigma^2}{\rho_2-1}$ as the sample ratio $\rho_1/\rho_2$ increases. \todo{add more details} 
+%Therefore, while the variance of MTL still reduces compared to STL, 
+%If the bias increases more than the amount of variance reduced, we will observe negative transfer.
+Our theory accurately predicts a curious phenomenon, where increasing the sample size of the source task results in negative transfer! Figure \ref{fig_size} provides a simulation result for such a setting (described in Appendix \ref{app_synthetic}).
+We observe that as $n_1 / n_2$ increases, there is a transition from positive to negative transfer. There are several unexplained observations near $y = 0$ caused by the concentration error on the right-hand side of \eqref{cor_MTL_error}.
 
+
+\iffalse
 \begin{proposition}[Source/target sample ratio]\label{prop_data_size}
 	In the isotropic model, suppose that $\rho_1 > 40$ and $\rho_2 > 110$ are fixed constants, and $\Psi(\beta_1, \beta_2) > 2/(\rho_2 - 1)$.
 	Then we have that
@@ -179,9 +187,12 @@ We observe that as $n_1 / n_2$ increases, there is a transition from positive to
 	\end{itemize}
 \end{proposition}
 Proposition \ref{prop_data_size} describes the bias-variance tradeoff in terms of the sample ratio $\rho_1 / \rho_2$.
+
+
 We apply the result to the setting of Figure \ref{fig_size} (described in Appendix \ref{app_synthetic}).
 There are several unexplained observations near $y = 0$ caused by $\nu$.
 The proof of Proposition \ref{prop_data_size} can be found in Appendix \ref{app_proof_32}.
+\fi
 
 \subsection{Covariate Shift} \label{sec_covshift}
 So far we have considered the isotropic model where $\Sigma_1 = \Sigma_2$.
