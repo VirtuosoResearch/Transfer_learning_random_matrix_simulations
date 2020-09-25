@@ -173,15 +173,106 @@ Hence we need to choose that $p d^2 \sim \sigma^2$. On the other hand, we want t
 %w.h.p. for some constant $\e>0$.
 \end{proof}
 
-\begin{proof}[Proof of Claim \ref{claim_covar_shift}]	
-	With the same arguments as in Claim \ref{lem_hat_v}, we can show that \eqref{hatv_add1} holds. Moreover, if the parameters are chosen such that $p^{-1+c_0} \sigma^2 \le \kappa^2  \le p^{-\e_0-c_0}\sigma^2$ as in \eqref{choiceofpara}, we can simplify $g(M_0)$ as
+%\subsection{Covariate Shift}\label{app_proof_33}
+ 
+Finally, we prove Proposition \ref{prop_covariate}, which shows that $\te(\hat{\beta}_2^{\MTL})$ is minimized approximately when $M$ is a scalar matrix, provided that there is enough source data.
+
+%\begin{proof}[Proof of Claim \ref{claim_covar_shift}]	
+%	With the same arguments as in Claim \ref{lem_hat_v}, we can show that \eqref{hatv_add1} holds. Moreover, if the parameters are chosen such that $p^{-1+c_0} \sigma^2 \le \kappa^2  \le p^{-\e_0-c_0}\sigma^2$ as in \eqref{choiceofpara}, we can simplify $g(M_0)$ as
+%\be \nonumber
+%\begin{split}
+%g(M_0)&=(1+\OO(p^{-\e}))\cdot \sigma^2  \bigtr{\Sigma_2(X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} }  \quad \text{w.h.p.}
+%\end{split}
+%\ee
+% for some constant $\e>0$. In fact, Lemma \ref{lem_hat_v} was proved assuming that $M=\id$, but its proof can be easily extended to the case with general $M\in \cal S_{\mu}$ by using that $ \mu_{\min}\le \lambda_p(M)\le \lambda_1(M)\le \mu_{\max}$. We omit the details here. 
+% \end{proof}
+
+\begin{proof}[Proof of Proposition \ref{prop_covariate}]
+Denote the minimizer of $g$ by 
+$$M_0:=\argmin_{M\in \cal S_{\mu}}g(M).$$ 
+We now calculate $g(M_0)$. With the same arguments as in Claim \ref{lem_hat_v}, we can show that \eqref{hatv_add1} holds. Moreover, if the parameters are chosen such that $p^{-1+c_0} \sigma^2 \le \kappa^2  \le p^{-\e_0-c_0}\sigma^2$ as in \eqref{choiceofpara}, we can simplify $g(M_0)$ as
 \be \nonumber
 \begin{split}
 g(M_0)&=(1+\OO(p^{-\e}))\cdot \sigma^2  \bigtr{\Sigma_2(X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} }  \quad \text{w.h.p.}
 \end{split}
 \ee
  for some constant $\e>0$. In fact, Lemma \ref{lem_hat_v} was proved assuming that $M=\id$, but its proof can be easily extended to the case with general $M\in \cal S_{\mu}$ by using that $ \mu_{\min}\le \lambda_p(M)\le \lambda_1(M)\le \mu_{\max}$. We omit the details here. 
- \end{proof}
+
+Now using Lemma \ref{lem_cov_shift}, we obtain that with high probability,
+\begin{align}\label{gvar_extra}
+g(M_0)= \frac{\sigma^2}{\rho_1+\rho_2}\cdot \frac1p\tr\left( \frac{1}{a_1(M_0)\cdot M_0^\top M_0 + a_2(M_0)}\right) \cdot \left(1 +\OO(p^{-\e})\right).
+\end{align}
+From equation \eqref{eq_a12extra}, it is easy to obtain the following estimates on $ a_1(M)$ and $a_2(M)$ for any $M\in \cal S_\mu$:
+\be\label{est_a12extra}
+\frac{\rho_1-1}{\rho_1+\rho_2} < a_1(M)<  \frac{\rho_1+\rho_2-1}{\rho_1+\rho_2},\quad a_2(M) < \frac{\rho_2}{\rho_1+\rho_2}.
+\ee
+Inserting \eqref{est_a12extra} into \eqref{gvar_extra} and using $ M_0^\top M_0\succeq \mu_{\min}^2$, we obtain that with high probability,
+\begin{align}\label{approximateteM}
+\left(1+\frac{\rho_2}{(\rho_1-1)\mu_{\min}^2}\right)^{-1}h(M_0) \cdot \left(1 - \OO(p^{-\e})\right) \le g(M_0) \le h(M_0) \cdot \left(1 +\OO(p^{-\e})\right),
+\end{align}
+where
+$$h(M_0):=\frac{\sigma^2}{(\rho_1+\rho_2)a_1(M_0)}\cdot \frac1p\tr\left( \frac{1}{M_0^\top M_0}\right) .$$
+%With these two bounds, we can easily conclude \eqref{approxteM}. 
+%
+%We have that the test error satisfies
+%\be\label{approxteM}  te(M)\left(1 -  \frac{n_2}{n_1-p} \frac{1}{\lambda_p^2 + \frac{n_2}{n_1-p}}\right)  \le  \frac{\sigma^2}{n_1+n_2}\tr\left( \frac{1}{a_1M^\top M + a_2}\right) \le te(M),\ee
+%where $\lambda_p$ is the smallest singular value of $p$ and
+%$$te(M):= \frac{\sigma^2}{a_1(n_1+n_2)}\tr\left( \frac{1}{M^\top M}\right) .$$
+%Moreover, for all $M$ satisfying \eqref{GMcons}, the minimum of $te(M)$ is attained when $M= a\id$.
+By AM-GM inequality, we observe that 
+$$\tr\left( \frac{1}{M^\top M}\right) = \sum_{i=1}^p\frac{1}{\lambda_i^2}$$
+is minimized when $\lambda_1 = \cdots\lambda_p=\mu$ under the restriction $\prod_{i=1}^p\lambda_i\le \mu^p$. Hence we get that 
+\be\label{AMGM} h(M_0) \le \frac{\sigma^2}{\mu^2 (\rho_1+\rho_2)a_1(M_0)}.\ee
+On the other hand, when $M=\mu \id$, applying Lemma \ref{lem_cov_shift} we obtain that with high probability,
+\begin{align}\label{gvar_extra2}
+\begin{split}
+g(\mu \id)&= \frac{\sigma^2}{\rho_1+\rho_2}\cdot \frac1p\tr\left( \frac{1}{\mu^2 a_1 (\mu\id) + a_2(\mu\id)}\right) \cdot \left(1 +\OO(p^{-\e})\right)\\
+&\le \frac{\sigma^2}{\mu^2(\rho_1+\rho_2)a_1 (\mu\id)}.
+\end{split}
+\end{align}
+Combining \eqref{est_a12extra}, \eqref{approximateteM}, \eqref{AMGM} and \eqref{gvar_extra2}, we conclude the proof.
+%, we conclude that the sum $\sum_{i=1}^p\lambda_i^{-1}$ is smallest when $\lambda_1=\cdots=\lambda_p = a$.
+\end{proof}
+
+\iffalse
+ 
+In the simulation of Figure \ref{fig_covariate}, we observe the following two phases as  $n_1 / p$ increases.
+When $n_1 \le n_2$, having complementary covariance matrices leads to lower test error compared to the case when $\Sigma_1 = \Sigma_2$.
+When $n_1 > n_2$, having complementary covariance matrices leads to higher test error compared to the case when $\Sigma_1 = \Sigma_2$.
+We provide a theoretical justification now.
+
+\begin{proof}[Theoretical justification of Example \ref{ex_complement}]
+We denote the test error as $\te(\hat \beta_{2}^{\MTL},\lambda)$ in the setting where $M$ has $p/2$ singular values that are equal to $\lambda$ and $p/2$ singular values that are equal to $1 / \lambda$. Then equations in \eqref{eq_a12extra} become
+\be\label{compleeq} a_1 + a_2 = 1 - \frac{1}{\rho_1 + \rho_2},  \ \ a_1 + \frac{1}{2(\rho_1 + \rho_2)}\cdot \bigbrace{\frac{a_1}{a_1 + \lambda^2 a_2} + \frac{a_1}{a_1 + \lambda^{-2} a_2}} = \frac{\rho_1}{\rho_1 + \rho_2}. \ee
+%It's not hard to verify that there is only one valid solution $(a_1,a_2)$ to \eqref{compleeq}. 
+After solving these, with \eqref{gvar_extra} we get that w.h.p.,
+\be\label{testcomple}
+ \te(\hat \beta_{2}^{\MTL},\lambda)= \frac{\sigma^2}{2(\rho_1 + \rho_2)}(1+\OO(p^{-\e}))\cdot f(\lambda) ,\quad f(\lambda): = \frac{1}{\lambda^{-2}{a_1} + a_2} + \frac{1}{\lambda^2a_1 + a_2}.\ee
+
+%First we notice that the curves in Figure  \ref{fig_model_shift_phasetrans} (c) all cross at the point $n_1=n_2$. In fact, if $n_1=n_2$, then it is easy to observe that $a_1=a_2=(1-\gamma)/2$ is the solution to equation \eqref{compleeq}, where we denote $ \gamma=p/(n_1+n_2)$. Then for any $\lambda$, the test error in \eqref{testcomple} takes the value
+%$$te(\lambda)= \frac{\gamma}{2}\frac{1}{(1-\gamma)/2}=\frac{p}{n_1+n_2-p}.$$
+
+%Second, from Figure \ref{fig_te_complement} we observe that the complementary cases with $\lambda>1$ is better than the case without covariate shift (i.e. $M=\id$ case) when $n_1<n_2$. On the other hand, if we have enough source task data such that $n_1>n_2$, then it is always better to have no covariate shift.
+We now study the behavior of $f$ as $\lambda$ changes. 
+%This phenomenon can be also explained using our theory. 
+We abbreviate $\gamma:=(\rho_1 + \rho_2)^{-1}$. Then with \eqref{compleeq}, we can rewrite
+$$f(\lambda)= \frac{1}{\lambda^{-2}{a_1} + (1-\gamma - a_1)} + \frac{1}{\lambda^2a_1 + (1-\gamma - a_1)}.$$
+Then we can compute that
+\begin{align*}
+f(\lambda) - f(1)&= \frac{ \lambda^2-1}{1-\gamma} a_1\cdot \bigbrace{  \frac{1}{ -a_1(\lambda^2-1)+(1-\gamma)\lambda^2 } - \frac{1}{a_1(\lambda^2-1) + (1-\gamma)}} \\
+&= \frac{(\lambda^2-1)^2}{1-\gamma}  a_1\cdot  \frac{2a_1 - (1-\gamma) }{[-a_1(\lambda^2-1)+(1-\gamma)\lambda^2 ][a_1(\lambda^2-1) + (1-\gamma)]} .
+\end{align*}
+From this expressions, we observe the following behaviors.
+\begin{itemize}
+\item[(i)] If $n_1>n_2$, we have $a_1>(1-\gamma)/2$ (because $a_1>a_2$ as observed from the equation \eqref{compleeq}). Hence $f(\lambda)>f(1)$, which gives $\te(\hat \beta_{2}^{\MTL},\lambda)>\te(\hat \beta_{2}^{\MTL},1)$.
+
+\item[(ii)] If $n_1< n_2$, we have $a_1< (1-\gamma)/2$. Hence $f(\lambda)< f(1)$, which gives $\te(\hat \beta_{2}^{\MTL},\lambda)<\te(\hat \beta_{2}^{\MTL},1)$. 
+
+\item[(iii)] If $n_1=n_2$, we have $f(\lambda)=f(1)=2/(1-\gamma)$, which means $\te(\hat \beta_{2}^{\MTL},\lambda)$ and $\te(\hat \beta_{2}^{\MTL},1)$ are roughly the same. %, which explains why the curves in Figure  \ref{fig_model_shift_phasetrans} (c) all cross at the point $n_1=n_2$.
+\end{itemize}
+This also partially justifies Proposition \ref{prop_covariate}. %Theorem  the observations in Figure \ref{fig_model_shift_phasetrans} (c), 
+\end{proof}
+\fi
 
 
 
@@ -324,99 +415,9 @@ We remark that condition \eqref{explainpsi} implies $\Psi(\beta_1, \beta_2) \cdo
  
 
 
-\iffalse
-
-\subsection{Covariate Shift}\label{app_proof_33}
- 
-Finally, in this subsection we prove Proposition \ref{prop_covariate}, which shows that $\te(\hat{\beta}_2^{\MTL})$ is minimized approximately when $M$ is a scalar matrix, provided that there is enough source data.
 
 
 
-\begin{proof}[Proof of Proposition \ref{prop_covariate}]
-Denote the minimizer of $g$ by 
-$$M_0:=\argmin_{M\in \cal S_{\mu}}g(M).$$ 
-We now calculate $g(M_0)$. With the same arguments as in Claim \ref{lem_hat_v}, we can show that \eqref{hatv_add1} holds. Moreover, if the parameters are chosen such that $p^{-1+c_0} \sigma^2 \le \kappa^2  \le p^{-\e_0-c_0}\sigma^2$ as in \eqref{choiceofpara}, we can simplify $g(M_0)$ as
-\be \nonumber
-\begin{split}
-g(M_0)&=(1+\OO(p^{-\e}))\cdot \sigma^2  \bigtr{\Sigma_2(X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} }  \quad \text{w.h.p.}
-\end{split}
-\ee
- for some constant $\e>0$. In fact, Lemma \ref{lem_hat_v} was proved assuming that $M=\id$, but its proof can be easily extended to the case with general $M\in \cal S_{\mu}$ by using that $ \mu_{\min}\le \lambda_p(M)\le \lambda_1(M)\le \mu_{\max}$. We omit the details here. 
-
-Now using Lemma \ref{lem_cov_shift}, we obtain that with high probability,
-\begin{align}\label{gvar_extra}
-g(M_0)= \frac{\sigma^2}{\rho_1+\rho_2}\cdot \frac1p\tr\left( \frac{1}{a_1(M_0)\cdot M_0^\top M_0 + a_2(M_0)}\right) \cdot \left(1 +\OO(p^{-\e})\right).
-\end{align}
-From equation \eqref{eq_a12extra}, it is easy to obtain the following estimates on $ a_1(M)$ and $a_2(M)$ for any $M\in \cal S_\mu$:
-\be\label{est_a12extra}
-\frac{\rho_1-1}{\rho_1+\rho_2} < a_1(M)<  \frac{\rho_1+\rho_2-1}{\rho_1+\rho_2},\quad a_2(M) < \frac{\rho_2}{\rho_1+\rho_2}.
-\ee
-Inserting \eqref{est_a12extra} into \eqref{gvar_extra} and using $ M_0^\top M_0\succeq \mu_{\min}^2$, we obtain that with high probability,
-\begin{align}\label{approximateteM}
-\left(1+\frac{\rho_2}{(\rho_1-1)\mu_{\min}^2}\right)^{-1}h(M_0) \cdot \left(1 - \OO(p^{-\e})\right) \le g(M_0) \le h(M_0) \cdot \left(1 +\OO(p^{-\e})\right),
-\end{align}
-where
-$$h(M_0):=\frac{\sigma^2}{(\rho_1+\rho_2)a_1(M_0)}\cdot \frac1p\tr\left( \frac{1}{M_0^\top M_0}\right) .$$
-%With these two bounds, we can easily conclude \eqref{approxteM}. 
-%
-%We have that the test error satisfies
-%\be\label{approxteM}  te(M)\left(1 -  \frac{n_2}{n_1-p} \frac{1}{\lambda_p^2 + \frac{n_2}{n_1-p}}\right)  \le  \frac{\sigma^2}{n_1+n_2}\tr\left( \frac{1}{a_1M^\top M + a_2}\right) \le te(M),\ee
-%where $\lambda_p$ is the smallest singular value of $p$ and
-%$$te(M):= \frac{\sigma^2}{a_1(n_1+n_2)}\tr\left( \frac{1}{M^\top M}\right) .$$
-%Moreover, for all $M$ satisfying \eqref{GMcons}, the minimum of $te(M)$ is attained when $M= a\id$.
-By AM-GM inequality, we observe that 
-$$\tr\left( \frac{1}{M^\top M}\right) = \sum_{i=1}^p\frac{1}{\lambda_i^2}$$
-is minimized when $\lambda_1 = \cdots\lambda_p=\mu$ under the restriction $\prod_{i=1}^p\lambda_i\le \mu^p$. Hence we get that 
-\be\label{AMGM} h(M_0) \le \frac{\sigma^2}{\mu^2 (\rho_1+\rho_2)a_1(M_0)}.\ee
-On the other hand, when $M=\mu \id$, applying Lemma \ref{lem_cov_shift} we obtain that with high probability,
-\begin{align}\label{gvar_extra2}
-\begin{split}
-g(\mu \id)&= \frac{\sigma^2}{\rho_1+\rho_2}\cdot \frac1p\tr\left( \frac{1}{\mu^2 a_1 (\mu\id) + a_2(\mu\id)}\right) \cdot \left(1 +\OO(p^{-\e})\right)\\
-&\le \frac{\sigma^2}{\mu^2(\rho_1+\rho_2)a_1 (\mu\id)}.
-\end{split}
-\end{align}
-Combining \eqref{est_a12extra}, \eqref{approximateteM}, \eqref{AMGM} and \eqref{gvar_extra2}, we conclude the proof.
-%, we conclude that the sum $\sum_{i=1}^p\lambda_i^{-1}$ is smallest when $\lambda_1=\cdots=\lambda_p = a$.
-\end{proof}
-
- 
-In the simulation of Figure \ref{fig_covariate}, we observe the following two phases as  $n_1 / p$ increases.
-When $n_1 \le n_2$, having complementary covariance matrices leads to lower test error compared to the case when $\Sigma_1 = \Sigma_2$.
-When $n_1 > n_2$, having complementary covariance matrices leads to higher test error compared to the case when $\Sigma_1 = \Sigma_2$.
-We provide a theoretical justification now.
-
-\begin{proof}[Theoretical justification of Example \ref{ex_complement}]
-We denote the test error as $\te(\hat \beta_{2}^{\MTL},\lambda)$ in the setting where $M$ has $p/2$ singular values that are equal to $\lambda$ and $p/2$ singular values that are equal to $1 / \lambda$. Then equations in \eqref{eq_a12extra} become
-\be\label{compleeq} a_1 + a_2 = 1 - \frac{1}{\rho_1 + \rho_2},  \ \ a_1 + \frac{1}{2(\rho_1 + \rho_2)}\cdot \bigbrace{\frac{a_1}{a_1 + \lambda^2 a_2} + \frac{a_1}{a_1 + \lambda^{-2} a_2}} = \frac{\rho_1}{\rho_1 + \rho_2}. \ee
-%It's not hard to verify that there is only one valid solution $(a_1,a_2)$ to \eqref{compleeq}. 
-After solving these, with \eqref{gvar_extra} we get that w.h.p.,
-\be\label{testcomple}
- \te(\hat \beta_{2}^{\MTL},\lambda)= \frac{\sigma^2}{2(\rho_1 + \rho_2)}(1+\OO(p^{-\e}))\cdot f(\lambda) ,\quad f(\lambda): = \frac{1}{\lambda^{-2}{a_1} + a_2} + \frac{1}{\lambda^2a_1 + a_2}.\ee
-
-%First we notice that the curves in Figure  \ref{fig_model_shift_phasetrans} (c) all cross at the point $n_1=n_2$. In fact, if $n_1=n_2$, then it is easy to observe that $a_1=a_2=(1-\gamma)/2$ is the solution to equation \eqref{compleeq}, where we denote $ \gamma=p/(n_1+n_2)$. Then for any $\lambda$, the test error in \eqref{testcomple} takes the value
-%$$te(\lambda)= \frac{\gamma}{2}\frac{1}{(1-\gamma)/2}=\frac{p}{n_1+n_2-p}.$$
-
-%Second, from Figure \ref{fig_te_complement} we observe that the complementary cases with $\lambda>1$ is better than the case without covariate shift (i.e. $M=\id$ case) when $n_1<n_2$. On the other hand, if we have enough source task data such that $n_1>n_2$, then it is always better to have no covariate shift.
-We now study the behavior of $f$ as $\lambda$ changes. 
-%This phenomenon can be also explained using our theory. 
-We abbreviate $\gamma:=(\rho_1 + \rho_2)^{-1}$. Then with \eqref{compleeq}, we can rewrite
-$$f(\lambda)= \frac{1}{\lambda^{-2}{a_1} + (1-\gamma - a_1)} + \frac{1}{\lambda^2a_1 + (1-\gamma - a_1)}.$$
-Then we can compute that
-\begin{align*}
-f(\lambda) - f(1)&= \frac{ \lambda^2-1}{1-\gamma} a_1\cdot \bigbrace{  \frac{1}{ -a_1(\lambda^2-1)+(1-\gamma)\lambda^2 } - \frac{1}{a_1(\lambda^2-1) + (1-\gamma)}} \\
-&= \frac{(\lambda^2-1)^2}{1-\gamma}  a_1\cdot  \frac{2a_1 - (1-\gamma) }{[-a_1(\lambda^2-1)+(1-\gamma)\lambda^2 ][a_1(\lambda^2-1) + (1-\gamma)]} .
-\end{align*}
-From this expressions, we observe the following behaviors.
-\begin{itemize}
-\item[(i)] If $n_1>n_2$, we have $a_1>(1-\gamma)/2$ (because $a_1>a_2$ as observed from the equation \eqref{compleeq}). Hence $f(\lambda)>f(1)$, which gives $\te(\hat \beta_{2}^{\MTL},\lambda)>\te(\hat \beta_{2}^{\MTL},1)$.
-
-\item[(ii)] If $n_1< n_2$, we have $a_1< (1-\gamma)/2$. Hence $f(\lambda)< f(1)$, which gives $\te(\hat \beta_{2}^{\MTL},\lambda)<\te(\hat \beta_{2}^{\MTL},1)$. 
-
-\item[(iii)] If $n_1=n_2$, we have $f(\lambda)=f(1)=2/(1-\gamma)$, which means $\te(\hat \beta_{2}^{\MTL},\lambda)$ and $\te(\hat \beta_{2}^{\MTL},1)$ are roughly the same. %, which explains why the curves in Figure  \ref{fig_model_shift_phasetrans} (c) all cross at the point $n_1=n_2$.
-\end{itemize}
-This also partially justifies Proposition \ref{prop_covariate}. %Theorem  the observations in Figure \ref{fig_model_shift_phasetrans} (c), 
-\end{proof}
-\fi
 %\todo{add a transition example}
 
 \iffalse
