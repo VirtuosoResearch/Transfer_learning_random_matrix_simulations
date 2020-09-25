@@ -76,12 +76,12 @@ $$m_\mu(z):= \int_0^\infty \frac{\dd\mu(x)}{x-z}, \text{ for any complex number 
 %where $\rho(x)$ is the density for $\mu$, i.e. $\dd \mu(x)=\rho(x)\dd x$.
 Hence the Stieltjes transform method reduces the study of a probability measure to the study of a complex function.
 To study the matrix inverse $\hat{\Sigma}^{-1}$, we consider the Stieltjes transform of its empirical spectral distribution.
-More precisely, it suffices to study the spectra of another matrix as follows
+More precisely, it suffices to study another matrix
 \begin{align}\label{eigen2extra}
-	\hat{\Sigma}^{-1}= \Sigma_2^{-1/2}V \frac{Y^{-1}}{n_1 + n_2} V^\top\Sigma_2^{-1/2}. \text{ where } Y \define \frac{1}{n_1 + n_2}(\Lambda U^\top (Z^{(1)})^\top Z^{(1)} U\Lambda  + V^\top (Z^{(2)})^\top Z^{(2)}V).
+	Y \define \frac{1}{n_1 + n_2}(\Lambda U^\top (Z^{(1)})^\top Z^{(1)} U\Lambda  + V^\top (Z^{(2)})^\top Z^{(2)}V), \text{ since } (n_1 + n_2)\hat{\Sigma}^{-1}= \Sigma_2^{-1/2} VY^{-1}V^\top \Sigma_2^{-1/2}.
 \end{align}
-It is not hard to see that $\tr[\Sigma^{(2)} \hat{\Sigma}^{-1}] = \bigtr{Y^{-1}} / (n_1 + n_2)$.
-Let $\mu=p^{-1}\sum_{i} \delta_{\lambda_i}$ denote the empirical spectral distribution of $Y$.
+It is not hard to verify that $\tr[\Sigma^{(2)} \hat{\Sigma}^{-1}] = \bigtr{Y^{-1}} / (n_1 + n_2)$.
+Let $\mu=p^{-1}\sum_{i} \delta_{\lambda_i}$ denote the empirical spectral distribution of $Y$, where $\delta_{\lambda_i}$ is the indicator measure.
 %The scaling $(n_1+n_2)^{-1}$ ensures such that the support of $\mu$ is bounded.
 The Stieltjes transform of $\mu$ is as follows
  \[ m_{\mu}(z) \define \frac{1}{p}\sum_{i=1}^p \frac{1}{\sigma_i - z}= p^{-1}\tr\left[(Y-z\id)^{-1}\right]. \]
@@ -114,32 +114,14 @@ Consider the following symmetric and square matrix whose dimension is $p + n_1 +
 %   {Z^{(2)}V} & 0 & 0
    \end{array}} \right).
  \end{equation}
-%The resolvent of $H$ is defined as follows.
-%\begin{definition}[Resolvents]
-The resolvent of $H$ is given by $G(z) \define (H - z\id)^{-1}$, for any complex value $z\in \mathbb C$.  %\left[H -\left( {\begin{array}{*{20}c}
-%   { z\id_{p}} & 0 & 0 \\
-%   0 & { \id_{n_1}}  & 0\\
-%      0 & 0  & { \id_{n_2}}\\
-%\end{array}} \right)\right]^{-1} , \quad z\in \mathbb C ,
-%It is easy to verify that the eigenvalues $\lambda_1(H)\ge \ldots \ge \lambda_{n+N}(H)$ of $H$ are related to the ones of $\mathcal Q_1$ through
-%\begin{equation}\label{Heigen}
-%\lambda_i(H)=-\lambda_{n+N-i+1}(H)=\sqrt{\lambda_i\left(\mathcal Q_2\right)}, \ \ 1\le i \le n\wedge N, \quad \text{and}\quad \lambda_i(H)=0, \ \ n\wedge N + 1 \le i \le n\vee N.
-%\end{equation}
-%and
-%$$\lambda_i(H)=0, \ \ n\wedge N + 1 \le i \le n\vee N.$$
-%where we used the notations $n\wedge N:=\min\{N,M\}$ and $n\vee N:=\max\{N,M\}$.
-%\begin{definition}[Index sets]\label{def_index}
-%Likewise, the resolvent of $Y$ is given by $\cal G(z) \define (Y - z\id)^{-1}$, for any $z\in \mathbb C$.
-%Let $m_1(z):= \frac{1}{n_1}\sum_{i = p+1}^{p + n_1} G_{i, i}(z)$ and $m_2(z):= \frac{1}{n_2}\sum_{i = p + n_1 + 1}^{p + n_1 + n_2} G_{i, i}(z)$.
-Since $H$ has a specific block structure, it is not hard to verify that %\HZ{Has $G(z)$ been defined before?}
+The resolvent of $H$ is given by $G(z) \define (H - z\id)^{-1}$, for any complex value $z\in \mathbb C$.
+Since $H$ has a specific block structure, it is not hard to verify that
 	\begin{equation*} %\label{green2}
 	  G(z) =  \left( {\begin{array}{*{20}c}
 			(Y - z\id)^{-1} & (Y - z\id)^{-1} A  \\
       A^\top (Y - z\id)^{-1} & (A^\top A - z\id)^{-1}
 		\end{array}} \right).%\quad \cal G_R:=(W^\top W - z)^{-1} ,
   \end{equation*}
-%This shows that a control of $G(z)$ yields directly a control of $\mathcal G(z)$ as the upper-left block. On the other hand, $G(z)$ is a little  easier to use than $\cal G(z)$, and obviously contains more information.
-%\noindent\textbf{Asymptotic limits of resolvents.}
 
 \paragraph{Matrix limit.}
 In Theorem \ref{LEM_SMALL}, we show that for $z$ in a small neighborhood around $0$, when $p$ goes to infinity, $G(z)$ converges to a matrix limit as follows:
@@ -156,15 +138,14 @@ where $a_1(z)$ and $a_2(z)$ are the unique solutions to the following system of 
 The existence and uniqueness of the solution to the above equation system are shown in Lemma \ref{lem_mbehaviorw}.
 %First, we define the deterministic limits of $(m_1(z), m_{2}(z))$ by $\left(-\frac{\rho_1+\rho_2}{\rho_1}a_{1}(z),-\frac{\rho_1+\rho_2}{\rho_2}a_{2}(z)\right)$, where
 %satisfying that $\im a_{1}(z)< 0$ and $\im a_{2}(z)<0$ for $z\in \C_+$ with $\im z$.
-%The existence and uniqueness of the solution $(a_1(z), a_2(z))$ for $z$ around 0 will be proved in Section \ref{sec contract}.
-%Here, for simplicity of notations, we introduced the following ratios
 %\be\label{ratios}
 % \gamma_n :=\frac{p}{n}=\frac{1}{\rho_1+\rho_2},\quad r_1 :=\frac{n_1}{n}=\frac{\rho_1}{\rho_1+\rho_2},\quad r_2 :=\frac{n_2}{n}=\frac{\rho_2}{\rho_1+\rho_2}.
 %\ee
 Given this result, we show that when $z = 0$, the matrix limit $\Gi(0)$ implies the variance asymptotic shown in equation \eqref{lem_cov_shift_eq}.
 First, we have that $a_1 = a_1(0)$ and $a_2 = a_2(0)$ since equation \eqref{selfomega_a} reduces to equation \eqref{eq_a12extra}.
 Second, since $Y^{-1}$ is the upper-left block matrix of $G(0)$, we have that $Y^{-1}$ converges to $(a_1\Lambda^2 + a_2)^{-1}$.
-Using equation \eqref{eigen2extra}, we have that when $p$ goes to infinity, the trace of $\Sigma^{(2)} \hat{\Sigma}$ converges to \[ \bigtr{(a_1 \Lambda^2 + a_2\id)^{-1} V^{\top} {\Sigma^{(2)}}^{-1} V} = \bigtr{(a_1 \Sigma^{(1)} + a_2 \Sigma^{(2)})^{-1}}. \]
+Using equation \eqref{eigen2extra}, we have that when $p$ goes to infinity, the trace of $\Sigma^{(2)} \hat{\Sigma}$ converges to
+\[ \bigtr{(a_1 \Lambda^2 + a_2\id)^{-1}} = \bigtr{(a_1 M^{\top}M + a_2 \id)^{-1}} = \bigtr{\Sigma^{(2)} (a_1 \Sigma^{(1)} + a_2 \Sigma^{(2)})^{-1}}. \]
 %\noindent{\bf Variance asymptotics.} Using definition \eqref{mainG}, we can write equation \eqref{eigen2extra} as
 %\be\label{rewrite X as R} [(X^{(1)})^\top X^{(1)}+(X^{(2)})^\top X^{(2)}]^{-1}=n^{-1}\Sigma_2^{-1/2}V\cal G(0)V^\top\Sigma_2^{-1/2}.\ee
 %When $z=0$, it is easy to check that , which means that we actually have $a_1(0)=a_1$ and $a_2(0)=a_2$. Hence the matrix limit of $\cal G(0)$ is given by $(a_{1}\Lambda^2 + a_{2}\id_p)^{-1}$. Then inserting this limit into equation \eqref{rewrite X as R}, we can write the left-hand side of equation \eqref{lem_cov_shift_eq} as
@@ -172,21 +153,27 @@ Using equation \eqref{eigen2extra}, we have that when $p$ goes to infinity, the 
 %&\bigtr{\left( (X^{(1)})^{\top}X^{(1)} + (X^{(2)})^{\top}X^{(2)}\right)^{-1} \Sigma}\approx n^{-1}\bigtr{\Sigma_2^{-1/2}V\cal (a_{1}\Lambda^2 + a_{2}\id_p)^{-1}V^\top\Sigma_2^{-1/2}\Sigma}  \nonumber\\
 %&=n^{-1}\bigtr{\Sigma_2^{-1/2}\cal (a_{1}\Sigma_2^{-1/2}\Sigma_1\Sigma_2^{-1/2} + a_{2}\id_p)^{-1}\Sigma_2^{-1/2}\Sigma}  = n^{-1}\bigtr{\cal (a_{1} \Sigma_1  + a_{2}\Sigma_2)^{-1}\Sigma}  ,\label{Gi00}
 %\end{align}
-where in the second step we used $V \Lambda^2 V^\top=M^\top M=\Sigma_2^{-1/2}\Sigma_1\Sigma_2^{-1/2}$.
-The concentration error of the above limit is shown in Appendix \ref{appendix RMT}.%The rigorous proof of equation \eqref{lem_cov_shift_eq} will be given in Section \ref{sec pf RMTlemma}.
+where we note that the SVD of $M^\top M = (\Sigma^{(2)})^{-1/2} \Sigma^{(1)} (\Sigma^{(2)})^{-1/2}$ is equal to $V^{\top}\Lambda^2 V$.
+For the asymptotic limit, its concentration error is shown in Appendix \ref{appendix RMT}.
 
-For the bias asymptotic in equation \eqref{lem_cov_derv_eq}, We can write the left-hand side of equation \eqref{lem_cov_derv_eq} using the derivative of $\cal G$ with respect to $z$ at $z=0$. More precisely, using equation \eqref{eigen2extra} we can obtain that
-\begin{align}
-&n^2\bignorm{\Sigma_2^{1/2} \bigbrace{ (X^{(1)})^{\top}X^{(1)} + (X^{(2)})^{\top}X^{(2)} }^{-1} \Sigma_1^{1/2} w}^2 \nonumber\\
-&=n^2 w^\top \Sigma_1^{1/2}\Sigma_2^{-1/2}V\left(   \Lambda U^\top (Z^{(1)})^\top Z^{(1)} U\Lambda  + V^\top (Z^{(2)})^\top Z^{(2)}V\right)^{-2}V^\top\Sigma_2^{-1/2}\Sigma_1^{1/2}w \nonumber\\
-&=  w^\top \Sigma_1^{1/2}\Sigma_2^{-1/2}V\cal G'(0)V^\top\Sigma_2^{-1/2}\Sigma_1^{1/2}w,\label{calculate G'}
+For the bias asymptotic in equation \eqref{lem_cov_derv_eq}, we show that it is governed by the derivative of the resolve of $Y$ with respect to $z$ at $z = 0$.
+More precisely, we have that
+	\[ (n_1 + n_2)^2 \hat{\Sigma}^{-1}\Sigma^{(2)}\hat{\Sigma}^{-1} = {\Sigma^{(2)}}^{-1/2} V Y^{-2} V^{\top} {\Sigma^{(2)}}^{-1/2}. \]
+Let $\cal G(z)$ denote the resolvent of $Y$.
+Our key observation is that $\frac{\dd{\cal G(z)}}{\dd z} = - \cal G^2(z)$.
+Given the matrix limit of $\cal G(z)$ from equation \eqref{defn_piw} above, we have that the matrix limit of $\frac{\dd{\cal G(0)}}{\dd z}$ is given by
+\begin{align}\label{cal G'0}
+	\frac{\dd \cal G(z)}{\dd z} = \frac{-\frac{\dd a_1(z)}{\dd z}\Lambda^2 - (\frac{\dd a_2(z)}{\dd z} - 1)\id}{(a_{1}(z)\Lambda^2 + a_{2}(z)\id_p)^2}.
 \end{align}
-where we used equation \eqref{rewrite X as R} in the second step. Since the matrix limit of $\cal G(z)$ is given by equation \eqref{matrix limit}, it is natural to guess that the matrix limit of $\cal G'(0)$ is given by
-\be\label{cal G'0}\cal G'(0) \approx \left.\frac{\dd}{\dd z}\right|_{z=0}(-z\id_p+a_{1}(z)\Lambda^2 + a_{2}(z)\id_p)^{-1} = \frac{\id_p- a_1'(0)\Lambda^2 - a_2'(0)\id_p}{(a_{1}(0)\Lambda^2 + a_{2}(0)\id_p)^2}.\ee
+As for the derivative of $a_1(z)$ and $a_2(z)$, we take the derivative on both sides of the equation system \eqref{selfomega_a} with respect to $z$.
+\begin{align*}
+	\frac{\dd a_1(z)}{\dd z} + \frac{\dd a_2(z)}{\dd z} = \frac{1}{n_1 + n_2} \sum_{i=1}^p \frac{1}{\lambda_i^2 a_1 + a_2},
+	\frac{\dd a_1(z)}{\dd z} + \frac{1}{n_1 + n_2}\sum_{i=1}^p \frac{\lambda_i^2 (a_1'(z) a_2 - a_2'(z) a_3)}{(\lambda_i^2 a_1 + a_2)^2} = \frac{1}{n_1 + n_2} \sum_{i=1}^p \frac{\lambda_i^2 a_1}{(\lambda_i^2 a_1 + a_2)^2}
+\end{align*}
 If we let $a_3:=-a_1'(0)$ and $a_4:=-a_2'(0)$, then taking implicit differentiation of equation \eqref{selfomega_a} we can check that $(a_3,a_4)$ satisfies equation \eqref{eq_a34extra}. Then inserting \eqref{cal G'0} into \eqref{calculate G'}, we obtain that
 \begin{align}
 & n^2\bignorm{\Sigma_2^{1/2} \bigbrace{ (X^{(1)})^{\top}(X^{(1)}) + (X^{(2)})^{\top}(X^{(2)}) }^{-1} \Sigma_1^{1/2} w}^2 \nonumber\\
-&\approx  w^\top \Sigma_1^{1/2}\Sigma_2^{-1/2}V\frac{a_3\Lambda^2 +(1+ a_4)\id_p}{(a_{1}\Lambda^2 + a_{2}\id_p)^2}V^\top \Sigma_2^{-1/2}\Sigma_1^{1/2}w= w^{\top} \Pi_\bias w, \label{calculatePibias}
+&\approx  w^\top \Sigma_1^{1/2}\Sigma_2^{-1/2}V\frac{a_3\Lambda^2 +(1+ a_4)\id_p}{(a_{1}\Lambda^2 + a_{2}\id)^2}V^\top \Sigma_2^{-1/2}\Sigma_1^{1/2}w= w^{\top} \Pi_\bias w, \label{calculatePibias}
 \end{align}
 where in the last step we used $M = \Sigma_1^{1/2}\Sigma_2^{-1/2}$ and $V \Lambda^2 V^\top=M^\top M$. This concludes equation \eqref{lem_cov_derv_eq}.
 Note that in order to have the approximate identity for $\cal G'(0)$ in equation \eqref{cal G'0}, we not only need to know the asymptotics of $\cal G(0)$, but also need to know the asymptotics of $\cal G(z)$ for general $z$ around $z=0$. This is the main reason why we need to take a general $z$ in the definition of resolvents. The rigorous proof of equation \eqref{lem_cov_derv_eq} will be given in Section \ref{sec pf RMTlemma}, where we justify the approximate identity in equation \eqref{cal G'0}.
