@@ -135,41 +135,38 @@ The resolvent or Green's function of $H$ is given by
 %$$\lambda_i(H)=0, \ \ n\wedge N + 1 \le i \le n\vee N.$$
 %where we used the notations $n\wedge N:=\min\{N,M\}$ and $n\vee N:=\max\{N,M\}$.
 %\begin{definition}[Index sets]\label{def_index}
-Likewise, the resolvent of $Y$ is given by $\cal G(z) \define (Y - z\id)^{-1}$, for any $z\in \mathbb C$.
+%Likewise, the resolvent of $Y$ is given by $\cal G(z) \define (Y - z\id)^{-1}$, for any $z\in \mathbb C$.
 \end{definition}
-Let $m_1(z):= \frac{1}{n_1}\sum_{i = p+1}^{p + n_1} G_{i, i}(z)$ and $m_2(z):= \frac{1}{n_2}\sum_{i = p + n_1 + 1}^{p + n_1 + n_2} G_{i, i}(z)$.
-Using the Schur complement formula, we have that %\HZ{Has $G(z)$ been defined before?}
- \begin{equation} \label{green2}
-  G(z) =  \left( {\begin{array}{*{20}c}
+%Let $m_1(z):= \frac{1}{n_1}\sum_{i = p+1}^{p + n_1} G_{i, i}(z)$ and $m_2(z):= \frac{1}{n_2}\sum_{i = p + n_1 + 1}^{p + n_1 + n_2} G_{i, i}(z)$.
+Using the Schur complement formula (cf. Section \ref{app_tool}), we have that %\HZ{Has $G(z)$ been defined before?}
+	\begin{equation*} %\label{green2}
+	  G(z) =  \left( {\begin{array}{*{20}c}
    { \cal G (z)} & \cal G(z)A  \\
-   A^\top \cal G(z) & z (A^\top A - z)^{-1}
-\end{array}} \right)^{-1}, %\quad \cal G_R:=(W^\top W - z)^{-1} ,
- \end{equation}
-This shows that a control of $G(z)$ yields directly a control of $\mathcal G(z)$ as the upper-left block. On the other hand, $G(z)$ is a little  easier to use than $\cal G(z)$, and obviously contains more information.
-
+   A^\top \cal G(z) & z (A^\top A - z\id)^{-1}
+		\end{array}} \right).%\quad \cal G_R:=(W^\top W - z)^{-1} ,
+  \end{equation*}
+%This shows that a control of $G(z)$ yields directly a control of $\mathcal G(z)$ as the upper-left block. On the other hand, $G(z)$ is a little  easier to use than $\cal G(z)$, and obviously contains more information.
 %\noindent\textbf{Asymptotic limits of resolvents.}
-We now describe the asymptotic limit of $G(z)$ as $p$ goes to infinity.
-First, we define the deterministic limits of $(m_1(z), m_{2}(z))$ by $\left(-\frac{\rho_1+\rho_2}{\rho_1}a_{1}(z),-\frac{\rho_1+\rho_2}{\rho_2}a_{2}(z)\right)$, where $(a_1(z), a_2(z))$ is
-%\HZ{This $M_{1}, M_{2}$ notation is awkward; consider changing it to ${M}_1(z), {M}_2(z)$ (or  better, say $a_1(z), a_2(z)$? if they correspond to $a_1, a_2$ when $z=0$)},
-the unique solution to the following system of equations
+In Theorem \ref{LEM_SMALL}, we show that when $p$ goes to infinity, $G(z)$ converges to a matrix limit as follows:
+\be \label{defn_piw}
+	\Gi(z) \define \begin{pmatrix} (-z\id_p+a_{1}(z)\Lambda^2  +  a_{2}(z)\id_p)^{-1} & 0 & 0 \\ 0 & - \frac{\rho_1+\rho_2}{\rho_1} a_{1}(z)\id_{n_1} & 0 \\ 0 & 0 & -\frac{\rho_1+\rho_2}{\rho_2}a_{2}(z)\id_{n_2}  \end{pmatrix},\ee
+%In particular, the matrix limit of $\cal G(z)$ is given by
+%\be\label{matrix limit}(-z\id_p+a_{1}(z)\Lambda^2 + a_{2}(z)\id_p)^{-1},\ee
+where $(a_1(z), a_2(z))$ is the unique solution to the following system of equations
 \begin{equation}\label{selfomega_a}
 \begin{split}
 & \frac{\rho_1}{a_{1}(z)} = \frac{1}{p}\sum_{i=1}^p \frac{\lambda_i^2}{ - z+\lambda_i^2 a_{1}(z) +a_{2} (z) } + (\rho_1+\rho_2),\  \frac{\rho_2}{a_{2}(z)} = \frac{1}{p}\sum_{i=1}^p \frac{1 }{  -z+\lambda_i^2 a_{1}(z) +  a_{2}(z)  }+ (\rho_1+\rho_2) .
 \end{split}
 \ee
+The existence and uniqueness of the solution to the above equation system are shown in Lemma \ref{lem_mbehaviorw}.
+%First, we define the deterministic limits of $(m_1(z), m_{2}(z))$ by $\left(-\frac{\rho_1+\rho_2}{\rho_1}a_{1}(z),-\frac{\rho_1+\rho_2}{\rho_2}a_{2}(z)\right)$, where
 %satisfying that $\im a_{1}(z)< 0$ and $\im a_{2}(z)<0$ for $z\in \C_+$ with $\im z$.
-The existence and uniqueness of the solution $(a_1(z), a_2(z))$ for $z$ around 0 will be proved in Section \ref{sec contract}.
+%The existence and uniqueness of the solution $(a_1(z), a_2(z))$ for $z$ around 0 will be proved in Section \ref{sec contract}.
 %Here, for simplicity of notations, we introduced the following ratios
 %\be\label{ratios}
 % \gamma_n :=\frac{p}{n}=\frac{1}{\rho_1+\rho_2},\quad r_1 :=\frac{n_1}{n}=\frac{\rho_1}{\rho_1+\rho_2},\quad r_2 :=\frac{n_2}{n}=\frac{\rho_2}{\rho_1+\rho_2}.
 %\ee
-We define the matrix limit of $G(z)$ as
-\be \label{defn_piw}
-\Gi(z) := \begin{pmatrix} (-z\id_p+a_{1}(z)\Lambda^2  +  a_{2}(z)\id_p)^{-1} & 0 & 0 \\ 0 & - \frac{\rho_1+\rho_2}{\rho_1} a_{1}(z)\id_{n_1} & 0 \\ 0 & 0 & -\frac{\rho_1+\rho_2}{\rho_2}a_{2}(z)\id_{n_2}  \end{pmatrix}.\ee
-In particular, the matrix limit of $\cal G(z)$ is given by
-\be\label{matrix limit}(-z\id_p+a_{1}(z)\Lambda^2 + a_{2}(z)\id_p)^{-1}.\ee
-
-\medskip
+We illustate that the above results directly imply the variance asymptotic in equation \eqref{lem_cov_shift_eq}.
 \noindent{\bf Variance asymptotics.} Using definition \eqref{mainG}, we can write equation \eqref{eigen2extra} as
 \be\label{rewrite X as R} [(X^{(1)})^\top X^{(1)}+(X^{(2)})^\top X^{(2)}]^{-1}=n^{-1}\Sigma_2^{-1/2}V\cal G(0)V^\top\Sigma_2^{-1/2}.\ee
 When $z=0$, it is easy to check that equation \eqref{selfomega_a} can be reduced to equation \eqref{eq_a12extra}, which means that we actually have $a_1(0)=a_1$ and $a_2(0)=a_2$. Hence the matrix limit of $\cal G(0)$ is given by $(a_{1}\Lambda^2 + a_{2}\id_p)^{-1}$. Then inserting this limit into equation \eqref{rewrite X as R}, we can write the left-hand side of equation \eqref{lem_cov_shift_eq} as
