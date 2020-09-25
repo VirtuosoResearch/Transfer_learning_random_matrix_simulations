@@ -169,12 +169,15 @@ thus simplifying the general condition in Theorem \ref{thm_main_informal}.
 %More generally, such results are still applicable when all task data are being added simultaneously.
 On the other hand, uneven sample sizes between different tasks (or even dominating tasks) have been empirically observed as a cause of negative transfer \cite{YKGLHF20}.
 For such settings, we have also observed that adding more labeled data from one task does not always help.
+Our theory accurately predicts a curious phenomenon, where increasing the sample size of the source task results in negative transfer!
 %On the other hand, we have observed that adding more labeled data does not always improve performance in multi-task learning.
-In the isotropic model, we consider what happens if we vary the source task sample size. More precisely, for fixed model distance $pd^2$, the bias term $  pd^2\cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3}$ of MTL increases and converges to $pd^2$ as the sample ratio $\rho_1/\rho_2$ increases. On the other hand, the variance reduction $\frac{\sigma^2}{ \rho_2-1}  -\frac{\sigma^2}{\rho_1+\rho_2-1}$ also increases and converges to $\frac{\sigma^2}{\rho_2-1}$ as the sample ratio $\rho_1/\rho_2$ increases. \todo{add more details} 
+
+More precisely, in the isotropic model, we consider what happens if we vary the source task sample size. For fixed model distance $pd^2$, the bias term $  pd^2\cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3}$ of MTL increases and converges to $pd^2$ as the sample ratio $\rho_1/\rho_2$ increases, and the variance reduction $\frac{\sigma^2}{ \rho_2-1}  -\frac{\sigma^2}{\rho_1+\rho_2-1}$ also increases and converges to $\frac{\sigma^2}{\rho_2-1}$ as $\rho_1/\rho_2$ increases. The tradeoff between these two terms depends on $\rho_1$ in a nonlinear way that is more complicated than the one in the case of varying model distance. But from our results, one can check the following phenomena. If $\frac{\sigma^2}{\rho_2-1} > pd^2$, then the transfer is always positive. On the other hand, if $\frac{\sigma^2}{\rho_2-1} < pd^2$, then there is a transition from the positive transfer to negative transfer as $\rho_1/\rho_2$ increases. 
 %Therefore, while the variance of MTL still reduces compared to STL, 
 %If the bias increases more than the amount of variance reduced, we will observe negative transfer.
-Our theory accurately predicts a curious phenomenon, where increasing the sample size of the source task results in negative transfer! Figure \ref{fig_size} provides a simulation result for such a setting (described in Appendix \ref{app_synthetic}).
-We observe that as $n_1 / n_2$ increases, there is a transition from positive to negative transfer. There are several unexplained observations near $y = 0$ caused by the concentration error on the right-hand side of \eqref{cor_MTL_error}.
+Figure \ref{fig_size} provides a simulation result for such a setting (described in Appendix \ref{app_synthetic}).
+%We observe that as $n_1 / n_2$ increases, there is a transition from positive to negative transfer. 
+There are several unexplained observations near $y = 0$ caused by the concentration error on the right-hand side of \eqref{cor_MTL_error}.
 
 
 \iffalse
@@ -201,20 +204,23 @@ In general, the covariance matrices of the two tasks may be different such as in
 In this part, we consider what happens when $\Sigma_1 \neq \Sigma_2$.
 We show that when $n_1 / n_2$ is large, MTL with covariate shift can be suboptimal compared to MTL without covariate shift.
 
-\noindent\textit{Example.}
-	We measure covariate shift by $M = \Sigma_1^{1/2} \Sigma_2^{-1/2}$ similar to Theorem \ref{thm_main_informal}.
-	We assume that the two tasks have the same ground truth model parameters, that is, $\beta_1 = \beta_2$ and $\Psi(\beta_1, \beta_2) = 0$.
+%\noindent\textit{Example.}
+
+\begin{example}
+	We measure covariate shift by the transfer matrix $M = \Sigma_1^{1/2} \Sigma_2^{-1/2}$. %similar to Theorem \ref{thm_main_informal}.
+	We assume that the two tasks have the same ground truth model parameters, that is, $\beta_1 = \beta_2$.
 	We compare two cases: (i) when $M = \id_{p\times p}$; (ii) when $M$ has $p/2$ singular values that are equal to $\lambda$ and $p/2$ singular values that are equal to $1 / \lambda$.
 	Hence, $\lambda$ measures the severity of the covariate shift.
 	Figure \ref{fig_covariate} shows a simulation of this setting by varying $\lambda$.
 	We observe that as source/target sample ratio increases, the performance gap between the two cases increases.
+	\end{example}
 
 %By applying Lemma \ref{lem_cov_shift_informal}, we find that when $n_1 / n_2$ is large, having no covariate shift is the optimal choice provided that the determinant of $M^{\top}M$ is bounded.
 We compare different choices of $M$ that belong to the following bounded set.
 Let $\lambda_i$ be the $i$-th singular value of $M$.
 Let $\mu_{\min} < \mu < \mu_{\max}$ be fixed values that do not grow with $p$.
 {\begin{align*}
-		\cS_{\mu}\define\bigset{M \left| \prod_{i=1}^p \lambda_i \le \mu^p, \mu_{\min} \le \lambda_i\le \mu_{\max}, \text{ for all } 1\le i\le p\right.},
+		\cS_{\mu}\define\bigset{M \left| \prod_{i=1}^p \lambda_i \le \mu^p, \mu_{\min} \le \lambda_i\le \mu_{\max}, \text{ for all } 1\le i\le p\right.}.
 \end{align*}}
 %	We assume that $\beta_1$ and $\beta_2$ are generated following the isotropic model with $d = 0$.
 \begin{proposition}[Covariate shift]\label{prop_covariate}
