@@ -22,15 +22,15 @@ For any fixed $v\in \R$, $\beta_1 - v\beta_2$ is a random vector with i.i.d. ent
 &=  \left|(\beta_1 - {v} \beta_2)^\top \cal K^\top \cal K (\beta_1 - {v} \beta_2) - [(1-v)^2\kappa^2 + d^2]\tr (\cal K^\top \cal K)\right| \nonumber\\
 &\le p^\e [(1-v)^2\kappa^2 + d^2] \left\{\tr\left[(\cal K^\top \cal K)^2\right]\right\}^{1/2} \lesssim p^{1/2+\e} [(1-v)^2\kappa^2 + d^2] \quad \text{w.h.p.},\label{anotherbeta}
 \end{align}
-where $\delta_{\bias}(v)$ was defined in \eqref{revise_deltabias}, $\cal K$ was defined as $\cal K:=v\Sigma_2^{1/2}({v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} X_1^{\top}X_1$, and in the last step we used $\|\cal K\|=\OO(1)$ by \eqref{eq_isometric}. Now for $\tr (\cal K^\top \cal K)$, we rewrite it as
+where $\delta_{\bias}(v)$ was defined in \eqref{revise_deltabias}, $\cal K$ was defined as $\cal K:=v\Sigma_2^{1/2}({v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} X_1^{\top}X_1$, and in the last step we used $\|\cal K\|=\OO(1)$ by Fact \ref{lem_minv}. Now for $\tr (\cal K^\top \cal K)$, we rewrite it as
 \begin{align*}
 v^2 \tr \left[ ({v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2({v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}(X_1^\top X_1)^2 \right].
 \end{align*}
-Bounding $(X_1^\top X_1)^2=(Z_1^\top Z_1)^2$ using \eqref{eq_isometric}, we obtain that
+Bounding $(X_1^\top X_1)^2=(Z_1^\top Z_1)^2$ using Fact \eqref{lem_minv}, we obtain that
 \be\label{anotherwtbeta} \delta^\star_{\bias}(v) \cdot (\al_-^2(\rho_1)-\OO(p^{-1/2+\e})) \le  [(1-v)^2\kappa^2 + d^2]\tr (\cal K^\top \cal K) \le \delta^\star_{\bias}(v) \cdot  (\al_+^2(\rho_1)+\OO(p^{-1/2+\e})),\ee
 where
 $$\delta^\star_{\bias}(v):=n_1^2 v^2 [(1-v)^2\kappa^2 + d^2]\tr \left[ ({v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2({v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\right].$$
-Note that $\delta^\star_{\bias}(v) \sim p$ by \eqref{eq_isometric}. Hence combining \eqref{anotherbeta} and \eqref{anotherwtbeta} we get
+Note that $\delta^\star_{\bias}(v) \sim p$ by Fact \ref{lem_minv}. Hence combining \eqref{anotherbeta} and \eqref{anotherwtbeta} we get
 \be\label{replaceest}
   \delta^\star_{\bias}(v) \cdot (\al_-^2(\rho_1)-\OO(p^{-1/2+\e})) \le  \delta_{\bias}(v)\le \delta^\star_{\bias}(v) \cdot  (\al_+^2(\rho_1)+\OO(p^{-1/2+\e})).
 \ee
@@ -87,7 +87,7 @@ There exists a constant $C>0$ such that
 	%is $\hat{w} = 1 \pm \bigo{\frac 1 {n_1+n_2}}$ \todo{(figure out the constants)}
 \end{claim}
 \begin{proof}
-To be consistent with the notation $\hat w$, we change the name of the argument to $w$ in the proof. First it is easy to observe that $h(w)< h(-w)$ for $w> 0$. Second, using \eqref{eq_isometric}, it is easy to check that $h(1)=\OO(pd^2 + \sigma^2)$ and $ h(w)\gtrsim p\kappa^2 \gg h(1)$ for $w\ge 2$ or $w\le 1/2$.  Hence it suffices to consider the case $1/2\le w\le 2$.
+To be consistent with the notation $\hat w$, we change the name of the argument to $w$ in the proof. First it is easy to observe that $h(w)< h(-w)$ for $w> 0$. Second, using Fact \eqref{lem_minv}, it is easy to check that $h(1)=\OO(pd^2 + \sigma^2)$ and $ h(w)\gtrsim p\kappa^2 \gg h(1)$ for $w\ge 2$ or $w\le 1/2$.  Hence it suffices to consider the case $1/2\le w\le 2$.
 
 We first consider the case $1\le w\le 2$. We write
 \begin{align}
@@ -107,7 +107,7 @@ where the matrix $\cal A$ is defined as
 \begin{align*}
 \cal A :&= \frac{\rho_1}{\rho_2}\left[ \frac{2(w-1)(2-w)}{w^5}\kappa^2 - \frac{4d^2}{w^5}\right](X_2^{\top}X_2)^2 + \left[\frac{2\left( w-1\right)}{w^3}\kappa^2 - \frac{2d^2}{w^3} \right](X_1^{\top}X_1)^2 - 2 \frac{\sigma^2}{w^3}X_1^\top X_1.
 \end{align*}
-Using the estimate \eqref{eq_isometric}, we get that $\cal A$ is lower bounded as
+Using the estimate Fact \eqref{lem_minv}, we get that $\cal A$ is lower bounded as
 \begin{align*}
 \cal A \succeq&~ - \frac{4d^2}{w^5}n_1n_2 (\al_+(\rho_2)+\oo(1))^2 + \left[\frac{2\left( w-1\right)}{w^3}\kappa^2 - \frac{2d^2}{w^3} \right]n_1^2 (\al_-(\rho_1)-\oo(1))^2 \\
 &~ - 2 \frac{\sigma^2}{w^3}n_1(\al_{+}(\rho_1)+\oo(1)) \succ 0,
@@ -125,7 +125,7 @@ For the case $1/2\le w\le 1$, the proof is similar as above. Taking derivative o
 \end{align}
 where the matrix $\cal B$ is
 $$\cal B= 2\left( w-1\right) \kappa^2  (X_2^{\top}X_2)^2+\frac{\rho_2}{\rho_1}\left[2wd^2 +2w\left( w-1\right)(2w-1)\kappa^2\right](X_1^{\top}X_1)^2 + 2 w\sigma^2 X_2^\top X_2 .$$
-Using the estimate \eqref{eq_isometric}, we get that $\cal B$ is upper bounded as
+Using Fact \ref{lem_minv}, we get that $\cal B$ is upper bounded as
 \begin{align*}
 \cal B \preceq - 2(1-w)\kappa^2 n_2^2 (\al_-(\rho_2) -\oo(1))^2 +2w d^2 n_1n_2 (\al_+(\rho_1) +\oo(1))^2 + 2w\sigma^2 n_2 (\al_+(\rho_2)+\oo(1)) \prec 0,
 \end{align*}
@@ -163,7 +163,7 @@ Inserting \eqref{hatv_add1} into \eqref{eq_te_mtl_2task} and applying Lemma  \re
 \te(\hat{\beta}_2^{\MTL})&=(1+\OO(\cal E))\cdot \left[d^2 + \OO\left(\cal E^2 \kappa^2\right)\right] \tr\left[(X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right]\nonumber\\
 &+(1+\OO(\cal E))\cdot \sigma^2  \bigtr{(X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} }. \label{1Liso}
 \end{align}
-In order to study the phenomenon of bias-variance trade-off, we need the bias term with $d^2$ and the variance term with $\sigma^2$ to be of the same order. With \eqref{eq_isometric}, we have that
+In order to study the phenomenon of bias-variance trade-off, we need the bias term with $d^2$ and the variance term with $\sigma^2$ to be of the same order. Using Fact \eqref{lem_minv}, we have that
 $$\tr\left[(X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right] \sim p,\quad \bigtr{(X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} } \sim 1.$$
 Hence we need to choose that $p d^2 \sim \sigma^2$. On the other hand, we want the error term $\cal E^2 \kappa^2$ to be much smaller than $d^2$, which leads to the condition $p^{-1+\e_0+4\e}\kappa^2  \ll d^2 \ll \kappa^2$. The above considerations lead to the choices of parameters in \eqref{choiceofpara}, under which we can simplify \eqref{1Liso} to \eqref{simple1}.
 %\begin{align}
@@ -482,7 +482,7 @@ is increasing with respect to $w$, then the derivative of $\val(w)$ can be bound
 Hence $\val'(w)\ge 0$ if $w>1+ \e_0$, where
 $$\e_0:= \frac{\sigma^2  \bigtr{(M^\top Z_1^{\top}Z_1 M)^{-1}} }{\left\|( M^\top Z_1^{\top}Z_1 M + Z_2^{\top}Z_2)^{-1} M^\top Z_1^{\top} Z_1 \Sigma_1^{1/2}\beta_t \right\|^2}.$$
 In other words, $\val(w)$ is strictly increasing function on $[1+\e_0,\infty]$. Thus we get that $\hat w$ satisfies
-\be\label{hatw1}1\le w \le 1+\e_0.\ee Using \eqref{eq_isometric}, we get that
+\be\label{hatw1}1\le w \le 1+\e_0.\ee Using Fact \ref{lem_minv}, we get that
 $$\e_0=\OO(\sigma^2/\|\beta_t\|_2^2)=\OO(p^{-1}).$$
 
 Finally, plugging \eqref{hatw1} into the expression $\te(\hat{\beta}^{\TL}_{t}) $, we obtain \eqref{tehatw1}.
@@ -569,15 +569,12 @@ satisfies \eqref{Deltabeta}; $\delta_{\vari}^{(2)}$ is defined as
 \end{align*}
 %$$	\te(\hat{\beta}_t^{\MTL}) = \left[\Delta_{\bias} + \Delta_{diff}+  \sigma_2^2 \cdot \tr(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} \right]\cdot \left(1+\OO(p^{-1/2})\right), $$
 %where $\Delta_{\bias}:= \sigma_2^2 \cdot \bigtr{(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} }$ has
-To estimate this new term $\delta_{\vari}^{(2)}$, we use the same arguments as in the proof of Lemma \ref{prop_model_shift_tight}: we first replace $X_1^\top X_1$ with $n_1\id$ up to a small error using \eqref{eq_isometric}, and then apply Lemma \ref{lem_cov_derivative} to calcualte $\bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-2}}$. This process leads to the following estimates on $\delta_{\vari}^{(2)}$:
+To estimate this new term $\delta_{\vari}^{(2)}$, we use the same arguments as in the proof of Lemma \ref{prop_model_shift_tight}: we first replace $X_1^\top X_1$ with $n_1\id$ up to a small error using Fact \eqref{lem_minv}, and then apply Lemma \ref{lem_cov_derivative} to calcualte $\bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-2}}$. This process leads to the following estimates on $\delta_{\vari}^{(2)}$:
 \be\label{Deltavar2}
 \al_-(\rho_1) - \oo(1)  \le  \frac{\delta_{\vari}^{(2)}}{ \Delta_{\vari}^{(2)}} \le \al_+(\rho_1) +  \oo(1) , \ee
 where
 $$ \Delta_{\vari}^{(2)}:=(\sigma_1^2 -\sigma_2^2) \frac{\rho_1 (\rho_1+\rho_2)}{(\rho_1+\rho_2-1)^3}.$$
 Next we compare $\delta_{\vari}$ with $\delta_{\bias} + \delta_{\vari}^{(2)}$. Our main focus is to see how the extra $\delta_{\vari}^{(2)}$ affects the information transfer in this case.
-
-%Using \eqref{eq_isometric} and Lemma \ref{lem_cov_derivative}, a similar bound holds for $\Delta_{diff}$ as in \eqref{Deltabeta}:
-%$$\bigbrace{1 - \sqrt{\frac{1}{c_1}}}^2\le \frac{\Delta_{diff}}{\sigma_1^2 -\sigma_2^2}\cdot \left( \frac{c_1 (c_1+c_2)}{(c_1+c_2-1)^3} + \OO(p^{-1/2+\e})\right)^{-1}\le \bigbrace{1 + \sqrt{\frac{1}{c_1}}}^2.$$
 
  Note that the condition $pd^2< \frac{1}{2} {\sigma_2^2}  \cdot \Phi(\rho_1, \rho_2)$ for $\rho_1 > 40$ gives that $\delta_{\vari}>\delta_{\bias} $ by Proposition \ref{prop_dist_transition}. Hence if $\sigma_1^2\le \sigma_2^2$, then $\delta_{\vari}^{(2)}<0$ and we always have $\delta_{\vari} > \delta_{\bias}+ \delta_{\vari}^{(2)}$, which gives $\te(\hat{\beta}_2^{\MTL})<\te(\hat{\beta}_2^{\STL})$.  It remains to consider the case $\sigma_1^2 \ge \sigma_2^2$.
 

@@ -64,7 +64,7 @@ if we choose $k$ large enough such that $k\e>D$. As a special case, we have $|\x
 In the following proof, we say an event $\Xi$ holds with overwhelming probability if for any constant $D>0$, $\mathbb P(\Xi)\ge 1- n^{-D}$ for large enough $n$. Moreover, we say $\Xi$ holds with overwhelming probability in an event $\Omega$ if for any constant $D>0$, $\mathbb P(\Omega\setminus \Xi)\le n^{-D}$ for large enough $n$.
 
 In this section, we shall prove a more fundamental random matrix result in a little more general setting than the one in Section \todo{add reference}; see Theorem \ref{LEM_SMALL} below. %\ref{sec_prelim}. 
- Then Lemma \ref{lem_cov_shift} and Lemma \ref{lem_cov_derivative} will follow from this result as immediate corollaries. We first state the exact assumptions needed for our purpose.
+ Then Theorem \ref{thm_main_RMT} will follow from this result as immediate corollaries. We first state the exact assumptions needed for our purpose.
 
 %We summarize our basic assumptions here for future reference. %Note that this assumption is in accordance with the assumptions of Lemma \ref{lem_cov_shift} and Lemma \ref{lem_cov_derivative}, except that we rescale the entries of $Z^{(1)}$ and $Z^{(2)}$ by $n^{-1/2}$. %and allow $\rho_1$ to be smaller than 1.
 \begin{assumption}\label{assm_big1}
@@ -73,7 +73,7 @@ As in Section \todo{add reference}, we consider random matrices $X^{(1)}=Z^{(1)}
 \be\label{assm2}
 0\le \rho_1 \le \tau^{-1}, \quad 1+\tau \le \rho_{2} \le \tau^{-1}.
 \ee
-Recall that $M=\Sig_1^{1/2} \Sig_2^{-1/2}$ has a singular value decomposition as in equation \eqref{eigen2}. We assume that % the singular values satisfy that
+Recall that the singular value decomposition of $M = \Sig_1^{1/2} \Sig_2^{-1/2}$ is $U \Lambda V^{\top}$. We assume that
 \begin{equation}\label{assm32}
 \tau \le \lambda_p \le \lambda_1 \le \tau^{-1} .%, \quad \max\left\{\pi_A^{(n)}([0,\tau]), \pi_B^{(n)}([0,\tau])\right\} \le 1 - \tau .
 \end{equation}
@@ -122,7 +122,7 @@ for a small constant $0<\tau<1$.
 \fi
 
 \begin{remark}
-The lower bound $\rho_2\ge 1+\tau$ in equation \eqref{assm2} is to ensure that the sample covariance matrix $(X^{(2)})^\top X^{(2)}$ is non-singular with overwhelming probability; see Lemma \ref{SxxSyy} below. Moreover, we have allowed that $\rho_1=0$, because we want to state a general result that also covers the special case with no source task. 
+The lower bound $\rho_2\ge 1+\tau$ in equation \eqref{assm2} is to ensure that the sample covariance matrix $(X^{(2)})^\top X^{(2)}$ is non-singular with overwhelming probability. Moreover, we have allowed that $\rho_1=0$, because we want to state a general result that also covers the special case with no source task.
 \end{remark}
 
  \iffalse
@@ -178,7 +178,6 @@ The above discussion shows that the bounded support condition provides great fle
 
 \iffalse
 Before entering into the formal proof, we state two preparation lemmas, both of which have been used crucially in some previous proofs. First, for $n^{-1/2}Z^{(1)}$ and $n^{-1/2}Z^{(2)}$ with bounded support $q$, we have the following estimates on their singular values. 
-%We have used it in our previous proofs; see equation \eqref{eq_isometric}.   
 
  
 %Then we state the following lemma on the eigenvalues of $(Z^{(1)})^{\top} Z^{(1)}$ and $(Z^{(2)})^\top Z^{(2)}$, which are denoted as $\lambda_1 ((Z^{(1)})^{\top} Z^{(1)}) \ge \cdots \ge \lambda_{p} ((Z^{(1)})^{\top} Z^{(1)})$ and $\lambda_1 ((Z^{(2)})^\top Z^{(2)}) \ge \cdots \ge \lambda_p ((Z^{(2)})^\top Z^{(2)})$. We have used it in our previous proofs; see equation \eqref{eq_isometric}. 
@@ -465,7 +464,7 @@ The above arguments are the core of the main proof. To have a rigorous proof, we
 
 \subsubsection{Proof of the Bias and Variance Asymptotics}\label{sec pf RMTlemma}
 %In this subsection, 
-We now state the main random matrix result---Theorem \ref{LEM_SMALL}---which gives an almost optimal estimate on the resolvent $G(z)$ defined in equation \eqref{eqn_defG}. It is conventionally called the {\it anisotropic local law} \cite{Anisotropic}. We define a domain of the spectral parameter $z$ as
+We now state the main random matrix result---Theorem \ref{LEM_SMALL}---which gives an almost optimal estimate on the resolvent $G(z)$ of $H$. It is conventionally called the {\it anisotropic local law} \cite{Anisotropic}. We define a domain of the spectral parameter $z$ as
 \begin{equation}
 \mathbf D:= \left\{z=E+ \ii \eta \in \C_+: |z|\le (\log n)^{-1} \right\}. \label{SSET1}
 \end{equation}
@@ -550,11 +549,11 @@ Then we can centralize and rescale $\wt Z^{(1)}$ and $\wt Z^{(2)}$ as
 $$ \wh Z^{(1)} :=\frac{\wt Z^{(1)} - \E \wt Z^{(1)} }{\left(\E|\wt Z^{(1)}_{\mu i}|^2\right)^{1/2}},\quad \wh Z^{(2)} :=\frac{\wt Z^{(2)} - \E \wt Z^{(2)} }{\left(\E|\wt Z^{(2)}_{\mu i}|^2\right)^{1/2}}.$$ 
 Now $\wh Z^{(1)}$ and $\wh Z^{(2)}$ satisfy the assumptions of Theorem \ref{LEM_SMALL} with bounded support $q$, so we get that %and equation \eqref{aniso_law} gives that
 \be\label{GwhZZ}\left| \mathbf u^\top (G(\wh Z^{(1)},\wh Z^{(2)},z)-\Gi(z)) \mathbf v \right|  \prec  q,\ee
-where $G(\wh Z^{(1)},\wh Z^{(2)},z)$ is defined in the same way as $G(z)\equiv G(Z^{(1)}, Z^{(2)},z)$ in \eqref{eqn_defG}, but with $(Z^{(1)}, Z^{(2)})$ replaced by $(\wh Z^{(1)},\wh Z^{(2)})$.
+where $G(\wh Z^{(1)},\wh Z^{(2)},z)$ is defined in the same way as $G(z)$, but with $(Z^{(1)}, Z^{(2)})$ replaced by $(\wh Z^{(1)},\wh Z^{(2)})$.
 
 Note that by equations \eqref{meanshif} and \eqref{EZ norm}, we can bound that for $k=1,2,$
 $$ \|\wh Z^{(k)} - \wt Z^{(k)}\|\lesssim n^{-1}\|\wt Z^{(k)}\| + \|\E \wt Z^{(k)}\|\lesssim n^{-1/2}$$
-with overwhelming probability, where we also used Lemma \ref{SxxSyy} to bound the operator norm of $\wt Z^{(k)}$. Together with equation \eqref{priorim} below, this bound implies that % check that  
+with overwhelming probability, where we also used Fact \ref{lem_minv} to bound the operator norm of $\wt Z^{(k)}$. Together with equation \eqref{priorim} below, this bound implies that % check that
 $$\left| \mathbf u^\top (G(\wh Z^{(1)},\wh Z^{(2)},z)-G(Z^{(1)},Z^{(2)},z)) \mathbf v \right|  \lesssim  n^{-1/2}\|\wh Z^{(1)} - \wt Z^{(1)}\|+ n^{-1/2}\|\wh Z^{(2)} - \wt Z^{(2)}\|\lesssim n^{-1},$$
 with overwhelming probability on the event $\{\wt Z^{(1)} = Z^{(1)},  \wt Z^{(2)} = Z^{(2)}\}$. Combining this estimate with equation \eqref{GwhZZ}, we obtain that estimate \eqref{aniso_law} also holds for $G(z)$ on the event $\{\wt Z^{(1)} = Z^{(1)},  \wt Z^{(2)} = Z^{(2)}\}$, which concludes the proof by equation \eqref{XneX}.
 \end{proof}
@@ -565,10 +564,10 @@ with overwhelming probability on the event $\{\wt Z^{(1)} = Z^{(1)},  \wt Z^{(2)
 
 %With this corollary, we can easily extend Lemma \ref{lem_cov_shift} and Lemma \ref{lem_cov_derivative} to the case with weaker moment assumptions. Considering the length of this paper, we will not go into further details here. 
 
-Now we are ready to complete the proof of Lemma \ref{lem_cov_shift} and Lemma \ref{lem_cov_derivative} using Corollary \ref{main_cor}. 
+Now we are ready to complete the proof of Theorem \ref{thm_main_RMT} using Corollary \ref{main_cor}.
 
-\begin{proof}[Proof of Lemma \ref{lem_cov_shift}]
-Recall that in the setting of Lemma \ref{lem_cov_shift} we have equation \eqref{rewrite X as R}, 
+\begin{proof}[Proof of Theorem \ref{thm_main_RMT}, Part i)]
+Recall that in the setting of Theorem \ref{thm_main_RMT} we have equation \eqref{rewrite X as R},
 %using equation \eqref{eigen2extra} and equation \eqref{mainG} we can write 
 %$$\cal R:= ( (X^{(1)})^\top X^{(1)} + (X^{(2)})^\top X^{(2)})^{-1}= n^{-1}\Sigma_2^{-1/2}V \cal G(0)V^\top\Sigma_2^{-1/2}.$$
 %where $$\cal G(0)=\left(   \Lambda U^\top (Z^{(1)})^{\top} Z^{(1)} U\Lambda  + V^\top (Z^{(2)})^\top Z^{(2)}V\right)^{-1}.$$
@@ -580,7 +579,7 @@ Recall that in the setting of Lemma \ref{lem_cov_shift} we have equation \eqref{
 %%\ee
 %Then as in equation \eqref{eigen2extra}, we can rewrite $\cal R$ as
 %$$\cal R= n^{-1}\Sigma_2^{-1/2}V \cal G(0)V^\top\Sigma_2^{-1/2},\quad \cal G(0)=\left(   \Lambda U^\top (Z^{(1)})^{\top} Z^{(1)} U\Lambda  + V^\top (Z^{(2)})^\top Z^{(2)}V\right)^{-1}.$$
-and that the entries of $Z^{(1)}$ and $Z^{(2)}$ have finite $(4+\e)$-th moments as in equation \eqref{assmAhigh}. 
+and that the entries of $Z^{(1)}$ and $Z^{(2)}$ have finite $\varphi$-th moments as in equation \eqref{assmAhigh}.
 %Suppose $\Sigma=\sum_i \lambda_i(\Sigma)\mathbf u_i \mathbf v_i^\top$ is a SVD of $\Sigma$ with $\{\mathbf u_i\}$ and $\{\bv_i\}$ being the left and right singular vectors. 
 Then by Corollary \ref{main_cor}, for $1\le i \le p$ we have that
 %$Z^{(1)}$ and $Z^{(2)}$ have bounded support $q=n^{-1/2}$. Using Theorem \ref{LEM_SMALL}, %Now by Corollary \ref{main_cor}, we obtain that for any small constant $\e>0$, %with probability $1-\oo(1)$,
@@ -605,8 +604,8 @@ This concludes equation \eqref{lem_cov_shift_eq}. %if we rename $(r_1X^{(2)},r_2
 \end{proof}
  
 
-\begin{proof}[Proof of Lemma \ref{lem_cov_derivative}]
-Recall that in the setting of Lemma \ref{lem_cov_derivative}, we have equation \eqref{calculate G'}. 
+\begin{proof}[Proof of Theorem \ref{thm_main_RMT}, part ii)]
+Recall that in the setting of Theorem \ref{thm_main_RMT}, we have equation \eqref{calculate G'}.
 %\begin{align*}
 % n^{2}\bignorm{\Sigma_2^{1/2} ( (X^{(1)})^{\top}X^{(1)} + (X^{(2)})^{\top}X^{(2)})^{-1}\Sigma_1^{1/2}w}^2 =\beta^\top \Sigma_2^{-1/2}  \left(M^\top (Z^{(1)})^{\top} Z^{(1)} M +  (Z^{(2)})^\top Z^{(2)} \right)^{-2}   \Sigma_2^{-1/2}\beta,
 %\end{align*}
@@ -2127,7 +2126,7 @@ With estimate (\ref{entry_diagonal}), one can use the polynomialization method i
  
 % {\cor(start here)} In this subsection, we collect some basic estimates for the proof, while the main argument will be given in Section \ref{sec entry}. We remark that the estimates in this subsection work for general $G$, that is, we do not require $U$ and $V$ to be identity.
 
-First with Lemma \ref{SxxSyy}, we can obtain the following a priori estimate on the resolvent $G(z)$ for $z\in \mathbf D$.% (recall equation \eqref{SSET1}).
+First with Fact \ref{lem_minv}, we can obtain the following a priori estimate on the resolvent $G(z)$ for $z\in \mathbf D$.% (recall equation \eqref{SSET1}).
 
 \begin{lemma}\label{lemm apri}
 Suppose Assumption \ref{assm_big1} holds. Then there exists a constant $C>0$ such that the following estimates hold uniformly in $z,z'\in \mathbf D$ with overwhelming probability: 
@@ -2140,7 +2139,7 @@ and %for any deterministic unit vectors $\mathbf u, \mathbf v \in \mathbb R^{p+n
 \ee
 \end{lemma}
 \begin{proof}
-Our proof is a simple application of the spectral decomposition of $G$. Recall the matrix $A$ defined in equation \eqref{abbr_A}. Let 
+Our proof is a simple application of the spectral decomposition of $G$. Recall the matrix $A$ defined in Section \ref{sec_diff}. Let
 \be\label{SVDW}
 A= \sum_{k = 1}^{p} {\sqrt {\mu_k} \xi_k } \zeta _{k}^\top ,\quad \mu_1\ge \mu_2 \ge \ldots \ge \mu_{p} \ge 0 =\mu_{p+1} = \ldots = \mu_{n},\ee
 be the singular value decomposition of $A$, where
@@ -2157,7 +2156,7 @@ z\sum_{k = 1}^{n} \frac{\zeta_k(\mu) \zeta_k^\top(\nu)}{\mu_k-z} , \ \ G_{i\mu} 
 \end{split}
 \ee
 %As in equation \eqref{SVDW}, $\{\mu_k\}_{1\le k \le p}$ are the eigenvalues of $WW^\top$. 
-By Lemma \ref{SxxSyy} and equation \eqref{assm2}, we have that with overwhelming probability 
+By Fact \ref{lem_minv} and equation \eqref{assm2}, we have that with overwhelming probability
 %\be\label{lambdap} 
 $\mu_p \ge \lambda_p((Z^{(2)})^\top Z^{(2)}) \ge c_\tau $ for some constant $c_\tau>0$ depending only on $\tau$. This further implies that
 $$ \inf_{z\in \mathbf D}\min_{1\le k \le p}|\mu_k-z| \ge c_\tau - (\log n)^{-1}.$$
@@ -2637,7 +2636,7 @@ Finally, we give the proof of equation \eqref{Xiz0}.
 \begin{proof}[Proof of equation \eqref{Xiz0}]
 By equation \eqref{spectral}, we get
 $$ m(0)=\frac1p\sum_{i\in \cal I_0}G_{ii}(0) = \frac1p\sum_{i\in \cal I_0}\sum_{k = 1}^{p} \frac{|\xi_k(i)|^2 }{\lambda_k} \ge \lambda_1^{-1} \gtrsim 1,$$
-where we used Lemma \ref{SxxSyy} in the last step.
+where we used Fact \ref{lem_minv} in the last step.
 Similarly, we can also get that $m_0(0)$ is positive and has size $m_0(0)\sim 1$. Hence we have the estimates
 $$1+\gamma_n m(0)\sim 1,\quad 1+\gamma_n m_0(0)\sim 1.$$ 
 Combining these estimates with equations \eqref{self_Gmu1}, \eqref{self_Gmu2} and  \eqref{erri}, we obtain that equation \eqref{Gii000} holds at $z=0$ even without the indicator function $\mathbf 1(\Xi)$. Furthermore, we have that with overwhelming probability,

@@ -85,7 +85,7 @@
 	\end{align}
 	which is less than the right hand side of equation \eqref{eq_gA_err} by Cauchy-Schwartz inequality.
 	In the second step, we use the fact that $X=Z\Sigma^{1/2}$.
-	In the third step, we use equation \eqref{eq_isometric} to bound the operator norm $\|Z\|$ by $\OO(\sqrt{p})$.
+	In the third step, we use Fact \ref{lem_minv} to bound the operator norm $\|Z\|$ by $\OO(\sqrt{p})$.
 
 	For equation \eqref{eq_gA_p3}, using Lemma \ref{largedeviation} and the fact that all moments of $\varepsilon_i$ exist, we obtain that with high probability
 	\begin{align}
@@ -162,22 +162,22 @@
 
 	\paragraph{Proof of Theorem \ref{thm_many_tasks}.}
 	%In sum, we have solved that $\hat{\beta}_i^{\MTL}=B^{\star}\left( U_r v_i +\oo(1)\right)$.
-	Now we are ready to finish the proof.
-	Similar to the proof of equation \eqref{eq_est_g1} and \eqref{eq_est_g2}, we have that
-	\begin{align}
-		L(\hat{\beta}_t^{\MTL}) = \exarg{\varepsilon_1, \dots, \varepsilon_t}{L(\hat{\beta}_t^{\MTL})} (1 + O(p^{-1/2+c})) + O(\sigma^2 \cdot p^{-1/2 + c}). \label{eq_multiple_last1}
-	\end{align}
-	Using equation \eqref{eq_ex_pred}, we have that
-	\begin{align}
-		\exarg{\varepsilon_1, \dots, \varepsilon_t}{\hat{\beta}_t^{\MTL}} &= \bignorm{\Sigma^{1/2} \left((B^\star \hat{\cal W}^\top) (\hat{\cal W}\hat{\cal W}^{\top})^{-1} \hat W_t - \beta_t \right) }^2
-		+ \sigma^2  \hat W_t^{\top} (\hat{\cal W}\hat{\cal W}^{\top})^{-1} \hat W_t \cdot \bigtr{\Sigma (X^{\top}X)^{-1}} \nonumber \\
-		&= \bignorm{\Sigma^{1/2} \bigbrace{B^{\star} U_r v_t-\beta_t}}^2 + \oo\left(\bigtr{{B^{\star}}^{\top} \Sigma B^{\star}}\right) + \sigma^2(\norm{v_t}^2 + o(1)) \bigtr{\Sigma (X^{\top}X)^{-1}} \cdot (1+\oo(1)) \nonumber \\
-		&= \bignorm{\Sigma^{1/2} \bigbrace{B^{\star} U_r v_t-\beta_t}}^2 + \frac{\sigma^2}{\rho-1}\norm{v_t}^2 + \oo \left( \bigtr{{B^{\star}}^{\top} \Sigma B^{\star}} + \sigma^2\right), \label{eq_multiple_last2}
-	\end{align}
-	In the second step, we use that $\norm{\hat{\cW}^{\top} (\cW \cW^{\top})^{-1} \cW - U_r U_r^{\top}} \le o(1)$ w.h.p., which implies that
-	\[ \bignorm{U_r v_t - \hat{\cW}^{\top} (\cW \cW^{\top})^{-1} \hat{\cW}_t} \le o(1) \quad \text{ and } \quad \bigabs{\hat{\cW}_t^{\top} (\hat{\cW} \hat{\cW}^{\top})^{-1} \hat{W}_t - \norm{v_t}^2} \le o(1). \]
-  In the last step, we use Lemma \ref{lem_minv}, that is, $\bigtr{\Sigma (X^{\top} X)^{-1}} = \sigma^2 \cdot (1 + o(1))/ (\rho - 1)$.
-	Combining equation \eqref{eq_multiple_last1}, \eqref{eq_multiple_last2}, and $\te(\hat{\beta}_t^{\STL})=\frac{\sigma^2}{\rho-1} \cdot \left( 1+\oo(1)\right)$, we conclude the proof.
+	%Now we are ready to finish the proof.
+	%Similar to the proof of equation \eqref{eq_est_g1} and \eqref{eq_est_g2}, we have that
+	%\begin{align}
+	%	L(\hat{\beta}_t^{\MTL}) = \exarg{\varepsilon_1, \dots, \varepsilon_t}{L(\hat{\beta}_t^{\MTL})} (1 + O(p^{-1/2+c})) + O(\sigma^2 \cdot p^{-1/2 + c}). \label{eq_multiple_last1}
+	%\end{align}
+	%Using equation \eqref{eq_ex_pred}, we have that
+	%\begin{align}
+	%	\exarg{\varepsilon_1, \dots, \varepsilon_t}{\hat{\beta}_t^{\MTL}} &= \bignorm{\Sigma^{1/2} \left((B^\star \hat{\cal W}^\top) (\hat{\cal W}\hat{\cal W}^{\top})^{-1} \hat W_t - \beta_t \right) }^2
+	%	+ \sigma^2  \hat W_t^{\top} (\hat{\cal W}\hat{\cal W}^{\top})^{-1} \hat W_t \cdot \bigtr{\Sigma (X^{\top}X)^{-1}} \nonumber \\
+	%	&= \bignorm{\Sigma^{1/2} \bigbrace{B^{\star} U_r v_t-\beta_t}}^2 + \oo\left(\bigtr{{B^{\star}}^{\top} \Sigma B^{\star}}\right) + \sigma^2(\norm{v_t}^2 + o(1)) \bigtr{\Sigma (X^{\top}X)^{-1}} \cdot (1+\oo(1)) \nonumber \\
+	%	&= \bignorm{\Sigma^{1/2} \bigbrace{B^{\star} U_r v_t-\beta_t}}^2 + \frac{\sigma^2}{\rho-1}\norm{v_t}^2 + \oo \left( \bigtr{{B^{\star}}^{\top} \Sigma B^{\star}} + \sigma^2\right), \label{eq_multiple_last2}
+	%\end{align}
+	%In the second step, we use that $\norm{\hat{\cW}^{\top} (\cW \cW^{\top})^{-1} \cW - U_r U_r^{\top}} \le o(1)$ w.h.p., which implies that
+	%\[ \bignorm{U_r v_t - \hat{\cW}^{\top} (\cW \cW^{\top})^{-1} \hat{\cW}_t} \le o(1) \quad \text{ and } \quad \bigabs{\hat{\cW}_t^{\top} (\hat{\cW} \hat{\cW}^{\top})^{-1} \hat{W}_t - \norm{v_t}^2} \le o(1). \]
+  %In the last step, we use Lemma \ref{lem_minv}, that is, $\bigtr{\Sigma (X^{\top} X)^{-1}} = \sigma^2 \cdot (1 + o(1))/ (\rho - 1)$.
+	%Combining equation \eqref{eq_multiple_last1}, \eqref{eq_multiple_last2}, and $\te(\hat{\beta}_t^{\STL})=\frac{\sigma^2}{\rho-1} \cdot \left( 1+\oo(1)\right)$, we conclude the proof.
 	%The second step uses the fact that $U_r U_r^{\top}$ is the global minimum of $\ex{g(\cdot)}$.
 	%In fact, if \eqref{Q-Q} does not hold, then using the condition $\lambda_{\min}((B^{\star})^\top\Sigma B^{\star})\gtrsim \sigma^2$ and that $\delta_{\vari}(\cal W)=\OO(\sigma^2)$ by  Lemma \ref{lem_minv}, we obtain that
 	%$$   \val(\hat {Q}) + t  \sigma^2 > (\val( Q_0) + t \sigma^2 )\cdot (1+\oo(1)) \ \Rightarrow \ g( \hat{\cal W})>g( {\cal W}_0),$$
