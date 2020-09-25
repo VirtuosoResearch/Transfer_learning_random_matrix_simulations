@@ -94,42 +94,35 @@ Hence, we study the resolvent matrix or Green's function $(Y-z\id)^{-1}$.
 Compared to the Stieltjes transform, the resolvent also applies to random matrices.
 The convergence of resolvent is formally shown using the so-called ``local laws'' (cf. \cite{isotropic,erdos2017dynamical,Anisotropic}) or ``deterministic equivalents'' (cf. \cite{Hachem2007deterministic,DS18}).
 More precisely, given a deterministic $p\times p$ matrix $R(z)$, we say that $R(Z)$ and $(Y-z\id)^{-1}$ are equivalent if for any sequence of deterministic matrices $B$ of uniformly bounded operator norms,
-$$\tr \left\{\left[ (Y-z\id)^{-1}-R(z)\right]B\right\}\to 0.$$
-If the above equation holds for all $p$, then we say that $(Y-z\id)^{-1}$ has a matrix limit $R$.
+$$\bigtr{((Y-z\id)^{-1}-R(z))B}\to 0.$$
+If the above equation holds for all $p$, then we say that $(Y-z\id)^{-1}$ has a matrix limit $R(z)$.
 For our result, we shall prove the convergence of the resolvent $(Y-z\id)^{-1}$ using ``local laws'' with a sharp convergence rate.
 
-\medskip
-\noindent\textbf{Resolvents.} For our purpose, we use a convenient linearization trick in linear algebra, that is, the SVD of a rectangular matrix $A$ is equivalent to the study of the eigendecomposition of the symmetric block matrix
-$$H(A):=\begin{pmatrix}0 & A \\ A^\top & 0\end{pmatrix},$$
-which is linear in $A$. This trick has been used in many random matrix literatures, such as \cite{Anisotropic, AEK_Gram, XYY_circular,DY20201}. Our goal is to study the SVD of the rectangular matrix $(\Lambda U^\top (Z^{(1)})^\top,V^\top (Z^{(2)})^\top)$. %For this purpose,
+%For our purpose, we use a convenient linearization trick in linear algebra, that is, the SVD of a rectangular matrix $A$ is equivalent to the study of the eigendecomposition of the symmetric block matrix
+%$$H(A):=\begin{pmatrix}0 & A \\ A^\top & 0\end{pmatrix},$$
+%which is linear in $A$. This trick has been used in many random matrix literatures, such as \cite{Anisotropic, AEK_Gram, XYY_circular,DY20201}.
+For the matrix $Y$ that we want to study, we can also write $Y = A A^{\top}$, where $A = [\Lambda U^\top (Z^{(1)})^\top,V^\top (Z^{(2)})^\top] \in \real^{p\times {n_1 + n_2}}$.
 %}\HZ{what does this trick mean? use less technical words},
 %This idea dates back at least to Girko, see e.g., the works \cite{girko1975random,girko1985spectral} and references therein.
-Then we define the following $(p+n)\times (p+n)$ symmetric block matrix
+Consider the following $(p+n)\times (p+n)$ symmetric block matrix
 %which is a linear function of $(Z^{(1)})$ and $(Z^{(2)})$:
 %\begin{definition}[Linearizing block matrix]\label{def_linearHG}%definiton of the Green function
 %We define the $(n+N)\times (n+N)$ block matrix
  \begin{equation}\label{linearize_block}
-    H\left(\Lambda U^\top (Z^{(1)})^\top,V^\top (Z^{(2)})^\top\right): = n^{-1/2}\left( {\begin{array}{*{20}c}
+    H \define (n_1 + n_2)^{-1/2}\left( {\begin{array}{*{20}c}
    { 0 } & \Lambda U^{\top}(Z^{(1)})^\top & V^\top (Z^{(2)})^\top  \\
    {Z^{(1)} U\Lambda  } & {0} & 0 \\
    {Z^{(2)}V} & 0 & 0
    \end{array}} \right).
  \end{equation}
-For simplicity of notations, we abbreviate it as $H$ in the following discussion, and define the index sets
-$$\cal I_0:=\llbracket 1,p\rrbracket, \quad  \cal I_1:=\llbracket p+1,p+n_1\rrbracket, \quad \cal I_2:=\llbracket p+n_1+1,p+n_1+n_2\rrbracket ,\quad \cal I:=\cal I_0\cup \cal I_1\cup \cal I_2  .$$
- We will consistently use the latin letters $i,j\in\sI_{0}$ and greek letters $\mu,\nu\in\sI_{1}\cup \sI_{2}$. Correspondingly, the indices of the matrices $Z^{(1)}$ and $Z^{(2)}$ are labelled as
- \be\label{labelZ}
- Z^{(1)}= (Z^{(1)}_{\mu i}:i\in \mathcal I_0, \mu \in \mathcal I_1), \quad Z^{(2)}= (Z^{(2)}_{\nu i}:i\in \mathcal I_0, \nu \in \mathcal I_2).\ee
-Now we define the resolvents as follows.
+The resolvent of $H$ is defined as follows.
 \begin{definition}[Resolvents]
-We define the resolvent (or Green's function) of $H$ as
- \begin{equation}\label{eqn_defG}
- G (z):= \left[H -\left( {\begin{array}{*{20}c}
-   { z\id_{p}} & 0 & 0 \\
-   0 & { \id_{n_1}}  & 0\\
-      0 & 0  & { \id_{n_2}}\\
-\end{array}} \right)\right]^{-1} , \quad z\in \mathbb C ,
- \end{equation}
+We define the resolvent or Green's function of $H$ as
+ $G(z) \define (H - z\id_{p + n_1 + n_2})^{-1}$, for any complex value $z\in \mathbb C$.  %\left[H -\left( {\begin{array}{*{20}c}
+%   { z\id_{p}} & 0 & 0 \\
+%   0 & { \id_{n_1}}  & 0\\
+%      0 & 0  & { \id_{n_2}}\\
+%\end{array}} \right)\right]^{-1} , \quad z\in \mathbb C ,
 %It is easy to verify that the eigenvalues $\lambda_1(H)\ge \ldots \ge \lambda_{n+N}(H)$ of $H$ are related to the ones of $\mathcal Q_1$ through
 %\begin{equation}\label{Heigen}
 %\lambda_i(H)=-\lambda_{n+N-i+1}(H)=\sqrt{\lambda_i\left(\mathcal Q_2\right)}, \ \ 1\le i \le n\wedge N, \quad \text{and}\quad \lambda_i(H)=0, \ \ n\wedge N + 1 \le i \le n\vee N.
@@ -138,57 +131,19 @@ We define the resolvent (or Green's function) of $H$ as
 %$$\lambda_i(H)=0, \ \ n\wedge N + 1 \le i \le n\vee N.$$
 %where we used the notations $n\wedge N:=\min\{N,M\}$ and $n\vee N:=\max\{N,M\}$.
 %\begin{definition}[Index sets]\label{def_index}
-and the resolvent of $  n^{-1}\left(\Lambda U^\top (Z^{(1)})^\top Z^{(1)} U\Lambda  + V^\top (Z^{(2)})^\top Z^{(2)}V\right)$ as
-\be\label{mainG}
-\cal G(z):=\left( n^{-1}  \Lambda U^\top (Z^{(1)})^\top Z^{(1)} U\Lambda  + n^{-1}V^\top (Z^{(2)})^\top Z^{(2)}V -z\right)^{-1},\quad z\in \C.
-\ee
-Moreover, we also define the following averaged resolvents, which are the (weighted) partial traces of $G$:
-\be\label{defm}
-\begin{split}
-m(z) :=\frac1p\sum_{i\in \cal I_0} G_{ii}(z) ,\quad & m_0(z):=\frac1p\sum_{i\in \cal I_0} \lambda_i^2 G_{ii}(z),\\
- m_1(z):= \frac{1}{n_1}\sum_{\mu \in \cal I_1}G_{\mu\mu}(z) ,\quad & m_2(z):= \frac{1}{n_2}\sum_{\nu\in \cal I_2}G_{\nu\nu}(z) .
-\end{split}
-\ee
-We will show that these averaged resolvents satisfy some deterministic self-consistent equations asymptotically, which will be the core part of the proof. We refer the reader to the discussions below \eqref{0self_Gii} and \eqref{0self_Gmu1}.
+Similarly, the resolvent of $Y$ is defined as $\cal G(z):=(Y - z\id_{p})^{-1}$, for any $z\in \mathbb C$.
 \end{definition}
-With Schur complement formula, we can check that %\HZ{Has $G(z)$ been defined before?}
+
+Using the Schur complement formula, we have that %\HZ{Has $G(z)$ been defined before?}
  \begin{equation} \label{green2}
- G (z):=  \left( {\begin{array}{*{20}c}
+  G(z) =  \left( {\begin{array}{*{20}c}
    { \cal G (z)} & \cal G(z)A  \\
    A^\top \cal G(z) & z (A^\top A - z)^{-1}
 \end{array}} \right)^{-1}, %\quad \cal G_R:=(W^\top W - z)^{-1} ,
  \end{equation}
- where we abbreviated
- \be\label{abbr_A}
- A:= n^{-1/2}(\Lambda U^\top (Z^{(1)})^\top, V^\top (Z^{(2)})^\top).
- \ee
- %\HZ{$W$ is overloaded with the output layers}
- This shows that a control of $G(z)$ yields directly a control of $\mathcal G(z)$ as the upper-left block. On the other hand, $G(z)$ is a little  easier to use than $\cal G(z)$, and obviously contains more information.
-%one can find that %(recall equation \eqref{mainG})
-%\be \label{green2}
-%\begin{split}
-%& \cal G_{L}=\left(WW^\top -z \right)^{-1} =\cal G ,\quad \cal G_{LR}=\cal G_{RL}^\top  = \cal G W , \quad \cal G_R= z\left(W^\top W - z\right)^{-1}.
-%\end{split}
-%\ee
-%, and the subindex of $\cal G_R$ means the lower-right block.
+This shows that a control of $G(z)$ yields directly a control of $\mathcal G(z)$ as the upper-left block. On the other hand, $G(z)$ is a little  easier to use than $\cal G(z)$, and obviously contains more information.
 
-
-%Now using Schur complement formula, we can verify that the (recall equation \eqref{def_green})
-%\begin{align}
-%G = \left( {\begin{array}{*{20}c}
-%   { z\mathcal G_1} & \mathcal G_1 \Sig^{1/2} U^{*}X V\tilde \Sig^{1/2}  \\
-%   {\tilde\Sig^{1/2}V^\topX^\top U\Sig^{1/2} \mathcal G_1} & { \mathcal G_2 }  \\
-%\end{array}} \right) = \left( {\begin{array}{*{20}c}
-%   { z\mathcal G_1} & \Sig^{1/2} U^{*}X V\tilde \Sig^{1/2} \mathcal G_2   \\
-%   {\mathcal G_2}\tilde\Sig^{1/2}V^\topX^\top U\Sig^{1/2} & { \mathcal G_2 }  \\
-%\end{array}} \right). \label{green2}
-%\end{align}
-%where $\mathcal G_{1,2}$ are defined in (\ref{def_green}).
-
-\medskip
 \noindent\textbf{Asymptotic limits of resolvents.}
-%\label{sec aymp_limit_G}
-%\subsection{Resolvents and limiting law}
 We now describe the asymptotic limit of $G(z)$ as $n\to \infty$. First we define the deterministic limits of $(m_1(z), m_{2}(z))$ by $\left(-\frac{\rho_1+\rho_2}{\rho_1}a_{1}(z),-\frac{\rho_1+\rho_2}{\rho_2}a_{2}(z)\right)$, where $(a_1(z), a_2(z))$ is
 %\HZ{This $M_{1}, M_{2}$ notation is awkward; consider changing it to ${M}_1(z), {M}_2(z)$ (or  better, say $a_1(z), a_2(z)$? if they correspond to $a_1, a_2$ when $z=0$)},
 the unique solution to the following system of equations
