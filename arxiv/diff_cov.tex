@@ -40,7 +40,7 @@ Let $U\Lambda V^\top$ denote the singular value decomposition of $M$, where $\La
 			\end{align}
 			where $a_1$ and $a_2$ are the solutions of the following two equations:
 			\begin{align}
-				a_1 + a_2 = 1- \frac{1}{\rho_1 + \rho_2},\quad a_1 + \frac1{\rho_1 + \rho_2}\cdot \bigbrace{\frac{1}{p}\sum_{i=1}^p \frac{\lambda_i^2 a_1}{\lambda_i^2 a_1 + a_2}} = \frac{\rho_1}{\rho_1 + \rho_2}. \label{eq_a12extra}
+				a_1 + a_2 = 1- \frac{p}{n_1 + n_2},\quad a_1 + \frac1{n_1 + n_2}\cdot \bigbrace{\sum_{i=1}^p \frac{\lambda_i^2 a_1}{\lambda_i^2 a_1 + a_2}} = \frac{n_1}{n_1 + n_2}. \label{eq_a12extra}
 			\end{align}
 		\item[ii)] For any fixed vector $w\in\real^p$ with unit norm, the bias equation converges to the following asymptotic limit
 			\begin{align}\label{lem_cov_derv_eq}
@@ -69,41 +69,38 @@ The full proof can be found in Section \ref{sec_maintools}.
 
 \paragraph{Proof overview.} The central quantify of interest is the matrix inverse $\hat{\Sigma}^{-1}$.
 To study this quantity, we use the Stieltjes transform or the resolvent method in random matrix theory \cite{bai2009spectral,tao2012topics,erdos2017dynamical}.
-%We give some preliminaries about this method before discussing the proof strategy.
 For any probability measure $\mu$ supported on $[0,\infty)$, the Stieltjes transform of $\mu$ is given by
-$$m_\mu(z):= \int_0^\infty \frac{\dd\mu(x)}{x-z},\quad z\in \C\setminus [0,\infty).$$
-Conversely, given a Stieltjes transform $m_{\mu}(z)$, we can recover the measure $\mu$ through the inverse formula \HZ{add a ref to the equation below}
-$$ \frac{\dd \mu(x)}{\dd x} = \frac{1}{\pi}\lim_{\eta \downarrow 0}\im m_{\mu}(x+\ii \eta).$$
+$$m_\mu(z):= \int_0^\infty \frac{\dd\mu(x)}{x-z}, \text{ for any complex number } z\in \C\setminus [0,\infty).$$
+%Conversely, given a Stieltjes transform $m_{\mu}(z)$, we can recover the measure $\mu$ through the inverse formula \HZ{add a ref to the equation below}
+%$$ \frac{\dd \mu(x)}{\dd x} = \frac{1}{\pi}\lim_{\eta \downarrow 0}\im m_{\mu}(x+\ii \eta).$$
 %where $\rho(x)$ is the density for $\mu$, i.e. $\dd \mu(x)=\rho(x)\dd x$.
-Hence the Stieltjes transform method reduces the study of a probability measure $\mu$ to the study of a complex function $m_\mu(z)$.
-To study the matrix inverse $\hat{\Sigma}^{-1}$, we consider its empirical spectral distribution.
-More precisely, since
+Hence the Stieltjes transform method reduces the study of a probability measure to the study of a complex function.
+To study the matrix inverse $\hat{\Sigma}^{-1}$, we consider the Stieltjes transform of its empirical spectral distribution.
+More precisely, it suffices to study the spectra of another matrix as follows
 \begin{align}\label{eigen2extra}
-	\hat{\Sigma}^{-1}= \Sigma_2^{-1/2}V \frac{Y^{-1}}{n_1 + n_2} V^\top\Sigma_2^{-1/2}. \text{ where } Y \define \frac{1}{n_1 + n_2}(\Lambda U^\top (Z^{(1)})^\top Z^{(1)} U\Lambda  + V^\top (Z^{(2)})^\top Z^{(2)}V),
+	\hat{\Sigma}^{-1}= \Sigma_2^{-1/2}V \frac{Y^{-1}}{n_1 + n_2} V^\top\Sigma_2^{-1/2}. \text{ where } Y \define \frac{1}{n_1 + n_2}(\Lambda U^\top (Z^{(1)})^\top Z^{(1)} U\Lambda  + V^\top (Z^{(2)})^\top Z^{(2)}V).
 \end{align}
-let $\mu=p^{-1}\sum_{i} \delta_{\lambda_i}$ denote the empirical spectral distribution of $Y$.
-The scaling $(n_1+n_2)^{-1}$ ensures such that the support of $\mu$ is bounded.
-The Stieltjes transform of the empirical spectral distribution $\mu$ is as follows
- \[ m_{\mu}(z) \define \frac{1}{p}\sum_{i=1}^p \frac{1}{\sigma_i - z}= p^{-1}\tr\left[ (Y_p-z\id_p)^{-1}\right], \]
-and when $p$ goes to infinity, $m_{\mu}(z)$ converges to a fixed-point governed by a set of self-consistent equations.
-These self-consistent equations give the asymptotic limit of the trace of $\hat{\Sigma}^{-1}$.
-
-The above approach applies when $\Sigma^{(2)}$ is isotropic in Theorem \ref{thm_main_RMT}.
-For general covariances, we want to study the limit of $\tr\left[ (Y - z\id)^{-1}V^{\top}{\Sigma^{(2)}}^{-1}V \right]$ as shown in equation \eqref{eigen2extra}.
-Hence, we study the resolvent matrix or Green's function $(Y-z\id)^{-1}$.
-Compared to the Stieltjes transform, the resolvent also applies to random matrices.
-The convergence of resolvent is formally shown using the so-called ``local laws'' (cf. \cite{isotropic,erdos2017dynamical,Anisotropic}) or ``deterministic equivalents'' (cf. \cite{Hachem2007deterministic,DS18}).
-More precisely, given a deterministic $p\times p$ matrix $R(z)$, we say that $R(Z)$ and $(Y-z\id)^{-1}$ are equivalent if for any sequence of deterministic matrices $B$ of uniformly bounded operator norms,
+It is not hard to see that $\tr[\Sigma^{(2)} \hat{\Sigma}^{-1}] = \bigtr{Y^{-1}} / (n_1 + n_2)$.
+Let $\mu=p^{-1}\sum_{i} \delta_{\lambda_i}$ denote the empirical spectral distribution of $Y$.
+%The scaling $(n_1+n_2)^{-1}$ ensures such that the support of $\mu$ is bounded.
+The Stieltjes transform of $\mu$ is as follows
+ \[ m_{\mu}(z) \define \frac{1}{p}\sum_{i=1}^p \frac{1}{\sigma_i - z}= p^{-1}\tr\left[(Y-z\id)^{-1}\right]. \]
+In the above equation, $(Y - z\id)^{-1}$ is known as the resolvent matrix or Green's function of $Y$.
+%When $p$ goes to infinity, it is well-known that $m_{\mu}(z)$ converges to a fixed distribution governed by a set of self-consistent equations.
+%These self-consistent equations give the asymptotic limit of the trace of $\hat{\Sigma}^{-1}$.
+%The above approach applies when $\Sigma^{(2)}$ is isotropic in Theorem \ref{thm_main_RMT}.
+%Since our goal is to show the limit of $\tr\left[ (Y - z\id)^{-1}V^{\top}{\Sigma^{(2)}}^{-1}V \right]$ as shown in equation \eqref{eigen2extra}, we study the  $(Y-z\id)^{-1}$.
+%Compared to the Stieltjes transform, the resolvent also applies to random matrices.
+We shall prove the convergence of the resolvent matrix of $Y$ using the so-called ``local laws'' with a sharp convergence rate \cite{isotropic,erdos2017dynamical,Anisotropic}.
+%Recent developments in the random matrix literature have shown the convergence of the resolvent matrix using the so-called ``local laws'' or ``deterministic equivalents'' (cf. \cite{Hachem2007deterministic,DS18}).
+More precisely, given a deterministic $p\times p$ matrix $R(z)$, we say that $R(z)$ and $(Y-z\id)^{-1}$ are equivalent if for any sequence of deterministic matrices $B$ with uniformly bounded operator norms,
 $$\bigtr{((Y-z\id)^{-1}-R(z))B}\to 0.$$
-If the above equation holds for all $p$, then we say that $(Y-z\id)^{-1}$ has a matrix limit $R(z)$.
-For our result, we shall prove the convergence of the resolvent $(Y-z\id)^{-1}$ using ``local laws'' with a sharp convergence rate.
-
+When the above equation holds for large enough $p$, we say that $(Y-z\id)^{-1}$ converges to the matrix limit $R(z)$.
 %For our purpose, we use a convenient linearization trick in linear algebra, that is, the SVD of a rectangular matrix $A$ is equivalent to the study of the eigendecomposition of the symmetric block matrix
 %$$H(A):=\begin{pmatrix}0 & A \\ A^\top & 0\end{pmatrix},$$
 %which is linear in $A$. This trick has been used in many random matrix literatures, such as \cite{Anisotropic, AEK_Gram, XYY_circular,DY20201}.
-For the matrix $Y$ that we want to study, we can also write $Y = A A^{\top}$, where
-	\[ A = (n_1+ n_2)^{-1/2} [\Lambda U^\top (Z^{(1)})^\top,V^\top (Z^{(2)})^\top] \]
-is a $p$ by $n_1 + n_2$ matrix.
+We observe that the matrix $Y$ can also be written as $A A^{\top}$ for a $p$ by $n_1 + n_2$ matrix defined as follows.
+	\[ A = (n_1+ n_2)^{-1/2} [\Lambda U^\top (Z^{(1)})^\top,V^\top (Z^{(2)})^\top]. \]
 %}\HZ{what does this trick mean? use less technical words},
 %This idea dates back at least to Girko, see e.g., the works \cite{girko1975random,girko1985spectral} and references therein.
 Consider the following symmetric and square matrix whose dimension is $p + n_1 + n_2$.
@@ -111,18 +108,15 @@ Consider the following symmetric and square matrix whose dimension is $p + n_1 +
 %\begin{definition}[Linearizing block matrix]\label{def_linearHG}%definiton of the Green function
 %We define the $(n+N)\times (n+N)$ block matrix
  \begin{equation}\label{linearize_block}
-    H \define (n_1 + n_2)^{-1/2}\left( {\begin{array}{*{20}c}
-   { 0 } & \Lambda U^{\top}(Z^{(1)})^\top & V^\top (Z^{(2)})^\top  \\
-   {Z^{(1)} U\Lambda  } & {0} & 0 \\
-   {Z^{(2)}V} & 0 & 0
+    H \define \left( {\begin{array}{*{20}c}
+   0 & A  \\
+   A^{\top} & 0
+%   {Z^{(2)}V} & 0 & 0
    \end{array}} \right).
  \end{equation}
-The resolvent of $H$ is defined as follows.
-\begin{definition}[Resolvents]
-The resolvent or Green's function of $H$ is given by
-	\begin{align*}
-    G(z) \define (H - z\id)^{-1}, \text{ for any complex value } z\in \mathbb C.  %\left[H -\left( {\begin{array}{*{20}c}
-	\end{align*}
+%The resolvent of $H$ is defined as follows.
+%\begin{definition}[Resolvents]
+The resolvent of $H$ is given by $G(z) \define (H - z\id)^{-1}$, for any complex value $z\in \mathbb C$.  %\left[H -\left( {\begin{array}{*{20}c}
 %   { z\id_{p}} & 0 & 0 \\
 %   0 & { \id_{n_1}}  & 0\\
 %      0 & 0  & { \id_{n_2}}\\
@@ -136,28 +130,29 @@ The resolvent or Green's function of $H$ is given by
 %where we used the notations $n\wedge N:=\min\{N,M\}$ and $n\vee N:=\max\{N,M\}$.
 %\begin{definition}[Index sets]\label{def_index}
 %Likewise, the resolvent of $Y$ is given by $\cal G(z) \define (Y - z\id)^{-1}$, for any $z\in \mathbb C$.
-\end{definition}
 %Let $m_1(z):= \frac{1}{n_1}\sum_{i = p+1}^{p + n_1} G_{i, i}(z)$ and $m_2(z):= \frac{1}{n_2}\sum_{i = p + n_1 + 1}^{p + n_1 + n_2} G_{i, i}(z)$.
-Using the Schur complement formula (cf. Section \ref{app_tool}), we have that %\HZ{Has $G(z)$ been defined before?}
+Since $H$ has a specific block structure, it is not hard to verify that %\HZ{Has $G(z)$ been defined before?}
 	\begin{equation*} %\label{green2}
 	  G(z) =  \left( {\begin{array}{*{20}c}
-   { \cal G (z)} & \cal G(z)A  \\
-   A^\top \cal G(z) & z (A^\top A - z\id)^{-1}
+			(Y - z\id)^{-1} & (Y - z\id)^{-1} A  \\
+      A^\top (Y - z\id)^{-1} & (A^\top A - z\id)^{-1}
 		\end{array}} \right).%\quad \cal G_R:=(W^\top W - z)^{-1} ,
   \end{equation*}
 %This shows that a control of $G(z)$ yields directly a control of $\mathcal G(z)$ as the upper-left block. On the other hand, $G(z)$ is a little  easier to use than $\cal G(z)$, and obviously contains more information.
 %\noindent\textbf{Asymptotic limits of resolvents.}
-In Theorem \ref{LEM_SMALL}, we show that when $p$ goes to infinity, $G(z)$ converges to a matrix limit as follows:
+
+\paragraph{Matrix limit.}
+In Theorem \ref{LEM_SMALL}, we show that for $z$ in a small neighborhood around $0$, when $p$ goes to infinity, $G(z)$ converges to a matrix limit as follows:
 \be \label{defn_piw}
-	\Gi(z) \define \begin{pmatrix} (-z\id_p+a_{1}(z)\Lambda^2  +  a_{2}(z)\id_p)^{-1} & 0 & 0 \\ 0 & - \frac{\rho_1+\rho_2}{\rho_1} a_{1}(z)\id_{n_1} & 0 \\ 0 & 0 & -\frac{\rho_1+\rho_2}{\rho_2}a_{2}(z)\id_{n_2}  \end{pmatrix},\ee
+	\Gi(z) \define \begin{pmatrix} (a_{1}(z)\Lambda^2  +  (a_{2}(z)- z)\id)^{-1} & 0 & 0 \\ 0 & - \frac{\rho_1+\rho_2}{\rho_1} a_{1}(z)\id_{n_1} & 0 \\ 0 & 0 & -\frac{\rho_1+\rho_2}{\rho_2}a_{2}(z)\id_{n_2}  \end{pmatrix},\ee
 %In particular, the matrix limit of $\cal G(z)$ is given by
 %\be\label{matrix limit}(-z\id_p+a_{1}(z)\Lambda^2 + a_{2}(z)\id_p)^{-1},\ee
-where $(a_1(z), a_2(z))$ is the unique solution to the following system of equations
-\begin{equation}\label{selfomega_a}
-\begin{split}
-& \frac{\rho_1}{a_{1}(z)} = \frac{1}{p}\sum_{i=1}^p \frac{\lambda_i^2}{ - z+\lambda_i^2 a_{1}(z) +a_{2} (z) } + (\rho_1+\rho_2),\  \frac{\rho_2}{a_{2}(z)} = \frac{1}{p}\sum_{i=1}^p \frac{1 }{  -z+\lambda_i^2 a_{1}(z) +  a_{2}(z)  }+ (\rho_1+\rho_2) .
-\end{split}
-\ee
+where $a_1(z)$ and $a_2(z)$ are the unique solutions to the following system of equations
+\begin{align}
+	&a_1(z) + a_2(z) = 1 - \frac{1}{n_1 + n_2} \bigbrace{\sum_{i=1}^p \frac{\lambda_i^2 a_1(z) + a_2(z)}{\lambda_i^2 a_1(z) + a_2(z) - z}}, \nonumber\\
+	&a_1(z) + \frac{1}{n_1 + n_2}\bigbrace{\sum_{i=1}^p \frac{\lambda_i^2 a_1(z)}{\lambda_i^2 a_1(z) + a_2(z) - z}} = \frac{n_1}{n_1 + n_2}. \label{selfomega_a}
+% \frac{\rho_1}{a_{1}(z)} = \frac{1}{p}\sum_{i=1}^p \frac{\lambda_i^2}{ - z+\lambda_i^2 a_{1}(z) +a_{2} (z) } + (\rho_1+\rho_2),\  \frac{\rho_2}{a_{2}(z)} = \frac{1}{p}\sum_{i=1}^p \frac{1 }{  -z+\lambda_i^2 a_{1}(z) +  a_{2}(z)  }+ (\rho_1+\rho_2) .
+\end{align}
 The existence and uniqueness of the solution to the above equation system are shown in Lemma \ref{lem_mbehaviorw}.
 %First, we define the deterministic limits of $(m_1(z), m_{2}(z))$ by $\left(-\frac{\rho_1+\rho_2}{\rho_1}a_{1}(z),-\frac{\rho_1+\rho_2}{\rho_2}a_{2}(z)\right)$, where
 %satisfying that $\im a_{1}(z)< 0$ and $\im a_{2}(z)<0$ for $z\in \C_+$ with $\im z$.
@@ -166,129 +161,21 @@ The existence and uniqueness of the solution to the above equation system are sh
 %\be\label{ratios}
 % \gamma_n :=\frac{p}{n}=\frac{1}{\rho_1+\rho_2},\quad r_1 :=\frac{n_1}{n}=\frac{\rho_1}{\rho_1+\rho_2},\quad r_2 :=\frac{n_2}{n}=\frac{\rho_2}{\rho_1+\rho_2}.
 %\ee
-We illustate that the above results directly imply the variance asymptotic in equation \eqref{lem_cov_shift_eq}.
-\noindent{\bf Variance asymptotics.} Using definition \eqref{mainG}, we can write equation \eqref{eigen2extra} as
-\be\label{rewrite X as R} [(X^{(1)})^\top X^{(1)}+(X^{(2)})^\top X^{(2)}]^{-1}=n^{-1}\Sigma_2^{-1/2}V\cal G(0)V^\top\Sigma_2^{-1/2}.\ee
-When $z=0$, it is easy to check that equation \eqref{selfomega_a} can be reduced to equation \eqref{eq_a12extra}, which means that we actually have $a_1(0)=a_1$ and $a_2(0)=a_2$. Hence the matrix limit of $\cal G(0)$ is given by $(a_{1}\Lambda^2 + a_{2}\id_p)^{-1}$. Then inserting this limit into equation \eqref{rewrite X as R}, we can write the left-hand side of equation \eqref{lem_cov_shift_eq} as
-\begin{align}
-&\bigtr{\left( (X^{(1)})^{\top}X^{(1)} + (X^{(2)})^{\top}X^{(2)}\right)^{-1} \Sigma}\approx n^{-1}\bigtr{\Sigma_2^{-1/2}V\cal (a_{1}\Lambda^2 + a_{2}\id_p)^{-1}V^\top\Sigma_2^{-1/2}\Sigma}  \nonumber\\
-&=n^{-1}\bigtr{\Sigma_2^{-1/2}\cal (a_{1}\Sigma_2^{-1/2}\Sigma_1\Sigma_2^{-1/2} + a_{2}\id_p)^{-1}\Sigma_2^{-1/2}\Sigma}  = n^{-1}\bigtr{\cal (a_{1} \Sigma_1  + a_{2}\Sigma_2)^{-1}\Sigma}  ,\label{Gi00}
-\end{align}
-where in the second step we used $V \Lambda^2 V^\top=M^\top M=\Sigma_2^{-1/2}\Sigma_1\Sigma_2^{-1/2}$ by equation \eqref{eigen2}.  This concludes equation \eqref{lem_cov_shift_eq} up to a small error. The rigorous proof of equation \eqref{lem_cov_shift_eq} will be given in Section \ref{sec pf RMTlemma}.
+Given this result, we show that when $z = 0$, the matrix limit $\Gi(0)$ implies the variance asymptotic shown in equation \eqref{lem_cov_shift_eq}.
+First, we have that $a_1 = a_1(0)$ and $a_2 = a_2(0)$ since equation \eqref{selfomega_a} reduces to equation \eqref{eq_a12extra}.
+Second, since $Y^{-1}$ is the upper-left block matrix of $G(0)$, we have that $Y^{-1}$ converges to $(a_1\Lambda^2 + a_2)^{-1}$.
+Using equation \eqref{eigen2extra}, we have that when $p$ goes to infinity, the trace of $\Sigma^{(2)} \hat{\Sigma}$ converges to \[ \bigtr{(a_1 \Lambda^2 + a_2\id)^{-1} V^{\top} {\Sigma^{(2)}}^{-1} V} = \bigtr{(a_1 \Sigma^{(1)} + a_2 \Sigma^{(2)})^{-1}}. \]
+%\noindent{\bf Variance asymptotics.} Using definition \eqref{mainG}, we can write equation \eqref{eigen2extra} as
+%\be\label{rewrite X as R} [(X^{(1)})^\top X^{(1)}+(X^{(2)})^\top X^{(2)}]^{-1}=n^{-1}\Sigma_2^{-1/2}V\cal G(0)V^\top\Sigma_2^{-1/2}.\ee
+%When $z=0$, it is easy to check that , which means that we actually have $a_1(0)=a_1$ and $a_2(0)=a_2$. Hence the matrix limit of $\cal G(0)$ is given by $(a_{1}\Lambda^2 + a_{2}\id_p)^{-1}$. Then inserting this limit into equation \eqref{rewrite X as R}, we can write the left-hand side of equation \eqref{lem_cov_shift_eq} as
+%\begin{align}
+%&\bigtr{\left( (X^{(1)})^{\top}X^{(1)} + (X^{(2)})^{\top}X^{(2)}\right)^{-1} \Sigma}\approx n^{-1}\bigtr{\Sigma_2^{-1/2}V\cal (a_{1}\Lambda^2 + a_{2}\id_p)^{-1}V^\top\Sigma_2^{-1/2}\Sigma}  \nonumber\\
+%&=n^{-1}\bigtr{\Sigma_2^{-1/2}\cal (a_{1}\Sigma_2^{-1/2}\Sigma_1\Sigma_2^{-1/2} + a_{2}\id_p)^{-1}\Sigma_2^{-1/2}\Sigma}  = n^{-1}\bigtr{\cal (a_{1} \Sigma_1  + a_{2}\Sigma_2)^{-1}\Sigma}  ,\label{Gi00}
+%\end{align}
+where in the second step we used $V \Lambda^2 V^\top=M^\top M=\Sigma_2^{-1/2}\Sigma_1\Sigma_2^{-1/2}$.
+The concentration error of the above limit is shown in Appendix \ref{appendix RMT}.%The rigorous proof of equation \eqref{lem_cov_shift_eq} will be given in Section \ref{sec pf RMTlemma}.
 
-\paragraph{Notations.}
-Define the index sets
-$$\cal I_0:=\llbracket 1,p\rrbracket, \quad  \cal I_1:=\llbracket p+1,p+n_1\rrbracket, \quad \cal I_2:=\llbracket p+n_1+1,p+n_1+n_2\rrbracket ,\quad \cal I:=\cal I_0\cup \cal I_1\cup \cal I_2  .$$
- We will consistently use the latin letters $i,j\in\sI_{0}$ and greek letters $\mu,\nu\in\sI_{1}\cup \sI_{2}$. Correspondingly, the indices of the matrices $Z^{(1)}$ and $Z^{(2)}$ are labelled as
- \be\label{labelZ}
- Z^{(1)}= (Z^{(1)}_{\mu i}:i\in \mathcal I_0, \mu \in \mathcal I_1), \quad Z^{(2)}= (Z^{(2)}_{\nu i}:i\in \mathcal I_0, \nu \in \mathcal I_2).\ee
-
-Moreover, we also define the following averaged resolvents, which are the (weighted) partial traces of $G$:
-\be\label{defm}
-\begin{split}
-m(z) :=\frac1p\sum_{i\in \cal I_0} G_{ii}(z) ,\quad & m_0(z):=\frac1p\sum_{i\in \cal I_0} \lambda_i^2 G_{ii}(z),\\
- m_1(z):= \frac{1}{n_1}\sum_{\mu \in \cal I_1}G_{\mu\mu}(z) ,\quad & m_2(z):= \frac{1}{n_2}\sum_{\nu\in \cal I_2}G_{\nu\nu}(z) .
-\end{split}
-\ee
-We will show that these averaged resolvents satisfy some deterministic self-consistent equations asymptotically, which will be the core part of the proof. We refer the reader to the discussions below \eqref{0self_Gii} and \eqref{0self_Gmu1}.
-
-\subsection{Warmup: The Gaussian Case}
-Now we give a heuristic derivation of the matrix limit when the entries of $Z^{(1)}$ and $Z^{(2)}$ are i.i.d. Gaussian. In this case,
-%However, notice that if the entries of $(Z^{(1)})\equiv (Z^{(1)})^{\text{Gauss}}$ and $(Z^{(2)})\equiv (Z^{(2)})^{\text{Gauss}}$ are i.i.d. Gaussian, then
-by the rotational invariance of the multivariate Gaussian distribution we have
-\be\label{eq in Gauss} Z^{(1)} U\Lambda \stackrel{d}{=} Z^{(1)} \Lambda, \quad Z^{(2)} V \stackrel{d}{=} Z^{(2)},\ee
-where ``$\stackrel{d}{=}$" means ``equal in distribution". Hence it suffices to consider the following resolvent
- \begin{equation} \label{resolv Gauss1}
-   G(z)= \left( {\begin{array}{*{20}c}
-   { -z\id_{p} } & n^{-1/2}\Lambda (Z^{(1)})^\top & n^{-1/2} (Z^{(2)})^\top  \\
-   {n^{-1/2} Z^{(1)} \Lambda  } & {-\id_{n_1}} & 0 \\
-   {n^{-1/2} Z^{(2)}} & 0 & {-\id_{n_2}}
-   \end{array}} \right)^{-1}.
- \end{equation}
-
-\medskip
-\noindent{\bf Schur complements.}
-%Now we discuss about how to obtain the matrix limit in equation \eqref{defn_piw}.
-%\HZ{Divide into several parts like sec 7 to improve readability.}
-The core quantities of the derivation are the following resolvent minors, which are defined by removing certain rows and columns of the matrix $H$.
-\begin{definition}[Resolvent minors]\label{defn_Minor}
- For any $ (p+n)\times (p+n)$ matrix $\cal A$ and $a\in \mathcal I$, we define the minor $\cal A^{(a)}:=(\cal A_{a_1 a_2}:a_1, a_2 \in \mathcal I\setminus \{a\})$ as the $ (p+n-1)\times (p+n-1)$ matrix obtained by removing the $a$-th row and column in $\cal A$. Note that we keep the names of indices when defining $\cal A^{(a)}$, i.e. $(\cal A^{(a)})_{a_1a_2}= \cal A_{a_1 a_2}$ for $a_1,a_2\ne a$. Correspondingly, we define the resolvent minor for $G$ in equation \eqref{resolv Gauss1} as %(recall equation \eqref{green2})
-\begin{align*}
-G^{(\mathfrak c)}:&=\left[ \left( {\begin{array}{*{20}c}
-   { -z\id_{p} } & n^{-1/2}\Lambda (Z^{(1)})^\top & n^{-1/2} (Z^{(2)})^\top  \\
-   {n^{-1/2} Z^{(1)} \Lambda  } & {-\id_{n_1}} & 0 \\
-   {n^{-1/2} Z^{(2)}} & 0 & {-\id_{n_2}}
-   \end{array}} \right)^{(a)}\right]^{-1} ,
-%= \left( {\begin{array}{*{20}c}
-%   { \mathcal G^{(\mathbb T)}} & \mathcal G^{(\mathbb T)} W^{(\mathbb T)}  \\
-%   {\left(W^{(\mathbb T)}\right)^\top\mathcal G^{(\mathbb T)}} & { \mathcal G_R^{(\mathbb T)} }  \\
-%\end{array}} \right)  ,
-\end{align*}
-and define the partial traces $m^{(a)}$, $m_0^{(a)}$, $m_1^{(a)}$ and $m_2^{(a)}$ by replacing $G$ with $G^{(a)}$ in equation \eqref{defm}. We adopt the convention that for the resolvent minor $G^{(a)}$ defined as above, $G^{(a)}_{a_1a_2} = 0$ if $a_1 =a$ or $a_2=a$.
-\end{definition}
-%Note that the resolvent minor $G^{(\mathfrak c)}$ is defined such that it is independent of the entries in the $\mathfrak c$-th row and column of $H$. One will see a crucial use of this fact in the heuristic proof below.
- Using Schur complement formulas in equation (\ref{resolvent2}), we have that for $i \in \cal I_0$, %$\mu \in \cal I_1$ and $\nu\in \cal I_2$,
-%\HZ{This part needs more explanation - cannot understand.}
-\begin{align}
-\frac{1}{{G_{ii} }}&=  - z - \frac{\lambda_i^2}{n} \sum_{\mu,\nu\in \mathcal I_1} Z^{(1)}_{\mu i}Z^{(1)}_{\nu i}G^{\left( i \right)}_{\mu\nu} - \frac{1}{n} \sum_{\mu,\nu\in \mathcal I_2} Z^{(2)}_{\mu i}Z^{(2)}_{\nu i}G^{\left( i \right)}_{\mu\nu} -2 \frac{\lambda_i}{n} \sum_{\mu\in \cal I_1,\nu\in \mathcal I_2} Z^{(1)}_{\mu i}Z^{(2)}_{\nu i}G^{\left( i \right)}_{\mu\nu} , \label{0self_Gii}
-\end{align}
-and for $\mu \in \cal I_1$ and $\nu\in \cal I_2$,
-\begin{align}
-\frac{1}{{G_{\mu\mu} }}&=  - 1 - \frac{1}{n} \sum_{i,j\in \mathcal I_0}\lambda_i \lambda_j Z^{(1)}_{\mu i}Z^{(1)}_{\mu j} G^{\left(\mu\right)}_{ij}, \quad \frac{1}{{G_{\nu\nu} }}=  - 1 - \frac{1}{n} \sum_{i,j\in \mathcal I_0}  Z^{(2)}_{\nu i}Z^{(2)}_{\nu j}  G^{\left(\nu\right)}_{ij},
-\label{0self_Gmu1}
-\end{align}
-where we recall the notations in equation \eqref{labelZ}. To see why equation \eqref{0self_Gii} holds, we have that by Schur complement formula,
-\begin{align*}
-\frac{1}{G_{ii}}= -z - H_i G^{(i)}H_{i}^\top, \quad H_i = \left( \mathbf 0_{p-1}, (n^{-1/2}\lambda_i (Z^{(1)})^\top_{i\mu }:\mu \in \cal I_1),(n^{-1/2} (Z^{(2)})^\top_{i\nu }:\nu \in \cal I_2)\right),
-\end{align*}
-where $H_i$ is actually the $i$-th row of $H$ with the $(i,i)$-th entry removed. Expanding the above expression, we obtain equation \eqref{0self_Gii}. The two expressions in equation \eqref{0self_Gmu1} are easier to obtain using Schur complement formula.
-
-\medskip
-\noindent{\bf Concentration estimates.} Now for the right-hand side of equation \eqref{0self_Gii}, notice that the resolvent minor $G^{(i)}$ is defined such that it is independent of the entries $Z^{(1)}_{\mu i}$ and $Z^{(2)}_{\nu i}$. Hence by the concentration inequalities in Lemma \ref{largedeviation}, we have that the  right-hand side of equation \eqref{0self_Gii} concentrates around the partial expectation over the entries $\{Z^{(1)}_{\mu i}: \mu \in \cal I_1 \}\cup \{Z^{(2)}_{\nu i}: \nu \in \cal I_2\}$, i.e., with overwhelming probability,
-\begin{align*}
-\frac{1}{{G_{ii} }}&=  - z - \frac{\lambda_i^2}{n} \sum_{\mu \in \mathcal I_1}  G^{\left( i \right)}_{\mu\mu} - \frac{1}{n} \sum_{\mu\in \mathcal I_2} G^{\left( i \right)}_{\mu\mu} +\oo(1)= - z - \lambda_i^2 \frac{\rho_1}{\rho_1+\rho_2} m_1^{(i)}(z)-  \frac{\rho_2}{\rho_1+\rho_2} m_2^{(i)}(z)+\oo(1),
-\end{align*}
-where we used the definition of $m_1^{(i)}$ and $m_2^{(i)}$ in equation \eqref{defm} with $G$ replaced by $G^{(i)}$. Intuitively, since we have removed only one column and one row out of the $(p+n)$ columns and rows in $H$, $m_1^{(i)}$ and $m_2^{(i)}$ should be close to the original $m_1$ and $m_2$. Hence we obtain from the above equation that
-\begin{align}\label{1self_Gii}
- G_{ii}  = -\left( z +\lambda_i^2 \frac{\rho_1}{\rho_1+\rho_2} m_1 +  \frac{\rho_2}{\rho_1+\rho_2}m_2+\oo(1)\right)^{-1}.
-\end{align}
-Similarly, we can obtain from equation \eqref{0self_Gmu1} that for $\mu \in \cal I_1$ and $\nu\in \cal I_2$,
-\be\label{1self_Gmu} G_{\mu \mu }=-\left(1+\frac{p}{n} m_0 + \oo(1)\right)^{-1},\quad G_{\nu\nu}=-\left(1+\frac{p}{n} m+\oo(1)\right)^{-1},\ee
-with overwhelming probability. The rigorous derivation of the above concentration estimates will be given in the proof of Lemma \ref{lemm_selfcons_weak}; see equations \eqref{self_Gii}-\eqref{erri}.
-
-\medskip
-\noindent\textbf{Deriving the self-consistent equations.} Now taking average of equation \eqref{1self_Gmu}, we obtain that
-\be\label{2self_Gmu} m_1= \frac{1}{n_1}\sum_{\mu \in \cal I_1}G_{\mu\mu}=-\left(1+\frac{p}{n} m_0 + \oo(1)\right)^{-1},\quad m_2=\frac{1}{n_2}\sum_{\nu \in \cal I_2}G_{\nu\nu}=-\left(1+\frac{p}{n} m+\oo(1)\right)^{-1},
-\ee
-with overwhelming probability. As a byproduct, comparing equations \eqref{1self_Gmu} and \eqref{2self_Gmu}, we obtain that for $\mu \in \cal I_1$ and $\nu\in \cal I_2$,
-\be\label{2.5self_Gmu} G_{\mu \mu }=m_1 +\oo(1),\quad G_{\nu\nu}=m_2+\oo(1),\ee
-with overwhelming probability. Together with the definition of $m$ and $m_0$ in equation \eqref{defm}, the two equations in equation \eqref{2self_Gmu} give that
-\be\label{3self_Gmu}  \frac1{m_1}= -1- \frac{1}{n} \sum_{i=1}^p \lambda_i^2 G_{ii}+ \oo(1),\quad \frac1{m_2}=-1-\frac{1}{n} \sum_{i=1}^p G_{ii}  + \oo(1),\ee
-with overwhelming probability. Plugging equation \eqref{1self_Gii} into equation \eqref{3self_Gmu}, we obtain that
-\be\label{approximate m1m2}
-\begin{split}
-& \frac1{m_1}= -1+ \frac{1}{n} \sum_{i=1}^p \frac{\lambda_i^2 }{ z +\lambda_i^2 \frac{\rho_1}{\rho_1+\rho_2} m_1(z) +  \frac{\rho_2}{\rho_1+\rho_2}m_2(z)+\oo(1)}+ \oo(1),\\
-& \frac1{m_2}=-1+\frac{1}{n} \sum_{i=1}^p \frac{1}{ z +\lambda_i^2 \frac{\rho_1}{\rho_1+\rho_2} m_1(z) +  \frac{\rho_2}{\rho_1+\rho_2}m_2(z)+\oo(1)}  + \oo(1),
-\end{split}
-\ee
-with overwhelming probability, which give a system of approximate self-consistent equations for $(m_1,m_2)$.
-A rigorous derivation of these two equations will be given in the proof of Lemma \ref{lemm_selfcons_weak}. Compare \eqref{approximate m1m2} to the deterministic self-consistent equations in equation \eqref{selfomega_a}, one can observe that we should have
-\be\label{approx m12 add}
-(m_1,m_2) =\left(-\frac{\rho_1+\rho_2}{\rho_1}a_{1}(z),-\frac{\rho_1+\rho_2}{\rho_2}a_{2}(z)\right)+\oo(1) \quad \text{with overwhelming probability. }
-\ee
-To justify this identity rigorously, we need to know that the self-consistent equations are stable, that is, a small perturbation of the equations leads to a small perturbation of the solution. This will be given by Lemma \ref{lem_stabw}.
-
-
-\medskip
-\noindent\textbf{Deriving the matrix limit.}  Inserting the approximate identity \eqref{approx m12 add} into equations \eqref{1self_Gii} and \eqref{2.5self_Gmu}, we get that for  $i \in \cal I_0$, $\mu \in \cal I_1$ and $\nu\in \cal I_2$,
-$$G_{ii}(z)=(-z +\lambda_i^2 a_{1}(z) + a_2(z)+\oo(1)^{-1},\quad G_{\mu\mu}=-\frac{\rho_1+\rho_2}{\rho_1}a_{1}(z)+\oo(1),\quad G_{\nu\nu}=-\frac{\rho_1+\rho_2}{\rho_2}a_{2}(z)+\oo(1),$$
-with overwhelming probability. These explain the diagonal entries of $\Gi$ in equation \eqref{defn_piw}. For the off-diagonal entries, they are close to zero due to concentration. For example, for $i\ne j\in \cal I_1$, by Schur complement formula in equation (\ref{resolvent3}), we have
-$$G_{ij}=-G_{ii}\Big({\lambda_i}{n^{-1/2}}\sum_{\mu \in \cal I_1} Z^{(1)}_{\mu i} G^{(i)}_{\mu j} + {n^{-1/2}}\sum_{\mu \in \cal I_2} Z^{(2)}_{\mu i} G^{(i)}_{\mu j} \Big).$$
-Using Lemma \ref{largedeviation}, we can show that $n^{-1/2}\sum_{\mu \in \cal I_1} Z^{(1)}_{\mu i} G^{(i)}_{\mu j}$ and $n^{-1/2}\sum_{\mu \in \cal I_2} Z^{(2)}_{\mu i} G^{(i)}_{\mu j}$ are both close to zero. The other off-diagonal entries can be bounded in the same way. The bound on the off-diagonal entries will be proved rigorously in Lemma \ref{Z_lemma}.
-
-
-\medskip
-\noindent{\bf Deriving the bias asymptotics.} Finally, we describe how to derive the bias asymptotics. We can write the left-hand side of equation \eqref{lem_cov_derv_eq} using the derivative of $\cal G$ with respect to $z$ at $z=0$. More precisely, using equation \eqref{eigen2extra} we can obtain that
+For the bias asymptotic in equation \eqref{lem_cov_derv_eq}, We can write the left-hand side of equation \eqref{lem_cov_derv_eq} using the derivative of $\cal G$ with respect to $z$ at $z=0$. More precisely, using equation \eqref{eigen2extra} we can obtain that
 \begin{align}
 &n^2\bignorm{\Sigma_2^{1/2} \bigbrace{ (X^{(1)})^{\top}X^{(1)} + (X^{(2)})^{\top}X^{(2)} }^{-1} \Sigma_1^{1/2} w}^2 \nonumber\\
 &=n^2 w^\top \Sigma_1^{1/2}\Sigma_2^{-1/2}V\left(   \Lambda U^\top (Z^{(1)})^\top Z^{(1)} U\Lambda  + V^\top (Z^{(2)})^\top Z^{(2)}V\right)^{-2}V^\top\Sigma_2^{-1/2}\Sigma_1^{1/2}w \nonumber\\
@@ -318,3 +205,5 @@ Note that in order to have the approximate identity for $\cal G'(0)$ in equation
 
 
 The above arguments are the core of the main proof. To have a rigorous proof, we need to estimate each error carefully, and extend the Gaussian case to the more general case where the entries of $Z^{(1)}$ and $Z^{(2)}$ only satisfy certain moment assumptions. These will make the real argument rather tedious, but the methods we used are standard in the random matrix literature \cite{erdos2017dynamical,Anisotropic}. For the full rigorous proof, we refer the reader to Section \ref{appendix RMT}.
+
+
