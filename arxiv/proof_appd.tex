@@ -1,358 +1,7 @@
 \subsection{Proof of the Bias and Variance Asymptotics}\label{appendix RMT}
 
-
-
- 
-
-\iffalse
-%In this section, we will work under the assumptions of Lemma \ref{lem_cov_shift}. However, 
-In random matrix theory, it is much more convenient to consider matrices $n^{-1/2}Z^{(1)}$ and $n^{-1/2}Z^{(2)}$ with an extra $n^{-1/2}$ factor, where we denote $n:=n_1+n_2$.
-%rescale the matrices $Z^{(1)}$ and $Z^{(2)}$ such that their entries have variance $n^{-1}$, where $n:=n_1+n_2$. \HZ{I don't think is the point; I think you want to say that the sample covariance of both tasks $((Z^{(1)})^{\top}Z^{(1)} + (Z^{(2)})^{\top}Z^{(2)})/n$ is what matters} 
-The advantage of this scaling is that the singular eigenvalues of $n^{-1/2}Z^{(1)}$ and $n^{-1/2}Z^{(2)}$ all lie in a bounded support that does not grow with $n$. For reader's convenience, we first state the exact properties (some of which have already been stated in words in Section \ref{sec_prelim}) that we shall need for the results and proofs in this section. %Moreover, we will also introduce a couple of other notations.
-%\HZ{Remove A.1 and A.2 below, which are already in Sec 2.}
-
-
-%\textbf{Basic setting.}
-%We denote the two sample covariance matrices by $\mathcal Q_1:=(X^{(1)})^\top X^{(1)}$ and $\cal Q_2:= (X^{(2)})^\top X^{(2)}$. 
-We have assumed that $Z^{(1)}$ and $Z^{(2)}$ are $n_1\times p$ and $n_2\times p$ random matrices with i.i.d. entries satisfying
-\begin{equation}\label{assm1}
-\mathbb{E} (Z^{(1)})_{11} =\mathbb{E} (Z^{(2)})_{11} =0, \ \quad \ \mathbb{E} \vert (Z^{(1)})_{11} \vert^2=\mathbb{E} \vert (Z^{(2)})_{11} \vert^2  =1. 
-\end{equation}
-%\HZ{What is the subscript $11$ above?}
-%where we denote $n:=n_1+n_2$. Here we have chosen the scaling that is more standard in the random matrix theory literature---under this $n^{-1/2}$ scaling, the eigenvalues of $\cal Q_1$ and $\cal Q_2$ are all of order 1. 
-%Moreover, we assume that the fourth moments exist:
-%\be \label{conditionA2}
-%\mathbb{E} \vert (Z^{(1)})_{11} \vert^4 +\mathbb{E} \vert (Z^{(2)})_{11} \vert^4  \le C, 
-%\ee
-%for some constant $C>0$. 
-%In this paper, we regard $N$ as the fundamental (large) parameter and $n \equiv n(N)$ as depending on $N$. 
-Recall that we have defined $\rho_1= n_1/p$ and $\rho_2=n_2/p$ in introduction. We assume that they satisfy 
-%\HZ{We have defined $\rho_1,\rho_2$ already in sec 2. Consider using ``Recall that $\rho_1 =, \rho_2 =$.''}
-\be\label{assm2}
-0\le \rho_1 \le \tau^{-1}, \quad 1+\tau \le \rho_{2} \le \tau^{-1},
-\ee
-%\HZ{Remove $k$ above.}
-for a small constant $0<\tau<1$. 
-\fi
-
-
- \iffalse
-We assume that $\Sig_1$ and $\Sig_2$ have eigendecompositions
-%\HZ{Using $O_1, O_2$ in eigendecomposition seems non-standard; suggestion: change to $Q_1, Q_2$.}
-\be\label{eigen}\Sig_1= Q_1\Lambda_1 Q_1^\top, \ \ \Sig_2= Q_2\Lambda_2 Q_2^\top,\ \ \Lambda_1=\text{diag}(\lambda_1^{(1)}, \ldots, \lambda^{(1)}_p), \ \ \Lambda_2=\text{diag}( \lambda^{(2)}_1, \ldots, \lambda^{(2)}_p),
-\ee
-where the eigenvalues satisfy that
-\begin{equation}\label{assm3}
-\tau \le \lambda^{(1)}_p \le \ldots \le \lambda^{(1)}_2  \le \lambda^{(1)}_1 \le \tau^{-1}, \quad \tau \le   \lambda^{(2)}_p \le \ldots \le \lambda^{(2)}_2 \le \lambda^{(2)}_1 \le \tau^{-1}.
-\ee
-%such that $\Sigma_1$ and $\Sigma_2$ are both well-conditioned. 
-
-
-We assume that $M=\Sig_1^{1/2} \Sig_2^{-1/2}$ has a singular value decomposition \eqref{eigen2} .....
-\be%\label{eigen2}
-M= U\Lambda V^\top, \quad \Lambda=\text{diag}( \lambda_1, \ldots, \lambda_p),
-\ee
-where by equation \eqref{assm3} we have % the singular values satisfy that
-\begin{equation}\label{assm32}
-\tau \le \lambda_p \le \lambda_1 \le \tau^{-1} .%, \quad \max\left\{\pi_A^{(n)}([0,\tau]), \pi_B^{(n)}([0,\tau])\right\} \le 1 - \tau .
-\end{equation}
-\fi
-
-
-%\begin{remark}
-%Note that the Gaussian distribution satisfies the condition (\ref{eq_support}) with $q< N^{-\phi}$ for any $\phi<1/2$. We also remark that if (\ref{eq_support}) holds, then the event $\left\{\vert x_{ij}\vert \le q, \forall 1\le i \le M,1\le j \le N\right\}$ holds with $\xi$-overwhelming probability for any fixed $\xi>0$ according to Definition \ref{high_prob}. For this reason, the bad event $\left\{\vert x_{ij}\vert > q \text{ for some }i,j\right\}$ is negligible, and we will not consider the case it happens throughout the proof.
-%\end{remark}
-
-%Since $(Z^{(1)})^{\top} Z^{(1)}$ (resp.\;$(Z^{(2)})^\top Z^{(2)}$) is a standard sample covariance matrix, and it is well-known that its nonzero eigenvalues are all inside the support of the Marchenko-Pastur law $[(1-\sqrt{d_1})^2 , (1+\sqrt{d_1})^2]$ (resp. $[(1-\sqrt{d_2})^2 , (1+\sqrt{d_2})^2]$) with probability $1-\oo(1)$ \cite{No_outside}. In our proof, we shall need a slightly stronger probability bound, which is given by the following lemma. 
-
-\iffalse
-Before entering into the formal proof, we state two preparation lemmas, both of which have been used crucially in some previous proofs. First, for $n^{-1/2}Z^{(1)}$ and $n^{-1/2}Z^{(2)}$ with bounded support $q$, we have the following estimates on their singular values. 
-
- 
-%Then we state the following lemma on the eigenvalues of $(Z^{(1)})^{\top} Z^{(1)}$ and $(Z^{(2)})^\top Z^{(2)}$, which are denoted as $\lambda_1 ((Z^{(1)})^{\top} Z^{(1)}) \ge \cdots \ge \lambda_{p} ((Z^{(1)})^{\top} Z^{(1)})$ and $\lambda_1 ((Z^{(2)})^\top Z^{(2)}) \ge \cdots \ge \lambda_p ((Z^{(2)})^\top Z^{(2)})$. We have used it in our previous proofs; see equation \eqref{eq_isometric}. 
-
-
-\begin{lemma}\label{SxxSyy}
-Suppose Assumption \ref{assm_big1} holds. % and $n^{-1/2}Z^{(1)}$ and $n^{-1/2}Z^{(2)}$ satisfy the bounded support condition \eqref{eq_support} for some deterministic parameter $q$ satisfying $ n^{-{1}/{2}} \leq q \leq n^{- \phi} $ for a small constant $\phi>0$. 
-Then for any constant $\e>0$, we have that with overwhelming probability,
-\be\label{op rough1} %(1-\sqrt{d_1})^2 - \e \le  \lambda_p((Z^{(1)})^{\top} Z^{(1)})   \le  
-\lambda_1\left((Z^{(1)})^{\top} Z^{(1)}\right) \le {(\sqrt{n_1}+\sqrt{p})^2} + n_1^{1+\e} q,
-\ee
-and
-\be\label{op rough2} 
- (\sqrt{n_2}-\sqrt{p})^2  -  n_2^{1+\e} q \le  \lambda_p \left((Z^{(2)})^\top Z^{(2)}\right)  \le  \lambda_1\left((Z^{(2)})^\top Z^{(2)}\right) \le  (\sqrt{n_2}+\sqrt{p})^2 +  n_2^{1+\e} q .
-\ee
-where $\lambda_i(Z_k^\top Z_k)$, $k=1,2$ and $i=1,\cdots,p$, is the $i$-th largest eigenvalue of $Z_k^\top Z_k$.
-\end{lemma}
-\begin{proof}
-%\HZ{This proof does not parse.}
-%This lemma essentially follows from \cite[Theorem 2.10]{isotropic}, although the authors considered the case with $q = n^{-1/2}$ only. The results for the general case with $ n^{-{1}/{2}} \leq q \leq n^{- \phi} $ follows from \cite[Lemma 3.12]{DY}. 
-%, but only the bounds for largest eigenvalues are given there in order to avoid the issue with the smallest eigenvalue when $d_{2}$ is close to 1. However, under the assumption equation \eqref{assm2}, the lower bound for the smallest eigenvalue follows from the same arguments as in \cite{DY}. Hence we omit the details. 
-This lemma is a corollary of  \cite[Theorem 2.10]{isotropic} and \cite[Lemma 3.12]{DY}. 
-\end{proof}
-\begin{remark}
-it is well-known that the eigenvalues of $n_2^{-1}(Z^{(2)})^\top Z^{(2)}$ are all inside the support of the Marchenko-Pastur law $[(1-\sqrt{p/n_2})^2-\oo(1) ,(1+\sqrt{p/n_2})^2+\oo(1)]$ with probability $1-\oo(1)$ \cite{No_outside}. Here the estimate \eqref{op rough2} has improved the error to $n_2^\e q$ and the probability to $1-\OO(n^{-D})$.
-\end{remark}
-\fi
-
-
-
-
-\iffalse
-\subsection{Resolvents and Local Laws}\label{sec locallaw1}
-
-
-Our main goal is to study the matrix inverse $((X^{(1)})^\top X^{(1)}+(X^{(2)})^\top X^{(2)})^{-1}$ for $X^{(1)}= Z^{(1)}\Sigma_1^{1/2}$ and $X^{(2)}= Z^{(2)}\Sigma_2^{1/2}$. 
-%\begin{align*}
-%(\cal Q_1+\cal Q_2)^{-1}=\left( \Sigma_1^{1/2}(Z^{(1)})^{\top} Z^{(1)}\Sigma_1^{1/2}+\Sigma_2^{1/2}(Z^{(2)})^\top Z^{(2)}\Sigma_2^{1/2}\right)^{-1} .
-%\end{align*}
-Using equation \eqref{eigen2}, we can rewrite it as
-\be\label{eigen2extra}((X^{(1)})^\top X^{(1)}+(X^{(2)})^\top X^{(2)})^{-1}= \Sigma_2^{-1/2}V\left(   \Lambda U^\top (Z^{(1)})^{\top} Z^{(1)} U\Lambda  + V^\top (Z^{(2)})^\top Z^{(2)}V\right)^{-1}V^\top\Sigma_2^{-1/2}.\ee
-For our purpose, we introduce a convenient self-adjoint linearization trick, 
-%This idea dates back at least to Girko, see e.g., the works \cite{girko1975random,girko1985spectral} and references therein. 
-which has been proved to be useful in studying the local laws of random matrices of the Gram type \cite{Anisotropic, AEK_Gram, XYY_circular}. We define the following $(p+n)\times (p+n)$ self-adjoint block matrix, which is a linear function of $Z^{(1)}$ and $Z^{(2)}$:
-%\begin{definition}[Linearizing block matrix]\label{def_linearHG}%definiton of the Green function
-%We define the $(n+N)\times (n+N)$ block matrix
- \begin{equation}\label{linearize_block}
-   H \equiv H(Z^{(1)},Z^{(2)}): = n^{-1/2}\left( {\begin{array}{*{20}c}
-   { 0 } & \Lambda U^{\top}(Z^{(1)})^{\top} & V^\top (Z^{(2)})^\top  \\
-   {Z^{(1)} U\Lambda  } & {0} & 0 \\
-   {Z^{(2)}V} & 0 & 0
-   \end{array}} \right).
- \end{equation}
-For simplicity of notations, we define the index sets
-$$\cal I_0:=\llbracket 1,p\rrbracket, \quad  \cal I_1:=\llbracket p+1,p+n_1\rrbracket, \quad \cal I_2:=\llbracket p+n_1+1,p+n_1+n_2\rrbracket ,\quad \cal I:=\cal I_0\cup \cal I_1\cup \cal I_2  .$$
- We will consistently use the latin letters $i,j\in\sI_{0}$, greek letters $\mu,\nu\in\sI_{1}\cup \sI_{2}$, and ${a},{b},\mathfrak c\in \cal I$. Correspondingly, the indices of the matrices $Z^{(1)}$ and $Z^{(2)}$ are labelled as 
- \be\label{labelZ}
- Z^{(1)}= (z_{\mu i}:i\in \mathcal I_0, \mu \in \mathcal I_1), \quad Z^{(2)}= (z_{\nu i}:i\in \mathcal I_0, \nu \in \mathcal I_2).\ee
-Now we define the resolvents as follows. 
-\begin{definition}[Resolvents]
-We define the resolvent (or Green's function) of $H$ as
- \begin{equation}\label{eqn_defG}
- G \equiv G (Z^{(1)},Z^{(2)},z):= \left[H(Z^{(1)},Z^{(2)})-\left( {\begin{array}{*{20}c}
-   { z\id_{p}} & 0 & 0 \\
-   0 & { \id_{n_1}}  & 0\\
-      0 & 0  & { \id_{n_2}}\\
-\end{array}} \right)\right]^{-1} , \quad z\in \mathbb C .
- \end{equation}
-%It is easy to verify that the eigenvalues $\lambda_1(H)\ge \ldots \ge \lambda_{n+N}(H)$ of $H$ are related to the ones of $\mathcal Q_1$ through
-%\begin{equation}\label{Heigen}
-%\lambda_i(H)=-\lambda_{n+N-i+1}(H)=\sqrt{\lambda_i\left(\mathcal Q_2\right)}, \ \ 1\le i \le n\wedge N, \quad \text{and}\quad \lambda_i(H)=0, \ \ n\wedge N + 1 \le i \le n\vee N.
-%\end{equation}
-%and
-%$$\lambda_i(H)=0, \ \ n\wedge N + 1 \le i \le n\vee N.$$
-%where we used the notations $n\wedge N:=\min\{N,M\}$ and $n\vee N:=\max\{N,M\}$. 
-%\begin{definition}[Index sets]\label{def_index}
-and the resolvent of $  n^{-1}\Lambda U^\top (Z^{(1)})^{\top} Z^{(1)} U\Lambda  + n^{-1}V^\top (Z^{(2)})^\top Z^{(2)}V$ as
-\be\label{mainG}
-\cal G(z):=\left( n^{-1}  \Lambda U^\top (Z^{(1)})^{\top} Z^{(1)} U\Lambda  + n^{-1}V^\top (Z^{(2)})^\top Z^{(2)}V -z\right)^{-1},\quad z\in \C.
-\ee
-Moreover, we also define the following averaged resolvents, which are the (weighted) partial traces of $G$:
-\be\label{defm}
-\begin{split} 
-m(z) :=\frac1p\sum_{i=1}^p G_{ii}(z) ,\quad & m_0(z):=\frac1p\sum_{i=1}^p \lambda_i^2 G_{ii}(z),\\
- m_1(z):= \frac{1}{n_1}\sum_{\mu =p+1}^{p+n_1}G_{\mu\mu}(z) ,\quad & m_2(z):= \frac{1}{n_2}\sum_{\nu=p+n_1+1}^{p+n_1+n_2}G_{\nu\nu}(z) .
-\end{split}
-\ee
-\end{definition}
-
-Then we define the resolvent minors, which are defined by removing certain rows and columns of the matrix $H$.
-
-\begin{definition}[Resolvent minors]\label{defn_Minor}
- For any $ (p+n)\times (p+n)$ matrix $\cal A$ and ${a} \in \mathcal I$, we define the minor $\cal A^{(\mathfrak c)}:=(\cal A_{{a}{b}}:{a},{b} \in \mathcal I\setminus \{\mathfrak a\})$ as the $ (p+n-1)\times (p+n-1)$ matrix obtained by removing the $\mathfrak c$-th row and column in $\cal A$. Note that we keep the names of indices when defining $\cal A^{(\mathfrak c)}$, i.e. $(\cal A^{(\mathfrak c)})_{{a}{b}}= \cal A_{{a}{b}}$ for ${a},{b} \ne \mathfrak c$. Correspondingly, we define the resolvent minor as %(recall equation \eqref{green2})
-\begin{align*}
-G^{(\mathfrak c)}:&=\left[\left(H - \left( {\begin{array}{*{20}c}
-   { zI_{p}} & 0  \\
-   0 & { I_{n}}  \\
-\end{array}} \right)\right)^{(\mathfrak c)}\right]^{-1} ,
-%= \left( {\begin{array}{*{20}c}
-%   { \mathcal G^{(\mathbb T)}} & \mathcal G^{(\mathbb T)} W^{(\mathbb T)}  \\
-%   {\left(W^{(\mathbb T)}\right)^\top\mathcal G^{(\mathbb T)}} & { \mathcal G_R^{(\mathbb T)} }  \\
-%\end{array}} \right)  ,
-\end{align*}
-and define the partial traces $m^{(\mathfrak c)}$ and $m^{(\mathfrak c)}_k$, $k=0,1,2,$ by replacing $G$ with $G^{(\mathfrak c)}$ in equation \eqref{defm}. For convenience, we will adopt the convention that for the resolvent minor $G^{(\mathfrak c)}$ defined as above, $G^{(\mathfrak c)}_{{a}{b}} = 0$ if ${a} =\mathfrak c$ or ${b} =\mathfrak c$.
-\end{definition}
-
-Note that the resolvent minor $G^{(\mathfrak c)}$ is defined such that it is independent of the entries in the $\mathfrak c$-th row and column of $H$. One will see a crucial use of this fact in the heuristic proof below.
-
-Notice that using equation \eqref{mainG}, we can write  equation \eqref{eigen2extra} as
-\be\label{rewrite X as R} ((X^{(1)})^\top X^{(1)}+(X^{(2)})^\top X^{(2)})^{-1}=n^{-1}\Sigma_2^{-1/2}V\cal G(0)V^\top\Sigma_2^{-1/2}.\ee
-In the above definition, we have taken the argument of $\cal G$ to be a general complex number, because we will need to use $\cal G'(0)$ in the proof of Lemma \ref{lem_cov_derivative}, which requires a good estimate of $\cal G(z)$ for $z$ around the origin. Moreover, by Schur complement formula, we can obtain that
- \begin{equation} \label{green2}
- G (z):=  \left( {\begin{array}{*{20}c}
-   { \cal G (z)} & \cal G(z)W  \\
-   W^\top \cal G(z) & z \cal G_R
-\end{array}} \right)^{-1},\quad \cal G_R:=(W^\top W - z)^{-1} ,
- \end{equation}
- where we abbreviated $W:=n^{-1/2}(\Lambda U^\top (Z^{(1)})^{\top}, V^\top (Z^{(2)})^\top)$, and
-%one can find that %(recall equation \eqref{mainG})
-%\be \label{green2}
-%\begin{split}
-%& \cal G_{L}=\left(WW^\top -z \right)^{-1} =\cal G ,\quad \cal G_{LR}=\cal G_{RL}^\top  = \cal G W , \quad \cal G_R= z\left(W^\top W - z\right)^{-1}.
-%\end{split}
-%\ee
-the subindex of $\cal G_R$ means the lower-right block. This shows that a control of $G(z)$ yields directly a control of $\mathcal G(z)$. On the other hand, $G(z)$ is a little more easier to use than $\cal G(z)$ in the proof. 
-%Hence we choose to work with the 
-
-
-%Moreover, we denote $\overline i:= i+p$ for $i\in \cal I_1$, $\overline j:= j-p$ for $j\in \cal I_2$, $\overline \mu : = \mu +n $ for $\mu \in \cal I_3$, and $\overline \nu : = \nu - n $ for $\nu \in \cal I_4$. 
-%\end{definition}
-%\begin{definition}[Resolvents]\label{resol_not}
-%For $z = E+ \ii \eta \in \mathbb C_+,$ we define the resolvents $G(z)$. 
-%Then we denote the $\cal I_\al \times \cal I_\beta$ block of $ G(z)$ by $ \cal G_{\al\beta}(z)$ for $\al,\beta=1,2,3$. Moreover,  
-%Then we denote the $\cal I_1 \times \cal I_1$ block of $ G(z)$ by $ \cal G_{L}(z)$, the $\cal I_1 \times (\cal I_2 \cup \cal I_3)$ block by $\cal G_{LR}$, the $ (\cal I_2 \cup \cal I_3)\times \cal I_1$ block by $\cal G_{RL}$, and the $ (\cal I_2 \cup \cal I_3)\times (\cal I_2 \cup \cal I_3)$ block by $\cal G_R$. 
-%We denote the $(\cal I_1\cup \cal I_2)\times (\cal I_1\cup \cal I_2)$ block of $ G(z)$ by $ \cal G_L(z)$, the $(\cal I_1\cup \cal I_2)\times (\cal I_3\cup \cal I_4)$ block by $ \cal G_{LR}(z)$, the $(\cal I_3\cup \cal I_4)\times (\cal I_1\cup \cal I_2)$ block  by $ \cal G_{RL}(z)$, and the $(\cal I_3\cup \cal I_4)\times (\cal I_3\cup \cal I_4)$ block by $ \cal G_R(z)$. 
-%Recalling the notations in equation \eqref{def Sxy}, we define $\cal H:=S_{xx}^{-1/2}S_{xy}S_{yy}^{-1/2}$ and
-%\be\label{Rxy}
-%\begin{split}
-% R_1(z):=(\cal C_{XY}-z)^{-1}&=(\cal H\cal H^T-z)^{-1}, \\
-% R_2(z):=(\cal C_{YX}-z)^{-1}&=(\cal H^T\cal H-z)^{-1},  \quad m(z):= q^{-1}\tr  R_2(z).
-% \end{split}
-%\ee
-%Note that we have $R_1\cal H = \cal HR_2$, $\cal H^T R_1 = R_2 \cal H^T $, and 
-%\be\label{R12} \tr  R_1 = \tr  R_2 - \frac{p-q}{z}= q  m(z) - \frac{p-q}{z},\ee
-%since $\cal C_{XY}$ has $(p-q)$ more zeros eigenvalues than $\cal C_{YX}$. 
-%Finally, we can define ${\cal G}^b_L(z)$, ${\cal G}^b_R(z)$, $ m^b_\al(z)$, $\cal H^b$, $R_{1,2}^b$, etc.\;in the obvious way by replacing $Y$ with $\cal Y$. 
-%for $\wt {\mathcal Q}_{1,2}$ as
-%\begin{equation}\label{def_green}
-%\mathcal G_1(X,z):=\left(\wt{\mathcal Q}_1(X) -z\right)^{-1} , \ \ \ \mathcal G_2 (X,z):=\left(\wt{\mathcal Q}_2(X)-z\right)^{-1} .
-%\end{equation}
-% We denote the ESD $\rho^{(n)}$ of $\wt {\mathcal Q}_{1}$ and its Stieltjes transform as
-%\be\label{defn_m}
-%\rho\equiv \rho^{(n)} := \frac{1}{n} \sum_{i=1}^n \delta_{\lambda_i(\wt{\mathcal Q}_1)},\quad m(z)\equiv m^{(n)}(z):=\int \frac{1}{x-z}\rho_{1}^{(n)}(dx)=\frac{1}{n} \mathrm{Tr} \, \mathcal G_1(z).
-%\ee
-%We also introduce the following quantities:
-%$$m_1(z)\equiv m_1^{(n)}(z):= \frac{1}{N}\sum_{i=1}^n\sigma_i (\mathcal G_1)_{ii}(z) ,\quad m_2(z)\equiv m_2^{(n)}(x):=\frac{1}{N}\sum_{\mu=1}^N \wt\sigma_\mu (\mathcal G_2)_{\mu\mu}(z). $$
-%\end{definition}
-
-%Now using Schur complement formula, we can verify that the (recall equation \eqref{def_green})
-%\begin{align} 
-%G = \left( {\begin{array}{*{20}c}
-%   { z\mathcal G_1} & \mathcal G_1 \Sig^{1/2} U^{*}X V\wt  \Sig^{1/2}  \\
-%   {\wt \Sig^{1/2}V^\topX^\top U\Sig^{1/2} \mathcal G_1} & { \mathcal G_2 }  \\
-%\end{array}} \right) = \left( {\begin{array}{*{20}c}
-%   { z\mathcal G_1} & \Sig^{1/2} U^{*}X V\wt  \Sig^{1/2} \mathcal G_2   \\
-%   {\mathcal G_2}\wt \Sig^{1/2}V^\topX^\top U\Sig^{1/2} & { \mathcal G_2 }  \\ 
-%\end{array}} \right). \label{green2}
-%\end{align}
-%where $\mathcal G_{1,2}$ are defined in (\ref{def_green}). 
-
-
-\subsubsection{Asymptotic Limit of the Resolvent}\label{sec aymp_limit_G}
-
-
-
-%We denote the eigenvalues of $\mathcal Q_1$ and $\mathcal Q_2$ in descending order by $\lambda_1(\mathcal Q_1)\geq \ldots \geq \lambda_{p}(\mathcal Q_1)$ and $\lambda_1(\mathcal Q_2) \geq \ldots \geq \lambda_p(\mathcal Q_2)$. Since $\mathcal Q_1$ and $\mathcal Q_2$ share the same nonzero eigenvalues, we will for simplicity write $\lambda_j$, $1\le j \le N\wedge n$, to denote the $j$-th eigenvalue of both $\mathcal Q_1$ and $\mathcal Q_2$ without causing any confusion. 
- 
-
-%\subsection{Resolvents and limiting law}
-%
-%In this paper, we will study the eigenvalue statistics of $\mathcal Q_{1}$ and $\mathcal Q_2$ through their {\it{resolvents}} (or  {\it{Green's functions}}). It is equivalent to study the matrices 
-%\be\label{Qtilde}
-%\wt{\mathcal Q}_1(X):=\Sig^{1/2} U^{*}XBX^\topU\Sig^{1/2}, \quad \wt{\mathcal Q}_2(X):=\wt\Sig^{1/2}V^\topX^\top A X V\wt \Sig^{1/2}.
-%\ee
-%In this paper, we shall denote the upper half complex plane and the right half real line by 
-%$$\mathbb C_+:=\{z\in \mathbb C: \im z>0\}, \quad \mathbb R_+:=[0,\infty).$$ %\quad  \mathbb R_*:=(0,\infty).$$
-%
-%\begin{definition}[Resolvents]\label{resol_not}
-%For $z = E+ \ii \eta \in \mathbb C_+,$ we define the resolvents for $\wt {\mathcal Q}_{1,2}$ as
-%\begin{equation}\label{def_green}
-%\mathcal G_1(X,z):=\left(\wt{\mathcal Q}_1(X) -z\right)^{-1} , \ \ \ \mathcal G_2 (X,z):=\left(\wt{\mathcal Q}_2(X)-z\right)^{-1} .
-%\end{equation}
-% We denote the ESD $\rho^{(n)}$ of $\wt {\mathcal Q}_{1}$ and its Stieltjes transform as
-%\be\label{defn_m}
-%\rho\equiv \rho^{(n)} := \frac{1}{n} \sum_{i=1}^n \delta_{\lambda_i(\wt{\mathcal Q}_1)},\quad m(z)\equiv m^{(n)}(z):=\int \frac{1}{x-z}\rho_{1}^{(n)}(\dd x)=\frac{1}{n} \mathrm{Tr} \, \mathcal G_1(z).
-%\ee
-%We also introduce the following quantities:
-%$$m_1(z)\equiv m_1^{(n)}(z):= \frac{1}{N}\sum_{i=1}^n\sigma_i (\mathcal G_1(z) )_{ii},\quad m_2(z)\equiv m_2^{(n)}(x):=\frac{1}{N}\sum_{\mu=1}^N \wt\sigma_\mu (\mathcal G_2(z) )_{\mu\mu}. $$
-%
-%%, \ \ \rho_{2}^{(n)} := \frac{1}{N} \sum_{i=1}^N \delta_{\lambda_i(\mathcal Q_2)}.$$
-%%Then the Stieltjes transforms of $\rho_{1}$ is given by
-%%\begin{align*}
-%%& m_1^{(n)}(z):=\int \frac{1}{x-z}\rho_{1}^{(n)}(\dd x)=\frac{1}{n} \mathrm{Tr} \, \mathcal G_1(z). 
-%%%& m_2^{(n)}(z):=\int \frac{1}{x-z}\rho_{2}^{(n)}(\dd x)=\frac{1}{N} \mathrm{Tr} \, \mathcal G_2(z). %\label{ST_m12}
-%%\end{align*}
-%%and
-%%\begin{equation}
-%%m_2^{(n)}(z):=\int \frac{1}{x-z}d\rho_{2}^{M}(x)=\frac{1}{N}\sum_{i=1}^N (\mathcal G_2)_{ii}(z)=\frac{1}{N} \mathrm{Tr} \, \mathcal G_2(z). \label{ST_m2}
-%%\end{equation}
-%%Similarly, we can also define $m_1(z)\equiv m_1^{(M)}(z):= M^{-1}\mathrm{Tr} \, \mathcal G_1(z)$. 
-%\end{definition}
-
-
-We now describe the asymptotic limit of $G(z)$ and $\cal G(z)$ as $n\to \infty$. First we define the deterministic limits of $(m_1(z), m_{2}(z))$, denoted by $(M_{1}(z),M_{2}(z))$ 
-%\HZ{This $M_{1}, M_{2}$ notation is awkward; consider changing it to ${M}_1(z), {M}_2(z)$ (or  better, say $a_1(z), a_2(z)$? if they correspond to $a_1, a_2$ when $z=0$)}, 
-as the unique solution to the following system of equations
-\begin{equation}\label{selfomega}
-\begin{split}
-& \frac1{M_{1}} = \frac{\gamma_n}p\sum_{i=1}^p \frac{\lambda_i^2}{  z+\lambda_i^2 r_1 M_{1} +r_2 M_{2}  } - 1 ,\  \ \frac1{M_{2}} = \frac{\gamma_n}p\sum_{i=1}^p \frac{1 }{  z+\lambda_i^2 r_1 M_{1} +  r_2 M_{2}  }- 1 ,
-\end{split}
-\ee
-such that $(M_{1}(z), M_{2}(z))\in \C_+^2$ for $z\in \C_+$, where, for simplicity, we  introduced the following ratios 
-\be\label{ratios}
- \gamma_n :=\frac{p}{n}=\frac{1}{\rho_1+\rho_2},\quad r_1 :=\frac{n_1}{n}=\frac{\rho_1}{\rho_1+\rho_2},\quad r_2 :=\frac{n_2}{n}=\frac{\rho_2}{\rho_1+\rho_2}.
-\ee
-We then define the matrix limit of $G(z)$ as
-\be \label{defn_piw}
-\Pi(z) := \begin{pmatrix} -(z+r_1 M_{1}(z)\Lambda^2  +  r_2 M_{2}(z))^{-1} & 0 & 0 \\ 0 &  M_{1}(z)\id_{n_1} & 0 \\ 0 & 0 & M_{2}(z)\id_{n_2}  \end{pmatrix}.\ee
-In particular, the matrix limit of $\cal G(z)$ is given by $-(z+r_1 M_{1}\Lambda^2 + r_2 M_{2})^{-1}$. 
-
-\vspace{5pt}
-\noindent{\bf Proof overview:}
-\HZ{Divide into several parts like sec 7 to improve readability.}
-Now we give a heuristic derivation of the matrix limit when the entries of $Z^{(1)}$ and $Z^{(2)}$ are i.i.d. Gaussian. Note that in this case,
-%However, notice that if the entries of $Z^{(1)}\equiv (Z^{(1)})^{\text{Gauss}}$ and $Z^{(2)}\equiv (Z^{(2)})^{\text{Gauss}}$ are i.i.d. Gaussian, then 
-by the rotational invariance of the multivariate Gaussian distribution we have
-\be\label{eq in Gauss} Z^{(1)} U\Lambda \stackrel{d}{=} Z^{(1)} \Lambda, \quad Z^{(2)} V \stackrel{d}{=} Z^{(2)},\ee
-where ``$\stackrel{d}{=}$" means ``equal in distribution". Hence it suffices to consider the following resolvent  
- \begin{equation} \nonumber
-   G(z)= \left( {\begin{array}{*{20}c}
-   { -z\id_{p} } & n^{-1/2}\Lambda (Z^{(1)})^{\top} & n^{-1/2} (Z^{(2)})^\top  \\
-   {n^{-1/2} Z^{(1)} \Lambda  } & {-\id_{n_1}} & 0 \\
-   {n^{-1/2} Z^{(2)}} & 0 & {-\id_{n_2}}
-   \end{array}} \right)^{-1}.
- \end{equation}
-Using Schur complement formula (see \alert{equation} (\ref{resolvent2}) \HZ{check other usage of equation ref}), we have that %for $i \in \cal I_0$, $\mu \in \cal I_1$ and $\nu\in \cal I_2$,
-\begin{align}
-\frac{1}{{G_{ii} }}&=  - z - \frac{\lambda_i^2}{n} \sum_{\mu,\nu\in \mathcal I_1} z_{\mu i}z_{\nu i}G^{\left( i \right)}_{\mu\nu} - \frac{1}{n} \sum_{\mu,\nu\in \mathcal I_2} z_{\mu i}z_{\nu i}G^{\left( i \right)}_{\mu\nu} -2 \frac{\lambda_i}{n} \sum_{\mu\in \cal I_1,\nu\in \mathcal I_2} z_{\mu i}z_{\nu i}G^{\left( i \right)}_{\mu\nu},  \ \ \text{for }\  i \in \cal I_0 , \label{0self_Gii}\\
-\frac{1}{{G_{\mu\mu} }}&=  - 1 - \frac{1}{n} \sum_{i,j\in \mathcal I_0}\lambda_i \lambda_j z_{\mu i}z_{\mu j} G^{\left(\mu\right)}_{ij}, \quad \frac{1}{{G_{\nu\nu} }}=  - 1 - \frac{1}{n} \sum_{i,j\in \mathcal I_0}  z_{\nu i}z_{\nu j}  G^{\left(\nu\right)}_{ij},  \ \ \text{for }\  \mu \in \cal I_1, \ \nu\in \cal I_2, \label{0self_Gmu1} 
-\end{align}
-where we recall the notations in equation \eqref{labelZ}. For the right-hand side of equation \eqref{0self_Gii}, $G^{(i)}$ is independent of the entries $z_{\mu i}$ and $z_{\nu i}$. Hence by the concentration inequalities in Lemma \ref{largedeviation}, we have that the  right-hand side of equation \eqref{0self_Gii} concentrates around the partial expectation over the entries $\{z_{\mu i}: \mu \in \cal I_1\cup \cal I_2\}$, i.e., with overwhelming probability,
-\begin{align*}
-\frac{1}{{G_{ii} }}&=  - z - \frac{\lambda_i^2}{n} \sum_{\mu \in \mathcal I_1}  G^{\left( i \right)}_{\mu\mu} - \frac{1}{n} \sum_{\mu\in \mathcal I_2} G^{\left( i \right)}_{\mu\mu} +\oo(1)= - z - \lambda_i^2 r_1 m_1^{(i)}(z)-  r_2m_2^{(i)}(z)+\oo(1),  
-\end{align*}
-where we used the definition of $m_1^{(i)}$ and $m_2^{(i)}$ in equation \eqref{defm} with $G$ replaced by $G^{(i)}$. Intuitively, since we have only removed only one column and one row out of the $(p+n)$ columns and rows in $H$, $m_1^{(i)}$ and $m_2^{(i)}$ should be close to the original $m_1$ and $m_2$. Hence we obtain from the above equation that
-\begin{align}\label{1self_Gii}
- G_{ii}  = -\frac{1}{ z +\lambda_i^2 r_1  m_1(z) + r_2 m_2(z)+\oo(1)}.
-\end{align}
-Similarly, we can obtain from equation \eqref{0self_Gmu1} that for $\mu \in \cal I_1$ and $\nu\in \cal I_2$,
-\be\label{1self_Gmu} G_{\mu \mu }=-\frac{1}{1+\gamma_n m_0 + \oo(1)},\quad G_{\nu\nu}=-\frac1{1+\gamma_n m+\oo(1)},\ee
-with overwhelming probability. Taking average we obtain that 
-\be\label{2self_Gmu} m_1= \frac{1}{n_1}\sum_{\mu \in \cal I_1}G_{\mu\mu}=-\frac{1}{1+\gamma_n m_0 + \oo(1)},\quad m_2=\frac{1}{n_2}\sum_{\nu \in \cal I_2}G_{\nu\nu}=-\frac{1}{1+\gamma_n m + \oo(1)},
-\ee
-with overwhelming probability. Together with the definition of $m$ and $m_0$ in equation \eqref{defm}, the two equations in equation \eqref{2self_Gmu} give that 
-\be\label{3self_Gmu}  \frac1{m_1}= -1- \frac{\gamma_n}{p} \sum_{i=1}^p \lambda_i^2 G_{ii}+ \oo(1),\quad \frac1{m_2}=-1-\frac{\gamma_n}{p} \sum_{i=1}^p G_{ii}  + \oo(1),\ee
-with overwhelming probability. Plugging equation \eqref{1self_Gii} into equation \eqref{3self_Gmu}, we obtain that
-\begin{align*}
-& \frac1{m_1}= -1+ \frac{\gamma_n}{p} \sum_{i=1}^p \frac{\lambda_i^2 }{ z +\lambda_i^2 r_1  m_1(z) + r_2 m_2(z)+\oo(1)}+ \oo(1),\\ 
-& \frac1{m_2}=-1+\frac{\gamma_n}{p} \sum_{i=1}^p \frac{1}{ z +\lambda_i^2 r_1  m_1(z) + r_2 m_2(z)+\oo(1)}  + \oo(1),
-\end{align*}
-with overwhelming probability, which give the approximate self-consistent equations for $(m_1,m_2)$. Compare them to the deterministic self-consistent equations in equation \eqref{selfomega}, one can observe that we should have $(m_1,m_2) =(M_{1}, M_{2})+\oo(1)$ with overwhelming probability. Inserting this approximate identity into equation \eqref{1self_Gii}-equation \eqref{2self_Gmu}, we see that for  $i \in \cal I_0$, $\mu \in \cal I_1$ and $\nu\in \cal I_2$,
-$$G_{ii}=-(z +\lambda_i^2 r_1  M_{1} + r_2 M_{2}+\oo(1))^{1/2},\quad G_{\mu\mu}=M_{1}+\oo(1),\quad G_{\nu\nu}=M_{2}+\oo(1),$$
-with overwhelming probability. These explain the diagonal entries of $\Pi$ in equation \eqref{defn_piw}. For the off-diagonal entries, they are close to zero due to concentration. For example, for $i\ne j\in \cal I_1$, by Schur complement formula (see (\ref{resolvent3})), we have
-$$G_{ij}=-G_{ii}\left(\frac{\lambda_i}{n^{1/2}}\sum_{\mu \in \cal I_1} z_{\mu i} G^{(i)}_{\mu j} + \frac{1}{n^{1/2}}\sum_{\mu \in \cal I_2} z_{\mu i} G^{(i)}_{\mu j} \right).$$
-Using Lemma \ref{largedeviation}, we can show that $n^{-1/2}\sum_{\mu \in \cal I_1} z_{\mu i} G^{(i)}_{\mu j}$ and $n^{-1/2}\sum_{\mu \in \cal I_2} z_{\mu i} G^{(i)}_{\mu j}$ are both close to zero. The other off-diagonal entries can be bounded in the same way.
-
-The above arguments are the core of the main proof. To have a rigorous proof, we need to estimate each error carefully, and extend the Gaussian case to the more general case where the entries of $Z^{(1)}$ and $Z^{(2)}$ only satisfy certain moment assumptions. These will make the real argument rather tedious, but the methods we used are standard in the random matrix literature \cite{erdos2017dynamical,Anisotropic}.
-
-\fi
-
-
-%\subsubsection{The Local Laws}\label{sec locallaw1}
-%In the following proof, we choose a sufficiently small constants $c_0>0$ such that Lemma \ref{lem_mbehaviorw} and Lemma \ref{lem_stabw} hold. Then 
-
 \subsubsection{The Matrix Limit}\label{sec pf RMTlemma}
-%In this subsection, 
+
 We now state the main random matrix result---Theorem \ref{LEM_SMALL}---which gives an almost optimal estimate on the resolvent $G(z)$ of $H$. It is conventionally called the {\it anisotropic local law} \cite{Anisotropic}. We define a domain of the spectral parameter $z$ as
 \begin{equation}
 \mathbf D:= \left\{z=E+ \ii \eta \in \C_+: |z|\le (\log n)^{-1} \right\}. \label{SSET1}
@@ -2617,3 +2266,357 @@ $$|m_2(0)-M_2(0)|=|y_2-r_2^{-1}a_2|\prec n^{-1/2}.$$ The above two estimates con
 %\end{split}
 %\end{equation}
 %Then using Lemma \ref{lem_stabw}, we get $|m_{2}-M_{2}|+|m_{3}-M_{2}|\prec n^{-1}$, which concludes equation \eqref{avergoal}. This concludes the proof of equation \eqref{aver_in}, and hence Lemma \ref{prop_entry}.
+
+
+
+
+
+
+
+\iffalse
+%In this section, we will work under the assumptions of Lemma \ref{lem_cov_shift}. However,
+In random matrix theory, it is much more convenient to consider matrices $n^{-1/2}Z^{(1)}$ and $n^{-1/2}Z^{(2)}$ with an extra $n^{-1/2}$ factor, where we denote $n:=n_1+n_2$.
+%rescale the matrices $Z^{(1)}$ and $Z^{(2)}$ such that their entries have variance $n^{-1}$, where $n:=n_1+n_2$. \HZ{I don't think is the point; I think you want to say that the sample covariance of both tasks $((Z^{(1)})^{\top}Z^{(1)} + (Z^{(2)})^{\top}Z^{(2)})/n$ is what matters}
+The advantage of this scaling is that the singular eigenvalues of $n^{-1/2}Z^{(1)}$ and $n^{-1/2}Z^{(2)}$ all lie in a bounded support that does not grow with $n$. For reader's convenience, we first state the exact properties (some of which have already been stated in words in Section \ref{sec_prelim}) that we shall need for the results and proofs in this section. %Moreover, we will also introduce a couple of other notations.
+%\HZ{Remove A.1 and A.2 below, which are already in Sec 2.}
+
+
+%\textbf{Basic setting.}
+%We denote the two sample covariance matrices by $\mathcal Q_1:=(X^{(1)})^\top X^{(1)}$ and $\cal Q_2:= (X^{(2)})^\top X^{(2)}$.
+We have assumed that $Z^{(1)}$ and $Z^{(2)}$ are $n_1\times p$ and $n_2\times p$ random matrices with i.i.d. entries satisfying
+\begin{equation}\label{assm1}
+\mathbb{E} (Z^{(1)})_{11} =\mathbb{E} (Z^{(2)})_{11} =0, \ \quad \ \mathbb{E} \vert (Z^{(1)})_{11} \vert^2=\mathbb{E} \vert (Z^{(2)})_{11} \vert^2  =1.
+\end{equation}
+%\HZ{What is the subscript $11$ above?}
+%where we denote $n:=n_1+n_2$. Here we have chosen the scaling that is more standard in the random matrix theory literature---under this $n^{-1/2}$ scaling, the eigenvalues of $\cal Q_1$ and $\cal Q_2$ are all of order 1.
+%Moreover, we assume that the fourth moments exist:
+%\be \label{conditionA2}
+%\mathbb{E} \vert (Z^{(1)})_{11} \vert^4 +\mathbb{E} \vert (Z^{(2)})_{11} \vert^4  \le C,
+%\ee
+%for some constant $C>0$.
+%In this paper, we regard $N$ as the fundamental (large) parameter and $n \equiv n(N)$ as depending on $N$.
+Recall that we have defined $\rho_1= n_1/p$ and $\rho_2=n_2/p$ in introduction. We assume that they satisfy
+%\HZ{We have defined $\rho_1,\rho_2$ already in sec 2. Consider using ``Recall that $\rho_1 =, \rho_2 =$.''}
+\be\label{assm2}
+0\le \rho_1 \le \tau^{-1}, \quad 1+\tau \le \rho_{2} \le \tau^{-1},
+\ee
+%\HZ{Remove $k$ above.}
+for a small constant $0<\tau<1$.
+\fi
+
+
+ \iffalse
+We assume that $\Sig_1$ and $\Sig_2$ have eigendecompositions
+%\HZ{Using $O_1, O_2$ in eigendecomposition seems non-standard; suggestion: change to $Q_1, Q_2$.}
+\be\label{eigen}\Sig_1= Q_1\Lambda_1 Q_1^\top, \ \ \Sig_2= Q_2\Lambda_2 Q_2^\top,\ \ \Lambda_1=\text{diag}(\lambda_1^{(1)}, \ldots, \lambda^{(1)}_p), \ \ \Lambda_2=\text{diag}( \lambda^{(2)}_1, \ldots, \lambda^{(2)}_p),
+\ee
+where the eigenvalues satisfy that
+\begin{equation}\label{assm3}
+\tau \le \lambda^{(1)}_p \le \ldots \le \lambda^{(1)}_2  \le \lambda^{(1)}_1 \le \tau^{-1}, \quad \tau \le   \lambda^{(2)}_p \le \ldots \le \lambda^{(2)}_2 \le \lambda^{(2)}_1 \le \tau^{-1}.
+\ee
+%such that $\Sigma_1$ and $\Sigma_2$ are both well-conditioned.
+
+
+We assume that $M=\Sig_1^{1/2} \Sig_2^{-1/2}$ has a singular value decomposition \eqref{eigen2} .....
+\be%\label{eigen2}
+M= U\Lambda V^\top, \quad \Lambda=\text{diag}( \lambda_1, \ldots, \lambda_p),
+\ee
+where by equation \eqref{assm3} we have % the singular values satisfy that
+\begin{equation}\label{assm32}
+\tau \le \lambda_p \le \lambda_1 \le \tau^{-1} .%, \quad \max\left\{\pi_A^{(n)}([0,\tau]), \pi_B^{(n)}([0,\tau])\right\} \le 1 - \tau .
+\end{equation}
+\fi
+
+
+%\begin{remark}
+%Note that the Gaussian distribution satisfies the condition (\ref{eq_support}) with $q< N^{-\phi}$ for any $\phi<1/2$. We also remark that if (\ref{eq_support}) holds, then the event $\left\{\vert x_{ij}\vert \le q, \forall 1\le i \le M,1\le j \le N\right\}$ holds with $\xi$-overwhelming probability for any fixed $\xi>0$ according to Definition \ref{high_prob}. For this reason, the bad event $\left\{\vert x_{ij}\vert > q \text{ for some }i,j\right\}$ is negligible, and we will not consider the case it happens throughout the proof.
+%\end{remark}
+
+%Since $(Z^{(1)})^{\top} Z^{(1)}$ (resp.\;$(Z^{(2)})^\top Z^{(2)}$) is a standard sample covariance matrix, and it is well-known that its nonzero eigenvalues are all inside the support of the Marchenko-Pastur law $[(1-\sqrt{d_1})^2 , (1+\sqrt{d_1})^2]$ (resp. $[(1-\sqrt{d_2})^2 , (1+\sqrt{d_2})^2]$) with probability $1-\oo(1)$ \cite{No_outside}. In our proof, we shall need a slightly stronger probability bound, which is given by the following lemma.
+
+\iffalse
+Before entering into the formal proof, we state two preparation lemmas, both of which have been used crucially in some previous proofs. First, for $n^{-1/2}Z^{(1)}$ and $n^{-1/2}Z^{(2)}$ with bounded support $q$, we have the following estimates on their singular values.
+
+
+%Then we state the following lemma on the eigenvalues of $(Z^{(1)})^{\top} Z^{(1)}$ and $(Z^{(2)})^\top Z^{(2)}$, which are denoted as $\lambda_1 ((Z^{(1)})^{\top} Z^{(1)}) \ge \cdots \ge \lambda_{p} ((Z^{(1)})^{\top} Z^{(1)})$ and $\lambda_1 ((Z^{(2)})^\top Z^{(2)}) \ge \cdots \ge \lambda_p ((Z^{(2)})^\top Z^{(2)})$. We have used it in our previous proofs; see equation \eqref{eq_isometric}.
+
+
+\begin{lemma}\label{SxxSyy}
+Suppose Assumption \ref{assm_big1} holds. % and $n^{-1/2}Z^{(1)}$ and $n^{-1/2}Z^{(2)}$ satisfy the bounded support condition \eqref{eq_support} for some deterministic parameter $q$ satisfying $ n^{-{1}/{2}} \leq q \leq n^{- \phi} $ for a small constant $\phi>0$.
+Then for any constant $\e>0$, we have that with overwhelming probability,
+\be\label{op rough1} %(1-\sqrt{d_1})^2 - \e \le  \lambda_p((Z^{(1)})^{\top} Z^{(1)})   \le
+\lambda_1\left((Z^{(1)})^{\top} Z^{(1)}\right) \le {(\sqrt{n_1}+\sqrt{p})^2} + n_1^{1+\e} q,
+\ee
+and
+\be\label{op rough2}
+ (\sqrt{n_2}-\sqrt{p})^2  -  n_2^{1+\e} q \le  \lambda_p \left((Z^{(2)})^\top Z^{(2)}\right)  \le  \lambda_1\left((Z^{(2)})^\top Z^{(2)}\right) \le  (\sqrt{n_2}+\sqrt{p})^2 +  n_2^{1+\e} q .
+\ee
+where $\lambda_i(Z_k^\top Z_k)$, $k=1,2$ and $i=1,\cdots,p$, is the $i$-th largest eigenvalue of $Z_k^\top Z_k$.
+\end{lemma}
+\begin{proof}
+%\HZ{This proof does not parse.}
+%This lemma essentially follows from \cite[Theorem 2.10]{isotropic}, although the authors considered the case with $q = n^{-1/2}$ only. The results for the general case with $ n^{-{1}/{2}} \leq q \leq n^{- \phi} $ follows from \cite[Lemma 3.12]{DY}.
+%, but only the bounds for largest eigenvalues are given there in order to avoid the issue with the smallest eigenvalue when $d_{2}$ is close to 1. However, under the assumption equation \eqref{assm2}, the lower bound for the smallest eigenvalue follows from the same arguments as in \cite{DY}. Hence we omit the details.
+This lemma is a corollary of  \cite[Theorem 2.10]{isotropic} and \cite[Lemma 3.12]{DY}.
+\end{proof}
+\begin{remark}
+it is well-known that the eigenvalues of $n_2^{-1}(Z^{(2)})^\top Z^{(2)}$ are all inside the support of the Marchenko-Pastur law $[(1-\sqrt{p/n_2})^2-\oo(1) ,(1+\sqrt{p/n_2})^2+\oo(1)]$ with probability $1-\oo(1)$ \cite{No_outside}. Here the estimate \eqref{op rough2} has improved the error to $n_2^\e q$ and the probability to $1-\OO(n^{-D})$.
+\end{remark}
+\fi
+
+
+
+
+\iffalse
+\subsection{Resolvents and Local Laws}\label{sec locallaw1}
+
+
+Our main goal is to study the matrix inverse $((X^{(1)})^\top X^{(1)}+(X^{(2)})^\top X^{(2)})^{-1}$ for $X^{(1)}= Z^{(1)}\Sigma_1^{1/2}$ and $X^{(2)}= Z^{(2)}\Sigma_2^{1/2}$.
+%\begin{align*}
+%(\cal Q_1+\cal Q_2)^{-1}=\left( \Sigma_1^{1/2}(Z^{(1)})^{\top} Z^{(1)}\Sigma_1^{1/2}+\Sigma_2^{1/2}(Z^{(2)})^\top Z^{(2)}\Sigma_2^{1/2}\right)^{-1} .
+%\end{align*}
+Using equation \eqref{eigen2}, we can rewrite it as
+\be\label{eigen2extra}((X^{(1)})^\top X^{(1)}+(X^{(2)})^\top X^{(2)})^{-1}= \Sigma_2^{-1/2}V\left(   \Lambda U^\top (Z^{(1)})^{\top} Z^{(1)} U\Lambda  + V^\top (Z^{(2)})^\top Z^{(2)}V\right)^{-1}V^\top\Sigma_2^{-1/2}.\ee
+For our purpose, we introduce a convenient self-adjoint linearization trick,
+%This idea dates back at least to Girko, see e.g., the works \cite{girko1975random,girko1985spectral} and references therein.
+which has been proved to be useful in studying the local laws of random matrices of the Gram type \cite{Anisotropic, AEK_Gram, XYY_circular}. We define the following $(p+n)\times (p+n)$ self-adjoint block matrix, which is a linear function of $Z^{(1)}$ and $Z^{(2)}$:
+%\begin{definition}[Linearizing block matrix]\label{def_linearHG}%definiton of the Green function
+%We define the $(n+N)\times (n+N)$ block matrix
+ \begin{equation}\label{linearize_block}
+   H \equiv H(Z^{(1)},Z^{(2)}): = n^{-1/2}\left( {\begin{array}{*{20}c}
+   { 0 } & \Lambda U^{\top}(Z^{(1)})^{\top} & V^\top (Z^{(2)})^\top  \\
+   {Z^{(1)} U\Lambda  } & {0} & 0 \\
+   {Z^{(2)}V} & 0 & 0
+   \end{array}} \right).
+ \end{equation}
+For simplicity of notations, we define the index sets
+$$\cal I_0:=\llbracket 1,p\rrbracket, \quad  \cal I_1:=\llbracket p+1,p+n_1\rrbracket, \quad \cal I_2:=\llbracket p+n_1+1,p+n_1+n_2\rrbracket ,\quad \cal I:=\cal I_0\cup \cal I_1\cup \cal I_2  .$$
+ We will consistently use the latin letters $i,j\in\sI_{0}$, greek letters $\mu,\nu\in\sI_{1}\cup \sI_{2}$, and ${a},{b},\mathfrak c\in \cal I$. Correspondingly, the indices of the matrices $Z^{(1)}$ and $Z^{(2)}$ are labelled as
+ \be\label{labelZ}
+ Z^{(1)}= (z_{\mu i}:i\in \mathcal I_0, \mu \in \mathcal I_1), \quad Z^{(2)}= (z_{\nu i}:i\in \mathcal I_0, \nu \in \mathcal I_2).\ee
+Now we define the resolvents as follows.
+\begin{definition}[Resolvents]
+We define the resolvent (or Green's function) of $H$ as
+ \begin{equation}\label{eqn_defG}
+ G \equiv G (Z^{(1)},Z^{(2)},z):= \left[H(Z^{(1)},Z^{(2)})-\left( {\begin{array}{*{20}c}
+   { z\id_{p}} & 0 & 0 \\
+   0 & { \id_{n_1}}  & 0\\
+      0 & 0  & { \id_{n_2}}\\
+\end{array}} \right)\right]^{-1} , \quad z\in \mathbb C .
+ \end{equation}
+%It is easy to verify that the eigenvalues $\lambda_1(H)\ge \ldots \ge \lambda_{n+N}(H)$ of $H$ are related to the ones of $\mathcal Q_1$ through
+%\begin{equation}\label{Heigen}
+%\lambda_i(H)=-\lambda_{n+N-i+1}(H)=\sqrt{\lambda_i\left(\mathcal Q_2\right)}, \ \ 1\le i \le n\wedge N, \quad \text{and}\quad \lambda_i(H)=0, \ \ n\wedge N + 1 \le i \le n\vee N.
+%\end{equation}
+%and
+%$$\lambda_i(H)=0, \ \ n\wedge N + 1 \le i \le n\vee N.$$
+%where we used the notations $n\wedge N:=\min\{N,M\}$ and $n\vee N:=\max\{N,M\}$.
+%\begin{definition}[Index sets]\label{def_index}
+and the resolvent of $  n^{-1}\Lambda U^\top (Z^{(1)})^{\top} Z^{(1)} U\Lambda  + n^{-1}V^\top (Z^{(2)})^\top Z^{(2)}V$ as
+\be\label{mainG}
+\cal G(z):=\left( n^{-1}  \Lambda U^\top (Z^{(1)})^{\top} Z^{(1)} U\Lambda  + n^{-1}V^\top (Z^{(2)})^\top Z^{(2)}V -z\right)^{-1},\quad z\in \C.
+\ee
+Moreover, we also define the following averaged resolvents, which are the (weighted) partial traces of $G$:
+\be\label{defm}
+\begin{split}
+m(z) :=\frac1p\sum_{i=1}^p G_{ii}(z) ,\quad & m_0(z):=\frac1p\sum_{i=1}^p \lambda_i^2 G_{ii}(z),\\
+ m_1(z):= \frac{1}{n_1}\sum_{\mu =p+1}^{p+n_1}G_{\mu\mu}(z) ,\quad & m_2(z):= \frac{1}{n_2}\sum_{\nu=p+n_1+1}^{p+n_1+n_2}G_{\nu\nu}(z) .
+\end{split}
+\ee
+\end{definition}
+
+Then we define the resolvent minors, which are defined by removing certain rows and columns of the matrix $H$.
+
+\begin{definition}[Resolvent minors]\label{defn_Minor}
+ For any $ (p+n)\times (p+n)$ matrix $\cal A$ and ${a} \in \mathcal I$, we define the minor $\cal A^{(\mathfrak c)}:=(\cal A_{{a}{b}}:{a},{b} \in \mathcal I\setminus \{\mathfrak a\})$ as the $ (p+n-1)\times (p+n-1)$ matrix obtained by removing the $\mathfrak c$-th row and column in $\cal A$. Note that we keep the names of indices when defining $\cal A^{(\mathfrak c)}$, i.e. $(\cal A^{(\mathfrak c)})_{{a}{b}}= \cal A_{{a}{b}}$ for ${a},{b} \ne \mathfrak c$. Correspondingly, we define the resolvent minor as %(recall equation \eqref{green2})
+\begin{align*}
+G^{(\mathfrak c)}:&=\left[\left(H - \left( {\begin{array}{*{20}c}
+   { zI_{p}} & 0  \\
+   0 & { I_{n}}  \\
+\end{array}} \right)\right)^{(\mathfrak c)}\right]^{-1} ,
+%= \left( {\begin{array}{*{20}c}
+%   { \mathcal G^{(\mathbb T)}} & \mathcal G^{(\mathbb T)} W^{(\mathbb T)}  \\
+%   {\left(W^{(\mathbb T)}\right)^\top\mathcal G^{(\mathbb T)}} & { \mathcal G_R^{(\mathbb T)} }  \\
+%\end{array}} \right)  ,
+\end{align*}
+and define the partial traces $m^{(\mathfrak c)}$ and $m^{(\mathfrak c)}_k$, $k=0,1,2,$ by replacing $G$ with $G^{(\mathfrak c)}$ in equation \eqref{defm}. For convenience, we will adopt the convention that for the resolvent minor $G^{(\mathfrak c)}$ defined as above, $G^{(\mathfrak c)}_{{a}{b}} = 0$ if ${a} =\mathfrak c$ or ${b} =\mathfrak c$.
+\end{definition}
+
+Note that the resolvent minor $G^{(\mathfrak c)}$ is defined such that it is independent of the entries in the $\mathfrak c$-th row and column of $H$. One will see a crucial use of this fact in the heuristic proof below.
+
+Notice that using equation \eqref{mainG}, we can write  equation \eqref{eigen2extra} as
+\be\label{rewrite X as R} ((X^{(1)})^\top X^{(1)}+(X^{(2)})^\top X^{(2)})^{-1}=n^{-1}\Sigma_2^{-1/2}V\cal G(0)V^\top\Sigma_2^{-1/2}.\ee
+In the above definition, we have taken the argument of $\cal G$ to be a general complex number, because we will need to use $\cal G'(0)$ in the proof of Lemma \ref{lem_cov_derivative}, which requires a good estimate of $\cal G(z)$ for $z$ around the origin. Moreover, by Schur complement formula, we can obtain that
+ \begin{equation} \label{green2}
+ G (z):=  \left( {\begin{array}{*{20}c}
+   { \cal G (z)} & \cal G(z)W  \\
+   W^\top \cal G(z) & z \cal G_R
+\end{array}} \right)^{-1},\quad \cal G_R:=(W^\top W - z)^{-1} ,
+ \end{equation}
+ where we abbreviated $W:=n^{-1/2}(\Lambda U^\top (Z^{(1)})^{\top}, V^\top (Z^{(2)})^\top)$, and
+%one can find that %(recall equation \eqref{mainG})
+%\be \label{green2}
+%\begin{split}
+%& \cal G_{L}=\left(WW^\top -z \right)^{-1} =\cal G ,\quad \cal G_{LR}=\cal G_{RL}^\top  = \cal G W , \quad \cal G_R= z\left(W^\top W - z\right)^{-1}.
+%\end{split}
+%\ee
+the subindex of $\cal G_R$ means the lower-right block. This shows that a control of $G(z)$ yields directly a control of $\mathcal G(z)$. On the other hand, $G(z)$ is a little more easier to use than $\cal G(z)$ in the proof.
+%Hence we choose to work with the
+
+
+%Moreover, we denote $\overline i:= i+p$ for $i\in \cal I_1$, $\overline j:= j-p$ for $j\in \cal I_2$, $\overline \mu : = \mu +n $ for $\mu \in \cal I_3$, and $\overline \nu : = \nu - n $ for $\nu \in \cal I_4$.
+%\end{definition}
+%\begin{definition}[Resolvents]\label{resol_not}
+%For $z = E+ \ii \eta \in \mathbb C_+,$ we define the resolvents $G(z)$.
+%Then we denote the $\cal I_\al \times \cal I_\beta$ block of $ G(z)$ by $ \cal G_{\al\beta}(z)$ for $\al,\beta=1,2,3$. Moreover,
+%Then we denote the $\cal I_1 \times \cal I_1$ block of $ G(z)$ by $ \cal G_{L}(z)$, the $\cal I_1 \times (\cal I_2 \cup \cal I_3)$ block by $\cal G_{LR}$, the $ (\cal I_2 \cup \cal I_3)\times \cal I_1$ block by $\cal G_{RL}$, and the $ (\cal I_2 \cup \cal I_3)\times (\cal I_2 \cup \cal I_3)$ block by $\cal G_R$.
+%We denote the $(\cal I_1\cup \cal I_2)\times (\cal I_1\cup \cal I_2)$ block of $ G(z)$ by $ \cal G_L(z)$, the $(\cal I_1\cup \cal I_2)\times (\cal I_3\cup \cal I_4)$ block by $ \cal G_{LR}(z)$, the $(\cal I_3\cup \cal I_4)\times (\cal I_1\cup \cal I_2)$ block  by $ \cal G_{RL}(z)$, and the $(\cal I_3\cup \cal I_4)\times (\cal I_3\cup \cal I_4)$ block by $ \cal G_R(z)$.
+%Recalling the notations in equation \eqref{def Sxy}, we define $\cal H:=S_{xx}^{-1/2}S_{xy}S_{yy}^{-1/2}$ and
+%\be\label{Rxy}
+%\begin{split}
+% R_1(z):=(\cal C_{XY}-z)^{-1}&=(\cal H\cal H^T-z)^{-1}, \\
+% R_2(z):=(\cal C_{YX}-z)^{-1}&=(\cal H^T\cal H-z)^{-1},  \quad m(z):= q^{-1}\tr  R_2(z).
+% \end{split}
+%\ee
+%Note that we have $R_1\cal H = \cal HR_2$, $\cal H^T R_1 = R_2 \cal H^T $, and
+%\be\label{R12} \tr  R_1 = \tr  R_2 - \frac{p-q}{z}= q  m(z) - \frac{p-q}{z},\ee
+%since $\cal C_{XY}$ has $(p-q)$ more zeros eigenvalues than $\cal C_{YX}$.
+%Finally, we can define ${\cal G}^b_L(z)$, ${\cal G}^b_R(z)$, $ m^b_\al(z)$, $\cal H^b$, $R_{1,2}^b$, etc.\;in the obvious way by replacing $Y$ with $\cal Y$.
+%for $\wt {\mathcal Q}_{1,2}$ as
+%\begin{equation}\label{def_green}
+%\mathcal G_1(X,z):=\left(\wt{\mathcal Q}_1(X) -z\right)^{-1} , \ \ \ \mathcal G_2 (X,z):=\left(\wt{\mathcal Q}_2(X)-z\right)^{-1} .
+%\end{equation}
+% We denote the ESD $\rho^{(n)}$ of $\wt {\mathcal Q}_{1}$ and its Stieltjes transform as
+%\be\label{defn_m}
+%\rho\equiv \rho^{(n)} := \frac{1}{n} \sum_{i=1}^n \delta_{\lambda_i(\wt{\mathcal Q}_1)},\quad m(z)\equiv m^{(n)}(z):=\int \frac{1}{x-z}\rho_{1}^{(n)}(dx)=\frac{1}{n} \mathrm{Tr} \, \mathcal G_1(z).
+%\ee
+%We also introduce the following quantities:
+%$$m_1(z)\equiv m_1^{(n)}(z):= \frac{1}{N}\sum_{i=1}^n\sigma_i (\mathcal G_1)_{ii}(z) ,\quad m_2(z)\equiv m_2^{(n)}(x):=\frac{1}{N}\sum_{\mu=1}^N \wt\sigma_\mu (\mathcal G_2)_{\mu\mu}(z). $$
+%\end{definition}
+
+%Now using Schur complement formula, we can verify that the (recall equation \eqref{def_green})
+%\begin{align}
+%G = \left( {\begin{array}{*{20}c}
+%   { z\mathcal G_1} & \mathcal G_1 \Sig^{1/2} U^{*}X V\wt  \Sig^{1/2}  \\
+%   {\wt \Sig^{1/2}V^\topX^\top U\Sig^{1/2} \mathcal G_1} & { \mathcal G_2 }  \\
+%\end{array}} \right) = \left( {\begin{array}{*{20}c}
+%   { z\mathcal G_1} & \Sig^{1/2} U^{*}X V\wt  \Sig^{1/2} \mathcal G_2   \\
+%   {\mathcal G_2}\wt \Sig^{1/2}V^\topX^\top U\Sig^{1/2} & { \mathcal G_2 }  \\
+%\end{array}} \right). \label{green2}
+%\end{align}
+%where $\mathcal G_{1,2}$ are defined in (\ref{def_green}).
+
+
+\subsubsection{Asymptotic Limit of the Resolvent}\label{sec aymp_limit_G}
+
+
+
+%We denote the eigenvalues of $\mathcal Q_1$ and $\mathcal Q_2$ in descending order by $\lambda_1(\mathcal Q_1)\geq \ldots \geq \lambda_{p}(\mathcal Q_1)$ and $\lambda_1(\mathcal Q_2) \geq \ldots \geq \lambda_p(\mathcal Q_2)$. Since $\mathcal Q_1$ and $\mathcal Q_2$ share the same nonzero eigenvalues, we will for simplicity write $\lambda_j$, $1\le j \le N\wedge n$, to denote the $j$-th eigenvalue of both $\mathcal Q_1$ and $\mathcal Q_2$ without causing any confusion.
+
+
+%\subsection{Resolvents and limiting law}
+%
+%In this paper, we will study the eigenvalue statistics of $\mathcal Q_{1}$ and $\mathcal Q_2$ through their {\it{resolvents}} (or  {\it{Green's functions}}). It is equivalent to study the matrices
+%\be\label{Qtilde}
+%\wt{\mathcal Q}_1(X):=\Sig^{1/2} U^{*}XBX^\topU\Sig^{1/2}, \quad \wt{\mathcal Q}_2(X):=\wt\Sig^{1/2}V^\topX^\top A X V\wt \Sig^{1/2}.
+%\ee
+%In this paper, we shall denote the upper half complex plane and the right half real line by
+%$$\mathbb C_+:=\{z\in \mathbb C: \im z>0\}, \quad \mathbb R_+:=[0,\infty).$$ %\quad  \mathbb R_*:=(0,\infty).$$
+%
+%\begin{definition}[Resolvents]\label{resol_not}
+%For $z = E+ \ii \eta \in \mathbb C_+,$ we define the resolvents for $\wt {\mathcal Q}_{1,2}$ as
+%\begin{equation}\label{def_green}
+%\mathcal G_1(X,z):=\left(\wt{\mathcal Q}_1(X) -z\right)^{-1} , \ \ \ \mathcal G_2 (X,z):=\left(\wt{\mathcal Q}_2(X)-z\right)^{-1} .
+%\end{equation}
+% We denote the ESD $\rho^{(n)}$ of $\wt {\mathcal Q}_{1}$ and its Stieltjes transform as
+%\be\label{defn_m}
+%\rho\equiv \rho^{(n)} := \frac{1}{n} \sum_{i=1}^n \delta_{\lambda_i(\wt{\mathcal Q}_1)},\quad m(z)\equiv m^{(n)}(z):=\int \frac{1}{x-z}\rho_{1}^{(n)}(\dd x)=\frac{1}{n} \mathrm{Tr} \, \mathcal G_1(z).
+%\ee
+%We also introduce the following quantities:
+%$$m_1(z)\equiv m_1^{(n)}(z):= \frac{1}{N}\sum_{i=1}^n\sigma_i (\mathcal G_1(z) )_{ii},\quad m_2(z)\equiv m_2^{(n)}(x):=\frac{1}{N}\sum_{\mu=1}^N \wt\sigma_\mu (\mathcal G_2(z) )_{\mu\mu}. $$
+%
+%%, \ \ \rho_{2}^{(n)} := \frac{1}{N} \sum_{i=1}^N \delta_{\lambda_i(\mathcal Q_2)}.$$
+%%Then the Stieltjes transforms of $\rho_{1}$ is given by
+%%\begin{align*}
+%%& m_1^{(n)}(z):=\int \frac{1}{x-z}\rho_{1}^{(n)}(\dd x)=\frac{1}{n} \mathrm{Tr} \, \mathcal G_1(z).
+%%%& m_2^{(n)}(z):=\int \frac{1}{x-z}\rho_{2}^{(n)}(\dd x)=\frac{1}{N} \mathrm{Tr} \, \mathcal G_2(z). %\label{ST_m12}
+%%\end{align*}
+%%and
+%%\begin{equation}
+%%m_2^{(n)}(z):=\int \frac{1}{x-z}d\rho_{2}^{M}(x)=\frac{1}{N}\sum_{i=1}^N (\mathcal G_2)_{ii}(z)=\frac{1}{N} \mathrm{Tr} \, \mathcal G_2(z). \label{ST_m2}
+%%\end{equation}
+%%Similarly, we can also define $m_1(z)\equiv m_1^{(M)}(z):= M^{-1}\mathrm{Tr} \, \mathcal G_1(z)$.
+%\end{definition}
+
+
+We now describe the asymptotic limit of $G(z)$ and $\cal G(z)$ as $n\to \infty$. First we define the deterministic limits of $(m_1(z), m_{2}(z))$, denoted by $(M_{1}(z),M_{2}(z))$
+%\HZ{This $M_{1}, M_{2}$ notation is awkward; consider changing it to ${M}_1(z), {M}_2(z)$ (or  better, say $a_1(z), a_2(z)$? if they correspond to $a_1, a_2$ when $z=0$)},
+as the unique solution to the following system of equations
+\begin{equation}\label{selfomega}
+\begin{split}
+& \frac1{M_{1}} = \frac{\gamma_n}p\sum_{i=1}^p \frac{\lambda_i^2}{  z+\lambda_i^2 r_1 M_{1} +r_2 M_{2}  } - 1 ,\  \ \frac1{M_{2}} = \frac{\gamma_n}p\sum_{i=1}^p \frac{1 }{  z+\lambda_i^2 r_1 M_{1} +  r_2 M_{2}  }- 1 ,
+\end{split}
+\ee
+such that $(M_{1}(z), M_{2}(z))\in \C_+^2$ for $z\in \C_+$, where, for simplicity, we  introduced the following ratios
+\be\label{ratios}
+ \gamma_n :=\frac{p}{n}=\frac{1}{\rho_1+\rho_2},\quad r_1 :=\frac{n_1}{n}=\frac{\rho_1}{\rho_1+\rho_2},\quad r_2 :=\frac{n_2}{n}=\frac{\rho_2}{\rho_1+\rho_2}.
+\ee
+We then define the matrix limit of $G(z)$ as
+\be \label{defn_piw}
+\Pi(z) := \begin{pmatrix} -(z+r_1 M_{1}(z)\Lambda^2  +  r_2 M_{2}(z))^{-1} & 0 & 0 \\ 0 &  M_{1}(z)\id_{n_1} & 0 \\ 0 & 0 & M_{2}(z)\id_{n_2}  \end{pmatrix}.\ee
+In particular, the matrix limit of $\cal G(z)$ is given by $-(z+r_1 M_{1}\Lambda^2 + r_2 M_{2})^{-1}$.
+
+\vspace{5pt}
+\noindent{\bf Proof overview:}
+\HZ{Divide into several parts like sec 7 to improve readability.}
+Now we give a heuristic derivation of the matrix limit when the entries of $Z^{(1)}$ and $Z^{(2)}$ are i.i.d. Gaussian. Note that in this case,
+%However, notice that if the entries of $Z^{(1)}\equiv (Z^{(1)})^{\text{Gauss}}$ and $Z^{(2)}\equiv (Z^{(2)})^{\text{Gauss}}$ are i.i.d. Gaussian, then
+by the rotational invariance of the multivariate Gaussian distribution we have
+\be\label{eq in Gauss} Z^{(1)} U\Lambda \stackrel{d}{=} Z^{(1)} \Lambda, \quad Z^{(2)} V \stackrel{d}{=} Z^{(2)},\ee
+where ``$\stackrel{d}{=}$" means ``equal in distribution". Hence it suffices to consider the following resolvent
+ \begin{equation} \nonumber
+   G(z)= \left( {\begin{array}{*{20}c}
+   { -z\id_{p} } & n^{-1/2}\Lambda (Z^{(1)})^{\top} & n^{-1/2} (Z^{(2)})^\top  \\
+   {n^{-1/2} Z^{(1)} \Lambda  } & {-\id_{n_1}} & 0 \\
+   {n^{-1/2} Z^{(2)}} & 0 & {-\id_{n_2}}
+   \end{array}} \right)^{-1}.
+ \end{equation}
+Using Schur complement formula (see \alert{equation} (\ref{resolvent2}) \HZ{check other usage of equation ref}), we have that %for $i \in \cal I_0$, $\mu \in \cal I_1$ and $\nu\in \cal I_2$,
+\begin{align}
+\frac{1}{{G_{ii} }}&=  - z - \frac{\lambda_i^2}{n} \sum_{\mu,\nu\in \mathcal I_1} z_{\mu i}z_{\nu i}G^{\left( i \right)}_{\mu\nu} - \frac{1}{n} \sum_{\mu,\nu\in \mathcal I_2} z_{\mu i}z_{\nu i}G^{\left( i \right)}_{\mu\nu} -2 \frac{\lambda_i}{n} \sum_{\mu\in \cal I_1,\nu\in \mathcal I_2} z_{\mu i}z_{\nu i}G^{\left( i \right)}_{\mu\nu},  \ \ \text{for }\  i \in \cal I_0 , \label{0self_Gii}\\
+\frac{1}{{G_{\mu\mu} }}&=  - 1 - \frac{1}{n} \sum_{i,j\in \mathcal I_0}\lambda_i \lambda_j z_{\mu i}z_{\mu j} G^{\left(\mu\right)}_{ij}, \quad \frac{1}{{G_{\nu\nu} }}=  - 1 - \frac{1}{n} \sum_{i,j\in \mathcal I_0}  z_{\nu i}z_{\nu j}  G^{\left(\nu\right)}_{ij},  \ \ \text{for }\  \mu \in \cal I_1, \ \nu\in \cal I_2, \label{0self_Gmu1}
+\end{align}
+where we recall the notations in equation \eqref{labelZ}. For the right-hand side of equation \eqref{0self_Gii}, $G^{(i)}$ is independent of the entries $z_{\mu i}$ and $z_{\nu i}$. Hence by the concentration inequalities in Lemma \ref{largedeviation}, we have that the  right-hand side of equation \eqref{0self_Gii} concentrates around the partial expectation over the entries $\{z_{\mu i}: \mu \in \cal I_1\cup \cal I_2\}$, i.e., with overwhelming probability,
+\begin{align*}
+\frac{1}{{G_{ii} }}&=  - z - \frac{\lambda_i^2}{n} \sum_{\mu \in \mathcal I_1}  G^{\left( i \right)}_{\mu\mu} - \frac{1}{n} \sum_{\mu\in \mathcal I_2} G^{\left( i \right)}_{\mu\mu} +\oo(1)= - z - \lambda_i^2 r_1 m_1^{(i)}(z)-  r_2m_2^{(i)}(z)+\oo(1),
+\end{align*}
+where we used the definition of $m_1^{(i)}$ and $m_2^{(i)}$ in equation \eqref{defm} with $G$ replaced by $G^{(i)}$. Intuitively, since we have only removed only one column and one row out of the $(p+n)$ columns and rows in $H$, $m_1^{(i)}$ and $m_2^{(i)}$ should be close to the original $m_1$ and $m_2$. Hence we obtain from the above equation that
+\begin{align}\label{1self_Gii}
+ G_{ii}  = -\frac{1}{ z +\lambda_i^2 r_1  m_1(z) + r_2 m_2(z)+\oo(1)}.
+\end{align}
+Similarly, we can obtain from equation \eqref{0self_Gmu1} that for $\mu \in \cal I_1$ and $\nu\in \cal I_2$,
+\be\label{1self_Gmu} G_{\mu \mu }=-\frac{1}{1+\gamma_n m_0 + \oo(1)},\quad G_{\nu\nu}=-\frac1{1+\gamma_n m+\oo(1)},\ee
+with overwhelming probability. Taking average we obtain that
+\be\label{2self_Gmu} m_1= \frac{1}{n_1}\sum_{\mu \in \cal I_1}G_{\mu\mu}=-\frac{1}{1+\gamma_n m_0 + \oo(1)},\quad m_2=\frac{1}{n_2}\sum_{\nu \in \cal I_2}G_{\nu\nu}=-\frac{1}{1+\gamma_n m + \oo(1)},
+\ee
+with overwhelming probability. Together with the definition of $m$ and $m_0$ in equation \eqref{defm}, the two equations in equation \eqref{2self_Gmu} give that
+\be\label{3self_Gmu}  \frac1{m_1}= -1- \frac{\gamma_n}{p} \sum_{i=1}^p \lambda_i^2 G_{ii}+ \oo(1),\quad \frac1{m_2}=-1-\frac{\gamma_n}{p} \sum_{i=1}^p G_{ii}  + \oo(1),\ee
+with overwhelming probability. Plugging equation \eqref{1self_Gii} into equation \eqref{3self_Gmu}, we obtain that
+\begin{align*}
+& \frac1{m_1}= -1+ \frac{\gamma_n}{p} \sum_{i=1}^p \frac{\lambda_i^2 }{ z +\lambda_i^2 r_1  m_1(z) + r_2 m_2(z)+\oo(1)}+ \oo(1),\\
+& \frac1{m_2}=-1+\frac{\gamma_n}{p} \sum_{i=1}^p \frac{1}{ z +\lambda_i^2 r_1  m_1(z) + r_2 m_2(z)+\oo(1)}  + \oo(1),
+\end{align*}
+with overwhelming probability, which give the approximate self-consistent equations for $(m_1,m_2)$. Compare them to the deterministic self-consistent equations in equation \eqref{selfomega}, one can observe that we should have $(m_1,m_2) =(M_{1}, M_{2})+\oo(1)$ with overwhelming probability. Inserting this approximate identity into equation \eqref{1self_Gii}-equation \eqref{2self_Gmu}, we see that for  $i \in \cal I_0$, $\mu \in \cal I_1$ and $\nu\in \cal I_2$,
+$$G_{ii}=-(z +\lambda_i^2 r_1  M_{1} + r_2 M_{2}+\oo(1))^{1/2},\quad G_{\mu\mu}=M_{1}+\oo(1),\quad G_{\nu\nu}=M_{2}+\oo(1),$$
+with overwhelming probability. These explain the diagonal entries of $\Pi$ in equation \eqref{defn_piw}. For the off-diagonal entries, they are close to zero due to concentration. For example, for $i\ne j\in \cal I_1$, by Schur complement formula (see (\ref{resolvent3})), we have
+$$G_{ij}=-G_{ii}\left(\frac{\lambda_i}{n^{1/2}}\sum_{\mu \in \cal I_1} z_{\mu i} G^{(i)}_{\mu j} + \frac{1}{n^{1/2}}\sum_{\mu \in \cal I_2} z_{\mu i} G^{(i)}_{\mu j} \right).$$
+Using Lemma \ref{largedeviation}, we can show that $n^{-1/2}\sum_{\mu \in \cal I_1} z_{\mu i} G^{(i)}_{\mu j}$ and $n^{-1/2}\sum_{\mu \in \cal I_2} z_{\mu i} G^{(i)}_{\mu j}$ are both close to zero. The other off-diagonal entries can be bounded in the same way.
+
+The above arguments are the core of the main proof. To have a rigorous proof, we need to estimate each error carefully, and extend the Gaussian case to the more general case where the entries of $Z^{(1)}$ and $Z^{(2)}$ only satisfy certain moment assumptions. These will make the real argument rather tedious, but the methods we used are standard in the random matrix literature \cite{erdos2017dynamical,Anisotropic}.
+
+\fi
+
+
+%\subsubsection{The Local Laws}\label{sec locallaw1}
+%In the following proof, we choose a sufficiently small constants $c_0>0$ such that Lemma \ref{lem_mbehaviorw} and Lemma \ref{lem_stabw} hold. Then
+

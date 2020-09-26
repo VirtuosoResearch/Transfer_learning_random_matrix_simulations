@@ -44,12 +44,14 @@ Let $U\Lambda V^\top$ denote the singular value decomposition of $M$, where $\La
 			\end{align}
 		\item[ii)] For any fixed vector $w\in\real^p$ with unit norm, the bias equation converges to the following asymptotic limit
 			\begin{align}\label{lem_cov_derv_eq}
-				\bigabs{w^{\top} \Sigma^{(1)} \bigbrace{(n_1+n_2)^2\hat{\Sigma}^{-1} \Sigma^{(2)} \hat{\Sigma}^{-1} - {\Sigma^{(2)}}^{-1/2} V {\frac{a_3 \Lambda^2 + (a_4 + 1)\id}{(a_1 \Lambda + a_2\id)^2}} V^{\top} {\Sigma^{(2)}}^{-1/2}} \Sigma^{(1)} w} \lesssim p^{-c_{\varphi}},
+				\bigabs{w^{\top} \Sigma^{(1)} \bigbrace{(n_1+n_2)^2\hat{\Sigma}^{-1} \Sigma^{(2)} \hat{\Sigma}^{-1} - {\Sigma^{(2)}}^{-1/2} V {\frac{a_3 \Lambda^2 + (a_4 + 1)\id}{(a_1 \Lambda^2 + a_2\id)^2}} V^{\top} {\Sigma^{(2)}}^{-1/2}} \Sigma^{(1)} w} \lesssim p^{-c_{\varphi}},
 			\end{align}
-				where $a_{3}$ and $a_4$ are the solutions of the following two equations with $b_k = \frac1{p}\sum_{i=1}^p \frac{\lambda_i^{2k}} {(\lambda_i^2 a_1 + a_2)^2}$, for $k = 0, 1, 2$:
+				where $a_{3}$ and $a_4$ are the solutions of the following two equations % with $b_k = \frac1{p}\sum_{i=1}^p \frac{\lambda_i^{2k}} {(\lambda_i^2 a_1 + a_2)^2}$, for $k = 0, 1, 2$:
 			\begin{align}\label{eq_a34extra}
-				\left(\frac{\rho_1}{a_1^{2}} -  b_2  \right)\cdot  a_3 -  b_1 \cdot  a_4 = b_1,\quad \left(\frac{\rho_2}{a_2^{2}}-  b_0\right)\cdot  a_4 - b_1 \cdot  a_3
-				= b_0.
+				a_3 + a_4 = \frac{1}{n_1 + n_2}\sum_{i=1}^p \frac{1}{\lambda_i^2 a_1 + a_2},
+				a_3 + \frac{1}{n_1 + n_2} \sum_{i=1}^p \frac{\lambda_i^2 (a_1 a_4 - a_2 a_3)}{(\lambda_i^2 a_1 + a_2)^2} = \frac{1}{n_1 + n_2} \sum_{i=1}^p \frac{\lambda_i^2 a_1}{(\lambda_i^2 a_1 + a_2)^{2}}.
+%				\left(\frac{\rho_1}{a_1^{2}} -  b_2  \right)\cdot  a_3 -  b_1 \cdot  a_4 = b_1,\quad \left(\frac{\rho_2}{a_2^{2}}-  b_0\right)\cdot  a_4 - b_1 \cdot  a_3
+%				= b_0.
 			\end{align}
 	\end{enumerate}
 \end{theorem}
@@ -154,29 +156,45 @@ Using equation \eqref{eigen2extra}, we have that when $p$ goes to infinity, the 
 %&=n^{-1}\bigtr{\Sigma_2^{-1/2}\cal (a_{1}\Sigma_2^{-1/2}\Sigma_1\Sigma_2^{-1/2} + a_{2}\id_p)^{-1}\Sigma_2^{-1/2}\Sigma}  = n^{-1}\bigtr{\cal (a_{1} \Sigma_1  + a_{2}\Sigma_2)^{-1}\Sigma}  ,\label{Gi00}
 %\end{align}
 where we note that the SVD of $M^\top M = (\Sigma^{(2)})^{-1/2} \Sigma^{(1)} (\Sigma^{(2)})^{-1/2}$ is equal to $V^{\top}\Lambda^2 V$.
-For the asymptotic limit, its concentration error is shown in Appendix \ref{appendix RMT}.
+%For the asymptotic limit, its concentration error is shown in Appendix \ref{appendix RMT}.
 
 For the bias asymptotic in equation \eqref{lem_cov_derv_eq}, we show that it is governed by the derivative of the resolve of $Y$ with respect to $z$ at $z = 0$.
 More precisely, we have that
-	\[ (n_1 + n_2)^2 \hat{\Sigma}^{-1}\Sigma^{(2)}\hat{\Sigma}^{-1} = {\Sigma^{(2)}}^{-1/2} V Y^{-2} V^{\top} {\Sigma^{(2)}}^{-1/2}. \]
+\begin{align}\label{calculate G'}
+	(n_1 + n_2)^2 \hat{\Sigma}^{-1}\Sigma^{(2)}\hat{\Sigma}^{-1} = {\Sigma^{(2)}}^{-1/2} V Y^{-2} V^{\top} {\Sigma^{(2)}}^{-1/2}.
+\end{align}
 Let $\cal G(z)$ denote the resolvent of $Y$.
 Our key observation is that $\frac{\dd{\cal G(z)}}{\dd z} = - \cal G^2(z)$.
 Given the matrix limit of $\cal G(z)$ from equation \eqref{defn_piw} above, we have that the matrix limit of $\frac{\dd{\cal G(0)}}{\dd z}$ is given by
 \begin{align}\label{cal G'0}
 	\frac{\dd \cal G(z)}{\dd z} = \frac{-\frac{\dd a_1(z)}{\dd z}\Lambda^2 - (\frac{\dd a_2(z)}{\dd z} - 1)\id}{(a_{1}(z)\Lambda^2 + a_{2}(z)\id_p)^2}.
 \end{align}
-As for the derivative of $a_1(z)$ and $a_2(z)$, we take the derivative on both sides of the equation system \eqref{selfomega_a} with respect to $z$.
-\begin{align*}
-	\frac{\dd a_1(z)}{\dd z} + \frac{\dd a_2(z)}{\dd z} = \frac{1}{n_1 + n_2} \sum_{i=1}^p \frac{1}{\lambda_i^2 a_1 + a_2},
-	\frac{\dd a_1(z)}{\dd z} + \frac{1}{n_1 + n_2}\sum_{i=1}^p \frac{\lambda_i^2 (a_1'(z) a_2 - a_2'(z) a_1)}{(\lambda_i^2 a_1 + a_2)^2} = -\frac{1}{n_1 + n_2} \sum_{i=1}^p \frac{\lambda_i^2 a_1}{(\lambda_i^2 a_1 + a_2)^2}
-\end{align*}
-If we let $a_3:=-a_1'(0)$ and $a_4:=-a_2'(0)$, then taking implicit differentiation of equation \eqref{selfomega_a} we can check that $(a_3,a_4)$ satisfies equation \eqref{eq_a34extra}. Then inserting \eqref{cal G'0} into \eqref{calculate G'}, we obtain that
-\begin{align}
-& n^2\bignorm{\Sigma_2^{1/2} \bigbrace{ (X^{(1)})^{\top}(X^{(1)}) + (X^{(2)})^{\top}(X^{(2)}) }^{-1} \Sigma_1^{1/2} w}^2 \nonumber\\
-&\approx  w^\top \Sigma_1^{1/2}\Sigma_2^{-1/2}V\frac{a_3\Lambda^2 +(1+ a_4)\id_p}{(a_{1}\Lambda^2 + a_{2}\id)^2}V^\top \Sigma_2^{-1/2}\Sigma_1^{1/2}w= w^{\top} \Pi_\bias w, \label{calculatePibias}
-\end{align}
-where in the last step we used $M = \Sigma_1^{1/2}\Sigma_2^{-1/2}$ and $V \Lambda^2 V^\top=M^\top M$. This concludes equation \eqref{lem_cov_derv_eq}.
-Note that in order to have the approximate identity for $\cal G'(0)$ in equation \eqref{cal G'0}, we not only need to know the asymptotics of $\cal G(0)$, but also need to know the asymptotics of $\cal G(z)$ for general $z$ around $z=0$. This is the main reason why we need to take a general $z$ in the definition of resolvents. The rigorous proof of equation \eqref{lem_cov_derv_eq} will be given in Section \ref{sec pf RMTlemma}, where we justify the approximate identity in equation \eqref{cal G'0}.
+As for the derivative of $a_1(z)$ and $a_2(z)$, we solve them by taking the derivative on both sides of the equation system \eqref{selfomega_a} with respect to $z$.
+%\begin{align*}
+%	\frac{\dd a_1(z)}{\dd z} + \frac{\dd a_2(z)}{\dd z} = -\frac{1}{n_1 + n_2} \sum_{i=1}^p \frac{1}{\lambda_i^2 a_1 + a_2},
+%	\frac{\dd a_1(z)}{\dd z} + \frac{1}{n_1 + n_2}\sum_{i=1}^p \frac{\lambda_i^2 (a_1'(z) a_2 - a_2'(z) a_1)}{(\lambda_i^2 a_1 + a_2)^2} = -\frac{1}{n_1 + n_2} \sum_{i=1}^p \frac{\lambda_i^2 a_1}{(\lambda_i^2 a_1 + a_2)^2}
+%\end{align*}
+Let $a_3$ be the derivative of $-a_1(z)$ and $a_4$ be the derivative of $-a_2(z)$, both evaluated at $z = 0$.
+%then taking implicit differentiation of equation \eqref{selfomega_a}
+We have that $a_3$ and $a_4$ satisfy the equation system \eqref{eq_a34extra}. Appling equation \eqref{cal G'0} into equation \eqref{calculate G'}, we obtain that the asymptotic limit of the bias equation.
+%\begin{align}
+%& n^2\bignorm{\Sigma_2^{1/2} \bigbrace{ (X^{(1)})^{\top}(X^{(1)}) + (X^{(2)})^{\top}(X^{(2)}) }^{-1} \Sigma_1^{1/2} w}^2 \nonumber\\
+%&\approx  w^\top \Sigma_1^{1/2}\Sigma_2^{-1/2}V\frac{a_3\Lambda^2 +(1+ a_4)\id_p}{(a_{1}\Lambda^2 + a_{2}\id)^2}V^\top \Sigma_2^{-1/2}\Sigma_1^{1/2}w= w^{\top} \Pi_\bias w, \label{calculatePibias}
+%\end{align}
+%where in the last step we used $M = \Sigma_1^{1/2}\Sigma_2^{-1/2}$ and $V \Lambda^2 V^\top=M^\top M$. This concludes equation \eqref{lem_cov_derv_eq}.
+Note that for $\frac{\dd \cal G(z)}{\dd z}$ to be close to its limit at $z = 0$, we not only need the asymptotic limit of $\cal G(0)$, but also the asymptotic limit of $\cal G(z)$ for $z$ within a small neighborhood of $z = 0$.
+This is why consider the resolvent matrix of $Y$ as opposed to the Stieljes transform of its empirical spectral distribution.
+
+Next, we briefly describe how to derive the matrix limit $\Gi(z)$.
+First, we consider the case where $Z^{(1)}$ and $Z^{(2)}$ are both multivariate Gaussian random matrices.
+By rotation invariance, we have that in the matrix $A$,  $Z^{(1)} U$ and $Z^{(2)} V$ are both multivariate Gaussian random matrices.
+We use Schur complement to obtain the entries of $G(z)$, and show that for the diagonal entries, they satisfy a set of self-consistent equations in the limit, which are stated above.
+On the other hand, for the off-diagonal entries, using standard concentration bounds, we show that they are approximately zero.
+Second, we extend our result for the Gaussian case to the more general case where the entries of $Z^{(1)}$ and $Z^{(2)}$ satisfy the bounded moment assumption.
+We prove an anisotropic local law using standard proof techniques in the random matrix literature \cite{erdos2017dynamical,Anisotropic}.
+The full proof of Theorem \ref{thm_main_RMT} can be found in Appendix \ref{sec pf RMTlemma}.
+
+%The proof of equation \eqref{lem_cov_derv_eq} will be given in Section \ref{sec pf RMTlemma}, where we justify the approximate identity in equation \eqref{cal G'0}.
 %In the above definition, we have taken the argument of $\cal G$ to be a general complex number, because we will need to use $\cal G'(0)$ in the proof of Lemma \ref{lem_cov_derivative}, which requires a good estimate of $\cal G(z)$ for $z$ around the origin.
 %For the variance asymptotic limit, we study the resolvent
 %	\[ R(z):= \bigbrace{\Sigma_2^{-1/2}( (X^{(1)})^{\top}(X^{(1)}) + (X^{(2)})^{\top}(X^{(2)}))\Sigma_2^{-1/2} - z \id}^{-1}, \text{ for any } z\in \C \text{ around } z=0. \]
@@ -189,8 +207,5 @@ Note that in order to have the approximate identity for $\cal G'(0)$ in equation
 %Hence its limit can be calculated through $R_\infty'(z)$, which gives the expression in \eqref{lem_cov_derv_eq}.
 %We leave the full proof of Lemma \ref{lem_cov_shift} and Lemma \ref{lem_cov_derivative} to Appendix \ref{sec_maintools}.
 %Combining the above two results, we provide the proof of Theorem \ref{thm_main_informal} in Section \ref{app_proof_main_thm}.
-
-
-The above arguments are the core of the main proof. To have a rigorous proof, we need to estimate each error carefully, and extend the Gaussian case to the more general case where the entries of $Z^{(1)}$ and $Z^{(2)}$ only satisfy certain moment assumptions. These will make the real argument rather tedious, but the methods we used are standard in the random matrix literature \cite{erdos2017dynamical,Anisotropic}. For the full rigorous proof, we refer the reader to Section \ref{appendix RMT}.
 
 
