@@ -25,8 +25,8 @@
 	which is zero in expectation over $\cE$.
 	Finally, we have that
 	\begin{align}\label{eq_gA_p3}
-		\sum_{j=1}^t \norm{E_j}^2 &= \bignorm{\cW A - \cE}^2
-		= \bignorm{\cE}^2 - \inner{\cW A}{\cE},
+		\sum_{j=1}^t \norm{E_j}^2 &= \bignormFro{\cW A - \cE}^2
+		= \bignormFro{\cE}^2 - \inner{\cW A}{\cE},
 	\end{align}
 	which is because $\norm{\cW A}^2 = \inner{\cW A}{\cE}$.
 	Hence, it suffices to show that the expectation of equation \eqref{eq_gA_p3} is equal to $\sigma^2 (n\cdot t - p\cdot r)$.
@@ -63,7 +63,7 @@
 	\paragraph{Proof of Claim \ref{claim_opt_dist}.}
 	In order to show that the subspace spanned by the rows of $\hat{A}$ is close to $U_r$, we first show that $g(A)$ and its expectation is close as follows.
 	\begin{align}\label{eq_gA_err}
-		\bigabs{g(A) - \exarg{\cE, X}{g(A)}} \lesssim p^{-c} \cdot n \bignorm{\Sigma^{1/2} B^{\star} (U_AU_A^{\top} - \id)}^2 + p^{-1/2 + e} \cdot \sigma^2 \cdot n \cdot t.
+		\bigabs{g(A) - \exarg{\cE, X}{g(A)}} \lesssim p^{-c_{\varphi}} \cdot n \bignorm{\Sigma^{1/2} B^{\star} (U_AU_A^{\top} - \id)}^2 + p^{-c_{\infty}} \cdot \sigma^2 \cdot n \cdot t.
 	\end{align}
 	To show the above result, we consider the concentration error of each part of $g(A)$.
 
@@ -71,7 +71,7 @@
 %	$$g_0(\cal W)= \sum_{j=1}^t\left\|Z v_j \right\|^2,\quad v_j:= \Sigma^{1/2}\left(B^{\star} \cW^{\top} (\cW\cW^{\top})^{-1} W_j -  \beta_j\right).$$
 	note that $X H_j = Z \Sigma^{1/2} H_j \in \real^n$ is a random vector with i.i.d. entries of mean zero, variance $\|\Sigma^{1/2}H_j\|^2$, and finite $\varphi$-th moment by Assumption \eqref{assume_rm}.
 	Hence by the law of large numbers, we have that with high probability
-	${\left\|Z v_j \right\|^2 } = { n \|v_j\|^2} \cdot (1 + \OO(p^{-c}))$,
+	${\left\|Z v_j \right\|^2 } = { n \|v_j\|^2} \cdot (1 + \OO(p^{-\e}))$, for a small enough constant $\e$,
 	which implies that
 	\begin{align}
 		\abs{\sum_{j=1}^t \|X H_j\|^2 - \exarg{X}{\sum_{j=1}^t \norm{X H_j}^2}} \lesssim p^{-c} \cdot n \bignorm{\Sigma^{1/2} B^{\star} (U_{A}U_A^{\top} - \id_{t\times t})}^2. \label{eq_gA_err1}
@@ -89,7 +89,7 @@
 
 	For equation \eqref{eq_gA_p3}, using Lemma \ref{largedeviation} and the fact that all moments of $\varepsilon_i$ exist, we obtain that with high probability
 	\begin{align}
-		\abs{\norm{\cE}^2 - \ex{\norm{\cE}^2}} \le p^{-1/2 + \e} \ex{\norm{\cE}^2}. \label{eq_gA_err3}
+		\abs{\normFro{\cE}^2 - \ex{\normFro{\cE}^2}} \le p^{-c_{\infty}} \ex{\normFro{\cE}^2}. \label{eq_gA_err3}
 	\end{align}
 	For the inner product between $\cW A$ and $\cE$, we have that
 	\begin{align}
@@ -114,7 +114,7 @@
 	\begin{align}
 		g(U_r) - g(\hat{A}) &\le \bigabs{g(U_r) - \ex{g(U_r)}} + (\ex{g(U_r)} - \ex{g(\hat{A})}) + \bigabs{g(\hat{A}) - \ex{g(\hat{A})}} \nonumber \\
 		&\le \bigabs{g(U_r) - \ex{g(U_r)}} +\bigabs{g(\hat{A}) - \ex{g(\hat{A})}} \nonumber \\
-		&\le p^{-c} \cdot n \bignormFro{\Sigma^{1/2} B^{\star}}^2 + p^{-1/2 + e}\cdot \sigma^2 n \cdot t. \label{eq_g_gap}
+		&\le p^{-c} \cdot n \bignormFro{\Sigma^{1/2} B^{\star}}^2 + p^{-1/2 + \e}\cdot \sigma^2 n \cdot t. \label{eq_g_gap}
 	\end{align}
 	The second equation uses the fact that $U_r$ is a global minimum of $\ex{g(\cdot)}$.
 	The third equation uses equation \eqref{eq_gA_err} and the fact that the spectral norm of an identity matrix minus a projection matrix is at most one.

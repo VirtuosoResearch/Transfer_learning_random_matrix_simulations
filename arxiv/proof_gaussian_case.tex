@@ -1,125 +1,18 @@
 \section{Missing Proof of the Different Covariates Setting}\label{sec_maintools}
 
-%\input{proof_two_tasks}
 The main goal of this section is to prove Theorem \ref{thm_main_RMT}.
-%Recall that $n:=n_1+n_2$, which is the total number of data in the two tasks.
-%Before giving the main proof, we first introduce some notations and tools.
-%Following the notations in \cite{EKYY,EKYY1}, we will use the following definition to characterize events of overwhelming probability.
-%
-%\begin{definition}[overwhelming probability event] \label{high_prob}
-%Define
-%\begin{equation}\label{def_phi}
-%\varphi:=(\log N)^{\log \log N}.
-%\end{equation}
-%We say that an $N$-dependent event $\Omega$ holds with {\it{$\xi$-overwhelming probability}} if there exist constant $c,C>0$ independent of $N$, such that
-%\begin{equation}
-%\mathbb{P}(\Omega) \geq 1-N^{C} \exp(- c\varphi^{\xi}),  \label{D25}
-%\end{equation}
-%for all sufficiently large $N$. For simplicity, for the case $\xi=1$, we just say {\it{overwhelming probability}}. Note that if (\ref{D25}) holds, then $\mathbb P(\Omega) \ge 1 - \exp(-c'\varphi^{\xi})$ for any constant $0\le c' <c$.
-%\end{definition}
-%\begin{remark}
-%For any $c, C>0$, there exists a $0< c^{\prime}<c$, such that $N^{C} \exp(-c \varphi^{\xi}) \leq \exp(-c^{\prime} \varphi^{\xi})$. Hence, if
-%\begin{equation}
-%\mathbb{P}(\Omega) \geq 1- \exp(-c \varphi^{\xi})
-%\end{equation}
-%$\Omega$ is also a $\xi$-overwhelming probability event.
-%\end{remark}
-For simplicity of notations, we will use the following notion of stochastic domination, which was first introduced in \cite{Average_fluc} and subsequently used in many works on random matrix theory. It greatly simplifies the presentation of the results and their proofs by systematizing statements of the form ``$\xi$ is bounded by $\zeta$ with overwhelming probability up to a small power of $n$".
-
-\begin{definition}[Stochastic domination]\label{stoch_domination}
-%\begin{itemize}
-%\item[(i)]
-Let $\xi\equiv \xi^{(n)}$ and $\zeta\equiv \zeta^{(n)}$ be two $n$-dependent random variables.
-%\begin{itemize} \item[(i)]
-We say $\xi$ is stochastically dominated by $\zeta$, denoted by $\xi\prec \zeta$ or $\xi=\OO_\prec(\zeta)$, if for any (small) constant $\e>0$ and (large) constant $D>0$,
-\[ \bbP\left(|\xi| >n^\e |\zeta|\right)\le n^{-D}\]
-for large enough $n\ge n_0(\e, D)$. Moreover, if $\xi$ and $\zeta$ depend on a parameter $u$, then we say $\xi$ is stochastically dominated by $\zeta$ uniformly in $u\in \cal U$,  if for any constants $\e,D>0$,
-\[\sup_{u\in \cal U}\bbP\left(|\xi(u)|>n^\e |\zeta(u)|\right)\le n^{-D}\]
-for large enough $n\ge n_0(\e, D)$.
-%\item[(ii)]
-%\end{itemize}
-%(i) Let
-%\[\xi=\left(\xi^{(n)}(u):n\in\bbN, u\in U^{(n)}\right),\hskip 10pt \zeta=\left(\zeta^{(n)}(u):n\in\bbN, u\in U^{(n)}\right)\]
-%be two families of nonnegative random variables, where $U^{(n)}$ is a possibly $n$-dependent parameter set. We say $\xi$ is stochastically dominated by $\zeta$, uniformly in $u$, if for any fixed (small) $\epsilon>0$ and (large) $D>0$,
-%\[\sup_{u\in U^{(n)}}\bbP\left[\xi^{(n)}(u)>n^\epsilon\zeta^{(n)}(u)\right]\le n^{-D}\]
-%for large enough $n\ge n_0(\epsilon, D)$, and we shall use the notation $\xi\prec\zeta$.
-%%Throughout this paper, the stochastic domination will always be uniform in all parameters that are not explicitly fixed (such as matrix indices, and $z$ that takes values in some compact set).
-%%Note that $N_0(\epsilon, D)$ may depend on quantities that are explicitly constant, such as $\tau$ in Assumption \ref{assm_big1} and equation \eqref{assm_gap}.
-%If for some complex family $\xi$ we have $|\xi|\prec\zeta$, then we will also write $\xi \prec \zeta$ or $\xi=\OO_\prec(\zeta)$.
-%\item[(ii)]
-%(ii) We extend the definition of $\OO_\prec(\cdot)$ to matrices in the weak operator sense as follows. Let $A$ be a family of random matrices and $\zeta$ be a family of nonnegative random variables. Then $A=O_\prec(\zeta)$ means that $\left|\left\langle\mathbf v, A\mathbf w\right\rangle\right|\prec\zeta \| \mathbf v\|_2 \|\mathbf w\|_2 $ uniformly in any deterministic vectors $\mathbf v$ and $\mathbf w$. Here and throughout the following, whenever we say ``uniformly in any deterministic vectors", we mean that ``uniformly in any deterministic vectors belonging to a set of cardinality $N^{\OO(1)}$".
-%\item[(iv)]
-%\end{itemize}
-\end{definition}
-\begin{remark}
-Note that since we allow an $n^\e$ factor in the definition of stochastic domination, we have the seemingly strange inequality $(\log n)^C\prec 1$ for any constant $C>0$.
-\end{remark}
-
-\begin{example}\label{example stoc}
-Given a random variable $\xi$, if its moments exist up to any order, then we have $|\xi|\prec 1$. In fact, for any constants $\e, D>0$, by Markov's inequality we have
-$$ \P(|\xi|\ge n^{\e})\le n^{-k\e}{\E |\xi|^k}\le n^{-D},$$
-if we choose $k$ large enough such that $k\e>D$. As a special case, we have $|\xi|\prec 1$ for a Gaussian random variable $\xi$ with unit variance.
-\end{example}
-
-%\HZ{Why is this below part of the def. of stochastic domination?}
-In the following proof, we say an event $\Xi$ holds with overwhelming probability if for any constant $D>0$, $\mathbb P(\Xi)\ge 1- n^{-D}$ for large enough $n$. Moreover, we say $\Xi$ holds with overwhelming probability in an event $\Omega$ if for any constant $D>0$, $\mathbb P(\Omega\setminus \Xi)\le n^{-D}$ for large enough $n$.
-
-In this section, we shall prove a more fundamental random matrix result in a little more general setting than the one in Section \todo{add reference}; see Theorem \ref{LEM_SMALL} below. %\ref{sec_prelim}.
- Then Theorem \ref{thm_main_RMT} will follow from this result as immediate corollaries. We first state the exact assumptions needed for our purpose.
-
-%We summarize our basic assumptions here for future reference. %Note that this assumption is in accordance with the assumptions of Lemma \ref{lem_cov_shift} and Lemma \ref{lem_cov_derivative}, except that we rescale the entries of $Z^{(1)}$ and $Z^{(2)}$ by $n^{-1/2}$. %and allow $\rho_1$ to be smaller than 1.
-\begin{assumption}\label{assm_big1}
-As in Section \todo{add reference}, we consider random matrices $X^{(1)}=Z^{(1)}\Sigma_1^{1/2}$ and $X^{(2)}=Z^{(2)}\Sigma_2^{1/2}$, where $Z^{(1)}$ and $Z^{(2)}$ are independent $n_1\times p$ and $n_2\times p$ random matrices with i.i.d. entries of zero mean and unit variance. Recall that $\rho_1= n_1/p$ and $\rho_2=n_2/p$. We assume that for a small constant $0<\tau<1$,
-%\HZ{We have defined $\rho_1,\rho_2$ already in sec 2. Consider using ``Recall that $\rho_1 =, \rho_2 =$.''}
-\be\label{assm2}
-0\le \rho_1 \le \tau^{-1}, \quad 1+\tau \le \rho_{2} \le \tau^{-1}.
-\ee
-Recall that the singular value decomposition of $M = \Sig_1^{1/2} \Sig_2^{-1/2}$ is $U \Lambda V^{\top}$. We assume that
-\begin{equation}\label{assm32}
-\tau \le \lambda_p \le \lambda_1 \le \tau^{-1} .%, \quad \max\left\{\pi_A^{(n)}([0,\tau]), \pi_B^{(n)}([0,\tau])\right\} \le 1 - \tau .
-\end{equation}
-Finally, recalling the notations in equation \eqref{labelZ}, we assume that $Z^{(1)}$ and $Z^{(2)}$ satisfy
-\begin{equation}
-n^{-1/2}\max_{i\in \cal I_0,\mu \in \cal I_1}\vert Z^{(1)}_{\mu i}\vert \prec q,\quad n^{-1/2}\max_{i\in \cal I_0,\nu \in \cal I_2}\vert Z^{(2)}_{\nu i}\vert \prec q, \label{eq_support}
-\end{equation}
-for some deterministic parameter $q$ satisfying $ n^{-{1}/{2}} \leq q \leq n^{- \tau} $ for a small constant $\tau>0$.
-%Here we recall the notations in \eqref{labelZ}.
- %and (\ref{assm2}). We assume that $T$ is an $M\times M$ deterministic diagonal matrix satisfying (\ref{simple_assumption}) and (\ref{assm3}).
-\end{assumption}
-%\HZ{This is restating what's stated above again. Remove redundant statements (unless there's something critical missing in Sec 2).} [\cor FY: The setting in sec 1 is too vague for the purpose of this section in the sense that it is hard to find the exact properties we need. In this section, I want to state rigorous statements with a reference to an exact assumption. Moreover, the above assumption contains more.\nc]
-
-
-\begin{remark}
-The lower bound $\rho_2\ge 1+\tau$ in equation \eqref{assm2} is to ensure that the sample covariance matrix $(X^{(2)})^\top X^{(2)}$ is non-singular with overwhelming probability. Moreover, we have allowed that $\rho_1=0$, because we want to state a general result that also covers the special case with no source task.
-\end{remark}
-
-
-\begin{remark}\label{rem_athmoment}
-Whenever the estimates in equation \eqref{eq_support} hold, we say $n^{-1/2}Z^{(1)}$ and $n^{-1/2}Z^{(2)}$ satisfy the {\it{bounded support condition}} with $q$, or $n^{-1/2}Z^{(1)}$ and $n^{-1/2}Z^{(2)}$ have support $q$.
-%\begin{definition}\label{defn_support}
-%We say a (rescaled) random matrix $\cal M$ satisfies the {\it{bounded support condition}} with $q$, if
-%\begin{equation}
-%\max_{i,j}\vert \cal M_{ij}\vert \prec q. \label{eq_support}
-%\end{equation}
-%%Here $q\equiv q(n)$ is a deterministic parameter and usually satisfies $ n^{-{1}/{2}} \leq q \leq n^{- \phi} $ for some (small) constant $\phi>0$.
-%Whenever (\ref{eq_support}) holds, we say that $M$ has support $q$.
-%%Moreover, if the entries of $X$ satisfy (\ref{size_condition}), then $X$ trivially satisfies the bounded support condition with $q=N^{-\phi}$.
-%\end{definition}
-%\begin{example}
-%\todo{Talk about the Gaussian case and Bernoulli case.}
-By Example \ref{example stoc}, if the entries of $Z^{(1)}$ have finite moments up to any order, %as in equation \eqref{assmAhigh},
-then $n^{-1/2}Z^{(1)}$ has bounded support $n^{-1/2}$. More generally, if the entries of $Z^{(1)}$ have finite $\varphi$-th moment as in \eqref{assmAhigh}, then using Markov's inequality and a simple union bound we get that
-\be\label{Ptrunc}
-\P\left(n^{-1/2}\max_{i,\mu}|(Z^{(1)})_{\mu i}|\ge (\log n) n^{-\frac{\varphi-4}{2\varphi}}\right)=\OO((\log n)^{-\varphi}).\ee
-In other words, $n^{-1/2}Z^{(1)}$ has bounded support $q=n^{-\frac{\varphi-4}{2\varphi}}$ on a event with probability $1-\oo(1)$. This leads to the exponent $\frac{\varphi-4}{2\varphi}$ in Fact \ref{lem_minv}. %This fact will be used in the proof of Corollary \ref{main_cor} below.
-The above discussion shows that the bounded support condition provides great flexibility in dealing with finite moment conditions.
-%is essentially introduced to deal with the moment conditions; see Corollary \ref{main_cor} below for more details.
-%\end{example}
-\end{remark}
-
-
-
-\paragraph{Notations.}
+We begin by providing a warm up analysis when the entries of $Z^{(1)}$ and $Z^{(2)}$ are drawn i.i.d. from an isotropic Gaussian distribution.
+%However, notice that if the entries of $(Z^{(1)})\equiv (Z^{(1)})^{\text{Gauss}}$ and $(Z^{(2)})\equiv (Z^{(2)})^{\text{Gauss}}$ are i.i.d. Gaussian, then
+By the rotational invariance of the multivariate Gaussian distribution, we have
+\be\label{eq in Gauss} Z^{(1)} U\Lambda \stackrel{d}{=} Z^{(1)} \Lambda, \quad Z^{(2)} V \stackrel{d}{=} Z^{(2)},\ee
+where ``$\stackrel{d}{=}$" means ``equal in distribution". Hence it suffices to consider the following resolvent
+ \begin{equation} \label{resolv Gauss1}
+   G(z)= \left( {\begin{array}{*{20}c}
+   { -z\id_{p} } & n^{-1/2}\Lambda (Z^{(1)})^\top & n^{-1/2} (Z^{(2)})^\top  \\
+   {n^{-1/2} Z^{(1)} \Lambda  } & {-\id_{n_1}} & 0 \\
+   {n^{-1/2} Z^{(2)}} & 0 & {-\id_{n_2}}
+   \end{array}} \right)^{-1}.
+ \end{equation}
 Define the index sets
 $$\cal I_0:=\llbracket 1,p\rrbracket, \quad  \cal I_1:=\llbracket p+1,p+n_1\rrbracket, \quad \cal I_2:=\llbracket p+n_1+1,p+n_1+n_2\rrbracket ,\quad \cal I:=\cal I_0\cup \cal I_1\cup \cal I_2  .$$
  We will consistently use the latin letters $i,j\in\sI_{0}$ and greek letters $\mu,\nu\in\sI_{1}\cup \sI_{2}$. Correspondingly, the indices of the matrices $Z^{(1)}$ and $Z^{(2)}$ are labelled as
@@ -134,20 +27,6 @@ m(z) :=\frac1p\sum_{i\in \cal I_0} G_{ii}(z) ,\quad & m_0(z):=\frac1p\sum_{i\in 
 \end{split}
 \ee
 We will show that these averaged resolvents satisfy some deterministic self-consistent equations asymptotically, which will be the core part of the proof. We refer the reader to the discussions below \eqref{0self_Gii} and \eqref{0self_Gmu1}.
-
-\subsection{Warmup: The Gaussian Case}
-Now we give a heuristic derivation of the matrix limit when the entries of $Z^{(1)}$ and $Z^{(2)}$ are i.i.d. Gaussian. In this case,
-%However, notice that if the entries of $(Z^{(1)})\equiv (Z^{(1)})^{\text{Gauss}}$ and $(Z^{(2)})\equiv (Z^{(2)})^{\text{Gauss}}$ are i.i.d. Gaussian, then
-by the rotational invariance of the multivariate Gaussian distribution we have
-\be\label{eq in Gauss} Z^{(1)} U\Lambda \stackrel{d}{=} Z^{(1)} \Lambda, \quad Z^{(2)} V \stackrel{d}{=} Z^{(2)},\ee
-where ``$\stackrel{d}{=}$" means ``equal in distribution". Hence it suffices to consider the following resolvent
- \begin{equation} \label{resolv Gauss1}
-   G(z)= \left( {\begin{array}{*{20}c}
-   { -z\id_{p} } & n^{-1/2}\Lambda (Z^{(1)})^\top & n^{-1/2} (Z^{(2)})^\top  \\
-   {n^{-1/2} Z^{(1)} \Lambda  } & {-\id_{n_1}} & 0 \\
-   {n^{-1/2} Z^{(2)}} & 0 & {-\id_{n_2}}
-   \end{array}} \right)^{-1}.
- \end{equation}
 
 \medskip
 \noindent{\bf Schur complements.}
@@ -200,7 +79,7 @@ Similarly, we can obtain from equation \eqref{0self_Gmu1} that for $\mu \in \cal
 with overwhelming probability. The rigorous derivation of the above concentration estimates will be given in the proof of Lemma \ref{lemm_selfcons_weak}; see equations \eqref{self_Gii}-\eqref{erri}.
 
 \medskip
-\noindent\textbf{Deriving the self-consistent equations.} Now taking average of equation \eqref{1self_Gmu}, we obtain that
+\noindent\textbf{Self-consistent equations.} Now taking average of equation \eqref{1self_Gmu}, we obtain that
 \be\label{2self_Gmu} m_1= \frac{1}{n_1}\sum_{\mu \in \cal I_1}G_{\mu\mu}=-\left(1+\frac{p}{n} m_0 + \oo(1)\right)^{-1},\quad m_2=\frac{1}{n_2}\sum_{\nu \in \cal I_2}G_{\nu\nu}=-\left(1+\frac{p}{n} m+\oo(1)\right)^{-1},
 \ee
 with overwhelming probability. As a byproduct, comparing equations \eqref{1self_Gmu} and \eqref{2self_Gmu}, we obtain that for $\mu \in \cal I_1$ and $\nu\in \cal I_2$,
@@ -223,10 +102,125 @@ To justify this identity rigorously, we need to know that the self-consistent eq
 
 
 \medskip
-\noindent\textbf{Deriving the matrix limit.}  Inserting the approximate identity \eqref{approx m12 add} into equations \eqref{1self_Gii} and \eqref{2.5self_Gmu}, we get that for  $i \in \cal I_0$, $\mu \in \cal I_1$ and $\nu\in \cal I_2$,
+\noindent\textbf{The matrix limit.}  Inserting the approximate identity \eqref{approx m12 add} into equations \eqref{1self_Gii} and \eqref{2.5self_Gmu}, we get that for  $i \in \cal I_0$, $\mu \in \cal I_1$ and $\nu\in \cal I_2$,
 $$G_{ii}(z)=(-z +\lambda_i^2 a_{1}(z) + a_2(z)+\oo(1)^{-1},\quad G_{\mu\mu}=-\frac{\rho_1+\rho_2}{\rho_1}a_{1}(z)+\oo(1),\quad G_{\nu\nu}=-\frac{\rho_1+\rho_2}{\rho_2}a_{2}(z)+\oo(1),$$
 with overwhelming probability. These explain the diagonal entries of $\Gi$ in equation \eqref{defn_piw}. For the off-diagonal entries, they are close to zero due to concentration. For example, for $i\ne j\in \cal I_1$, by Schur complement formula in equation (\ref{resolvent3}), we have
 $$G_{ij}=-G_{ii}\Big({\lambda_i}{n^{-1/2}}\sum_{\mu \in \cal I_1} Z^{(1)}_{\mu i} G^{(i)}_{\mu j} + {n^{-1/2}}\sum_{\mu \in \cal I_2} Z^{(2)}_{\mu i} G^{(i)}_{\mu j} \Big).$$
 Using Lemma \ref{largedeviation}, we can show that $n^{-1/2}\sum_{\mu \in \cal I_1} Z^{(1)}_{\mu i} G^{(i)}_{\mu j}$ and $n^{-1/2}\sum_{\mu \in \cal I_2} Z^{(2)}_{\mu i} G^{(i)}_{\mu j}$ are both close to zero. The other off-diagonal entries can be bounded in the same way. The bound on the off-diagonal entries will be proved rigorously in Lemma \ref{Z_lemma}.
 
+
+\paragraph{Notations.}
+We say an event $\Xi$ holds with overwhelming probability if for any constant $D>0$, $\mathbb P(\Xi)\ge 1- n^{-D}$ for large enough $n$. Moreover, we say $\Xi$ holds with overwhelming probability in an event $\Omega$ if for any constant $D>0$, $\mathbb P(\Omega\setminus \Xi)\le n^{-D}$ for large enough $n$.
+We frequently use the following notion of stochastic domination, which was first introduced in \cite{Average_fluc} and subsequently used in many works on random matrix theory.
+%It greatly simplifies the presentation of the results and their proofs by systematizing statements of the form ``$\xi$ is bounded by $\zeta$ with overwhelming probability up to a small power of $n$".
+
+\begin{definition}[Stochastic domination]\label{stoch_domination}
+%\begin{itemize}
+%\item[(i)]
+Let $\xi\equiv \xi^{(n)}$ and $\zeta\equiv \zeta^{(n)}$ be two $n$-dependent random variables.
+\HZ{what is $n$-dependent rv?}
+We say $\xi$ is stochastically dominated by $\zeta$, denoted by $\xi\prec \zeta$ or $\xi=\OO_\prec(\zeta)$, if for any (small) constant $\e>0$ and (large) constant $D>0$
+\[ \bbP\left(|\xi| >n^\e |\zeta|\right)\le n^{-D}, \]
+for large enough $n\ge n_0(\e, D)$. Moreover, if $\xi$ and $\zeta$ depend on a parameter $u$, then we say $\xi$ is stochastically dominated by $\zeta$ uniformly in $u\in \cal U$,  if for any constants $\e,D>0$,
+\[\sup_{u\in \cal U}\bbP\left(|\xi(u)|>n^\e |\zeta(u)|\right)\le n^{-D}, \]
+for large enough $n\ge n_0(\e, D)$.
+%\item[(ii)]
+%\end{itemize}
+%(i) Let
+%\[\xi=\left(\xi^{(n)}(u):n\in\bbN, u\in U^{(n)}\right),\hskip 10pt \zeta=\left(\zeta^{(n)}(u):n\in\bbN, u\in U^{(n)}\right)\]
+%be two families of nonnegative random variables, where $U^{(n)}$ is a possibly $n$-dependent parameter set. We say $\xi$ is stochastically dominated by $\zeta$, uniformly in $u$, if for any fixed (small) $\epsilon>0$ and (large) $D>0$,
+%\[\sup_{u\in U^{(n)}}\bbP\left[\xi^{(n)}(u)>n^\epsilon\zeta^{(n)}(u)\right]\le n^{-D}\]
+%for large enough $n\ge n_0(\epsilon, D)$, and we shall use the notation $\xi\prec\zeta$.
+%%Throughout this paper, the stochastic domination will always be uniform in all parameters that are not explicitly fixed (such as matrix indices, and $z$ that takes values in some compact set).
+%%Note that $N_0(\epsilon, D)$ may depend on quantities that are explicitly constant, such as $\tau$ in Assumption \ref{assm_big1} and equation \eqref{assm_gap}.
+%If for some complex family $\xi$ we have $|\xi|\prec\zeta$, then we will also write $\xi \prec \zeta$ or $\xi=\OO_\prec(\zeta)$.
+%\item[(ii)]
+%(ii) We extend the definition of $\OO_\prec(\cdot)$ to matrices in the weak operator sense as follows. Let $A$ be a family of random matrices and $\zeta$ be a family of nonnegative random variables. Then $A=O_\prec(\zeta)$ means that $\left|\left\langle\mathbf v, A\mathbf w\right\rangle\right|\prec\zeta \| \mathbf v\|_2 \|\mathbf w\|_2 $ uniformly in any deterministic vectors $\mathbf v$ and $\mathbf w$. Here and throughout the following, whenever we say ``uniformly in any deterministic vectors", we mean that ``uniformly in any deterministic vectors belonging to a set of cardinality $N^{\OO(1)}$".
+%\item[(iv)]
+%\end{itemize}
+\end{definition}
+
+For example, we say that $\xi$ is stochastically dominated by $\zeta$ with overwhelming probability if $\zeta$ is greater than $\xi$ up to a small power of $n^{\e}$.
+Since we allow an $n^\e$ factor in the definition of stochastic domination, we have the seemingly strange inequality $(\log n)^C\prec 1$ for any constant $C>0$.
+As another example, given a random variable $\xi$, if its moments exist up to any order, then we have $|\xi|\prec 1$. In fact, for any constants $\e, D>0$, by Markov's inequality we have
+$$ \P(|\xi|\ge n^{\e})\le n^{-k\e}{\E |\xi|^k}\le n^{-D},$$
+if we choose $k$ large enough such that $k\e>D$. As a special case, we have $|\xi|\prec 1$ for a Gaussian random variable $\xi$ with unit variance.
+
+%\HZ{Why is this below part of the def. of stochastic domination?}
+
+
+In this section, we shall prove a more fundamental random matrix result in a little more general setting than the one in Section \todo{add reference}; see Theorem \ref{LEM_SMALL} below. %\ref{sec_prelim}.
+ Then Theorem \ref{thm_main_RMT} will follow from this result as immediate corollaries. We first state the exact assumptions needed for our purpose.
+
+%We summarize our basic assumptions here for future reference. %Note that this assumption is in accordance with the assumptions of Lemma \ref{lem_cov_shift} and Lemma \ref{lem_cov_derivative}, except that we rescale the entries of $Z^{(1)}$ and $Z^{(2)}$ by $n^{-1/2}$. %and allow $\rho_1$ to be smaller than 1.
+\begin{assumption}\label{assm_big1}
+As in Section \todo{add reference}, we consider random matrices $X^{(1)}=Z^{(1)}\Sigma_1^{1/2}$ and $X^{(2)}=Z^{(2)}\Sigma_2^{1/2}$, where $Z^{(1)}$ and $Z^{(2)}$ are independent $n_1\times p$ and $n_2\times p$ random matrices with i.i.d. entries of zero mean and unit variance. Recall that $\rho_1= n_1/p$ and $\rho_2=n_2/p$. We assume that for a small constant $0<\tau<1$,
+%\HZ{We have defined $\rho_1,\rho_2$ already in sec 2. Consider using ``Recall that $\rho_1 =, \rho_2 =$.''}
+\be\label{assm2}
+0\le \rho_1 \le \tau^{-1}, \quad 1+\tau \le \rho_{2} \le \tau^{-1}.
+\ee
+Recall that the singular value decomposition of $M = \Sig_1^{1/2} \Sig_2^{-1/2}$ is $U \Lambda V^{\top}$. We assume that
+\begin{equation}\label{assm32}
+\tau \le \lambda_p \le \lambda_1 \le \tau^{-1} .%, \quad \max\left\{\pi_A^{(n)}([0,\tau]), \pi_B^{(n)}([0,\tau])\right\} \le 1 - \tau .
+\end{equation}
+Finally, recalling the notations in equation \eqref{labelZ}, we assume that $Z^{(1)}$ and $Z^{(2)}$ satisfy
+\begin{equation}
+n^{-1/2}\max_{i\in \cal I_0,\mu \in \cal I_1}\vert Z^{(1)}_{\mu i}\vert \prec q,\quad n^{-1/2}\max_{i\in \cal I_0,\nu \in \cal I_2}\vert Z^{(2)}_{\nu i}\vert \prec q, \label{eq_support}
+\end{equation}
+for some deterministic parameter $q$ satisfying $ n^{-{1}/{2}} \leq q \leq n^{- \tau} $ for a small constant $\tau>0$.
+%Here we recall the notations in \eqref{labelZ}.
+ %and (\ref{assm2}). We assume that $T$ is an $M\times M$ deterministic diagonal matrix satisfying (\ref{simple_assumption}) and (\ref{assm3}).
+\end{assumption}
+%\HZ{This is restating what's stated above again. Remove redundant statements (unless there's something critical missing in Sec 2).} [\cor FY: The setting in sec 1 is too vague for the purpose of this section in the sense that it is hard to find the exact properties we need. In this section, I want to state rigorous statements with a reference to an exact assumption. Moreover, the above assumption contains more.\nc]
+
+
+%\begin{remark}
+%The lower bound $\rho_2\ge 1+\tau$ in equation \eqref{assm2} is to ensure that the sample covariance matrix $(X^{(2)})^\top X^{(2)}$ is non-singular with overwhelming probability. Moreover, we have allowed that $\rho_1=0$, because we want to state a general result that also covers the special case with no source task.
+%\end{remark}
+
+
+Whenever the estimates in equation \eqref{eq_support} hold, we say $n^{-1/2}Z^{(1)}$ and $n^{-1/2}Z^{(2)}$ satisfy the {\it{bounded support condition}} with $q$, or $n^{-1/2}Z^{(1)}$ and $n^{-1/2}Z^{(2)}$ have support $q$.
+%\begin{definition}\label{defn_support}
+%We say a (rescaled) random matrix $\cal M$ satisfies the {\it{bounded support condition}} with $q$, if
+%\begin{equation}
+%\max_{i,j}\vert \cal M_{ij}\vert \prec q. \label{eq_support}
+%\end{equation}
+%%Here $q\equiv q(n)$ is a deterministic parameter and usually satisfies $ n^{-{1}/{2}} \leq q \leq n^{- \phi} $ for some (small) constant $\phi>0$.
+%Whenever (\ref{eq_support}) holds, we say that $M$ has support $q$.
+%%Moreover, if the entries of $X$ satisfy (\ref{size_condition}), then $X$ trivially satisfies the bounded support condition with $q=N^{-\phi}$.
+%\end{definition}
+%\begin{example}
+%\todo{Talk about the Gaussian case and Bernoulli case.}
+As shown in the example above, if the entries of $Z^{(1)}$ have finite moments up to any order, %as in equation \eqref{assmAhigh},
+then $n^{-1/2}Z^{(1)}$ has bounded support $n^{-1/2}$. More generally, if the entries of $Z^{(1)}$ have finite $\varphi$-th moment as in \eqref{assmAhigh}, then using Markov's inequality and a simple union bound we get that
+\be\label{Ptrunc}
+\P\left(n^{-1/2}\max_{i,\mu}|(Z^{(1)})_{\mu i}|\ge (\log n) n^{-\frac{\varphi-4}{2\varphi}}\right)=\OO((\log n)^{-\varphi}).\ee
+In other words, $n^{-1/2}Z^{(1)}$ has bounded support $q=n^{-\frac{\varphi-4}{2\varphi}}$ on a event with probability $1-\oo(1)$. This leads to the exponent $\frac{\varphi-4}{2\varphi}$ in Fact \ref{lem_minv}. %This fact will be used in the proof of Corollary \ref{main_cor} below.
+The above discussion shows that the bounded support condition provides great flexibility in dealing with finite moment conditions.
+%\end{example}
+
+
+
+%Recall that $n:=n_1+n_2$, which is the total number of data in the two tasks.
+%Before giving the main proof, we first introduce some notations and tools.
+%Following the notations in \cite{EKYY,EKYY1}, we will use the following definition to characterize events of overwhelming probability.
+%
+%\begin{definition}[overwhelming probability event] \label{high_prob}
+%Define
+%\begin{equation}\label{def_phi}
+%\varphi:=(\log N)^{\log \log N}.
+%\end{equation}
+%We say that an $N$-dependent event $\Omega$ holds with {\it{$\xi$-overwhelming probability}} if there exist constant $c,C>0$ independent of $N$, such that
+%\begin{equation}
+%\mathbb{P}(\Omega) \geq 1-N^{C} \exp(- c\varphi^{\xi}),  \label{D25}
+%\end{equation}
+%for all sufficiently large $N$. For simplicity, for the case $\xi=1$, we just say {\it{overwhelming probability}}. Note that if (\ref{D25}) holds, then $\mathbb P(\Omega) \ge 1 - \exp(-c'\varphi^{\xi})$ for any constant $0\le c' <c$.
+%\end{definition}
+%\begin{remark}
+%For any $c, C>0$, there exists a $0< c^{\prime}<c$, such that $N^{C} \exp(-c \varphi^{\xi}) \leq \exp(-c^{\prime} \varphi^{\xi})$. Hence, if
+%\begin{equation}
+%\mathbb{P}(\Omega) \geq 1- \exp(-c \varphi^{\xi})
+%\end{equation}
+%$\Omega$ is also a $\xi$-overwhelming probability event.
+%\end{remark}
 
