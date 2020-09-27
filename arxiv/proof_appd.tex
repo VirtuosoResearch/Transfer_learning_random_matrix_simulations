@@ -9,18 +9,21 @@ We now state the main random matrix result---Theorem \ref{LEM_SMALL}---which giv
 \begin{theorem}\label{main_cor}
 In the setting of Theorem \ref{thm_main_RMT}, let $q$ be equal to $n^{-\frac{\varphi - 4}{2\varphi}}$.
 We have that the resolvent $G(z)$ converges to the matrix limit $\Gi(z)$:
-for any $z\in \mathbf D$, and any deterministic unit vectors $\mathbf u, \mathbf v \in \mathbb R^{p+n_1+n_2}$, the following holds with high probability
-\begin{equation}\label{aniso_law}
-	\left| \mathbf u^\top (G(z)-\Gi(z)) \mathbf v \right|  \prec  q.
+for any deterministic unit vectors $\mathbf u, \mathbf v \in \mathbb R^{p+n_1+n_2}$, the following estimate \begin{equation}\label{aniso_law}
+	\max_{z\in \mathbf D}\left| \mathbf u^\top (G(z)-\Gi(z)) \mathbf v \right|  \prec  q
 \end{equation}
+holds on the high probability event
+\be\label{one_event}\left\{ \max_{1\le i\le n, 1\le j \le p}|Z^{(1)}_{i, j}| \le (\log n) n^{\frac{2}{\varphi}}, \ \max_{1\le i\le n, 1\le j \le p}|Z^{(2)}_{i, j}|\le (\log n) n^{\frac{2}{\varphi}} \right\}.\ee
 \end{theorem}
+[{\color{red}FY: I changed the statement a little bit. The subtlety is that for our purpose, we will apply it to a set of $p$ unit vectors simultaneously. Hence we need to take a union bound, which requires the statement to hold with overwhelming probability on a {\bf fixed} high probability event. Our union bound can be taken on this fixed event. In the original form, if we only know that the estimates holds with high probability $1-\oo(1)$, then we cannot take union bound of $p$ possibly different high probability event.}]
 
 The above result can be derived using the following lemma, which holds under a more general bounded support assumption on the random matrices.
 
 \begin{lemma} \label{LEM_SMALL} %[Results on covariance matrices with small support]
-\todo{check}
-In the setting of Theorem \ref{main_cor}, assume that $Z^{(1)}$ and $Z^{(2)}$ satisfy the more general bounded support condition with $q = n^{-\frac{\varphi - 4}{2\varphi}}$.
-Then we have that the anisotropic local law in equation \eqref{aniso_law} holds uniformly for any $z \in \mathbf D$, and deterministic unit vectors $\mathbf u, \mathbf v \in \mathbb R^{p+n_1+n_2}$.
+In the setting of Theorem \ref{main_cor}, assume that $Z^{(1)}$ and $Z^{(2)}$ satisfy the bounded support condition \eqref{eq_support} with $q = n^{-\frac{\varphi - 4}{2\varphi}}$.
+Then we have that the anisotropic local law in equation \eqref{aniso_law} holds 
+%uniformly for any $z \in \mathbf D$, and 
+for any deterministic unit vectors $\mathbf u, \mathbf v \in \mathbb R^{p+n_1+n_2}$.
 %\begin{itemize}
 %\item[(1)] {\bf Anisotropic local law}: 
 %\item[(2)] {\bf Averaged local law}: We have
@@ -34,6 +37,18 @@ Then we have that the anisotropic local law in equation \eqref{aniso_law} holds 
 %%uniformly in $z\in \wt  S(c_0,C_0,\epsilon)\cap \{z=E+\ii\eta: E\ge \lambda_r, N\eta\sqrt{\kappa + \eta} \ge N^\epsilon\}$, where $\kappa$ is defined in equation \eqref{KAPPA}. 
 %\end{itemize}
 \end{lemma}
+
+\begin{remark}
+[{\cor FY: I added this remark to explain why the bounded support condition is more general in case the reader wonders. You can comment it if you think it is not necessary.}]
+The reason why we say the bounded support assumption is more general is because it provides greater flexibility in dealing with bounded moments. For example, we can also replace equation \eqref{Ptrunc} with
+\begin{align*}
+	\P\left(\max_{1\le i\le n, 1\le j \le p}|Z_{i, j}|\ge n^{\frac{2}{\varphi}+\delta}\right) = \OO(  n^{-\varphi \delta}) 
+	\end{align*}
+	for a small constant $\delta>0$. Hence we can replace event \eqref{one_event} with 
+	\be\nonumber \left\{ \max_{1\le i\le n, 1\le j \le p}|Z^{(1)}_{i, j}| \le n^{\frac{2}{\varphi}+\delta}, \ \max_{1\le i\le n, 1\le j \le p}|Z^{(2)}_{i, j}|\le   n^{\frac{2}{\varphi}+\delta} \right\},\ee
+	which holds with higher probability. But on this event we need to take a larger support $q=n^{-\frac{\varphi - 4}{2\varphi}+\delta}$, which means a worse convergence rate. In general, with Lemma \ref{LEM_SMALL} one can determine the most suitable trade-off between probability and convergence rate depending on one's need.
+\end{remark}
+
 Using a simple cutoff argument, we prove Theorem \ref{main_cor} using the above result.
 \begin{proof}%[Proof of Corollary \ref{main_cor}]
 %Fix any sufficiently small constant $\e>0$. We choose $q= n^{-c_a +\e}$ with $c_a:=1/2-2/a $. Then 
@@ -128,7 +143,7 @@ Together with equation \eqref{G0Pi0}, this identity implies that % we get that
  \end{align*}
  on event $\Omega$.
 %with probability $1-\oo(1)$. 
-This concludes equation \eqref{lem_cov_shift_eq}. %if we rename $(r_1X^{(2)},r_2x_3)$ to $(a_1,a_2)$. 
+This concludes equation \eqref{lem_cov_shift_eq}. \todo{add a union bound argument} %if we rename $(r_1X^{(2)},r_2x_3)$ to $(a_1,a_2)$. 
 %For equation \eqref{lem_cov_shift_eq}, it is a well-known result for inverse Whishart matrices {\color{red}(add some references)}. 
 %Note that if we set $n_1=0$ and $n_2=n$, then $a_1 = 0$ and $a_2 = (n_2-p) / n_2$ is the solution to equation \eqref{eq_a12extra}. This gives equation \eqref{XXA} using equation \eqref{lem_cov_shift_eq}. 
 \end{proof}
@@ -222,7 +237,7 @@ It remains to derive equation \eqref{eq_a34extra} for $(a_3,a_4)$. Taking implic
 %\ee
 %where we denoted  $(a_3 ,a_4):=(r_1M_{1}'(0),r_2M'_{2}(0))$. 
 It is not hard to see that this equation is equivalent to equation \eqref{eq_a34extra}. 
-Finally, we can calculate $\bv^\top \Gi'(0)\bv$ as in equation \eqref{cal G'0}, which concludes equation \ref{lem_cov_derv_eq} by equation \eqref{apply derivlocal}.
+Finally, we can calculate $\bv^\top \Gi'(0)\bv$ as in equation \eqref{cal G'0}, which concludes equation \ref{lem_cov_derv_eq} by equation \eqref{apply derivlocal}. \todo{add a union bound argument} 
 %Then by equation \eqref{apply derivlocal} and equation \eqref{dervPi}, we get
 %\begin{align*}
 %n^2\bignorm{\Sigma_2^{1/2} ( (X^{(1)})^{\top}X^{(1)} + (X^{(2)})^{\top}X^{(2)})^{-1}\beta}^2&=\beta^\top \Sigma_2^{-1/2} V  \frac{1 + a_4+ a_3\Lambda^2 }{(a_1\Lambda^2 + a_2)^2}  V^\top  \Sigma_2^{-1/2} \beta \\

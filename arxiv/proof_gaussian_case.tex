@@ -131,7 +131,7 @@ The following notion of stochastic domination, which was first introduced in \ci
 
 \begin{definition}[Stochastic domination]\label{stoch_domination}
 Let $\xi\equiv \xi^{(n)}$ and $\zeta\equiv \zeta^{(n)}$ be two $n$-dependent random variables.
-\HZ{what is $n$-dependent rv?}
+\HZ{what is $n$-dependent rv?}[{\cor Most variables in our paper are $n$-dependent implicitly, such as resolvents. Furthermore, the random matrix entries can also depend on $n$ if we want. One important example is Bernoulli random variable with sparsity $p=n^{-\theta}$. Furthermore, this also includes the random variables that do not depend on $n$ as a special case.}]
 We say that $\xi$ is stochastically dominated by $\zeta$, denoted by $\xi\prec \zeta$ or $\xi=\OO_\prec(\zeta)$, if for any small constant $\e > 0$ and any large constant $D > 0$, there exists a function $n_0(\e, D)$ such that for any $n > n_0(\e, D)$,
 \[ \bbP\left(|\xi| >n^\e |\zeta|\right)\le n^{-D}. \]
 In case $\xi(u)$ and $\zeta(u)$ is a function of $u$ supported in $\cal U$, then we say $\xi(u)$ is stochastically dominated by $\zeta(u)$ uniformly in $\cal U$ if % for any constants $\e, D>0$,
@@ -167,9 +167,11 @@ We say that a random matrix $Z \in\real^{n \times p}$ satisfies the {\it{bounded
 	\max_{1\le i \le n, 1 \le j \le p}\vert Z_{i, j} \vert \prec q. \label{eq_support}
 \end{equation}
 As shown in the example above, if the entries of $Z$ have finite moments up to any order, then $Z$ has bounded support $1$.
-More generally, if the entries of $Z$ have finite $\varphi$-th moment, then using Markov's inequality and a simple union bound we get that \HZ{I don't fully get the equation below}
-\be\label{Ptrunc}
-	\P\left(\max_{1\le i\le n, 1\le j \le p}|Z_{i, j}|\ge (\log n) n^{\frac{2}{\varphi}}\right) \le \OO((\log n)^{-\varphi}).\ee
+More generally, if the entries of $Z$ have finite $\varphi$-th moment, then using Markov's inequality and a simple union bound we get that %\HZ{I don't fully get the equation below}
+\begin{align}
+	\P\left(\max_{1\le i\le n, 1\le j \le p}|Z_{i, j}|\ge (\log n) n^{\frac{2}{\varphi}}\right) &\le \sum_{i=1}^n \sum_{j=1}^p \P\left(|Z_{i, j}|\ge (\log n) n^{\frac{2}{\varphi}}\right)  \nonumber\\
+	&\le \sum_{i=1}^n \sum_{j=1}^p \frac{C}{\left[(\log n) n^{\frac{2}{\varphi}}\right]^\varphi} = \OO((\log n)^{-\varphi}).\label{Ptrunc}
+	\end{align}
 In other words, $Z$ has bounded support $q=n^{\frac{2}{\varphi}}$ with high probability.
 %This leads to the exponent $\frac{\varphi-4}{2\varphi}$ in Fact \ref{lem_minv}. %This fact will be used in the proof of Corollary \ref{main_cor} below.
 %The above discussion shows that the bounded support condition provides great flexibility in dealing with finite moment conditions.
