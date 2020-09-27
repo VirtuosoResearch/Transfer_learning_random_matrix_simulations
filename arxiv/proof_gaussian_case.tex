@@ -47,77 +47,71 @@ As a remark, we denote the partial traces $m^{(i)}(z)$, $m_0^{(i)}(z)$, $m_1^{(i
 \paragraph{Self-consistent equations.}
 We briefly describe the ideas for deriving the equation set \eqref{selfomega_a}.
 A complete full can be found in Lemma \ref{lemm_selfcons_weak}.
-The core idea is to study $G(z)$ using the Schur complement formula.
-We first introduce the following resolvent minors.
-
-First, we consider the diagonal entries of $G(z)$ for each block in $\cal I_0$, $\cal I_1$, and $\cal I_2$.
-For any $i$ in $\cal I_0$, we have that
-\begin{align}
-	G_{i,i}^{-1}(z) &= -z - \frac{\lambda_i^2}{n} \sum_{\mu,\nu\in \mathcal I_1} Z^{(1)}_{\mu i}Z^{(1)}_{\nu i}G^{\left( i \right)}_{\mu\nu}(z) - \frac{1}{n} \sum_{\mu,\nu\in \mathcal I_2} Z^{(2)}_{\mu i}Z^{(2)}_{\nu i} G^{\left( i \right)}_{\mu\nu}(z) -\frac{2\lambda_i}{n} \sum_{\mu\in \cal I_1,\nu\in \mathcal I_2} Z^{(1)}_{\mu i}Z^{(2)}_{\nu i}G^{\left( i \right)}_{\mu\nu}(z). \label{0self_Gii}
-\end{align}
-For $\mu \in \cal I_1$ and $\nu\in \cal I_2$, we have that
-\begin{align}
-	G_{\mu,\mu}^{-1}(z) &=  - 1 - \frac{1}{n} \sum_{i,j\in \mathcal I_0}\lambda_i \lambda_j Z^{(1)}_{\mu i}Z^{(1)}_{\mu j} G^{\left(\mu\right)}_{ij}, \\
-	{G_{\nu,\nu}^{-1}(z) &=  - 1 - \frac{1}{n} \sum_{i,j\in \mathcal I_0}  Z^{(2)}_{\nu i}Z^{(2)}_{\nu j}  G^{\left(\nu\right)}_{ij}.
-\label{0self_Gmu1}
-\end{align}
-To see why  holds, using Schur complement formula,
-$G_{ii}^{-1}(z) = -z - H_i G^{(i)}(z) H_{i}^\top$, where $H_i$ is the $i$-th row of $H$ with the $(i,i)$-th entry removed.
-Equation \eqref{0self_Gii} follows by expanding this formula.
-
-These two expressions are derived similarly using the Schur complement formula.
-
 We show that with high probability, the following equations hold approximately:
 \be\label{approximate m1m2}
 \begin{split}
-& \frac1{m_1}= -1+ \frac{1}{n} \sum_{i=1}^p \frac{\lambda_i^2 }{ z +\lambda_i^2 \frac{\rho_1}{\rho_1+\rho_2} m_1(z) +  \frac{\rho_2}{\rho_1+\rho_2}m_2(z)+\oo(1)}+ \oo(1),\\
-& \frac1{m_2}=-1+\frac{1}{n} \sum_{i=1}^p \frac{1}{ z +\lambda_i^2 \frac{\rho_1}{\rho_1+\rho_2} m_1(z) +  \frac{\rho_2}{\rho_1+\rho_2}m_2(z)+\oo(1)}  + \oo(1).
+& m_1^{-1}(z) = -1+ \frac{1}{n} \sum_{i=1}^p \frac{\lambda_i^2 }{ z +\lambda_i^2 \frac{\rho_1}{\rho_1+\rho_2} m_1(z) +  \frac{\rho_2}{\rho_1+\rho_2}m_2(z)+\oo(1)}+ \oo(1),\\
+& m_2^{-1}(z) = -1+\frac{1}{n} \sum_{i=1}^p \frac{1}{ z +\lambda_i^2 \frac{\rho_1}{\rho_1+\rho_2} m_1(z) +  \frac{\rho_2}{\rho_1+\rho_2}m_2(z)+\oo(1)}  + \oo(1).
 \end{split}
 \ee
 These are the self-consistent equations that we stated in equation \eqref{selfomega_a}.
-Compare \eqref{approximate m1m2} to the deterministic self-consistent equations in equation \eqref{selfomega_a}, one can observe that we should have
-\be\label{approx m12 add}
-(m_1,m_2) =\left(-\frac{\rho_1+\rho_2}{\rho_1}a_{1}(z),-\frac{\rho_1+\rho_2}{\rho_2}a_{2}(z)\right)+\oo(1) \quad \text{with overwhelming probability. }
-\ee
+More precisely, we have that $m_1(z)$ is approximately equal to $-\frac{n_1 + n_2}{n_2} a_1(z) $ and $m_2(z)$ is approximately equal to $-\frac{n_1 + n_2}{n_2} a_2(z)$.
 
-
-Combining equation \eqref{1self_Gii} and equation \eqref{3self_Gmu},
-
-For the right hand side of equation \eqref{0self_Gii}, recall that the resolvent minor $G^{(i)}$ is defined such that it is independent of the $i$-th row and column of $Z^{(1)}$ and $Z^{(2)}$.
-Hence by standard concentration inequalities (cf. Lemma \ref{largedeviation}), we have that the right hand side of equation \eqref{0self_Gii} is approximately equal to the expectation over $\{Z^{(1)}_{\mu i}: \mu \in \cal I_1 \}\cup \{Z^{(2)}_{\nu i}: \nu \in \cal I_2\}$.
-More precisely, we have that with high probability the following holds
+The core idea is to study $G(z)$ using the Schur complement formula.
+First, we consider the diagonal entries of $G(z)$ for each block in $\cal I_0$, $\cal I_1$, and $\cal I_2$.
+For any $i$ in $\cal I_0$, any $\mu$ in $\cal I_1$, and any $\nu$ in $\cal I_2$, we have that
 \begin{align*}
-	\frac{1}{{G_{ii} }} &=  - z - \frac{\lambda_i^2}{n} \sum_{\mu \in \mathcal I_1}  G^{\left( i \right)}_{\mu\mu} - \frac{1}{n} \sum_{\mu\in \mathcal I_2} G^{\left( i \right)}_{\mu\mu} +\oo(1) \\
-	&= - z - \lambda_i^2 \frac{\rho_1}{\rho_1+\rho_2} m_1^{(i)}(z)-  \frac{\rho_2}{\rho_1+\rho_2} m_2^{(i)}(z)+\oo(1),
+	&G_{i,i}^{-1}(z) = -z - \frac{\lambda_i^2}{n} \sum_{\mu,\nu\in \mathcal I_1} Z^{(1)}_{\mu i}Z^{(1)}_{\nu i}G^{\left( i \right)}_{\mu,\nu}(z) - \frac{1}{n} \sum_{\mu,\nu\in \mathcal I_2} Z^{(2)}_{\mu i}Z^{(2)}_{\nu i} G^{\left( i \right)}_{\mu,\nu}(z) -\frac{2\lambda_i}{n} \sum_{\mu\in \cal I_1,\nu\in \mathcal I_2} Z^{(1)}_{\mu i}Z^{(2)}_{\nu i}G^{\left( i \right)}_{\mu,\nu}(z) \\
+	&G_{\mu,\mu}^{-1}(z) =  - 1 - \frac{1}{n} \sum_{i,j\in \mathcal I_0}\lambda_i \lambda_j Z^{(1)}_{\mu i}Z^{(1)}_{\mu j} G^{\left(\mu\right)}_{ij}(z) \\
+	&G_{\nu,\nu}^{-1}(z) =  - 1 - \frac{1}{n} \sum_{i,j\in \mathcal I_0}  Z^{(2)}_{\nu i}Z^{(2)}_{\nu j}  G^{\left(\nu\right)}_{i,j}(z).
 \end{align*}
-where we used the definition of $m_1^{(i)}(z)$ and $m_2^{(i)}(z)$ in equation \eqref{defm} with $G(z)$ replaced by $G^{(i)}(z)$.
+For the first equation, we expand the Schur complement formula $G_{ii}^{-1}(z) = -z - H_i G^{(i)}(z) H_{i}^\top$, where $H_i$ is the $i$-th row of $H$ with the $(i,i)$-th entry removed.
+The second and third equation follow by similar calculations.
+
+%\be\label{approx m12 add}
+%(m_1,m_2) =\left(-\frac{\rho_1+\rho_2}{\rho_1}a_{1}(z),-\frac{\rho_1+\rho_2}{\rho_2}a_{2}(z)\right)+\oo(1) \quad \text{with overwhelming probability. }
+%\ee
+
+Next, we apply standard concentration bounds to simplify the above results.
+For $G^{-1}_{i, i}(z)$, recall that the resolvent minor $G^{(i)}$ is defined such that it is independent of the $i$-th row and column of $Z^{(1)}$ and $Z^{(2)}$.
+Hence by standard concentration inequalities, we have that the cross terms are approximately zero.
+%is approximately equal to the expectation over $\{Z^{(1)}_{\mu i}: \mu \in \cal I_1 \}\cup \{Z^{(2)}_{\nu i}: \nu \in \cal I_2\}$.
+As shown in Lemma \ref{lemm_selfcons_weak}, we have that with high probability the following holds
+\begin{align*}
+	G_{i,i}^{-1}(z) &= -z - \frac{\lambda_i^2}{n} \sum_{\mu \in \mathcal I_1}  G^{\left( i \right)}_{\mu\mu} - \frac{1}{n} \sum_{\mu\in \mathcal I_2} G^{\left( i \right)}_{\mu\mu} +\oo(1) \\
+	&= - z - \frac{\lambda_i^2 \cdot n_1}{n_1 + n_2} m_1^{(i)}(z)-  \frac{n_2}{n_1 + n_2} m_2^{(i)}(z)+\oo(1)
+\end{align*}
+by our definition of the partial traces $m_1^{(i)}(z)$ and $m_2^{(i)}(z)$ with respect to the resolvent minor $G^{(i)}(z)$.
 Since we removed only one column and one row from $H(z)$, $m_1^{(i)}(z)$ and $m_2^{(i)}(z)$ should be approximately equal to $m_1(z)$ and $m_2(z)$.
 Hence we obtain that
 \begin{align}\label{1self_Gii}
-	G_{ii}(z)  = -\left( z +\lambda_i^2 \frac{\rho_1}{\rho_1+\rho_2} m_1(z) +  \frac{\rho_2}{\rho_1+\rho_2} m_2(z) + \oo(1)\right)^{-1}.
+	G_{i,i}(z)  = -\left(z + \frac{\lambda_i^2 \cdot n_1}{n_1 + n_2} m_1(z) +  \frac{n_2}{n_1 + n_2} m_2(z) + \oo(1)\right)^{-1}.
 \end{align}
-Similarly, we can obtain from equation \eqref{0self_Gmu1} that for $\mu \in \cal I_1$ and $\nu\in \cal I_2$, with high probability the following holds
-\be\label{1self_Gmu} G_{\mu \mu }=-\left(1+\frac{p}{n} m_0 + \oo(1)\right)^{-1},\quad G_{\nu\nu}=-\left(1+\frac{p}{n} m+\oo(1)\right)^{-1},\ee
-The above inequalities are stated more precisely in the proof of Lemma \ref{lemm_selfcons_weak} (cf.  equations \eqref{self_Gii}-\eqref{erri}).
-By averaging equation \eqref{1self_Gmu} over $\mu \in \cal I_1$ and $\nu \in \cal I_2$, we obtain that with high probability
-\be\label{2self_Gmu}
-	m_1(z) = \frac{1}{n_1}\sum_{\mu \in \cal I_1}G_{\mu\mu}=-\left(1+\frac{p}{n} m_0 + \oo(1)\right)^{-1},
-	\quad m_2(z) =\frac{1}{n_2}\sum_{\nu \in \cal I_2}G_{\nu\nu}=-\left(1+\frac{p}{n} m+\oo(1)\right)^{-1}.
-\ee
-Combining equation \eqref{1self_Gmu} and \eqref{2self_Gmu}, we obtain that for $\mu \in \cal I_1$ and $\nu\in \cal I_2$, with high probability
-\be\label{2.5self_Gmu}
-	G_{\mu \mu }=m_1 +\oo(1),\quad G_{\nu\nu}=m_2+\oo(1).
-\ee
-Together with the definition of $m$ and $m_0$ in equation \eqref{defm}, the two equations in equation \eqref{2self_Gmu} give that with high probability
-\be\label{3self_Gmu}
-	\frac1{m_1}= -1- \frac{1}{n} \sum_{i=1}^p \lambda_i^2 G_{ii}+ \oo(1),\quad \frac1{m_2}=-1-\frac{1}{n} \sum_{i=1}^p G_{ii}  + \oo(1).
-\ee
+For the other two blocks $\cal I_1$ and $\cal I_2$, using similar ideas we have that the following holds with high probability
+\begin{align*}
+	G_{\mu,\mu}(z) &= -\left(1+\frac{p}{n_1 + n_2} m_0(z) + \oo(1)\right)^{-1} \\
+	G_{\nu,\nu}(z) &= -\left(1+\frac{p}{n_1 + n_2} m(z) + \oo(1)\right)^{-1}.
+\end{align*}
+By averaging the above results over $\mu \in \cal I_1$ and $\nu \in \cal I_2$, we obtain that with high probability
+\begin{align*}
+	m_1(z) &= \frac{1}{n_1}\sum_{\mu \in \cal I_1}G_{\mu,\mu}(z) = -\left(1+\frac{p}{n_1 + n_2} m_0(z) + \oo(1)\right)^{-1} \\
+	m_2(z) &= \frac{1}{n_2}\sum_{\nu \in \cal I_2}G_{\nu,\nu}(z) = -\left(1+\frac{p}{n_1 + n_2} m(z) + \oo(1)\right)^{-1}.
+\end{align*}
+Furthermore, we obtain that for $\mu \in \cal I_1$ and $\nu\in \cal I_2$, with high probability
+$G_{\mu,\mu}(z) = m_1(z) +\oo(1)$ and $G_{\nu, \nu}(z) = m_2+\oo(1)$.
+In other words, both block matrices within $\cal I_1$ and $\cal I_2$ are approximately a scaling of the identity matrix.
+The above results for $m_1(z)$ and $m_2(z)$ imply that
+\begin{align*}
+	m_1^{-1}(z) = -1- \frac{1}{n} \sum_{i=1}^p \lambda_i^2 G_{i,i}(z)+ \oo(1) \\
+	m_2^{-1}(z) = -1- \frac{1}{n} \sum_{i=1}^p G_{i,i}(z)  + \oo(1).
+\end{align*}
+where we used the definition of $m(z)$ and $m_0(z)$.
+By applying equation \eqref{1self_Gii} for $G_{i, i}(z)$, we obtain the self-consistent equations \ref{approximate m1m2}.
+In Lemma \ref{lem_stabw}, we show that the self-consistent equations are stable, that is, a small perturbation of the equations leads to a small perturbation of the solution.
 
-To justify this identity rigorously, we need to know that the self-consistent equations are stable, that is, a small perturbation of the equations leads to a small perturbation of the solution. This will be given by Lemma \ref{lem_stabw}.
 
-
-\medskip
-\noindent\textbf{The matrix limit.}  Inserting the approximate identity \eqref{approx m12 add} into equations \eqref{1self_Gii} and \eqref{2.5self_Gmu}, we get that for  $i \in \cal I_0$, $\mu \in \cal I_1$ and $\nu\in \cal I_2$,
+Finally, we derive the matrix limit $\Gi(z)$.
+Inserting the approximate identity \eqref{approx m12 add} into equations \eqref{1self_Gii} and \eqref{2.5self_Gmu}, we get that for  $i \in \cal I_0$, $\mu \in \cal I_1$ and $\nu\in \cal I_2$,
 $$G_{ii}(z)=(-z +\lambda_i^2 a_{1}(z) + a_2(z)+\oo(1)^{-1},\quad G_{\mu\mu}=-\frac{\rho_1+\rho_2}{\rho_1}a_{1}(z)+\oo(1),\quad G_{\nu\nu}=-\frac{\rho_1+\rho_2}{\rho_2}a_{2}(z)+\oo(1),$$
 with overwhelming probability. These explain the diagonal entries of $\Gi$ in equation \eqref{defn_piw}. For the off-diagonal entries, they are close to zero due to concentration. For example, for $i\ne j\in \cal I_1$, by Schur complement formula in equation (\ref{resolvent3}), we have
 $$G_{ij}=-G_{ii}\Big({\lambda_i}{n^{-1/2}}\sum_{\mu \in \cal I_1} Z^{(1)}_{\mu i} G^{(i)}_{\mu j} + {n^{-1/2}}\sum_{\mu \in \cal I_2} Z^{(2)}_{\mu i} G^{(i)}_{\mu j} \Big).$$
