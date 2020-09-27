@@ -16,9 +16,12 @@
 %We explain from three perspectives, including \textit{task similarity}, \textit{sample size} and \textit{covariate shift}.
 %We show how negative transfer occurs by varying task similarity or sample size.
 %Then we show that when source task sample size becomes large, covariate shift causes more negative effects.
-We illustrate our main results in simplified settings.
-We explain several empirical phenomena that have often been observed when hard parameter sharing approaches are used.
-
+We discuss several examples to illustrate our results.
+Through these examples, we provide generalization bounds of hard parameter sharing estimators that depend explicitly on the sample sizes and the covariance matrices of the tasks.
+We use our generalization bounds to interpret several empirical phenomena that arises from applying hard parameter sharing in practice.
+For our examples, we assume that a random-effects model holds.
+We assume every $\beta_i$ consists of two random components, one that is shared among all tasks and one that is task-specific.
+Thus, each task contributes a certain amount to the shared component and injects a task-specific bias.
 %	The labels are $Y_i = X_i\beta_i + \varepsilon_i$, where $\e_i$ consists of i.i.d. entries with mean zero and variance $\sigma^2$.
 %	For our purpose, it is enough to think of the order of $d$ being $1/\sqrt{p}$ and $pd^2/\sigma^2$ being constant.
 %The more precise conditions on the relations between $d^2$, $\sigma^2$ and $\kappa^2$ are given in  \eqref{choiceofpara}.
@@ -35,44 +38,50 @@ We explain several empirical phenomena that have often been observed when hard p
 %	\Psi(\beta_1, \beta_2) = {\ex{\bignorm{\beta_1 - \beta_2}^2}} / {\sigma^2},  \quad \Phi(\rho_1, \rho_2) = \frac{(\rho_1 + \rho_2 - 1)^2}{\rho_1 (\rho_1 + \rho_2) (\rho_2 - 1)}.
 %\end{align*}}
 
+\subsection{Sample Efficiency}
+
+We begin by considering a setting where the feature covariates are the same across all tasks but their labels are different.
+In the random-effects model, we assume that every $\beta_i$ is equal to a shared component $\beta_0$ plus a task-specific component.
+Suppose that the entries of $\beta_0$ are sampled i.i.d. from an isotropic Gaussian distribution.
+Suppose further that $\beta_i$ is equal to $\beta_0$ plus a random Gaussian vector whose coordinates all have mean zero and variance $p^{-1} d^2 / 2$.
+Thus, for any two $\beta_i$ and $\beta_j$, their distance is roughly $d^2$.
+Using our results, we show that the prediction loss of the hard parameter sharing estimator is as follows.
+
+\begin{corollary}[Derived from Theorem \ref{thm_many_tasks}]\label{prop_same_cov}
+	In the setting described above, for any task $i$, the prediction loss of $\hat{\beta}_i^{\MTL}$ satisfies that
+	\[ L(\hat{\beta}_i^{\MTL}). \]
+\end{corollary}
+
 
 \subsection{Sample Imbalance}
 
-	Imagine that we have two tasks and the covariates of both tasks have isotropic covariance matrices.
+The above setting assumes that the feature covariates are the same across all tasks.
+Hence, the sample sizes are also the same among all tasks.
+Next, we assume that the feature covariates are different and consider what happens the sample sizes are different for different tasks.
+We consider a two-task case where both tasks have isotropic covariance matrices.
 %	Each task has sample size $n_1 = \rho_1 \cdot p$ and $n_2 = \rho_2 \cdot p$.
 	%And $X_1\in\real^{n_1\times p}, X_2\in\real^{n_2\times p}$ denote the covariates of the two tasks, respectively.
-	For the ground truth linear model, we consider a random-effects model where the two tasks differ by an independent Gaussian vector.
-	Specially, for task two, we assume that its model parameter, denoted by $\beta_2$, consists of i.i.d. Gaussian entries with mean zero and variance $\kappa^2$.
-	For task one, we assume that its model parameter, denoted by $\beta_1$, is equal to $\beta_2$ plus i.i.d. Gaussian entries with mean $0$ and variance $d^2$.
-	Therefore, the two tasks have different ground truth models. In particular, the distance between $\beta_1$ and $\beta_2$ roughly scales as $d^2 \cdot p$.
-
+%	For the ground truth linear model, we consider a random-effects model where the two tasks differ by an independent Gaussian vector.
+%	Specially, for task two, we assume that its model parameter, denoted by $\beta_2$, consists of i.i.d. Gaussian entries with mean zero and variance $\kappa^2$.
+%	For task one, we assume that its model parameter, denoted by $\beta_1$, is equal to $\beta_2$ plus i.i.d. Gaussian entries with mean $0$ and variance $d^2$.
+%	Therefore, the two tasks have different ground truth models. In particular, the distance between $\beta_1$ and $\beta_2$ roughly scales as $d^2 \cdot p$.
 %\begin{example}[Varying model distance]
 %\end{example}
-
-Using Theorem \ref{thm_main_RMT}, %our techniques described later in Section \ref{sec_general}, 
-we can derive the limiting prediction loss of the hard parameter sharing estimator.
+Using Theorem \ref{thm_main_RMT}, we derive the prediction loss of the hard parameter sharing estimator.
 Without loss of generality, we describe the result for task two and remark that a similar result for task one holds.
 
-\begin{proposition}[Derived from Theorem \ref{thm_main_RMT}]\label{cor_MTL_loss}
-	Assume that the isotropic setting described above holds, and that there exists a small constant $c_0>0$ such that the signal-to-noise ratios satisfy that
-\be\label{choiceofpara0}
-p^{ c_0} \le \frac{p\kappa^2}{\sigma^2 }  \le p^{1-c_0},\quad  \frac{pd^2}{\sigma^2}=\OO(1).
-\ee
-	Let $B, W_1, W_2$ be the global minimum of equation \eqref{eq_mtl}. Then with high probability, the prediction loss of the hard parameter sharing estimator for task two satisfies:
+\begin{corollary}[Derived from Theorem \ref{thm_main_RMT}]\label{cor_MTL_loss}
+	In the setting described above, assume that there exists a small constant $c_0>0$ such that the signal-to-noise ratios satisfy that
+	\be\label{choiceofpara0}
+		p^{ c_0} \le \frac{p\kappa^2}{\sigma^2 }  \le p^{1-c_0},\quad  \frac{pd^2}{\sigma^2}=\OO(1).
+	\ee
+	%Let $B, A_1, A_2$ be the global minimum of equation \eqref{eq_mtl}. Then
+	The prediction loss of the hard parameter sharing estimator for task two satisfies that
 	\begin{align}\label{cor_MTL_error}
 	%-\left[1- \left( 1-\frac{1}{\sqrt{\rho_1}}\right)^4\right] pd^2\cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3} +\OO(p^{-c}\sigma^2)  \le 
-	 & \left|L(\hat{\beta}_2^{\MTL}) -\frac{\sigma^2}{\rho_1+\rho_2-1} - pd^2\cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3}\right|  \le  \left[\left( 1+\frac{1}{\sqrt{\rho_1}}\right)^4-1\right] pd^2\cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3} +\OO(p^{-c}\sigma^2 )
+	 & \left|L(\hat{\beta}_2^{\MTL}) -\frac{\sigma^2}{\rho_1+\rho_2-1} - pd^2\cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3}\right|  \le  \left[\left( 1+\frac{1}{\sqrt{\rho_1}}\right)^4-1\right] pd^2\cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3} +\OO(p^{-c_{\varphi}}\sigma^2 ).
 	 \end{align}
-	 for any constant $c\in (0,c_0)$.
-	 \iffalse
-	\begin{align*}
-		& \bigabs{ L(\hat{\beta}_2^{\MTL}) - \frac{\sigma^2}{\rho_1 + \rho_2 - 1} - (1 + \frac{6}{\rho_1} + \frac{1}{\rho_1^2})pd^2\cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3} } \\
-		\le & 	\frac{4}{\sqrt{\rho_1}}(1 + \frac{1}{\rho_1})	pd^2\cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3} + \oo(\sigma^2 + pd^2).
-%	 \frac{\sigma^2}{\rho_1+\rho_2-1}+\left( 1-\frac{1}{\sqrt{\rho_1}}\right)^4  +\oo(\sigma^2 + pd^2)  \le \\
-%	 \le  \frac{\sigma^2}{\rho_1+\rho_2-1}+\left( 1+\frac{1}{\sqrt{\rho_1}}\right)^4 pd^2\cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3} +\oo(\sigma^2 + pd^2)
-	 \end{align*}
-	 \fi
-\end{proposition}
+\end{corollary}
 
 
 %It is well-known since the seminal work of Caruana \cite{C97} that how well multi-task learning performs depends on task relatedness. We formalize this connection in the above isotropic setting, where we can perform explicit calculations. The prediction loss of MTL has been given in Corollary \ref{cor_MTL_loss}. We can also calculate the prediction loss of STL easily using Fact \ref{lem_minv} (ii). The proof of the following claim will be given in Section \ref{app_iso_cov}.
@@ -132,11 +141,11 @@ There are several unexplained observations near the transition threshold $0$, wh
 	\label{fig_model_shift_phasetrans}
 \end{figure}
 
-In classical Rademacher or VC based theory of multi-task learning, the generalization bounds are usually presented for settings where the sample sizes are equal for all tasks \cite{B00,M06,MPR16}.
+%In classical Rademacher or VC based theory of multi-task learning, the generalization bounds are usually presented for settings where the sample sizes are equal for all tasks \cite{B00,M06,MPR16}.
 %More generally, such results are still applicable when all task data are being added simultaneously.
-On the other hand, uneven sample sizes between different tasks (or even dominating tasks) have been empirically observed as a cause of negative transfer \cite{YKGLHF20}.
-For such settings, we have also observed that adding more labeled data from one task does not always help.
-Our theory accurately predicts a curious phenomenon, where increasing the sample size of the source task results in negative transfer!
+%On the other hand, uneven sample sizes between different tasks (or even dominating tasks) have been empirically observed as a cause of negative transfer \cite{YKGLHF20}.
+%For such settings, we have also observed that adding more labeled data from one task does not always help.
+%Our theory accurately predicts a curious phenomenon, where increasing the sample size of the source task results in negative transfer!
 %On the other hand, we have observed that adding more labeled data does not always improve performance in multi-task learning.
 
 More precisely, in the isotropic model, we consider what happens if we vary the source task sample size. For fixed model distance $pd^2$, the bias term $  pd^2\cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3}$ of MTL increases and converges to $pd^2$ as the sample ratio $\rho_1/\rho_2$ increases, and the variance reduction $\frac{\sigma^2}{ \rho_2-1}  -\frac{\sigma^2}{\rho_1+\rho_2-1}$ also increases and converges to $\frac{\sigma^2}{\rho_2-1}$ as $\rho_1/\rho_2$ increases. The tradeoff between these two terms depends on $\rho_1$ in a nonlinear way that is more complicated than the one in the case of varying model distance. But from our results, one can check the following phenomena. If $\frac{\sigma^2}{\rho_2-1} > pd^2$, then the transfer is always positive. On the other hand, if $\frac{\sigma^2}{\rho_2-1} < pd^2$, then there is a transition from the positive transfer to negative transfer as $\rho_1/\rho_2$ increases. 
@@ -145,7 +154,6 @@ More precisely, in the isotropic model, we consider what happens if we vary the 
 Figure \ref{fig_size} provides a simulation result for such a setting (described in Appendix \ref{app_synthetic}).
 %We observe that as $n_1 / n_2$ increases, there is a transition from positive to negative transfer. 
 There are several unexplained observations near $y = 0$ caused by the concentration error on the right-hand side of \eqref{cor_MTL_error}.
-
 
 %\begin{proposition}[Source/target sample ratio]\label{prop_data_size}
 %	In the isotropic model, suppose that $\rho_1 > 40$ and $\rho_2 > 110$ are fixed constants, and $\Psi(\beta_1, \beta_2) > 2/(\rho_2 - 1)$.
@@ -158,42 +166,44 @@ There are several unexplained observations near $y = 0$ caused by the concentrat
 %Proposition \ref{prop_data_size} describes the bias-variance tradeoff in terms of the sample ratio $\rho_1 / \rho_2$.
 
 
-We apply the result to the setting of Figure \ref{fig_size} (described in Appendix \ref{app_synthetic}).
-There are several unexplained observations near $y = 0$ caused by $\nu$.
-The proof of Proposition \ref{prop_data_size} can be found in Appendix \ref{app_proof_32}.
+%We apply the result to the setting of Figure \ref{fig_size} (described in Appendix \ref{app_synthetic}).
+%There are several unexplained observations near $y = 0$ caused by $\nu$.
+%The proof of Proposition \ref{prop_data_size} can be found in Appendix \ref{app_proof_32}.
 
 \subsection{Covariate Shift} \label{sec_covshift}
-So far we have considered the isotropic model where $\Sigma_1 = \Sigma_2$.
-This setting is relevant for settings where different tasks share the same input features such as multi-class image classification.
-In general, the covariance matrices of the two tasks may be different such as in text classification.
-In this part, we consider what happens when $\Sigma_1 \neq \Sigma_2$.
-We show that when $n_1 / n_2$ is large, MTL with covariate shift can be suboptimal compared to MTL without covariate shift.
+%So far we have considered the isotropic model where $\Sigma_1 = \Sigma_2$.
+%This setting is relevant for settings where different tasks share the same input features such as multi-class image classification.
+%In general, the covariance matrices of the two tasks may be different such as in text classification.
 
-%\noindent\textit{Example.}
-
-\begin{example}
-	We measure covariate shift by the transfer matrix $M = \Sigma_1^{1/2} \Sigma_2^{-1/2}$. %similar to Theorem \ref{thm_main_informal}.
-	We assume that the two tasks have the same ground truth model parameters, that is, $\beta_1 = \beta_2$.
-	We compare two cases: (i) when $M = \id_{p\times p}$; (ii) when $M$ has $p/2$ singular values that are equal to $\lambda$ and $p/2$ singular values that are equal to $1 / \lambda$.
-	Hence, $\lambda$ measures the severity of the covariate shift.
-	Figure \ref{fig_covariate} shows a simulation of this setting by varying $\lambda$.
-	We observe that as source/target sample ratio increases, the performance gap between the two cases increases.
-	\end{example}
+In our final example, we consider what happens when the covariance matrices are also different between different tasks, which are often called ``covariate shift''.
+Our results apply to arbitrary ``covariate shift'' and we consider a simple setting of two tasks.
+As we are going to show later, covariate shift is accurately captured by the spectrum of $\Sigma^{1/2}\Sigma^{-1/2}$.
+To illustrate our result, we assume that the first half of the singular values of $\Sigma^{1/2}\Sigma^{-1/2}$ are all equal to a parameter $\lambda$ and the rest are all equal to one.
+Our results imply that the prediction loss of the hard parameter sharing estimator is given as follows.
+%We compare two cases: (i) when $M = \id_{p\times p}$; (ii) when $M$ has $p/2$ singular values that are equal to $\lambda$ and $p/2$ singular values that are equal to $1 / \lambda$.
+%Hence, $\lambda$ measures the severity of the covariate shift.
+%	Figure \ref{fig_covariate} shows a simulation of this setting by varying $\lambda$.
+%	We observe that as source/target sample ratio increases, the performance gap between the two cases increases.
+%	\end{example}
 
 %By applying Lemma \ref{lem_cov_shift_informal}, we find that when $n_1 / n_2$ is large, having no covariate shift is the optimal choice provided that the determinant of $M^{\top}M$ is bounded.
-We compare different choices of $M$ that belong to the following bounded set.
-Let $\lambda_i$ be the $i$-th singular value of $M$.
-Let $\mu_{\min} < \mu < \mu_{\max}$ be fixed values that do not grow with $p$.
-{\begin{align*}
-		\cS_{\mu}\define\bigset{M \left| \prod_{i=1}^p \lambda_i \le \mu^p, \mu_{\min} \le \lambda_i\le \mu_{\max}, \text{ for all } 1\le i\le p\right.}.
-\end{align*}}
+%We compare different choices of $M$ that belong to the following bounded set.
+%Let $\lambda_i$ be the $i$-th singular value of $M$.
+%Let $\mu_{\min} < \mu < \mu_{\max}$ be fixed values that do not grow with $p$.
+%{\begin{align*}
+%		\cS_{\mu}\define\bigset{M \left| \prod_{i=1}^p \lambda_i \le \mu^p, \mu_{\min} \le \lambda_i\le \mu_{\max}, \text{ for all } 1\le i\le p\right.}.
+%\end{align*}}
 %	We assume that $\beta_1$ and $\beta_2$ are generated following the isotropic model with $d = 0$.
-\begin{proposition}[Covariate shift]\label{prop_covariate}
-	For the setting of the example above, assume that $\beta_1 = \beta_2$, $\rho_1$ and $\rho_2$ are both greater than one.
-	Let $g(M)$ denote the prediction loss of $\hat{\beta}_t^{\MTL}$ when $M = \Sigma_1^{1/2}\Sigma_2^{-1/2} \in\cS_{\mu}$.
-	We have that
-		\[ g(\mu\id) \le \bigbrace{1+ \bigo{{\rho_2}/{\rho_1}  }} \min_{M\in\cS_{\mu}} g(M). \]
-\end{proposition}
+\begin{corollary}[Derived from Theorem \ref{thm_main_RMT}]\label{prop_covariate}
+	In the setting described above, assume further that a random-effects model holds for both tasks.
+	The prediction loss of $\hat{\beta}_2^{\MTL}$ for task two satisfies that
+	\begin{align*}
+		L(\hat{\beta}_2^{\MTL})
+	\end{align*}
+%	Let $g(M)$ denote the prediction loss of $\hat{\beta}_t^{\MTL}$ when $M = \Sigma_1^{1/2}\Sigma_2^{-1/2} \in\cS_{\mu}$.
+%	We have that
+%		\[ g(\mu\id) \le \bigbrace{1+ \bigo{{\rho_2}/{\rho_1}  }} \min_{M\in\cS_{\mu}} g(M). \]
+\end{corollary}
 
 
 \iffalse
@@ -264,9 +274,5 @@ The proof of Proposition \ref{prop_covariate} can be found in Appendix \ref{app_
 %On the other hand, if $n_1$ is comparable or even smaller than $n_2$, we show an example where having ``complementary'' covariance matrices is better performing than having the same covariance matrices.
 
 
-
-\subsection{Sample Efficiency}
-
-observed in Taskonomy \cite{ZSSGM18}.
 
 

@@ -4,7 +4,6 @@ When the covariates across tasks are different, we can no longer obtain an optim
 This is because the minimization problem is non-convex with respect to $A$ and $B$.
 Therefore, we consider an arbitrary local minimum of equation \eqref{eq_mtl} and provide generalization bounds that scale with key properties of task data such as sample sizes and covariate shifts.
 We focus on the two-task case to better understand the impact of having different sample sizes and different covariates in hard parameter sharing.
-We will develop the key technical results in this section, and describe their implications in the next section.
 
 We first provide a key technical tool that we derived using recent developments in random matrix theory \cite{??}.
 To motivate our study, we consider a specialized setting where the output layer weights $A_1, A_2$ are both equal to one.
@@ -59,12 +58,12 @@ Let $U\Lambda V^\top$ denote the singular value decomposition of $M$, where $\La
 \noindent{\textbf{Remark.}} Our result extends a well-known result on the inverse of sample covariance matrices.
 In particular, by setting $X_1 = 0$, we obtain the second result in Fact \ref{lem_minv}.
 When $X_1=0$, it is not hard to solve $a_1 = 0$ and $a_2 = (n_2-p) / n_2$ from equation \eqref{eq_a12extra}, and our result reduces to the case of a single sample covariance matrix.
-For the single-task case of a multivariate Gaussian random matrix, the result follows from the classical result for the mean of inverse Wishart distribution \cite{anderson1958introduction}.
+For a multivariate Gaussian random matrix, the result follows from the classical result for the mean of inverse Wishart distribution \cite{anderson1958introduction}.
 For a non-Gaussian random matrix, the result can be obtained using the Stieltjes transform method (cf. Lemma 3.11 of \citet{bai2009spectral}).
 
 By combining the bias and variance asymptotics, we obtain the generalization error of $\hat{\beta}_2^{\MTL}$.
 Since the proof is similar to the same covariates setting, we describe the key differences and omit the rest of the details.
-First, we will rescale $X_1$ by $A_1 / A_2$ before appling Theorem \ref{thm_main_RMT}.
+First, we will rescale $X_1$ by $A_1 / A_2$ before applying Theorem \ref{thm_main_RMT}.
 Second, we approximate ${X^{(1)}}^{\top}X^{(1)}$ with $n_1 \Sigma^{(1)}$ in equation \eqref{eq_diff_cov} using Fact \ref{lem_minv}.
 For the rest of this section, we present the main ideas in the proof of Theorem \ref{thm_main_RMT}.
 %We will give a simple (although not totally rigorous) derivation of the equations \eqref{eq_a12extra} and \eqref{eq_a34extra}.
