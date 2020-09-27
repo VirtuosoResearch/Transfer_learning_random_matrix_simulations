@@ -1,11 +1,11 @@
 \section{Missing Proof of the Different Covariates Setting}\label{sec_maintools}
 
-The main goal of this section is to prove Theorem \ref{thm_main_RMT}.
-We begin by providing a warm up analysis when the entries of $Z^{(1)}$ and $Z^{(2)}$ are drawn i.i.d. from an isotropic Gaussian distribution.
-%However, notice that if the entries of $(Z^{(1)})\equiv (Z^{(1)})^{\text{Gauss}}$ and $(Z^{(2)})\equiv (Z^{(2)})^{\text{Gauss}}$ are i.i.d. Gaussian, then
-By the rotational invariance of the multivariate Gaussian distribution, we have
-\be\label{eq in Gauss} Z^{(1)} U\Lambda \stackrel{d}{=} Z^{(1)} \Lambda, \quad Z^{(2)} V \stackrel{d}{=} Z^{(2)},\ee
-where ``$\stackrel{d}{=}$" means ``equal in distribution". Hence it suffices to consider the following resolvent
+\subsection{Proof of the Bias and Variance Asymptotics}\label{appendix RMT}
+
+We provide the proof of Theorem \ref{thm_main_RMT}.
+We begin with a warm up analysis when the entries of $Z^{(1)}$ and $Z^{(2)}$ are drawn i.i.d. from an isotropic Gaussian distribution.
+By the rotational invariance of the multivariate Gaussian distribution, we have that the entries of $Z^{(1)} U$ and $Z^{(2)}$ also follow an isotropic Gaussian distribution.
+Hence it suffices to consider the following resolvent
  \begin{equation} \label{resolv Gauss1}
    G(z)= \left( {\begin{array}{*{20}c}
    { -z\id_{p} } & n^{-1/2}\Lambda (Z^{(1)})^\top & n^{-1/2} (Z^{(2)})^\top  \\
@@ -13,91 +13,106 @@ where ``$\stackrel{d}{=}$" means ``equal in distribution". Hence it suffices to 
    {n^{-1/2} Z^{(2)}} & 0 & {-\id_{n_2}}
    \end{array}} \right)^{-1}.
  \end{equation}
+We show how to derive the matrix limit $\Gi(z)$ and the self-consistent equation system \eqref{selfomega_a}.
+We first introduce several notations.
 Define the index sets
 $$\cal I_0:=\llbracket 1,p\rrbracket, \quad  \cal I_1:=\llbracket p+1,p+n_1\rrbracket, \quad \cal I_2:=\llbracket p+n_1+1,p+n_1+n_2\rrbracket ,\quad \cal I:=\cal I_0\cup \cal I_1\cup \cal I_2  .$$
- We will consistently use the latin letters $i,j\in\sI_{0}$ and greek letters $\mu,\nu\in\sI_{1}\cup \sI_{2}$. Correspondingly, the indices of the matrices $Z^{(1)}$ and $Z^{(2)}$ are labelled as
- \be\label{labelZ}
- Z^{(1)}= (Z^{(1)}_{\mu i}:i\in \mathcal I_0, \mu \in \mathcal I_1), \quad Z^{(2)}= (Z^{(2)}_{\nu i}:i\in \mathcal I_0, \nu \in \mathcal I_2).\ee
-
-Moreover, we also define the following averaged resolvents, which are the (weighted) partial traces of $G$:
+%We will consistently use the latin letters $i,j\in\sI_{0}$ and greek letters $\mu,\nu\in\sI_{1}\cup \sI_{2}$.
+Correspondingly, the indices of the matrices $Z^{(1)}$ and $Z^{(2)}$ are labelled as
+	\be\label{labelZ}
+ Z^{(1)}= [Z^{(1)}_{\mu i}:i\in \mathcal I_0, \mu \in \mathcal I_1], \quad Z^{(2)}= [Z^{(2)}_{\nu i}:i\in \mathcal I_0, \nu \in \mathcal I_2].\ee
+We will study the following partial traces of the resolve $G(z)$:
 \be\label{defm}
 \begin{split}
 m(z) :=\frac1p\sum_{i\in \cal I_0} G_{ii}(z) ,\quad & m_0(z):=\frac1p\sum_{i\in \cal I_0} \lambda_i^2 G_{ii}(z),\\
- m_1(z):= \frac{1}{n_1}\sum_{\mu \in \cal I_1}G_{\mu\mu}(z) ,\quad & m_2(z):= \frac{1}{n_2}\sum_{\nu\in \cal I_2}G_{\nu\nu}(z) .
+ m_1(z):= \frac{1}{n_1}\sum_{\mu \in \cal I_1}G_{\mu\mu}(z) ,\quad & m_2(z):= \frac{1}{n_2}\sum_{\nu\in \cal I_2}G_{\nu\nu}(z).
 \end{split}
 \ee
-We will show that these averaged resolvents satisfy some deterministic self-consistent equations asymptotically, which will be the core part of the proof. We refer the reader to the discussions below \eqref{0self_Gii} and \eqref{0self_Gmu1}.
-
-\medskip
-\noindent{\bf Schur complements.}
-%Now we discuss about how to obtain the matrix limit in equation \eqref{defn_piw}.
-%\HZ{Divide into several parts like sec 7 to improve readability.}
-The core quantities of the derivation are the following resolvent minors, which are defined by removing certain rows and columns of the matrix $H$.
+To deal with the matrix inverse, we consider the following resolvent minors of $G(z)$.
 \begin{definition}[Resolvent minors]\label{defn_Minor}
- For any $ (p+n)\times (p+n)$ matrix $\cal A$ and $a\in \mathcal I$, we define the minor $\cal A^{(a)}:=(\cal A_{a_1 a_2}:a_1, a_2 \in \mathcal I\setminus \{a\})$ as the $ (p+n-1)\times (p+n-1)$ matrix obtained by removing the $a$-th row and column in $\cal A$. Note that we keep the names of indices when defining $\cal A^{(a)}$, i.e. $(\cal A^{(a)})_{a_1a_2}= \cal A_{a_1 a_2}$ for $a_1,a_2\ne a$. Correspondingly, we define the resolvent minor for $G$ in equation \eqref{resolv Gauss1} as %(recall equation \eqref{green2})
-\begin{align*}
-G^{(\mathfrak c)}:&=\left[ \left( {\begin{array}{*{20}c}
-   { -z\id_{p} } & n^{-1/2}\Lambda (Z^{(1)})^\top & n^{-1/2} (Z^{(2)})^\top  \\
-   {n^{-1/2} Z^{(1)} \Lambda  } & {-\id_{n_1}} & 0 \\
-   {n^{-1/2} Z^{(2)}} & 0 & {-\id_{n_2}}
-   \end{array}} \right)^{(a)}\right]^{-1} ,
-%= \left( {\begin{array}{*{20}c}
-%   { \mathcal G^{(\mathbb T)}} & \mathcal G^{(\mathbb T)} W^{(\mathbb T)}  \\
-%   {\left(W^{(\mathbb T)}\right)^\top\mathcal G^{(\mathbb T)}} & { \mathcal G_R^{(\mathbb T)} }  \\
-%\end{array}} \right)  ,
-\end{align*}
-and define the partial traces $m^{(a)}$, $m_0^{(a)}$, $m_1^{(a)}$ and $m_2^{(a)}$ by replacing $G$ with $G^{(a)}$ in equation \eqref{defm}. We adopt the convention that for the resolvent minor $G^{(a)}$ defined as above, $G^{(a)}_{a_1a_2} = 0$ if $a_1 =a$ or $a_2=a$.
+	Let $X \in \real^{(p + n_1 + n_2)\times (p + n_1 + n_2)}$ and $i = 1, 2, \dots, p + n_1 + n_2$.
+	The minor of $X$ after removing the $i$-th row and column of $X$ is denoted by $X^{(i)} := [X_{a_1,a_2}:a_1, a_2 \in \mathcal I\setminus \{i\}]$ as a square matrix with dimension $p + n_1 + n_2 - 1$.
+	For the indices of $X^{(i)}$, we use $X^{(i)}_{a_1, a_2}$ to denote $ X_{a_1, a_2}$ when $a_1$ and $a_2$ both not equal to $i$, and $X^{(i)}_{a_1, a_2}$ to be zero when $a_1 = i$ or $a_2 = i$.
+	The resolvent minor of $G(z)$ after removing the $i$-th row and column is defined as
+	\begin{align*}
+		G^{(i)}(z) := \left[ \left( {\begin{array}{*{20}c}
+		  { -z\id_{p} } & n^{-1/2}\Lambda (Z^{(1)})^\top & n^{-1/2} (Z^{(2)})^\top  \\
+      {n^{-1/2} Z^{(1)} \Lambda  } & {-\id_{n_1}} & 0 \\
+			{n^{-1/2} Z^{(2)}} & 0 & {-\id_{n_2}}
+    \end{array}} \right)^{(i)}\right]^{-1}.
+	\end{align*}
 \end{definition}
-%Note that the resolvent minor $G^{(\mathfrak c)}$ is defined such that it is independent of the entries in the $\mathfrak c$-th row and column of $H$. One will see a crucial use of this fact in the heuristic proof below.
- Using Schur complement formulas in equation (\ref{resolvent2}), we have that for $i \in \cal I_0$, %$\mu \in \cal I_1$ and $\nu\in \cal I_2$,
-%\HZ{This part needs more explanation - cannot understand.}
+As a remark, we denote the partial traces $m^{(i)}(z)$, $m_0^{(i)}(z)$, $m_1^{(i)}(z)$, and $m_2^{(i)}(z)$ by replacing $G(z)$ with $G(z)^{(i)}$ in equation \eqref{defm}.
+
+\paragraph{Self-consistent equations.}
+We briefly describe the ideas for deriving the equation set \eqref{selfomega_a}.
+A complete full can be found in Lemma \ref{lemm_selfcons_weak}.
+The core idea is to study $G(z)$ using the Schur complement formula.
+We first introduce the following resolvent minors.
+
+First, we consider the diagonal entries of $G(z)$ for each block in $\cal I_0$, $\cal I_1$, and $\cal I_2$.
+For any $i$ in $\cal I_0$, we have that
 \begin{align}
-\frac{1}{{G_{ii} }}&=  - z - \frac{\lambda_i^2}{n} \sum_{\mu,\nu\in \mathcal I_1} Z^{(1)}_{\mu i}Z^{(1)}_{\nu i}G^{\left( i \right)}_{\mu\nu} - \frac{1}{n} \sum_{\mu,\nu\in \mathcal I_2} Z^{(2)}_{\mu i}Z^{(2)}_{\nu i}G^{\left( i \right)}_{\mu\nu} -2 \frac{\lambda_i}{n} \sum_{\mu\in \cal I_1,\nu\in \mathcal I_2} Z^{(1)}_{\mu i}Z^{(2)}_{\nu i}G^{\left( i \right)}_{\mu\nu} , \label{0self_Gii}
+	G_{i,i}^{-1}(z) &= -z - \frac{\lambda_i^2}{n} \sum_{\mu,\nu\in \mathcal I_1} Z^{(1)}_{\mu i}Z^{(1)}_{\nu i}G^{\left( i \right)}_{\mu\nu}(z) - \frac{1}{n} \sum_{\mu,\nu\in \mathcal I_2} Z^{(2)}_{\mu i}Z^{(2)}_{\nu i} G^{\left( i \right)}_{\mu\nu}(z) -\frac{2\lambda_i}{n} \sum_{\mu\in \cal I_1,\nu\in \mathcal I_2} Z^{(1)}_{\mu i}Z^{(2)}_{\nu i}G^{\left( i \right)}_{\mu\nu}(z). \label{0self_Gii}
 \end{align}
-and for $\mu \in \cal I_1$ and $\nu\in \cal I_2$,
+For $\mu \in \cal I_1$ and $\nu\in \cal I_2$, we have that
 \begin{align}
-\frac{1}{{G_{\mu\mu} }}&=  - 1 - \frac{1}{n} \sum_{i,j\in \mathcal I_0}\lambda_i \lambda_j Z^{(1)}_{\mu i}Z^{(1)}_{\mu j} G^{\left(\mu\right)}_{ij}, \quad \frac{1}{{G_{\nu\nu} }}=  - 1 - \frac{1}{n} \sum_{i,j\in \mathcal I_0}  Z^{(2)}_{\nu i}Z^{(2)}_{\nu j}  G^{\left(\nu\right)}_{ij},
+	G_{\mu,\mu}^{-1}(z) &=  - 1 - \frac{1}{n} \sum_{i,j\in \mathcal I_0}\lambda_i \lambda_j Z^{(1)}_{\mu i}Z^{(1)}_{\mu j} G^{\left(\mu\right)}_{ij}, \\
+	{G_{\nu,\nu}^{-1}(z) &=  - 1 - \frac{1}{n} \sum_{i,j\in \mathcal I_0}  Z^{(2)}_{\nu i}Z^{(2)}_{\nu j}  G^{\left(\nu\right)}_{ij}.
 \label{0self_Gmu1}
 \end{align}
-where we recall the notations in equation \eqref{labelZ}. To see why equation \eqref{0self_Gii} holds, we have that by Schur complement formula,
-\begin{align*}
-\frac{1}{G_{ii}}= -z - H_i G^{(i)}H_{i}^\top, \quad H_i = \left( \mathbf 0_{p-1}, (n^{-1/2}\lambda_i (Z^{(1)})^\top_{i\mu }:\mu \in \cal I_1),(n^{-1/2} (Z^{(2)})^\top_{i\nu }:\nu \in \cal I_2)\right),
-\end{align*}
-where $H_i$ is actually the $i$-th row of $H$ with the $(i,i)$-th entry removed. Expanding the above expression, we obtain equation \eqref{0self_Gii}. The two expressions in equation \eqref{0self_Gmu1} are easier to obtain using Schur complement formula.
+To see why  holds, using Schur complement formula,
+$G_{ii}^{-1}(z) = -z - H_i G^{(i)}(z) H_{i}^\top$, where $H_i$ is the $i$-th row of $H$ with the $(i,i)$-th entry removed.
+Equation \eqref{0self_Gii} follows by expanding this formula.
 
-\medskip
-\noindent{\bf Concentration estimates.} Now for the right-hand side of equation \eqref{0self_Gii}, notice that the resolvent minor $G^{(i)}$ is defined such that it is independent of the entries $Z^{(1)}_{\mu i}$ and $Z^{(2)}_{\nu i}$. Hence by the concentration inequalities in Lemma \ref{largedeviation}, we have that the  right-hand side of equation \eqref{0self_Gii} concentrates around the partial expectation over the entries $\{Z^{(1)}_{\mu i}: \mu \in \cal I_1 \}\cup \{Z^{(2)}_{\nu i}: \nu \in \cal I_2\}$, i.e., with overwhelming probability,
-\begin{align*}
-\frac{1}{{G_{ii} }}&=  - z - \frac{\lambda_i^2}{n} \sum_{\mu \in \mathcal I_1}  G^{\left( i \right)}_{\mu\mu} - \frac{1}{n} \sum_{\mu\in \mathcal I_2} G^{\left( i \right)}_{\mu\mu} +\oo(1)= - z - \lambda_i^2 \frac{\rho_1}{\rho_1+\rho_2} m_1^{(i)}(z)-  \frac{\rho_2}{\rho_1+\rho_2} m_2^{(i)}(z)+\oo(1),
-\end{align*}
-where we used the definition of $m_1^{(i)}$ and $m_2^{(i)}$ in equation \eqref{defm} with $G$ replaced by $G^{(i)}$. Intuitively, since we have removed only one column and one row out of the $(p+n)$ columns and rows in $H$, $m_1^{(i)}$ and $m_2^{(i)}$ should be close to the original $m_1$ and $m_2$. Hence we obtain from the above equation that
-\begin{align}\label{1self_Gii}
- G_{ii}  = -\left( z +\lambda_i^2 \frac{\rho_1}{\rho_1+\rho_2} m_1 +  \frac{\rho_2}{\rho_1+\rho_2}m_2+\oo(1)\right)^{-1}.
-\end{align}
-Similarly, we can obtain from equation \eqref{0self_Gmu1} that for $\mu \in \cal I_1$ and $\nu\in \cal I_2$,
-\be\label{1self_Gmu} G_{\mu \mu }=-\left(1+\frac{p}{n} m_0 + \oo(1)\right)^{-1},\quad G_{\nu\nu}=-\left(1+\frac{p}{n} m+\oo(1)\right)^{-1},\ee
-with overwhelming probability. The rigorous derivation of the above concentration estimates will be given in the proof of Lemma \ref{lemm_selfcons_weak}; see equations \eqref{self_Gii}-\eqref{erri}.
+These two expressions are derived similarly using the Schur complement formula.
 
-\medskip
-\noindent\textbf{Self-consistent equations.} Now taking average of equation \eqref{1self_Gmu}, we obtain that
-\be\label{2self_Gmu} m_1= \frac{1}{n_1}\sum_{\mu \in \cal I_1}G_{\mu\mu}=-\left(1+\frac{p}{n} m_0 + \oo(1)\right)^{-1},\quad m_2=\frac{1}{n_2}\sum_{\nu \in \cal I_2}G_{\nu\nu}=-\left(1+\frac{p}{n} m+\oo(1)\right)^{-1},
-\ee
-with overwhelming probability. As a byproduct, comparing equations \eqref{1self_Gmu} and \eqref{2self_Gmu}, we obtain that for $\mu \in \cal I_1$ and $\nu\in \cal I_2$,
-\be\label{2.5self_Gmu} G_{\mu \mu }=m_1 +\oo(1),\quad G_{\nu\nu}=m_2+\oo(1),\ee
-with overwhelming probability. Together with the definition of $m$ and $m_0$ in equation \eqref{defm}, the two equations in equation \eqref{2self_Gmu} give that
-\be\label{3self_Gmu}  \frac1{m_1}= -1- \frac{1}{n} \sum_{i=1}^p \lambda_i^2 G_{ii}+ \oo(1),\quad \frac1{m_2}=-1-\frac{1}{n} \sum_{i=1}^p G_{ii}  + \oo(1),\ee
-with overwhelming probability. Plugging equation \eqref{1self_Gii} into equation \eqref{3self_Gmu}, we obtain that
+We show that with high probability, the following equations hold approximately:
 \be\label{approximate m1m2}
 \begin{split}
 & \frac1{m_1}= -1+ \frac{1}{n} \sum_{i=1}^p \frac{\lambda_i^2 }{ z +\lambda_i^2 \frac{\rho_1}{\rho_1+\rho_2} m_1(z) +  \frac{\rho_2}{\rho_1+\rho_2}m_2(z)+\oo(1)}+ \oo(1),\\
-& \frac1{m_2}=-1+\frac{1}{n} \sum_{i=1}^p \frac{1}{ z +\lambda_i^2 \frac{\rho_1}{\rho_1+\rho_2} m_1(z) +  \frac{\rho_2}{\rho_1+\rho_2}m_2(z)+\oo(1)}  + \oo(1),
+& \frac1{m_2}=-1+\frac{1}{n} \sum_{i=1}^p \frac{1}{ z +\lambda_i^2 \frac{\rho_1}{\rho_1+\rho_2} m_1(z) +  \frac{\rho_2}{\rho_1+\rho_2}m_2(z)+\oo(1)}  + \oo(1).
 \end{split}
 \ee
-with overwhelming probability, which give a system of approximate self-consistent equations for $(m_1,m_2)$.
-A rigorous derivation of these two equations will be given in the proof of Lemma \ref{lemm_selfcons_weak}. Compare \eqref{approximate m1m2} to the deterministic self-consistent equations in equation \eqref{selfomega_a}, one can observe that we should have
+These are the self-consistent equations that we stated in equation \eqref{selfomega_a}.
+Compare \eqref{approximate m1m2} to the deterministic self-consistent equations in equation \eqref{selfomega_a}, one can observe that we should have
 \be\label{approx m12 add}
 (m_1,m_2) =\left(-\frac{\rho_1+\rho_2}{\rho_1}a_{1}(z),-\frac{\rho_1+\rho_2}{\rho_2}a_{2}(z)\right)+\oo(1) \quad \text{with overwhelming probability. }
 \ee
+
+
+Combining equation \eqref{1self_Gii} and equation \eqref{3self_Gmu},
+
+For the right hand side of equation \eqref{0self_Gii}, recall that the resolvent minor $G^{(i)}$ is defined such that it is independent of the $i$-th row and column of $Z^{(1)}$ and $Z^{(2)}$.
+Hence by standard concentration inequalities (cf. Lemma \ref{largedeviation}), we have that the right hand side of equation \eqref{0self_Gii} is approximately equal to the expectation over $\{Z^{(1)}_{\mu i}: \mu \in \cal I_1 \}\cup \{Z^{(2)}_{\nu i}: \nu \in \cal I_2\}$.
+More precisely, we have that with high probability the following holds
+\begin{align*}
+	\frac{1}{{G_{ii} }} &=  - z - \frac{\lambda_i^2}{n} \sum_{\mu \in \mathcal I_1}  G^{\left( i \right)}_{\mu\mu} - \frac{1}{n} \sum_{\mu\in \mathcal I_2} G^{\left( i \right)}_{\mu\mu} +\oo(1) \\
+	&= - z - \lambda_i^2 \frac{\rho_1}{\rho_1+\rho_2} m_1^{(i)}(z)-  \frac{\rho_2}{\rho_1+\rho_2} m_2^{(i)}(z)+\oo(1),
+\end{align*}
+where we used the definition of $m_1^{(i)}(z)$ and $m_2^{(i)}(z)$ in equation \eqref{defm} with $G(z)$ replaced by $G^{(i)}(z)$.
+Since we removed only one column and one row from $H(z)$, $m_1^{(i)}(z)$ and $m_2^{(i)}(z)$ should be approximately equal to $m_1(z)$ and $m_2(z)$.
+Hence we obtain that
+\begin{align}\label{1self_Gii}
+	G_{ii}(z)  = -\left( z +\lambda_i^2 \frac{\rho_1}{\rho_1+\rho_2} m_1(z) +  \frac{\rho_2}{\rho_1+\rho_2} m_2(z) + \oo(1)\right)^{-1}.
+\end{align}
+Similarly, we can obtain from equation \eqref{0self_Gmu1} that for $\mu \in \cal I_1$ and $\nu\in \cal I_2$, with high probability the following holds
+\be\label{1self_Gmu} G_{\mu \mu }=-\left(1+\frac{p}{n} m_0 + \oo(1)\right)^{-1},\quad G_{\nu\nu}=-\left(1+\frac{p}{n} m+\oo(1)\right)^{-1},\ee
+The above inequalities are stated more precisely in the proof of Lemma \ref{lemm_selfcons_weak} (cf.  equations \eqref{self_Gii}-\eqref{erri}).
+By averaging equation \eqref{1self_Gmu} over $\mu \in \cal I_1$ and $\nu \in \cal I_2$, we obtain that with high probability
+\be\label{2self_Gmu}
+	m_1(z) = \frac{1}{n_1}\sum_{\mu \in \cal I_1}G_{\mu\mu}=-\left(1+\frac{p}{n} m_0 + \oo(1)\right)^{-1},
+	\quad m_2(z) =\frac{1}{n_2}\sum_{\nu \in \cal I_2}G_{\nu\nu}=-\left(1+\frac{p}{n} m+\oo(1)\right)^{-1}.
+\ee
+Combining equation \eqref{1self_Gmu} and \eqref{2self_Gmu}, we obtain that for $\mu \in \cal I_1$ and $\nu\in \cal I_2$, with high probability
+\be\label{2.5self_Gmu}
+	G_{\mu \mu }=m_1 +\oo(1),\quad G_{\nu\nu}=m_2+\oo(1).
+\ee
+Together with the definition of $m$ and $m_0$ in equation \eqref{defm}, the two equations in equation \eqref{2self_Gmu} give that with high probability
+\be\label{3self_Gmu}
+	\frac1{m_1}= -1- \frac{1}{n} \sum_{i=1}^p \lambda_i^2 G_{ii}+ \oo(1),\quad \frac1{m_2}=-1-\frac{1}{n} \sum_{i=1}^p G_{ii}  + \oo(1).
+\ee
+
 To justify this identity rigorously, we need to know that the self-consistent equations are stable, that is, a small perturbation of the equations leads to a small perturbation of the solution. This will be given by Lemma \ref{lem_stabw}.
 
 
