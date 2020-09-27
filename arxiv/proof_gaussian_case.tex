@@ -146,28 +146,39 @@ This is because by Markov's inequality, let $k$ be greater than $D/ \e$, then we
 $$ \P(|\xi|\ge n^{\e})\le n^{-k\e}{\E |\xi|^k}\le n^{-D}.$$
 This implies that a Gaussian random variable $\xi$ with unit variance satisfies that $|\xi|\prec 1$.
 
-In this section, we shall prove a more fundamental random matrix result in a little more general setting than the one in Section \todo{add reference}; see Theorem \ref{LEM_SMALL} below. %\ref{sec_prelim}.
- Then Theorem \ref{thm_main_RMT} will follow from this result as immediate corollaries. We first state the exact assumptions needed for our purpose.
+%In this section, we shall prove a more fundamental random matrix result in a little more general setting than the one in Section \todo{add reference}; see Theorem \ref{LEM_SMALL} below. %\ref{sec_prelim}.
+%Then Theorem \ref{thm_main_RMT} will follow from this result as immediate corollaries. We first state the exact assumptions needed for our purpose.
 
-%We summarize our basic assumptions here for future reference. %Note that this assumption is in accordance with the assumptions of Lemma \ref{lem_cov_shift} and Lemma \ref{lem_cov_derivative}, except that we rescale the entries of $Z^{(1)}$ and $Z^{(2)}$ by $n^{-1/2}$. %and allow $\rho_1$ to be smaller than 1.
-\begin{assumption}\label{assm_big1}
-As in Section \todo{add reference}, we consider random matrices $X^{(1)}=Z^{(1)}\Sigma_1^{1/2}$ and $X^{(2)}=Z^{(2)}\Sigma_2^{1/2}$, where $Z^{(1)}$ and $Z^{(2)}$ are independent $n_1\times p$ and $n_2\times p$ random matrices with i.i.d. entries of zero mean and unit variance. Recall that $\rho_1= n_1/p$ and $\rho_2=n_2/p$. We assume that for a small constant $0<\tau<1$,
-%\HZ{We have defined $\rho_1,\rho_2$ already in sec 2. Consider using ``Recall that $\rho_1 =, \rho_2 =$.''}
-\be\label{assm2}
-0\le \rho_1 \le \tau^{-1}, \quad 1+\tau \le \rho_{2} \le \tau^{-1}.
-\ee
-Recall that the singular value decomposition of $M = \Sig_1^{1/2} \Sig_2^{-1/2}$ is $U \Lambda V^{\top}$. We assume that
-\begin{equation}\label{assm32}
-\tau \le \lambda_p \le \lambda_1 \le \tau^{-1} .%, \quad \max\left\{\pi_A^{(n)}([0,\tau]), \pi_B^{(n)}([0,\tau])\right\} \le 1 - \tau .
-\end{equation}
-Finally, recalling the notations in equation \eqref{labelZ}, we assume that $Z^{(1)}$ and $Z^{(2)}$ satisfy
+Next, we introduce the bounded support assumption for a random matrix.
+We say that a random matrix $Z \in\real^{n \times p}$ satisfies the {\it{bounded support condition}} with $q$ or $Z$ has support $q$ if
 \begin{equation}
-n^{-1/2}\max_{i\in \cal I_0,\mu \in \cal I_1}\vert Z^{(1)}_{\mu i}\vert \prec q,\quad n^{-1/2}\max_{i\in \cal I_0,\nu \in \cal I_2}\vert Z^{(2)}_{\nu i}\vert \prec q, \label{eq_support}
+	\max_{1\le i \le n, 1 \le j \le p}\vert Z_{i, j} \vert \prec q. \label{eq_support}
 \end{equation}
-for some deterministic parameter $q$ satisfying $ n^{-{1}/{2}} \leq q \leq n^{- \tau} $ for a small constant $\tau>0$.
+As shown in the example above, if the entries of $Z$ have finite moments up to any order, then $Z$ has bounded support $1$.
+More generally, if the entries of $Z$ have finite $\varphi$-th moment, then using Markov's inequality and a simple union bound we get that \HZ{I don't fully get the equation below}
+\be\label{Ptrunc}
+	\P\left(\max_{1\le i\le n, 1\le j \le p}|Z_{i, j}|\ge (\log n) n^{\frac{2}{\varphi}}\right) \le \OO((\log n)^{-\varphi}).\ee
+In other words, $Z$ has bounded support $q=n^{\frac{2}{\varphi}}$ with high probability.
+%This leads to the exponent $\frac{\varphi-4}{2\varphi}$ in Fact \ref{lem_minv}. %This fact will be used in the proof of Corollary \ref{main_cor} below.
+%The above discussion shows that the bounded support condition provides great flexibility in dealing with finite moment conditions.
+%\begin{assumption}%\label{assm_big1}
+%As in Section \todo{add reference}, we consider random matrices $X^{(1)}=Z^{(1)}\Sigma_1^{1/2}$ and $X^{(2)}=Z^{(2)}\Sigma_2^{1/2}$, where $Z^{(1)}$ and $Z^{(2)}$ are independent $n_1\times p$ and $n_2\times p$ random matrices with i.i.d. entries of zero mean and unit variance. Recall that $\rho_1= n_1/p$ and $\rho_2=n_2/p$. We assume that for a small constant $0<\tau<1$,
+%\HZ{We have defined $\rho_1,\rho_2$ already in sec 2. Consider using ``Recall that $\rho_1 =, \rho_2 =$.''}
+%\be\label{assm2}
+%0\le \rho_1 \le \tau^{-1}, \quad 1+\tau \le \rho_{2} \le \tau^{-1}.
+%\ee
+%Recall that the singular value decomposition of $M = \Sig_1^{1/2} \Sig_2^{-1/2}$ is $U \Lambda V^{\top}$. We assume that
+%\begin{equation}\label{assm32}
+%\tau \le \lambda_p \le \lambda_1 \le \tau^{-1} .%, \quad \max\left\{\pi_A^{(n)}([0,\tau]), \pi_B^{(n)}([0,\tau])\right\} \le 1 - \tau .
+%\end{equation}
+%Finally, recalling the notations in equation \eqref{labelZ}, we assume that $Z^{(1)}$ and $Z^{(2)}$ satisfy
+%\begin{equation}
+%n^{-1/2}\max_{i\in \cal I_0,\mu \in \cal I_1}\vert Z^{(1)}_{\mu i}\vert \prec q,\quad n^{-1/2}\max_{i\in \cal I_0,\nu \in \cal I_2}\vert Z^{(2)}_{\nu i}\vert \prec q, \label{eq_support}
+%\end{equation}
+%for some deterministic parameter $q$ satisfying $ n^{-{1}/{2}} \leq q \leq n^{- \tau} $ for a small constant $\tau>0$.
 %Here we recall the notations in \eqref{labelZ}.
  %and (\ref{assm2}). We assume that $T$ is an $M\times M$ deterministic diagonal matrix satisfying (\ref{simple_assumption}) and (\ref{assm3}).
-\end{assumption}
+%\end{assumption}
 %\HZ{This is restating what's stated above again. Remove redundant statements (unless there's something critical missing in Sec 2).} [\cor FY: The setting in sec 1 is too vague for the purpose of this section in the sense that it is hard to find the exact properties we need. In this section, I want to state rigorous statements with a reference to an exact assumption. Moreover, the above assumption contains more.\nc]
 
 
@@ -176,7 +187,6 @@ for some deterministic parameter $q$ satisfying $ n^{-{1}/{2}} \leq q \leq n^{- 
 %\end{remark}
 
 
-Whenever the estimates in equation \eqref{eq_support} hold, we say $n^{-1/2}Z^{(1)}$ and $n^{-1/2}Z^{(2)}$ satisfy the {\it{bounded support condition}} with $q$, or $n^{-1/2}Z^{(1)}$ and $n^{-1/2}Z^{(2)}$ have support $q$.
 %\begin{definition}\label{defn_support}
 %We say a (rescaled) random matrix $\cal M$ satisfies the {\it{bounded support condition}} with $q$, if
 %\begin{equation}
@@ -188,12 +198,7 @@ Whenever the estimates in equation \eqref{eq_support} hold, we say $n^{-1/2}Z^{(
 %\end{definition}
 %\begin{example}
 %\todo{Talk about the Gaussian case and Bernoulli case.}
-As shown in the example above, if the entries of $Z^{(1)}$ have finite moments up to any order, %as in equation \eqref{assmAhigh},
-then $n^{-1/2}Z^{(1)}$ has bounded support $n^{-1/2}$. More generally, if the entries of $Z^{(1)}$ have finite $\varphi$-th moment as in \eqref{assmAhigh}, then using Markov's inequality and a simple union bound we get that
-\be\label{Ptrunc}
-\P\left(n^{-1/2}\max_{i,\mu}|(Z^{(1)})_{\mu i}|\ge (\log n) n^{-\frac{\varphi-4}{2\varphi}}\right)=\OO((\log n)^{-\varphi}).\ee
-In other words, $n^{-1/2}Z^{(1)}$ has bounded support $q=n^{-\frac{\varphi-4}{2\varphi}}$ on a event with probability $1-\oo(1)$. This leads to the exponent $\frac{\varphi-4}{2\varphi}$ in Fact \ref{lem_minv}. %This fact will be used in the proof of Corollary \ref{main_cor} below.
-The above discussion shows that the bounded support condition provides great flexibility in dealing with finite moment conditions.
+
 %\end{example}
 
 
