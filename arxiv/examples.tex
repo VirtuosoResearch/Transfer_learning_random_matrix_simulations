@@ -42,15 +42,27 @@ Thus, each task contributes a certain amount to the shared component and injects
 
 We begin by considering a setting where the feature covariates are the same across all tasks but their labels are different.
 In the random-effects model, we assume that every $\beta_i$ is equal to a shared component $\beta_0$ plus a task-specific component.
-Suppose that the entries of $\beta_0$ are sampled i.i.d. from an isotropic Gaussian distribution.
+Suppose that the entries of $\beta_0$ are sampled i.i.d. from an isotropic Gaussian distribution of mean zero and variance $p^{-1}\kappa^2$.
 Suppose further that $\beta_i$ is equal to $\beta_0$ plus a random Gaussian vector whose coordinates all have mean zero and variance $p^{-1} d^2 / 2$.
 Thus, for any two $\beta_i$ and $\beta_j$, their distance is roughly $d^2$.
 Using our results, we show that the prediction loss of the hard parameter sharing estimator is as follows.
 
 \begin{corollary}[Derived from Theorem \ref{thm_many_tasks}]\label{prop_same_cov}
-	In the setting described above, for any task $i$, the prediction loss of $\hat{\beta}_i^{\MTL}$ satisfies that
-	\[ L(\hat{\beta}_i^{\MTL}). \]
+	In the setting described above, the total prediction loss of the $t$ tasks satisfies that
+	\begin{align*} 
+	 \sum_{i=1}^t L(\hat{\beta}_i^{\MTL})&= (t-r) \kappa^2 \cdot \frac{\tr\Sigma}{p}  + \sigma^2 \cdot \frac{r}{\rho-1} +\OO\left( p^{-c_\infty} \cdot\frac{\rho t(\kappa^2 + d^2) \|\Sigma\|}{(\sqrt{\rho}-1)^2 \kappa^2  \|\Sigma\| + \sigma^2}   \left( t \kappa^2 \|\Sigma \| + \frac{\sigma^2 r}{\rho-1} \right)  \right) .
+	 %& = \sum_{i=r+1}^t \lambda_i^2 (\Sigma^{1/2} B^{\star}) + \sigma^2 \frac{r}{\rho-1} +\OO\left(  p^{-c_\infty} \frac{t(\kappa^2 + d^2)\cdot (p^{-1}\tr \Sigma)}{(\sqrt{\rho}-1)^2 \kappa^2 \cdot (p^{-1}\tr \Sigma) + \sigma^2}   \left( t \kappa^2 \frac{\tr \Sigma}{p} + \frac{\sigma^2 r}{\rho-1} \right) \right) \\ 
+%	 &= (t-r) \kappa^2 \cdot \frac{\tr\Sigma}{p}  + \sigma^2 \cdot \frac{r}{\rho-1} \\
+%	 &+\OO\left( p^{-c_\infty}t(\kappa^2+d^2) \cdot p^{-1/2} \|\Sigma\|_F + p^{-c_\infty} \frac{t(\kappa^2 + d^2)\cdot (p^{-1}\tr \Sigma)}{(\sqrt{\rho}-1)^2 \kappa^2 \cdot (p^{-1}\tr \Sigma) + \sigma^2}   \left( t \kappa^2 \frac{\tr \Sigma}{p} + \frac{\sigma^2 r}{\rho-1} \right)  \right) .
+	\end{align*}
+%and $\lambda_{r+1} (\Sigma^{1/2} B^{\star}) \ge \cdots\ge  \lambda_{t} (\Sigma^{1/2} B^{\star})$ denote the smallest $(t-r)$ singular values of $\Sigma^{1/2} B^{\star}$.
 \end{corollary}
+On the other hand, the total STL predication loss is 
+\begin{align*}
+ \sum_{i=1}^t L(\hat{\beta}_i^{\STL}) =\sigma^2\cdot \frac{t}{ \rho-1}  +\OO(p^{-c_\infty}\cdot t \sigma^2 ).
+	 \end{align*}
+
+ 
 
 
 \subsection{Sample Imbalance}
