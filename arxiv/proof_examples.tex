@@ -1,10 +1,21 @@
 \subsection{The Random-Effects Model}\label{app_iso_cov}
 
-\paragraph{Proofs for two tasks.}  We now give the proof of Proposition \ref{cor_MTL_loss}. As in the proof of Theorem \ref{thm_many_tasks}, we first derive a bias-variance decomposition of the prediction loss $L(\hat \eta_2^{\MTL})$. Then we can calculate the bias term and the variance term using Theorem \ref{thm_main_RMT}. 
+\subsubsection{Proof for Sample Imbalance}  
+We now give the proof of Proposition \ref{cor_MTL_loss}. As in the proof of Theorem \ref{thm_many_tasks}, our proof is divided into the following steps: 
+\begin{itemize}
+\item simplifying the optimization objective using concentration estimates;
 
+\item finding the minimizer of the optimization objective;
+
+\item deriving a bias-variance decomposition of the prediction loss $L(\hat \beta_2^{\MTL})$; 
+
+\item calculating the bias term and the variance term using Theorem \ref{thm_main_RMT}. 
+\end{itemize}
+
+\paragraph{Simplifying the optimization objective.} 
 Under the two-task setting of Corollary \ref{cor_MTL_loss}, the optimization objective \eqref{eq_mtl} becomes
 	\begin{align}
-		f(A, B) =   \bignorm{X^{(1)} B A_1 - Y^{(1)}}^2+ \bignorm{X^{(2)} B A_2 - Y^{(2)}}^2, \label{eq_mtl_2task_cov}
+		f(A_1,A_2, B) =   \bignorm{X^{(1)} B A_1 - Y^{(1)}}^2+ \bignorm{X^{(2)} B A_2 - Y^{(2)}}^2, \label{eq_mtl_2task_cov}
 	\end{align}
 	where $B \in \real^{p}$ and $A_1, A_2\in \R$ because $r=1$ in the two-task case. % for $1 < r < t$ by our assumption.
 	Without loss of generality, we assume that both $A_1$ and $A_2$ are nonzero, since otherwise we can add a small perturbation $\delta$ to them and later remove this perturbation by taking $\delta\to 0$ in the final result. Again using the local optimality condition ${\partial f}/{\partial B} = 0$, for any $A_1$ and $A_2$ we obtain the optimal $\hat{B}$ as follows
@@ -35,9 +46,15 @@ For the random-effects model, we can further take the partial expectation over $
 \begin{align*}	
 &\exarg{\epsilon^{(1)}, \epsilon^{(2)} ,\beta_1,\beta_2}{g(A) \mid X_1, X_2} \\
 &=[(A-1)^2\kappa^2 + (A^2+1)d^2/2] \cdot p^{-1}\tr\left[  (X^{(2)})^\top X^{(2)} \hat \Sigma^{-1}(X^{(1)})^\top X^{(1)} \hat \Sigma^{-1} (X^{(2)})^\top X^{(2)}\right]\\
-&+ A^2[(A-1)^2\kappa^2 + (A^2+1)d^2/2] \cdot p^{-1}\tr\left[  (X^{(1)})^\top X^{(1)} \hat \Sigma^{-1}(X^{(2)})^\top X^{(2)} \hat \Sigma^{-1} (X^{(1)})^\top X^{(1)}\right] +\sigma^2(n_1+n_2-p),
+&+ A^2[(A-1)^2\kappa^2 + (A^2+1)d^2/2] \cdot p^{-1}\tr\left[  (X^{(1)})^\top X^{(1)} \hat \Sigma^{-1}(X^{(2)})^\top X^{(2)} \hat \Sigma^{-1} (X^{(1)})^\top X^{(1)}\right] +\sigma^2(n_1+n_2-p)\\
+&=[(A-1)^2\kappa^2 + (A^2+1)d^2/2] \cdot p^{-1} \tr\left[ (X^{(1)})^\top X^{(1)} \hat \Sigma^{-1}(X^{(2)})^\top X^{(2)}\right]+\sigma^2(n_1+n_2-p),
 \end{align*}
-where we used that the entries of $\beta_1-A\beta_2\in \R^p$ are i.i.d. random variables with mean zero and variance $p^{-1}[(A-1)^2\kappa^2 + (A^2+1)d^2/2]$.
+where in the first step we used that the entries of $\beta_1-A\beta_2\in \R^p$ are i.i.d. random variables with mean zero and variance $p^{-1}[(A-1)^2\kappa^2 + (A^2+1)d^2/2]$, and in the second step we used  %Using $(X^{(2)})^\top X^{(2)}=\hat\Sigma- A^2 (X^{(1)})^\top X^{(1)}$, we can further simplify that
+\begin{align*}
+ &\tr\left[  (X^{(2)})^\top X^{(2)} \hat \Sigma^{-1}(X^{(1)})^\top X^{(1)} \hat \Sigma^{-1} (X^{(2)})^\top X^{(2)}\right]+ A^2 \tr\left[  (X^{(1)})^\top X^{(1)} \hat \Sigma^{-1}(X^{(2)})^\top X^{(2)} \hat \Sigma^{-1} (X^{(1)})^\top X^{(1)}\right] \\
+ &=\tr\left[  \hat \Sigma^{-1}(X^{(1)})^\top X^{(1)} \hat \Sigma^{-1} \left( \hat\Sigma- A^2 (X^{(1)})^\top X^{(1)} \right)^2\right]+ A^2 \tr\left[  (X^{(1)})^\top X^{(1)} \hat \Sigma^{-1}\left( \hat\Sigma- A^2 (X^{(1)})^\top X^{(1)} \right) \hat \Sigma^{-1} (X^{(1)})^\top X^{(1)}\right] \\
+ &=\tr\left[  (X^{(1)})^\top X^{(1)}\right] - A^2\tr\left[ (X^{(1)})^\top X^{(1)} \hat \Sigma^{-1}(X^{(1)})^\top X^{(1)}\right] = \tr\left[ (X^{(1)})^\top X^{(1)} \hat \Sigma^{-1}(X^{(2)})^\top X^{(2)}\right] .
+\end{align*}
  
 Using the concentration estimates in Lemma \ref{largedeviation}, we can control the difference between $g(A)$ and its partial expectation. %$\exarg{\epsilon^{(1)}, \epsilon^{(2)}}{g(A) \mid X_1, X_2 ,\beta_1,\beta_2}$.
  \begin{claim}\label{claim_largedev1}
@@ -48,96 +65,8 @@ $$\left| g(A) - \exarg{\epsilon^{(1)}, \epsilon^{(2)} ,\beta_1,\beta_2}{g(A) \mi
  \todo{add proof}
  \end{proof}
 
-Then we calculate the predication loss ...
 
-	
-\iffalse
-
- \begin{claim}\label{claim_largedev2}
- In the setting of Proposition \ref{cor_MTL_loss}, we have that 
-$$\left| g(A) - \exarg{\epsilon^{(1)}, \epsilon^{(2)},\beta_1,\beta_2}{g(A) \mid X_1, X_2 ,\beta_1,\beta_2}\right| \le p^{-c_\infty}\cdot p\left(\sigma^2 +\|\beta_1\|^2 +\|\beta_2\|^2 \right). $$
- \end{claim}
- \begin{proof}
- \todo{add proof}
- \end{proof}
- 
-\cor
-%Our key insight is a bias-variance decomposition of the expected prediction loss of $\hat{\beta}_2^{\MTL} = \hat{B} W_2$.
-%Using the local optimality condition of $B$, we obtain that
-%\begin{align*}
-%	 \hat{B}(W_1, W_2) &= (W_1^2 X_1^{\top}X_1 + W_2^2 X_2^{\top}X_2)^{-1} (W_1 X_1^{\top}Y_1 + W_2 X_2^{\top}Y_2)\\
-%	&= \frac{1}{W_2} \left( \frac{W_1^2}{W_2^2}  X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1} \left(\frac{W_1}{W_2} X_1^{\top}Y_1 + X_2^{\top}Y_2\right) \\
-%	&= \frac{1}{W_2}\left[\beta_2 + \left(\frac{W_1^2}{W_2^2} X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1}\bigbrace{X_1^{\top}X_1\left(\frac{W_1}{W_2}\beta_1 - \frac{W_1^2}{W_2^2} \beta_2\right) + \left(\frac{W_1}{W_2} X_1^{\top}\varepsilon_1 + X_2^{\top}\varepsilon_2\right)}\right].
-%\end{align*}
-Recall that $\hat{\beta}_i^{\MTL} = \hat{B} W_i$. Therefore, we have
-\begin{align}
-	\exarg{\epsilon_1, \epsilon_2}{L(\hat{\beta}_2^{\MTL}) \mid X_1, X_2}
-	=&~ \frac{W_1^2}{W_2^2} \bignorm{\Sigma_2^{1/2}(\frac{W_1^2}{W_2^2} X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} X_1^{\top}X_1 (\beta_1 - \frac{W_1}{W_2} \beta_2)}^2 \label{eq_bias_2task} \\
-			&+~  \sigma^2\cdot \bigtr{\Sigma_2(\frac{W_1^2}{W_2^2} X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} }. \label{eq_var_2task}
-\end{align}
-Equation \eqref{eq_bias_2task} is the bias of $\hat{\beta}_t^{\MTL}$ and
-equation \eqref{eq_var_2task} is the variance of $\hat{\beta}_t^{\MTL}$.
-%minus the variance of $\hat{\beta}_t^{\STL}$, which is always negative.
-Comparing the above to single-task learning, that is,
-\begin{align}
-	\exarg{\epsilon_2}{L(\hat{\beta}_2^{\STL}) \mid X_2} = \sigma^2 \cdot \bigtr{\Sigma_2 (X_2^{\top} X_2)^{-1}}, \label{eq_var_stl}
-\end{align}
-we observe that while the bias of $\hat{\beta}_2^{\MTL}$ is always larger than that of $\hat{\beta}_2^{\STL}$, which is zero, the variance of $\hat{\beta}_2^{\MTL}$ is always lower than that of $\hat{\beta}_2^{\STL}$.\footnote{To see why this is true, we apply the Woodbury matrix identity over equation \eqref{eq_var_2task} and use the fact that for the product of two PSD matrices, its trace is always nonnegative.}
-In other words, training both tasks together helps predict the target task by reducing variance while incurring a bias.
-Therefore, whether multi-task learning outperforms single-task learning is determined by the bias-variance decomposition!
-
-% \todo{derive the test loss} Expectation was given in \eqref{eq_bias_2task} and \eqref{eq_var_2task}.
- \nc
- 
-Plugging $Y^{(1)}$ and $Y^{(2)}$ in \eqref{model_YvsX} into \eqref{eq_Bhat_2task}, we can rewrite that 
- \begin{align}
-		\hat{B}= \frac{1}{A_2}\left[\beta_2 + \left(\frac{A_1^2}{A_2^2}(X^{(1)})^{\top}X^{(1)} +  (X^{(2)})^{\top}X^{(2)}\right)^{-1}\bigbrace{ (X^{(1)})^{\top}X_1\left(\frac{A_1}{A_2}\beta_1 - \frac{A_1^2}{A_2^2} \beta_2\right) + \left(\frac{A_1}{A_2} (X^{(1)})^{\top}\varepsilon_1 + (X^{(2)})^{\top}\varepsilon_2\right)}\right]. \label{eq_Bhat_2task2} %\\
-		%&= (B^\star A ^{\top}) (A A^{\top})^{-1} + (X^{\top}X)^{-1}X^{\top}   \bigbrace{\sum_{j=1}^t \varepsilon_i A_i^{\top}} (A  A^{\top})^{-1}.
-	\end{align}
-\todo{next derive the prediction loss} 
-  
-% \todo{switch the $a_3$ and $a_4$}
-
-For the isotropic model in Section \ref{sec_similarity}, we actually have an easier and sharper bound than Lemma \ref{thm_model_shift}. %as follows.
-\begin{lemma}\label{prop_model_shift_tight}
-		In the setting of Lemma \ref{thm_model_shift}, assume that $\Sigma_1 =\id$,
-		$\beta_2$ is a random vector that has i.i.d. entries with mean $0$, variance $\kappa^2$ and finite moments up to any order, and $(\beta_1-\beta_2)$ is a random vector that is independent of $\beta_2$ and has i.i.d. entries with mean $0$, variance $d^2$ and finite moments up to any order. Denote
-		$\Delta^\star_{\bias} := \bigbrace{(1 - \hat{v})^2 \kappa^2 + d^2} \bigtr{\Pi(\hat v)}$, where $\Pi$ was defined in \eqref{defnpihat}.	Then we have with high probability,
-		\begin{align*}
-			\te(\hat{\beta}_t^{\MTL}) \le \te(\hat{\beta}_t^{\STL})\quad \text{ when: }\ \  & \Delta_{\vari} \ge  (\al_+^2(\rho_1)+\oo(1))\cdot  \Delta^\star_{\bias} \ , \\
-			\te(\hat{\beta}_t^{\MTL}) \ge \te(\hat{\beta}_t^{\STL})\quad \text{ when: }\ \  & \Delta_{\vari} \le (\al_-^2(\rho_1)-\oo(1))\cdot  \Delta^\star_{\bias}\ ,
-		\end{align*}
-		where $\Delta_{\vari}$ was defined in \eqref{Deltavarv}.
-\end{lemma}
-
-\begin{proof}%[Proof of Lemma \ref{prop_model_shift_tight}]
-The proof of Lemma \ref{prop_model_shift_tight} is similar to that for Lemma \ref{thm_model_shift}, except that we can replace \eqref{bounddelta-} with a tighter bound. We only describe the main difference in the following proof.
-
-For any fixed $v\in \R$, $\beta_1 - v\beta_2$ is a random vector with i.i.d. entries with mean $0$ and variance $(1-v)^2\kappa^2 + d^2$. Then using the concentration result, Lemma \ref{largedeviation}, we get that for any constant $\e>0$, 
-\begin{align}
-&\left|\delta_{\bias}(v)- [(1-v)^2\kappa^2 + d^2]\tr (\cal K^\top \cal K)\right| \nonumber\\
-&=  \left|(\beta_1 - {v} \beta_2)^\top \cal K^\top \cal K (\beta_1 - {v} \beta_2) - [(1-v)^2\kappa^2 + d^2]\tr (\cal K^\top \cal K)\right| \nonumber\\
-&\le p^\e [(1-v)^2\kappa^2 + d^2] \left\{\tr\left[(\cal K^\top \cal K)^2\right]\right\}^{1/2} \lesssim p^{1/2+\e} [(1-v)^2\kappa^2 + d^2] \quad \text{w.h.p.},\label{anotherbeta}
-\end{align}
-where $\delta_{\bias}(v)$ was defined in \eqref{revise_deltabias}, $\cal K$ was defined as $\cal K:=v\Sigma_2^{1/2}({v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} X_1^{\top}X_1$, and in the last step we used $\|\cal K\|=\OO(1)$ by Fact \ref{lem_minv}. Now for $\tr (\cal K^\top \cal K)$, we rewrite it as
-\begin{align*}
-v^2 \tr \left[ ({v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2({v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}(X_1^\top X_1)^2 \right].
-\end{align*}
-Bounding $(X_1^\top X_1)^2=(Z_1^\top Z_1)^2$ using Fact \eqref{lem_minv}, we obtain that
-\be\label{anotherwtbeta} \delta^\star_{\bias}(v) \cdot (\al_-^2(\rho_1)-\OO(p^{-1/2+\e})) \le  [(1-v)^2\kappa^2 + d^2]\tr (\cal K^\top \cal K) \le \delta^\star_{\bias}(v) \cdot  (\al_+^2(\rho_1)+\OO(p^{-1/2+\e})),\ee
-where
-$$\delta^\star_{\bias}(v):=n_1^2 v^2 [(1-v)^2\kappa^2 + d^2]\tr \left[ ({v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2({v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\right].$$
-Note that $\delta^\star_{\bias}(v) \sim p$ by Fact \ref{lem_minv}. Hence combining \eqref{anotherbeta} and \eqref{anotherwtbeta} we get
-\be\label{replaceest}
-  \delta^\star_{\bias}(v) \cdot (\al_-^2(\rho_1)-\OO(p^{-1/2+\e})) \le  \delta_{\bias}(v)\le \delta^\star_{\bias}(v) \cdot  (\al_+^2(\rho_1)+\OO(p^{-1/2+\e})).
-\ee
-Now we can replace the estimate \eqref{bounddelta-} with this stronger estimate, and repeat all the other parts of the proof of Lemma \ref{thm_model_shift} to conclude Lemma \ref{prop_model_shift_tight}. In particular, one can calculate $  \delta^\star_{\bias}(v)$ using Lemma \ref{lem_cov_derivative} and get the $  \Delta^\star_{\bias}(v)$ term. 
-\end{proof}
-
-\fi
-
-
-We show that for the isotropic model, the optimum of $\hat v$ is very close to 1.
+ \paragraph{Minimizer of the optimization objective.} We show that for the isotropic model, the optimum of $\hat v$ is very close to 1.
 This allows us to simplify the expression of $\te(\hat{\beta}_2^{\MTL})$ significantly.
 %Our main observation is that the optimum of $\val(v)$ is approximately $1$.This allows us to simplify the bias and variance bounds significantly.
 %Furthermore, under certain choice of parameters, we can simplify  
@@ -255,8 +184,56 @@ Thus we obtain that for $|w-1|\ge 2C\cal E$,
 $$\left|h(w) - h(\hat w)\right|\ge |h(w)-\min\{h(w_1),h(w_2)\}|\gtrsim \sigma^2 \cal E \gtrsim \cal E \cdot h(\hat w),$$
 which leads to $g(w) > g(\hat w)$ with high probability by \eqref{boundv-w}. Thus $w$ cannot be a minimizer of $g(v)$, and we must have $|\hat v - 1|\le 2C\cal E$. %Together with \eqref{hatw_add1}, we conclude \eqref{hatv_add1}.
 %\end{proof}
+\end{proof}
 
-Inserting \eqref{hatv_add1} into \eqref{eq_te_mtl_2task} and applying Lemma  \ref{largedeviation} to $(\beta_1-\hat v\beta_s)$, we get that w.h.p.,
+\paragraph{Calculating the prediction loss.} Then we calculate the predication loss ...
+
+
+ \begin{claim}\label{claim_largedev2}
+ In the setting of Proposition \ref{cor_MTL_loss}, we have that 
+$$\left| g(A) - \exarg{\epsilon^{(1)}, \epsilon^{(2)},\beta_1,\beta_2}{g(A) \mid X_1, X_2 ,\beta_1,\beta_2}\right| \le p^{-c_\infty}\cdot p\left(\sigma^2 +\|\beta_1\|^2 +\|\beta_2\|^2 \right). $$
+ \end{claim}
+ \begin{proof}
+ \todo{add proof}
+ \end{proof}
+ 
+\cor
+%Our key insight is a bias-variance decomposition of the expected prediction loss of $\hat{\beta}_2^{\MTL} = \hat{B} W_2$.
+%Using the local optimality condition of $B$, we obtain that
+%\begin{align*}
+%	 \hat{B}(W_1, W_2) &= (W_1^2 X_1^{\top}X_1 + W_2^2 X_2^{\top}X_2)^{-1} (W_1 X_1^{\top}Y_1 + W_2 X_2^{\top}Y_2)\\
+%	&= \frac{1}{W_2} \left( \frac{W_1^2}{W_2^2}  X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1} \left(\frac{W_1}{W_2} X_1^{\top}Y_1 + X_2^{\top}Y_2\right) \\
+%	&= \frac{1}{W_2}\left[\beta_2 + \left(\frac{W_1^2}{W_2^2} X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1}\bigbrace{X_1^{\top}X_1\left(\frac{W_1}{W_2}\beta_1 - \frac{W_1^2}{W_2^2} \beta_2\right) + \left(\frac{W_1}{W_2} X_1^{\top}\varepsilon_1 + X_2^{\top}\varepsilon_2\right)}\right].
+%\end{align*}
+Recall that $\hat{\beta}_i^{\MTL} = \hat{B} W_i$. Therefore, we have
+\begin{align}
+	\exarg{\epsilon_1, \epsilon_2}{L(\hat{\beta}_2^{\MTL}) \mid X_1, X_2}
+	=&~ \frac{W_1^2}{W_2^2} \bignorm{\Sigma_2^{1/2}(\frac{W_1^2}{W_2^2} X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} X_1^{\top}X_1 (\beta_1 - \frac{W_1}{W_2} \beta_2)}^2 \label{eq_bias_2task} \\
+			&+~  \sigma^2\cdot \bigtr{\Sigma_2(\frac{W_1^2}{W_2^2} X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} }. \label{eq_var_2task}
+\end{align}
+Equation \eqref{eq_bias_2task} is the bias of $\hat{\beta}_t^{\MTL}$ and
+equation \eqref{eq_var_2task} is the variance of $\hat{\beta}_t^{\MTL}$.
+%minus the variance of $\hat{\beta}_t^{\STL}$, which is always negative.
+Comparing the above to single-task learning, that is,
+\begin{align}
+	\exarg{\epsilon_2}{L(\hat{\beta}_2^{\STL}) \mid X_2} = \sigma^2 \cdot \bigtr{\Sigma_2 (X_2^{\top} X_2)^{-1}}, \label{eq_var_stl}
+\end{align}
+we observe that while the bias of $\hat{\beta}_2^{\MTL}$ is always larger than that of $\hat{\beta}_2^{\STL}$, which is zero, the variance of $\hat{\beta}_2^{\MTL}$ is always lower than that of $\hat{\beta}_2^{\STL}$.\footnote{To see why this is true, we apply the Woodbury matrix identity over equation \eqref{eq_var_2task} and use the fact that for the product of two PSD matrices, its trace is always nonnegative.}
+In other words, training both tasks together helps predict the target task by reducing variance while incurring a bias.
+Therefore, whether multi-task learning outperforms single-task learning is determined by the bias-variance decomposition!
+
+% \todo{derive the test loss} Expectation was given in \eqref{eq_bias_2task} and \eqref{eq_var_2task}.
+ \nc
+ 
+Plugging $Y^{(1)}$ and $Y^{(2)}$ in \eqref{model_YvsX} into \eqref{eq_Bhat_2task}, we can rewrite that 
+ \begin{align}
+		\hat{B}= \frac{1}{A_2}\left[\beta_2 + \left(\frac{A_1^2}{A_2^2}(X^{(1)})^{\top}X^{(1)} +  (X^{(2)})^{\top}X^{(2)}\right)^{-1}\bigbrace{ (X^{(1)})^{\top}X_1\left(\frac{A_1}{A_2}\beta_1 - \frac{A_1^2}{A_2^2} \beta_2\right) + \left(\frac{A_1}{A_2} (X^{(1)})^{\top}\varepsilon_1 + (X^{(2)})^{\top}\varepsilon_2\right)}\right]. \label{eq_Bhat_2task2} %\\
+		%&= (B^\star A ^{\top}) (A A^{\top})^{-1} + (X^{\top}X)^{-1}X^{\top}   \bigbrace{\sum_{j=1}^t \varepsilon_i A_i^{\top}} (A  A^{\top})^{-1}.
+	\end{align}
+\todo{next derive the prediction loss} 
+
+
+ Inserting \eqref{hatv_add1} into \eqref{eq_te_mtl_2task} and applying Lemma  \ref{largedeviation} to $(\beta_1-\hat v\beta_s)$, we get that w.h.p.,
 \begin{align}
 \te(\hat{\beta}_2^{\MTL})&=(1+\OO(\cal E))\cdot \left[d^2 + \OO\left(\cal E^2 \kappa^2\right)\right] \tr\left[(X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right]\nonumber\\
 &+(1+\OO(\cal E))\cdot \sigma^2  \bigtr{(X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} }. \label{1Liso}
@@ -269,9 +246,48 @@ Hence we need to choose that $p d^2 \sim \sigma^2$. On the other hand, we want t
 %&+(1+\OO(n^{-\e}))\cdot \sigma^2  \bigtr{(X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} }  \label{simple1}
 %\end{align}
 %w.h.p. for some constant $\e>0$.
-\end{proof}
 
-%\subsection{Covariate Shift}\label{app_proof_33}
+  
+% \todo{switch the $a_3$ and $a_4$}
+\paragraph{Calculating the variance and bias terms.} For the isotropic model in Section \ref{sec_similarity}, we actually have an easier and sharper bound than Lemma \ref{thm_model_shift}. %as follows.
+\begin{lemma}\label{prop_model_shift_tight}
+		In the setting of Lemma \ref{thm_model_shift}, assume that $\Sigma_1 =\id$,
+		$\beta_2$ is a random vector that has i.i.d. entries with mean $0$, variance $\kappa^2$ and finite moments up to any order, and $(\beta_1-\beta_2)$ is a random vector that is independent of $\beta_2$ and has i.i.d. entries with mean $0$, variance $d^2$ and finite moments up to any order. Denote
+		$\Delta^\star_{\bias} := \bigbrace{(1 - \hat{v})^2 \kappa^2 + d^2} \bigtr{\Pi(\hat v)}$, where $\Pi$ was defined in \eqref{defnpihat}.	Then we have with high probability,
+		\begin{align*}
+			\te(\hat{\beta}_t^{\MTL}) \le \te(\hat{\beta}_t^{\STL})\quad \text{ when: }\ \  & \Delta_{\vari} \ge  (\al_+^2(\rho_1)+\oo(1))\cdot  \Delta^\star_{\bias} \ , \\
+			\te(\hat{\beta}_t^{\MTL}) \ge \te(\hat{\beta}_t^{\STL})\quad \text{ when: }\ \  & \Delta_{\vari} \le (\al_-^2(\rho_1)-\oo(1))\cdot  \Delta^\star_{\bias}\ ,
+		\end{align*}
+		where $\Delta_{\vari}$ was defined in \eqref{Deltavarv}.
+\end{lemma}
+
+\begin{proof}%[Proof of Lemma \ref{prop_model_shift_tight}]
+The proof of Lemma \ref{prop_model_shift_tight} is similar to that for Lemma \ref{thm_model_shift}, except that we can replace \eqref{bounddelta-} with a tighter bound. We only describe the main difference in the following proof.
+
+For any fixed $v\in \R$, $\beta_1 - v\beta_2$ is a random vector with i.i.d. entries with mean $0$ and variance $(1-v)^2\kappa^2 + d^2$. Then using the concentration result, Lemma \ref{largedeviation}, we get that for any constant $\e>0$, 
+\begin{align}
+&\left|\delta_{\bias}(v)- [(1-v)^2\kappa^2 + d^2]\tr (\cal K^\top \cal K)\right| \nonumber\\
+&=  \left|(\beta_1 - {v} \beta_2)^\top \cal K^\top \cal K (\beta_1 - {v} \beta_2) - [(1-v)^2\kappa^2 + d^2]\tr (\cal K^\top \cal K)\right| \nonumber\\
+&\le p^\e [(1-v)^2\kappa^2 + d^2] \left\{\tr\left[(\cal K^\top \cal K)^2\right]\right\}^{1/2} \lesssim p^{1/2+\e} [(1-v)^2\kappa^2 + d^2] \quad \text{w.h.p.},\label{anotherbeta}
+\end{align}
+where $\delta_{\bias}(v)$ was defined in \eqref{revise_deltabias}, $\cal K$ was defined as $\cal K:=v\Sigma_2^{1/2}({v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} X_1^{\top}X_1$, and in the last step we used $\|\cal K\|=\OO(1)$ by Fact \ref{lem_minv}. Now for $\tr (\cal K^\top \cal K)$, we rewrite it as
+\begin{align*}
+v^2 \tr \left[ ({v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2({v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}(X_1^\top X_1)^2 \right].
+\end{align*}
+Bounding $(X_1^\top X_1)^2=(Z_1^\top Z_1)^2$ using Fact \eqref{lem_minv}, we obtain that
+\be\label{anotherwtbeta} \delta^\star_{\bias}(v) \cdot (\al_-^2(\rho_1)-\OO(p^{-1/2+\e})) \le  [(1-v)^2\kappa^2 + d^2]\tr (\cal K^\top \cal K) \le \delta^\star_{\bias}(v) \cdot  (\al_+^2(\rho_1)+\OO(p^{-1/2+\e})),\ee
+where
+$$\delta^\star_{\bias}(v):=n_1^2 v^2 [(1-v)^2\kappa^2 + d^2]\tr \left[ ({v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2({v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\right].$$
+Note that $\delta^\star_{\bias}(v) \sim p$ by Fact \ref{lem_minv}. Hence combining \eqref{anotherbeta} and \eqref{anotherwtbeta} we get
+\be\label{replaceest}
+  \delta^\star_{\bias}(v) \cdot (\al_-^2(\rho_1)-\OO(p^{-1/2+\e})) \le  \delta_{\bias}(v)\le \delta^\star_{\bias}(v) \cdot  (\al_+^2(\rho_1)+\OO(p^{-1/2+\e})).
+\ee
+Now we can replace the estimate \eqref{bounddelta-} with this stronger estimate, and repeat all the other parts of the proof of Lemma \ref{thm_model_shift} to conclude Lemma \ref{prop_model_shift_tight}. In particular, one can calculate $  \delta^\star_{\bias}(v)$ using Lemma \ref{lem_cov_derivative} and get the $  \Delta^\star_{\bias}(v)$ term. 
+\end{proof}
+ 
+
+
+\subsection{Covariate Shift}\label{app_proof_33}
  
 Finally, we prove Proposition \ref{prop_covariate}, which shows that $\te(\hat{\beta}_2^{\MTL})$ is minimized approximately when $M$ is a scalar matrix, provided that there is enough source data.
 
