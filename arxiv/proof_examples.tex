@@ -13,17 +13,43 @@ Under the two-task setting of Corollary \ref{cor_MTL_loss}, the optimization obj
 	\end{align}
  Now inserting $\hat B$ back into \eqref{eq_mtl_2task_cov}, we obtain an objective that only depends on $A:=A_1/A_2$ as follows 
  \begin{align}
-		& g(A) \define  \left\| X^{(1)} \hat \Sigma^{-1} (X^{(2)})^\top X^{(2)} (A\beta_2-\beta_1)+ \left(A^2 X^{(1)}\hat \Sigma^{-1} (X^{(1)})^\top-\id_{n_1}\right)\epsilon_1 + A X^{(1)}\hat \Sigma^{-1} (X^{(2)})^\top \epsilon_2 \right\| \nonumber\\
-		&  +\left\| X^{(2)} \hat \Sigma^{-1} (X^{(1)})^\top X^{(1)} (A\beta_1-A^2\beta_2)+ \left(X^{(2)}\hat \Sigma^{-1} (X^{(2)})^\top-\id_{n_2}\right)\epsilon_2 + A X^{(2)}\hat \Sigma^{-1} (X^{(1)})^\top \epsilon_1 \right\|, 
+		 g(A) \define & \left\| X^{(1)} \hat \Sigma^{-1} (X^{(2)})^\top X^{(2)} (A\beta_2-\beta_1)+ \left(A^2 X^{(1)}\hat \Sigma^{-1} (X^{(1)})^\top-\id_{n_1}\right)\epsilon^{(1)} + A X^{(1)}\hat \Sigma^{-1} (X^{(2)})^\top \epsilon^{(2)} \right\|^2 \nonumber\\
+		 + & \left\| X^{(2)} \hat \Sigma^{-1} (X^{(1)})^\top X^{(1)} (A\beta_1-A^2\beta_2)+ \left(X^{(2)}\hat \Sigma^{-1} (X^{(2)})^\top-\id_{n_2}\right)\epsilon^{(2)} + A X^{(2)}\hat \Sigma^{-1} (X^{(1)})^\top \epsilon^{(1)} \right\|^2, 
 		\label{eq_mtl_A12}
 	\end{align}
 	where we denote
 	$$\hat \Sigma:= A^2 (X^{(1)})^\top X^{(1)}  + (X^{(2)})^\top X^{(2)} .$$
 We can calculate the partial expectation of $g(A)$ over the randomness in $\epsilon_1$ and $\epsilon_2$:
 \begin{align*}	
-\exarg{\epsilon_1, \epsilon_2}{g(A) \mid X_1, X_2 ,\beta_1,\beta_2} = 
+&\exarg{\epsilon^{(1)}, \epsilon^{(2)}}{g(A) \mid X_1, X_2 ,\beta_1,\beta_2} \\
+&= \left\| X^{(1)} \hat \Sigma^{-1} (X^{(2)})^\top X^{(2)} (A\beta_2-\beta_1)\right\|^2 +\left\| X^{(2)} \hat \Sigma^{-1} (X^{(1)})^\top X^{(1)} (A\beta_1-A^2\beta_2)\right\|^2  \\
+& + \exarg{\epsilon^{(1)}}{(\epsilon^{(1)})^\top \left(A^2 X^{(1)}\hat \Sigma^{-1} (X^{(1)})^\top-\id_{n_1}\right)^2\epsilon_1} +\exarg{ \epsilon^{(2)}}{(\epsilon^{(2)})^\top \left(X^{(2)}\hat \Sigma^{-1} (X^{(2)})^\top-\id_{n_2}\right)^2\epsilon^{(2)}}   \\
+&+  A^2 \exarg{ \epsilon^{(2)}}{ (\epsilon^{(2)} )^\top X^{(2)} \hat \Sigma^{-1}  (X^{(1)})^\top X^{(1)}\hat \Sigma^{-1} (X^{(2)})^\top \epsilon^{(2)}}  +A^2 \exarg{ \epsilon^{(1)}} { (\epsilon^{(1)})^\top X^{(1)} \hat \Sigma^{-1}  (X^{(2)})^\top X^{(2)}\hat \Sigma^{-1} (X^{(1)})^\top \epsilon^{(1)}  }\\
+		&= \left\| X^{(1)} \hat \Sigma^{-1} (X^{(2)})^\top X^{(2)} (A\beta_2-\beta_1)\right\|^2 +\left\| X^{(2)} \hat \Sigma^{-1} (X^{(1)})^\top X^{(1)} (A\beta_1-A^2\beta_2)\right\|^2  \\
+		&+ \sigma^2\tr\left[ \left(A^2 X^{(1)}\hat \Sigma^{-1} (X^{(1)})^\top-\id_{n_1}\right)^2\right] +\sigma^2\tr\left[ \left(X^{(2)}\hat \Sigma^{-1} (X^{(2)})^\top-\id_{n_2}\right)^2 \right]\\
+&+ 2 A^2 \sigma^2 \tr\left[ \hat \Sigma^{-1}  (X^{(1)})^\top X^{(1)}\hat \Sigma^{-1} (X^{(2)})^\top X^{(2)} \right]  \nonumber\\
+		& = \left\| X^{(1)} \hat \Sigma^{-1} (X^{(2)})^\top X^{(2)} (A\beta_2-\beta_1)\right\|^2 +\left\| X^{(2)} \hat \Sigma^{-1} (X^{(1)})^\top X^{(1)} (A\beta_1-A^2\beta_2)\right\|^2 +\sigma^2(n_1+n_2-p).
 \end{align*}
-As in Claim \ref{lem_exp_opt}, we first calculate the mean 
+Using the concentration estimates in Lemma \ref{largedeviation}, we can control the difference between $g(A)$ and its partial expectation. %$\exarg{\epsilon^{(1)}, \epsilon^{(2)}}{g(A) \mid X_1, X_2 ,\beta_1,\beta_2}$.
+ \begin{claim}\label{claim_largedev1}
+ In the setting of Proposition \ref{cor_MTL_loss}, we have that 
+$$\left| g(A) - \exarg{\epsilon^{(1)}, \epsilon^{(2)}}{g(A) \mid X_1, X_2 ,\beta_1,\beta_2}\right| \le p^{-c_\infty}\cdot p\left(\sigma^2 +\|\beta_1\|^2 +\|\beta_2\|^2 \right). $$
+ \end{claim}
+ \begin{proof}
+ \todo{add proof}
+ \end{proof}
+
+For the random-effects model, we can further take the partial expectation over $\beta_1$ and $\beta_2$: 
+
+\iffalse
+
+ \begin{claim}\label{claim_largedev2}
+ In the setting of Proposition \ref{cor_MTL_loss}, we have that 
+$$\left| g(A) - \exarg{\epsilon^{(1)}, \epsilon^{(2)},\beta_1,\beta_2}{g(A) \mid X_1, X_2 ,\beta_1,\beta_2}\right| \le p^{-c_\infty}\cdot p\left(\sigma^2 +\|\beta_1\|^2 +\|\beta_2\|^2 \right). $$
+ \end{claim}
+ \begin{proof}
+ \todo{add proof}
+ \end{proof}
  
 \cor
 %Our key insight is a bias-variance decomposition of the expected prediction loss of $\hat{\beta}_2^{\MTL} = \hat{B} W_2$.
@@ -59,47 +85,7 @@ Plugging $Y^{(1)}$ and $Y^{(2)}$ in \eqref{model_YvsX} into \eqref{eq_Bhat_2task
 		%&= (B^\star A ^{\top}) (A A^{\top})^{-1} + (X^{\top}X)^{-1}X^{\top}   \bigbrace{\sum_{j=1}^t \varepsilon_i A_i^{\top}} (A  A^{\top})^{-1}.
 	\end{align}
 \todo{next derive the prediction loss} 
- \cob
- 
- 
- \begin{claim}
-	In the setting described above, we have that
-	\be\label{approxvalid}
-		g(v)=  \left[\val(v) + (N_1\sigma^2_1+N_2\sigma^2_2)\right]\cdot \left( 1+\OO(p^{-(1-\e_0)/2+\e})\right).
-	\ee
-\end{claim}
-\begin{proof}
-	We use the fact that our random vectors have i.i.d. entries.
-%Before doing that, we first need to fix the setting for the following discussions, because we want to keep track of the error rate carefully instead of obtaining an asymptotic result only.
-	Recall that $Y_i = X_i\beta_i + \varepsilon_i$ and $\wt Y_i = \wt X_i\beta_i + \wt\varepsilon_i$, $i=1,2$, all satisfy Assumption \ref{assm_secA2}. Then we rewrite \eqref{eq_mtl_2tasktilde} as
-$$	g( v) = \sum_{i=1}^2\left\| \wt X_i\wt\beta_i  - \wt \e_i\right\|^2 , \quad \wt\beta:=\hat B w_i-\beta_i.$$
-Since $ \wt X_i\wt\beta$ and $ \wt \e_i$ are independent random vectors with i.i.d. centered entries, we can use the concentration result, Lemma \ref{largedeviation}, to get that for any constant $\e>0$,
-\begin{align*}
-\left|\left\| \wt X_i\wt\beta_i  - \wt \e_i\right\|^2 -  \exarg{\wt X_i,\wt{\e}_i} {\left\| \wt X_i\wt\beta_i  - \wt \e_i\right\|^2} \right| & =\left|\left\| \wt X_i\wt\beta_i  - \wt \e_i\right\|^2 - N_i (\wt\beta_i^\top \Sigma_i \wt\beta_i + \sigma_i^2) \right| \\
-&\le N_i^{1/2+\e} (\wt\beta_i^\top \Sigma_i \wt\beta_i + \sigma_i^2),
-\end{align*}
-with high probability. Thus we obtain that
-$$g(v)= \left[\sum_{i=1}^2 N_i\left\|\Sigma_i^{1/2}( \hat B w_i - \beta_i) \right\|^2 + (N_1\sigma^2_1+N_2\sigma^2_2)\right]\cdot \left( 1+\OO(p^{-(1-\e_0)/2+\e})\right),$$
-where we also used $N_i\ge p^{-1+\e_0}$. Inserting \eqref{hatB} into the above expression and using
- again the concentration result, Lemma \ref{largedeviation}, we get that
-$$ \sum_{i=1}^2 N_i\left\|\Sigma_i^{1/2}( \hat B w_1 - \beta_i) \right\|^2 = \val(v)\cdot \left( 1+\OO(p^{-1/2+\e})\right)$$
-with high probability.
-%-----old-------
-%Suppose that the entries of $\e_1$ and $\e_2$ have variance $\sigma^2$.  Using a validation set that is sub-sampled from the original training dataset, we get a validation loss as follows
-%\begin{align}
-%		&\val(\hat{B}; w_1, w_2):= \exarg{\varepsilon_1,\e_2} \sum_{i=1}^2 \left\|\Sigma_i^{1/2}( \hat B w_1 - \beta_i) \right\|^2 \\
-%	&=  n_1 \cdot \bignorm{\Sigma_1^{1/2}\left(\frac{w_1^2}{w_2^2} X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1}X_2^{\top}X_2\left (\beta_s - \frac{w_1}{w_2}\beta_t\right)}^2 \nonumber \\
-%		&+ n_1 \sigma^2 \cdot \frac{w_1^2}{w_2^2} \bigtr{\left(\frac{w_1^2}{w_2^2}  X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1}\Sigma_1} \nonumber \\
-%		&+ n_2 \cdot \frac{w_1^2}{w_2^2}\bignorm{\Sigma_2^{1/2}\left(\frac{w_1^2}{w_2^2} X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1}X_1^{\top}X_1\left(\beta_s - \frac{w_1}{w_2}\beta_t\right)}^2 \nonumber \\
-%		&+ n_2 \sigma^2 \cdot \bigtr{\left(\frac{w_1^2}{w_2^2} X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1}\Sigma_2}. \label{eq_val_mtl}
-%\end{align}
-%\nc
-%------------------
-Thus we conclude the proof.
-\end{proof}
-
-\nc
- 
+  
 % \todo{switch the $a_3$ and $a_4$}
 
 For the isotropic model in Section \ref{sec_similarity}, we actually have an easier and sharper bound than Lemma \ref{thm_model_shift}. %as follows.
@@ -138,6 +124,7 @@ Note that $\delta^\star_{\bias}(v) \sim p$ by Fact \ref{lem_minv}. Hence combini
 Now we can replace the estimate \eqref{bounddelta-} with this stronger estimate, and repeat all the other parts of the proof of Lemma \ref{thm_model_shift} to conclude Lemma \ref{prop_model_shift_tight}. In particular, one can calculate $  \delta^\star_{\bias}(v)$ using Lemma \ref{lem_cov_derivative} and get the $  \Delta^\star_{\bias}(v)$ term. 
 \end{proof}
 
+\fi
 
 
 We show that for the isotropic model, the optimum of $\hat v$ is very close to 1.

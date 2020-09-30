@@ -48,7 +48,7 @@ Thus, for any two $\beta_i$ and $\beta_j$, their distance is roughly $d^2$.
 Using our results, we show that the prediction loss of the hard parameter sharing estimator is as follows.
 
 \begin{corollary}[Derived from Theorem \ref{thm_many_tasks}]\label{prop_same_cov}
-	In the setting described above, the total prediction loss of the $t$ tasks satisfies that
+	In the setting described above, if the sample size $n$ is greater than $(1 + \tau) p$, then the total prediction loss of the $t$ tasks satisfies that
 	\begin{align*} 
 	 \sum_{i=1}^t L(\hat{\beta}_i^{\MTL})&= (t-r) \kappa^2 \cdot \frac{\tr\Sigma}{p}  + \sigma^2 \cdot \frac{r}{\rho-1} +\OO\left( p^{-c_\infty} \cdot\frac{\rho t(\kappa^2 + d^2) \|\Sigma\|}{(\sqrt{\rho}-1)^2 \kappa^2  \|\Sigma\| + \sigma^2}   \left( t \kappa^2 \|\Sigma \| + \frac{\sigma^2 r}{\rho-1} \right)  \right) .
 	 %& = \sum_{i=r+1}^t \lambda_i^2 (\Sigma^{1/2} B^{\star}) + \sigma^2 \frac{r}{\rho-1} +\OO\left(  p^{-c_\infty} \frac{t(\kappa^2 + d^2)\cdot (p^{-1}\tr \Sigma)}{(\sqrt{\rho}-1)^2 \kappa^2 \cdot (p^{-1}\tr \Sigma) + \sigma^2}   \left( t \kappa^2 \frac{\tr \Sigma}{p} + \frac{\sigma^2 r}{\rho-1} \right) \right) \\ 
@@ -83,7 +83,7 @@ Using Theorem \ref{thm_main_RMT}, we derive the prediction loss of the hard para
 Without loss of generality, we describe the result for task two and remark that a similar result for task one holds.
 
 \begin{corollary}[Derived from Theorem \ref{thm_main_RMT}]\label{cor_MTL_loss}
-	In the setting described above, assume that there exists a small constant $c_0>0$ such that the signal-to-noise ratios satisfy that
+	In the setting described above, assume further that a) the sample size $n_2$ of task two is greater than $(1 + \tau) p$, and b) there exists a small constant $c_0>0$ such that the signal-to-noise ratios satisfy 
 	\be\label{choiceofpara0}
 		p^{ c_0} \le \frac{p\kappa^2}{\sigma^2 }  \le p^{1-c_0},\quad  \frac{pd^2}{\sigma^2}=\OO(1).
 	\ee
@@ -91,8 +91,9 @@ Without loss of generality, we describe the result for task two and remark that 
 	The prediction loss of the hard parameter sharing estimator for task two satisfies that
 	\begin{align}\label{cor_MTL_error}
 	%-\left[1- \left( 1-\frac{1}{\sqrt{\rho_1}}\right)^4\right] pd^2\cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3} +\OO(p^{-c}\sigma^2)  \le 
-	 & \left|L(\hat{\beta}_2^{\MTL}) -\frac{\sigma^2}{\rho_1+\rho_2-1} - pd^2\cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3}\right|  \le  \left[\left( 1+\frac{1}{\sqrt{\rho_1}}\right)^4-1\right] pd^2\cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3} +\OO(p^{-c_{\varphi}}\sigma^2 ).
+	 & \left|L(\hat{\beta}_2^{\MTL}) -\frac{\sigma^2}{\rho_1+\rho_2-1} - pd^2\cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3}\right|  \le  \left[\left( 1+\frac{1}{\sqrt{\rho_1}}\right)^4-1\right] pd^2\cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3} +\OO(p^{-c}\sigma^2 ),
 	 \end{align}
+	 for any constant $c\in (0,c_0)$.
 \end{corollary}
 
 
