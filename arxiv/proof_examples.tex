@@ -20,7 +20,7 @@ Under the two-task setting of Corollary \ref{cor_MTL_loss}, the optimization obj
 	where $B \in \real^{p}$ and $A_1, A_2\in \R$ because $r=1$ in the two-task case. % for $1 < r < t$ by our assumption.
 	Without loss of generality, we assume that both $A_1$ and $A_2$ are nonzero, since otherwise we can add a small perturbation $\delta$ to them and later remove this perturbation by taking $\delta\to 0$ in the final result. Again using the local optimality condition ${\partial f}/{\partial B} = 0$, for any $A_1$ and $A_2$ we obtain the optimal $\hat{B}$ as follows
 	\begin{align}
-		\hat{B} \define  (A_1^2 (X^{(1)})^{\top}X^{(1)} + A_2^2 (X^{(2)})^{\top}X^{(2)})^{-1} (A_1 (X^{(1))})^{\top}Y^{(1)} + A_2 (X^{(2)})^{\top}Y^{(2)}). \label{eq_Bhat_2task} %\\
+		\hat{B}(A) \define  (A_1^2 (X^{(1)})^{\top}X^{(1)} + A_2^2 (X^{(2)})^{\top}X^{(2)})^{-1} (A_1 (X^{(1))})^{\top}Y^{(1)} + A_2 (X^{(2)})^{\top}Y^{(2)}). \label{eq_Bhat_2task} %\\
 		%&= (B^\star A ^{\top}) (A A^{\top})^{-1} + (X^{\top}X)^{-1}X^{\top}   \bigbrace{\sum_{j=1}^t \varepsilon_i A_i^{\top}} (A  A^{\top})^{-1}.
 	\end{align}
  Now inserting $\hat B$ back into \eqref{eq_mtl_2task_cov}, we obtain an objective that only depends on $A:=A_1/A_2$ as follows 
@@ -61,8 +61,8 @@ where in the first step we used that the entries of $\beta_1-A\beta_2\in \R^p$ a
 Using the concentration estimates in Lemma \ref{largedeviation}, we can control the difference between $g(A)$ and its partial expectation. %$\exarg{\epsilon^{(1)}, \epsilon^{(2)}}{g(A) \mid X_1, X_2 ,\beta_1,\beta_2}$.
  \begin{claim}\label{claim_largedev1}
  In the setting of Proposition \ref{cor_MTL_loss}, we have that with high probability,
-$$\left| g(A) - \exarg{\epsilon^{(1)}, \epsilon^{(2)} ,\beta_1,\beta_2}{g(A) \mid X_1, X_2 }\right| \le p^{-1/2+c}\cdot p\left(\sigma^2 + \kappa^2+d^2 \right) $$
-for any small constant $c>0$.
+$$\left| g(A) - \exarg{\epsilon^{(1)}, \epsilon^{(2)} ,\beta_1,\beta_2}{g(A) \mid X_1, X_2 }\right| \le p^{-1/2+e_1}\cdot p\left(\sigma^2 + \kappa^2+d^2 \right) $$
+for any small constant $e_1>0$.
  \end{claim}
  \begin{proof}
  \todo{add proof}
@@ -79,8 +79,9 @@ for any small constant $c>0$.
 %Suppose the assumptions of Lemma \ref{prop_model_shift_tight} hold. Assume that $ \kappa^2 \sim pd^2 \sim \sigma^2$ are of the same order.
  In the setting of Proposition \ref{cor_MTL_loss}, we have that with high probability,
 %There exists a constant $C>0$ such that
-	\be\label{hatw_add1}|\hat A -1|\lesssim \frac{d^2}{\kappa^2} + \frac{\sigma^2}{\kappa^2} + p^{-c_\infty}. 
+	\be\label{hatw_add1}|\hat A -1|\le  \frac{d^2}{\kappa^2} + p^{-1/4+e_2}. 
 	\ee
+	for any small constant $e_2>0$.
 	%is $\hat{w} = 1 \pm \bigo{\frac 1 {n_1+n_2}}$ \todo{(figure out the constants)}
 \end{claim}
 
@@ -102,10 +103,10 @@ where we used that $1+\tau\le \rho_1\le \tau^{-1}$ and $1+\tau\le \rho_2\le \tau
 h(A)\gtrsim (1+A^2)\kappa^2 \cdot p\left(\rho_1^{-1} + A^2 \rho_2^{-1}\right)^{-1} \gtrsim p\kappa^2 ,
 \end{align}
 where in the first step we used that $|A-1|^2\gtrsim 1+A^2$ for $|A-1|\ge \delta$, $1+\tau\le \rho_1\le \tau^{-1}$ and $1+\tau\le \rho_2\le \tau^{-1}$, and in the second step we used \eqref{choiceofpara0}. Hence using Claim \ref{claim_largedev1}, \eqref{eq_h1} and \eqref{eq_hA}, we obtain that with high probability,
-\begin{align*}
-g(A)&\ge  h(A) +\sigma^2(n_1+n_2-p) -p^{-1/2+c}\cdot p\left(\sigma^2 +\kappa^2+d^2 \right) \\
-&\ge h(1) +\sigma^2(n_1+n_2-p) + p^{-1/2+c}\cdot p\left(\sigma^2 +\kappa^2+d^2 \right) \ge g(1)
-\end{align*}
+\begin{align}
+g(A)&\ge  h(A) +\sigma^2(n_1+n_2-p) -p^{-1/2+e_1}\cdot p\left(\sigma^2 +\kappa^2+d^2 \right) \nonumber\\
+&\ge h(1) +\sigma^2(n_1+n_2-p) + p^{-1/2+e_1}\cdot p\left(\sigma^2 +\kappa^2+d^2 \right) \ge g(1) \label{gA>g1}
+\end{align}
 under \eqref{choiceofpara0}.
 This gives that
 \be\label{rough A-1}
@@ -214,31 +215,44 @@ $$1-d^2/(2\kappa^2)\le A^\star \le 1+d^2/(2\kappa^2).$$
 %\ee
 %for some small constant $c_0>0$. 
 
-Now we are ready to prove \eqref{hatw_add1}. We choose the constant $c$ in Claim \eqref{claim_largedev1} small enough such that $1/2-c> c_\infty$. First using \eqref{op_uplow} and \eqref{h'(A)1}, we obtain that for $1+d^2/\kappa^2 \le A\le 1+\delta$,
+Now we are ready to prove \eqref{hatw_add1}. First using \eqref{op_uplow} and \eqref{h'(A)1}, we obtain that for $1+d^2/\kappa^2 \le A\le 1+\delta$,
 $$h'(A)\ge \frac{2(A-1)\kappa^2 - d^2}{A^3} \cdot p^{-1} \tr\left([(X^{(2)})^\top X^{(2)}]^{-1} + A^{-2} [(X^{(1)})^\top X^{(1)}]^{-1}\right) \gtrsim p\left(d^2 + |A-1|\kappa^2\right).$$
-Thus we get that if $1+d^2/\kappa^2 +p^{-c_\infty}\le A\le 1+\delta$,
-
-
-Next we prove the following estimate on the optimizer $\hat A$: with high probability,
-%\begin{lemma}
-%For the isotropic model, we have
-\be\label{hatv_add1}
-|\hat v - 1|= \OO\left(\cal E\right), \quad \cal E:=\frac{d^2}{\kappa^2} + \frac{\sigma^2}{p\kappa^2} + p^{-1/2 + \e_0 /2+ 2\e}.
-\ee
-%\end{lemma}
-%\begin{proof}
- In fact, from the proof of Claim \ref{lem_hat_v} above, one can check that if $C\cal E \le |w-1| \le 2C\cal E$ for a large enough constant $C>1$, then $|h'(w)|\gtrsim \sigma^2$. Moreover, under \eqref{choiceofpara} we have
-$$h(w) =\OO(\sigma^2),\quad \text{for}\quad   |w-1|\le 2C\cal E.$$
-Thus we obtain that for $|w-1|\ge 2C\cal E$,
-$$\left|h(w) - h(\hat w)\right|\ge |h(w)-\min\{h(w_1),h(w_2)\}|\gtrsim \sigma^2 \cal E \gtrsim \cal E \cdot h(\hat w),$$
-which leads to $g(w) > g(\hat w)$ with high probability by \eqref{boundv-w}. Thus $w$ cannot be a minimizer of $g(v)$, and we must have $|\hat v - 1|\le 2C\cal E$. %Together with \eqref{hatw_add1}, we conclude \eqref{hatv_add1}.
-%\end{proof}
-
-{\cor require $\kappa^2\gg d^2 + p^{-1/2+c}\sigma^2$}
+Thus we get that if $1+2d^2/\kappa^2 +p^{-1/4+e_2}\le A\le 1+\delta$,
+\begin{align*}
+h(A)-h(1)\ge h(A)-h(1+d^2/\kappa^2) \ge \int_{1+d^2/\kappa^2}^A h'(x)\dd x \gtrsim p\kappa^2 \cdot |A-1|^2  \gtrsim p\frac{d^2}{\kappa^2} + p^{-1/2+2e_2}\cdot p\kappa^2.
+\end{align*}
+Then if we choose the constant $c$ in Claim \ref{claim_largedev1} such that $e_1<2e_2$, we have 
+$$ h(A)-h(1)\gtrsim  p^{-1/2+2e_2}\cdot p\kappa^2 \gg p^{-1/2+e_1}\cdot p\left(\sigma^2 +\kappa^2+d^2 \right)$$
+under \eqref{choiceofpara0}, which implies the inequality as in \eqref{gA>g1}. Second using \eqref{op_uplow} and \eqref{h'(A)2}, we obtain that for $1-\delta \le A \le 1-d^2/\kappa^2$,
+$$- h'(A)\ge  [2(1-A)\kappa^2 - Ad^2] \cdot p^{-1} \tr\left(A^2[(X^{(2)})^\top X^{(2)}]^{-1} + [(X^{(1)})^\top X^{(1)}]^{-1}\right)  \gtrsim p\left(d^2 + |A-1|\kappa^2\right).$$
+Then with a similar argument as above, we can get that if $1-2d^2/\kappa^2 - p^{-\frac12c_\infty}\le A\le 1-\delta$, then 
+$$ h(A)-h(1) \gg p^{-1/2+e_1}\cdot p\left(\sigma^2 +\kappa^2+d^2 \right)$$
+under \eqref{choiceofpara0}, which implies the inequality as in \eqref{gA>g1}. In sum, we obtain that the minimizer $\hat A$ must satisfy \eqref{hatw_add1}.
+%Next we prove the following estimate on the optimizer $\hat A$: with high probability,
+%%\begin{lemma}
+%%For the isotropic model, we have
+%\be\label{hatv_add1}
+%|\hat v - 1|= \OO\left(\cal E\right), \quad \cal E:=\frac{d^2}{\kappa^2} + \frac{\sigma^2}{p\kappa^2} + p^{-1/2 + \e_0 /2+ 2\e}.
+%\ee
+%%\end{lemma}
+%%\begin{proof}
+% In fact, from the proof of Claim \ref{lem_hat_v} above, one can check that if $C\cal E \le |w-1| \le 2C\cal E$ for a large enough constant $C>1$, then $|h'(w)|\gtrsim \sigma^2$. Moreover, under \eqref{choiceofpara} we have
+%$$h(w) =\OO(\sigma^2),\quad \text{for}\quad   |w-1|\le 2C\cal E.$$
+%Thus we obtain that for $|w-1|\ge 2C\cal E$,
+%$$\left|h(w) - h(\hat w)\right|\ge |h(w)-\min\{h(w_1),h(w_2)\}|\gtrsim \sigma^2 \cal E \gtrsim \cal E \cdot h(\hat w),$$
+%which leads to $g(w) > g(\hat w)$ with high probability by \eqref{boundv-w}. Thus $w$ cannot be a minimizer of $g(v)$, and we must have $|\hat v - 1|\le 2C\cal E$. %Together with \eqref{hatw_add1}, we conclude \eqref{hatv_add1}.
+%%\end{proof}
+%
+%{\cor require $\kappa^2\gg d^2 + p^{-1/2+c}\sigma^2$}
 \end{proof}
 
-\paragraph{Calculating the prediction loss.} Then we calculate the predication loss ...
+\paragraph{Calculating the prediction loss.} Now we calculate the predication loss using the optimal $\hat B(\hat A) $ in \eqref{eq_Bhat_2task}. ......
 
+Plugging $Y^{(1)}$ and $Y^{(2)}$ in \eqref{model_YvsX} into \eqref{eq_Bhat_2task}, we can rewrite that 
+ \begin{align}
+		\hat{B}= \frac{1}{A_2}\left[\beta_2 + \left(\frac{A_1^2}{A_2^2}(X^{(1)})^{\top}X^{(1)} +  (X^{(2)})^{\top}X^{(2)}\right)^{-1}\bigbrace{ (X^{(1)})^{\top}X_1\left(\frac{A_1}{A_2}\beta_1 - \frac{A_1^2}{A_2^2} \beta_2\right) + \left(\frac{A_1}{A_2} (X^{(1)})^{\top}\varepsilon_1 + (X^{(2)})^{\top}\varepsilon_2\right)}\right]. \label{eq_Bhat_2task2} %\\
+		%&= (B^\star A ^{\top}) (A A^{\top})^{-1} + (X^{\top}X)^{-1}X^{\top}   \bigbrace{\sum_{j=1}^t \varepsilon_i A_i^{\top}} (A  A^{\top})^{-1}.
+	\end{align}
 
  \begin{claim}\label{claim_largedev2}
  In the setting of Proposition \ref{cor_MTL_loss}, we have that 
@@ -276,11 +290,7 @@ Therefore, whether multi-task learning outperforms single-task learning is deter
 % \todo{derive the test loss} Expectation was given in \eqref{eq_bias_2task} and \eqref{eq_var_2task}.
  \nc
  
-Plugging $Y^{(1)}$ and $Y^{(2)}$ in \eqref{model_YvsX} into \eqref{eq_Bhat_2task}, we can rewrite that 
- \begin{align}
-		\hat{B}= \frac{1}{A_2}\left[\beta_2 + \left(\frac{A_1^2}{A_2^2}(X^{(1)})^{\top}X^{(1)} +  (X^{(2)})^{\top}X^{(2)}\right)^{-1}\bigbrace{ (X^{(1)})^{\top}X_1\left(\frac{A_1}{A_2}\beta_1 - \frac{A_1^2}{A_2^2} \beta_2\right) + \left(\frac{A_1}{A_2} (X^{(1)})^{\top}\varepsilon_1 + (X^{(2)})^{\top}\varepsilon_2\right)}\right]. \label{eq_Bhat_2task2} %\\
-		%&= (B^\star A ^{\top}) (A A^{\top})^{-1} + (X^{\top}X)^{-1}X^{\top}   \bigbrace{\sum_{j=1}^t \varepsilon_i A_i^{\top}} (A  A^{\top})^{-1}.
-	\end{align}
+
  
 
 \begin{lemma}
