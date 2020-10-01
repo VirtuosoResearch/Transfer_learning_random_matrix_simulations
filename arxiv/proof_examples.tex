@@ -58,7 +58,7 @@ where in the first step we used that the entries of $\beta_1-A\beta_2\in \R^p$ a
  
 Using the concentration estimates in Lemma \ref{largedeviation}, we can control the difference between $g(A)$ and its partial expectation. %$\exarg{\epsilon^{(1)}, \epsilon^{(2)}}{g(A) \mid X_1, X_2 ,\beta_1,\beta_2}$.
  \begin{claim}\label{claim_largedev1}
- In the setting of Proposition \ref{cor_MTL_loss}, we have that 
+ In the setting of Proposition \ref{cor_MTL_loss}, we have that with high probability,
 $$\left| g(A) - \exarg{\epsilon^{(1)}, \epsilon^{(2)} ,\beta_1,\beta_2}{g(A) \mid X_1, X_2 }\right| \le p^{-c_\infty}\cdot p\left(\sigma^2 +\kappa^2+d^2 \right). $$
  \end{claim}
  \begin{proof}
@@ -66,28 +66,23 @@ $$\left| g(A) - \exarg{\epsilon^{(1)}, \epsilon^{(2)} ,\beta_1,\beta_2}{g(A) \mi
  \end{proof}
 
 
- \paragraph{Minimizer of the optimization objective.} We show that for the isotropic model, the optimum of $\hat v$ is very close to 1.
-This allows us to simplify the expression of $\te(\hat{\beta}_2^{\MTL})$ significantly.
+ \paragraph{Minimizer of the optimization objective.} We show that for the isotropic model, the minimizer of $g(A)$, denoted by $\hat A$, is very close to 1 under the condition \eqref{choiceofpara0}. This will be used to calculate the predication loss $\te(\hat{\beta}_2^{\MTL})$ loss.
 %Our main observation is that the optimum of $\val(v)$ is approximately $1$.This allows us to simplify the bias and variance bounds significantly.
 %Furthermore, under certain choice of parameters, we can simplify  
-More precisely, we have the following lemma.
-Later on, we will combine it with Lemma \ref{prop_model_shift_tight} together to analyze the bias-variance tradeoff.
+%More precisely, we have the following claim.
+%Later on, we will combine it with Lemma \ref{prop_model_shift_tight} together to analyze the bias-variance tradeoff.
 
-\begin{lemma}
-In the isotropic model, suppose for some constant $c_0>0$, 
-\be\label{choiceofpara}
-	\frac{pd^2}{\sigma^2} = \OO(1),\quad p^{-1+c_0} \le \frac{\kappa^2}{\sigma^2 }  \le p^{-\e_0-c_0},
-\ee
-where $\e_0$ is the constant as appeared in \eqref{approxvalid}. Then we have
-\begin{align}
-\te(\hat{\beta}_2^{\MTL})=&(1+\OO(n^{-\e}))\cdot d^2 \tr\left[(X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right] \nonumber \\
-&+(1+\OO(n^{-\e}))\cdot \sigma^2  \bigtr{(X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} } \quad \text{w.h.p.} \label{simple1}
-\end{align}
-for some constant $\e>0$.
-\end{lemma}
+\begin{claim}\label{lem_hat_v}
+%Suppose the assumptions of Lemma \ref{prop_model_shift_tight} hold. Assume that $ \kappa^2 \sim pd^2 \sim \sigma^2$ are of the same order.
+ In the setting of Proposition \ref{cor_MTL_loss}, we have that with high probability,
+%There exists a constant $C>0$ such that
+	\be\label{hatw_add1}|\hat A -1|\lesssim \frac{d^2}{\kappa^2} + \frac{\sigma^2}{\kappa^2} + p^{-c_\infty}. 
+	\ee
+	%is $\hat{w} = 1 \pm \bigo{\frac 1 {n_1+n_2}}$ \todo{(figure out the constants)}
+\end{claim}
 
 \begin{proof}
-	Using Lemma \ref{largedeviation} again, we can simplify \eqref{revise_eq_val_mtl} as $\val(v)= N_2h(v) \cdot  \left( 1+\OO(p^{-1/2+\e})\right)$, where the function $ h$ is defined as
+\todo{revise the proof}	Using Lemma \ref{largedeviation} again, we can simplify \eqref{revise_eq_val_mtl} as $\val(v)= N_2h(v) \cdot  \left( 1+\OO(p^{-1/2+\e})\right)$, where the function $ h$ is defined as
 	%We define the function
 	\begin{align}
 		h(v) =& \frac{\rho_1}{\rho_2}\left[d^2 +\left( v-1\right)^2\kappa^2\right]\cdot \tr\left[( v^2X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_2^{\top}X_2)^2\right] \nonumber \\
@@ -107,12 +102,7 @@ Let $\hat w$ be the minimizer of $h(v)$. Our proof consists of the following two
 \squishend
 %For the minimizer $\hat w$ of $\val(w)$, we have a similar result as in Proposition \ref{thm_cov_shift}.
 For the first step, we will prove the following result.
-\begin{claim}\label{lem_hat_v}
-%Suppose the assumptions of Lemma \ref{prop_model_shift_tight} hold. Assume that $ \kappa^2 \sim pd^2 \sim \sigma^2$ are of the same order.
-There exists a constant $C>0$ such that
-	\be\label{hatw_add1}|\hat w -1|\le C\left(\frac{d^2}{\kappa^2} + \frac{\sigma^2}{p\kappa^2}\right)\quad \text{w.h.p.}\ee
-	%is $\hat{w} = 1 \pm \bigo{\frac 1 {n_1+n_2}}$ \todo{(figure out the constants)}
-\end{claim}
+
 \begin{proof}
 To be consistent with the notation $\hat w$, we change the name of the argument to $w$ in the proof. First it is easy to observe that $h(w)< h(-w)$ for $w> 0$. Second, using Fact \eqref{lem_minv}, it is easy to check that $h(1)=\OO(pd^2 + \sigma^2)$ and $ h(w)\gtrsim p\kappa^2 \gg h(1)$ for $w\ge 2$ or $w\le 1/2$.  Hence it suffices to consider the case $1/2\le w\le 2$.
 
@@ -230,8 +220,21 @@ Plugging $Y^{(1)}$ and $Y^{(2)}$ in \eqref{model_YvsX} into \eqref{eq_Bhat_2task
 		\hat{B}= \frac{1}{A_2}\left[\beta_2 + \left(\frac{A_1^2}{A_2^2}(X^{(1)})^{\top}X^{(1)} +  (X^{(2)})^{\top}X^{(2)}\right)^{-1}\bigbrace{ (X^{(1)})^{\top}X_1\left(\frac{A_1}{A_2}\beta_1 - \frac{A_1^2}{A_2^2} \beta_2\right) + \left(\frac{A_1}{A_2} (X^{(1)})^{\top}\varepsilon_1 + (X^{(2)})^{\top}\varepsilon_2\right)}\right]. \label{eq_Bhat_2task2} %\\
 		%&= (B^\star A ^{\top}) (A A^{\top})^{-1} + (X^{\top}X)^{-1}X^{\top}   \bigbrace{\sum_{j=1}^t \varepsilon_i A_i^{\top}} (A  A^{\top})^{-1}.
 	\end{align}
-\todo{next derive the prediction loss} 
+ 
 
+\begin{lemma}
+In the isotropic model, suppose for some constant $c_0>0$, 
+\be\label{choiceofpara}
+	\frac{pd^2}{\sigma^2} = \OO(1),\quad p^{-1+c_0} \le \frac{\kappa^2}{\sigma^2 }  \le p^{-\e_0-c_0},
+\ee
+where $\e_0$ is the constant as appeared in \eqref{approxvalid}. Then we have
+\begin{align}
+\te(\hat{\beta}_2^{\MTL})=&(1+\OO(n^{-\e}))\cdot d^2 \tr\left[(X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right] \nonumber \\
+&+(1+\OO(n^{-\e}))\cdot \sigma^2  \bigtr{(X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} } \quad \text{w.h.p.} \label{simple1}
+\end{align}
+for some constant $\e>0$.
+\end{lemma}
+\begin{proof}
 
  Inserting \eqref{hatv_add1} into \eqref{eq_te_mtl_2task} and applying Lemma  \ref{largedeviation} to $(\beta_1-\hat v\beta_s)$, we get that w.h.p.,
 \begin{align}
@@ -246,7 +249,7 @@ Hence we need to choose that $p d^2 \sim \sigma^2$. On the other hand, we want t
 %&+(1+\OO(n^{-\e}))\cdot \sigma^2  \bigtr{(X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} }  \label{simple1}
 %\end{align}
 %w.h.p. for some constant $\e>0$.
-
+\end{proof}
   
 % \todo{switch the $a_3$ and $a_4$}
 \paragraph{Calculating the variance and bias terms.} For the isotropic model in Section \ref{sec_similarity}, we actually have an easier and sharper bound than Lemma \ref{thm_model_shift}. %as follows.
