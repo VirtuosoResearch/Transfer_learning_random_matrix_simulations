@@ -140,9 +140,67 @@ Third pair: MPQA (opinion polarity) is more similar to TREC (question type)
 %We observe that adding a similar task helps the target task whereas adding a dissimilar task hurts.
 %The rest of experimental procedures are left to Appendix \ref{app_it}.
 
+\subsection{The Same Covariates Setting: Sample Efficiency}
+
+%We validate that MTL performs better when the source task is more similar to the target task.
+%We show the result on the sentiment analysis tasks.
+%For a target task, we manually select a similar task and a dissimilar task based on prior knowledge.
+%Figure \ref{fig_ab_sim} confirms the result.
+%Recall that Section \ref{sec_data_size} shows that increasing the data size of the source task does not always improve the performance of MTL for the target task.
+%In Figure \ref{fig_ab_data}, we show that for source task MR and target task SST, there is a transition from positive to negative transfer as we increase the data size of the source task.
+%Our result provides a fine-grained insight on the covariance alignment algorithm proposed in \cite{WZR20}.
+%Recall that the covariance alignment procedure in \cite{WZR20} adds an additional module between the word embedding representation and the shared module.
+%When the source task data size is particularly large compared to the target task, we show that applying the covariance alignment algorithm results in more significant gains.
+%In Figure \ref{fig_ab_cov}, we observe that the benefit from aligning task covariances becomes more significant for LSTM and MLP as we increase the number of datapoints of the source task.
+
+\begin{table}
+	\begin{center}
+		\begin{tabular}{c c c c c}
+			\toprule
+			\multirow{2}{*}{{\bf Models}} & \multicolumn{2}{c}{\begin{minipage}{1.1in}\begin{center}
+				                                                                          MR, SST, SUBJ, CR, MPQA, TREC\end{center}\end{minipage}} & \multicolumn{2}{c}{\begin{minipage}{1.1in}\begin{center}MR, SST, SUBJ, CR, MPQA\end{center}\end{minipage}} \\
+			\cmidrule(lr){2-3} \cmidrule(lr){4-5}
+			& {\bf Stanford} & {\bf Alignment} & {\bf Stanford} & {\bf Alignment} \\
+			\midrule
+			{\bf MLP}  & > 100\% & 39\% & 25\% & 25\% \\
+			{\bf LSTM} & 36\% & 36\% & 28\% & 25\% \\
+			% {\bf CNN}  & 76\% & - & 32\% & -\\
+			\bottomrule
+		\end{tabular}
+	\end{center}
+	\caption{Taskonomy experiment.}
+	\label{tab:taskonomy}
+\end{table}
 
 
-\subsection{Sample Imbalance}\label{sec_exp_sample}
+\begin{figure}[!t]
+	\begin{subfigure}[b]{0.32\textwidth}
+		\centering
+		\includegraphics[width=0.98\textwidth]{figures/datapoints_phase_transition.pdf}
+		\caption{Sample imbalance}
+		\label{fig_size}
+	\end{subfigure}\hfill
+	\begin{subfigure}[b]{0.32\textwidth}
+		\centering
+		\includegraphics[width=0.98\textwidth]{figures/complementary.pdf}
+		\caption{Covariate shift}
+		\label{fig_covariate}
+	\end{subfigure}\hfill
+	\begin{subfigure}[b]{0.32\textwidth}
+		\centering
+		\includegraphics[width=0.98\textwidth]{figures/model_shift_phase_transition.pdf}
+		\caption{Sample efficiency}
+		\label{fig_model_shift}
+	\end{subfigure}
+	\caption{%Three takeaways of our theory in Section \ref{sec_insight}.
+	We observe a transition from positive to negative transfer as (a) \textit{task model distance} increases and (b) source/target \textit{sample ratio} increases.
+	For the special case of having the same task model, we observe in (c) that as source/target \textit{sample ratio} increases, having \textit{covariate shift} worsens the performance of MTL.
+	The $y$-axis measures the loss of STL minus MTL.}
+	\label{fig_model_shift_phasetrans}
+\end{figure}
+
+
+\subsection{The Different Covariates Setting: Sample Imbalance and Covariate Shift}\label{sec_exp_sample}
 
 %\textit{Predicting transfer effect via STL results.}
 %We show that the single-task based metric proposed in Section \ref{sec_similarity} can predict positive or negative transfer in MTL.
@@ -239,7 +297,6 @@ As a further validation, excluding TREC, we observe similar comparative results.
 
 
 
-\subsection{Covariate Shift}
 
 \noindent\textit{Covariance alignemnt.}
 Our observation highlights the need to correct covariate shift when $n_1 / n_2$ is large.
@@ -284,36 +341,4 @@ We leave this question for future work.
 	\label{fig_covariate_app}
 \end{figure}
 
-\subsection{Sample Efficiency}
 
-
-
-%We validate that MTL performs better when the source task is more similar to the target task.
-%We show the result on the sentiment analysis tasks.
-%For a target task, we manually select a similar task and a dissimilar task based on prior knowledge.
-%Figure \ref{fig_ab_sim} confirms the result.
-%Recall that Section \ref{sec_data_size} shows that increasing the data size of the source task does not always improve the performance of MTL for the target task.
-%In Figure \ref{fig_ab_data}, we show that for source task MR and target task SST, there is a transition from positive to negative transfer as we increase the data size of the source task.
-%Our result provides a fine-grained insight on the covariance alignment algorithm proposed in \cite{WZR20}.
-%Recall that the covariance alignment procedure in \cite{WZR20} adds an additional module between the word embedding representation and the shared module.
-%When the source task data size is particularly large compared to the target task, we show that applying the covariance alignment algorithm results in more significant gains.
-%In Figure \ref{fig_ab_cov}, we observe that the benefit from aligning task covariances becomes more significant for LSTM and MLP as we increase the number of datapoints of the source task.
-
-\begin{table}
-	\begin{center}
-		\begin{tabular}{c c c c c}
-			\toprule
-			\multirow{2}{*}{{\bf Models}} & \multicolumn{2}{c}{\begin{minipage}{1.1in}\begin{center}
-				                                                                          MR, SST, SUBJ, CR, MPQA, TREC\end{center}\end{minipage}} & \multicolumn{2}{c}{\begin{minipage}{1.1in}\begin{center}MR, SST, SUBJ, CR, MPQA\end{center}\end{minipage}} \\
-			\cmidrule(lr){2-3} \cmidrule(lr){4-5}
-			& {\bf Stanford} & {\bf Alignment} & {\bf Stanford} & {\bf Alignment} \\
-			\midrule
-			{\bf MLP}  & > 100\% & 39\% & 25\% & 25\% \\
-			{\bf LSTM} & 36\% & 36\% & 28\% & 25\% \\
-			% {\bf CNN}  & 76\% & - & 32\% & -\\
-			\bottomrule
-		\end{tabular}
-	\end{center}
-	\caption{Taskonomy experiment.}
-	\label{tab:taskonomy}
-\end{table}
