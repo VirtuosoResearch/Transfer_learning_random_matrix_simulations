@@ -332,7 +332,7 @@ In the setting of Proposition \ref{cor_MTL_loss}, we have that with high probabi
 %\ee
 %where $\e_0$ is the constant as appeared in equation \eqref{approxvalid}. Then we have
 \begin{align}
-&\left|\cal L(\hat A)-\frac{d^2}{p}\tr\left[\Sigma(1)^{-2} \left((X^{(1)})^\top X^{(1)} \right)^2\right] -\sigma^2  \bigtr{\Sigma(1)^{-1}  }\right| \nonumber\\
+&\left|\cal L(\hat A)- d^2\cdot {p}^{-1}\tr\left[\Sigma(1)^{-2} \left((X^{(1)})^\top X^{(1)} \right)^2\right] -\sigma^2  \bigtr{\Sigma(1)^{-1}  }\right| \nonumber\\
 &\lesssim  \frac{d^4 + \sigma^2 d^2}{\kappa^2}+p^{-1/2+2e}\kappa^2 +  p^{-1/4+e} (\sigma^2 +d^2) , \label{simple1}
 \end{align}
 for any small constant $e>0$, where we recall that $\Sigma(1)= (X^{(1)})^\top X^{(1)}  + (X^{(2)})^\top X^{(2)}$.
@@ -374,31 +374,34 @@ Applying the estimates \eqref{hatw_add1}, \eqref{est111}, \eqref{est222} and \eq
 \end{proof}
   
 % \todo{switch the $a_3$ and $a_4$}
-\paragraph{Calculating the variance and bias terms.} For the isotropic model in Section \ref{sec_similarity}, we actually have an easier and sharper bound than Lemma \ref{thm_model_shift}. %as follows.
-\begin{lemma}\label{prop_model_shift_tight}
-		In the setting of Lemma \ref{thm_model_shift}, assume that $\Sigma_1 =\id$,
-		$\beta_2$ is a random vector that has i.i.d. entries with mean $0$, variance $\kappa^2$ and finite moments up to any order, and $(\beta_1-\beta_2)$ is a random vector that is independent of $\beta_2$ and has i.i.d. entries with mean $0$, variance $d^2$ and finite moments up to any order. Denote
-		$\Delta^\star_{\bias} := \bigbrace{(1 - \hat{v})^2 \kappa^2 + d^2} \bigtr{\Pi(\hat v)}$, where $\Pi$ was defined in equation \eqref{defnpihat}.	Then we have with high probability,
-		\begin{align*}
-			\te(\hat{\beta}_t^{\MTL}) \le \te(\hat{\beta}_t^{\STL})\quad \text{ when: }\ \  & \Delta_{\vari} \ge  (\al_+^2(\rho_1)+\oo(1))\cdot  \Delta^\star_{\bias} \ , \\
-			\te(\hat{\beta}_t^{\MTL}) \ge \te(\hat{\beta}_t^{\STL})\quad \text{ when: }\ \  & \Delta_{\vari} \le (\al_-^2(\rho_1)-\oo(1))\cdot  \Delta^\star_{\bias}\ ,
-		\end{align*}
-		where $\Delta_{\vari}$ was defined in equation \eqref{Deltavarv}.
-\end{lemma}
+\paragraph{Calculating the variance and bias terms.} Finally, we calculate the variance term $\sigma^2  \bigtr{\Sigma(1)^{-1}  }$ and the bias term $d^2\cdot {p}^{-1}\tr\left[\Sigma(1)^{-2} \left((X^{(1)})^\top X^{(1)} \right)^2\right]$ using Theorem \ref{thm_main_RMT}, which will conclude Proposition \ref{cor_MTL_loss}.
+%For the isotropic model in Section \ref{sec_similarity}, we actually have an easier and sharper bound than Lemma \ref{thm_model_shift}. %as follows.
+%\begin{lemma}\label{prop_model_shift_tight}
+%		In the setting of Lemma \ref{thm_model_shift}, assume that $\Sigma_1 =\id$,
+%		$\beta_2$ is a random vector that has i.i.d. entries with mean $0$, variance $\kappa^2$ and finite moments up to any order, and $(\beta_1-\beta_2)$ is a random vector that is independent of $\beta_2$ and has i.i.d. entries with mean $0$, variance $d^2$ and finite moments up to any order. Denote
+%		$\Delta^\star_{\bias} := \bigbrace{(1 - \hat{v})^2 \kappa^2 + d^2} \bigtr{\Pi(\hat v)}$, where $\Pi$ was defined in equation \eqref{defnpihat}.	Then we have with high probability,
+%		\begin{align*}
+%			\te(\hat{\beta}_t^{\MTL}) \le \te(\hat{\beta}_t^{\STL})\quad \text{ when: }\ \  & \Delta_{\vari} \ge  (\al_+^2(\rho_1)+\oo(1))\cdot  \Delta^\star_{\bias} \ , \\
+%			\te(\hat{\beta}_t^{\MTL}) \ge \te(\hat{\beta}_t^{\STL})\quad \text{ when: }\ \  & \Delta_{\vari} \le (\al_-^2(\rho_1)-\oo(1))\cdot  \Delta^\star_{\bias}\ ,
+%		\end{align*}
+%		where $\Delta_{\vari}$ was defined in equation \eqref{Deltavarv}.
+%\end{lemma}
 
-\begin{proof}%[Proof of Lemma \ref{prop_model_shift_tight}]
-The proof of Lemma \ref{prop_model_shift_tight} is similar to that for Lemma \ref{thm_model_shift}, except that we can replace equation \eqref{bounddelta-} with a tighter bound. We only describe the main difference in the following proof.
+\begin{proof}[Proof of Proposition \ref{cor_MTL_loss}]
+%The proof of Lemma \ref{prop_model_shift_tight} is similar to that for Lemma \ref{thm_model_shift}, except that we can replace equation \eqref{bounddelta-} with a tighter bound. We only describe the main difference in the following proof.
+%
+%For any fixed $v\in \R$, $\beta_1 - v\beta_2$ is a random vector with i.i.d. entries with mean $0$ and variance $(1-v)^2\kappa^2 + d^2$. Then using the concentration result, Lemma \ref{largedeviation}, we get that for any constant $\e>0$, 
+%\begin{align}
+%&\left|\delta_{\bias}(v)- [(1-v)^2\kappa^2 + d^2]\tr (\cal K^\top \cal K)\right| \nonumber\\
+%&=  \left|(\beta_1 - {v} \beta_2)^\top \cal K^\top \cal K (\beta_1 - {v} \beta_2) - [(1-v)^2\kappa^2 + d^2]\tr (\cal K^\top \cal K)\right| \nonumber\\
+%&\le p^\e [(1-v)^2\kappa^2 + d^2] \left\{\tr\left[(\cal K^\top \cal K)^2\right]\right\}^{1/2} \lesssim p^{1/2+\e} [(1-v)^2\kappa^2 + d^2] \quad \text{w.h.p.},\label{anotherbeta}
+%\end{align}
+%where $\delta_{\bias}(v)$ was defined in equation \eqref{revise_deltabias}, $\cal K$ was defined as $\cal K:=v\Sigma_2^{1/2}({v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} X_1^{\top}X_1$, and in the last step we used $\|\cal K\|=\OO(1)$ by Fact \ref{lem_minv}. Now for $\tr (\cal K^\top \cal K)$, we rewrite it as
+%\begin{align*}
+%v^2 \tr \left[ ({v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2({v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}(X_1^\top X_1)^2 \right].
+%\end{align*}
 
-For any fixed $v\in \R$, $\beta_1 - v\beta_2$ is a random vector with i.i.d. entries with mean $0$ and variance $(1-v)^2\kappa^2 + d^2$. Then using the concentration result, Lemma \ref{largedeviation}, we get that for any constant $\e>0$, 
-\begin{align}
-&\left|\delta_{\bias}(v)- [(1-v)^2\kappa^2 + d^2]\tr (\cal K^\top \cal K)\right| \nonumber\\
-&=  \left|(\beta_1 - {v} \beta_2)^\top \cal K^\top \cal K (\beta_1 - {v} \beta_2) - [(1-v)^2\kappa^2 + d^2]\tr (\cal K^\top \cal K)\right| \nonumber\\
-&\le p^\e [(1-v)^2\kappa^2 + d^2] \left\{\tr\left[(\cal K^\top \cal K)^2\right]\right\}^{1/2} \lesssim p^{1/2+\e} [(1-v)^2\kappa^2 + d^2] \quad \text{w.h.p.},\label{anotherbeta}
-\end{align}
-where $\delta_{\bias}(v)$ was defined in equation \eqref{revise_deltabias}, $\cal K$ was defined as $\cal K:=v\Sigma_2^{1/2}({v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} X_1^{\top}X_1$, and in the last step we used $\|\cal K\|=\OO(1)$ by Fact \ref{lem_minv}. Now for $\tr (\cal K^\top \cal K)$, we rewrite it as
-\begin{align*}
-v^2 \tr \left[ ({v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2({v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}(X_1^\top X_1)^2 \right].
-\end{align*}
+
 Bounding $(X_1^\top X_1)^2=(Z_1^\top Z_1)^2$ using Fact equation \eqref{lem_minv}, we obtain that
 \be\label{anotherwtbeta} \delta^\star_{\bias}(v) \cdot (\al_-^2(\rho_1)-\OO(p^{-1/2+\e})) \le  [(1-v)^2\kappa^2 + d^2]\tr (\cal K^\top \cal K) \le \delta^\star_{\bias}(v) \cdot  (\al_+^2(\rho_1)+\OO(p^{-1/2+\e})),\ee
 where
@@ -408,11 +411,8 @@ Note that $\delta^\star_{\bias}(v) \sim p$ by Fact \ref{lem_minv}. Hence combini
   \delta^\star_{\bias}(v) \cdot (\al_-^2(\rho_1)-\OO(p^{-1/2+\e})) \le  \delta_{\bias}(v)\le \delta^\star_{\bias}(v) \cdot  (\al_+^2(\rho_1)+\OO(p^{-1/2+\e})).
 \ee
 Now we can replace the estimate equation \eqref{bounddelta-} with this stronger estimate, and repeat all the other parts of the proof of Lemma \ref{thm_model_shift} to conclude Lemma \ref{prop_model_shift_tight}. In particular, one can calculate $  \delta^\star_{\bias}(v)$ using Lemma \ref{lem_cov_derivative} and get the $  \Delta^\star_{\bias}(v)$ term. 
-\end{proof}
 
-\cor
-
-	In the setting of Proposition \ref{prop_dist_transition}, we have $M = \Sigma_1^{1/2}\Sigma_2^{-1/2} = \id$. Then solving equations equation \eqref{eq_a12extra} and equation \eqref{eq_a34extra} with $\lambda_i\equiv 1$, we get that
+In the setting of Proposition \ref{prop_dist_transition}, we have $M = \Sigma_1^{1/2}\Sigma_2^{-1/2} = \id$. Then solving equations equation \eqref{eq_a12extra} and equation \eqref{eq_a34extra} with $\lambda_i\equiv 1$, we get that
 	\begin{align}
 		 a_1 = \frac{\rho_1(\rho_1 + \rho_2 - 1)}{(\rho_1 + \rho_2)^2} ,\quad
 		& a_2 = \frac{\rho_2(\rho_1 + \rho_2 - 1)}{(\rho_1 + \rho_2)^2} , \label{simplesovlea12}\\
@@ -437,9 +437,12 @@ with high probability, where
 \al_-^2(\rho_1) - \oo(1)  \le \frac{\delta_{\bias}}{ \Delta_{\bias}} \le \al_+^2(\rho_1) +  \oo(1) , \ee
 	where 
 	$$\Delta_{\bias}:=pd^2 \cdot \frac{\rho_1^2}{(\rho_1+\rho_2)^2}  \frac{1 + a_3 + a_4}{(a_1 + a_2)^2}= pd^2 \cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3}.$$
-	\nc
- 
+	
+	will also use equation \eqref{apply derivlocal}
+\end{proof}
 
+ 
+\iffalse
 
 \subsection{Covariate Shift}\label{app_proof_33}
  
@@ -501,8 +504,7 @@ g(\mu \id)&= \frac{\sigma^2}{\rho_1+\rho_2}\cdot \frac1p\tr\left( \frac{1}{\mu^2
 Combining equation \eqref{est_a12extra}, equation \eqref{approximateteM}, equation \eqref{AMGM} and equation \eqref{gvar_extra2}, we conclude the proof.
 %, we conclude that the sum $\sum_{i=1}^p\lambda_i^{-1}$ is smallest when $\lambda_1=\cdots=\lambda_p = a$.
 \end{proof}
-
-\iffalse
+ 
  
 In the simulation of Figure \ref{fig_covariate}, we observe the following two phases as  $n_1 / p$ increases.
 When $n_1 \le n_2$, having complementary covariance matrices leads to lower test error compared to the case when $\Sigma_1 = \Sigma_2$.
