@@ -326,27 +326,46 @@ for any small constant $e>0$. Here we introduced the function
 In the specific setting in Proposition \ref{cor_MTL_loss}, we can further simplify $\cal L(\hat A)$ using Lemma \ref{lem_hat_v} and $\Sigma^{(1)}=\Sigma^{(2)}=\id_p$.
  
 \begin{lemma}
-In the setting of Proposition \ref{cor_MTL_loss}, we have
+In the setting of Proposition \ref{cor_MTL_loss}, we have that with high probability,
 %\be\label{choiceofpara}
 %	\frac{pd^2}{\sigma^2} = \OO(1),\quad p^{-1+c_0} \le \frac{\kappa^2}{\sigma^2 }  \le p^{-\e_0-c_0},
 %\ee
 %where $\e_0$ is the constant as appeared in equation \eqref{approxvalid}. Then we have
 \begin{align}
-\cal L(\hat A)=&(1+\OO(n^{-\e}))\cdot d^2 \tr\left[(X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right] \nonumber \\
-&+(1+\OO(n^{-\e}))\cdot \sigma^2  \bigtr{(X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} } \quad \text{w.h.p.} \label{simple1}
+&\left|\cal L(\hat A)-\frac{d^2}{p}\tr\left[\Sigma(1)^{-2} \left((X^{(1)})^\top X^{(1)} \right)^2\right] -\sigma^2  \bigtr{\Sigma(1)^{-1}  }\right| \nonumber\\
+&\lesssim  \frac{d^4 + \sigma^2 d^2}{\kappa^2}+p^{-1/2+2e}\kappa^2 +  p^{-1/4+e} (\sigma^2 +d^2) , \label{simple1}
 \end{align}
-for some constant $\e>0$.
+for any small constant $e>0$, where we recall that $\Sigma(1)= (X^{(1)})^\top X^{(1)}  + (X^{(2)})^\top X^{(2)}$.
 \end{lemma}
 \begin{proof}
-
- Inserting equation \eqref{hatv_add1} into equation \eqref{eq_te_mtl_2task} and applying Lemma  \ref{largedeviation} to $(\beta_1-\hat v\beta_s)$, we get that w.h.p.,
+Using Lemma \ref{lem_hat_v} and Fact \ref{lem_minv} (iii), we can obtain that with high probability,
 \begin{align}
-\te(\hat{\beta}_2^{\MTL})&=(1+\OO(\cal E))\cdot \left[d^2 + \OO\left(\cal E^2 \kappa^2\right)\right] \tr\left[(X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right]\nonumber\\
-&+(1+\OO(\cal E))\cdot \sigma^2  \bigtr{(X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} }. \label{1Liso}
+&\|\Sigma(1)^{-1}-\hat\Sigma^{-1}\| \le |\hat A-1|\|\Sigma(1)^{-1}\| \| (X^{(1)})^\top X^{(1)}\|\|\hat\Sigma^{-1}\| \label{est111}\\
+&\lesssim \left(\frac{d^2}{\kappa^2} + p^{-1/4+e}\right)\frac{(\sqrt{n_1}+\sqrt{p})^{2}+n_1p^{-c_\varphi}}{ \left[(\sqrt{n_2}-\sqrt{p})^{2}-n_2p^{-c_\varphi}  + (\sqrt{n_1}-\sqrt{p})^{2}-n_1p^{-c_\varphi}\right]^2  }\lesssim p^{-1}\left(\frac{d^2}{\kappa^2} + p^{-1/4+e}\right),\nonumber
 \end{align}
-In order to study the phenomenon of bias-variance trade-off, we need the bias term with $d^2$ and the variance term with $\sigma^2$ to be of the same order. Using Fact equation \eqref{lem_minv}, we have that
-$$\tr\left[(X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right] \sim p,\quad \bigtr{(X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} } \sim 1.$$
-Hence we need to choose that $p d^2 \sim \sigma^2$. On the other hand, we want the error term $\cal E^2 \kappa^2$ to be much smaller than $d^2$, which leads to the condition $p^{-1+\e_0+4\e}\kappa^2  \ll d^2 \ll \kappa^2$. The above considerations lead to the choices of parameters in equation \eqref{choiceofpara}, under which we can simplify equation \eqref{1Liso} to equation \eqref{simple1}.
+for any small constant $e>0$. With similar arguments, we can get that with high probability,
+\begin{align}\label{est222}
+&\left\|\left(\Sigma(1)^{-2}-\hat\Sigma^{-2}\right)\left((X^{(1)})^\top X^{(1)} \right)^2\right\| \lesssim  \frac{d^2}{\kappa^2} + p^{-1/4+e} .
+\end{align}
+Moreover, using Fact \ref{lem_minv} (iii) we can bound that with high probability,
+$$\bignorm{ (X^{(1)})^{\top}X^{(1)} \hat\Sigma^{-1} \Sigma^{(2)} \hat\Sigma^{-1} (X^{(1)})^{\top}X^{(1)}}\lesssim 1.$$
+which further implies that with high probability,
+\be\label{est333}\bigtr{ (X^{(1)})^{\top}X^{(1)} \hat\Sigma^{-1} \Sigma^{(2)} \hat\Sigma^{-1} (X^{(1)})^{\top}X^{(1)}}\lesssim p.\ee
+Now we bound the left-hand side of \eqref{simple1} as
+\begin{align*}
+&\left|\cal L(\hat A)-\frac{d^2}{p}\tr\left[\Sigma(1)^{-2} \left((X^{(1)})^\top X^{(1)} \right)^2\right] -\sigma^2  \bigtr{\Sigma(1)^{-1}  }\right| \\
+&\lesssim \left(|\hat A-1|^2 \kappa^2 + |\hat A-1|d^2\right)\cdot p^{-1}\bigtr{ (X^{(1)})^{\top}X^{(1)} \hat\Sigma^{-1} \Sigma^{(2)} \hat\Sigma^{-1} (X^{(1)})^{\top}X^{(1)} } \\
+&+ \frac{d^2}{p}\left|\tr\left[\left(\Sigma(1)^{-2}-\hat\Sigma^{-2}\right) \left((X^{(1)})^\top X^{(1)} \right)^2\right]\right|+ \sigma^2  \left|\bigtr{\Sigma(1)^{-1}-\hat\Sigma^{-1}  }\right|.
+\end{align*}
+Applying the estimates \eqref{hatw_add1}, \eqref{est111}, \eqref{est222} and \eqref{est333} to the three terms on the right-hand side, we can conclude \eqref{simple1}.
+% Inserting equation \eqref{hatv_add1} into equation \eqref{eq_te_mtl_2task} and applying Lemma  \ref{largedeviation} to $(\beta_1-\hat v\beta_s)$, we get that w.h.p.,
+%\begin{align}
+%\te(\hat{\beta}_2^{\MTL})&=(1+\OO(\cal E))\cdot \left[d^2 + \OO\left(\cal E^2 \kappa^2\right)\right] \tr\left[(X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right]\nonumber\\
+%&+(1+\OO(\cal E))\cdot \sigma^2  \bigtr{(X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} }. \label{1Liso}
+%\end{align}
+%In order to study the phenomenon of bias-variance trade-off, we need the bias term with $d^2$ and the variance term with $\sigma^2$ to be of the same order. Using Fact equation \eqref{lem_minv}, we have that
+%$$\tr\left[(X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right] \sim p,\quad \bigtr{(X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} } \sim 1.$$
+%Hence we need to choose that $p d^2 \sim \sigma^2$. On the other hand, we want the error term $\cal E^2 \kappa^2$ to be much smaller than $d^2$, which leads to the condition $p^{-1+\e_0+4\e}\kappa^2  \ll d^2 \ll \kappa^2$. The above considerations lead to the choices of parameters in equation \eqref{choiceofpara}, under which we can simplify equation \eqref{1Liso} to equation \eqref{simple1}.
 %\begin{align}
 %\te(\hat{\beta}_2^{\MTL})&=(1+\OO(n^{-\e}))\cdot d^2 \tr\left[(X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right] \nonumber \\
 %&+(1+\OO(n^{-\e}))\cdot \sigma^2  \bigtr{(X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} }  \label{simple1}
