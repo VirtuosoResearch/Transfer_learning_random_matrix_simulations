@@ -1,7 +1,7 @@
 \subsection{The Random-Effects Model}\label{app_iso_cov}
 
 \subsubsection{Proof for Sample Imbalance}  
-We now give the proof of Proposition \ref{cor_MTL_loss}. As in the proof of Theorem \ref{thm_many_tasks}, our proof is divided into the following steps: 
+We now give the proof of Proposition \ref{cor_MTL_loss}. Similar to the proof of Theorem \ref{thm_many_tasks}, our proof is divided into the following steps: 
 \begin{itemize}
 \item simplifying the optimization objective using concentration estimates;
 
@@ -323,9 +323,9 @@ for any small constant $e>0$. Here we introduced the function
  \todo{add proof}
  \end{proof}
  
-In the specific setting in Proposition \ref{cor_MTL_loss}, we can further simplify $\cal L(\hat A)$ using Lemma \ref{lem_hat_v} and $\Sigma^{(1)}=\Sigma^{(2)}=\id_p$.
+In the specific setting in Proposition \ref{cor_MTL_loss}, we can further simplify $\cal L(\hat A)$ using Claim \ref{lem_hat_v} and $\Sigma^{(1)}=\Sigma^{(2)}=\id_p$.
  
-\begin{lemma}
+\begin{claim}
 In the setting of Proposition \ref{cor_MTL_loss}, we have that with high probability,
 %\be\label{choiceofpara}
 %	\frac{pd^2}{\sigma^2} = \OO(1),\quad p^{-1+c_0} \le \frac{\kappa^2}{\sigma^2 }  \le p^{-\e_0-c_0},
@@ -336,7 +336,7 @@ In the setting of Proposition \ref{cor_MTL_loss}, we have that with high probabi
 &\lesssim  \frac{d^4 + \sigma^2 d^2}{\kappa^2}+p^{-1/2+2e}\kappa^2 +  p^{-1/4+e} (\sigma^2 +d^2) , \label{simple1}
 \end{align}
 for any small constant $e>0$, where we recall that $\Sigma(1)= (X^{(1)})^\top X^{(1)}  + (X^{(2)})^\top X^{(2)}$.
-\end{lemma}
+\end{claim}
 \begin{proof}
 Using Lemma \ref{lem_hat_v} and Fact \ref{lem_minv} (iii), we can obtain that with high probability,
 \begin{align}
@@ -389,7 +389,6 @@ Applying the estimates \eqref{hatw_add1}, \eqref{est111}, \eqref{est222} and \eq
 
 \begin{proof}[Proof of Proposition \ref{cor_MTL_loss}]
 %The proof of Lemma \ref{prop_model_shift_tight} is similar to that for Lemma \ref{thm_model_shift}, except that we can replace equation \eqref{bounddelta-} with a tighter bound. We only describe the main difference in the following proof.
-%
 %For any fixed $v\in \R$, $\beta_1 - v\beta_2$ is a random vector with i.i.d. entries with mean $0$ and variance $(1-v)^2\kappa^2 + d^2$. Then using the concentration result, Lemma \ref{largedeviation}, we get that for any constant $\e>0$, 
 %\begin{align}
 %&\left|\delta_{\bias}(v)- [(1-v)^2\kappa^2 + d^2]\tr (\cal K^\top \cal K)\right| \nonumber\\
@@ -400,47 +399,107 @@ Applying the estimates \eqref{hatw_add1}, \eqref{est111}, \eqref{est222} and \eq
 %\begin{align*}
 %v^2 \tr \left[ ({v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2({v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}(X_1^\top X_1)^2 \right].
 %\end{align*}
-
-
-Bounding $(X_1^\top X_1)^2=(Z_1^\top Z_1)^2$ using Fact equation \eqref{lem_minv}, we obtain that
-\be\label{anotherwtbeta} \delta^\star_{\bias}(v) \cdot (\al_-^2(\rho_1)-\OO(p^{-1/2+\e})) \le  [(1-v)^2\kappa^2 + d^2]\tr (\cal K^\top \cal K) \le \delta^\star_{\bias}(v) \cdot  (\al_+^2(\rho_1)+\OO(p^{-1/2+\e})),\ee
-where
-$$\delta^\star_{\bias}(v):=n_1^2 v^2 [(1-v)^2\kappa^2 + d^2]\tr \left[ ({v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2({v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\right].$$
-Note that $\delta^\star_{\bias}(v) \sim p$ by Fact \ref{lem_minv}. Hence combining equation \eqref{anotherbeta} and equation \eqref{anotherwtbeta} we get
-\be\label{replaceest}
-  \delta^\star_{\bias}(v) \cdot (\al_-^2(\rho_1)-\OO(p^{-1/2+\e})) \le  \delta_{\bias}(v)\le \delta^\star_{\bias}(v) \cdot  (\al_+^2(\rho_1)+\OO(p^{-1/2+\e})).
-\ee
-Now we can replace the estimate equation \eqref{bounddelta-} with this stronger estimate, and repeat all the other parts of the proof of Lemma \ref{thm_model_shift} to conclude Lemma \ref{prop_model_shift_tight}. In particular, one can calculate $  \delta^\star_{\bias}(v)$ using Lemma \ref{lem_cov_derivative} and get the $  \Delta^\star_{\bias}(v)$ term. 
-
-In the setting of Proposition \ref{prop_dist_transition}, we have $M = \Sigma_1^{1/2}\Sigma_2^{-1/2} = \id$. Then solving equations equation \eqref{eq_a12extra} and equation \eqref{eq_a34extra} with $\lambda_i\equiv 1$, we get that
+%Bounding $(X_1^\top X_1)^2=(Z_1^\top Z_1)^2$ 
+Using \eqref{lem_cov_shift_eq}, we obtain that 
+\be\label{eq_var111}\bigtr{\Sigma(1)^{-1}  } = \tr\left[ \left((X^{(1)})^\top X^{(1)}  + (X^{(2)})^\top X^{(2)}\right)^{-1}\right]=\bigtr{\frac{(a_1\id_p+a_2\id_p)^{-1}}{n_{1}+n_2} }+\OO(p^{-c_\varphi})\ee
+with high probability. Then solving equation \eqref{eq_a12extra} with $\lambda_i\equiv 1$, $1\le i\le p$, we get that with high probability,
 	\begin{align}
 		 a_1 = \frac{\rho_1(\rho_1 + \rho_2 - 1)}{(\rho_1 + \rho_2)^2} ,\quad
-		& a_2 = \frac{\rho_2(\rho_1 + \rho_2 - 1)}{(\rho_1 + \rho_2)^2} , \label{simplesovlea12}\\
+		& a_2 = \frac{\rho_2(\rho_1 + \rho_2 - 1)}{(\rho_1 + \rho_2)^2} . \label{simplesovlea12}
+			\end{align}
+Inserting it into \eqref{eq_var111}, we obtain that 
+\be\label{eq_var112}\bigtr{\Sigma(1)^{-1}  } = \frac{p}{n_1+n_2} \cdot \frac{\rho_1+\rho_2}{\rho_1+\rho_2-1}+\OO(p^{-c_\varphi})=  \frac{1}{\rho_1+\rho_2-1}+\OO(p^{-c_\varphi})\ee
+with high probability. 
+
+On the other hand, using Fact \ref{lem_minv} (iii), we can bound that with high probability,
+\begin{align}
+ \frac{(\sqrt{n_1}-\sqrt{p})^4 \cdot (1- p^{-c_\varphi})}{p}\sum_{i=1}^p \left(\Sigma(1)^{-2}\right)_{ii}  &\le {p}^{-1}\tr\left[\Sigma(1)^{-2} \left((X^{(1)})^\top X^{(1)} \right)^2\right] \label{eq_bias111}\\ 
+ &\le \frac{(\sqrt{n_1}+\sqrt{p})^4 \cdot (1+ p^{-c_\varphi})}{p}\sum_{i=1}^p \left(\Sigma(1)^{-2}\right)_{ii} .\nonumber
+\end{align}
+To obtain this inequality, we used  
+$$ (\sqrt{n_1}-\sqrt{p})^4 \cdot (1-p^{-c_\varphi}) \prec \left((X^{(1)})^\top X^{(1)} \right)^2 \preceq (\sqrt{n_1}+\sqrt{p})^4 \cdot (1+ p^{-c_\varphi}) \quad \text{with high probability},$$
+by Fact \ref{lem_minv} (iii), and the fact that for the product of two PSD matrices, its trace is always nonnegative.
+Using \eqref{lem_cov_derv_eq} with $\Sigma^{(1)}=\Sigma^{(2)}=\Lambda=V=\id_p$ and $w$ being the $i$-th coordinate vector, we can calculate that 
+\begin{align}\label{eq_bias112}
+ \left(\Sigma(1)^{-2}\right)_{ii} = \frac{1}{(n_1+n_2)^2}\cdot \frac{a_3+a_4+1}{(a_1+a_2)^2} +\OO(p^{-c_\varphi})
+\end{align}
+with high probability. Solving equation \eqref{eq_a34extra} with $a_1, a_2$ in \eqref{simplesovlea12} and $\lambda_i\equiv 1$, $1\le i\le p$, we can obtain that
+	\begin{align}
+		% a_1 = \frac{\rho_1(\rho_1 + \rho_2 - 1)}{(\rho_1 + \rho_2)^2} ,\quad & a_2 = \frac{\rho_2(\rho_1 + \rho_2 - 1)}{(\rho_1 + \rho_2)^2} , \label{simplesovlea12}\\
 		a_3 = \frac{\rho_1}{(\rho_1 + \rho_2)(\rho_1 + \rho_2 - 1)}, \quad
 		&  a_4 = \frac{\rho_2}{(\rho_1 + \rho_2)(\rho_1 + \rho_2 - 1)}.\label{simplesovlea34}
 	\end{align}
-	Using Lemma \ref{lem_minv} and Lemma \ref{lem_cov_shift}, we can track the reduction of variance from $\hat{\beta}_2^{\MTL}$ to $\hat{\beta}_2^{\STL}$ as 
-\be\label{Deltavar}
-\begin{split}
-\delta_{\vari}&:=\sigma^2  \bigtr{(X_2^{\top}X_2)^{-1} }  - (1+\OO(n^{-\e}))\cdot \sigma^2  \bigtr{(X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} } =\Delta_{\vari}\cdot (1+\OO(n^{-\e})) 
-\end{split}
-\ee
-with high probability, where 
-	\begin{align*}
-		\Delta_{\vari} &\define \sigma^2 \bigbrace{\frac{1}{\rho_2 - 1} - \frac{1}{\rho_1 + \rho_2}\cdot\frac{1}{a_1+ a_2} } =\sigma^2  \cdot \frac{\rho_1}{(\rho_2-1)(\rho_1 + \rho_2 -1)}.
-	\end{align*}
-	%where we use equation \eqref{eq_a12} and Lemma \ref{lem_hat_v}.
-	Next for the model shift bias
-	$$\delta_{\bias}:=(1+\OO(n^{-\e}))\cdot d^2 \tr\left[(X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right], $$
-	we can get from Lemma \ref{prop_model_shift_tight} that
-\be\label{Deltabeta} 
-\al_-^2(\rho_1) - \oo(1)  \le \frac{\delta_{\bias}}{ \Delta_{\bias}} \le \al_+^2(\rho_1) +  \oo(1) , \ee
-	where 
-	$$\Delta_{\bias}:=pd^2 \cdot \frac{\rho_1^2}{(\rho_1+\rho_2)^2}  \frac{1 + a_3 + a_4}{(a_1 + a_2)^2}= pd^2 \cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3}.$$
-	
-	will also use equation \eqref{apply derivlocal}
-\end{proof}
+Inserting them into \eqref{eq_bias112}, we obtain that 
+\begin{align*}%\label{eq_bias113}
+ \left(\Sigma(1)^{-2}\right)_{ii} = \frac{1}{(n_1+n_2)^2}\cdot \frac{(\rho_1+\rho_2)^3}{(\rho_1+\rho_2-1)^3} +\OO(p^{-c_\varphi})
+\end{align*}
+with high probability. In fact, we need this estimate to hold simultaneously for all $1\le i \le p$ with high probability. For this purpose, we shall use \eqref{apply derivlocal} to get that 
+\begin{align*}%\label{eq_bias113}
+\left| \left(\Sigma(1)^{-2}\right)_{ii} - \frac{1}{(n_1+n_2)^2}\cdot \frac{(\rho_1+\rho_2)^3}{(\rho_1+\rho_2-1)^3}\right|\prec p^{-\frac{\varphi-4}{2\varphi}}
+\end{align*}
+on a high probability event that does not depend on $i$. Then using Fact \ref{lem_stodomin} (i), we obtain that 
+\begin{align*} 
+\left| \sum_{i=1}^p \left(\Sigma(1)^{-2}\right)_{ii} - \frac{p}{(n_1+n_2)^2}\cdot \frac{(\rho_1+\rho_2)^3}{(\rho_1+\rho_2-1)^3}\right|\prec p^{1-\frac{\varphi-4}{2\varphi}}
+\end{align*}
+with high probability, which by Definition \ref{stoch_domination} gives that
+\begin{align}\label{eq_bias113}
+\left| p^{-1}\sum_{i=1}^p \left(\Sigma(1)^{-2}\right)_{ii} - \frac{1}{(n_1+n_2)^2}\cdot \frac{(\rho_1+\rho_2)^3}{(\rho_1+\rho_2-1)^3}\right|\le p^{-c_\varphi}
+\end{align}
+with high probability. Inserting \eqref{eq_bias113} into \eqref{eq_bias111}. we get
+\begin{align}
+& \frac{(\sqrt{n_1}-\sqrt{p})^4 \cdot (1- p^{-c_\varphi}) - n_1^2 \cdot (1+\OO(p^{-c_\varphi}))}{(n_1+n_2)^2}\cdot  \frac{(\rho_1+\rho_2)^3}{(\rho_1+\rho_2-1)^3}\nonumber \\
+&\le  {p}^{-1}\tr\left[\Sigma(1)^{-2} \left((X^{(1)})^\top X^{(1)} \right)^2\right] - \frac{n_1^2}{(n_1+n_2)^2}\cdot  \frac{(\rho_1+\rho_2)^3}{(\rho_1+\rho_2-1)^3} \nonumber\\
+&  \le \frac{(\sqrt{n_1}+\sqrt{p})^4 \cdot (1+ p^{-c_\varphi}) - n_1^2 \cdot (1+\OO(p^{-c_\varphi}))}{(n_1+n_2)^2}\cdot  \frac{(\rho_1+\rho_2)^3}{(\rho_1+\rho_2-1)^3}\label{eq_bias114}
+\end{align}
+with high probability. 
 
+Now plugging \eqref{eq_var112} and \eqref{eq_bias114} into \eqref{simple1}, we get
+\begin{align}
+\left|\cal L(\hat A)- -\frac{\sigma^2}{\rho_1+\rho_2-1} - d^2\cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3}\right| \le   \left[\left( 1+\frac{1}{\sqrt{\rho_1}}\right)^4-1\right] d^2\cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3} \nonumber\\
++C\left( p^{-c_\varphi} (\sigma^2 + d^2)+ \frac{d^4 + \sigma^2 d^2}{\kappa^2}+p^{-1/2+2e}\kappa^2 +  p^{-1/4+e} (\sigma^2 +d^2) \right) \label{simple1add}
+\end{align}
+with high probability for some constant $C>0$. Then using Claim \ref{claim_largedev2} and noticing that the constant $e>0$ can be arbitrarily small, we conclude \eqref{cor_MTL_error}.
+\end{proof}
+%\begin{align}
+%				a_3 + a_4 = \frac{1}{n_1 + n_2}\sum_{i=1}^p \frac{1}{\lambda_i^2 a_1 + a_2},
+%				a_3 + \frac{1}{n_1 + n_2} \sum_{i=1}^p \frac{\lambda_i^2 (a_1 a_4 - a_2 a_3)}{(\lambda_i^2 a_1 + a_2)^2} = \frac{1}{n_1 + n_2} \sum_{i=1}^p \frac{\lambda_i^2 a_1}{(\lambda_i^2 a_1 + a_2)^{2}}.
+%%				\left(\frac{\rho_1}{a_1^{2}} -  b_2  \right)\cdot  a_3 -  b_1 \cdot  a_4 = b_1,\quad \left(\frac{\rho_2}{a_2^{2}}-  b_0\right)\cdot  a_4 - b_1 \cdot  a_3
+%%				= b_0.
+%			\end{align}
+%\be\label{anotherwtbeta} \delta^\star_{\bias}(v) \cdot (\al_-^2(\rho_1)-\OO(p^{-1/2+\e})) \le  [(1-v)^2\kappa^2 + d^2]\tr (\cal K^\top \cal K) \le \delta^\star_{\bias}(v) \cdot  (\al_+^2(\rho_1)+\OO(p^{-1/2+\e})),\ee
+%where
+%$$\delta^\star_{\bias}(v):=n_1^2 v^2 [(1-v)^2\kappa^2 + d^2]\tr \left[ ({v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2({v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\right].$$
+%Note that $\delta^\star_{\bias}(v) \sim p$ by Fact \ref{lem_minv}. Hence combining equation \eqref{anotherbeta} and equation \eqref{anotherwtbeta} we get
+%\be\label{replaceest}
+%  \delta^\star_{\bias}(v) \cdot (\al_-^2(\rho_1)-\OO(p^{-1/2+\e})) \le  \delta_{\bias}(v)\le \delta^\star_{\bias}(v) \cdot  (\al_+^2(\rho_1)+\OO(p^{-1/2+\e})).
+%\ee
+%Now we can replace the estimate equation \eqref{bounddelta-} with this stronger estimate, and repeat all the other parts of the proof of Lemma \ref{thm_model_shift} to conclude Lemma \ref{prop_model_shift_tight}. In particular, one can calculate $  \delta^\star_{\bias}(v)$ using Lemma \ref{lem_cov_derivative} and get the $  \Delta^\star_{\bias}(v)$ term. 
+
+%In the setting of Proposition \ref{prop_dist_transition}, we have $M = \Sigma_1^{1/2}\Sigma_2^{-1/2} = \id$. Then solving equations equation \eqref{eq_a12extra} and equation \eqref{eq_a34extra} with $\lambda_i\equiv 1$, we get that
+%	\begin{align}
+%		 a_1 = \frac{\rho_1(\rho_1 + \rho_2 - 1)}{(\rho_1 + \rho_2)^2} ,\quad
+%		& a_2 = \frac{\rho_2(\rho_1 + \rho_2 - 1)}{(\rho_1 + \rho_2)^2} , \label{simplesovlea12}\\
+%		a_3 = \frac{\rho_1}{(\rho_1 + \rho_2)(\rho_1 + \rho_2 - 1)}, \quad
+%		&  a_4 = \frac{\rho_2}{(\rho_1 + \rho_2)(\rho_1 + \rho_2 - 1)}.\label{simplesovlea34}
+%	\end{align}
+%	Using Lemma \ref{lem_minv} and Lemma \ref{lem_cov_shift}, we can track the reduction of variance from $\hat{\beta}_2^{\MTL}$ to $\hat{\beta}_2^{\STL}$ as 
+%\be\label{Deltavar}
+%\begin{split}
+%\delta_{\vari}&:=\sigma^2  \bigtr{(X_2^{\top}X_2)^{-1} }  - (1+\OO(n^{-\e}))\cdot \sigma^2  \bigtr{(X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} } =\Delta_{\vari}\cdot (1+\OO(n^{-\e})) 
+%\end{split}
+%\ee
+%with high probability, where 
+%	\begin{align*}
+%		\Delta_{\vari} &\define \sigma^2 \bigbrace{\frac{1}{\rho_2 - 1} - \frac{1}{\rho_1 + \rho_2}\cdot\frac{1}{a_1+ a_2} } =\sigma^2  \cdot \frac{\rho_1}{(\rho_2-1)(\rho_1 + \rho_2 -1)}.
+%	\end{align*}
+%	%where we use equation \eqref{eq_a12} and Lemma \ref{lem_hat_v}.
+%	Next for the model shift bias
+%	$$\delta_{\bias}:=(1+\OO(n^{-\e}))\cdot d^2 \tr\left[(X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right], $$
+%	we can get from Lemma \ref{prop_model_shift_tight} that
+%\be\label{Deltabeta} 
+%\al_-^2(\rho_1) - \oo(1)  \le \frac{\delta_{\bias}}{ \Delta_{\bias}} \le \al_+^2(\rho_1) +  \oo(1) , \ee
+%	where 
+%	$$\Delta_{\bias}:=pd^2 \cdot \frac{\rho_1^2}{(\rho_1+\rho_2)^2}  \frac{1 + a_3 + a_4}{(a_1 + a_2)^2}= pd^2 \cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3}.$$
  
 \iffalse
 
