@@ -233,11 +233,6 @@ We shall refer to random matrices of the form $\frac {X^\top X} n$ as sample cov
 
 Let $A = [a_1, a_2, \dots, a_t] \in \real^{r\times t}$ be a matrix notation that contains all the output layer parameters.
 
-%\noindent\textbf{Positive/Negative transfer.}
-
-\subsection{Hard Parameter Sharing}
-
-
 \subsection{Random Matrices}
 
 We introduce several standard assumptions on the random matrices we study.
@@ -279,3 +274,17 @@ More precisely, there exists a fixed function $C(\cdot) : \mathbb{Z} \rightarrow
 Hence, for any value $\varphi > 4$, we get that Fact \ref{lem_minv} holds for $\varepsilon^{(i)}$, for all $i = 1, 2, \dots, t$.
 Let $\e$ be a small enough fixed value and let $c_{\infty}$ be any fixed value within $(0, 1/2-\e)$.
 We have that Fact \ref{lem_minv} holds for $\varepsilon^{(i)}$ where $c_{\varphi}$ becomes $c_{\infty}$ instead.
+
+\subsection{Hard Parameter Sharing}\label{sec_hps}
+
+\paragraph{Random-effects model.}
+A natural special case of the linear model is when every $\beta_i$ consists of two random components, one that is shared among all tasks and one that is task-specific.
+Thus, each task contributes a certain amount to the shared component and injects a task-specific bias.
+Let $\beta_0$ denote the shared component whose entries are sampled i.i.d. from an isotropic Gaussian distribution of mean zero and variance $p^{-1}\kappa^2$.
+Let the task-specific component be a random Gaussian vector whose coordinates all have mean zero and variance $p^{-1} d^2 / 2$.
+Thus, for any two different $\beta_i$ and $\beta_j$, their distance is roughly $d^2$.
+%	The labels are $Y_i = X_i\beta_i + \varepsilon_i$, where $\e_i$ consists of i.i.d. entries with mean zero and variance $\sigma^2$.
+For our purpose, it is enough to think of the order of $d$ being $1/\sqrt{p}$ and $pd^2/\sigma^2$ being constant.
+%The more precise conditions on the relations between $d^2$, $\sigma^2$ and $\kappa^2$ are given in  \eqref{choiceofpara}.
+We assume that all the random variables have finite moments up to any order as in equation \eqref{assmAhigh2}.
+
