@@ -105,10 +105,10 @@ By Fact \ref{lem_minv} (iii), we have that with high probability,
  where we also used that $1+\tau\le \rho_1\le \tau^{-1}$ and $1+\tau\le \rho_2\le \tau^{-1}$ for a small constant $\tau>0$. 
  
  Now we expand the first term on the right-hand side of \eqref{eq_mtl_A12}: 
- \begin{align*}
+ \begin{align}
  & \left\| X^{(1)} \Sigma(A)^{-1} (X^{(2)})^\top X^{(2)} (A\beta_2-\beta_1)+ \left(A^2 X^{(1)}\Sigma(A)^{-1} (X^{(1)})^\top-\id_{n_1}\right)\epsilon^{(1)} + A X^{(1)}\Sigma(A)^{-1} (X^{(2)})^\top \epsilon^{(2)} \right\|^2 \nonumber\\
- &=h_1(A) + h_2(A) +h_3(A) + 2h_4(A) + 2h_5(A) + 2h_6(A) ,
- \end{align*}
+ &=h_1(A) + h_2(A) +h_3(A) + 2h_4(A) + 2h_5(A) + 2h_6(A) ,\label{expand_6}
+ \end{align}
  where
  \begin{align*}
 &h_1(A):=  (\beta_1-A\beta_2)^\top (X^{(2)})^\top X^{(2)}  \Sigma(A)^{-1}  (X^{(1)})^\top X^{(1)} \Sigma(A)^{-1} (X^{(2)})^\top X^{(2)} (\beta_1-A\beta_2)  ,\\
@@ -365,20 +365,31 @@ In general, for $\hat A$ as  the minimizer of $g(A)$, it depends on $\epsilon^{(
 %control the difference between $g(A)$ and its partial expectation. 
  \begin{claim}\label{claim_largedev2}
  In the setting of Proposition \ref{cor_MTL_loss}, if $\hat A=\OO(1)$, then we have that with high probability,
-$$\left| L(\hat{\beta}_2^{\MTL})- \cal L(\hat A)\right| \le p^{-1/2+e}\cdot p\left(\sigma^2 +\kappa^2 +d^2 \right),$$
+$$\left| L(\hat{\beta}_2^{\MTL})- \cal L(\hat A)\right| \le p^{-1/2+e} \left(\sigma^2 +\kappa^2 +d^2 \right),$$
 for any small constant $e>0$. Here we introduced the function
 \begin{align*}
 	\cal L(\hat A)	:=  \left[(\hat A-1)^2 \kappa^2 + (\hat A^2+1)\frac{d^2}2\right] \cdot p^{-1}\bigtr{ (X^{(1)})^{\top}X^{(1)} \hat\Sigma^{-1} \Sigma^{(2)} \hat\Sigma^{-1} (X^{(1)})^{\top}X^{(1)} } +\sigma^2\cdot \tr\left(\Sigma^{(2)}\hat \Sigma^{-1}\right).
 \end{align*}
  \end{claim}
  \begin{proof}
- The proof of this claim is very similar to the one for Claim \ref{claim_largedev1}, where the only difference is that $\hat A$ now may depend on $\epsilon^{(1)}$, $\epsilon^{(2)}$, $\beta_1$ and $\beta_2$. In this case, we can still use  Lemma \ref{largedeviation} to conclude the proof because $\hat A$ can be pulled out as a coefficient. Here we only give an outline of the proof without writing down all the details. We expand $L(\hat{\beta}_2^{\MTL}) $ in \eqref{Lbeta_HPS} as:
- \begin{align*}
-L(\hat{\beta}_2^{\MTL}) &\cor  =  \left\| (\Sigma^{(2)})^{1/2}\hat \Sigma^{-1} \left[(X^{(1)})^\top X^{(1)} (\hat A\beta_1-\hat A^2\beta_2)+ (X^{(2)})^\top \epsilon^{(2)} + \hat A   (X^{(1)})^\top \epsilon^{(1)} \right]\right\|^2\\
-&=h_1(A) + h_2(A) +h_3(A) + 2h_4(A) + 2h_5(A) + 2h_6(A) ,
+ The proof of this claim is very similar to the one for Claim \ref{claim_largedev1}, where the only difference is that $\hat A$ now may depend on $\epsilon^{(1)}$, $\epsilon^{(2)}$, $\beta_1$ and $\beta_2$. In this case, we can still use  Lemma \ref{largedeviation} to conclude the proof because $\hat A$ can be pulled out as a coefficient. Here we only give an outline of the proof without writing down all the details. Recall that $\beta_0$ is the shared component of $\beta_1$ and $\beta_2$ with i.i.d. Gaussian entries of mean zero and variance $p^{-1}\kappa^2$. Moreover, we denote the task-specific components by $\wt\beta_1$ and $\wt\beta_2$, whose entries i.i.d. Gaussian random variables of mean zero and variance $p^{-1} d^2 / 2$. Then we write $L(\hat{\beta}_2^{\MTL}) $ in \eqref{Lbeta_HPS} as:
+ \begin{align}
+L(\hat{\beta}_2^{\MTL})  =&  \left\| (\Sigma^{(2)})^{1/2}\hat \Sigma^{-1} \left[(X^{(1)})^\top X^{(1)} (\hat A -\hat A^2)\beta_0+(X^{(1)})^\top X^{(1)} \hat A\wt \beta_1 - (X^{(1)})^\top X^{(1)}  \hat A^2\wt \beta_2 \right] \right. \\
+&\left. + (\Sigma^{(2)})^{1/2}\hat \Sigma^{-1}\left[ (X^{(2)})^\top \epsilon^{(2)} + \hat A   (X^{(1)})^\top \epsilon^{(1)} \right]\right\|^2. \label{expand_15}
+\end{align}
+As in \eqref{expand_6}, we can expand this expression into the sum of 15 terms, and bound each term as in \eqref{eq_hA1}-\eqref{eq_hA56}. For example, for the main term $\hat A^2 \wt \beta_1^\top (X^{(1)})^\top X^{(1)} \hat \Sigma^{-1}  \Sigma^{(2)} \hat \Sigma^{-1}  (X^{(1)})^\top X^{(1)}\wt\beta_1$, using 
+Lemma \ref{largedeviation} and \eqref{op_X12}-\eqref{op_Sig1}, we can obtain the following estimate with high probability for any small constant $e>0$:
+\begin{align*}
+&\hat A^2 \left|\wt \beta_1^\top (X^{(1)})^\top X^{(1)} \hat \Sigma^{-1}  \Sigma^{(2)} \hat \Sigma^{-1}  (X^{(1)})^\top X^{(1)}\wt\beta_1 - d^2 \cdot p^{-1}\bigtr{(X^{(1)})^\top X^{(1)} \hat \Sigma^{-1}  \Sigma^{(2)} \hat \Sigma^{-1}  (X^{(1)})^\top X^{(1)}}\right| \\
+&\le p^e\cdot p^{-1}d^2 \cdot \left\| (X^{(1)})^\top X^{(1)} \hat \Sigma^{-1}  \Sigma^{(2)} \hat \Sigma^{-1}  (X^{(1)})^\top X^{(1)} \right\|_F \\
+&\le p^{-1/2+\e}d^2 \cdot  \left\| (X^{(1)})^\top X^{(1)} \hat \Sigma^{-1}  \Sigma^{(2)} \hat \Sigma^{-1}  (X^{(1)})^\top X^{(1)} \right\|  \lesssim p^{-1/2+\e}d^2.
+\end{align*} 
+For the cross term $\hat A \wt \beta_1^\top (X^{(1)})^\top X^{(1)} \hat \Sigma^{-1}  \Sigma^{(2)} \hat \Sigma^{-1}  (X^{(2)})^\top  \epsilon^{(2)}$, using Lemma \ref{largedeviation} and \eqref{op_X12}-\eqref{op_Sig1}, we can obtain the following estimate with high probability for any small constant $e>0$:
+\begin{align*}
+&|\hat A |\cdot \left|\wt \beta_1^\top (X^{(1)})^\top X^{(1)} \hat \Sigma^{-1}  \Sigma^{(2)} \hat \Sigma^{-1}  (X^{(2)})^\top  \epsilon^{(2)}\right| \le p^e \cdot \sigma\sqrt{p^{-1}d^2} \cdot \|(X^{(1)})^\top X^{(1)} \hat \Sigma^{-1}  \Sigma^{(2)} \hat \Sigma^{-1}  (X^{(2)})^\top  \|_F \\
+&\lesssim p^{e}\sigma d \cdot  \|(X^{(1)})^\top X^{(1)} \hat \Sigma^{-1}  \Sigma^{(2)} \hat \Sigma^{-1}  (X^{(2)})^\top  \| \lesssim p^{-1/2+e}\sigma d\le p^{-1/2+e}(\sigma^2+ d^2).
 \end{align*}
-where
-
+The rest of the terms in the expansion of \eqref{expand_15} can be bounded in the same way, and we omit the details.
  \end{proof}
  
 In the specific setting in Proposition \ref{cor_MTL_loss}, we can further simplify $\cal L(\hat A)$ using Claim \ref{lem_hat_v} and $\Sigma^{(1)}=\Sigma^{(2)}=\id_p$.
