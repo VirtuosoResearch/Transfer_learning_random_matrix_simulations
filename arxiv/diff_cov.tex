@@ -67,32 +67,37 @@ For a non-Gaussian random matrix, this result can be obtained using the well-kno
 
 As mentioned in the beginning of this section, different tasks may have different sample sizes and different feature covariance matrices.
 Under these scenarios, Theorem \ref{thm_main_RMT} shows the bias and variance asymptotics for the two-task case.
-Next, we use this result to study the impact of sample sizes and covariate shifts in hard parameter sharing.
+Next, we use this result to study the impact of varying sample sizes and covariate shifts in hard parameter sharing.
 
-\begin{example}[Sample ratio]
-	Our first example considers the impact of sample sizes on the prediction loss of hard parameter sharing.
+\begin{example}[Sample ratio]\label{ex_sample_ratio}
+	Our first example considers the impact of varying sample sizes on the prediction loss of hard parameter sharing.
 	We illustrate the above result in the random-effects model described in Section \ref{sec_hps}.
 	We further assume that the population covariance matrices of both tasks are isotropic.
 
-	To apply Theorem \ref{thm_main_RMT}, we solve the self-consistent equations \eqref{eq_a12extra} and \eqref{eq_a34extra} by using $\lambda_i = 1$ for all $1\le i\le p$, and obtain explicit solutions for the weights $\set{a_i}_{i=1}^4$.
-Using the solved weights in the bias and variance asymptotic equations, we obtain the following result.
+	To apply Theorem \ref{thm_main_RMT}, we solve the self-consistent equations \eqref{eq_a12extra} and \eqref{eq_a34extra} by using $\lambda_i = 1$ for all $1\le i\le p$.
+	For the variance limit, since $a_1 + a_2 = 1 - \frac{p}{n_1 + n_2 - p}$, we have that $\tr[(a_1\Sigma^{(1)} + a_2\Sigma^{(2)})^{-1}] / (n_1 + n_2) = \frac{p}{n_1 + n_2 - p}$.
+	For the bias limit, we first solve $a_1$ and $a_2$ from equation \eqref{eq_a12extra}, and then solve $a_3$ and $a_4$ by using the solutions to equation \eqref{eq_a34extra}.
+	Using the solved weights in the bias and variance limit equations, we obtain the following result.
 
 \begin{corollary}\label{cor_MTL_loss}
-	In the setting of this example, assume further that
+	In the setting of Example \ref{ex_sample_ratio}, assume that
 	%a) the sample sizes $n_1$ and $n_2$ are greater than $(1 + \tau) p$, b) $\Sigma_1=\Sigma_2=\id_p$, and c) %there exists a small constant $c_0>0$ such that
-	(i) the noise variance is smaller than the signal strength: $\sigma^2 \lesssim  \kappa^2$;
+	(i) task one's sample size is at least $n_1 \ge \min(\frac{17}{\varepsilon^2}, 50) \cdot p$ for a fixed positive value $\varepsilon$, and task two's sample size is at least $n_2 \ge \frac{3}{2}p$;
+	(ii) the noise variance is smaller than the signal strength: $\sigma^2 \lesssim  \kappa^2$;
 %	\be\label{choiceofpara0}
 %	p^{-1/2+c_0}\sigma^2 + p^{c_0}d^2\le \kappa^2\le p^{1-c_0} (\sigma^2 +d^2)  .  	\ee
 	%\be\label{choiceofpara0}
-	(ii) the task-specific variance of $\beta_i$ is much smaller than the signal strength {\color{red}$d^2 = \oo( {\kappa^2})$}; \HZ{what does $\ll$ mean exactly?}
-	(iii) the sample sizes $n_1$ and $n_2$ are greater than $(1 + \tau) p$. 
+%	(ii) the task-specific variance of $\beta_i$ is much smaller than the signal strength {\color{red}$d^2 = \oo( {\kappa^2})$}; \HZ{what does $\ll$ mean exactly?}
+%	(iii) the sample sizes $n_1$ and $n_2$ are greater than $(1 + \tau) p$.
+	(iii) the task-specific variance of $\beta_i$ is much smaller than the signal strength: $d^2 \le p^{-c_{\varphi}}{\kappa^2}$.
 	The prediction loss of hard parameter sharing for task two satisfies that
 	\begin{align}\label{cor_MTL_error}
 	%-\left[1- \left( 1-\frac{1}{\sqrt{\rho_1}}\right)^4\right] pd^2\cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3} +\OO(p^{-c}\sigma^2)  \le
-	  \left|L(\hat{\beta}_2^{\MTL}) - \frac{d^2 n_1^2 (n_1 + n_2)}{(n_1 + n_2 - p)^3} -\frac{\sigma^2 p}{n_1 + n_2 - p}  \right|  & \le  \left[\left( 1+\frac{1}{\sqrt{\rho_1}}\right)^4-1\right] d^2\cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3} \\
-	& +C \left[(p^{-c_\varphi}+p^{-c_\infty/2})(\sigma^2 +d^2)+p^{-c_\infty}\kappa^2 + \frac{d^4+\sigma^2 d^2}{\kappa^2}\right],\nonumber
+	  \left|L(\hat{\beta}_2^{\MTL}) - \frac{d^2 n_1^2 (n_1 + n_2)}{(n_1 + n_2 - p)^3} -\frac{\sigma^2 p}{n_1 + n_2 - p}  \right| \le \varepsilon \cdot \frac{d^2 n_1^2 (n_1 + n_2)}{(n_1 + n_2 - p)^3} + p^{-c_{\varphi}} \cdot \OO(d^2 + \sigma^2).
+	%\left[\left( 1+\frac{1}{\sqrt{\rho_1}}\right)^4-1\right] d^2\cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3} \\
+	%& +C \left[(p^{-c_\varphi}+p^{-c_\infty/2})(\sigma^2 +d^2)+p^{-c_\infty}\kappa^2 + %\frac{d^4+\sigma^2 d^2}{\kappa^2}\right],\nonumber
 	 \end{align}
-	 for a large constant $C>0$.
+%	 for a large constant $C>0$.
 \end{corollary}
 
 
@@ -106,16 +111,14 @@ Using the solved weights in the bias and variance asymptotic equations, we obtai
 %\end{claim}
 %We now discuss two implications of Corollary \ref{cor_MTL_loss} and Claim \ref{claim_STL_loss} regarding the information transfer in MTL: the transitions from positive transfer to negative transfer with respect to varying model distance and varying sample ratio, respectively.
 
-%\medskip
-%
 %\noindent{\bf Varying model distance.}
 %With Corollary \ref{cor_MTL_loss} and Claim \ref{claim_STL_loss}, it is not hard to see
 %One can observe that as we increase the distance $pd^2$ between $\beta_1$ and $\beta_2$, there is a transition from positive transfer to negative transfer in MTL. More precisely, the bias term $  pd^2\cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3}$ of MTL increases as the distance between $\beta_1$ and $\beta_2$ increases, while variance reduction from STL to MTL is $\frac{\sigma^2}{ \rho_2-1}  -\frac{\sigma^2}{\rho_1+\rho_2-1}$.
 %Therefore, while the variance of MTL still reduces compared to STL,
 %If the bias increases more than the amount of variance reduced, we will observe negative transfer.
 
-We apply Corollary \ref{cor_MTL_loss} to the parameter setting of Figure \ref{fig_model_shift} (the details are left to Appendix \ref{app_synthetic}). We can see that our result is able to predict positive or negative transfer  accurately and matches the empirical curve.
-There are several unexplained observations near the transition threshold $0$, which are caused by the concentration error on the right-hand side of \eqref{cor_MTL_error}.
+%We apply Corollary \ref{cor_MTL_loss} to the parameter setting of Figure \ref{fig_model_shift} (the details are left to Appendix \ref{app_synthetic}). We can see that our result is able to predict positive or negative transfer  accurately and matches the empirical curve.
+%There are several unexplained observations near the transition threshold $0$, which are caused by the concentration error on the right-hand side of \eqref{cor_MTL_error}.
 %We fix the target task and vary the source task, in particular the parameter $d$ which determines $\norm{\beta_1 - \beta_2}$.
 %Figure \ref{fig_model_shift} shows the result.
 %We observe that Proposition \ref{prop_dist_transition} explains most of the observations in Figure \ref{fig_model_shift}.
@@ -127,7 +130,6 @@ There are several unexplained observations near the transition threshold $0$, wh
 %A key part of the analysis shows that $\hat{W}_1 / \hat{W}_2$ is roughly equal to one in the isotropic model,
 %thus simplifying the general condition in Theorem \ref{thm_main_informal}.
 
-
 %In classical Rademacher or VC based theory of multi-task learning, the generalization bounds are usually presented for settings where the sample sizes are equal for all tasks \cite{B00,M06,MPR16}.
 %More generally, such results are still applicable when all task data are being added simultaneously.
 %On the other hand, uneven sample sizes between different tasks (or even dominating tasks) have been empirically observed as a cause of negative transfer \cite{YKGLHF20}.
@@ -135,12 +137,28 @@ There are several unexplained observations near the transition threshold $0$, wh
 %Our theory accurately predicts a curious phenomenon, where increasing the sample size of the source task results in negative transfer!
 %On the other hand, we have observed that adding more labeled data does not always improve performance in multi-task learning.
 
-More precisely, in the isotropic model, we consider what happens if we vary the source task sample size. For fixed model distance $pd^2$, the bias term $  pd^2\cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3}$ of MTL increases and converges to $pd^2$ as the sample ratio $\rho_1/\rho_2$ increases, and the variance reduction $\frac{\sigma^2}{ \rho_2-1}  -\frac{\sigma^2}{\rho_1+\rho_2-1}$ also increases and converges to $\frac{\sigma^2}{\rho_2-1}$ as $\rho_1/\rho_2$ increases. The tradeoff between these two terms depends on $\rho_1$ in a nonlinear way that is more complicated than the one in the case of varying model distance. But from our results, one can check the following phenomena. If $\frac{\sigma^2}{\rho_2-1} > pd^2$, then the transfer is always positive. On the other hand, if $\frac{\sigma^2}{\rho_2-1} < pd^2$, then there is a transition from the positive transfer to negative transfer as $\rho_1/\rho_2$ increases.
+In the above result, we see that the prediction loss of hard parameter sharing consists of a bias term that scales with task-specific variance and a noise variance term.
+We use the above result to explain an interesting phenomenon, where adding task one's samples helps task two initially, but hurts eventually.
+In particular, consider the prediction loss of hard parameter sharing as we fix $n_2$ and vary $n_1$.
+First, the noise variance term always reduces as $n_1$ increases.
+Second, when $n_2 \ge \frac{3}{2} p$, the bias term always increases as $n_1$ increases, which can be verified by calculating the derivative of the bias term.
+Therefore, we conclude that the \textit{optimal} sample ratio between $n_1$ and $n_2$ is one of three cases:
+(i) $n_1 = 0$, and the prediction loss reduces to that of single-task learning for task two;
+(ii) $n_1 = \infty$, and the prediction loss reduces to the task-specific variance $d^2$;
+(iii) the critial point where the derivative of the bias and variance terms is zero.
+Furthermore, we observe the following trend by comparing the conditions of $n_1 = 0$ and $n_1 = \infty$:
+\begin{itemize}
+	\item If $d^2$ is smaller than the prediction loss of STL for task two, then the prediction loss of hard parameter sharing is always lower than STL. That is, task one always transfers positively to task two.
+	\item Otherwise, as the sample ratio between $n_1$ and $n_2$ increases, task one transfers positively to task two initially, but transfers negatively eventually.
+\end{itemize}
+%Therefore, while the variance of MTL still reduces compared to STL,
+%If the bias increases more than the amount of variance reduced, we observe negative transfer.
+%of MTL increases and converges to $pd^2$ as the sample ratio $\rho_1/\rho_2$ increases, and the variance reduction $\frac{\sigma^2}{ \rho_2-1}  -\frac{\sigma^2}{\rho_1+\rho_2-1}$ also increases and converges to $\frac{\sigma^2}{\rho_2-1}$ as $\rho_1/\rho_2$ increases. The tradeoff between these two terms depends on $\rho_1$ in a nonlinear way that is more complicated than the one in the case of varying model distance. But from our results, one can check the following phenomena. If $\frac{\sigma^2}{\rho_2-1} > pd^2$, then the transfer is always positive. On the other hand, if $\frac{\sigma^2}{\rho_2-1} < pd^2$, then there is a transition from the positive transfer to negative transfer as $\rho_1/\rho_2$ increases.
 %Therefore, while the variance of MTL still reduces compared to STL,
 %If the bias increases more than the amount of variance reduced, we will observe negative transfer.
-Figure \ref{fig_size} provides a simulation result for such a setting (described in Appendix \ref{app_synthetic}).
+%Figure \ref{fig_size} provides a simulation result for such a setting (described in Appendix \ref{app_synthetic}).
 %We observe that as $n_1 / n_2$ increases, there is a transition from positive to negative transfer.
-There are several unexplained observations near $y = 0$ caused by the concentration error on the right-hand side of \eqref{cor_MTL_error}.
+%There are several unexplained observations near $y = 0$ caused by the concentration error on the right-hand side of \eqref{cor_MTL_error}.
 \end{example}
 
 %\begin{proposition}[Source/target sample ratio]\label{prop_data_size}
@@ -167,6 +185,44 @@ Our results apply to arbitrary ``covariate shift'' and we consider a simple sett
 As we are going to show later, covariate shift is accurately captured by the spectrum of $\Sigma^{1/2}\Sigma^{-1/2}$.
 To illustrate our result, we assume that the first half of the singular values of $\Sigma^{1/2}\Sigma^{-1/2}$ are all equal to a parameter $\lambda$ and the rest are all equal to one.
 Our results imply that the prediction loss of the hard parameter sharing estimator is given as follows.
+
+	In the simulation of Figure \ref{fig_covariate}, we observe the following two phases as  $n_1 / p$ increases.
+When $n_1 \le n_2$, having complementary covariance matrices leads to lower test error compared to the case when $\Sigma_1 = \Sigma_2$.
+When $n_1 > n_2$, having complementary covariance matrices leads to higher test error compared to the case when $\Sigma_1 = \Sigma_2$.
+We provide a theoretical justification now.
+
+\begin{proof}[Theoretical justification of Example \ref{ex_complement}]
+We denote the test error as $\te(\hat \beta_{2}^{\MTL},\lambda)$ in the setting where $M$ has $p/2$ singular values that are equal to $\lambda$ and $p/2$ singular values that are equal to $1 / \lambda$. Then equations in equation \eqref{eq_a12extra} become
+\be\label{compleeq} a_1 + a_2 = 1 - \frac{1}{\rho_1 + \rho_2},  \ \ a_1 + \frac{1}{2(\rho_1 + \rho_2)}\cdot \bigbrace{\frac{a_1}{a_1 + \lambda^2 a_2} + \frac{a_1}{a_1 + \lambda^{-2} a_2}} = \frac{\rho_1}{\rho_1 + \rho_2}. \ee
+%It's not hard to verify that there is only one valid solution $(a_1,a_2)$ to equation \eqref{compleeq}.
+After solving these, with equation \eqref{gvar_extra} we get that w.h.p.,
+\be\label{testcomple}
+ \te(\hat \beta_{2}^{\MTL},\lambda)= \frac{\sigma^2}{2(\rho_1 + \rho_2)}(1+\OO(p^{-\e}))\cdot f(\lambda) ,\quad f(\lambda): = \frac{1}{\lambda^{-2}{a_1} + a_2} + \frac{1}{\lambda^2a_1 + a_2}.\ee
+
+%First we notice that the curves in Figure  \ref{fig_model_shift_phasetrans} (c) all cross at the point $n_1=n_2$. In fact, if $n_1=n_2$, then it is easy to observe that $a_1=a_2=(1-\gamma)/2$ is the solution to equation \eqref{compleeq}, where we denote $ \gamma=p/(n_1+n_2)$. Then for any $\lambda$, the test error in equation \eqref{testcomple} takes the value
+%$$te(\lambda)= \frac{\gamma}{2}\frac{1}{(1-\gamma)/2}=\frac{p}{n_1+n_2-p}.$$
+
+%Second, from Figure \ref{fig_te_complement} we observe that the complementary cases with $\lambda>1$ is better than the case without covariate shift (i.e. $M=\id$ case) when $n_1<n_2$. On the other hand, if we have enough source task data such that $n_1>n_2$, then it is always better to have no covariate shift.
+We now study the behavior of $f$ as $\lambda$ changes.
+%This phenomenon can be also explained using our theory.
+We abbreviate $\gamma:=(\rho_1 + \rho_2)^{-1}$. Then with equation \eqref{compleeq}, we can rewrite
+$$f(\lambda)= \frac{1}{\lambda^{-2}{a_1} + (1-\gamma - a_1)} + \frac{1}{\lambda^2a_1 + (1-\gamma - a_1)}.$$
+Then we can compute that
+\begin{align*}
+f(\lambda) - f(1)&= \frac{ \lambda^2-1}{1-\gamma} a_1\cdot \bigbrace{  \frac{1}{ -a_1(\lambda^2-1)+(1-\gamma)\lambda^2 } - \frac{1}{a_1(\lambda^2-1) + (1-\gamma)}} \\
+&= \frac{(\lambda^2-1)^2}{1-\gamma}  a_1\cdot  \frac{2a_1 - (1-\gamma) }{[-a_1(\lambda^2-1)+(1-\gamma)\lambda^2 ][a_1(\lambda^2-1) + (1-\gamma)]} .
+\end{align*}
+From this expressions, we observe the following behaviors.
+\begin{itemize}
+\item[(i)] If $n_1>n_2$, we have $a_1>(1-\gamma)/2$ (because $a_1>a_2$ as observed from the equation \eqref{compleeq}). Hence $f(\lambda)>f(1)$, which gives $\te(\hat \beta_{2}^{\MTL},\lambda)>\te(\hat \beta_{2}^{\MTL},1)$.
+
+\item[(ii)] If $n_1< n_2$, we have $a_1< (1-\gamma)/2$. Hence $f(\lambda)< f(1)$, which gives $\te(\hat \beta_{2}^{\MTL},\lambda)<\te(\hat \beta_{2}^{\MTL},1)$.
+
+\item[(iii)] If $n_1=n_2$, we have $f(\lambda)=f(1)=2/(1-\gamma)$, which means $\te(\hat \beta_{2}^{\MTL},\lambda)$ and $\te(\hat \beta_{2}^{\MTL},1)$ are roughly the same. %, which explains why the curves in Figure  \ref{fig_model_shift_phasetrans} (c) all cross at the point $n_1=n_2$.
+\end{itemize}
+This also partially justifies Proposition \ref{prop_covariate}. %Theorem  the observations in Figure \ref{fig_model_shift_phasetrans} (c),
+\end{proof}
+
 %We compare two cases: (i) when $M = \id_{p\times p}$; (ii) when $M$ has $p/2$ singular values that are equal to $\lambda$ and $p/2$ singular values that are equal to $1 / \lambda$.
 %Hence, $\lambda$ measures the severity of the covariate shift.
 %	Figure \ref{fig_covariate} shows a simulation of this setting by varying $\lambda$.
@@ -181,19 +237,18 @@ Our results imply that the prediction loss of the hard parameter sharing estimat
 %		\cS_{\mu}\define\bigset{M \left| \prod_{i=1}^p \lambda_i \le \mu^p, \mu_{\min} \le \lambda_i\le \mu_{\max}, \text{ for all } 1\le i\le p\right.}.
 %\end{align*}}
 %	We assume that $\beta_1$ and $\beta_2$ are generated following the isotropic model with $d = 0$.
-\begin{corollary}[Derived from Theorem \ref{thm_main_RMT}]\label{prop_covariate}
-	In the setting described above, assume further that a random-effects model holds for both tasks.
-	The prediction loss of $\hat{\beta}_2^{\MTL}$ for task two satisfies that
-	\begin{align*}
-		L(\hat{\beta}_2^{\MTL})
-	\end{align*}
+%\begin{corollary}[Derived from Theorem \ref{thm_main_RMT}]\label{prop_covariate}
+%	In the setting described above, assume further that a random-effects model holds for both tasks.
+%	The prediction loss of $\hat{\beta}_2^{\MTL}$ for task two satisfies that
+%	\begin{align*}
+%		L(\hat{\beta}_2^{\MTL})
+%	\end{align*}
 %	Let $g(M)$ denote the prediction loss of $\hat{\beta}_t^{\MTL}$ when $M = \Sigma_1^{1/2}\Sigma_2^{-1/2} \in\cS_{\mu}$.
 %	We have that
 %		\[ g(\mu\id) \le \bigbrace{1+ \bigo{{\rho_2}/{\rho_1}  }} \min_{M\in\cS_{\mu}} g(M). \]
-\end{corollary}
-
-Proposition \ref{prop_covariate} shows that when the sample ratio is large, having no covariate shift gives the optimal performance for multi-task learning.
-The proof of Proposition \ref{prop_covariate} can be found in Appendix \ref{app_proof_33}.
+%\end{corollary}
+%Proposition \ref{prop_covariate} shows that when the sample ratio is large, having no covariate shift gives the optimal performance for multi-task learning.
+%The proof of Proposition \ref{prop_covariate} can be found in Appendix \ref{app_proof_33}.
 \end{example}
 
 By combining the bias and variance asymptotics, we obtain the generalization error of $\hat{\beta}_2^{\MTL}$.
