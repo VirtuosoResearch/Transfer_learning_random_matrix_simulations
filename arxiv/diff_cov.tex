@@ -3,9 +3,9 @@
 The different covariates setting differs from the same covariates setting in two key aspects.
 First, different tasks may have different sample sizes. In extreme scenarios, one task may have much less labeled data compared to another task.
 Second, the features of different tasks may have different shapes, a phenomenon that is often called ``covariate shift''.
-In this section, we show how to deal with the the above two aspects.
+In this section, we show how to deal with these two aspects.
 
-When the covariates across tasks are different, we can no longer obtain an optimal solution for minimizing equation \eqref{eq_mtl} as in Claim \ref{lem_exp_opt}.
+Unlike the previous section, we no longer have an optimal solution for $A$.
 This is because the minimization problem is non-convex with respect to $A$ and $B$.
 Therefore, we consider an arbitrary local minimum of equation \eqref{eq_mtl} and provide generalization bounds that scale with key properties of task data.
 We focus on the two-task case to better understand the impact of having different sample sizes and different covariates in hard parameter sharing.
@@ -149,6 +149,7 @@ Combined together, we observe that the \textit{optimal} sample ratio between $n_
 (i) $n_1 = 0$, in which case the prediction loss reduces to $\frac{\sigma^2 p}{n_2 - p}$;
 (ii) $n_1 = \infty$, in which case the prediction loss reduces to $d^2$;
 (iii) the critial point where the derivative of the bias and the variance terms w.r.t. $n_1$ equals zero.
+The proof can be found in Appendix \ref{app_iso_cov}.
 
 Based on this observation, we have the following trend when we fix $n_2$ and increase $n_1$:
 \begin{itemize}
@@ -265,22 +266,19 @@ Thus, we conclude that if $n_1 \ge n_2$, then $f(\lambda) > f(1)$; if $n_1< n_2$
 %The proof of Proposition \ref{prop_covariate} can be found in Appendix \ref{app_proof_33}.
 \end{example}
 
-As a remark, by combining the bias and variance asymptotics, we can obtain the generalization error of hard parameter sharing for any local minimum solutions $(A, B)$.
-Since the proof is similar to the same covariates setting and Example \ref{cor_MTL_loss}, we describe the main differences and omit the rest of the details.
-First, we will rescale $X_1$ by $A_1 / A_2$ before applying Theorem \ref{thm_main_RMT}.
-Second, we approximate ${X^{(1)}}^{\top}X^{(1)}$ by $n_1 \Sigma^{(1)}$ in equation \eqref{eq_diff_cov} using Fact \ref{lem_minv}.
-For the rest of this section, we present the main ideas in the proof of Theorem \ref{thm_main_RMT}.
-The full proof can be found in Section \ref{sec_maintools}.
+As a remark, by combining the bias and variance asymptotics, we can also obtain a generalization bound for any local minimum solutions $(A, B)$.
+The proof is similar to Theorem \ref{thm_many_tasks} and Corollary \ref{cor_MTL_loss}.
+We describe the differences and omit the details.
+First, we rescale $X_1$ (and $\Sigma^{(1)}$) by $A_1 / A_2$ before applying Theorem \ref{thm_main_RMT}.
+Second, we approximate sample covariance ${X^{(1)}}^{\top}X^{(1)} / n_1$ by its expectation $\Sigma^{(1)}$ in equation \eqref{eq_diff_cov} using Fact \ref{lem_minv}.
+For the rest of this section, we present the main ideas for proving Theorem \ref{thm_main_RMT}.
 %Proposition \ref{prop_covariate} implies that when $\rho_1\gg \rho_2$, having no covariate shift is the optimal choice for choosing the source task.
 %This provides evidence that covariate shift is unfavorable when there are many source task datapoints,
-
-%\todo{} To complement the result, we show an example when the statement is not true if $n_1 \le n_2$.
 
 %We ask: is it better to have $M$ as being close to identity, or should $M$ involve varying levels of singular values?
 %Understanding this question has implications for applying normalization methods in multi-task learning \cite{LV19,CBLR18,YKGLHF20}.
 %We show that if $n_1$ is much larger than $n_2$, then the optimal $M$ matrix should be proportional to identity, under certain assumptions on its range of singular values (to be formulated in Proposition \ref{prop_covariate}).
 %On the other hand, if $n_1$ is comparable or even smaller than $n_2$, we show an example where having ``complementary'' covariance matrices is better performing than having the same covariance matrices.
-
 
 \paragraph{Proof overview.} The central quantify of interest is the matrix inverse $\hat{\Sigma}^{-1}$.
 To study this quantity, we use the Stieltjes transform or the resolvent method in random matrix theory \cite{bai2009spectral,tao2012topics,erdos2017dynamical}.
