@@ -64,7 +64,8 @@ We can calculate the partial expectation of $g(A)$ over the randomness in $\epsi
 &\exarg{\epsilon^{(1)}, \epsilon^{(2)}}{g(A) \mid X_1, X_2 ,\beta_1,\beta_2} \\
 &= \left\| X^{(1)} \Sigma(A)^{-1} (X^{(2)})^\top X^{(2)} (A\beta_2-\beta_1)\right\|^2 +\left\| X^{(2)} \Sigma(A)^{-1} (X^{(1)})^\top X^{(1)} (A\beta_1-A^2\beta_2)\right\|^2  \\
 & + \exarg{\epsilon^{(1)}}{(\epsilon^{(1)})^\top \left(A^2 X^{(1)}\Sigma(A)^{-1} (X^{(1)})^\top-\id_{n_1}\right)^2\epsilon^{(1)}} +\exarg{ \epsilon^{(2)}}{(\epsilon^{(2)})^\top \left(X^{(2)}\Sigma(A)^{-1} (X^{(2)})^\top-\id_{n_2}\right)^2\epsilon^{(2)}}   \\
-&+  A^2 \exarg{ \epsilon^{(2)}}{ (\epsilon^{(2)} )^\top X^{(2)} \Sigma(A)^{-1}  (X^{(1)})^\top X^{(1)}\Sigma(A)^{-1} (X^{(2)})^\top \epsilon^{(2)}}  +A^2 \exarg{ \epsilon^{(1)}} { (\epsilon^{(1)})^\top X^{(1)} \Sigma(A)^{-1}  (X^{(2)})^\top X^{(2)}\Sigma(A)^{-1} (X^{(1)})^\top \epsilon^{(1)}  }\\
+&+  A^2 \exarg{ \epsilon^{(2)}}{ (\epsilon^{(2)} )^\top X^{(2)} \Sigma(A)^{-1}  (X^{(1)})^\top X^{(1)}\Sigma(A)^{-1} (X^{(2)})^\top \epsilon^{(2)}} \\
+& +A^2 \exarg{ \epsilon^{(1)}} { (\epsilon^{(1)})^\top X^{(1)} \Sigma(A)^{-1}  (X^{(2)})^\top X^{(2)}\Sigma(A)^{-1} (X^{(1)})^\top \epsilon^{(1)}  }\\
 		&= \left\| X^{(1)} \Sigma(A)^{-1} (X^{(2)})^\top X^{(2)} (A\beta_2-\beta_1)\right\|^2 +\left\| X^{(2)} \Sigma(A)^{-1} (X^{(1)})^\top X^{(1)} (A\beta_1-A^2\beta_2)\right\|^2  \\
 		&+ \sigma^2\tr\left[ \left(A^2 X^{(1)}\Sigma(A)^{-1} (X^{(1)})^\top-\id_{n_1}\right)^2\right] +\sigma^2\tr\left[ \left(X^{(2)}\Sigma(A)^{-1} (X^{(2)})^\top-\id_{n_2}\right)^2 \right]\\
 &+ 2 A^2 \sigma^2 \tr\left[ \Sigma(A)^{-1}  (X^{(1)})^\top X^{(1)}\Sigma(A)^{-1} (X^{(2)})^\top X^{(2)} \right]  \nonumber\\
@@ -111,7 +112,7 @@ By Fact \ref{lem_minv} (iii), we have that with high probability,
  where
  \begin{align*}
 &h_1(A):=  (\beta_1-A\beta_2)^\top (X^{(2)})^\top X^{(2)}  \Sigma(A)^{-1}  (X^{(1)})^\top X^{(1)} \Sigma(A)^{-1} (X^{(2)})^\top X^{(2)} (\beta_1-A\beta_2)  ,\\
-& h_2(A) := {(\epsilon^{(1)})^\top \left(A^2 X^{(1)}\Sigma(A)^{-1} (X^{(1)})^\top-\id_{n_1}\right)^2\epsilon_1}  ,\\
+& h_2(A) := {(\epsilon^{(1)})^\top \left(A^2 X^{(1)}\Sigma(A)^{-1} (X^{(1)})^\top-\id_{n_1}\right)^2\epsilon^{(1)}}  ,\\
 & h_3(A):=  A^2 { (\epsilon^{(2)} )^\top X^{(2)} \Sigma(A)^{-1}  (X^{(1)})^\top X^{(1)}\Sigma(A)^{-1} (X^{(2)})^\top \epsilon^{(2)}} , \\
 & h_4(A):=  (\epsilon^{(1)})^\top\left(A^2 X^{(1)}\Sigma(A)^{-1} (X^{(1)})^\top-\id_{n_1}\right) X^{(1)} \Sigma(A)^{-1} (X^{(2)})^\top X^{(2)} (A\beta_2-\beta_1), \\
 &h_5(A):=A (\epsilon^{(2)})^\top X^{(2)}\Sigma(A)^{-1} (X^{(1)})^\top X^{(1)} \Sigma(A)^{-1} (X^{(2)})^\top X^{(2)} (A\beta_2-\beta_1),\\
@@ -119,20 +120,32 @@ By Fact \ref{lem_minv} (iii), we have that with high probability,
 \end{align*}
 Next we estimate each term using Lemma \ref{largedeviation} in Appendix \ref{app_tool}.
 
-For $h_1(A)$, using Lemma \ref{largedeviation} in Appendix \ref{app_tool} and the fact that the entries of $\beta_1-A\beta_2\in \R^p$ are i.i.d. Gaussian random variables with mean zero and variance $p^{-1}[(A-1)^2\kappa^2 + (A^2+1)d^2/2]$, we obtain the following estimate with high probability:
-\begin{align*}
-&\left|h_1(A) - \exarg{\beta_1,\beta_2}{h_1(A) \mid X_1, X_2}\right| \\
-&\le p^{\e_1}\cdot p^{-1}[(A-1)^2\kappa^2 + (A^2+1)d^2/2]\cdot \left\| (X^{(2)})^\top X^{(2)}  \Sigma(A)^{-1}  (X^{(1)})^\top X^{(1)} \Sigma(A)^{-1} (X^{(2)})^\top X^{(2)} \right\|_F \\
-&\le p^{e_1}\cdot p^{-1}[(A-1)^2\kappa^2 + (A^2+1)d^2/2]\cdot p^{1/2} \left\| (X^{(2)})^\top X^{(2)}  \Sigma(A)^{-1}  (X^{(1)})^\top X^{(1)} \Sigma(A)^{-1} (X^{(2)})^\top X^{(2)} \right\|  \\
-&\lesssim p^{1/2+e_1}\cdot \frac{(A-1)^2\kappa^2 + (A^2+1)d^2/2}{(A^2+1)^2}\lesssim p^{1/2+e_1}(\kappa^2 + d^2),
-\end{align*}
-for any small constant $\e_1>0$. Here in the last step we used \eqref{op_X12} and \eqref{op_Sig1} to bound the operator norm:
+For $h_1(A)$, using Lemma \ref{largedeviation} in Appendix \ref{app_tool} and the fact that the entries of $\beta_1-A\beta_2\in \R^p$ are i.i.d. Gaussian random variables with mean zero and variance $p^{-1}[(A-1)^2\kappa^2 + (A^2+1)d^2/2]$, we obtain the following estimate with high probability for any small constant $\e_1>0$:
+\begin{align}
+&\left|h_1(A) - \exarg{\beta_1,\beta_2}{h_1(A) \mid X_1, X_2}\right|\nonumber \\
+&\le p^{\e_1}\cdot p^{-1}[(A-1)^2\kappa^2 + (A^2+1)d^2/2]\cdot \left\| (X^{(2)})^\top X^{(2)}  \Sigma(A)^{-1}  (X^{(1)})^\top X^{(1)} \Sigma(A)^{-1} (X^{(2)})^\top X^{(2)} \right\|_F \nonumber\\
+&\le p^{e_1}\cdot p^{-1}[(A-1)^2\kappa^2 + (A^2+1)d^2/2]\cdot p^{1/2} \left\| (X^{(2)})^\top X^{(2)}  \Sigma(A)^{-1}  (X^{(1)})^\top X^{(1)} \Sigma(A)^{-1} (X^{(2)})^\top X^{(2)} \right\| \nonumber \\
+&\lesssim p^{1/2+e_1}\cdot \frac{(A-1)^2\kappa^2 + (A^2+1)d^2/2}{(A^2+1)^2}\lesssim p^{1/2+e_1}(\kappa^2 + d^2).\label{eq_hA1}
+\end{align}
+ Here in the third step we used \eqref{op_X12} and \eqref{op_Sig1} to bound the operator norm:
 \begin{align*}
 &\left\| (X^{(2)})^\top X^{(2)}  \Sigma(A)^{-1}  (X^{(1)})^\top X^{(1)} \Sigma(A)^{-1} (X^{(2)})^\top X^{(2)} \right\| \\
 &\le \left\| (X^{(2)})^\top X^{(2)}\right\|^2 \cdot \left\| (X^{(1)})^\top X^{(1)}\right\|\cdot \left\| \Sigma(A)^{-1} \right\|^2 \lesssim \frac{p}{(A^2+1)^2}.
 \end{align*}  
+Similarly, using Lemma \ref{largedeviation}, the fact that the entries of $\epsilon^{(1)},\epsilon^{(2)}\in \R^p$ are i.i.d. Gaussian random variables with mean zero and variances $\sigma^2$, and bounds \eqref{op_X12}-\eqref{op_Sig1}, we can obtain that with high probability,
+\be\label{eq_hA23}\left|h_2(A) - \exarg{\epsilon^{(1)}}{h_2(A) \mid X_1, X_2}\right| \lesssim p^{1/2+\e_1}\sigma^2, \quad \left|h_3(A) - \exarg{\epsilon^{(2)}}{h_3(A) \mid X_1, X_2}\right| \lesssim p^{1/2+\e_1}\sigma^2.\ee
+For $h_4(A)$, using Lemma \ref{largedeviation} in Appendix \ref{app_tool}, we obtain the following estimate with high probability for any small constant $\e_1>0$:
+\begin{align}
+\left|h_4(A)\right| &\le p^{e_1}\cdot \sigma \sqrt{p^{-1}[(A-1)^2\kappa^2 + (A^2+1)d^2/2]}\cdot \left\| \left(A^2 X^{(1)}\Sigma(A)^{-1} (X^{(1)})^\top-\id_{n_1}\right) X^{(1)} \Sigma(A)^{-1} (X^{(2)})^\top X^{(2)} \right\|_F\nonumber \\
+&\le p^{e_1}\cdot \sigma \sqrt{p^{-1}[(A-1)^2\kappa^2 + (A^2+1)d^2/2]} \cdot p^{1/2} \left\| \left(A^2 X^{(1)}\Sigma(A)^{-1} (X^{(1)})^\top-\id_{n_1}\right) X^{(1)} \Sigma(A)^{-1} (X^{(2)})^\top X^{(2)} \right\|  \nonumber\\
+&\lesssim p^{e_1}\cdot \sigma \sqrt{ (A-1)^2\kappa^2 + (A^2+1)d^2/2} \cdot \left\|  \id_{n_1}-A^2 X^{(1)}\Sigma(A)^{-1} (X^{(1)})^\top\right\|\cdot  \left\|X^{(1)}\right\| \left\|\Sigma(A)^{-1}\right\|\left\| (X^{(2)})^\top X^{(2)} \right\|  \nonumber\\
+&\lesssim p^{1/2+e_1}\frac{\sigma \sqrt{ (A-1)^2\kappa^2 + (A^2+1)d^2/2}}{A^2+1} \lesssim p^{1/2+e_1}(\sigma^2 + \kappa^2 + d^2),\label{eq_hA4}
+\end{align}
+where in the fourth step we used $\left\|  \id_{n_1}-A^2 X^{(1)}\Sigma(A)^{-1} (X^{(1)})^\top\right\|\le 1$ and \eqref{op_X12}-\eqref{op_Sig1}, and in the last step we used AM-GM inequality. With same argument, we can show that 
+\be\label{eq_hA56} \left|h_5(A)\right| \le p^{1/2+e_1}(\sigma^2 + \kappa^2 + d^2), \quad \left|h_6(A)\right| \le p^{1/2+e_1}\sigma^2,\ee
+with high probability for any small constant $e_1>0$. %Combining \eqref{eq_hA1}, \eqref{eq_hA23}, \eqref{eq_hA4} and \eqref{eq_hA56}, we conclude that
 
-
+Finally, we can obtain similar estimates for the second term on the right-hand side of \eqref{eq_mtl_A12} as in  \eqref{eq_hA1}, \eqref{eq_hA23}, \eqref{eq_hA4} and \eqref{eq_hA56}, which conclude the proof of Claim \ref{claim_largedev1}.
  \end{proof}
 
 
@@ -312,10 +325,10 @@ under equation \eqref{choiceofpara0}, which implies the inequality \eqref{gA>g1}
 \end{proof}
 
 \paragraph{Calculating the prediction loss.} Now we calculate the predication loss using the optimal $\hat B$ in equation \eqref{eq_Bhat_2task} and optimal $\hat A=\hat A_1/\hat A_2$:
-\begin{align*}
-L(\hat{\beta}_2^{\MTL}) &=\left|\Sigma_2^{1/2} \left( \hat B \hat A_2 - \beta_2\right)\right| \\
-&=  \left\| (\Sigma^{(2)})^{1/2}\hat \Sigma^{-1} \left[(X^{(1)})^\top X^{(1)} (\hat A\beta_1-\hat A^2\beta_2)+ (X^{(2)})^\top \epsilon^{(2)} + \hat A   (X^{(1)})^\top \epsilon^{(1)} \right]\right\|^2,
-\end{align*}
+\begin{align}
+L(\hat{\beta}_2^{\MTL}) &=\left|\Sigma_2^{1/2} \left( \hat B \hat A_2 - \beta_2\right)\right| \nonumber\\
+&=  \left\| (\Sigma^{(2)})^{1/2}\hat \Sigma^{-1} \left[(X^{(1)})^\top X^{(1)} (\hat A\beta_1-\hat A^2\beta_2)+ (X^{(2)})^\top \epsilon^{(2)} + \hat A   (X^{(1)})^\top \epsilon^{(1)} \right]\right\|^2,\label{Lbeta_HPS}
+\end{align}
 where we denoted
 $$\hat \Sigma:= \hat A^2 (X^{(1)})^\top X^{(1)}  + (X^{(2)})^\top X^{(2)} .$$
 To illustrate the idea of bias-variance decomposition, we assume that $\hat A$ is independent of $\epsilon^{(1)}$, $\epsilon^{(2)}$, $\beta_1$ and $\beta_2$ for now. Then we can calculate the partial expectation of $L(\hat{\beta}_2^{\MTL})$ over the randomness in $\epsilon_1$ and $\epsilon_2$:
@@ -359,7 +372,10 @@ for any small constant $e>0$. Here we introduced the function
 \end{align*}
  \end{claim}
  \begin{proof}
- \todo{add proof}
+ The proof of this claim is the same as the one for Claim \ref{claim_largedev1}, so we only give an outlier of proof without writing down all the details. We expand $L(\hat{\beta}_2^{\MTL}) $ in \eqref{Lbeta_HPS} as:
+ \begin{align*}
+\cor L(\hat{\beta}_2^{\MTL}) &=  \left\| (\Sigma^{(2)})^{1/2}\hat \Sigma^{-1} \left[(X^{(1)})^\top X^{(1)} (\hat A\beta_1-\hat A^2\beta_2)+ (X^{(2)})^\top \epsilon^{(2)} + \hat A   (X^{(1)})^\top \epsilon^{(1)} \right]\right\|^2,
+\end{align*}
  \end{proof}
  
 In the specific setting in Proposition \ref{cor_MTL_loss}, we can further simplify $\cal L(\hat A)$ using Claim \ref{lem_hat_v} and $\Sigma^{(1)}=\Sigma^{(2)}=\id_p$.
