@@ -1,11 +1,16 @@
 \section{The Different Covariates Setting}\label{sec_diff}
 
+The different covariates setting differs from the same covariates setting in two key aspects.
+First, different tasks may have different sample sizes. In extreme scenarios, one task may have much less labeled data compared to another task.
+Second, the features of different tasks may have different shapes, a phenomenon that is often called ``covariate shift''.
+In this section, we show how to deal with the the above two aspects.
+
 When the covariates across tasks are different, we can no longer obtain an optimal solution for minimizing equation \eqref{eq_mtl} as in Claim \ref{lem_exp_opt}.
 This is because the minimization problem is non-convex with respect to $A$ and $B$.
-Therefore, we consider an arbitrary local minimum of equation \eqref{eq_mtl} and provide generalization bounds that scale with key properties of task data such as sample sizes and covariate shifts.
+Therefore, we consider an arbitrary local minimum of equation \eqref{eq_mtl} and provide generalization bounds that scale with key properties of task data.
 We focus on the two-task case to better understand the impact of having different sample sizes and different covariates in hard parameter sharing.
 
-We first provide a key technical tool that we derived using recent developments in random matrix theory \cite{??}.
+We develop a key technical result using recent developments in random matrix theory.
 To motivate our study, we consider a specialized setting where the output layer weights $A_1, A_2$ are both equal to one.
 Without loss of generality, we consider the prediction loss of hard parameter sharing for task two and the same analysis applies to task one.
 By solving $B$ in equation \eqref{eq_mtl}, we obtain the hard parameter sharing estimator $\hat{\beta}_2^{\MTL} = B A_2 = B$ as follows:
@@ -33,8 +38,8 @@ Let $U\Lambda V^\top$ denote the singular value decomposition of $M$, where $\La
 	Suppose that $X_1$ and $X_2$ are both random matrices that satisfy Assumption \ref{assume_rm}.
 	Assume further that: a) the singular values of $M$ are all greater than $\tau$ and less than $1/\tau$; b) the sample size of task two is greater than $(1 + \tau) p$.
 	With high probability over the randomness of $X_1$ and $X_2$, we have the following limits:
-	\begin{enumerate}
-		\item[i)]  The variance equation converges to the following asymptotic limit
+
+	\noindent (i) The variance equation converges to the following asymptotic limit
 			\begin{align}\label{lem_cov_shift_eq}
 				\bigabs{\bigtr{\Sigma^{(2)} \bigbrace{(n_1 + n_2){\hat{\Sigma}^{-1}} - (a_1 \Sigma^{(1)} + a_2 \Sigma^{(2)})^{-1}}}} \lesssim p^{-c_{\varphi}}\norm{\Sigma^{(2)}},
 			\end{align}
@@ -42,7 +47,7 @@ Let $U\Lambda V^\top$ denote the singular value decomposition of $M$, where $\La
 			\begin{align}
 				a_1 + a_2 = 1- \frac{p}{n_1 + n_2},\quad a_1 + \frac1{n_1 + n_2}\cdot \bigbrace{\sum_{i=1}^p \frac{\lambda_i^2 a_1}{\lambda_i^2 a_1 + a_2}} = \frac{n_1}{n_1 + n_2}. \label{eq_a12extra}
 			\end{align}
-		\item[ii)] For any fixed vector $w\in\real^p$ with unit norm, the bias equation converges to the following asymptotic limit
+	\noindent (ii) For any fixed vector $w\in\real^p$ with unit norm, the bias equation converges to the following asymptotic limit
 			\begin{align}\label{lem_cov_derv_eq}
 				\bigabs{w^{\top} \Sigma^{(1)} \bigbrace{(n_1+n_2)^2\hat{\Sigma}^{-1} \Sigma^{(2)} \hat{\Sigma}^{-1} - {\Sigma^{(2)}}^{-1/2} V {\frac{a_3 \Lambda^2 + (a_4 + 1)\id}{(a_1 \Lambda^2 + a_2\id)^2}} V^{\top} {\Sigma^{(2)}}^{-1/2}} \Sigma^{(1)} w} \lesssim p^{-c_{\varphi}},
 			\end{align}
@@ -53,51 +58,37 @@ Let $U\Lambda V^\top$ denote the singular value decomposition of $M$, where $\La
 %				\left(\frac{\rho_1}{a_1^{2}} -  b_2  \right)\cdot  a_3 -  b_1 \cdot  a_4 = b_1,\quad \left(\frac{\rho_2}{a_2^{2}}-  b_0\right)\cdot  a_4 - b_1 \cdot  a_3
 %				= b_0.
 			\end{align}
-	\end{enumerate}
 \end{theorem}
 Our result extends a well-known result on the inverse of sample covariance matrices.
 In particular, by setting $X_1 = 0$, we obtain the second result in Fact \ref{lem_minv}.
 When $X_1=0$, it is not hard to solve $a_1 = 0$ and $a_2 = (n_2-p) / n_2$ from equation \eqref{eq_a12extra}, and our result reduces to the case of a single sample covariance matrix.
-For a multivariate Gaussian random matrix, the result follows from the classical result for the mean of inverse Wishart distribution \cite{anderson1958introduction}.
-For a non-Gaussian random matrix, the result can be obtained using the Stieltjes transform method (cf. Lemma 3.11 of \citet{bai2009spectral}).
+For a multivariate Gaussian random matrix, this result follows from the classical result for the mean of inverse Wishart distribution \cite{anderson1958introduction}.
+For a non-Gaussian random matrix, this result can be obtained using the well-known Stieltjes transform method (cf. Lemma 3.11 of \citet{bai2009spectral}).
 
-By combining the bias and variance asymptotics, we obtain the generalization error of $\hat{\beta}_2^{\MTL}$.
-Since the proof is similar to the same covariates setting, we describe the key differences and omit the rest of the details.
-First, we will rescale $X_1$ by $A_1 / A_2$ before applying Theorem \ref{thm_main_RMT}.
-Second, we approximate ${X^{(1)}}^{\top}X^{(1)}$ with $n_1 \Sigma^{(1)}$ in equation \eqref{eq_diff_cov} using Fact \ref{lem_minv}.
-For the rest of this section, we present the main ideas in the proof of Theorem \ref{thm_main_RMT}.
-%We will give a simple (although not totally rigorous) derivation of the equations \eqref{eq_a12extra} and \eqref{eq_a34extra}.
-The full proof can be found in Section \ref{sec_maintools}.
+As mentioned in the beginning of this section, different tasks may have different sample sizes and different feature covariance matrices.
+Under these scenarios, Theorem \ref{thm_main_RMT} shows the bias and variance asymptotics for the two-task case.
+Next, we use this result to study the impact of sample sizes and covariate shifts in hard parameter sharing.
 
-\paragraph{Example: Sample imbalance.}
-The above setting assumes that the feature covariates are the same across all tasks.
-Hence, the sample sizes are also the same among all tasks.
-Next, we assume that the feature covariates are different and consider what happens the sample sizes are different for different tasks.
-We consider a two-task case where both tasks have isotropic covariance matrices.
-%	Each task has sample size $n_1 = \rho_1 \cdot p$ and $n_2 = \rho_2 \cdot p$.
-	%And $X_1\in\real^{n_1\times p}, X_2\in\real^{n_2\times p}$ denote the covariates of the two tasks, respectively.
-%	For the ground truth linear model, we consider a random-effects model where the two tasks differ by an independent Gaussian vector.
-%	Specially, for task two, we assume that its model parameter, denoted by $\beta_2$, consists of i.i.d. Gaussian entries with mean zero and variance $\kappa^2$.
-%	For task one, we assume that its model parameter, denoted by $\beta_1$, is equal to $\beta_2$ plus i.i.d. Gaussian entries with mean $0$ and variance $d^2$.
-%	Therefore, the two tasks have different ground truth models. In particular, the distance between $\beta_1$ and $\beta_2$ roughly scales as $d^2 \cdot p$.
-%\begin{example}[Varying model distance]
-%\end{example}
-Using Theorem \ref{thm_main_RMT}, we derive the prediction loss of the hard parameter sharing estimator.
-Without loss of generality, we describe the result for task two and remark that a similar result for task one holds.
+\begin{example}[Sample ratio]
+	Our first example considers the impact of sample sizes on the prediction loss of hard parameter sharing.
+	We illustrate the above result in the random-effects model described in Section \ref{sec_hps}.
+	We further assume that the population covariance matrices of both tasks are isotropic.
 
-\begin{corollary}[Derived from Theorem \ref{thm_main_RMT}]\label{cor_MTL_loss}
-	In the setting described above, assume further that a) the sample sizes $n_1$ and $n_2$ are greater than $(1 + \tau) p$, b) $\Sigma_1=\Sigma_2=\id_p$, and c) %there exists a small constant $c_0>0$ such that
-	the signal and noise variances satisfy
+	To apply Theorem \ref{thm_main_RMT}, we solve the self-consistent equations \eqref{eq_a12extra} and \eqref{eq_a34extra} by using $\lambda_i = 1$ for all $1\le i\le p$, and obtain explicit solutions for the weights $\set{a_i}_{i=1}^4$.
+Using the solved weights in the bias and variance asymptotic equations, we obtain the following result.
+
+\begin{corollary}\label{cor_MTL_loss}
+	In the setting of this example, assume further that
+	%a) the sample sizes $n_1$ and $n_2$ are greater than $(1 + \tau) p$, b) $\Sigma_1=\Sigma_2=\id_p$, and c) %there exists a small constant $c_0>0$ such that
+	(i) the noise variance is smaller than the signal strength: $\sigma^2 \lesssim  \kappa^2$;
 %	\be\label{choiceofpara0}
 %	p^{-1/2+c_0}\sigma^2 + p^{c_0}d^2\le \kappa^2\le p^{1-c_0} (\sigma^2 +d^2)  .  	\ee
-	\be\label{choiceofpara0}
-	\sigma^2 \lesssim  \kappa^2   ,\quad  d^2 \ll {\kappa^2}.
-	\ee
-	%Let $B, A_1, A_2$ be the global minimum of equation \eqref{eq_mtl}. Then
-	The prediction loss of the hard parameter sharing estimator for task two satisfies that
+	%\be\label{choiceofpara0}
+	(ii) the task-specific variance of $\beta_i$ is much smaller than the signal strength $d^2 \ll {\kappa^2}$. \HZ{what does $\ll$ mean exactly?}
+	The prediction loss of hard parameter sharing for task two satisfies that
 	\begin{align}\label{cor_MTL_error}
 	%-\left[1- \left( 1-\frac{1}{\sqrt{\rho_1}}\right)^4\right] pd^2\cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3} +\OO(p^{-c}\sigma^2)  \le
-	  \left|L(\hat{\beta}_2^{\MTL}) -\frac{\sigma^2}{\rho_1+\rho_2-1} - d^2\cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3}\right|  & \le  \left[\left( 1+\frac{1}{\sqrt{\rho_1}}\right)^4-1\right] d^2\cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3} \\
+	  \left|L(\hat{\beta}_2^{\MTL}) - \frac{d^2 n_1^2 (n_1 + n_2)}{(n_1 + n_2 - p)^3} -\frac{\sigma^2 p}{n_1 + n_2 - p}  \right|  & \le  \left[\left( 1+\frac{1}{\sqrt{\rho_1}}\right)^4-1\right] d^2\cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3} \\
 	& +C \left[(p^{-c_\varphi}+p^{-c_\infty/2})(\sigma^2 +d^2)+p^{-c_\infty}\kappa^2 + \frac{d^4+\sigma^2 d^2}{\kappa^2}\right],\nonumber
 	 \end{align}
 	 for a large constant $C>0$.
@@ -149,6 +140,7 @@ More precisely, in the isotropic model, we consider what happens if we vary the 
 Figure \ref{fig_size} provides a simulation result for such a setting (described in Appendix \ref{app_synthetic}).
 %We observe that as $n_1 / n_2$ increases, there is a transition from positive to negative transfer.
 There are several unexplained observations near $y = 0$ caused by the concentration error on the right-hand side of \eqref{cor_MTL_error}.
+\end{example}
 
 %\begin{proposition}[Source/target sample ratio]\label{prop_data_size}
 %	In the isotropic model, suppose that $\rho_1 > 40$ and $\rho_2 > 110$ are fixed constants, and $\Psi(\beta_1, \beta_2) > 2/(\rho_2 - 1)$.
@@ -165,11 +157,10 @@ There are several unexplained observations near $y = 0$ caused by the concentrat
 %There are several unexplained observations near $y = 0$ caused by $\nu$.
 %The proof of Proposition \ref{prop_data_size} can be found in Appendix \ref{app_proof_32}.
 
-\paragraph{Example: Covariate shift.} \label{sec_covshift}
+\begin{example}[Covariate shift]\label{sec_covshift}
 %So far we have considered the isotropic model where $\Sigma_1 = \Sigma_2$.
 %This setting is relevant for settings where different tasks share the same input features such as multi-class image classification.
 %In general, the covariance matrices of the two tasks may be different such as in text classification.
-
 In our final example, we consider what happens when the covariance matrices are also different between different tasks, which are often called ``covariate shift''.
 Our results apply to arbitrary ``covariate shift'' and we consider a simple setting of two tasks.
 As we are going to show later, covariate shift is accurately captured by the spectrum of $\Sigma^{1/2}\Sigma^{-1/2}$.
@@ -200,64 +191,16 @@ Our results imply that the prediction loss of the hard parameter sharing estimat
 %		\[ g(\mu\id) \le \bigbrace{1+ \bigo{{\rho_2}/{\rho_1}  }} \min_{M\in\cS_{\mu}} g(M). \]
 \end{corollary}
 
-
-\iffalse
-
- \begin{claim}\label{claim_covar_shift}
-		In the setting of Proposition \ref{prop_covariate}, for any $M\in \cal S_\mu$ we have that
-		\[ g(M)=(1+\OO(p^{-\e}))\cdot \sigma^2  \bigtr{\Sigma_2(X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} }  \quad \text{w.h.p.} \]
-	\end{claim}
-
-%Finally, in this subsection we prove Proposition \ref{prop_covariate}, which shows that $\te(\hat{\beta}_2^{\MTL})$ is minimized approximately when $M$ is a scalar matrix, provided that there is enough source data.
-
-\begin{proof}[Proof of Proposition \ref{prop_covariate}]
-
-
-
- Denote the minimizer of $g$ by
-$$M_0:=\argmin_{M\in \cal S_{\mu}}g(M).$$
-We now calculate $g(M_0)$.
-
-
-Now using Lemma \ref{lem_cov_shift}, we obtain that with high probability,
-\begin{align}\label{gvar_extra}
-g(M_0)= \frac{\sigma^2}{\rho_1+\rho_2}\cdot \frac1p\tr\left( \frac{1}{a_1(M_0)\cdot M_0^\top M_0 + a_2(M_0)}\right) \cdot \left(1 +\OO(p^{-\e})\right).
-\end{align}
-From equation \eqref{eq_a12extra}, it is easy to obtain the following estimates on $ a_1(M)$ and $a_2(M)$ for any $M\in \cal S_\mu$:
-\be\label{est_a12extra}
-\frac{\rho_1-1}{\rho_1+\rho_2} < a_1(M)<  \frac{\rho_1+\rho_2-1}{\rho_1+\rho_2},\quad a_2(M) < \frac{\rho_2}{\rho_1+\rho_2}.
-\ee
-Inserting \eqref{est_a12extra} into \eqref{gvar_extra} and using $ M_0^\top M_0\succeq \mu_{\min}^2$, we obtain that with high probability,
-\begin{align}\label{approximateteM}
-\left(1+\frac{\rho_2}{(\rho_1-1)\mu_{\min}^2}\right)^{-1}h(M_0) \cdot \left(1 - \OO(p^{-\e})\right) \le g(M_0) \le h(M_0) \cdot \left(1 +\OO(p^{-\e})\right),
-\end{align}
-where
-$$h(M_0):=\frac{\sigma^2}{(\rho_1+\rho_2)a_1(M_0)}\cdot \frac1p\tr\left( \frac{1}{M_0^\top M_0}\right) .$$
-%With these two bounds, we can easily conclude \eqref{approxteM}.
-%
-%We have that the test error satisfies
-%\be\label{approxteM}  te(M)\left(1 -  \frac{n_2}{n_1-p} \frac{1}{\lambda_p^2 + \frac{n_2}{n_1-p}}\right)  \le  \frac{\sigma^2}{n_1+n_2}\tr\left( \frac{1}{a_1M^\top M + a_2}\right) \le te(M),\ee
-%where $\lambda_p$ is the smallest singular value of $p$ and
-%$$te(M):= \frac{\sigma^2}{a_1(n_1+n_2)}\tr\left( \frac{1}{M^\top M}\right) .$$
-%Moreover, for all $M$ satisfying \eqref{GMcons}, the minimum of $te(M)$ is attained when $M= a\id$.
-By AM-GM inequality, we observe that
-$$\tr\left( \frac{1}{M^\top M}\right) = \sum_{i=1}^p\frac{1}{\lambda_i^2}$$
-is minimized when $\lambda_1 = \cdots\lambda_p=\mu$ under the restriction $\prod_{i=1}^p\lambda_i\le \mu^p$. Hence we get that
-\be\label{AMGM} h(M_0) \le \frac{\sigma^2}{\mu^2 (\rho_1+\rho_2)a_1(M_0)}.\ee
-On the other hand, when $M=\mu \id$, applying Lemma \ref{lem_cov_shift} we obtain that with high probability,
-\begin{align}\label{gvar_extra2}
-\begin{split}
-g(\mu \id)&= \frac{\sigma^2}{\rho_1+\rho_2}\cdot \frac1p\tr\left( \frac{1}{\mu^2 a_1 (\mu\id) + a_2(\mu\id)}\right) \cdot \left(1 +\OO(p^{-\e})\right)\\
-&\le \frac{\sigma^2}{\mu^2(\rho_1+\rho_2)a_1 (\mu\id)}.
-\end{split}
-\end{align}
-Combining \eqref{est_a12extra}, \eqref{approximateteM}, \eqref{AMGM} and \eqref{gvar_extra2}, we conclude the proof.
-%, we conclude that the sum $\sum_{i=1}^p\lambda_i^{-1}$ is smallest when $\lambda_1=\cdots=\lambda_p = a$.
-\end{proof}
-\fi
-
 Proposition \ref{prop_covariate} shows that when the sample ratio is large, having no covariate shift gives the optimal performance for multi-task learning.
 The proof of Proposition \ref{prop_covariate} can be found in Appendix \ref{app_proof_33}.
+\end{example}
+
+By combining the bias and variance asymptotics, we obtain the generalization error of $\hat{\beta}_2^{\MTL}$.
+Since the proof is similar to the same covariates setting, we describe the key differences and omit the rest of the details.
+First, we will rescale $X_1$ by $A_1 / A_2$ before applying Theorem \ref{thm_main_RMT}.
+Second, we approximate ${X^{(1)}}^{\top}X^{(1)}$ with $n_1 \Sigma^{(1)}$ in equation \eqref{eq_diff_cov} using Fact \ref{lem_minv}.
+%For the rest of this section, we present the main ideas in the proof of Theorem \ref{thm_main_RMT}.
+%The full proof can be found in Section \ref{sec_maintools}.
 %Proposition \ref{prop_covariate} implies that when $\rho_1\gg \rho_2$, having no covariate shift is the optimal choice for choosing the source task.
 %This provides evidence that covariate shift is unfavorable when there are many source task datapoints,
 
@@ -267,9 +210,6 @@ The proof of Proposition \ref{prop_covariate} can be found in Appendix \ref{app_
 %Understanding this question has implications for applying normalization methods in multi-task learning \cite{LV19,CBLR18,YKGLHF20}.
 %We show that if $n_1$ is much larger than $n_2$, then the optimal $M$ matrix should be proportional to identity, under certain assumptions on its range of singular values (to be formulated in Proposition \ref{prop_covariate}).
 %On the other hand, if $n_1$ is comparable or even smaller than $n_2$, we show an example where having ``complementary'' covariance matrices is better performing than having the same covariance matrices.
-
-
-
 
 
 \paragraph{Proof overview.} The central quantify of interest is the matrix inverse $\hat{\Sigma}^{-1}$.
