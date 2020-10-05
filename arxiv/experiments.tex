@@ -11,22 +11,35 @@ We further show that when the sample ratio is large, performing the alignment pr
 
 \subsection{Simulation Studies}\label{sec_simulation}
 
-	We describe the parameter settings used in the synthetic experiments (Figure \ref{fig_model_shift_phasetrans}).
-	For all three synthetic experiments, we set the input feature dimension as $p = 200$.
-	\begin{itemize}
-		\item Task similarity: We use $\rho_1 = 90, \rho_2 = 30$ for sample sizes.
-	The noise level is $\sigma = 5$.
-	We set $\kappa = 1$ and vary model distance $d$ from $0.01$ to $0.2$.
-	The $x$-axis measures the function $\Phi(\beta_1, \beta_2)$ described in Section \ref{sec_similarity}.
-	The $y$-axis measures the improvement of prediction loss using MTL compared to STL.
-		\item Sample size: We set $\kappa = 1$ and $d = 0.02$ for model distance.
-	We use $\rho_2 = 500$ and vary $\rho_1$ from $50$ to $800$ for sample sizes.
-		\item Covariate shift: We set $\kappa = 1$ and $d = 0$.
+We verify our theoretical results in synthetic settings.
+We consider the feature covariates to have dimension $p = 200$.
+
+\paragraph{The same covariates case.}
+We first study the setting of Example \ref{ex_same_cov}. We vary the per-task sample size $n$ from $2p$ to $10p$. We set $\sigma = 0.5$. Figure \ref{fig_same_cov} shows the result.
+First, we can see that for various different values of $d$ and $n$, our estimated loss matches the empirical loss accurately.
+Second, when $d = 0.1$, we have that $d^2 \le \frac{\sigma^2 p}{n - p}$ for all values of $n$, hence the average prediction loss of hard parameter sharing is always lower than STL.
+On the other hand when $d = 0.2$, this is not always the case, and indeed we observe a crossover point between the average prediction loss of hard parameter sharing and STL.
+Finally, we see that to achieve comparable loss to STL, hard parameter sharing requires 3x less samples per-task.
+
+\begin{figure}[!t]
+	\centering
+	\includegraphics[width=0.45\textwidth]{figures/same_covariates.eps}
+	\caption{Validating our result for the same covariates setting. Our estimated loss (solid line) matches the empirical loss (dotted line) accurately, for various values of $d$ and sample sizes.}
+	\label{fig_same_cov}
+\end{figure}
+
+
+	\paragraph{The different covarates case.}
+
+
+	Covariate shift: We set $\kappa = 1$ and $d = 0$.
 	We set $\rho_2 = 4$ and vary $\rho_1$ from $5$ to $25$ for sample sizes.
 	We use the scale parameter $\lambda = 1$ for the curve without covariate shift and $\lambda = 2$ for the curve with covariate shift (cf. Section \ref{sec_covshift}).
 	Without loss of generality, we have rescaled the $x$ and $y$ axis for the ease of presentation.
 	This can be achieved similarly by rescaling the task data.
-	\end{itemize}
+
+Sample size: We set $\kappa = 1$ and $d = 0.02$ for model distance.
+	We use $\rho_2 = 500$ and vary $\rho_1$ from $50$ to $800$ for sample sizes.
 
 %Recall that Section \ref{sec_data_size} shows that increasing the data size of the source task does not always improve the performance of MTL for the target task.
 %In Figure \ref{fig_ab_data}, we show that for source task MR and target task SST, there is a transition from positive to negative transfer as we increase the data size of the source task.
@@ -56,21 +69,22 @@ We further show that when the sample ratio is large, performing the alignment pr
 
 
 \begin{figure}[!t]
-		\begin{subfigure}[b]{0.32\textwidth}
+%		\begin{subfigure}[b]{0.32\textwidth}
+%		\centering
+%		\includegraphics[width=0.98\textwidth]{figures/model_shift_phase_transition.pdf}
+%		\caption{Sample efficiency}
+%		\label{fig_model_shift}
+%	\end{subfigure}\hfill
+	\centering
+	\begin{subfigure}[b]{0.5\textwidth}
 		\centering
-		\includegraphics[width=0.98\textwidth]{figures/model_shift_phase_transition.pdf}
-		\caption{Sample efficiency}
-		\label{fig_model_shift}
-	\end{subfigure}\hfill
-	\begin{subfigure}[b]{0.32\textwidth}
-		\centering
-		\includegraphics[width=0.98\textwidth]{figures/datapoints_phase_transition.pdf}
+		\includegraphics[width=0.9\textwidth]{figures/sample_ratio.eps}
 		\caption{Sample ratio}
 		\label{fig_size}
 	\end{subfigure}\hfill
-	\begin{subfigure}[b]{0.32\textwidth}
+	\begin{subfigure}[b]{0.5\textwidth}
 		\centering
-		\includegraphics[width=0.98\textwidth]{figures/complementary.pdf}
+		\includegraphics[width=0.9\textwidth]{figures/covariate_shift.eps}
 		\caption{Covariate shift}
 		\label{fig_covariate}
 	\end{subfigure}

@@ -1,6 +1,6 @@
-\section{The Different Covariates Setting}\label{sec_diff}
+\section{The Different Covariates Case}\label{sec_diff}
 
-The different covariates setting differs from the same covariates setting in two key aspects.
+The different covariates case differs from the same covariates case in two key aspects.
 First, different tasks may have different sample sizes. In extreme scenarios, one task may have much less labeled data compared to another task.
 Second, the features of different tasks may have different shapes, a phenomenon that is often called ``covariate shift''.
 In this section, we show how to deal with these two aspects.
@@ -71,6 +71,42 @@ For a non-Gaussian random matrix, this result can be obtained using the well-kno
 One can see that both the variance limit and the bias limit depend heavily on both tasks' samples sizes and the covariate shift matrix $M$.
 Next, we use our result to study how varying sample sizes and covariate shifts affects hard parameter sharing, respectively.
 
+
+\begin{example}[Covariate shift]\label{sec_covshift}
+%So far we have considered the isotropic model where $\Sigma_1 = \Sigma_2$.
+%This setting is relevant for settings where different tasks share the same input features such as multi-class image classification.
+%In general, the covariance matrices of the two tasks may be different such as in text classification.
+Our second example studies the impact of varying covariate shifts on the variance limit.
+%As we are going to show later, covariate shift is accurately captured by the spectrum of $\Sigma^{1/2}\Sigma^{-1/2}$.
+Recall that the matrix $M$ captures the geometry of covariate shifts.
+Suppose that half of the singular values of $M$ are equal to a parameter $\lambda > 0$ and the other half are equal to $\lambda^{-1}$.
+We observe the following dichotomy on the impact of covariate shifts.
+\begin{itemize}
+	\item If $n_1 \ge n_2$, then the variance (limit) of hard parameter sharing is smallest when $\lambda = 1$ or there is no covariate shift.
+	\item If $n_1 < n_2$, then having covariate shifts ($\lambda \neq 1$) always helps reduce variance (limit).
+\end{itemize}
+To see this, we first write the variance limit for different values of $\lambda$ as follows
+\begin{align*}
+	\bigtr{\Sigma^{(2)} (a_1 \Sigma^{(1)} + a_2 \Sigma^{(2)})^{-1}}
+	= \bigtr{(a_1 M^{\top} M + a_2 \id)^{-1}}
+	= \frac{1}{2}\bigbrace{(\lambda^{-2} a_1 + a_2)^{-1} + (\lambda^2 a_1 + a_2)^{-1}}.
+\end{align*}
+Denote the above function by $f(\lambda)$.
+We compare $f(\lambda)$ with $f(1)$, and observe that
+\[ 2f(\lambda) - 2f(1) = {(\lambda^2 a_1 + \frac{n_1 + n_2 - p}{n_1 + n_2} - a_1})^{-1}
+	+ (\lambda^{-2} a_1 + \frac{n_1 + n_2 - p}{n_1 + n_2} - a_1)^{-1}  - \frac{2(n_1 + n_2)}{n_1 + n_2 - p}, \]
+where we used the first part of equation \eqref{lem_cov_shift_eq}.
+Next, one can verify that the above equation is equal to $(2a_1 - \frac{n_1 + n_2 - p} {n_1 + n_2}) g(\lambda, a_1)$, for a fixed and positive function $g(\lambda, a_1)$ (details omitted).
+Hence, whether or not $f(\lambda)$ is small than $f(1)$ is decided by $a_1$.
+To solve $a_1$, we present an informal argument that $a_1 \ge \frac{(n_1 + n_2 - p)}{2(n_1 + n_2)}$ if and only if $n_1 \ge n_2$.
+Intuitively, with the current spectrum of $M$, $a_1$ and $a_2$ have a symmetric role in the self-consistent equations.
+Hence, when $n_1 \ge n_2$, we expect that $a_1 \ge a_2$, hence $a_1 \ge \frac{1}{2}(1 - \frac{p}{n_1 + n_2})$.
+Vice serva when $n_1 < n_2$.
+A formal proof requires solving the self-consistent equations \eqref{lem_cov_shift_eq} by replacing half of the singular with $\lambda$ and the other half with $\lambda^{-1}$.
+We omit the details.
+Thus, we conclude that if $n_1 \ge n_2$, then $f(\lambda) > f(1)$; if $n_1< n_2$, then $f(\lambda)< f(1)$.
+\end{example}
+
 \begin{example}[Sample ratio]\label{ex_sample_ratio}
 	We first consider the impact of varying sample sizes.
 	Consider the random-effects model from Section \ref{sec_hps}, with both tasks having an isotropic population covariance matrix.
@@ -84,7 +120,7 @@ Next, we use our result to study how varying sample sizes and covariate shifts a
 \begin{corollary}\label{cor_MTL_loss}
 	In the setting of Example \ref{ex_sample_ratio}, assume that
 	%a) the sample sizes $n_1$ and $n_2$ are greater than $(1 + \tau) p$, b) $\Sigma_1=\Sigma_2=\id_p$, and c) %there exists a small constant $c_0>0$ such that
-	(i) task one's sample size is at least $n_1 \ge \min(\frac{17}{\varepsilon^2}, 50) \cdot p$ for a fixed positive value $\varepsilon$, and task two's sample size is at least $n_2 \ge \frac{3}{2}p$;
+	(i) task one's sample size is at least $n_1 \ge \max(\frac{17}{\varepsilon^2}, 50) \cdot p$ for a fixed positive value $\varepsilon$, and task two's sample size is at least $n_2 \ge \frac{3}{2}p$;
 	(ii) the noise variance is smaller than the signal strength: $\sigma^2 \lesssim  \kappa^2$;
 %	\be\label{choiceofpara0}
 %	p^{-1/2+c_0}\sigma^2 + p^{c_0}d^2\le \kappa^2\le p^{1-c_0} (\sigma^2 +d^2)  .  	\ee
@@ -180,97 +216,10 @@ Based on this observation, we have the following trend when we fix $n_2$ and inc
 %We apply the result to the setting of Figure \ref{fig_size} (described in Appendix \ref{app_synthetic}).
 %There are several unexplained observations near $y = 0$ caused by $\nu$.
 %The proof of Proposition \ref{prop_data_size} can be found in Appendix \ref{app_proof_32}.
-
-\begin{example}[Covariate shift]\label{sec_covshift}
-%So far we have considered the isotropic model where $\Sigma_1 = \Sigma_2$.
-%This setting is relevant for settings where different tasks share the same input features such as multi-class image classification.
-%In general, the covariance matrices of the two tasks may be different such as in text classification.
-Our second example studies the impact of varying covariate shifts on the variance limit.
-%As we are going to show later, covariate shift is accurately captured by the spectrum of $\Sigma^{1/2}\Sigma^{-1/2}$.
-Recall that the matrix $M$ captures the geometry of covariate shifts.
-Suppose that half of the singular values of $M$ are equal to a parameter $\lambda > 0$ and the other half are equal to $\lambda^{-1}$.
-We observe the following dichotomy on the impact of covariate shifts.
-\begin{itemize}
-	\item If $n_1 \ge n_2$, then the variance (limit) of hard parameter sharing is smallest when $\lambda = 1$ or there is no covariate shift.
-	\item If $n_1 < n_2$, then having covariate shifts ($\lambda \neq 1$) always helps reduce variance (limit).
-\end{itemize}
-To see this, we first write the variance limit for different values of $\lambda$ as follows
-\begin{align*}
-	\bigtr{\Sigma^{(2)} (a_1 \Sigma^{(1)} + a_2 \Sigma^{(2)})^{-1}}
-	= \bigtr{(a_1 M^{\top} M + a_2 \id)^{-1}}
-	= \frac{1}{2}\bigbrace{(\lambda^{-2} a_1 + a_2)^{-1} + (\lambda^2 a_1 + a_2)^{-1}}.
-\end{align*}
-Denote the above function by $f(\lambda)$.
-We compare $f(\lambda)$ with $f(1)$, and observe that
-\[ 2f(\lambda) - 2f(1) = {(\lambda^2 a_1 + \frac{n_1 + n_2 - p}{n_1 + n_2} - a_1})^{-1}
-	+ (\lambda^{-2} a_1 + \frac{n_1 + n_2 - p}{n_1 + n_2} - a_1)^{-1}  - \frac{2(n_1 + n_2)}{n_1 + n_2 - p}, \]
-where we used the first part of equation \eqref{lem_cov_shift_eq}.
-Next, one can verify that the above equation is equal to $(2a_1 - \frac{n_1 + n_2 - p} {n_1 + n_2}) g(\lambda, a_1)$, for a fixed and positive function $g(\lambda, a_1)$ (details omitted).
-Hence, whether or not $f(\lambda)$ is small than $f(1)$ is decided by $a_1$.
-To solve $a_1$, we present an informal argument that $a_1 \ge \frac{(n_1 + n_2 - p)}{2(n_1 + n_2)}$ if and only if $n_1 \ge n_2$.
-Intuitively, with the current spectrum of $M$, $a_1$ and $a_2$ have a symmetric role in the self-consistent equations.
-Hence, when $n_1 \ge n_2$, we expect that $a_1 \ge a_2$, hence $a_1 \ge \frac{1}{2}(1 - \frac{p}{n_1 + n_2})$.
-Vice serva when $n_1 < n_2$.
-A formal proof requires solving the self-consistent equations \eqref{lem_cov_shift_eq} by replacing half of the singular with $\lambda$ and the other half with $\lambda^{-1}$.
-We omit the details.
-%We denote the test error as $\te(\hat \beta_{2}^{\MTL},\lambda)$ in the setting where $M$ has $p/2$ singular values that are equal to $\lambda$ and $p/2$ singular values that are equal to $1 / \lambda$. Then equations in equation \eqref{eq_a12extra} become
-%\begin{align*}
-%	a_1 + \frac{p}{2(n_1 + n_2)}\cdot \bigbrace{\frac{a_1}{a_1 + \lambda^2 a_2} + \frac{a_1}{a_1 + \lambda^{-2} a_2}} = \frac{n_1}{n_1 + n_2}.
-%\end{align*}
-%It's not hard to verify that there is only one valid solution $(a_1,a_2)$ to equation \eqref{compleeq}.
-%After solving these, with equation \eqref{gvar_extra} we get that w.h.p.,
-%\be\label{testcomple}
-% \te(\hat \beta_{2}^{\MTL},\lambda)= \frac{\sigma^2}{2(\rho_1 + \rho_2)}(1+\OO(p^{-\e}))\cdot f(\lambda) ,\quad f(\lambda): = \frac{1}{\lambda^{-2}{a_1} + a_2} + \frac{1}{\lambda^2a_1 + a_2}.\ee
-%First we notice that the curves in Figure  \ref{fig_model_shift_phasetrans} (c) all cross at the point $n_1=n_2$. In fact, if $n_1=n_2$, then it is easy to observe that $a_1=a_2=(1-\gamma)/2$ is the solution to equation \eqref{compleeq}, where we denote $ \gamma=p/(n_1+n_2)$. Then for any $\lambda$, the test error in equation \eqref{testcomple} takes the value
-%$$te(\lambda)= \frac{\gamma}{2}\frac{1}{(1-\gamma)/2}=\frac{p}{n_1+n_2-p}.$$
-%Second, from Figure \ref{fig_te_complement} we observe that the complementary cases with $\lambda>1$ is better than the case without covariate shift (i.e. $M=\id$ case) when $n_1<n_2$. On the other hand, if we have enough source task data such that $n_1>n_2$, then it is always better to have no covariate shift.
-%We now study the behavior of $f$ as $\lambda$ changes.
-%This phenomenon can be also explained using our theory.
-%We abbreviate $\gamma:=(\rho_1 + \rho_2)^{-1}$. Then with equation \eqref{compleeq}, we can rewrite
-%$$f(\lambda)= \frac{1}{\lambda^{-2}{a_1} + (1-\gamma - a_1)} + \frac{1}{\lambda^2a_1 + (1-\gamma - a_1)}.$$
-%Then we can compute that
-%\begin{align*}
-%f(\lambda) - f(1)&= \frac{ \lambda^2-1}{1-\gamma} a_1\cdot \bigbrace{  \frac{1}{ -a_1(\lambda^2-1)+(1-\gamma)\lambda^2 } - \frac{1}{a_1(\lambda^2-1) + (1-\gamma)}} \\
-%&= \frac{(\lambda^2-1)^2}{1-\gamma}  a_1\cdot  \frac{2a_1 - (1-\gamma) }{[-a_1(\lambda^2-1)+(1-\gamma)\lambda^2 ][a_1(\lambda^2-1) + (1-\gamma)]} .
-%\end{align*}
-Thus, we conclude that if $n_1 \ge n_2$, then $f(\lambda) > f(1)$; if $n_1< n_2$, then $f(\lambda)< f(1)$. % which gives $\te(\hat \beta_{2}^{\MTL},\lambda)<\te(\hat \beta_{2}^{\MTL},1)$.
-%\item[(iii)] If $n_1=n_2$, we have $f(\lambda)=f(1)=2/(1-\gamma)$, which means $\te(\hat \beta_{2}^{\MTL},\lambda)$ and $\te(\hat \beta_{2}^{\MTL},1)$ are roughly the same. %, which explains why the curves in Figure  \ref{fig_model_shift_phasetrans} (c) all cross at the point $n_1=n_2$.
-%\end{itemize}
-%This also partially justifies Proposition \ref{prop_covariate}. %Theorem  the observations in Figure \ref{fig_model_shift_phasetrans} (c),
-
-%We compare two cases: (i) when $M = \id_{p\times p}$; (ii) when $M$ has $p/2$ singular values that are equal to $\lambda$ and $p/2$ singular values that are equal to $1 / \lambda$.
-%Hence, $\lambda$ measures the severity of the covariate shift.
-%	Figure \ref{fig_covariate} shows a simulation of this setting by varying $\lambda$.
-%	We observe that as source/target sample ratio increases, the performance gap between the two cases increases.
-
-
-%By applying Lemma \ref{lem_cov_shift_informal}, we find that when $n_1 / n_2$ is large, having no covariate shift is the optimal choice provided that the determinant of $M^{\top}M$ is bounded.
-%We compare different choices of $M$ that belong to the following bounded set.
-%Let $\lambda_i$ be the $i$-th singular value of $M$.
-%Let $\mu_{\min} < \mu < \mu_{\max}$ be fixed values that do not grow with $p$.
-%{\begin{align*}
-%		\cS_{\mu}\define\bigset{M \left| \prod_{i=1}^p \lambda_i \le \mu^p, \mu_{\min} \le \lambda_i\le \mu_{\max}, \text{ for all } 1\le i\le p\right.}.
-%\end{align*}}
-%	We assume that $\beta_1$ and $\beta_2$ are generated following the isotropic model with $d = 0$.
-%\begin{corollary}[Derived from Theorem \ref{thm_main_RMT}]\label{prop_covariate}
-%	In the setting described above, assume further that a random-effects model holds for both tasks.
-%	The prediction loss of $\hat{\beta}_2^{\MTL}$ for task two satisfies that
-%	\begin{align*}
-%		L(\hat{\beta}_2^{\MTL})
-%	\end{align*}
-%	Let $g(M)$ denote the prediction loss of $\hat{\beta}_t^{\MTL}$ when $M = \Sigma_1^{1/2}\Sigma_2^{-1/2} \in\cS_{\mu}$.
-%	We have that
-%		\[ g(\mu\id) \le \bigbrace{1+ \bigo{{\rho_2}/{\rho_1}  }} \min_{M\in\cS_{\mu}} g(M). \]
-%\end{corollary}
-%Proposition \ref{prop_covariate} shows that when the sample ratio is large, having no covariate shift gives the optimal performance for multi-task learning.
-%The proof of Proposition \ref{prop_covariate} can be found in Appendix \ref{app_proof_33}.
-\end{example}
-
 As a remark, by combining the bias and variance asymptotics, we can also obtain a generalization bound for any local minimum solutions $(A, B)$.
-The proof is similar to Theorem \ref{thm_many_tasks} and Corollary \ref{cor_MTL_loss}.
-We describe the differences and omit the details.
-First, we rescale $X_1$ (and $\Sigma^{(1)}$) by $A_1 / A_2$ before applying Theorem \ref{thm_main_RMT}.
-Second, we approximate sample covariance ${X^{(1)}}^{\top}X^{(1)} / n_1$ by its expectation $\Sigma^{(1)}$ in equation \eqref{eq_diff_cov} using Fact \ref{lem_minv}.
+The proof is similar to Corollary \ref{cor_MTL_loss}, so we omit the details.
+%First, we rescale $X_1$ (and $\Sigma^{(1)}$) by $A_1 / A_2$ before applying Theorem \ref{thm_main_RMT}.
+%Second, we approximate sample covariance ${X^{(1)}}^{\top}X^{(1)} / n_1$ by its expectation $\Sigma^{(1)}$ in equation \eqref{eq_diff_cov} using Fact \ref{lem_minv}.
 For the rest of this section, we present the main ideas for proving Theorem \ref{thm_main_RMT}.
 %Proposition \ref{prop_covariate} implies that when $\rho_1\gg \rho_2$, having no covariate shift is the optimal choice for choosing the source task.
 %This provides evidence that covariate shift is unfavorable when there are many source task datapoints,
