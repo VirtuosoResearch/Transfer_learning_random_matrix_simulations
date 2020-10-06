@@ -9,37 +9,48 @@ In Section \ref{sec_exp_ab}, we validate our theoretical results.
 We further show that when the sample ratio is large, performing the alignment procedure of \cite{WZR20} provides more improvement for MTL.
 
 
-\subsection{Simulation Studies}\label{sec_simulation}
-
-We verify our theoretical results in synthetic settings.
-We consider the feature covariates to have dimension $p = 200$.
-
-\paragraph{The same covariates case.}
-We first study the setting of Example \ref{ex_same_cov}. We vary the per-task sample size $n$ from $2p$ to $10p$. We set $\sigma = 0.5$. Figure \ref{fig_same_cov} shows the result.
-First, we can see that for various different values of $d$ and $n$, our estimated loss matches the empirical loss accurately.
-Second, when $d = 0.1$, we have that $d^2 \le \frac{\sigma^2 p}{n - p}$ for all values of $n$, hence the average prediction loss of hard parameter sharing is always lower than STL.
-On the other hand when $d = 0.2$, this is not always the case, and indeed we observe a crossover point between the average prediction loss of hard parameter sharing and STL.
-Finally, we see that to achieve comparable loss to STL, hard parameter sharing requires 3x less samples per-task.
 
 \begin{figure}[!t]
 	\centering
 	\includegraphics[width=0.45\textwidth]{figures/same_covariates.eps}
-	\caption{Validating our result for the same covariates setting. Our estimated loss (solid line) matches the empirical loss (dotted line) accurately, for various values of $d$ and sample sizes.}
+	\caption{Validating Example \ref{ex_same_cov} in the same covariates case. Our estimated loss (solid line) matches the empirical loss (dotted line) accurately for various task-specific variance $d$ and sample size $n$ settings. The noise variance $\sigma^2$ is $1/4$.}
 	\label{fig_same_cov}
 \end{figure}
 
+\subsection{Simulation Studies}\label{sec_simulation}
 
-	\paragraph{The different covarates case.}
+We show that our asymptotic estimates match extremely well with empirical prediction losses in modest dimensions.
+This study complements our high-dimensional asymptotic results whose error term vanishes when $p$ is sufficiently large.
+We simulate the settings of the three examples in Section \ref{sec_same} and \ref{sec_diff} in dimension $p = 200$.
 
+\paragraph{The same covariates case.}
+First, we study the setting of Example \ref{ex_same_cov}.
+Figure \ref{fig_same_cov} shows the average prediction loss as we increase the number of samples per-task sample from $400$ to $4000$.
+For all the parameter settings, we can estimate the empirical loss accurately using our results.
+We also observe a trend where the average prediction loss increases as we increase $d$ from $0.1$ to $0.2$.
+Our result explains the differences between these two settings since $d^2 = 0.1^2$ is always smaller than $\frac{\sigma^2 p}{n - p}$, but $d^2 = 0.2^2$ is not.
+%Second, when $d = 0.1$, we have that $d^2 \le \frac{\sigma^2 p}{n - p}$ for all values of $n$, hence the average prediction loss of hard parameter sharing is always lower than STL.
+Indeed, we observe a crossover point between hard parameter sharing and STL.
+Finally, by looking horizontally at the same level of prediction loss, we observe that hard parameter sharing requires 3x less samples per-task than STL.
 
-	Covariate shift: We set $\kappa = 1$ and $d = 0$.
-	We set $\rho_2 = 4$ and vary $\rho_1$ from $5$ to $25$ for sample sizes.
-	We use the scale parameter $\lambda = 1$ for the curve without covariate shift and $\lambda = 2$ for the curve with covariate shift (cf. Section \ref{sec_covshift}).
-	Without loss of generality, we have rescaled the $x$ and $y$ axis for the ease of presentation.
-	This can be achieved similarly by rescaling the task data.
+\paragraph{The different covariates case.}
+Second, we show how varying sample ratio affects hard parameter sharing in the setting of Example \ref{ex_sample_ratio}.
+Figure \ref{fig_size} shows task two's prediction loss as we increase the sample ratio $n_1 / n_2$ from $1/10$ to $7/10$.
+Again, our estimates are fairly accurate compared to the empirical losses.
+We consider a larger sample size regime here where task two consists of $100,000$ samples and task one's sample size varies from $10,000$ to $70,000$.
+We observe that as we increase the sample ratio, task two's prediction loss decreases intially but increases above the initial loss level.
+Our result explains this trend since the task-specific variance $d^2 = 0.08$ is greater than task two's prediction loss, which is $\sigma^2 = 0.3^2$ times $p / (n_2 - p)$.
+%We use $\rho_2 = 500$ and vary $\rho_1$ from $50$ to $800$ for sample sizes.
 
-Sample size: We set $\kappa = 1$ and $d = 0.02$ for model distance.
-	We use $\rho_2 = 500$ and vary $\rho_1$ from $50$ to $800$ for sample sizes.
+Finally, we show that varying covariate shift affects hard parameter sharing in the setting of Example \ref{ex_covshift}.
+Figure \ref{fig_covariate} shows task two's prediction loss as we increase task one's sample size.
+Recall that $\lambda$ measures the severity of covariate shift -- a higher $\lambda$ means more covariate shift.
+Our estimates match the empirical losses accurately, and indeed we observe the dichotomy in Example \ref{ex_covshift}.
+The noise variance $\sigma^2$ is $1/4$.
+%Covariate shift: We set $\kappa = 1$ and $d = 0$.
+%We set $\rho_2 = 4$ and vary $\rho_1$ from $5$ to $25$ for sample sizes.
+%We use the scale parameter $\lambda = 1$ for the curve without covariate shift and $\lambda = 2$ for the curve with covariate shift (cf. Section \ref{sec_covshift}).
+
 
 %Recall that Section \ref{sec_data_size} shows that increasing the data size of the source task does not always improve the performance of MTL for the target task.
 %In Figure \ref{fig_ab_data}, we show that for source task MR and target task SST, there is a transition from positive to negative transfer as we increase the data size of the source task.
@@ -79,52 +90,46 @@ Sample size: We set $\kappa = 1$ and $d = 0.02$ for model distance.
 	\begin{subfigure}[b]{0.5\textwidth}
 		\centering
 		\includegraphics[width=0.9\textwidth]{figures/sample_ratio.eps}
-		\caption{Sample ratio}
+		\caption{Example \ref{ex_sample_ratio}}
 		\label{fig_size}
 	\end{subfigure}\hfill
 	\begin{subfigure}[b]{0.5\textwidth}
 		\centering
 		\includegraphics[width=0.9\textwidth]{figures/covariate_shift.eps}
-		\caption{Covariate shift}
+		\caption{Example \ref{ex_covshift}}
 		\label{fig_covariate}
 	\end{subfigure}
 	\caption{%Three takeaways of our theory in Section \ref{sec_insight}.
-	We observe a transition from positive to negative transfer as (a) \textit{task model distance} increases and (b) source/target \textit{sample ratio} increases.
-	For the special case of having the same task model, we observe in (c) that as source/target \textit{sample ratio} increases, having \textit{covariate shift} worsens the performance of MTL.
-	The $y$-axis measures the loss of STL minus MTL.}
+	Validating Example \ref{ex_sample_ratio} and Example \ref{ex_covshift} in the different covariates case.
+	In both experiments, our estimated loss (solid line) matches with the empirical loss (dotted line) accurately.
+	In Figure \ref{fig_size}, we discover an interesting phenomenon by fixing task two's sample size and increasing task one's sample size.
+	We observe that task two's prediction loss decreases initially before increasing again, and our result shows (provably) that this phenomenon occurs due to different bias-variance tradeoffs as the sample ratio increases.
+	In Figure \ref{fig_covariate}, we show how covariate shift affects hard parameter sharing. We observe that when task two's sample size is greater than that of task one, covariate shift increases the prediction loss. Otherwise, covariate shift actually decreases the prediction loss (surprisingly).
+	.}
 	\label{fig_model_shift_phasetrans}
 \end{figure}
 
 
 \subsection{Further Studies on a Text Classification Task}\label{sec_text}
 
-We consider a text classification task as follows.
-
-{\it Sentiment Analysis.} We consider six tasks: movie review sentiment (MR) \cite{pang2005seeing}, sentence subjectivity (SUBJ) \cite{pang2004sentimental}, customer reviews (CR) \cite{hu2004mining}, question type (TREC) \cite{li2002learning}, opinion polarity (MPQA) \cite{wiebe2005annotating}, and the Stanford sentiment treebank (SST) tasks \cite{socher2013recursive}.
+Our results and their implications are all in the high-dimensional linear regression setting.
+How well do they extend to other settings?
+In this section, we conduct further studies on a text classification task, for predicting whether the sentiment of a sentence is positive or negative.
+We use six datasets including a review sentiment dataset (MR) \cite{pang2005seeing}, a sentence subjectivity dataset (SUBJ) \cite{pang2004sentimental}, a customer reviews dataset (CR) \cite{hu2004mining}, a question type dataset (TREC) \cite{li2002learning}, a opinion polarity dataset (MPQA) \cite{wiebe2005annotating}, and the Stanford sentiment treebank (SST) dataset \cite{socher2013recursive}.
 %The question is to predict positive or negative sentiment expressed in the text.
-We use an embedding layer with GloVe embeddings \cite{pennington2014glove}
-followed by an LSTM, MLP or CNN layer proposed by~\cite{lei2018simple}.
+We use an embedding layer with GloVe embeddings \cite{pennington2014glove} followed by an LSTM, MLP or CNN layer proposed by~\citet{lei2018simple}.\footnote{For multi-layer perception (MLP), we apply an average pooling layer over the word embeddings. For LSTM and CNN, we add a shared feature representation layer on top of the word embeddings \cite{lei2018simple}.}
 
 %multi-layer perceptron (MLP), LSTM, CNN on all tasks
 %We use this task to verify our theoretical results on model capacity and task covariance in real world.
-
 %{\it ChestX-ray14.} This dataset contains 112,120 frontal-view X-ray images \cite{chexnet17}.
 %There are 14 diseases (tasks) for every image that we would like to predict.
 %We use densenet121 as the shared module \cite{huang2017densely}.
 %We treat each label as one task a binary classification problem and formulate it as a 14-task multi-task learning problem.
 %This dataset is curated where the labels
 %We use the CheXNet model from~\cite{chexnet}, which is a 121-layer convolutional neural network on all tasks.
-
-
-
-%\paragraph{Image and Text Classification Settings}\label{app_it}
-
-For the text classification experiment, we encode each word using the GLoVe word embeddings.%
-\footnote{http://nlp.stanford.edu/data/wordvecs/glove.6B.zip}
-We evaluate three model choices.
-For multi-layer perception (MLP), we apply an average pooling layer over the word embeddings.
-For LSTM and CNN, we add a shared feature representation layer on top of the word embeddings \cite{lei2018simple}.
-
+%For the text classification experiment, we encode each word using the GLoVe word embeddings.%
+%\footnote{http://nlp.stanford.edu/data/wordvecs/glove.6B.zip}
+%We evaluate three model choices.
 %\textit{Predicting transfer effect via STL results.}
 %We show that the single-task based metric proposed in Section \ref{sec_similarity} can predict positive or negative transfer in MTL.
 %A common challenge in the study of MTL is that the results can be hard to understand.
@@ -136,57 +141,41 @@ For LSTM and CNN, we add a shared feature representation layer on top of the wor
 %The results show that STL results are indicative of MTL results.
 
 \paragraph{Sample ratio.}
-In Figure \ref{fig_ab_data}, we validate that adding more source samples does not always improve performance on the target task.
-Sample size: We vary the sample size of the source task from $100$ to $3000$.
+First, we validate that as we increase the sample ratio while keeping task two's sample size fixed, task two's prediction accuracy does not always increase.
+Figure \ref{fig_ab_data} shows the result for three example task pairs. We fix task one's sample size as $1000$ and increase task two's number of samples from $100$ to $3000$.
 
-\textit{Towards computing the optimal sample ratio.}
-An interesting consequence of Proposition \ref{prop_data_size} is that $L(\hat{\beta}_t^{\MTL})$ is not monotone in $\rho_1$.
-In particular, Figure \ref{fig_size} (and our analysis) shows that $L(\hat{\beta}_t^{\MTL})$ behaves as a quadratic function over $\rho_1$.
-More generally, depending on how large $\Psi(\beta_1, \beta_2)$ is, $L(\hat{\beta}_t^{\MTL})$ may also be monotonically increasing or decreasing.
-Based on this insight, we propose an incremental optimization schedule to improve MTL training efficiency.
-\squishlist
+Next, we propose a natural progressive training schedule for finding the optimal sample ratio.
+Our training schedule is motivated by Corollary \ref{cor_MTL_loss}, which shows that as we increase the sample ratio, the prediction loss always decreases first and then increases.
+%In particular, Figure \ref{fig_size} (and our analysis) shows that $L(\hat{\beta}_t^{\MTL})$ behaves as a quadratic function over $\rho_1$.
+%More generally, depending on how large $\Psi(\beta_1, \beta_2)$ is, $L(\hat{\beta}_t^{\MTL})$ may also be monotonically increasing or decreasing.
+Based on this observation, we propose a progressive training schedule to improve the compuational efficiency of hard parameter sharing.
+\begin{itemize}
 	\item We divide the source task data into $S$ batches.
 	For $S$ rounds, we incrementally add the source task data by adding one batch at a time.
 	\item After training $T$ epochs, if the validation accuracy becomes worse than the previous round's result, we terminate.
 	Algorithm \ref{alg_inc_train} in Appendix \ref{app_experiments} describes the procedure in detail.
-\squishend
+\end{itemize}
 
-\begin{algorithm}[!t]
-	\caption{An incremental training schedule for efficient multi-task learning with two tasks}
-	\label{alg_inc_train}
-	\begin{algorithmic}[1]
-		\Input Two tasks $(X_1, Y_1)$ and $(X_2, Y_2)$.
-		\Param A shared module $B$, output layers $W_1, W_2$ as in the hard parameter sharing architecture.
-		\Req \# batches $S$, epochs $T$, task $2$'s validation accuracy $\hat{g}(B; W_2)$, a threshold $\tau\in(0,1)$.
-		\Output The trained modules $B, W_2$ optimized for task $2$.
-		\State Divide $(X_1, Y_1)$ randomly into $S$ batches: $(x^{(1)}, y^{(1)}), \dots, (x^{(S)}, y^{(S)})$.
-		\For{$i = 1,\dots, S$}
-			\For{$j = 1,\dots, T$}
-				\State Update $B, W_1, W_2$ using the training data $\set{x^{(k)}, x^{(k)}}_{k=1}^i$ and  $(X_2, Y_2)$.
-			\EndFor
-			\State Let $a_i = \hat{g}(B; W_2)$ be the validation accuracy.
-			\If{$a_i < a_{i-1}$ or $a_i > \tau$}
-				\State \textbf{break}
-			\EndIf
-		\EndFor
-	\end{algorithmic}
-\end{algorithm}
-
-For the case of two tasks, we compare the incremental training scheduled described in Algorithm \ref{alg_inc_train}  to a round-robin training schedule baseline.
-We add $20\%$ of source task samples for every $T = 2$ epochs.
-The total number of epochs is $20$.
-We set the threshold $\tau$ as the validation accuracy of the target task using the baseline training schedule.
-
-For the case of six tasks, we extend Algorithm \ref{alg_inc_train} accordingly.
-Initially, we use $5\%$ of samples from SST and $50\%$ of samples from the other tasks.
-We add $19\%$ of samples from SST and $5\%$ of samples from the other tasks for every $2$ epochs.
-We run $20$ epochs in total.
-%\textbf{The training procedure and baseline.}
-For all models, we use a shared module for all tasks and assign a separate output layer on top of the shared module for each task.
-The baseline training schedule for MTL is the round-robin training schedule.
-%We compare our incremental training schedule of Algorithm \ref{alg_inc_train} to the round-robin training schedule.
-We measure the test accuracy of predicting a target task.
-We measure computational cost by summing over all epochs the number of samples used in every epoch.
+%\begin{algorithm}[!t]
+%	\caption{An incremental training schedule for efficient multi-task learning with two tasks}
+%	\label{alg_inc_train}
+%	\begin{algorithmic}[1]
+%		\Input Two tasks $(X_1, Y_1)$ and $(X_2, Y_2)$.
+%		\Param A shared module $B$, output layers $W_1, W_2$ as in the hard parameter sharing architecture.
+%		\Req \# batches $S$, epochs $T$, task $2$'s validation accuracy $\hat{g}(B; W_2)$, a threshold $\tau\in(0,1)$.
+%		\Output The trained modules $B, W_2$ optimized for task $2$.
+%		\State Divide $(X_1, Y_1)$ randomly into $S$ batches: $(x^{(1)}, y^{(1)}), \dots, (x^{(S)}, y^{(S)})$.
+%		\For{$i = 1,\dots, S$}
+%			\For{$j = 1,\dots, T$}
+%				\State Update $B, W_1, W_2$ using the training data $\set{x^{(k)}, x^{(k)}}_{k=1}^i$ and  $(X_2, Y_2)$.
+%			\EndFor
+%			\State Let $a_i = \hat{g}(B; W_2)$ be the validation accuracy.
+%			\If{$a_i < a_{i-1}$ or $a_i > \tau$}
+%				\State \textbf{break}
+%			\EndIf
+%		\EndFor
+%	\end{algorithmic}
+%\end{algorithm}
 
 %We fill in the details of the experimental procedure used for the results in Figure \ref{fig_ablation}.
 %\squishlist
@@ -195,16 +184,14 @@ We measure computational cost by summing over all epochs the number of samples u
 %Second pair: SST is more similar to MR since they both concern about positive or negative opinions expressed the text.
 %TREC is less similar to MR because the task is about question types.
 %Third pair: MPQA (opinion polarity) is more similar to TREC (question type)
-
-First, we show that our proposed incremental training schedule (Algorithm \ref{alg_inc_train}) can help mitigate negative transfer for predicting a particular target task.
+Our results show that progressive training requires less computation compared to a baseline round-robin training schedule, without sacrificing accuracy.
+First, we show that our proposed progressive training schedule (Algorithm \ref{alg_inc_train}) can help mitigate negative transfer for predicting a particular target task.
 Over all $15$ pairs from the sentiment analysis tasks, we find that Algorithm \ref{alg_inc_train} requires only $45\%$ of the computational cost to achieve similar performance on the target task, compared to the MTL baseline.
 Our insight is that since adding more samples from the source task does not always help, we can improve efficiency by adding source samples \textit{incrementally} during training.
-
 %\textbf{Improving transfer learning training efficiency.}
 %We show that Algorithm \ref{alg_inc_train} also applies to transfer learning settings.
 %Compared to fine-tuning the source model on the target task, we show that our proposed method reduces the computional cost by \alert{$xx\%$}, without sacrificing accuracy.
-
-Our next result shows the incremental training schedule applies to multiple tasks as well.
+Second, we show the progressive training schedule applies to multiple tasks as well.
 In Table \ref{tab:taskonomy}, we find that over all six sentiment analysis tasks, incremental training requires less than $35\%$ of the computational cost compared to baseline MTL training, while achieving the same accuracy averaged over all six tasks.
 As a further validation, excluding TREC, we observe similar comparative results.
 %The data efficiency ratio of using MLP is $100\%$ because the average performance of MTL is worse than the average of STL.
@@ -212,37 +199,48 @@ As a further validation, excluding TREC, we observe similar comparative results.
 %If TREC is not included, we see that only $25\%$ of the labeled data is needed.
 
 
-\begin{figure}[!t]
-	\centering
-	\begin{subfigure}[b]{0.33\textwidth}
+\begin{figure}%[!t]
+	\begin{minipage}[t]{0.5\textwidth}
 		\centering
-		\includegraphics[width=0.975\textwidth]{figures/task_sim_norm_lstm.pdf}
-		\caption{Task similarity}
-		\label{fig_ab_sim}
-	\end{subfigure}%
-	\begin{subfigure}[b]{0.33\textwidth}
-		\centering
-		\includegraphics[width=0.975\textwidth]{figures/ratio_norm_3_pairs_lstm.pdf}
-		\caption{Sample size}
+		\vspace{0pt}
+		\includegraphics[width=0.6\textwidth]{figures/ratio_norm_3_pairs_lstm.pdf}
+		\caption{Varying sample ratio}
 		\label{fig_ab_data}
-	\end{subfigure}
-	\begin{subfigure}[b]{0.33\textwidth}
+	\end{minipage}%\hfill
+	\begin{minipage}[t]{0.4\textwidth}
 		\centering
-		\includegraphics[width=0.975\textwidth]{figures/ratio_alignment_norm_diff_all.pdf}
-		\caption{Covariate shift}
-		\label{fig_ab_cov}
-	\end{subfigure}
-	\caption{Validating the three results of Section \ref{sec_insight} on sentiment analysis tasks. (a) Adding a semantically similar source task in MTL performs better than adding a dissimilar task.
-	(b) As source/target sample ratio increases, we observe a transition from positive to negative transfer.
-	(c) As source/target sample ratio increases, aligning task covariances \cite{WZR20} improves more over the baseline.
-	Note: (S) denotes the source task and (T) denotes the target task.}
-	\label{fig_ablation}
-	\vspace{-0.15in}
+		\vspace{0pt}
+		\begin{tabular}{c c c}
+		\toprule
+		% \multirow{2}{*}{{\bf Models}} & \multicolumn{2}{c}{\begin{minipage}{1.2in}\begin{center}
+		% Sentiment\\ analysis\end{center}\end{minipage}} \\
+		\multirow{2}{*}{{\bf Models}} & \multicolumn{2}{c}{\bf Sentiment analysis} \\
+		% \cmidrule(lr){2-3}
+		& all tasks & w/o TREC \\
+		\midrule
+		{\bf MLP}  & 31\% & 29\% \\
+		{\bf LSTM} & 35\% & 34\% \\
+		{\bf CNN}  & 30\% & 28\% \\
+		\bottomrule
+		\end{tabular}
+		\captionof{table}{Finding the best sample ratio via a progressive training schedule.}
+%		\label{tab:taskonomy}
+	\end{minipage}
 \end{figure}
 
+%	\begin{subfigure}[b]{0.33\textwidth}
+%		\centering
+%		\includegraphics[width=0.975\textwidth]{figures/task_sim_norm_lstm.pdf}
+%		\caption{Task similarity}
+%		\label{fig_ab_sim}
+%	\end{subfigure}%
+%	\caption{Validating the three results of Section \ref{sec_insight} on sentiment analysis tasks. (a) Adding a semantically similar source task in MTL performs better than adding a dissimilar task.
+%	(b) As source/target sample ratio increases, we observe a transition from positive to negative transfer.
+%	(c) As source/target sample ratio increases, aligning task covariances \cite{WZR20} improves
+%more over the baseline.
+%	Note: (S) denotes the source task and (T) denotes the target task.}
 
 
-\begin{table}[!b]
 %\begin{minipage}[t]{.58\textwidth}
 %	\vspace{-0.1in}
 %	\centering
@@ -263,28 +261,23 @@ As a further validation, excluding TREC, we observe similar comparative results.
 %	\label{tab:mtl_better_than_stl}
 %\end{minipage}%
 %\quad
-	\begin{minipage}[t]{.40\textwidth}
-	\vspace{-0.1in}
-	\centering
-	\begin{tabular}{c c c}
-		\toprule
-		% \multirow{2}{*}{{\bf Models}} & \multicolumn{2}{c}{\begin{minipage}{1.2in}\begin{center}
-		% Sentiment\\ analysis\end{center}\end{minipage}} \\
-		\multirow{2}{*}{{\bf Models}} & \multicolumn{2}{c}{\bf Sentiment analysis} \\
-		% \cmidrule(lr){2-3}
-		& all tasks & w/o TREC \\
-		\midrule
-		{\bf MLP}  & 31\% & 29\% \\
-		{\bf LSTM} & 35\% & 34\% \\
-		{\bf CNN}  & 30\% & 28\% \\
-		\bottomrule
-		\end{tabular}
-	\vspace{0.1in}
-	\captionof{table}{Efficiency of incremental training compared to baseline MTL.}
-	\label{tab:taskonomy}
-\end{minipage}
-\end{table}
 
+\begin{figure}
+	\centering
+	\begin{subfigure}[b]{0.5\textwidth}
+		\centering
+		\includegraphics[width=0.5\textwidth]{figures/ratio_alignment_norm_diff_all.pdf}
+		\caption{Averaged over all 16 task pairs}
+		\label{fig_ab_cov}
+	\end{subfigure}\hfill
+	\begin{subfigure}[b]{0.5\textwidth}
+		\centering
+		\includegraphics[width=0.5\textwidth]{figures/ratio_alignment_norm_trec_cr_lstm.pdf}
+		\caption{An example task pair}
+		\label{fig_cov_a}
+	\end{subfigure}
+	\caption{ (TREC and CR)}
+\end{figure}
 
 \paragraph{Covariance shift.}
 Our observation highlights the need to correct covariate shift when $n_1 / n_2$ is large.
@@ -293,8 +286,7 @@ We consider a covariance alignment procedure proposed in \cite{WZR20}, which is 
 The idea is to add an alignment module between the input and the shared module $B$.
 This new module is then trained together with $B$ and the output layers.
 We validate our insight on this procedure in the experiments.
-
-Covariate shift: We implement the covariance alignment procedure following \cite{WZR20}.
+We implement the covariance alignment procedure following \cite{WZR20}.
 We fix the sample size of the target task as $1000$.
 
 In Figure \ref{fig_ab_cov}, we measure the performance gains from performing the alignment procedure proposed in \cite{WZR20} minus baseline MTL.
