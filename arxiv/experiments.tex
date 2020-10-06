@@ -37,7 +37,7 @@ Finally, by looking horizontally at the same level of prediction loss, we observ
 Second, we show how varying sample ratio affects hard parameter sharing in the setting of Example \ref{ex_sample_ratio}.
 Figure \ref{fig_size} shows task two's prediction loss as we increase the sample ratio $n_1 / n_2$ from $1/10$ to $7/10$.
 Again, our estimates are fairly accurate compared to the empirical losses.
-We consider a larger sample size regime here where task two consists of $100,000$ samples and task one's sample size varies from $10,000$ to $70,000$.
+We consider a larger sample size regime here where task two consists of $70,000$ samples and task one's sample size varies from $10,000$ to $56,000$.
 We observe that as we increase the sample ratio, task two's prediction loss decreases intially but increases above the initial loss level.
 Our result explains this trend since the task-specific variance $d^2 = 0.08$ is greater than task two's prediction loss, which is $\sigma^2 = 0.3^2$ times $p / (n_2 - p)$.
 %We use $\rho_2 = 500$ and vary $\rho_1$ from $50$ to $800$ for sample sizes.
@@ -117,7 +117,7 @@ How well do they extend to other settings?
 In this section, we conduct further studies on a text classification task, for predicting whether the sentiment of a sentence is positive or negative.
 We use six datasets including a review sentiment dataset (MR) \cite{pang2005seeing}, a sentence subjectivity dataset (SUBJ) \cite{pang2004sentimental}, a customer reviews dataset (CR) \cite{hu2004mining}, a question type dataset (TREC) \cite{li2002learning}, a opinion polarity dataset (MPQA) \cite{wiebe2005annotating}, and the Stanford sentiment treebank (SST) dataset \cite{socher2013recursive}.
 %The question is to predict positive or negative sentiment expressed in the text.
-We use an embedding layer with GloVe embeddings \cite{pennington2014glove} followed by an LSTM, MLP or CNN layer proposed by~\citet{lei2018simple}.\footnote{For multi-layer perception (MLP), we apply an average pooling layer over the word embeddings. For LSTM and CNN, we add a shared feature representation layer on top of the word embeddings \cite{lei2018simple}.}
+We use an embedding layer with GloVe embeddings \cite{pennington2014glove} followed by an LSTM, MLP or CNN layer proposed by~\citet{lei2018simple}.\footnote{For multi-layer perception (MLP), we apply an average pooling layer over the word embeddings. For LSTM and CNN, we add a shared feature representation layer on top of the word embeddings.}
 
 %multi-layer perceptron (MLP), LSTM, CNN on all tasks
 %We use this task to verify our theoretical results on model capacity and task covariance in real world.
@@ -200,32 +200,40 @@ As a further validation, excluding TREC, we observe similar comparative results.
 
 
 \begin{figure}%[!t]
-	\begin{minipage}[t]{0.5\textwidth}
+	\begin{subfigure}[t]{0.5\textwidth}
 		\centering
 		\vspace{0pt}
 		\includegraphics[width=0.6\textwidth]{figures/ratio_norm_3_pairs_lstm.pdf}
-		\caption{Varying sample ratio}
+		\caption{HPS vs. STL}
 		\label{fig_ab_data}
-	\end{minipage}%\hfill
-	\begin{minipage}[t]{0.4\textwidth}
+	\end{subfigure}\hfill
+	\begin{subfigure}[t]{0.5\textwidth}
 		\centering
 		\vspace{0pt}
-		\begin{tabular}{c c c}
-		\toprule
+		\includegraphics[width=0.6\textwidth]{figures/ratio_alignment_norm_diff_all.pdf}
+		\caption{HPS vs. covariance alignment}
+		\label{fig_ab_cov}
+	\end{subfigure}
+	\caption{A}
+%	\begin{minipage}[t]{0.4\textwidth}
+%		\centering
+%		\vspace{0pt}
+%		\begin{tabular}{c c c}
+%		\toprule
 		% \multirow{2}{*}{{\bf Models}} & \multicolumn{2}{c}{\begin{minipage}{1.2in}\begin{center}
 		% Sentiment\\ analysis\end{center}\end{minipage}} \\
-		\multirow{2}{*}{{\bf Models}} & \multicolumn{2}{c}{\bf Sentiment analysis} \\
+%		\multirow{2}{*}{{\bf Models}} & \multicolumn{2}{c}{\bf Sentiment analysis} \\
 		% \cmidrule(lr){2-3}
-		& all tasks & w/o TREC \\
-		\midrule
-		{\bf MLP}  & 31\% & 29\% \\
-		{\bf LSTM} & 35\% & 34\% \\
-		{\bf CNN}  & 30\% & 28\% \\
-		\bottomrule
-		\end{tabular}
-		\captionof{table}{Finding the best sample ratio via a progressive training schedule.}
+%		& all tasks & w/o TREC \\
+%		\midrule
+%		{\bf MLP}  & 31\% & 29\% \\
+%		{\bf LSTM} & 35\% & 34\% \\
+%		{\bf CNN}  & 30\% & 28\% \\
+%		\bottomrule
+%		\end{tabular}
+%		\captionof{table}{Finding the best sample ratio via a progressive training schedule.}
 %		\label{tab:taskonomy}
-	\end{minipage}
+%	\end{minipage}
 \end{figure}
 
 %	\begin{subfigure}[b]{0.33\textwidth}
@@ -262,24 +270,8 @@ As a further validation, excluding TREC, we observe similar comparative results.
 %\end{minipage}%
 %\quad
 
-\begin{figure}
-	\centering
-	\begin{subfigure}[b]{0.5\textwidth}
-		\centering
-		\includegraphics[width=0.5\textwidth]{figures/ratio_alignment_norm_diff_all.pdf}
-		\caption{Averaged over all 16 task pairs}
-		\label{fig_ab_cov}
-	\end{subfigure}\hfill
-	\begin{subfigure}[b]{0.5\textwidth}
-		\centering
-		\includegraphics[width=0.5\textwidth]{figures/ratio_alignment_norm_trec_cr_lstm.pdf}
-		\caption{An example task pair}
-		\label{fig_cov_a}
-	\end{subfigure}
-	\caption{ (TREC and CR)}
-\end{figure}
 
-\paragraph{Covariance shift.}
+\paragraph{Covariate shift.}
 Our observation highlights the need to correct covariate shift when $n_1 / n_2$ is large.
 Hence for such settings, we expect procedures that aim at correcting covariate shift to provide more significant gains.
 We consider a covariance alignment procedure proposed in \cite{WZR20}, which is designed for the purpose of correcting covariate shift.
@@ -292,6 +284,23 @@ We fix the sample size of the target task as $1000$.
 In Figure \ref{fig_ab_cov}, we measure the performance gains from performing the alignment procedure proposed in \cite{WZR20} minus baseline MTL.
 We average the results over all 15 task pairs.
 The result shows that as the source samples increases, the alignment procedure shows a bigger improvement over MTL.
+
+%\begin{figure}[!t]
+%	\centering
+%	\begin{subfigure}[b]{0.5\textwidth}
+%		\centering
+%		\includegraphics[width=0.5\textwidth]{figures/ratio_alignment_norm_diff_all.pdf}
+%		\caption{Averaged over all 16 task pairs}
+%		\label{fig_ab_cov}
+%	\end{subfigure}\hfill
+%	\begin{subfigure}[b]{0.5\textwidth}
+%		\centering
+%		\includegraphics[width=0.5\textwidth]{figures/ratio_alignment_norm_trec_cr_lstm.pdf}
+%		\caption{An example task pair}
+%		\label{fig_cov_a}
+%	\end{subfigure}
+%	\caption{ (TREC and CR)}
+%\end{figure}
 
 %\textbf{Further results of the covariance alignment procedure.}
 %Our results in Figure \ref{fig_ab_cov} are averaged over all the task pairs.

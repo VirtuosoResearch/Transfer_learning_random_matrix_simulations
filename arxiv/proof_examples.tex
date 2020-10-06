@@ -51,15 +51,17 @@ Under the two-task setting of Corollary \ref{cor_MTL_loss}, the optimization obj
 		\hat{B} \define  (A_1^2 (X^{(1)})^{\top}X^{(1)} + A_2^2 (X^{(2)})^{\top}X^{(2)})^{-1} (A_1 (X^{(1))})^{\top}Y^{(1)} + A_2 (X^{(2)})^{\top}Y^{(2)}). \label{eq_Bhat_2task} %\\
 		%&= (B^\star A ^{\top}) (A A^{\top})^{-1} + (X^{\top}X)^{-1}X^{\top}   \bigbrace{\sum_{j=1}^t \varepsilon_i A_i^{\top}} (A  A^{\top})^{-1}.
 	\end{align}
- Now inserting $\hat B$ back into equation \eqref{eq_mtl_2task_cov}, we obtain an objective that only depends on $A:=A_1/A_2$ as follows 
+ Now inserting $\hat B$ back into equation \eqref{eq_mtl_2task_cov}, we obtain an objective that only depends on $A:=A_1/A_2$ as follows \HZ{$A$ has been used to denote the output layers. Could you replace $A$ with another symbol (say $x$)?}
  \begin{align}
 		 g(A) \define & \left\| X^{(1)} \Sigma(A)^{-1} (X^{(2)})^\top X^{(2)} (A\beta_2-\beta_1)+ \left(A^2 X^{(1)}\Sigma(A)^{-1} (X^{(1)})^\top-\id_{n_1}\right)\epsilon^{(1)} + A X^{(1)}\Sigma(A)^{-1} (X^{(2)})^\top \epsilon^{(2)} \right\|^2 \nonumber\\
 		 + & \left\| X^{(2)} \Sigma(A)^{-1} (X^{(1)})^\top X^{(1)} (A\beta_1-A^2\beta_2)+ \left(X^{(2)}\Sigma(A)^{-1} (X^{(2)})^\top-\id_{n_2}\right)\epsilon^{(2)} + A X^{(2)}\Sigma(A)^{-1} (X^{(1)})^\top \epsilon^{(1)} \right\|^2, 
 		\label{eq_mtl_A12}
 	\end{align}
+	\HZ{the above Eq is overline}
 	where we denote
 	$$ \Sigma(A):= A^2 (X^{(1)})^\top X^{(1)}  + (X^{(2)})^\top X^{(2)} .$$
 We can calculate the partial expectation of $g(A)$ over the randomness in $\epsilon_1$ and $\epsilon_2$:
+\HZ{could you align the Eq so that they look better on page?}
 \begin{align*}	
 &\exarg{\epsilon^{(1)}, \epsilon^{(2)}}{g(A) \mid X_1, X_2 ,\beta_1,\beta_2} \\
 &= \left\| X^{(1)} \Sigma(A)^{-1} (X^{(2)})^\top X^{(2)} (A\beta_2-\beta_1)\right\|^2 +\left\| X^{(2)} \Sigma(A)^{-1} (X^{(1)})^\top X^{(1)} (A\beta_1-A^2\beta_2)\right\|^2  \\
@@ -92,6 +94,7 @@ Using the concentration estimates in Lemma \ref{largedeviation}, we can control 
  In the setting of Proposition \ref{cor_MTL_loss}, we have that with high probability,
 $$\left| g(A) - \exarg{\epsilon^{(1)}, \epsilon^{(2)} ,\beta_1,\beta_2}{g(A) \mid X_1, X_2 }\right| \le p^{1/2+e_1} \left(\sigma^2 + \kappa^2+d^2 \right) $$
 for any small constant $e_1>0$.
+	 \HZ{use consistent $e_1, e_2, e$, etc. Why not just use $\e$? Don't create too many different symbols. It's bad style..}
  \end{claim}
  \begin{proof}
 By Fact \ref{lem_minv} (iii), we have that with high probability,
