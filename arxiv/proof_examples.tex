@@ -4,7 +4,7 @@
 We provide the proof of Proposition \ref{cor_MTL_loss}. Similar to the proof of Theorem \ref{thm_many_tasks}, our proof is divided into the following parts:
 \begin{itemize}
 \item First, we reduce the optimization objective to another function $g(x)$ that only depends on the sample covariance matrices.
-\item Second, we show that the global minimizer of $g(x)$ is approximate $1$.
+\item Second, we show that the global minimizer of $g(x)$ is approximately equal to $1$.
 \item Finally, we use the above result and Theorem \ref{thm_main_RMT} to prove the proposition.
 \end{itemize}
 
@@ -47,15 +47,16 @@ Under the two-task setting of Corollary \ref{cor_MTL_loss}, the optimization obj
 		\hat{B} \define  (A_1^2 (X^{(1)})^{\top}X^{(1)} + A_2^2 (X^{(2)})^{\top}X^{(2)})^{-1} (A_1 (X^{(1))})^{\top}Y^{(1)} + A_2 (X^{(2)})^{\top}Y^{(2)}). \label{eq_Bhat_2task} %\\
 		%&= (B^\star A ^{\top}) (A A^{\top})^{-1} + (X^{\top}X)^{-1}X^{\top}   \bigbrace{\sum_{j=1}^t \varepsilon_i A_i^{\top}} (A  A^{\top})^{-1}.
 	\end{align}
- Now inserting $\hat B$ back into equation \eqref{eq_mtl_2task_cov}, we obtain an objective that only depends on $A:=A_1/A_2$ as follows \HZ{$A$ has been used to denote the output layers. Could you replace $A$ with another symbol (say $x$)?}
+ Now inserting $\hat B$ back into equation \eqref{eq_mtl_2task_cov}, we obtain an objective that only depends on $x:=A_1/A_2$ as follows %\HZ{$A$ has been used to denote the output layers. Could you replace $A$ with another symbol (say $x$)?}
  \begin{align}
-		 g(A) \define & \left\| X^{(1)} \Sigma(A)^{-1} (X^{(2)})^\top X^{(2)} (A\beta_2-\beta_1)+ \left(A^2 X^{(1)}\Sigma(A)^{-1} (X^{(1)})^\top-\id_{n_1}\right)\epsilon^{(1)} + A X^{(1)}\Sigma(A)^{-1} (X^{(2)})^\top \epsilon^{(2)} \right\|^2 \nonumber\\
-		 + & \left\| X^{(2)} \Sigma(A)^{-1} (X^{(1)})^\top X^{(1)} (A\beta_1-A^2\beta_2)+ \left(X^{(2)}\Sigma(A)^{-1} (X^{(2)})^\top-\id_{n_2}\right)\epsilon^{(2)} + A X^{(2)}\Sigma(A)^{-1} (X^{(1)})^\top \epsilon^{(1)} \right\|^2, 
+		 g(x) \define & \left\| X^{(1)} \Sigma(x)^{-1} (X^{(2)})^\top X^{(2)} (x\beta_2-\beta_1)+ \left(x^2 X^{(1)}\Sigma(x)^{-1} (X^{(1)})^\top-\id_{n_1}\right)\epsilon^{(1)} \right. \nonumber\\
+		& \left. + x X^{(1)}\Sigma(A)^{-1} (X^{(2)})^\top \epsilon^{(2)} \right\|^2 \nonumber\\
+		 + & \left\| X^{(2)} \Sigma(x)^{-1} (X^{(1)})^\top X^{(1)} (x\beta_1-x^2\beta_2)+ \left(X^{(2)}\Sigma(x)^{-1} (X^{(2)})^\top-\id_{n_2}\right)\epsilon^{(2)} \right. \nonumber\\
+		 &\left. + x X^{(2)}\Sigma(x)^{-1} (X^{(1)})^\top \epsilon^{(1)} \right\|^2, 
 		\label{eq_mtl_A12}
 	\end{align}
-	\HZ{the above Eq is overline}
-	where we denote
-	$$ \Sigma(A):= A^2 (X^{(1)})^\top X^{(1)}  + (X^{(2)})^\top X^{(2)} .$$
+	where we denote {\cor revise}
+	$$ \Sigma(x):= x^2 (X^{(1)})^\top X^{(1)}  + (X^{(2)})^\top X^{(2)} .$$
 We can calculate the partial expectation of $g(A)$ over the randomness in $\epsilon_1$ and $\epsilon_2$:
 \HZ{could you align the Eq so that they look better on page?}
 \begin{align*}	
