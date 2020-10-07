@@ -141,8 +141,10 @@ We use an embedding layer with GloVe embeddings \cite{pennington2014glove} follo
 %The results show that STL results are indicative of MTL results.
 
 \paragraph{Sample ratio.}
-First, we validate that as we increase the sample ratio while keeping task two's sample size fixed, task two's prediction accuracy does not always increase.
-Figure \ref{fig_ab_data} shows the result for three example task pairs. We fix task one's sample size as $1000$ and increase task two's number of samples from $100$ to $3000$.
+In Figure \ref{fig_ab_data}, we observe that for multiple task pairs, increasing task one's sample size improves task two's prediction accuracy initially, but hurts eventually.
+On the $y$-axis, we plot task two's prediction accuracy using HPS, subtracted by its STL prediction accuracy.
+%validate that as we increase the sample ratio while keeping task two's sample size fixed, task two's prediction accuracy does not always increase.
+We fix task one's sample size as $1000$ and increase task two's number of samples from $100$ to $3000$.
 
 Next, we propose a natural progressive training schedule for finding the optimal sample ratio.
 Our training schedule is motivated by Corollary \ref{cor_MTL_loss}, which shows that as we increase the sample ratio, the prediction loss always decreases first and then increases.
@@ -153,7 +155,7 @@ Based on this observation, we propose a progressive training schedule to improve
 	\item We divide the source task data into $S$ batches.
 	For $S$ rounds, we incrementally add the source task data by adding one batch at a time.
 	\item After training $T$ epochs, if the validation accuracy becomes worse than the previous round's result, we terminate.
-	Algorithm \ref{alg_inc_train} in Appendix \ref{app_experiments} describes the procedure in detail.
+%	Algorithm \ref{alg_inc_train} in Appendix \ref{app_experiments} describes the procedure in detail.
 \end{itemize}
 
 %\begin{algorithm}[!t]
@@ -185,15 +187,15 @@ Based on this observation, we propose a progressive training schedule to improve
 %TREC is less similar to MR because the task is about question types.
 %Third pair: MPQA (opinion polarity) is more similar to TREC (question type)
 Our results show that progressive training requires less computation compared to a baseline round-robin training schedule, without sacrificing accuracy.
-First, we show that our proposed progressive training schedule (Algorithm \ref{alg_inc_train}) can help mitigate negative transfer for predicting a particular target task.
-Over all $15$ pairs from the sentiment analysis tasks, we find that Algorithm \ref{alg_inc_train} requires only $45\%$ of the computational cost to achieve similar performance on the target task, compared to the MTL baseline.
-Our insight is that since adding more samples from the source task does not always help, we can improve efficiency by adding source samples \textit{incrementally} during training.
+First, we show that our proposed progressive training schedule (can help mitigate negative transfer for predicting a particular target task.
+Over all $15$ pairs from the sentiment analysis tasks, we find that progressive training requires only $45\%$ of the computational cost to achieve the same test accuracy on the target task, compared to HPS trained using round-robin.
+Our insight is that since adding more samples from the source task does not always help, we can improve efficiency by adding source samples \textit{progressively} during training.
 %\textbf{Improving transfer learning training efficiency.}
 %We show that Algorithm \ref{alg_inc_train} also applies to transfer learning settings.
 %Compared to fine-tuning the source model on the target task, we show that our proposed method reduces the computional cost by \alert{$xx\%$}, without sacrificing accuracy.
 Second, we show the progressive training schedule applies to multiple tasks as well.
-In Table \ref{tab:taskonomy}, we find that over all six sentiment analysis tasks, incremental training requires less than $35\%$ of the computational cost compared to baseline MTL training, while achieving the same accuracy averaged over all six tasks.
-As a further validation, excluding TREC, we observe similar comparative results.
+Over all six sentiment analysis tasks, incremental training requires less than $35\%$ of the computational cost compared to baseline MTL training, while achieving the same accuracy averaged over all six tasks.
+%As a further validation, excluding TREC, we observe similar comparative results.
 %The data efficiency ratio of using MLP is $100\%$ because the average performance of MTL is worse than the average of STL.
 %We further show that applying incremental training helps reduce the data efficiency ratio to \alert{$xx\%$}.
 %If TREC is not included, we see that only $25\%$ of the labeled data is needed.
@@ -214,7 +216,10 @@ As a further validation, excluding TREC, we observe similar comparative results.
 		\caption{HPS vs. covariance alignment}
 		\label{fig_ab_cov}
 	\end{subfigure}
-	\caption{A}
+	\caption{Comparing hard parameter sharing to single-task learning (STL) and a covariance alignment approach proposed by \citet{WZR20}.
+	In Figure \ref{fig_ab_data}, we observe that for multiple example task pairs, increasing task one's sample size improves task two's prediction accuracy initially, but hurts eventually -- a phenomenon similar  to Figure \ref{fig_size}.
+	In Figure \ref{fig_ab_cov}, we observe that as task one's sample size increases, covariance alignment improves more over HPS. }
+	\label{fig_text}
 %	\begin{minipage}[t]{0.4\textwidth}
 %		\centering
 %		\vspace{0pt}
@@ -244,8 +249,7 @@ As a further validation, excluding TREC, we observe similar comparative results.
 %	\end{subfigure}%
 %	\caption{Validating the three results of Section \ref{sec_insight} on sentiment analysis tasks. (a) Adding a semantically similar source task in MTL performs better than adding a dissimilar task.
 %	(b) As source/target sample ratio increases, we observe a transition from positive to negative transfer.
-%	(c) As source/target sample ratio increases, aligning task covariances \cite{WZR20} improves
-%more over the baseline.
+%	(c)
 %	Note: (S) denotes the source task and (T) denotes the target task.}
 
 
@@ -272,18 +276,18 @@ As a further validation, excluding TREC, we observe similar comparative results.
 
 
 \paragraph{Covariate shift.}
-Our observation highlights the need to correct covariate shift when $n_1 / n_2$ is large.
-Hence for such settings, we expect procedures that aim at correcting covariate shift to provide more significant gains.
-We consider a covariance alignment procedure proposed in \cite{WZR20}, which is designed for the purpose of correcting covariate shift.
+Recall from Example \ref{ex_covshift} that when the sample ratio increases, covariate shift worsens.
+Hence when the sample ratio increases, we expect procedures that aim at correcting covariate shift to provide more significant gains.
+To this end, we study a covariance alignment procedure proposed in \citet{WZR20}, which is designed for correcting covariate shift.
 The idea is to add an alignment module between the input and the shared module $B$.
-This new module is then trained together with $B$ and the output layers.
-We validate our insight on this procedure in the experiments.
-We implement the covariance alignment procedure following \cite{WZR20}.
-We fix the sample size of the target task as $1000$.
+This new module is then trained together with $B$ and the output layers -- more details on the procedure and the implementation can be found in that paper.
+%We validate our insight on this procedure in the experiments.
+%We implement the covariance alignment procedure following \cite{WZR20}.
 
-In Figure \ref{fig_ab_cov}, we measure the performance gains from performing the alignment procedure proposed in \cite{WZR20} minus baseline MTL.
+In Figure \ref{fig_ab_cov}, we measure the performance gains from performing covariance alignment vs. HPS.
 We average the results over all 15 task pairs.
-The result shows that as the source samples increases, the alignment procedure shows a bigger improvement over MTL.
+The result shows that as the source samples increases, covariance alignment improves more over HPS.
+We fix task two's sample size at $1,000$ and increase task one's sample size from $1,000$ to $3,000$.
 
 %\begin{figure}[!t]
 %	\centering

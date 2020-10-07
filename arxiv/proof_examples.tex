@@ -1,15 +1,11 @@
 \subsection{The Random-Effects Model}\label{app_iso_cov}
 
 %\subsubsection{Proof for Sample Imbalance}
-We now give the proof of Proposition \ref{cor_MTL_loss}. Similar to the proof of Theorem \ref{thm_many_tasks}, our proof is divided into the following steps: 
+We provide the proof of Proposition \ref{cor_MTL_loss}. Similar to the proof of Theorem \ref{thm_many_tasks}, our proof is divided into the following parts:
 \begin{itemize}
-\item simplifying the optimization objective using concentration estimates;
-
-\item finding the minimizer of the optimization objective;
-
-\item deriving a bias-variance decomposition of the prediction loss $L(\hat \beta_2^{\MTL})$; 
-
-\item calculating the bias term and the variance term using Theorem \ref{thm_main_RMT}. 
+\item First, we reduce the optimization objective to another function $g(x)$ that only depends on the sample covariance matrices.
+\item Second, we show that the global minimizer of $g(x)$ is approximate $1$.
+\item Finally, we use the above result and Theorem \ref{thm_main_RMT} to prove the proposition.
 \end{itemize}
 
 \iffalse
@@ -40,7 +36,7 @@ Therefore, whether multi-task learning outperforms single-task learning is deter
 % \todo{derive the test loss} Expectation was given in equation \eqref{eq_bias_2task} and equation \eqref{eq_var_2task}.
  \fi
 
-\paragraph{Simplifying the optimization objective.} 
+\paragraph{Part $1$: the reduction.}
 Under the two-task setting of Corollary \ref{cor_MTL_loss}, the optimization objective \eqref{eq_mtl} becomes
 	\begin{align}
 		f(A_1,A_2, B) =   \bignorm{X^{(1)} B A_1 - Y^{(1)}}^2+ \bignorm{X^{(2)} B A_2 - Y^{(2)}}^2, \label{eq_mtl_2task_cov}
@@ -153,7 +149,9 @@ Finally, we can obtain similar estimates for the second term on the right-hand s
  \end{proof}
 
 
- \paragraph{Minimizer of the optimization objective.} We show that for the isotropic model, the minimizer of $g(A)$, denoted by $\hat A$, is very close to 1 under the condition \eqref{choiceofpara0}. This will be used to calculate the predication loss $\te(\hat{\beta}_2^{\MTL})$ loss.
+\paragraph{Part $2$: approximating the global minimum.}
+	Let $\hat{A}$ denote the minimizer of $g(A)$.\HZ{change $\hat{A}$ to say $\hat{x}$.}
+	We show that in the setting of Corollary \ref{cor_MTL_loss}, $\hat A$ is close to 1.% This will be used to calculate the predication loss $\te(\hat{\beta}_2^{\MTL})$ loss.
 %Our main observation is that the optimum of $\val(v)$ is approximately $1$.This allows us to simplify the bias and variance bounds significantly.
 %Furthermore, under certain choice of parameters, we can simplify  
 %More precisely, we have the following claim.
@@ -186,12 +184,12 @@ where we used that $1+\tau\le \rho_1\le \tau^{-1}$ and $1+\tau\le \rho_2\le \tau
 \begin{align}\label{eq_hA}
 h(A)\gtrsim (1+A^2)\kappa^2 \cdot p\left(\rho_1^{-1} + A^2 \rho_2^{-1}\right)^{-1} \gtrsim p\kappa^2 ,
 \end{align}
-where in the first step we used that $|A-1|^2\gtrsim 1+A^2$ for $|A-1|\ge \delta$, $1+\tau\le \rho_1\le \tau^{-1}$ and $1+\tau\le \rho_2\le \tau^{-1}$, and in the second step we used equation \eqref{choiceofpara0}. Hence using Claim \ref{claim_largedev1} and equations \eqref{eq_h1}-\eqref{eq_hA}, we obtain that with high probability,
+where in the first step we used that $|A-1|^2\gtrsim 1+A^2$ for $|A-1|\ge \delta$, $1+\tau\le \rho_1\le \tau^{-1}$ and $1+\tau\le \rho_2\le \tau^{-1}$, and in the second step we use equation \eqref{choiceofpara0} \HZ{I'm not sure which condition we use? put it here}. Hence using Claim \ref{claim_largedev1} and equations \eqref{eq_h1}-\eqref{eq_hA}, we obtain that with high probability,
 \begin{align}
 g(A)&\ge  h(A) +\sigma^2(n_1+n_2-p) -p^{-1/2+e_1}\cdot p\left(\sigma^2 +\kappa^2+d^2 \right) \nonumber\\
-&\ge h(1) +\sigma^2(n_1+n_2-p) + p^{-1/2+e_1}\cdot p\left(\sigma^2 +\kappa^2+d^2 \right) \ge g(1) \label{gA>g1}
+&\ge h(1) +\sigma^2(n_1+n_2-p) + p^{-1/2+e_1}\cdot p\left(\sigma^2 +\kappa^2+d^2 \right) \ge g(1), \label{gA>g1}
 \end{align}
-under condition \eqref{choiceofpara0}.
+under condition \eqref{choiceofpara0} \HZ{again, I don't see which condition we use here?}.
 This gives that
 %\be\label{rough A-1}
 $|\hat A-1|\le \delta$ for any small constant $\delta>0$.
@@ -304,12 +302,12 @@ Thus we get that if $1+2d^2/\kappa^2 +p^{-1/4+e_2}\le A\le 1+\delta$,
 h(A)-h(1)\ge h(A)-h(1+d^2/\kappa^2) \ge \int_{1+d^2/\kappa^2}^A h'(x)\dd x \gtrsim p\kappa^2 \cdot |A-1|^2  \gtrsim p\frac{d^2}{\kappa^2} + p^{-1/2+2e_2}\cdot p\kappa^2.
 \end{align*}
 Then if we choose the constant $c$ in Claim \ref{claim_largedev1} such that $e_1<2e_2$, we have 
-$$ h(A)-h(1)\gtrsim  p^{-1/2+2e_2}\cdot p\kappa^2 \gg p^{-1/2+e_1}\cdot p\left(\sigma^2 +\kappa^2+d^2 \right)$$
-under equation \eqref{choiceofpara0}, which implies the inequality \eqref{gA>g1}. Second using equations \eqref{op_uplow} and  \eqref{h'(A)2}, we obtain that for $1-\delta \le A \le 1-d^2/\kappa^2$,
+$$ h(A)-h(1)\gtrsim  p^{-1/2+2e_2}\cdot p\kappa^2 \gg p^{-1/2+e_1}\cdot p\left(\sigma^2 +\kappa^2+d^2 \right),$$
+where we use the assumption that $\sigma^2$ and $d^2$ are both at most $\OO(\kappa^2)$, which implies the inequality \eqref{gA>g1}. Second using equations \eqref{op_uplow} and  \eqref{h'(A)2}, we obtain that for $1-\delta \le A \le 1-d^2/\kappa^2$,
 $$- h'(A)\ge  [2(1-A)\kappa^2 - Ad^2] \cdot p^{-1} \tr\left[\left(A^2[(X^{(2)})^\top X^{(2)}]^{-1} + [(X^{(1)})^\top X^{(1)}]^{-1}\right)^{-1}\right]  \gtrsim p\left(d^2 + |A-1|\kappa^2\right).$$
 Then with a similar argument as above, we can get that if $1-2d^2/\kappa^2 - p^{-\frac12c_\infty}\le A\le 1-\delta$, then 
 $$ h(A)-h(1) \gg p^{-1/2+e_1}\cdot p\left(\sigma^2 +\kappa^2+d^2 \right)$$
-under equation \eqref{choiceofpara0}, which implies the inequality \eqref{gA>g1}. In sum, we obtain that the minimizer $\hat A$ must satisfy equation \eqref{hatw_add1}.
+under equation \eqref{choiceofpara0} \HZ{I don't see which condition we want to use here?}, which implies the inequality \eqref{gA>g1}. In sum, we obtain that the minimizer $\hat A$ must satisfy equation \eqref{hatw_add1}.
 %Next we prove the following estimate on the optimizer $\hat A$: with high probability,
 %%\begin{lemma}
 %%For the isotropic model, we have
@@ -328,7 +326,8 @@ under equation \eqref{choiceofpara0}, which implies the inequality \eqref{gA>g1}
 %{\cor require $\kappa^2\gg d^2 + p^{-1/2+c}\sigma^2$}
 \end{proof}
 
-\paragraph{Calculating the prediction loss.} Now we calculate the predication loss using the optimal $\hat B$ in equation \eqref{eq_Bhat_2task} and optimal $\hat A=\hat A_1/\hat A_2$:
+\paragraph{Part $3$: Applying Theorem \ref{thm_main_RMT}.}
+We provide the predication loss using the optimal $\hat B$ in equation \eqref{eq_Bhat_2task} and optimal $\hat A=\hat A_1/\hat A_2$:
 \begin{align}
 L(\hat{\beta}_2^{\MTL}) &=\left|\Sigma_2^{1/2} \left( \hat B \hat A_2 - \beta_2\right)\right| \nonumber\\
 &=  \left\| (\Sigma^{(2)})^{1/2}\hat \Sigma^{-1} \left[(X^{(1)})^\top X^{(1)} (\hat A\beta_1-\hat A^2\beta_2)+ (X^{(2)})^\top \epsilon^{(2)} + \hat A   (X^{(1)})^\top \epsilon^{(1)} \right]\right\|^2,\label{Lbeta_HPS}
@@ -424,7 +423,7 @@ Moreover, using Fact \ref{lem_minv} (iii) we can bound that with high probabilit
 $$\bignorm{ (X^{(1)})^{\top}X^{(1)} \hat\Sigma^{-1} \Sigma^{(2)} \hat\Sigma^{-1} (X^{(1)})^{\top}X^{(1)}}\lesssim 1.$$
 which further implies that with high probability,
 \be\label{est333}\bigtr{ (X^{(1)})^{\top}X^{(1)} \hat\Sigma^{-1} \Sigma^{(2)} \hat\Sigma^{-1} (X^{(1)})^{\top}X^{(1)}}\lesssim p.\ee
-Now we bound the left-hand side of \eqref{simple1} as
+Now we bound the left-hand side of \eqref{simple1} as \HZ{replace $\Sigma(1)$ with $\hat{\Sigma}$ throughout}
 \begin{align*}
 &\left|\cal L(\hat A)-\frac{d^2}{p}\tr\left[\Sigma(1)^{-2} \left((X^{(1)})^\top X^{(1)} \right)^2\right] -\sigma^2  \bigtr{\Sigma(1)^{-1}  }\right| \\
 &\lesssim \left(|\hat A-1|^2 \kappa^2 + |\hat A-1|d^2\right)\cdot p^{-1}\bigtr{ (X^{(1)})^{\top}X^{(1)} \hat\Sigma^{-1} \Sigma^{(2)} \hat\Sigma^{-1} (X^{(1)})^{\top}X^{(1)} } \\
@@ -447,7 +446,8 @@ Applying the estimates \eqref{hatw_add1}, \eqref{est111}, \eqref{est222} and \eq
 \end{proof}
   
 % \todo{switch the $a_3$ and $a_4$}
-\paragraph{Calculating the variance and bias terms.} Finally, we calculate the variance term $\sigma^2  \bigtr{\Sigma(1)^{-1}  }$ and the bias term $d^2\cdot {p}^{-1}\tr\left[\Sigma(1)^{-2} \left((X^{(1)})^\top X^{(1)} \right)^2\right]$ using Theorem \ref{thm_main_RMT}, which will conclude Proposition \ref{cor_MTL_loss}.
+Finally, we are ready to present the proof of Proposition \ref{cor_MTL_loss}.
+We derive the variance term $\sigma^2  \bigtr{\Sigma(1)^{-1}  }$ and the bias term $d^2\cdot {p}^{-1}\tr\left[\Sigma(1)^{-2} \left((X^{(1)})^\top X^{(1)} \right)^2\right]$ using Theorem \ref{thm_main_RMT}.
 %For the isotropic model in Section \ref{sec_similarity}, we actually have an easier and sharper bound than Lemma \ref{thm_model_shift}. %as follows.
 %\begin{lemma}\label{prop_model_shift_tight}
 %		In the setting of Lemma \ref{thm_model_shift}, assume that $\Sigma_1 =\id$,
