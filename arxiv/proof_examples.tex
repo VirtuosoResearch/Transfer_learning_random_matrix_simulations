@@ -49,23 +49,37 @@ Under the two-task setting of Corollary \ref{cor_MTL_loss}, the optimization obj
 	\end{align}
  Now inserting $\hat B$ back into equation \eqref{eq_mtl_2task_cov}, we obtain an objective that only depends on $x:=A_1/A_2$ as follows %\HZ{$A$ has been used to denote the output layers. Could you replace $A$ with another symbol (say $x$)?}
  \begin{align}
-		 g(x) \define & \left\| X^{(1)} \Sigma(x)^{-1} (X^{(2)})^\top X^{(2)} (x\beta_2-\beta_1)+ \left(x^2 X^{(1)}\Sigma(x)^{-1} (X^{(1)})^\top-\id_{n_1}\right)\epsilon^{(1)} \right. \nonumber\\
-		& \left. + x X^{(1)}\Sigma(A)^{-1} (X^{(2)})^\top \epsilon^{(2)} \right\|^2 \nonumber\\
-		 + & \left\| X^{(2)} \Sigma(x)^{-1} (X^{(1)})^\top X^{(1)} (x\beta_1-x^2\beta_2)+ \left(X^{(2)}\Sigma(x)^{-1} (X^{(2)})^\top-\id_{n_2}\right)\epsilon^{(2)} \right. \nonumber\\
-		 &\left. + x X^{(2)}\Sigma(x)^{-1} (X^{(1)})^\top \epsilon^{(1)} \right\|^2, 
+		 g(x) \define & \left\| X^{(1)} \hat\Sigma(x)^{-1} (X^{(2)})^\top X^{(2)} (x\beta_2-\beta_1)+ \left(x^2 X^{(1)}\hat \Sigma(x)^{-1} (X^{(1)})^\top-\id_{n_1}\right)\epsilon^{(1)} \right. \nonumber\\
+		& \left. + x X^{(1)}\hat \Sigma(x)^{-1} (X^{(2)})^\top \epsilon^{(2)} \right\|^2 \nonumber\\
+		 + & \left\| X^{(2)} \hat \Sigma(x)^{-1} (X^{(1)})^\top X^{(1)} (x\beta_1-x^2\beta_2)+ \left(X^{(2)}\hat\Sigma(x)^{-1} (X^{(2)})^\top-\id_{n_2}\right)\epsilon^{(2)} \right. \nonumber\\
+		 &\left. + x X^{(2)}\hat \Sigma(x)^{-1} (X^{(1)})^\top \epsilon^{(1)} \right\|^2, 
 		\label{eq_mtl_A12}
 	\end{align}
-	where we denote {\cor revise}
-	$$ \Sigma(x):= x^2 (X^{(1)})^\top X^{(1)}  + (X^{(2)})^\top X^{(2)} .$$
-We can calculate the partial expectation of $g(A)$ over the randomness in $\epsilon_1$ and $\epsilon_2$:
-\HZ{could you align the Eq so that they look better on page?}
-\begin{align*}	
-&\exarg{\epsilon^{(1)}, \epsilon^{(2)}}{g(A) \mid X_1, X_2 ,\beta_1,\beta_2} \\
-= &\left\| X^{(1)} \Sigma(A)^{-1} (X^{(2)})^\top X^{(2)} (A\beta_2-\beta_1)\right\|^2 +\left\| X^{(2)} \Sigma(A)^{-1} (X^{(1)})^\top X^{(1)} (A\beta_1-A^2\beta_2)\right\|^2  \\
-& + \exarg{\epsilon^{(1)}}{(\epsilon^{(1)})^\top \left(A^2 X^{(1)}\Sigma(A)^{-1} (X^{(1)})^\top-\id_{n_1}\right)^2\epsilon^{(1)}} \\
-&+\exarg{ \epsilon^{(2)}}{(\epsilon^{(2)})^\top \left(X^{(2)}\Sigma(A)^{-1} (X^{(2)})^\top-\id_{n_2}\right)^2\epsilon^{(2)}}   \\
-&+  A^2 \exarg{ \epsilon^{(2)}}{ (\epsilon^{(2)} )^\top X^{(2)} \Sigma(A)^{-1}  (X^{(1)})^\top X^{(1)}\Sigma(A)^{-1} (X^{(2)})^\top \epsilon^{(2)}} \\
-& +A^2 \exarg{ \epsilon^{(1)}} { (\epsilon^{(1)})^\top X^{(1)} \Sigma(A)^{-1}  (X^{(2)})^\top X^{(2)}\Sigma(A)^{-1} (X^{(1)})^\top \epsilon^{(1)}  }\\
+	where we denote $ \hat \Sigma(x):= x^2 (X^{(1)})^\top X^{(1)}  + (X^{(2)})^\top X^{(2)} .$ We can calculate the partial expectation of $g(x)$ over the randomness in $\epsilon_1$ and $\epsilon_2$:
+%\HZ{could you align the Eq so that they look better on page?}
+\begin{align}	
+&\exarg{\epsilon^{(1)}, \epsilon^{(2)}}{g(x) \mid X_1, X_2 ,\beta_1,\beta_2} \nonumber\\
+&= \left\| X^{(1)} \hat\Sigma(x)^{-1} (X^{(2)})^\top X^{(2)} (\beta_1-x\beta_2)\right\|^2 \nonumber\\
+&+x^2 \left\| X^{(2)} \hat\Sigma(x)^{-1} (X^{(1)})^\top X^{(1)} (\beta_1-x\beta_2)\right\|^2  \nonumber\\
+& + \exarg{\epsilon^{(1)}}{(\epsilon^{(1)})^\top \left(x^2 X^{(1)}\hat \Sigma(x)^{-1} (X^{(1)})^\top-\id_{n_1}\right)^2\epsilon^{(1)}} \nonumber\\
+&+\exarg{ \epsilon^{(2)}}{(\epsilon^{(2)})^\top \left(X^{(2)}\hat \Sigma(x)^{-1} (X^{(2)})^\top-\id_{n_2}\right)^2\epsilon^{(2)}}   \nonumber\\
+&+  x^2 \exarg{ \epsilon^{(2)}}{ (\epsilon^{(2)} )^\top X^{(2)}\hat \Sigma(x)^{-1}  (X^{(1)})^\top X^{(1)}\hat\Sigma(x)^{-1} (X^{(2)})^\top \epsilon^{(2)}} \nonumber\\
+& +x^2 \exarg{ \epsilon^{(1)}} { (\epsilon^{(1)})^\top X^{(1)}\hat \Sigma(x)^{-1}  (X^{(2)})^\top X^{(2)}\hat\Sigma(x)^{-1} (X^{(1)})^\top \epsilon^{(1)}  }. \label{Eg(x)}
+\end{align}
+Using the following identity
+\begin{align*}
+(X^{(1)})^\top X^{(1)} \Sigma(A)^{-1}(X^{(2)})^\top X^{(2)} & =\left( A^2 [(X^{(2)})^\top X^{(2)}]^{-1} + [(X^{(1)})^\top X^{(1)}]^{-1} \right)^{-1} \\
+&= (X^{(2)})^\top X^{(2)} \Sigma(A)^{-1}(X^{(1)})^\top X^{(1)},
+\end{align*}
+we can simplify that 
+\begin{align*}
+&  \left\| X^{(1)} \hat\Sigma(x)^{-1} (X^{(2)})^\top X^{(2)} (\beta_1-x\beta_2)\right\|^2  +x^2 \left\| X^{(2)} \hat\Sigma(x)^{-1} (X^{(1)})^\top X^{(1)} (\beta_1-x\beta_2)\right\|^2 \\
+&=
+\end{align*}
+
+ 
+Hence \eqref{Eg(x)} can be simplified to 
+\begin{align*}
 		&= \left\| X^{(1)} \Sigma(A)^{-1} (X^{(2)})^\top X^{(2)} (A\beta_2-\beta_1)\right\|^2 +\left\| X^{(2)} \Sigma(A)^{-1} (X^{(1)})^\top X^{(1)} (A\beta_1-A^2\beta_2)\right\|^2  \\
 		&+ \sigma^2\tr\left[ \left(A^2 X^{(1)}\Sigma(A)^{-1} (X^{(1)})^\top-\id_{n_1}\right)^2\right] +\sigma^2\tr\left[ \left(X^{(2)}\Sigma(A)^{-1} (X^{(2)})^\top-\id_{n_2}\right)^2 \right]\\
 &+ 2 A^2 \sigma^2 \tr\left[ \Sigma(A)^{-1}  (X^{(1)})^\top X^{(1)}\Sigma(A)^{-1} (X^{(2)})^\top X^{(2)} \right]  \nonumber\\
@@ -84,8 +98,7 @@ where in the first step we used that the entries of $\beta_1-A\beta_2\in \R^p$ a
  &=  (X^{(2)})^\top X^{(2)} \Sigma(A)^{-1}(X^{(1)})^\top X^{(1)} \Sigma(A)^{-1} (X^{(2)})^\top X^{(2)} + A^2  (X^{(1)})^\top X^{(1)} \Sigma(A)^{-1}(X^{(1)})^\top X^{(1)} \Sigma(A)^{-1}(X^{(2)})^\top X^{(2)}  \\
  & =   (X^{(1)})^\top X^{(1)} \Sigma(A)^{-1}(X^{(2)})^\top X^{(2)} .
 \end{align*}
-Here in the first step of the above derivation, we used that 
- $$(X^{(1)})^\top X^{(1)} \Sigma(A)^{-1}(X^{(2)})^\top X^{(2)} =\left( A^2 [(X^{(2)})^\top X^{(2)}]^{-1} + [(X^{(1)})^\top X^{(1)}]^{-1} \right)^{-1} = (X^{(2)})^\top X^{(2)} \Sigma(A)^{-1}(X^{(1)})^\top X^{(1)}.$$
+
  
 Using the concentration estimates in Lemma \ref{largedeviation}, we can control the difference between $g(A)$ and its partial expectation. %$\exarg{\epsilon^{(1)}, \epsilon^{(2)}}{g(A) \mid X_1, X_2 ,\beta_1,\beta_2}$.
  \begin{claim}\label{claim_largedev1}
