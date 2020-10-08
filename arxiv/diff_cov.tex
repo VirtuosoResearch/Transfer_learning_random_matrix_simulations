@@ -14,9 +14,9 @@ We develop a key technical result using recent developments in random matrix the
 To motivate our study, we consider a specialized setting where the output layer weights $A_1, A_2$ are both equal to one.
 Without loss of generality, we consider the prediction loss of hard parameter sharing for task two and the same analysis applies to task one.
 By solving $B$ in equation \eqref{eq_mtl}, we obtain the hard parameter sharing estimator $\hat{\beta}_2^{\MTL} = B A_2 = B$ as follows:
-\begin{align*}
+\begin{align}\label{def hatsig}
 	\hat{\beta}_2^{\MTL} = {\hat{\Sigma}}^{-1} ({X^{(1)}}^{\top} Y^{(1)} + {X^{(2)}}^{\top} Y^{(2)}), \text{ where } \hat{\Sigma} = {X^{(1)}}^{\top} X^{(1)} + {X^{(2)}}^{\top} X^{(2)}.
-\end{align*}
+\end{align}
 For the prediction loss, the empirical loss is close to the expected loss similar to what we have shown in Claim \ref{claim_pred_err}.
 Hence, we consider the expected loss conditional on the covariates as follows:
 \begin{align}\label{eq_diff_cov}
@@ -103,9 +103,8 @@ Next, we use our result to study how varying sample sizes and covariate shifts a
 	%\left[\left( 1+\frac{1}{\sqrt{\rho_1}}\right)^4-1\right] d^2\cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3} \\
 	%& +C \left[(p^{-c_\varphi}+p^{-c_\infty/2})(\sigma^2 +d^2)+p^{-c_\infty}\kappa^2 + %\frac{d^4+\sigma^2 d^2}{\kappa^2}\right],\nonumber
 	 \end{align}
-%	 {\color{red}[FY: there is an extra $\kappa^2$ term]} + p^{-c_\infty}\cdot \OO(\kappa^2)
-%	 for a large constant $C>0$.
-\end{corollary}
+	 {\color{red}[FY: the error also contains $p^{-1/2+2c}\kappa^2 +  p^{-1/4+c} (\sigma^2 +d^2) $, both of which cannot be omitted, because (i) there is no assumption on the upper bound of $\kappa^2$, and (ii) we do not necessarily have $c_\varphi<1/4$. We can decide how to present the result concisely (for instance we can impose an upper bound on $\kappa^2$ and that $c_\varphi<1/4$), but it needs to be correct.]}
+	 \end{corollary}
 
 
 %It is well-known since the seminal work of Caruana \cite{C97} that how well multi-task learning performs depends on task relatedness. We formalize this connection in the above isotropic setting, where we can perform explicit calculations. The prediction loss of MTL has been given in Corollary \ref{cor_MTL_loss}. We can also calculate the prediction loss of STL easily using Fact \ref{lem_minv} (ii). The proof of the following claim will be given in Section \ref{app_iso_cov}.

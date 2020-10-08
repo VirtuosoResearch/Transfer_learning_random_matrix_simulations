@@ -334,7 +334,7 @@ Then with a similar argument as above, we can get that if $1-2d^2/\kappa^2 - p^{
 $$ h(x)-h(1) \gtrsim p\frac{d^4}{\kappa^2} +p^{1/2+2c} \kappa^2, $$
 %under equation \eqref{choiceofpara0} \HZ{I don't see which condition we want to use here?}, 
 which again implies that $g(x)>g(1)$, i.e. $x$ cannot be the minimizer of $g$. In sum, we obtain that the minimizer $\hat x$ must satisfy equation \eqref{hatw_add1}.
-%Next we prove the following estimate on the optimizer $\hat A$: with high probability,
+%Next we prove the following estimate on the optimizer $\hat x$: with high probability,
 %%\begin{lemma}
 %%For the isotropic model, we have
 %\be\label{hatv_add1}
@@ -353,30 +353,31 @@ which again implies that $g(x)>g(1)$, i.e. $x$ cannot be the minimizer of $g$. I
 \end{proof}
 
 \paragraph{Part $3$: Applying Theorem \ref{thm_main_RMT}.}
-We provide the predication loss using the optimal $\hat B$ in equation \eqref{eq_Bhat_2task} and optimal $\hat x=\hat A_1/\hat A_2$:
+We provide the predication loss using the optimal $\hat B$ in equation \eqref{eq_Bhat_2task} and optimal $\hat x=\hat x_1/\hat x_2$:
 \begin{align}
-L(\hat{\beta}_2^{\MTL}) &=\left|\Sigma_2^{1/2} \left( \hat B \hat A_2 - \beta_2\right)\right| \nonumber\\
+L(\hat{\beta}_2^{\MTL}) &=\left\|\Sigma_2^{1/2} \left( \hat B \hat x_2 - \beta_2\right)\right\| \nonumber\\
 &=  \left\| (\Sigma^{(2)})^{1/2}\hat \Sigma(\hat x)^{-1} \left[(X^{(1)})^\top X^{(1)} (\hat x\beta_1-\hat x^2\beta_2)+ (X^{(2)})^\top \epsilon^{(2)} + \hat x   (X^{(1)})^\top \epsilon^{(1)} \right]\right\|^2.\label{Lbeta_HPS}
 \end{align}
-%where we denoted $$\hat \Sigma:= \hat A^2 (X^{(1)})^\top X^{(1)}  + (X^{(2)})^\top X^{(2)} .$$
+%where we denoted $$\hat \Sigma:= \hat x^2 (X^{(1)})^\top X^{(1)}  + (X^{(2)})^\top X^{(2)} .$$
 To illustrate the idea of bias-variance decomposition, we assume that $\hat x$ is independent of $\epsilon^{(1)}$, $\epsilon^{(2)}$, $\beta_1$ and $\beta_2$ for now. Then we can calculate the partial expectation of $L(\hat{\beta}_2^{\MTL})$ over the randomness in $\epsilon_1$ and $\epsilon_2$:
  \begin{align}
-	&\exarg{\epsilon^{(1)}, \epsilon^{(2)}}{L(\hat{\beta}_2^{\MTL}) \mid X_1, X_2,\beta_1,\beta_2} \nonumber \\
-&	=  \bignorm{(\Sigma^{(2)})^{1/2}\hat\Sigma^{-1} (X^{(1)})^{\top}X^{(1)} (\hat A \beta_1 - \hat A^2\beta_2)}^2 \nonumber\\ %\label{eq_bias_2task} 
-			& + \sigma^2\cdot \bigtr{ X^{(2)} \hat\Sigma^{-1}\Sigma^{(2)}\hat\Sigma^{-1} (X^{(2)})^\top}+ \sigma^2\cdot \hat A^2 \bigtr{ X^{(1)} \hat\Sigma^{-1}\Sigma^{(2)}\hat\Sigma^{-1} (X^{(1)})^\top}\nonumber\\
+	\exarg{\epsilon^{(1)}, \epsilon^{(2)}}{L(\hat{\beta}_2^{\MTL}) \mid X_1, X_2,\beta_1,\beta_2}  &=  \bignorm{(\Sigma^{(2)})^{1/2}\hat\Sigma(\hat x)^{-1} (X^{(1)})^{\top}X^{(1)} (\hat x \beta_1 - \hat x^2\beta_2)}^2 \nonumber\\ %\label{eq_bias_2task} 
+			& + \sigma^2\cdot \bigtr{ X^{(2)} \hat\Sigma(\hat x)^{-1}\Sigma^{(2)}\hat\Sigma(\hat x)^{-1} (X^{(2)})^\top} \nonumber\\
+			&+ \sigma^2\cdot \hat x^2 \bigtr{ X^{(1)} \hat\Sigma(\hat x)^{-1}\Sigma^{(2)}\hat\Sigma(\hat x)^{-1} (X^{(1)})^\top}\nonumber\\
 			%+\sigma^2\cdot \bigtr{\Sigma_2(\frac{W_1^2}{W_2^2} X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} } \nonumber\\ 
-			&= \bignorm{(\Sigma^{(2)})^{1/2}\hat\Sigma^{-1} (X^{(1)})^{\top}X^{(1)} (\hat A \beta_1 - \hat A^2\beta_2)}^2 +\sigma^2\cdot \tr\left(\Sigma^{(2)}\hat \Sigma^{-1}\right).\nonumber
+			&= \bignorm{(\Sigma^{(2)})^{1/2}\hat\Sigma(\hat x)^{-1} (X^{(1)})^{\top}X^{(1)} (\hat x \beta_1 - \hat x^2\beta_2)}^2 +\sigma^2  \tr\left(\Sigma^{(2)}\hat \Sigma(\hat x)^{-1}\right).\nonumber
 			%\label{eq_var_2task}
 \end{align}
 This gives a bias-variance decomposition of the MTL prediction loss: the first term on the right-hand side is the bias term, while the second term is the variance term. For the random-effects model, we further take the partial expectation over $\beta_1$ and $\beta_2$: 
  \begin{align}
-	\exarg{\epsilon^{(1)}, \epsilon^{(2)},\beta_1,\beta_2}{L(\hat{\beta}_2^{\MTL}) \mid X_1, X_2}&	=  \left[(\hat A-1)^2 \kappa^2 + (\hat A^2+1)\frac{d^2}2\right] \cdot p^{-1}\bigtr{ (X^{(1)})^{\top}X^{(1)} \hat\Sigma^{-1} \Sigma^{(2)} \hat\Sigma^{-1} (X^{(1)})^{\top}X^{(1)} }\nonumber \\
-	&+\sigma^2\cdot \tr\left(\Sigma^{(2)}\hat \Sigma^{-1}\right).
+	& \exarg{\epsilon^{(1)}, \epsilon^{(2)},\beta_1,\beta_2}{L(\hat{\beta}_2^{\MTL}) \mid X_1, X_2} \nonumber\\
+	&	=  \hat x^2 \left[(\hat x-1)^2 \kappa^2 + \frac{(\hat x^2+1)d^2}2\right] \cdot p^{-1}\bigtr{ (X^{(1)})^{\top}X^{(1)} \hat\Sigma(\hat x)^{-1} \Sigma^{(2)} \hat\Sigma(\hat x)^{-1} (X^{(1)})^{\top}X^{(1)} }\nonumber \\
+	&+\sigma^2 \tr\left(\Sigma^{(2)}\hat \Sigma(\hat x)^{-1}\right).
 			\label{eq_var_2task}
 \end{align}
 One can compare the above expression with the predication loss for STL, that is,
 \begin{align}
-	\exarg{\epsilon_2}{L(\hat{\beta}_2^{\STL}) \mid X_2} = \sigma^2 \cdot \bigtr{\Sigma_2 (X_2^{\top} X_2)^{-1}}, \label{eq_var_stl}
+	\exarg{\epsilon_2}{L(\hat{\beta}_2^{\STL}) \mid X_2} = \sigma^2 \cdot \bigtr{\Sigma^{(2)} (X_2^{\top} X_2)^{-1}}, \label{eq_var_stl}
 \end{align}
 we observe that while the bias of $\hat{\beta}_2^{\MTL}$ is always larger than that of $\hat{\beta}_2^{\STL}$, which is zero, the variance of $\hat{\beta}_2^{\MTL}$ is always lower than that of $\hat{\beta}_2^{\STL}$.\footnote{To see why this is true, we apply the Woodbury matrix identity over the second term on the right-hand side of equation \eqref{eq_var_2task} and use the fact that for the product of two PSD matrices, its trace is always nonnegative.}
 In other words, training both tasks together helps predict the target task by reducing variance while incurring a bias.
@@ -388,39 +389,41 @@ Therefore, whether multi-task learning outperforms single-task learning is deter
 %		%&= (B^\star A ^{\top}) (A A^{\top})^{-1} + (X^{\top}X)^{-1}X^{\top}   \bigbrace{\sum_{j=1}^t \varepsilon_i A_i^{\top}} (A  A^{\top})^{-1}.
 %	\end{align}
 
-In general, for $\hat A$ as  the minimizer of $g(x)$, it depends on $\epsilon^{(1)}$, $\epsilon^{(2)}$, $\beta_1$ and $\beta_2$. However, using the concentration estimates in Lemma \ref{largedeviation}, we can still obtain the expression on the right-hand side of \eqref{eq_var_2task} up to a small error. In particular, our proof will not use Lemma \ref{lem_hat_v}.
+In general, for $\hat x$ as  the minimizer of $g(x)$, it depends on $\epsilon^{(1)}$, $\epsilon^{(2)}$, $\beta_1$ and $\beta_2$. However, using the concentration estimates in Lemma \ref{largedeviation}, we can still obtain the expression in equation \eqref{eq_var_2task} up to a small error. In particular, our proof will not use Lemma \ref{lem_hat_v}.
 
 %control the difference between $g(x)$ and its partial expectation. 
  \begin{claim}\label{claim_largedev2}
- In the setting of Proposition \ref{cor_MTL_loss}, if $\hat A=\OO(1)$, then we have that with high probability,
-$$\left| L(\hat{\beta}_2^{\MTL})- \cal L(\hat A)\right| \le p^{-1/2+e} \left(\sigma^2 +\kappa^2 +d^2 \right),$$
-for any small constant $e>0$. Here we introduced the function
+ In the setting of Proposition \ref{cor_MTL_loss}, if $\hat x=\OO(1)$, then we have that with high probability,
+$$\left| L(\hat{\beta}_2^{\MTL})- \cal L(\hat x)\right| \le p^{-1/2+c} \left(\sigma^2 +\kappa^2 +d^2 \right),$$
+for any small constant $c>0$. Here we introduced the function
 \begin{align*}
-	\cal L(\hat A)	:=  \left[(\hat A-1)^2 \kappa^2 + (\hat A^2+1)\frac{d^2}2\right] \cdot p^{-1}\bigtr{ (X^{(1)})^{\top}X^{(1)} \hat\Sigma^{-1} \Sigma^{(2)} \hat\Sigma^{-1} (X^{(1)})^{\top}X^{(1)} } +\sigma^2\cdot \tr\left(\Sigma^{(2)}\hat \Sigma^{-1}\right).
+	\cal L(\hat x)	:=  &\hat x^2\left[(\hat x-1)^2 \kappa^2 + \frac{(\hat x^2+1)d^2}2\right] \cdot p^{-1}\bigtr{ (X^{(1)})^{\top}X^{(1)} \hat\Sigma(\hat x)^{-1} \Sigma^{(2)} \hat\Sigma(\hat x)^{-1} (X^{(1)})^{\top}X^{(1)} } \\
+	& +\sigma^2\cdot \tr\left(\Sigma^{(2)}\hat \Sigma(\hat x)^{-1}\right).
 \end{align*}
  \end{claim}
  \begin{proof}
- The proof of this claim is very similar to the one for Claim \ref{claim_largedev1}, where the only difference is that $\hat A$ now may depend on $\epsilon^{(1)}$, $\epsilon^{(2)}$, $\beta_1$ and $\beta_2$. In this case, we can still use  Lemma \ref{largedeviation} to conclude the proof because $\hat A$ can be pulled out as a coefficient. Here we only give an outline of the proof without writing down all the details. Recall that $\beta_0$ is the shared component of $\beta_1$ and $\beta_2$ with i.i.d. Gaussian entries of mean zero and variance $p^{-1}\kappa^2$. Moreover, we denote the task-specific components by $\wt\beta_1$ and $\wt\beta_2$, whose entries i.i.d. Gaussian random variables of mean zero and variance $p^{-1} d^2 / 2$. Then we write $L(\hat{\beta}_2^{\MTL}) $ in \eqref{Lbeta_HPS} as:
+ The proof of this claim is very similar to the one for Claim \ref{claim_largedev1}, where the only difference is that $\hat x$ now may depend on $\epsilon^{(1)}$, $\epsilon^{(2)}$, $\beta_1$ and $\beta_2$. In this case, we can still use  Lemma \ref{largedeviation} to conclude the proof because $\hat x$ can be pulled out as a coefficient. Here we only give an outline of the proof without writing down all the details. Recall that $\beta_0$ is the shared component of $\beta_1$ and $\beta_2$ with i.i.d. Gaussian entries of mean zero and variance $p^{-1}\kappa^2$. Moreover, we denote the task-specific components by $\wt\beta_1$ and $\wt\beta_2$, whose entries are i.i.d. Gaussian random variables of mean zero and variance $p^{-1} d^2 / 2$. Then we write $L(\hat{\beta}_2^{\MTL}) $ in \eqref{Lbeta_HPS} as:
  \begin{align}
-L(\hat{\beta}_2^{\MTL})  =&  \left\| (\Sigma^{(2)})^{1/2}\hat \Sigma^{-1} \left[(X^{(1)})^\top X^{(1)} (\hat A -\hat A^2)\beta_0+(X^{(1)})^\top X^{(1)} \hat A\wt \beta_1 - (X^{(1)})^\top X^{(1)}  \hat A^2\wt \beta_2 \right] \right. \\
-&\left. + (\Sigma^{(2)})^{1/2}\hat \Sigma^{-1}\left[ (X^{(2)})^\top \epsilon^{(2)} + \hat A   (X^{(1)})^\top \epsilon^{(1)} \right]\right\|^2. \label{expand_15}
+L(\hat{\beta}_2^{\MTL})  =&  \left\| (\Sigma^{(2)})^{1/2}\hat \Sigma(\hat x)^{-1} \left[(X^{(1)})^\top X^{(1)} (\hat x -\hat x^2)\beta_0+(X^{(1)})^\top X^{(1)} \hat x\wt \beta_1 - (X^{(1)})^\top X^{(1)}  \hat x^2\wt \beta_2 \right] \right. \nonumber\\
+&\left. + (\Sigma^{(2)})^{1/2}\hat \Sigma(\hat x)^{-1}\left[ (X^{(2)})^\top \epsilon^{(2)} + \hat x   (X^{(1)})^\top \epsilon^{(1)} \right]\right\|^2. \label{expand_15}
 \end{align}
-As in \eqref{expand_6}, we can expand this expression into the sum of 15 terms, and bound each term as in \eqref{eq_hA1}-\eqref{eq_hA56}. For example, for the main term $\hat A^2 \wt \beta_1^\top (X^{(1)})^\top X^{(1)} \hat \Sigma^{-1}  \Sigma^{(2)} \hat \Sigma^{-1}  (X^{(1)})^\top X^{(1)}\wt\beta_1$, using 
-Lemma \ref{largedeviation} and \eqref{op_X12}-\eqref{op_Sig1}, we can obtain the following estimate with high probability for any small constant $e>0$:
+As in \eqref{expand_6}, we can expand this expression into the sum of 15 terms, and bound each term as in \eqref{eq_hA1}-\eqref{eq_hA56}. For example, for the main term $\hat x^2 \wt \beta_1^\top (X^{(1)})^\top X^{(1)} \hat \Sigma(\hat x)^{-1}  \Sigma^{(2)} \hat \Sigma(\hat x)^{-1}  (X^{(1)})^\top X^{(1)}\wt\beta_1$, using 
+Lemma \ref{largedeviation} and \eqref{op_X12}-\eqref{op_Sig1}, we can obtain the following estimate with high probability for any small constant $c>0$:
 \begin{align*}
-&\hat A^2 \left|\wt \beta_1^\top (X^{(1)})^\top X^{(1)} \hat \Sigma^{-1}  \Sigma^{(2)} \hat \Sigma^{-1}  (X^{(1)})^\top X^{(1)}\wt\beta_1 - d^2 \cdot p^{-1}\bigtr{(X^{(1)})^\top X^{(1)} \hat \Sigma^{-1}  \Sigma^{(2)} \hat \Sigma^{-1}  (X^{(1)})^\top X^{(1)}}\right| \\
-&\le p^e\cdot p^{-1}d^2 \cdot \left\| (X^{(1)})^\top X^{(1)} \hat \Sigma^{-1}  \Sigma^{(2)} \hat \Sigma^{-1}  (X^{(1)})^\top X^{(1)} \right\|_F \\
-&\le p^{-1/2+\e}d^2 \cdot  \left\| (X^{(1)})^\top X^{(1)} \hat \Sigma^{-1}  \Sigma^{(2)} \hat \Sigma^{-1}  (X^{(1)})^\top X^{(1)} \right\|  \lesssim p^{-1/2+\e}d^2.
+&  \left|\wt \beta_1^\top (X^{(1)})^\top X^{(1)} \hat \Sigma(\hat x)^{-1}  \Sigma^{(2)} \hat \Sigma(\hat x)^{-1}  (X^{(1)})^\top X^{(1)}\wt\beta_1 - \frac{d^2}{2} \cdot p^{-1}\bigtr{(X^{(1)})^\top X^{(1)} \hat \Sigma(\hat x)^{-1}  \Sigma^{(2)} \hat \Sigma(\hat x)^{-1}  (X^{(1)})^\top X^{(1)}}\right| \\
+&\le p^{-1+c}d^2 \cdot \left\| (X^{(1)})^\top X^{(1)} \hat \Sigma(\hat x)^{-1}  \Sigma^{(2)} \hat \Sigma(\hat x)^{-1}  (X^{(1)})^\top X^{(1)} \right\|_F \\
+&\le p^{-1/2+c}d^2 \cdot  \left\| (X^{(1)})^\top X^{(1)} \hat \Sigma(\hat x)^{-1}  \Sigma^{(2)} \hat \Sigma(\hat x)^{-1}  (X^{(1)})^\top X^{(1)} \right\|  \lesssim p^{-1/2+c}d^2.
 \end{align*} 
-For the cross term $\hat A \wt \beta_1^\top (X^{(1)})^\top X^{(1)} \hat \Sigma^{-1}  \Sigma^{(2)} \hat \Sigma^{-1}  (X^{(2)})^\top  \epsilon^{(2)}$, using Lemma \ref{largedeviation} and \eqref{op_X12}-\eqref{op_Sig1}, we can obtain the following estimate with high probability for any small constant $e>0$:
+For the cross term $\hat x \wt \beta_1^\top (X^{(1)})^\top X^{(1)} \hat \Sigma(\hat x)^{-1}  \Sigma^{(2)} \hat \Sigma(\hat x)^{-1}  (X^{(2)})^\top  \epsilon^{(2)}$, using Lemma \ref{largedeviation} and \eqref{op_X12}-\eqref{op_Sig1}, we can obtain the following estimate with high probability for any small constant $c>0$:
 \begin{align*}
-&|\hat A |\cdot \left|\wt \beta_1^\top (X^{(1)})^\top X^{(1)} \hat \Sigma^{-1}  \Sigma^{(2)} \hat \Sigma^{-1}  (X^{(2)})^\top  \epsilon^{(2)}\right| \le p^e \cdot \sigma\sqrt{p^{-1}d^2} \cdot \|(X^{(1)})^\top X^{(1)} \hat \Sigma^{-1}  \Sigma^{(2)} \hat \Sigma^{-1}  (X^{(2)})^\top  \|_F \\
-&\lesssim p^{c}\sigma d \cdot  \|(X^{(1)})^\top X^{(1)} \hat \Sigma^{-1}  \Sigma^{(2)} \hat \Sigma^{-1}  (X^{(2)})^\top  \| \lesssim p^{-1/2+e}\sigma d\le p^{-1/2+e}(\sigma^2+ d^2).
+ \left|\wt \beta_1^\top (X^{(1)})^\top X^{(1)} \hat \Sigma(\hat x)^{-1}  \Sigma^{(2)} \hat \Sigma(\hat x)^{-1}  (X^{(2)})^\top  \epsilon^{(2)}\right|  & \le p^c \cdot \sigma\sqrt{p^{-1}d^2} \cdot \|(X^{(1)})^\top X^{(1)} \hat \Sigma(\hat x)^{-1}  \Sigma^{(2)} \hat \Sigma(\hat x)^{-1}  (X^{(2)})^\top  \|_F \\
+&\lesssim p^{c}\sigma d \cdot  \|(X^{(1)})^\top X^{(1)} \hat \Sigma(\hat x)^{-1}  \Sigma^{(2)} \hat \Sigma(\hat x)^{-1}  (X^{(2)})^\top  \| \\
+&\lesssim p^{-1/2+c}\sigma d\le p^{-1/2+c}(\sigma^2+ d^2).
 \end{align*}
 The rest of the terms in the expansion of \eqref{expand_15} can be bounded in the same way, and we omit the details.
  \end{proof}
  
-In the specific setting in Proposition \ref{cor_MTL_loss}, we can further simplify $\cal L(\hat A)$ using Claim \ref{lem_hat_v} and $\Sigma^{(1)}=\Sigma^{(2)}=\id_p$.
+In the setting of Proposition \ref{cor_MTL_loss}, we can further simplify $\cal L(\hat x)$ using Claim \ref{lem_hat_v} and $\Sigma^{(1)}=\Sigma^{(2)}=\id_p$.
  
 \begin{claim}
 In the setting of Proposition \ref{cor_MTL_loss}, we have that with high probability,
@@ -429,30 +432,31 @@ In the setting of Proposition \ref{cor_MTL_loss}, we have that with high probabi
 %\ee
 %where $\e_0$ is the constant as appeared in equation \eqref{approxvalid}. Then we have
 \begin{align}
-&\left|\cal L(\hat A)- d^2\cdot {p}^{-1}\tr\left[\Sigma(1)^{-2} \left((X^{(1)})^\top X^{(1)} \right)^2\right] -\sigma^2  \bigtr{\Sigma(1)^{-1}  }\right| \nonumber\\
-&\lesssim  \frac{d^4 + \sigma^2 d^2}{\kappa^2}+p^{-1/2+2e}\kappa^2 +  p^{-1/4+e} (\sigma^2 +d^2) , \label{simple1}
+&\left|\cal L(\hat x)- d^2\cdot {p}^{-1}\tr\left[\hat\Sigma^{-2} \left((X^{(1)})^\top X^{(1)} \right)^2\right] -\sigma^2  \tr\left({\hat \Sigma^{-1}  }\right)\right| \nonumber\\
+&\lesssim  \frac{d^4 + \sigma^2 d^2}{\kappa^2}+p^{-1/2+2c}\kappa^2 +  p^{-1/4+c} (\sigma^2 +d^2) , \label{simple1}
 \end{align}
-for any small constant $e>0$, where we recall that $\Sigma(1)= (X^{(1)})^\top X^{(1)}  + (X^{(2)})^\top X^{(2)}$.
+for any small constant $c>0$, where we recall that $\hat \Sigma=\hat \Sigma(1)$ as defined in \eqref{def hatsig}.
 \end{claim}
 \begin{proof}
-Using Lemma \ref{lem_hat_v} and Fact \ref{lem_minv} (iii), we can obtain that with high probability,
+Using Lemma \ref{lem_hat_v} and equations \eqref{op_X12}-\eqref{op_Sig1}, we can obtain that with high probability,
 \begin{align}
-&\|\Sigma(1)^{-1}-\hat\Sigma^{-1}\| \le |\hat A-1|\|\Sigma(1)^{-1}\| \| (X^{(1)})^\top X^{(1)}\|\|\hat\Sigma^{-1}\| \label{est111}\\
-&\lesssim \left(\frac{d^2}{\kappa^2} + p^{-1/4+e}\right)\frac{(\sqrt{n_1}+\sqrt{p})^{2}+n_1p^{-c_\varphi}}{ \left[(\sqrt{n_2}-\sqrt{p})^{2}-n_2p^{-c_\varphi}  + (\sqrt{n_1}-\sqrt{p})^{2}-n_1p^{-c_\varphi}\right]^2  }\lesssim p^{-1}\left(\frac{d^2}{\kappa^2} + p^{-1/4+e}\right),\nonumber
+ \|\hat\Sigma^{-1}-\hat\Sigma(\hat x)^{-1}\| &\le |\hat x^2-1|\|\hat\Sigma^{-1}\| \| (X^{(1)})^\top X^{(1)}\|\|\hat\Sigma(\hat x)^{-1}\|  \lesssim p^{-1}\left(\frac{d^2}{\kappa^2} + p^{-1/4+c}\right),\label{est111}
 \end{align}
-for any small constant $e>0$. With similar arguments, we can get that with high probability,
+for any small constant $c>0$. With similar arguments, we can get that with high probability,
 \begin{align}\label{est222}
-&\left\|\left(\Sigma(1)^{-2}-\hat\Sigma^{-2}\right)\left((X^{(1)})^\top X^{(1)} \right)^2\right\| \lesssim  \frac{d^2}{\kappa^2} + p^{-1/4+e} .
+&\left\|\left(\hat\Sigma^{-2}-\hat\Sigma(\hat x)^{-2}\right)\left((X^{(1)})^\top X^{(1)} \right)^2\right\| \lesssim  \frac{d^2}{\kappa^2} + p^{-1/4+c} .
 \end{align}
-Moreover, using Fact \ref{lem_minv} (iii) we can bound that with high probability,
-$$\bignorm{ (X^{(1)})^{\top}X^{(1)} \hat\Sigma^{-1} \Sigma^{(2)} \hat\Sigma^{-1} (X^{(1)})^{\top}X^{(1)}}\lesssim 1.$$
-which further implies that with high probability,
-\be\label{est333}\bigtr{ (X^{(1)})^{\top}X^{(1)} \hat\Sigma^{-1} \Sigma^{(2)} \hat\Sigma^{-1} (X^{(1)})^{\top}X^{(1)}}\lesssim p.\ee
-Now we bound the left-hand side of \eqref{simple1} as \HZ{replace $\Sigma(1)$ with $\hat{\Sigma}$ throughout}
+Moreover, using equations \eqref{op_X12}-\eqref{op_Sig1} we can bound that with high probability,
+%$$\bignorm{ (X^{(1)})^{\top}X^{(1)} \hat\Sigma^{-1} \Sigma^{(2)} \hat\Sigma^{-1} (X^{(1)})^{\top}X^{(1)}}\lesssim 1.$$
+%which further implies that with high probability,
+\begin{align}
+& \bigtr{ \hat\Sigma^{-2} \left((X^{(1)})^{\top}X^{(1)}\right)^2}  \le p \bignorm{\hat\Sigma^{-2} \left((X^{(1)})^{\top}X^{(1)}\right)^2}\lesssim p.\label{est333}
+\end{align}
+Now we bound the left-hand side of \eqref{simple1} as % \HZ{replace $\Sigma(1)$ with $\hat{\Sigma}$ throughout}
 \begin{align*}
-&\left|\cal L(\hat A)-\frac{d^2}{p}\tr\left[\Sigma(1)^{-2} \left((X^{(1)})^\top X^{(1)} \right)^2\right] -\sigma^2  \bigtr{\Sigma(1)^{-1}  }\right| \\
-&\lesssim \left(|\hat A-1|^2 \kappa^2 + |\hat A-1|d^2\right)\cdot p^{-1}\bigtr{ (X^{(1)})^{\top}X^{(1)} \hat\Sigma^{-1} \Sigma^{(2)} \hat\Sigma^{-1} (X^{(1)})^{\top}X^{(1)} } \\
-&+ \frac{d^2}{p}\left|\tr\left[\left(\Sigma(1)^{-2}-\hat\Sigma^{-2}\right) \left((X^{(1)})^\top X^{(1)} \right)^2\right]\right|+ \sigma^2  \left|\bigtr{\Sigma(1)^{-1}-\hat\Sigma^{-1}  }\right|.
+&\left|\cal L(\hat x)-\frac{d^2}{p}\tr\left[\hat\Sigma^{-2} \left((X^{(1)})^\top X^{(1)} \right)^2\right] -\sigma^2  \tr\left({\hat\Sigma^{-1}  }\right)\right| \\
+&\lesssim \left(|\hat x-1|^2 \kappa^2 + |\hat x-1|d^2\right)\cdot p^{-1}\bigtr{ \hat\Sigma^{-2} \left((X^{(1)})^{\top}X^{(1)}\right)^2 } \\
+&+ \frac{d^2}{p}\left|\tr\left[\left(\hat\Sigma(\hat x)^{-2}-\hat\Sigma^{-2}\right) \left((X^{(1)})^\top X^{(1)} \right)^2\right]\right|+ \sigma^2  \left|\bigtr{\hat\Sigma(\hat x)^{-1}-\hat\Sigma^{-1}  }\right|.
 \end{align*}
 Applying the estimates \eqref{hatw_add1}, \eqref{est111}, \eqref{est222} and \eqref{est333} to the three terms on the right-hand side, we can conclude \eqref{simple1}.
 % Inserting equation \eqref{hatv_add1} into equation \eqref{eq_te_mtl_2task} and applying Lemma  \ref{largedeviation} to $(\beta_1-\hat v\beta_s)$, we get that w.h.p.,
@@ -471,8 +475,8 @@ Applying the estimates \eqref{hatw_add1}, \eqref{est111}, \eqref{est222} and \eq
 \end{proof}
   
 % \todo{switch the $a_3$ and $a_4$}
-Finally, we are ready to present the proof of Proposition \ref{cor_MTL_loss}.
-We derive the variance term $\sigma^2  \bigtr{\Sigma(1)^{-1}  }$ and the bias term $d^2\cdot {p}^{-1}\tr\left[\Sigma(1)^{-2} \left((X^{(1)})^\top X^{(1)} \right)^2\right]$ using Theorem \ref{thm_main_RMT}.
+Finally, we are ready to complete the proof of Proposition \ref{cor_MTL_loss}.
+We derive the variance term $\sigma^2  \tr(\hat\Sigma^{-1})$ and the bias term $d^2\cdot {p}^{-1}\tr\left[\hat\Sigma^{-2} \left((X^{(1)})^\top X^{(1)} \right)^2\right]$ using Theorem \ref{thm_main_RMT}.
 %For the isotropic model in Section \ref{sec_similarity}, we actually have an easier and sharper bound than Lemma \ref{thm_model_shift}. %as follows.
 %\begin{lemma}\label{prop_model_shift_tight}
 %		In the setting of Lemma \ref{thm_model_shift}, assume that $\Sigma_1 =\id$,
@@ -499,27 +503,27 @@ We derive the variance term $\sigma^2  \bigtr{\Sigma(1)^{-1}  }$ and the bias te
 %\end{align*}
 %Bounding $(X_1^\top X_1)^2=(Z_1^\top Z_1)^2$ 
 Using \eqref{lem_cov_shift_eq}, we obtain that 
-\be\label{eq_var111}\bigtr{\Sigma(1)^{-1}  } = \tr\left[ \left((X^{(1)})^\top X^{(1)}  + (X^{(2)})^\top X^{(2)}\right)^{-1}\right]=\bigtr{\frac{(a_1\id_p+a_2\id_p)^{-1}}{n_{1}+n_2} }+\OO(p^{-c_\varphi})\ee
-with high probability. Then solving equation \eqref{eq_a12extra} with $\lambda_i\equiv 1$, $1\le i\le p$, we get that with high probability,
+\be\label{eq_var111}\tr(\hat\Sigma^{-1}) = \tr\left[ \left((X^{(1)})^\top X^{(1)}  + (X^{(2)})^\top X^{(2)}\right)^{-1}\right]=\bigtr{\frac{(a_1\id_p+a_2\id_p)^{-1}}{n_{1}+n_2} }+\OO(p^{-c_\varphi})\ee
+with high probability. Solving equation \eqref{eq_a12extra} with $\lambda_i\equiv 1$, $1\le i\le p$, we get that  
 	\begin{align}
 		 a_1 = \frac{\rho_1(\rho_1 + \rho_2 - 1)}{(\rho_1 + \rho_2)^2} ,\quad
 		& a_2 = \frac{\rho_2(\rho_1 + \rho_2 - 1)}{(\rho_1 + \rho_2)^2} . \label{simplesovlea12}
 			\end{align}
 Inserting it into \eqref{eq_var111}, we obtain that 
-\be\label{eq_var112}\bigtr{\Sigma(1)^{-1}  } = \frac{p}{n_1+n_2} \cdot \frac{\rho_1+\rho_2}{\rho_1+\rho_2-1}+\OO(p^{-c_\varphi})=  \frac{1}{\rho_1+\rho_2-1}+\OO(p^{-c_\varphi})\ee
+\be\label{eq_var112}\tr(\hat\Sigma^{-1})  = \frac{p}{n_1+n_2} \cdot \frac{\rho_1+\rho_2}{\rho_1+\rho_2-1}+\OO(p^{-c_\varphi})=  \frac{1}{\rho_1+\rho_2-1}+\OO(p^{-c_\varphi})\ee
 with high probability. 
 
-On the other hand, using Fact \ref{lem_minv} (iii), we can bound that with high probability,
+On the other hand, we have that with high probability,
 \begin{align}
- \frac{(\sqrt{n_1}-\sqrt{p})^4 \cdot (1- p^{-c_\varphi})}{p}\sum_{i=1}^p \left(\Sigma(1)^{-2}\right)_{ii}  &\le {p}^{-1}\tr\left[\Sigma(1)^{-2} \left((X^{(1)})^\top X^{(1)} \right)^2\right] \label{eq_bias111}\\ 
- &\le \frac{(\sqrt{n_1}+\sqrt{p})^4 \cdot (1+ p^{-c_\varphi})}{p}\sum_{i=1}^p \left(\Sigma(1)^{-2}\right)_{ii} .\nonumber
+ \frac{(\sqrt{n_1}-\sqrt{p})^4 \cdot (1- p^{-c_\varphi})}{p}\sum_{i=1}^p \left(\hat \Sigma^{-2}\right)_{ii}  &\le {p}^{-1}\tr\left[\hat\Sigma^{-2} \left((X^{(1)})^\top X^{(1)} \right)^2\right] \label{eq_bias111}\\ 
+ &\le \frac{(\sqrt{n_1}+\sqrt{p})^4 \cdot (1+ p^{-c_\varphi})}{p}\sum_{i=1}^p \left(\hat\Sigma^{-2}\right)_{ii} .\nonumber
 \end{align}
 To obtain this inequality, we used  
-$$ (\sqrt{n_1}-\sqrt{p})^4 \cdot (1-p^{-c_\varphi}) \prec \left((X^{(1)})^\top X^{(1)} \right)^2 \preceq (\sqrt{n_1}+\sqrt{p})^4 \cdot (1+ p^{-c_\varphi}) \quad \text{with high probability},$$
+$$ (\sqrt{n_1}-\sqrt{p})^4 \cdot (1-p^{-c_\varphi}) \preceq \left((X^{(1)})^\top X^{(1)} \right)^2 \preceq (\sqrt{n_1}+\sqrt{p})^4 \cdot (1+ p^{-c_\varphi}) \quad \text{with high probability},$$
 by Fact \ref{lem_minv} (iii), and the fact that for the product of two PSD matrices, its trace is always nonnegative.
 Using \eqref{lem_cov_derv_eq} with $\Sigma^{(1)}=\Sigma^{(2)}=\Lambda=V=\id_p$ and $w$ being the $i$-th coordinate vector, we can calculate that 
 \begin{align}\label{eq_bias112}
- \left(\Sigma(1)^{-2}\right)_{ii} = \frac{1}{(n_1+n_2)^2}\cdot \frac{a_3+a_4+1}{(a_1+a_2)^2} +\OO(p^{-c_\varphi})
+ \left(\hat\Sigma^{-2}\right)_{ii} = \frac{1}{(n_1+n_2)^2}\cdot \frac{a_3+a_4+1}{(a_1+a_2)^2} +\OO(p^{-c_\varphi})
 \end{align}
 with high probability. Solving equation \eqref{eq_a34extra} with $a_1, a_2$ in \eqref{simplesovlea12} and $\lambda_i\equiv 1$, $1\le i\le p$, we can obtain that
 	\begin{align}
@@ -529,34 +533,34 @@ with high probability. Solving equation \eqref{eq_a34extra} with $a_1, a_2$ in \
 	\end{align}
 Inserting them into \eqref{eq_bias112}, we obtain that 
 \begin{align*}%\label{eq_bias113}
- \left(\Sigma(1)^{-2}\right)_{ii} = \frac{1}{(n_1+n_2)^2}\cdot \frac{(\rho_1+\rho_2)^3}{(\rho_1+\rho_2-1)^3} +\OO(p^{-c_\varphi})
+ \left(\hat\Sigma^{-2}\right)_{ii} = \frac{1}{(n_1+n_2)^2}\cdot \frac{(\rho_1+\rho_2)^3}{(\rho_1+\rho_2-1)^3} +\OO(p^{-c_\varphi})
 \end{align*}
 with high probability. In fact, we need this estimate to hold simultaneously for all $1\le i \le p$ with high probability. For this purpose, we shall use \eqref{apply derivlocal} to get that 
 \begin{align*}%\label{eq_bias113}
-\left| \left(\Sigma(1)^{-2}\right)_{ii} - \frac{1}{(n_1+n_2)^2}\cdot \frac{(\rho_1+\rho_2)^3}{(\rho_1+\rho_2-1)^3}\right|\prec p^{-\frac{\varphi-4}{2\varphi}}
+\left| \left(\hat\Sigma^{-2}\right)_{ii} - \frac{1}{(n_1+n_2)^2}\cdot \frac{(\rho_1+\rho_2)^3}{(\rho_1+\rho_2-1)^3}\right|\prec p^{-\frac{\varphi-4}{2\varphi}}
 \end{align*}
 on a high probability event that does not depend on $i$. Then using Fact \ref{lem_stodomin} (i), we obtain that 
 \begin{align*} 
-\left| \sum_{i=1}^p \left(\Sigma(1)^{-2}\right)_{ii} - \frac{p}{(n_1+n_2)^2}\cdot \frac{(\rho_1+\rho_2)^3}{(\rho_1+\rho_2-1)^3}\right|\prec p^{1-\frac{\varphi-4}{2\varphi}}
+\left| \sum_{i=1}^p \left(\hat\Sigma^{-2}\right)_{ii} - \frac{p}{(n_1+n_2)^2}\cdot \frac{(\rho_1+\rho_2)^3}{(\rho_1+\rho_2-1)^3}\right|\prec p^{1-\frac{\varphi-4}{2\varphi}}
 \end{align*}
 with high probability, which by Definition \ref{stoch_domination} gives that
 \begin{align}\label{eq_bias113}
 \left| p^{-1}\sum_{i=1}^p \left(\Sigma(1)^{-2}\right)_{ii} - \frac{1}{(n_1+n_2)^2}\cdot \frac{(\rho_1+\rho_2)^3}{(\rho_1+\rho_2-1)^3}\right|\le p^{-c_\varphi}
 \end{align}
-with high probability. Inserting \eqref{eq_bias113} into \eqref{eq_bias111}. we get
+with high probability. Inserting \eqref{eq_bias113} into \eqref{eq_bias111}, we get that
 \begin{align}
 & \frac{(\sqrt{n_1}-\sqrt{p})^4 \cdot (1- p^{-c_\varphi}) - n_1^2 \cdot (1+\OO(p^{-c_\varphi}))}{(n_1+n_2)^2}\cdot  \frac{(\rho_1+\rho_2)^3}{(\rho_1+\rho_2-1)^3}\nonumber \\
-&\le  {p}^{-1}\tr\left[\Sigma(1)^{-2} \left((X^{(1)})^\top X^{(1)} \right)^2\right] - \frac{n_1^2}{(n_1+n_2)^2}\cdot  \frac{(\rho_1+\rho_2)^3}{(\rho_1+\rho_2-1)^3} \nonumber\\
+&\le  {p}^{-1}\tr\left[\hat\Sigma^{-2} \left((X^{(1)})^\top X^{(1)} \right)^2\right] - \frac{n_1^2}{(n_1+n_2)^2}\cdot  \frac{(\rho_1+\rho_2)^3}{(\rho_1+\rho_2-1)^3} \nonumber\\
 &  \le \frac{(\sqrt{n_1}+\sqrt{p})^4 \cdot (1+ p^{-c_\varphi}) - n_1^2 \cdot (1+\OO(p^{-c_\varphi}))}{(n_1+n_2)^2}\cdot  \frac{(\rho_1+\rho_2)^3}{(\rho_1+\rho_2-1)^3}\label{eq_bias114}
 \end{align}
 with high probability. 
 
 Now plugging \eqref{eq_var112} and \eqref{eq_bias114} into \eqref{simple1}, we get
 \begin{align}
-\left|\cal L(\hat A)- -\frac{\sigma^2}{\rho_1+\rho_2-1} - d^2\cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3}\right| \le   \left[\left( 1+\frac{1}{\sqrt{\rho_1}}\right)^4-1\right] d^2\cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3} \nonumber\\
-+C\left( p^{-c_\varphi} (\sigma^2 + d^2)+ \frac{d^4 + \sigma^2 d^2}{\kappa^2}+p^{-1/2+2e}\kappa^2 +  p^{-1/4+e} (\sigma^2 +d^2) \right) \label{simple1add}
+\left|\cal L(\hat x)- \frac{\sigma^2}{\rho_1+\rho_2-1} - d^2\cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3}\right| \le   \left[\left( 1+\frac{1}{\sqrt{\rho_1}}\right)^4-1\right] d^2\cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3} \nonumber\\
++C\left( p^{-c_\varphi} (\sigma^2 + d^2)+ \frac{d^4 + \sigma^2 d^2}{\kappa^2}+p^{-1/2+2c}\kappa^2 +  p^{-1/4+c} (\sigma^2 +d^2) \right) \label{simple1add}
 \end{align}
-with high probability for some constant $C>0$. Then using Claim \ref{claim_largedev2} and noticing that the constant $e>0$ can be arbitrarily small, we conclude \eqref{cor_MTL_error}.
+with high probability for some constant $C>0$. Then using Claim \ref{claim_largedev2} and the conditions $\sigma^2 \lesssim  \kappa^2$ and $d^2 \le p^{-c_{\varphi}}{\kappa^2}$, we conclude \eqref{cor_MTL_error} by noticing that the constant $c>0$ can be arbitrarily small. %, we conclude \eqref{cor_MTL_error} 
 \end{proof}
 %\begin{align}
 %				a_3 + a_4 = \frac{1}{n_1 + n_2}\sum_{i=1}^p \frac{1}{\lambda_i^2 a_1 + a_2},
@@ -707,7 +711,7 @@ This also partially justifies Proposition \ref{prop_covariate}. %Theorem  the ob
 \iffalse
 \subsection{Task Similarity}\label{app_proof_31}
 
-With equation \eqref{simple1} and Lemma \ref{prop_model_shift_tight}, we can prove Proposition \ref{prop_dist_transition}, which gives a transition threshold with respect to the ratio between the model bias and the noise level. %With slight abuse of notations, we shall write $\hat a_i$ and $\hat b_k$ as $a_i$ and $b_k$ throughout the proof. 
+With equation \eqref{simple1} and Lemma \ref{prop_model_shift_tight}, we can prove Proposition \ref{prop_dist_transition}, which gives a transition threshold with respect to the ratio between the model bias and the noise level. %With slight abuse of notations, we shall write $\hat x_i$ and $\hat b_k$ as $a_i$ and $b_k$ throughout the proof. 
 
 \begin{proof}[Proof of Proposition \ref{prop_dist_transition}]
 	In the setting of Proposition \ref{prop_dist_transition}, we have $M = \Sigma_1^{1/2}\Sigma_2^{-1/2} = \id$. Then solving equations equation \eqref{eq_a12extra} and equation \eqref{eq_a34extra} with $\lambda_i\equiv 1$, we get that
