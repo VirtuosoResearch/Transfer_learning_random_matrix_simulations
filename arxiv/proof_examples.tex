@@ -1,64 +1,35 @@
 \subsection{The Random-Effects Model}\label{app_iso_cov}
 
-%\subsubsection{Proof for Sample Imbalance}
-We provide the proof of Proposition \ref{cor_MTL_loss}. Similar to the proof of Theorem \ref{thm_many_tasks}, our proof is divided into the following parts:
-\begin{itemize}
-\item First, we reduce the optimization objective to another function $g(x)$ that only depends on the sample covariance matrices.
-\item Second, we show that the global minimizer of $g(x)$ is approximately equal to $1$.
-\item Finally, we use the above result and Theorem \ref{thm_main_RMT} to prove the proposition.
-\end{itemize}
+We provide the proof of Corollary \ref{cor_MTL_loss}. The proof is similar to that of Theorem \ref{thm_many_tasks}.
+First, we reduce the optimization objective to another function $g(x)$ that only depends on the sample covariance matrices.
+Second, we show that the global minimizer of $g(x)$ is approximately equal to $1$.
+Finally, we use the above result and Theorem \ref{thm_main_RMT} to prove the proposition.
 
-\iffalse
-%Our key insight is a bias-variance decomposition of the expected prediction loss of $\hat{\beta}_2^{\MTL} = \hat{B} W_2$.
-%Using the local optimality condition of $B$, we obtain that
-%\begin{align*}
-%	 \hat{B}(W_1, W_2) &= (W_1^2 X_1^{\top}X_1 + W_2^2 X_2^{\top}X_2)^{-1} (W_1 X_1^{\top}Y_1 + W_2 X_2^{\top}Y_2)\\
-%	&= \frac{1}{W_2} \left( \frac{W_1^2}{W_2^2}  X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1} \left(\frac{W_1}{W_2} X_1^{\top}Y_1 + X_2^{\top}Y_2\right) \\
-%	&= \frac{1}{W_2}\left[\beta_2 + \left(\frac{W_1^2}{W_2^2} X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1}\bigbrace{X_1^{\top}X_1\left(\frac{W_1}{W_2}\beta_1 - \frac{W_1^2}{W_2^2} \beta_2\right) + \left(\frac{W_1}{W_2} X_1^{\top}\varepsilon_1 + X_2^{\top}\varepsilon_2\right)}\right].
-%\end{align*}
-Recall that $\hat{\beta}_i^{\MTL} = \hat{B} W_i$. Therefore, we have
-\begin{align}
-	\exarg{\epsilon_1, \epsilon_2}{L(\hat{\beta}_2^{\MTL}) \mid X_1, X_2}
-	=&~ \frac{W_1^2}{W_2^2} \bignorm{\Sigma_2^{1/2}(\frac{W_1^2}{W_2^2} X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} X_1^{\top}X_1 (\beta_1 - \frac{W_1}{W_2} \beta_2)}^2 \label{eq_bias_2task} \\
-			&+~  \sigma^2\cdot \bigtr{\Sigma_2(\frac{W_1^2}{W_2^2} X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} }. \label{eq_var_2task}
-\end{align}
-equation \eqref{eq_bias_2task} is the bias of $\hat{\beta}_t^{\MTL}$ and
-equation \eqref{eq_var_2task} is the variance of $\hat{\beta}_t^{\MTL}$.
-%minus the variance of $\hat{\beta}_t^{\STL}$, which is always negative.
-Comparing the above to single-task learning, that is,
-\begin{align}
-	\exarg{\epsilon_2}{L(\hat{\beta}_2^{\STL}) \mid X_2} = \sigma^2 \cdot \bigtr{\Sigma_2 (X_2^{\top} X_2)^{-1}}, \label{eq_var_stl}
-\end{align}
-we observe that while the bias of $\hat{\beta}_2^{\MTL}$ is always larger than that of $\hat{\beta}_2^{\STL}$, which is zero, the variance of $\hat{\beta}_2^{\MTL}$ is always lower than that of $\hat{\beta}_2^{\STL}$.\footnote{To see why this is true, we apply the Woodbury matrix identity over equation \eqref{eq_var_2task} and use the fact that for the product of two PSD matrices, its trace is always nonnegative.}
-In other words, training both tasks together helps predict the target task by reducing variance while incurring a bias.
-Therefore, whether multi-task learning outperforms single-task learning is determined by the bias-variance decomposition!
-
-% \todo{derive the test loss} Expectation was given in equation \eqref{eq_bias_2task} and equation \eqref{eq_var_2task}.
- \fi
-
-\paragraph{Part $1$: the reduction.}
-Under the two-task setting of Corollary \ref{cor_MTL_loss}, the optimization objective \eqref{eq_mtl} becomes
+In the setting of Corollary \ref{cor_MTL_loss}, the optimization objective \eqref{eq_mtl} is equal to
 	\begin{align}
-		f(A_1,A_2, B) =   \bignorm{X^{(1)} B A_1 - Y^{(1)}}^2+ \bignorm{X^{(2)} B A_2 - Y^{(2)}}^2, \label{eq_mtl_2task_cov}
+		f(A, B) =   \bignorm{X^{(1)} B A_1 - Y^{(1)}}^2+ \bignorm{X^{(2)} B A_2 - Y^{(2)}}^2, \label{eq_mtl_2task_cov}
 	\end{align}
-	where $B \in \real^{p}$ and $A_1, A_2\in \R$ because $r=1$ in the two-task case. % for $1 < r < t$ by our assumption.
-	Without loss of generality, we assume that both $A_1$ and $A_2$ are nonzero, since otherwise we can add a small perturbation $\delta$ to them and later remove this perturbation by taking $\delta\to 0$ in the final result. Again using the local optimality condition ${\partial f}/{\partial B} = 0$, for any $A_1$ and $A_2$ we obtain the optimal $\hat{B}$ as follows
+	where $B \in \real^{p}$ and $A = [A_1, A_2]\in \real^{2}$ because the width of $B$ is one.
+We assume that $A_1$ and $A_2$ are both nonzero.
+Otherwise, we add a tiny amount of perturbation $\delta$ to them and the result remains the same.
+Using the local optimality condition $\frac{\partial f}{\partial B} = 0$, we have that $\hat{B}$ satisfies the following
 	\begin{align}
 		\hat{B} \define  (A_1^2 (X^{(1)})^{\top}X^{(1)} + A_2^2 (X^{(2)})^{\top}X^{(2)})^{-1} (A_1 (X^{(1))})^{\top}Y^{(1)} + A_2 (X^{(2)})^{\top}Y^{(2)}). \label{eq_Bhat_2task} %\\
 		%&= (B^\star A ^{\top}) (A A^{\top})^{-1} + (X^{\top}X)^{-1}X^{\top}   \bigbrace{\sum_{j=1}^t \varepsilon_i A_i^{\top}} (A  A^{\top})^{-1}.
 	\end{align}
- Now inserting $\hat B$ back into equation \eqref{eq_mtl_2task_cov}, we obtain an objective that only depends on $x:=A_1/A_2$ as follows %\HZ{$A$ has been used to denote the output layers. Could you replace $A$ with another symbol (say $x$)?}
+Let denote $\hat \Sigma(x):= x^2 (X^{(1)})^\top X^{(1)}  + (X^{(2)})^\top X^{(2)}$.
+Applying $\hat B$ to equation \eqref{eq_mtl_2task_cov}, we obtain an objective that only depends on $x:=A_1/A_2$ as follows %\HZ{$A$ has been used to denote the output layers. Could you replace $A$ with another symbol (say $x$)?}
  \begin{align}
 		 g(x) \define & \left\| X^{(1)} \hat\Sigma(x)^{-1} (X^{(2)})^\top X^{(2)} (x\beta_2-\beta_1)+ \left(x^2 X^{(1)}\hat \Sigma(x)^{-1} (X^{(1)})^\top-\id_{n_1}\right)\epsilon^{(1)} \right. \nonumber\\
 		& \left. + x X^{(1)}\hat \Sigma(x)^{-1} (X^{(2)})^\top \epsilon^{(2)} \right\|^2 \nonumber\\
 		 + & \left\| X^{(2)} \hat \Sigma(x)^{-1} (X^{(1)})^\top X^{(1)} (x\beta_1-x^2\beta_2)+ \left(X^{(2)}\hat\Sigma(x)^{-1} (X^{(2)})^\top-\id_{n_2}\right)\epsilon^{(2)} \right. \nonumber\\
-		 &\left. + x X^{(2)}\hat \Sigma(x)^{-1} (X^{(1)})^\top \epsilon^{(1)} \right\|^2, 
+		 &\left. + x X^{(2)}\hat \Sigma(x)^{-1} (X^{(1)})^\top \epsilon^{(1)} \right\|^2.
 		\label{eq_mtl_A12}
 	\end{align}
-	where we denote $ \hat \Sigma(x):= x^2 (X^{(1)})^\top X^{(1)}  + (X^{(2)})^\top X^{(2)} .$ We can calculate the partial expectation of $g(x)$ over the randomness in $\epsilon_1$ and $\epsilon_2$:
+The conditional expectation of $g(x)$ over $\epsilon_1$ and $\epsilon_2$ is
 %\HZ{could you align the Eq so that they look better on page?}
-\begin{align}	
-&\exarg{\epsilon^{(1)}, \epsilon^{(2)}}{g(x) \mid X_1, X_2 ,\beta_1,\beta_2} \nonumber\\
+\begin{align}
+\exarg{\epsilon^{(1)}, \epsilon^{(2)}}{g(x) \mid X_1, X_2 ,\beta_1,\beta_2}
 &= \left\| X^{(1)} \hat\Sigma(x)^{-1} (X^{(2)})^\top X^{(2)} (\beta_1-x\beta_2)\right\|^2 \nonumber\\
 &+x^2 \left\| X^{(2)} \hat\Sigma(x)^{-1} (X^{(1)})^\top X^{(1)} (\beta_1-x\beta_2)\right\|^2  \nonumber\\
 & + \exarg{\epsilon^{(1)}}{(\epsilon^{(1)})^\top \left(x^2 X^{(1)}\hat \Sigma(x)^{-1} (X^{(1)})^\top-\id_{n_1}\right)^2\epsilon^{(1)}} \nonumber\\
@@ -71,43 +42,222 @@ Using the following identity
 (X^{(1)})^\top X^{(1)} \hat \Sigma(x)^{-1}(X^{(2)})^\top X^{(2)} & =\left( x^2 [(X^{(2)})^\top X^{(2)}]^{-1} + [(X^{(1)})^\top X^{(1)}]^{-1} \right)^{-1} \\
 &= (X^{(2)})^\top X^{(2)} \hat \Sigma(x)^{-1}(X^{(1)})^\top X^{(1)},
 \end{align*}
-we can simplify that 
+we can simplify that
 \begin{align*}
-&  \left\| X^{(1)} \hat\Sigma(x)^{-1} (X^{(2)})^\top X^{(2)} (\beta_1-x\beta_2)\right\|^2  +x^2 \left\| X^{(2)} \hat\Sigma(x)^{-1} (X^{(1)})^\top X^{(1)} (\beta_1-x\beta_2)\right\|^2 \\
-&=(\beta_1-x\beta_2)^\top (X^{(2)})^\top X^{(2)}  \hat\Sigma(x)^{-1} (X^{(1)} )^\top X^{(1)}  \hat\Sigma(x)^{-1} (X^{(2)})^\top X^{(2)}  (\beta_1-x\beta_2)\\
+ & \left\| X^{(1)} \hat\Sigma(x)^{-1} (X^{(2)})^\top X^{(2)} (\beta_1-x\beta_2)\right\|^2  +x^2 \left\| X^{(2)} \hat\Sigma(x)^{-1} (X^{(1)})^\top X^{(1)} (\beta_1-x\beta_2)\right\|^2 \\
+=&(\beta_1-x\beta_2)^\top (X^{(2)})^\top X^{(2)}  \hat\Sigma(x)^{-1} (X^{(1)} )^\top X^{(1)}  \hat\Sigma(x)^{-1} (X^{(2)})^\top X^{(2)}  (\beta_1-x\beta_2)\\
 &+(\beta_1-x\beta_2)^\top x^2 (X^{(1)})^\top X^{(1)}  \hat\Sigma(x)^{-1} (X^{(2)} )^\top X^{(2)}  \hat\Sigma(x)^{-1} (X^{(1)})^\top X^{(1)} (\beta_1-x\beta_2)\\
 %&=(\beta_1-x\beta_2)^\top\left[ x^2 (X^{(1)})^\top X^{(1)}+(X^{(2)})^\top X^{(2)}  \right]\hat\Sigma(x)^{-1} (X^{(1)} )^\top X^{(1)}  \hat\Sigma(x)^{-1} (X^{(2)})^\top X^{(2)} (\beta_1-x\beta_2)\\
-&=(\beta_1-x\beta_2)^\top(X^{(1)} )^\top X^{(1)}  \hat\Sigma(x)^{-1} (X^{(2)})^\top X^{(2)} (\beta_1-x\beta_2).
+=&(\beta_1-x\beta_2)^\top(X^{(1)} )^\top X^{(1)}  \hat\Sigma(x)^{-1} (X^{(2)})^\top X^{(2)} (\beta_1-x\beta_2).
 \end{align*}
-Using this identity and taking expectation over $\epsilon^{(1)}$ and $\epsilon^{(2)}$, we can simplify \eqref{Eg(x)}  to 
+Using this identity and taking expectation over $\epsilon^{(1)}$ and $\epsilon^{(2)}$, we can simplify \eqref{Eg(x)}  to
 \begin{align*}
 		&\exarg{\epsilon^{(1)}, \epsilon^{(2)}}{g(x) \mid X_1, X_2 ,\beta_1,\beta_2} \\
-		&= (\beta_1-x\beta_2)^\top(X^{(1)} )^\top X^{(1)}  \hat\Sigma(x)^{-1} (X^{(2)})^\top X^{(2)} (\beta_1-x\beta_2)  \\
+		=& (\beta_1-x\beta_2)^\top(X^{(1)} )^\top X^{(1)}  \hat\Sigma(x)^{-1} (X^{(2)})^\top X^{(2)} (\beta_1-x\beta_2)  \\
 		&+ \sigma^2\tr\left[ \left(x^2 X^{(1)}\hat\Sigma(x)^{-1} (X^{(1)})^\top-\id_{n_1}\right)^2+ \left(X^{(2)}\hat\Sigma(x)^{-1} (X^{(2)})^\top-\id_{n_2}\right)^2 \right]\\
 &+ 2 x^2 \sigma^2 \tr\left[ \hat\Sigma(x)^{-1}  (X^{(1)})^\top X^{(1)}\hat\Sigma(x)^{-1} (X^{(2)})^\top X^{(2)} \right]  \nonumber\\
-		& = (\beta_1-x\beta_2)^\top(X^{(1)} )^\top X^{(1)}  \hat\Sigma(x)^{-1} (X^{(2)})^\top X^{(2)} (\beta_1-x\beta_2) +\sigma^2(n_1+n_2-p).
+		=& (\beta_1-x\beta_2)^\top(X^{(1)} )^\top X^{(1)}  \hat\Sigma(x)^{-1} (X^{(2)})^\top X^{(2)} (\beta_1-x\beta_2) +\sigma^2(n_1+n_2-p).
 \end{align*}
-For the random-effects model, we can further take the partial expectation over $\beta_1$ and $\beta_2$: 
-\begin{align}	
+For the random-effects model, we take the expectation over $\beta_1$ and $\beta_2$:
+\begin{align}
 &\exarg{\epsilon^{(1)}, \epsilon^{(2)} ,\beta_1,\beta_2}{g(x) \mid X_1, X_2} \nonumber\\
 %&=[(x-1)^2\kappa^2 + (x^2+1)d^2/2] \cdot p^{-1}\tr\left[  (X^{(2)})^\top X^{(2)} \hat\Sigma(x)^{-1}(X^{(1)})^\top X^{(1)} \hat\Sigma(x)^{-1} (X^{(2)})^\top X^{(2)}\right] \nonumber\\
 %&+ A^2[(x-1)^2\kappa^2 + (x^2+1)d^2/2] \cdot p^{-1}\tr\left[  (X^{(1)})^\top X^{(1)} \hat\Sigma(x)^{-1}(X^{(2)})^\top X^{(2)} \hat\Sigma(x)^{-1} (X^{(1)})^\top X^{(1)}\right] +\sigma^2(n_1+n_2-p) \nonumber\\
 &=\frac{(x-1)^2\kappa^2 + (x^2+1)d^2/2}{p} \tr\left[ (X^{(1)})^\top X^{(1)} \hat \Sigma(x)^{-1}(X^{(2)})^\top X^{(2)}\right]+\sigma^2(n_1+n_2-p), \label{EgA}
 \end{align}
-where we used that the entries of $\beta_1-x\beta_2\in \R^p$ are i.i.d. Gaussian random variables with mean zero and variance $p^{-1}[(x-1)^2\kappa^2 + (x^2+1)d^2/2]$. 
-%and in the second step we used  %Using $(X^{(2)})^\top X^{(2)}=\hat\Sigma- A^2 (X^{(1)})^\top X^{(1)}$, we can further simplify that
-%\begin{align*}
-% & (X^{(2)})^\top X^{(2)} \hat\Sigma(x)^{-1}(X^{(1)})^\top X^{(1)} \hat\Sigma(x)^{-1} (X^{(2)})^\top X^{(2)} + A^2   (X^{(1)})^\top X^{(1)} \hat\Sigma(x)^{-1}(X^{(2)})^\top X^{(2)} \hat\Sigma(x)^{-1} (X^{(1)})^\top X^{(1)}  \\
-% &=  (X^{(2)})^\top X^{(2)} \hat\Sigma(x)^{-1}(X^{(1)})^\top X^{(1)} \hat\Sigma(x)^{-1} (X^{(2)})^\top X^{(2)} + A^2  (X^{(1)})^\top X^{(1)} \hat\Sigma(x)^{-1}(X^{(1)})^\top X^{(1)} \hat\Sigma(x)^{-1}(X^{(2)})^\top X^{(2)}  \\
-% & =   (X^{(1)})^\top X^{(1)} \hat\Sigma(x)^{-1}(X^{(2)})^\top X^{(2)} .
-%\end{align*}
+where we used that the entries of $\beta_1-x\beta_2\in \R^p$ are i.i.d. Gaussian random variables with mean zero and variance $p^{-1}[(x-1)^2\kappa^2 + (x^2+1)d^2/2]$.
 
- 
-Using the concentration estimates in Lemma \ref{largedeviation}, we can control the difference between $g(x)$ and its partial expectation. %$\exarg{\epsilon^{(1)}, \epsilon^{(2)}}{g(x) \mid X_1, X_2 ,\beta_1,\beta_2}$.
+\paragraph{Part $1$: approximating the global minimum.}
+	Let $\hat{x}$ denote the minimizer of $g(x)$.
+	We show that in the setting of Corollary \ref{cor_MTL_loss}, $\hat x$ is close to 1.% This will be used to calculate the predication loss $\te(\hat{\beta}_2^{\MTL})$ loss.
+%Our main observation is that the optimum of $\val(v)$ is approximately $1$.This allows us to simplify the bias and variance bounds significantly.
+%Furthermore, under certain choice of parameters, we can simplify
+%More precisely, we have the following claim.
+%Later on, we will combine it with Lemma \ref{prop_model_shift_tight} together to analyze the bias-variance tradeoff.
+
+\begin{claim}\label{lem_hat_v}
+%Suppose the assumptions of Lemma \ref{prop_model_shift_tight} hold. Assume that $ \kappa^2 \sim pd^2 \sim \sigma^2$ are of the same order.
+ In the setting of Corollary \ref{cor_MTL_loss}, we have that with high probability,
+%There exists a constant $C>0$ such that
+	\be\label{hatw_add1}|\hat x -1|\le  \frac{2d^2}{\kappa^2} + p^{-1/4+c}.
+	\ee
+%	for any small constant $c>0$.
+	%is $\hat{w} = 1 \pm \bigo{\frac 1 {n_1+n_2}}$ \todo{(figure out the constants)}
+\end{claim}
+
+\begin{proof}
+Corresponding to equation \eqref{EgA}, we define the function
+\begin{align*}
+h(x):= [(x-1)^2\kappa^2 + (x^2+1)d^2/2] \cdot p^{-1} \tr\left[ (X^{(1)})^\top X^{(1)} \hat\Sigma(x)^{-1}(X^{(2)})^\top X^{(2)}\right].
+\end{align*}
+Using Fact \ref{lem_minv} (iii), we can obtain that with high probability,
+\begin{align}
+p(x^2+1)^{-1}&\lesssim \left( x^2 \left[(\sqrt{n_2}-\sqrt{p})^{2}-n_2p^{-c_\varphi}\right]^{-1} +\left[(\sqrt{n_1}-\sqrt{p})^{2}-n_1p^{-c_\varphi}\right]^{-1} \right)^{-1} \nonumber\\
+&\preceq (X^{(1)})^\top X^{(1)} \hat\Sigma(x)^{-1}(X^{(2)})^\top X^{(2)} =\left( x^2 [(X^{(2)})^\top X^{(2)}]^{-1} + [(X^{(1)})^\top X^{(1)}]^{-1} \right)^{-1} \nonumber\\
+&\preceq \left( x^2 \left[(\sqrt{n_2}+\sqrt{p})^{2}+n_2p^{-c_\varphi}\right]^{-1} +\left[(\sqrt{n_1}+\sqrt{p})^{2}+n_1p^{-c_\varphi}\right]^{-1} \right)^{-1}\lesssim p(x^2+1)^{-1}, \label{op_uplow}
+\end{align}
+where we also used that $1+\tau\le \rho_1=n_1/p \le \tau^{-1}$ and $1+\tau\le \rho_2=n_2/p \le \tau^{-1}$ for a small constant $\tau>0$. Then we get that
+\be\label{eq_h1}h(1)= d^2 \cdot p^{-1} \tr\left[ (X^{(1)})^\top X^{(1)} \hat\Sigma(1)^{-1}(X^{(2)})^\top X^{(2)}\right]\lesssim pd^2 .\ee
+On the other hand, if $|x-1|\ge \delta$ for a small constant $\delta>0$, then we have
+\begin{align}\label{eq_hA}
+h(x)\gtrsim (1+x^2)\kappa^2 \cdot p\left( x^2 +1\right)^{-1} =p\kappa^2 ,
+\end{align}
+where in the first step we used that $|x-1|^2\gtrsim 1+x^2$ for $|x-1|\ge \delta$ and \eqref{op_uplow}.
+%and in the second step we used equation \eqref{choiceofpara0} \HZ{I'm not sure which condition we use? put it here}.
+Hence using Claim \ref{claim_largedev1} and equations \eqref{eq_h1}-\eqref{eq_hA}, we obtain that with high probability,
+\begin{align}
+g(x)&\ge  h(x) +\sigma^2(n_1+n_2-p) -p^{-1/2+e_1}\cdot p\left(\sigma^2 +\kappa^2+d^2 \right) \nonumber\\
+&\ge h(1) +\sigma^2(n_1+n_2-p) + p^{-1/2+e_1}\cdot p\left(\sigma^2 +\kappa^2+d^2 \right) \ge g(1), \label{gA>g1}
+\end{align}
+under conditions $\sigma^2 \lesssim  \kappa^2$ and $d^2 \le p^{-c_{\varphi}}{\kappa^2}$. %\eqref{choiceofpara0} \HZ{again, I don't see which condition we use here?}.
+This gives that
+%\be\label{rough A-1}
+$|\hat x-1|\le \delta$ for any small constant $\delta>0$.
+
+
+
+
+%Hence it remains to consider the region $|A-1|\le \delta$ for a small enough constant $\delta>0$.
+To obtain the better bound \eqref{hatw_add1}, we study the function $h(x)$ more closely and find its minimizer, denoted by $x^\star$.
+%Using Lemma \ref{largedeviation} again, we can simplify equation \eqref{revise_eq_val_mtl} as $\val(v)= N_2h(v) \cdot  \left( 1+\OO(p^{-1/2+\e})\right)$, where the function $ h$ is defined as
+%	%We define the function
+%	\begin{align}
+%		h(v) =& \frac{\rho_1}{\rho_2}\left[d^2 +\left( v-1\right)^2\kappa^2\right]\cdot \tr\left[( v^2X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_2^{\top}X_2)^2\right] \nonumber \\
+%		& +  v^2\left[d^2 +\left( v-1\right)^2\kappa^2\right]\cdot \tr\left[( v^2X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right] \nonumber\\
+%		& + \left(\frac{\rho_1}{\rho_2} v^2 + 1\right)\sigma^2 \cdot \bigtr{(v^2X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} }. \nonumber
+%	\end{align}
+%	%\cor Under the setting of Lemma \ref{prop_model_shift_tight},
+%	Furthermore, the validation loss in equation \eqref{approxvalid} reduces to
+%	\be\label{boundv-w}
+%		g(v)=\left[N_2 h(v) + (N_1+N_2)\sigma^2\right]\cdot \left( 1+\OO(p^{-(1-\e_0)/2+\e})\right)\quad \text{w.h.p.}
+%	\ee
+%	for any constant $\e>0$. %\nc Thus for the following discussions, it suffices to focus on the behavior of $h (v)$.
+%Let $\hat w$ be the minimizer of $h(v)$. Our proof consists of the following two steps.
+%\squishlist
+%	\item First, we show that $\hat{w}$ is close to $1$.
+%	\item Second, with equation \eqref{boundv-w} we show that $\hat v$ is close to $\hat w$. Then we plug $\hat{v}$ into $\te(\hat{\beta}_2^{\MTL})$ to get equation \eqref{simple1}.
+%\squishend
+%%For the minimizer $\hat w$ of $\val(w)$, we have a similar result as in Proposition \ref{thm_cov_shift}.
+%For the first step, we will prove the following result.
+%To be consistent with the notation $\hat w$, we change the name of the argument to $w$ in the proof.
+First it is easy to observe that $h(x)< h(-x)$ for $x> 0$.
+%$h(1)=\OO(pd^2 + \sigma^2)$ and $ h(w)\gtrsim p\kappa^2 \gg h(1)$ for $w\ge 2$ or $w\le 1/2$.  Hence it suffices to consider the case $1/2\le w\le 2$.
+Then we consider the case $x\ge 1$. We write
+\begin{align*}
+h(x):= [(1-x^{-1})^2\kappa^2 + (1+x^{-2})d^2/2] \cdot p^{-1} \tr\left[\left([(X^{(2)})^\top X^{(2)}]^{-1} + x^{-2} [(X^{(1)})^\top X^{(1)}]^{-1}\right)^{-1}\right].
+\end{align*}
+Notice that
+$$\tr\left[\left([(X^{(2)})^\top X^{(2)}]^{-1} + x^{-2} [(X^{(1)})^\top X^{(1)}]^{-1}\right)^{-1}\right]$$
+is an increasing functions in $x$. Hence taking derivative of $h(x)$ with respect to $x$, we obtain that
+\begin{align}\label{h'(A)1}
+h'(x) \ge \left[2(1-x^{-1})\frac{\kappa^2}{x^2} - \frac{d^2}{x^3}\right] \cdot p^{-1} \tr\left[\left([(X^{(2)})^\top X^{(2)}]^{-1} + x^{-2} [(X^{(1)})^\top X^{(1)}]^{-1}\right)^{-1}\right] \ge 0,
+\end{align}
+as long as $x \ge 1+d^2/(2\kappa^2)$.
+%\begin{align}
+%	h(w) =&  \frac{\rho_1}{\rho_2}\left[\frac{d^2}{w^4} +\frac{\left( w-1\right)^2}{w^4}\kappa^2\right]\cdot \tr\left[( X_1^{\top}X_1 +w^{-2}X_2^{\top}X_2)^{-2} (X_2^{\top}X_2)^2\right] \nonumber \\
+%	& + \left[\frac{d^2}{w^2} +\frac{\left( w-1\right)^2}{w^2}\kappa^2\right]\cdot \tr\left[( X_1^{\top}X_1 +w^{-2}X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right] \nonumber\\
+%			& +  \frac{\rho_1}{\rho_2}\sigma^2  \cdot \bigtr{(X_1^{\top}X_1  + w^{-2}X_2^{\top}X_2)^{-1} }+ \sigma^2 \cdot \bigtr{(w^2X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} }.\nonumber%+  \sigma^2n_2 \cdot \bigtr{(X_1^{\top}X_1  + w^{-2}X_2^{\top}X_2)^{-1} }. \nonumber
+%\end{align}
+%Notice that
+%$$\tr\left[( X_1^{\top}X_1 +w^{-2}X_2^{\top}X_2)^{-2} (X_i^{\top}X_i)^2\right],\ \ i=1,2, \quad \text{and} \quad \bigtr{(X_1^{\top}X_1  + w^{-2}X_2^{\top}X_2)^{-1} }$$
+%are increasing functions in $w$. Hence taking derivative of $h(w)$ with respect to $w$, we obtain that
+%\begin{align*}
+%h'(w) \ge & \frac{\rho_1}{\rho_2}\left[ \frac{2(w-1)(2-w)}{w^5}\kappa^2 - \frac{4d^2}{w^5}\right] \tr\left[( X_1^{\top}X_1 +w^{-2}X_2^{\top}X_2)^{-2} (X_2^{\top}X_2)^2\right]   \\
+% &+ \left[\frac{2\left( w-1\right)}{w^3}\kappa^2 - \frac{2d^2}{w^3} \right]\cdot \tr\left[( X_1^{\top}X_1 +w^{-2}X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right] \nonumber\\
+%		&- 2  \frac{\sigma^2}{w^3} \cdot \bigtr{(X_1^{\top}X_1 + w^{-2}X_2^{\top}X_2)^{-2} X_1^\top X_1  } =  \bigtr{(X_1^{\top}X_1 + w^{-2}X_2^{\top}X_2)^{-2} \cal A },
+%\end{align*}
+%where the matrix $\cal A$ is defined as
+%\begin{align*}
+%\cal A :&= \frac{\rho_1}{\rho_2}\left[ \frac{2(w-1)(2-w)}{w^5}\kappa^2 - \frac{4d^2}{w^5}\right](X_2^{\top}X_2)^2 + \left[\frac{2\left( w-1\right)}{w^3}\kappa^2 - \frac{2d^2}{w^3} \right](X_1^{\top}X_1)^2 - 2 \frac{\sigma^2}{w^3}X_1^\top X_1.
+%\end{align*}
+%Using the estimate Fact equation \eqref{lem_minv}, we get that $\cal A$ is lower bounded as
+%\begin{align*}
+%\cal A \succeq&~ - \frac{4d^2}{w^5}n_1n_2 (\al_+(\rho_2)+\oo(1))^2 + \left[\frac{2\left( w-1\right)}{w^3}\kappa^2 - \frac{2d^2}{w^3} \right]n_1^2 (\al_-(\rho_1)-\oo(1))^2 \\
+%&~ - 2 \frac{\sigma^2}{w^3}n_1(\al_{+}(\rho_1)+\oo(1)) \succ 0,
+%\end{align*}
+%as long as
+%$$w> w_1:=1 +\frac{d^2}{\kappa^2}+ \frac{\sigma^2}{n_1\kappa^2}\frac{\al_{+}(\rho_1)+\oo(1)}{\al_{-}^2(\rho_1)} + \frac{2d^2}{\kappa^2}\frac{\rho_2(\al_+^2(\rho_2)+\oo(1))}{\rho_1\al_-^2(\rho_1) }.$$
+%Hence $h'(w)>0$ on $(w_1,\infty)$, %i.e. $h(w)$ is strictly increasing for $w>w_1$. This
+%which gives $\hat w\le w_1$.
+Next we consider the case $1-\delta\le x\le 1$. Notice that
+$$\tr\left[\left(x^2[(X^{(2)})^\top X^{(2)}]^{-1} +  [(X^{(1)})^\top X^{(1)}]^{-1}\right)^{-1}\right].$$
+is a decreasing functions in $x$. Hence taking derivative of $h(x)$, we obtain that
+\begin{align}\label{h'(A)2}
+	h'(x)\le [-2(1-x)\kappa^2 + xd^2] \cdot p^{-1} \tr\left[\left(x^2[(X^{(2)})^\top X^{(2)}]^{-1} + [(X^{(1)})^\top X^{(1)}]^{-1}\right)^{-1}\right]\le 0,
+\end{align}
+as long as $x\le 1-d^2/(2\kappa^2)$. In sum, we see that the minimizer $x^\star$ must satisfy
+$$1-d^2/(2\kappa^2)\le x^\star \le 1+d^2/(2\kappa^2).$$
+
+%Taking derivative of $h(w)$, we obtain that
+%\begin{align}
+%	h'(w) \le& \frac{\rho_1}{\rho_2} \left[2\left( w-1\right) \kappa^2\right]\cdot \tr\left[( w^2X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_2^{\top}X_2)^2\right] \nonumber \\
+%	& +  \left[2wd^2 +2w\left( w-1\right)(2w-1)\kappa^2\right]\cdot \tr\left[( w^2X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right] \nonumber\\
+%	& + \frac{\rho_1}{\rho_2}(2 w\sigma^2) \cdot \bigtr{(w^2X_1^{\top}X_1 + X_2^{\top}X_2)^{-2} X_2^\top X_2  }= \frac{\rho_1}{\rho_2} \bigtr{(w^2X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} \cal B} , \nonumber
+%\end{align}
+%where the matrix $\cal B$ is
+%$$\cal B= 2\left( w-1\right) \kappa^2  (X_2^{\top}X_2)^2+\frac{\rho_2}{\rho_1}\left[2wd^2 +2w\left( w-1\right)(2w-1)\kappa^2\right](X_1^{\top}X_1)^2 + 2 w\sigma^2 X_2^\top X_2 .$$
+%Using Fact \ref{lem_minv}, we get that $\cal B$ is upper bounded as
+%\begin{align*}
+%\cal B \preceq - 2(1-w)\kappa^2 n_2^2 (\al_-(\rho_2) -\oo(1))^2 +2w d^2 n_1n_2 (\al_+(\rho_1) +\oo(1))^2 + 2w\sigma^2 n_2 (\al_+(\rho_2)+\oo(1)) \prec 0,
+%\end{align*}
+%as long as
+%$$w< w_2:=1 -   \frac{d^2}{\kappa^2}\frac{\rho_1(\al_+(\rho_1) +\oo(1))^2}{\rho_2 \al_-^2(\rho_2) } -  \frac{\sigma^2}{n_2\kappa^2}\frac{\al_{+}(\rho_2)+\oo(1)}{\al_{-}^2(\rho_2)} .$$
+%Hence $h'(w)<0$ on $[0,w_2)$, %i.e. $h(w)$ is strictly decreasing for $w<w_2$. This
+%which gives $\hat w\ge w_2$.
+
+%In sum, we have shown that $w_2\le w\le w_1$. Together with
+%$$\max\{|w_1 -1|, |w_2 -1|\} =\OO\left(\frac{d^2}{\kappa^2} + \frac{\sigma^2}{p\kappa^2}\right),$$
+%we conclude equation \eqref{hatw_add1}.
+
+
+%For the rest of this section, we choose parameters that satisfy the following relations: \be\label{choiceofpara}
+%pd^2 \sim \sigma^2 \sim 1,\quad p^{-1+c_0} \sigma^2 \le \kappa^2  \le p^{-\e_0-c_0}\sigma^2 ,
+%\ee
+%for some small constant $c_0>0$.
+
+Now we are ready to prove equation \eqref{hatw_add1}. First, using equations \eqref{op_uplow} and  \eqref{h'(A)1}, we obtain that for $1+d^2/\kappa^2 \le x\le 1+\delta$,
+$$h'(x)\ge \frac{2(x-1)\kappa^2 - d^2}{x^3} \cdot p^{-1} \tr\left[\left([(X^{(2)})^\top X^{(2)}]^{-1} + x^{-2} [(X^{(1)})^\top X^{(1)}]^{-1}\right)^{-1}\right] \gtrsim p\left(d^2 + |x-1|\kappa^2\right).$$
+Thus we get that if $1+2d^2/\kappa^2 +p^{-1/4+c}\le x\le 1+\delta$,
+\begin{align*}
+h(x)-h(1)\ge h(x)-h(1+d^2/\kappa^2) \ge \int_{1+d^2/\kappa^2}^x h'(x)\dd x \gtrsim p\kappa^2 \cdot |x-1|^2  \gtrsim p\frac{d^4}{\kappa^2} + p^{-1/2+2c}\cdot p\kappa^2 .
+\end{align*}
+On the other hand, by Claim \ref{claim_largedev1} we have that
+$$ g(x)=h(x)+\sigma^2 (n_1+n_2-p)+\OO \left(p^{1/2+c}\left(\sigma^2 +\kappa^2+d^2 \right)\right)$$
+with high probability. Combining the above two estimates, we obtain that under the conditions $\sigma^2 \lesssim  \kappa^2$ and $d^2 \le p^{-c_{\varphi}}{\kappa^2}$,
+$$g(x)-g(1) = h(x)-h(1) + \OO \left(p^{1/2+c}\left(\sigma^2 +\kappa^2+d^2 \right)\right) >0$$
+with high probability, i.e. $x$ cannot be the minimizer of $g$.
+%Then if we choose the constant $c$ in Claim \ref{claim_largedev1} such that $e_1<2e_2$, we have
+%$$ h(x)-h(1)\gtrsim  p^{-1/2+2e_2}\cdot p\kappa^2 \gg p^{-1/2+e_1}\cdot p\left(\sigma^2 +\kappa^2+d^2 \right),$$ where we use the assumption that $\sigma^2$ and $d^2$ are both at most $\OO(\kappa^2)$, which implies the inequality \eqref{gA>g1}.
+Second, using equations \eqref{op_uplow} and  \eqref{h'(A)2}, we obtain that for $1-\delta \le x \le 1-d^2/\kappa^2$,
+$$- h'(x)\ge  [2(1-x)\kappa^2 - xd^2] \cdot p^{-1} \tr\left[\left(x^2[(X^{(2)})^\top X^{(2)}]^{-1} + [(X^{(1)})^\top X^{(1)}]^{-1}\right)^{-1}\right]  \gtrsim p\left(d^2 + |x-1|\kappa^2\right).$$
+Then with a similar argument as above, we can get that if $1-2d^2/\kappa^2 - p^{-1/4+c}\le x\le 1-\delta$, then
+$$ h(x)-h(1) \gtrsim p\frac{d^4}{\kappa^2} +p^{1/2+2c} \kappa^2, $$
+%under equation \eqref{choiceofpara0} \HZ{I don't see which condition we want to use here?},
+which again implies that $g(x)>g(1)$, i.e. $x$ cannot be the minimizer of $g$. In sum, we obtain that the minimizer $\hat x$ must satisfy equation \eqref{hatw_add1}.
+%Next we prove the following estimate on the optimizer $\hat x$: with high probability,
+%%\begin{lemma}
+%%For the isotropic model, we have
+%\be\label{hatv_add1}
+%|\hat v - 1|= \OO\left(\cal E\right), \quad \cal E:=\frac{d^2}{\kappa^2} + \frac{\sigma^2}{p\kappa^2} + p^{-1/2 + \e_0 /2+ 2\e}.
+%\ee
+%%\end{lemma}
+%%\begin{proof}
+% In fact, from the proof of Claim \ref{lem_hat_v} above, one can check that if $C\cal E \le |w-1| \le 2C\cal E$ for a large enough constant $C>1$, then $|h'(w)|\gtrsim \sigma^2$. Moreover, under equation \eqref{choiceofpara} we have
+%$$h(w) =\OO(\sigma^2),\quad \text{for}\quad   |w-1|\le 2C\cal E.$$
+%Thus we obtain that for $|w-1|\ge 2C\cal E$,
+%$$\left|h(w) - h(\hat w)\right|\ge |h(w)-\min\{h(w_1),h(w_2)\}|\gtrsim \sigma^2 \cal E \gtrsim \cal E \cdot h(\hat w),$$
+%which leads to $g(w) > g(\hat w)$ with high probability by equation \eqref{boundv-w}. Thus $w$ cannot be a minimizer of $g(v)$, and we must have $|\hat v - 1|\le 2C\cal E$. %Together with equation \eqref{hatw_add1}, we conclude equation \eqref{hatv_add1}.
+%%\end{proof}
+%
+%{\cor require $\kappa^2\gg d^2 + p^{-1/2+c}\sigma^2$}
+\end{proof}
+
+\paragraph{Part $2$: reducing the random-effects model to Theorem \ref{thm_main_RMT}.}
+Using the concentration estimates in Lemma \ref{largedeviation}, we first show that $g(x)$ and its conditional expectation over $X^{(1)}, X^{(2)}$ are close. %$\exarg{\epsilon^{(1)}, \epsilon^{(2)}}{g(x) \mid X_1, X_2 ,\beta_1,\beta_2}$.
  \begin{claim}\label{claim_largedev1}
- In the setting of Proposition \ref{cor_MTL_loss}, we have that with high probability,
-$$\left| g(x) - \exarg{\epsilon^{(1)}, \epsilon^{(2)} ,\beta_1,\beta_2}{g(x) \mid X_1, X_2 }\right| \le p^{1/2+c} \left(\sigma^2 + \kappa^2+d^2 \right) $$
-for any small constant $c>0$.
+ In the setting of Corollary \ref{cor_MTL_loss}, we have that with high probability
+$$\left| g(x) - \exarg{\epsilon^{(1)}, \epsilon^{(2)} ,\beta_1,\beta_2}{g(x) \mid X_1, X_2 }\right| \le p^{1/2+c} \left(\sigma^2 + \kappa^2+d^2 \right)$$.
+%for any small constant $c>0$.
 	% \HZ{use consistent $e_1, e_2, e$, etc. Why not just use $\e$? Don't create too many different symbols. It's bad style..}
  \end{claim}
  \begin{proof}
@@ -167,192 +317,9 @@ Finally, we can obtain similar estimates for the second term on the right-hand s
  \end{proof}
 
 
-\paragraph{Part $2$: approximating the global minimum.}
-	Let $\hat{x}$ denote the minimizer of $g(x)$. 
-	We show that in the setting of Corollary \ref{cor_MTL_loss}, $\hat x$ is close to 1.% This will be used to calculate the predication loss $\te(\hat{\beta}_2^{\MTL})$ loss.
-%Our main observation is that the optimum of $\val(v)$ is approximately $1$.This allows us to simplify the bias and variance bounds significantly.
-%Furthermore, under certain choice of parameters, we can simplify  
-%More precisely, we have the following claim.
-%Later on, we will combine it with Lemma \ref{prop_model_shift_tight} together to analyze the bias-variance tradeoff.
-
-\begin{claim}\label{lem_hat_v}
-%Suppose the assumptions of Lemma \ref{prop_model_shift_tight} hold. Assume that $ \kappa^2 \sim pd^2 \sim \sigma^2$ are of the same order.
- In the setting of Proposition \ref{cor_MTL_loss}, we have that with high probability,
-%There exists a constant $C>0$ such that
-	\be\label{hatw_add1}|\hat x -1|\le  \frac{2d^2}{\kappa^2} + p^{-1/4+c}. 
-	\ee
-	for any small constant $c>0$.
-	%is $\hat{w} = 1 \pm \bigo{\frac 1 {n_1+n_2}}$ \todo{(figure out the constants)}
-\end{claim}
-
-\begin{proof}
-Corresponding to equation \eqref{EgA}, we define the function
-\begin{align*}
-h(x):= [(x-1)^2\kappa^2 + (x^2+1)d^2/2] \cdot p^{-1} \tr\left[ (X^{(1)})^\top X^{(1)} \hat\Sigma(x)^{-1}(X^{(2)})^\top X^{(2)}\right].
-\end{align*}
-Using Fact \ref{lem_minv} (iii), we can obtain that with high probability,
-\begin{align} 
-p(x^2+1)^{-1}&\lesssim \left( x^2 \left[(\sqrt{n_2}-\sqrt{p})^{2}-n_2p^{-c_\varphi}\right]^{-1} +\left[(\sqrt{n_1}-\sqrt{p})^{2}-n_1p^{-c_\varphi}\right]^{-1} \right)^{-1} \nonumber\\
-&\preceq (X^{(1)})^\top X^{(1)} \hat\Sigma(x)^{-1}(X^{(2)})^\top X^{(2)} =\left( x^2 [(X^{(2)})^\top X^{(2)}]^{-1} + [(X^{(1)})^\top X^{(1)}]^{-1} \right)^{-1} \nonumber\\
-&\preceq \left( x^2 \left[(\sqrt{n_2}+\sqrt{p})^{2}+n_2p^{-c_\varphi}\right]^{-1} +\left[(\sqrt{n_1}+\sqrt{p})^{2}+n_1p^{-c_\varphi}\right]^{-1} \right)^{-1}\lesssim p(x^2+1)^{-1}, \label{op_uplow}
-\end{align}
-where we also used that $1+\tau\le \rho_1=n_1/p \le \tau^{-1}$ and $1+\tau\le \rho_2=n_2/p \le \tau^{-1}$ for a small constant $\tau>0$. Then we get that
-\be\label{eq_h1}h(1)= d^2 \cdot p^{-1} \tr\left[ (X^{(1)})^\top X^{(1)} \hat\Sigma(1)^{-1}(X^{(2)})^\top X^{(2)}\right]\lesssim pd^2 .\ee
-On the other hand, if $|x-1|\ge \delta$ for a small constant $\delta>0$, then we have 
-\begin{align}\label{eq_hA}
-h(x)\gtrsim (1+x^2)\kappa^2 \cdot p\left( x^2 +1\right)^{-1} =p\kappa^2 ,
-\end{align}
-where in the first step we used that $|x-1|^2\gtrsim 1+x^2$ for $|x-1|\ge \delta$ and \eqref{op_uplow}. 
-%and in the second step we used equation \eqref{choiceofpara0} \HZ{I'm not sure which condition we use? put it here}. 
-Hence using Claim \ref{claim_largedev1} and equations \eqref{eq_h1}-\eqref{eq_hA}, we obtain that with high probability,  
-\begin{align}
-g(x)&\ge  h(x) +\sigma^2(n_1+n_2-p) -p^{-1/2+e_1}\cdot p\left(\sigma^2 +\kappa^2+d^2 \right) \nonumber\\
-&\ge h(1) +\sigma^2(n_1+n_2-p) + p^{-1/2+e_1}\cdot p\left(\sigma^2 +\kappa^2+d^2 \right) \ge g(1), \label{gA>g1}
-\end{align}
-under conditions $\sigma^2 \lesssim  \kappa^2$ and $d^2 \le p^{-c_{\varphi}}{\kappa^2}$. %\eqref{choiceofpara0} \HZ{again, I don't see which condition we use here?}.
-This gives that
-%\be\label{rough A-1}
-$|\hat x-1|\le \delta$ for any small constant $\delta>0$.
 
 
 
-
-%Hence it remains to consider the region $|A-1|\le \delta$ for a small enough constant $\delta>0$. 
-To obtain the better bound \eqref{hatw_add1}, we study the function $h(x)$ more closely and find its minimizer, denoted by $x^\star$. 
-%Using Lemma \ref{largedeviation} again, we can simplify equation \eqref{revise_eq_val_mtl} as $\val(v)= N_2h(v) \cdot  \left( 1+\OO(p^{-1/2+\e})\right)$, where the function $ h$ is defined as
-%	%We define the function
-%	\begin{align}
-%		h(v) =& \frac{\rho_1}{\rho_2}\left[d^2 +\left( v-1\right)^2\kappa^2\right]\cdot \tr\left[( v^2X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_2^{\top}X_2)^2\right] \nonumber \\
-%		& +  v^2\left[d^2 +\left( v-1\right)^2\kappa^2\right]\cdot \tr\left[( v^2X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right] \nonumber\\
-%		& + \left(\frac{\rho_1}{\rho_2} v^2 + 1\right)\sigma^2 \cdot \bigtr{(v^2X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} }. \nonumber
-%	\end{align}
-%	%\cor Under the setting of Lemma \ref{prop_model_shift_tight},
-%	Furthermore, the validation loss in equation \eqref{approxvalid} reduces to
-%	\be\label{boundv-w}
-%		g(v)=\left[N_2 h(v) + (N_1+N_2)\sigma^2\right]\cdot \left( 1+\OO(p^{-(1-\e_0)/2+\e})\right)\quad \text{w.h.p.}
-%	\ee
-%	for any constant $\e>0$. %\nc Thus for the following discussions, it suffices to focus on the behavior of $h (v)$.
-%Let $\hat w$ be the minimizer of $h(v)$. Our proof consists of the following two steps.
-%\squishlist
-%	\item First, we show that $\hat{w}$ is close to $1$.
-%	\item Second, with equation \eqref{boundv-w} we show that $\hat v$ is close to $\hat w$. Then we plug $\hat{v}$ into $\te(\hat{\beta}_2^{\MTL})$ to get equation \eqref{simple1}.
-%\squishend
-%%For the minimizer $\hat w$ of $\val(w)$, we have a similar result as in Proposition \ref{thm_cov_shift}.
-%For the first step, we will prove the following result.
-%To be consistent with the notation $\hat w$, we change the name of the argument to $w$ in the proof. 
-First it is easy to observe that $h(x)< h(-x)$ for $x> 0$. 
-%$h(1)=\OO(pd^2 + \sigma^2)$ and $ h(w)\gtrsim p\kappa^2 \gg h(1)$ for $w\ge 2$ or $w\le 1/2$.  Hence it suffices to consider the case $1/2\le w\le 2$.
-Then we consider the case $x\ge 1$. We write
-\begin{align*}
-h(x):= [(1-x^{-1})^2\kappa^2 + (1+x^{-2})d^2/2] \cdot p^{-1} \tr\left[\left([(X^{(2)})^\top X^{(2)}]^{-1} + x^{-2} [(X^{(1)})^\top X^{(1)}]^{-1}\right)^{-1}\right].
-\end{align*}
-Notice that
-$$\tr\left[\left([(X^{(2)})^\top X^{(2)}]^{-1} + x^{-2} [(X^{(1)})^\top X^{(1)}]^{-1}\right)^{-1}\right]$$
-is an increasing functions in $x$. Hence taking derivative of $h(x)$ with respect to $x$, we obtain that
-\begin{align}\label{h'(A)1}
-h'(x) \ge \left[2(1-x^{-1})\frac{\kappa^2}{x^2} - \frac{d^2}{x^3}\right] \cdot p^{-1} \tr\left[\left([(X^{(2)})^\top X^{(2)}]^{-1} + x^{-2} [(X^{(1)})^\top X^{(1)}]^{-1}\right)^{-1}\right] \ge 0,
-\end{align}
-as long as $x \ge 1+d^2/(2\kappa^2)$.  
-%\begin{align}
-%	h(w) =&  \frac{\rho_1}{\rho_2}\left[\frac{d^2}{w^4} +\frac{\left( w-1\right)^2}{w^4}\kappa^2\right]\cdot \tr\left[( X_1^{\top}X_1 +w^{-2}X_2^{\top}X_2)^{-2} (X_2^{\top}X_2)^2\right] \nonumber \\
-%	& + \left[\frac{d^2}{w^2} +\frac{\left( w-1\right)^2}{w^2}\kappa^2\right]\cdot \tr\left[( X_1^{\top}X_1 +w^{-2}X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right] \nonumber\\
-%			& +  \frac{\rho_1}{\rho_2}\sigma^2  \cdot \bigtr{(X_1^{\top}X_1  + w^{-2}X_2^{\top}X_2)^{-1} }+ \sigma^2 \cdot \bigtr{(w^2X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} }.\nonumber%+  \sigma^2n_2 \cdot \bigtr{(X_1^{\top}X_1  + w^{-2}X_2^{\top}X_2)^{-1} }. \nonumber
-%\end{align}
-%Notice that
-%$$\tr\left[( X_1^{\top}X_1 +w^{-2}X_2^{\top}X_2)^{-2} (X_i^{\top}X_i)^2\right],\ \ i=1,2, \quad \text{and} \quad \bigtr{(X_1^{\top}X_1  + w^{-2}X_2^{\top}X_2)^{-1} }$$
-%are increasing functions in $w$. Hence taking derivative of $h(w)$ with respect to $w$, we obtain that
-%\begin{align*}
-%h'(w) \ge & \frac{\rho_1}{\rho_2}\left[ \frac{2(w-1)(2-w)}{w^5}\kappa^2 - \frac{4d^2}{w^5}\right] \tr\left[( X_1^{\top}X_1 +w^{-2}X_2^{\top}X_2)^{-2} (X_2^{\top}X_2)^2\right]   \\
-% &+ \left[\frac{2\left( w-1\right)}{w^3}\kappa^2 - \frac{2d^2}{w^3} \right]\cdot \tr\left[( X_1^{\top}X_1 +w^{-2}X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right] \nonumber\\
-%		&- 2  \frac{\sigma^2}{w^3} \cdot \bigtr{(X_1^{\top}X_1 + w^{-2}X_2^{\top}X_2)^{-2} X_1^\top X_1  } =  \bigtr{(X_1^{\top}X_1 + w^{-2}X_2^{\top}X_2)^{-2} \cal A },
-%\end{align*}
-%where the matrix $\cal A$ is defined as 
-%\begin{align*}
-%\cal A :&= \frac{\rho_1}{\rho_2}\left[ \frac{2(w-1)(2-w)}{w^5}\kappa^2 - \frac{4d^2}{w^5}\right](X_2^{\top}X_2)^2 + \left[\frac{2\left( w-1\right)}{w^3}\kappa^2 - \frac{2d^2}{w^3} \right](X_1^{\top}X_1)^2 - 2 \frac{\sigma^2}{w^3}X_1^\top X_1.
-%\end{align*}
-%Using the estimate Fact equation \eqref{lem_minv}, we get that $\cal A$ is lower bounded as
-%\begin{align*}
-%\cal A \succeq&~ - \frac{4d^2}{w^5}n_1n_2 (\al_+(\rho_2)+\oo(1))^2 + \left[\frac{2\left( w-1\right)}{w^3}\kappa^2 - \frac{2d^2}{w^3} \right]n_1^2 (\al_-(\rho_1)-\oo(1))^2 \\
-%&~ - 2 \frac{\sigma^2}{w^3}n_1(\al_{+}(\rho_1)+\oo(1)) \succ 0,
-%\end{align*}
-%as long as
-%$$w> w_1:=1 +\frac{d^2}{\kappa^2}+ \frac{\sigma^2}{n_1\kappa^2}\frac{\al_{+}(\rho_1)+\oo(1)}{\al_{-}^2(\rho_1)} + \frac{2d^2}{\kappa^2}\frac{\rho_2(\al_+^2(\rho_2)+\oo(1))}{\rho_1\al_-^2(\rho_1) }.$$
-%Hence $h'(w)>0$ on $(w_1,\infty)$, %i.e. $h(w)$ is strictly increasing for $w>w_1$. This 
-%which gives $\hat w\le w_1$.
-Next we consider the case $1-\delta\le x\le 1$. Notice that
-$$\tr\left[\left(x^2[(X^{(2)})^\top X^{(2)}]^{-1} +  [(X^{(1)})^\top X^{(1)}]^{-1}\right)^{-1}\right].$$
-is a decreasing functions in $x$. Hence taking derivative of $h(x)$, we obtain that
-\begin{align}\label{h'(A)2}
-	h'(x)\le [-2(1-x)\kappa^2 + xd^2] \cdot p^{-1} \tr\left[\left(x^2[(X^{(2)})^\top X^{(2)}]^{-1} + [(X^{(1)})^\top X^{(1)}]^{-1}\right)^{-1}\right]\le 0,
-\end{align}
-as long as $x\le 1-d^2/(2\kappa^2)$. In sum, we see that the minimizer $x^\star$ must satisfy
-$$1-d^2/(2\kappa^2)\le x^\star \le 1+d^2/(2\kappa^2).$$ 
-
-%Taking derivative of $h(w)$, we obtain that
-%\begin{align}
-%	h'(w) \le& \frac{\rho_1}{\rho_2} \left[2\left( w-1\right) \kappa^2\right]\cdot \tr\left[( w^2X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_2^{\top}X_2)^2\right] \nonumber \\
-%	& +  \left[2wd^2 +2w\left( w-1\right)(2w-1)\kappa^2\right]\cdot \tr\left[( w^2X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right] \nonumber\\
-%	& + \frac{\rho_1}{\rho_2}(2 w\sigma^2) \cdot \bigtr{(w^2X_1^{\top}X_1 + X_2^{\top}X_2)^{-2} X_2^\top X_2  }= \frac{\rho_1}{\rho_2} \bigtr{(w^2X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} \cal B} , \nonumber
-%\end{align}
-%where the matrix $\cal B$ is
-%$$\cal B= 2\left( w-1\right) \kappa^2  (X_2^{\top}X_2)^2+\frac{\rho_2}{\rho_1}\left[2wd^2 +2w\left( w-1\right)(2w-1)\kappa^2\right](X_1^{\top}X_1)^2 + 2 w\sigma^2 X_2^\top X_2 .$$
-%Using Fact \ref{lem_minv}, we get that $\cal B$ is upper bounded as
-%\begin{align*}
-%\cal B \preceq - 2(1-w)\kappa^2 n_2^2 (\al_-(\rho_2) -\oo(1))^2 +2w d^2 n_1n_2 (\al_+(\rho_1) +\oo(1))^2 + 2w\sigma^2 n_2 (\al_+(\rho_2)+\oo(1)) \prec 0,
-%\end{align*}
-%as long as
-%$$w< w_2:=1 -   \frac{d^2}{\kappa^2}\frac{\rho_1(\al_+(\rho_1) +\oo(1))^2}{\rho_2 \al_-^2(\rho_2) } -  \frac{\sigma^2}{n_2\kappa^2}\frac{\al_{+}(\rho_2)+\oo(1)}{\al_{-}^2(\rho_2)} .$$
-%Hence $h'(w)<0$ on $[0,w_2)$, %i.e. $h(w)$ is strictly decreasing for $w<w_2$. This 
-%which gives $\hat w\ge w_2$.
-
-%In sum, we have shown that $w_2\le w\le w_1$. Together with
-%$$\max\{|w_1 -1|, |w_2 -1|\} =\OO\left(\frac{d^2}{\kappa^2} + \frac{\sigma^2}{p\kappa^2}\right),$$
-%we conclude equation \eqref{hatw_add1}.
-
-
-%For the rest of this section, we choose parameters that satisfy the following relations: \be\label{choiceofpara}
-%pd^2 \sim \sigma^2 \sim 1,\quad p^{-1+c_0} \sigma^2 \le \kappa^2  \le p^{-\e_0-c_0}\sigma^2 ,
-%\ee
-%for some small constant $c_0>0$. 
-
-Now we are ready to prove equation \eqref{hatw_add1}. First, using equations \eqref{op_uplow} and  \eqref{h'(A)1}, we obtain that for $1+d^2/\kappa^2 \le x\le 1+\delta$,
-$$h'(x)\ge \frac{2(x-1)\kappa^2 - d^2}{x^3} \cdot p^{-1} \tr\left[\left([(X^{(2)})^\top X^{(2)}]^{-1} + x^{-2} [(X^{(1)})^\top X^{(1)}]^{-1}\right)^{-1}\right] \gtrsim p\left(d^2 + |x-1|\kappa^2\right).$$
-Thus we get that if $1+2d^2/\kappa^2 +p^{-1/4+c}\le x\le 1+\delta$,
-\begin{align*}
-h(x)-h(1)\ge h(x)-h(1+d^2/\kappa^2) \ge \int_{1+d^2/\kappa^2}^x h'(x)\dd x \gtrsim p\kappa^2 \cdot |x-1|^2  \gtrsim p\frac{d^4}{\kappa^2} + p^{-1/2+2c}\cdot p\kappa^2 .
-\end{align*}
-On the other hand, by Claim \ref{claim_largedev1} we have that
-$$ g(x)=h(x)+\sigma^2 (n_1+n_2-p)+\OO \left(p^{1/2+c}\left(\sigma^2 +\kappa^2+d^2 \right)\right)$$
-with high probability. Combining the above two estimates, we obtain that under the conditions $\sigma^2 \lesssim  \kappa^2$ and $d^2 \le p^{-c_{\varphi}}{\kappa^2}$,
-$$g(x)-g(1) = h(x)-h(1) + \OO \left(p^{1/2+c}\left(\sigma^2 +\kappa^2+d^2 \right)\right) >0$$
-with high probability, i.e. $x$ cannot be the minimizer of $g$. 
-%Then if we choose the constant $c$ in Claim \ref{claim_largedev1} such that $e_1<2e_2$, we have 
-%$$ h(x)-h(1)\gtrsim  p^{-1/2+2e_2}\cdot p\kappa^2 \gg p^{-1/2+e_1}\cdot p\left(\sigma^2 +\kappa^2+d^2 \right),$$ where we use the assumption that $\sigma^2$ and $d^2$ are both at most $\OO(\kappa^2)$, which implies the inequality \eqref{gA>g1}. 
-Second, using equations \eqref{op_uplow} and  \eqref{h'(A)2}, we obtain that for $1-\delta \le x \le 1-d^2/\kappa^2$,
-$$- h'(x)\ge  [2(1-x)\kappa^2 - xd^2] \cdot p^{-1} \tr\left[\left(x^2[(X^{(2)})^\top X^{(2)}]^{-1} + [(X^{(1)})^\top X^{(1)}]^{-1}\right)^{-1}\right]  \gtrsim p\left(d^2 + |x-1|\kappa^2\right).$$
-Then with a similar argument as above, we can get that if $1-2d^2/\kappa^2 - p^{-1/4+c}\le x\le 1-\delta$, then 
-$$ h(x)-h(1) \gtrsim p\frac{d^4}{\kappa^2} +p^{1/2+2c} \kappa^2, $$
-%under equation \eqref{choiceofpara0} \HZ{I don't see which condition we want to use here?}, 
-which again implies that $g(x)>g(1)$, i.e. $x$ cannot be the minimizer of $g$. In sum, we obtain that the minimizer $\hat x$ must satisfy equation \eqref{hatw_add1}.
-%Next we prove the following estimate on the optimizer $\hat x$: with high probability,
-%%\begin{lemma}
-%%For the isotropic model, we have
-%\be\label{hatv_add1}
-%|\hat v - 1|= \OO\left(\cal E\right), \quad \cal E:=\frac{d^2}{\kappa^2} + \frac{\sigma^2}{p\kappa^2} + p^{-1/2 + \e_0 /2+ 2\e}.
-%\ee
-%%\end{lemma}
-%%\begin{proof}
-% In fact, from the proof of Claim \ref{lem_hat_v} above, one can check that if $C\cal E \le |w-1| \le 2C\cal E$ for a large enough constant $C>1$, then $|h'(w)|\gtrsim \sigma^2$. Moreover, under equation \eqref{choiceofpara} we have
-%$$h(w) =\OO(\sigma^2),\quad \text{for}\quad   |w-1|\le 2C\cal E.$$
-%Thus we obtain that for $|w-1|\ge 2C\cal E$,
-%$$\left|h(w) - h(\hat w)\right|\ge |h(w)-\min\{h(w_1),h(w_2)\}|\gtrsim \sigma^2 \cal E \gtrsim \cal E \cdot h(\hat w),$$
-%which leads to $g(w) > g(\hat w)$ with high probability by equation \eqref{boundv-w}. Thus $w$ cannot be a minimizer of $g(v)$, and we must have $|\hat v - 1|\le 2C\cal E$. %Together with equation \eqref{hatw_add1}, we conclude equation \eqref{hatv_add1}.
-%%\end{proof}
-%
-%{\cor require $\kappa^2\gg d^2 + p^{-1/2+c}\sigma^2$}
-\end{proof}
-
-\paragraph{Part $3$: Applying Theorem \ref{thm_main_RMT}.}
 We provide the predication loss using the optimal $\hat B$ in equation \eqref{eq_Bhat_2task} and optimal $\hat x=\hat x_1/\hat x_2$:
 \begin{align}
 L(\hat{\beta}_2^{\MTL}) &=\left\|\Sigma_2^{1/2} \left( \hat B \hat x_2 - \beta_2\right)\right\| \nonumber\\
@@ -474,8 +441,8 @@ Applying the estimates \eqref{hatw_add1}, \eqref{est111}, \eqref{est222} and \eq
 %w.h.p. for some constant $\e>0$.
 \end{proof}
   
-% \todo{switch the $a_3$ and $a_4$}
-Finally, we are ready to complete the proof of Proposition \ref{cor_MTL_loss}.
+\paragraph{Part $3$: Applying Theorem \ref{thm_main_RMT}.}
+Finally, we are ready to complete the proof of Corollary \ref{cor_MTL_loss}.
 We derive the variance term $\sigma^2  \tr(\hat\Sigma^{-1})$ and the bias term $d^2\cdot {p}^{-1}\tr\left[\hat\Sigma^{-2} \left((X^{(1)})^\top X^{(1)} \right)^2\right]$ using Theorem \ref{thm_main_RMT}.
 %For the isotropic model in Section \ref{sec_similarity}, we actually have an easier and sharper bound than Lemma \ref{thm_model_shift}. %as follows.
 %\begin{lemma}\label{prop_model_shift_tight}
@@ -489,7 +456,7 @@ We derive the variance term $\sigma^2  \tr(\hat\Sigma^{-1})$ and the bias term $
 %		where $\Delta_{\vari}$ was defined in equation \eqref{Deltavarv}.
 %\end{lemma}
 
-\begin{proof}[Proof of Proposition \ref{cor_MTL_loss}]
+\begin{proof}[Proof of Corollary \ref{cor_MTL_loss}]
 %The proof of Lemma \ref{prop_model_shift_tight} is similar to that for Lemma \ref{thm_model_shift}, except that we can replace equation \eqref{bounddelta-} with a tighter bound. We only describe the main difference in the following proof.
 %For any fixed $v\in \R$, $\beta_1 - v\beta_2$ is a random vector with i.i.d. entries with mean $0$ and variance $(1-v)^2\kappa^2 + d^2$. Then using the concentration result, Lemma \ref{largedeviation}, we get that for any constant $\e>0$, 
 %\begin{align}
