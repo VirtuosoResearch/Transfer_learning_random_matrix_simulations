@@ -313,19 +313,29 @@ which again implies that $g(x)>g(1)$, i.e. $x$ cannot be the minimizer of $g$. I
 \end{proof}
 
 \paragraph{Part $2$: reducing the random-effects model to Theorem \ref{thm_main_RMT}.}
-\HZ{restructure this part. merge the result of B.17 and B.18, and state it upfront. separate its proof into two parts}
-
-
-
-
-\HZ{just say that this calculation of B.97 is similar to B.81?}
+%\HZ{restructure this part. merge the result of B.17 and B.18, and state it upfront. separate its proof into two parts}
+%\HZ{just say that this calculation of B.97 is similar to B.81?}
 We provide the predication loss using the optimal $\hat B$ in equation \eqref{eq_Bhat_2task} and optimal $\hat x=\hat x_1/\hat x_2$:
 \begin{align}
 L(\hat{\beta}_2^{\MTL}) &=\left\|\Sigma_2^{1/2} \left( \hat B \hat x_2 - \beta_2\right)\right\| \nonumber\\
 &=  \left\| (\Sigma^{(2)})^{1/2}\hat \Sigma(\hat x)^{-1} \left[(X^{(1)})^\top X^{(1)} (\hat x\beta_1-\hat x^2\beta_2)+ (X^{(2)})^\top \epsilon^{(2)} + \hat x   (X^{(1)})^\top \epsilon^{(1)} \right]\right\|^2.\label{Lbeta_HPS}
 \end{align}
 %where we denoted $$\hat \Sigma:= \hat x^2 (X^{(1)})^\top X^{(1)}  + (X^{(2)})^\top X^{(2)} .$$
-To illustrate the idea of bias-variance decomposition, we assume that $\hat x$ is independent of $\epsilon^{(1)}$, $\epsilon^{(2)}$, $\beta_1$ and $\beta_2$ for now. Then we can calculate the partial expectation of $L(\hat{\beta}_2^{\MTL})$ over the randomness in $\epsilon_1$ and $\epsilon_2$:
+The main goal of this step is to prove the following two claims.  
+\begin{claim}
+In the setting of Proposition \ref{cor_MTL_loss}, we have that with high probability,
+%\be\label{choiceofpara}
+%	\frac{pd^2}{\sigma^2} = \OO(1),\quad p^{-1+c_0} \le \frac{\kappa^2}{\sigma^2 }  \le p^{-\e_0-c_0},
+%\ee
+%where $\e_0$ is the constant as appeared in equation \eqref{approxvalid}. Then we have
+\begin{align}
+&\left|L(\hat{\beta}_2^{\MTL}) - d^2\cdot {p}^{-1}\tr\left[\hat\Sigma^{-2} \left((X^{(1)})^\top X^{(1)} \right)^2\right] -\sigma^2  \tr\left({\hat \Sigma^{-1}  }\right)\right| \nonumber\\
+&\lesssim  \frac{d^4 + \sigma^2 d^2}{\kappa^2}+p^{-1/2+2c}\kappa^2 +  p^{-1/4+c} (\sigma^2 +d^2) , \label{simple1}
+\end{align}
+for any small constant $c>0$, where we recall that $\hat \Sigma=\hat \Sigma(1)$ as defined in \eqref{def hatsig}.
+\end{claim}
+\begin{proof}
+{\cor simplify} To illustrate the idea of bias-variance decomposition, we assume that $\hat x$ is independent of $\epsilon^{(1)}$, $\epsilon^{(2)}$, $\beta_1$ and $\beta_2$ for now. Then we can calculate the partial expectation of $L(\hat{\beta}_2^{\MTL})$ over the randomness in $\epsilon_1$ and $\epsilon_2$:
  \begin{align}
 	\exarg{\epsilon^{(1)}, \epsilon^{(2)}}{L(\hat{\beta}_2^{\MTL}) \mid X_1, X_2,\beta_1,\beta_2}  &=  \bignorm{(\Sigma^{(2)})^{1/2}\hat\Sigma(\hat x)^{-1} (X^{(1)})^{\top}X^{(1)} (\hat x \beta_1 - \hat x^2\beta_2)}^2 \nonumber\\ %\label{eq_bias_2task} 
 			& + \sigma^2\cdot \bigtr{ X^{(2)} \hat\Sigma(\hat x)^{-1}\Sigma^{(2)}\hat\Sigma(\hat x)^{-1} (X^{(2)})^\top} \nonumber\\
@@ -399,7 +409,7 @@ In the setting of Proposition \ref{cor_MTL_loss}, we have that with high probabi
 %where $\e_0$ is the constant as appeared in equation \eqref{approxvalid}. Then we have
 \begin{align}
 &\left|\cal L(\hat x)- d^2\cdot {p}^{-1}\tr\left[\hat\Sigma^{-2} \left((X^{(1)})^\top X^{(1)} \right)^2\right] -\sigma^2  \tr\left({\hat \Sigma^{-1}  }\right)\right| \nonumber\\
-&\lesssim  \frac{d^4 + \sigma^2 d^2}{\kappa^2}+p^{-1/2+2c}\kappa^2 +  p^{-1/4+c} (\sigma^2 +d^2) , \label{simple1}
+&\lesssim  \frac{d^4 + \sigma^2 d^2}{\kappa^2}+p^{-1/2+2c}\kappa^2 +  p^{-1/4+c} (\sigma^2 +d^2) , \label{simple12}
 \end{align}
 for any small constant $c>0$, where we recall that $\hat \Sigma=\hat \Sigma(1)$ as defined in \eqref{def hatsig}.
 \end{claim}
@@ -438,6 +448,7 @@ Applying the estimates \eqref{hatw_add1}, \eqref{est111}, \eqref{est222} and \eq
 %&+(1+\OO(n^{-\e}))\cdot \sigma^2  \bigtr{(X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} }  \label{simple1}
 %\end{align}
 %w.h.p. for some constant $\e>0$.
+\end{proof}
 \end{proof}
   
 \paragraph{Part $3$: Applying Theorem \ref{thm_main_RMT}.}
