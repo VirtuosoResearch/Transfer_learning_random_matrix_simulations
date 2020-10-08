@@ -1,8 +1,8 @@
 \section{The Same Covariates Case}\label{sec_same}
 
-We begin by considering the case where all tasks have the same sample size and feature covariates, that is, $n_i = n$ and $X^{(i)} = X\in\real^{n\times p}$ for all $i = 1, \dots, t$.
-We provide a sharp generalization error bound of hard parameter sharing estimators.
-We show that the hard parameter sharing estimator finds a ``low-rank approximation of all tasks'', in the sense formalized below.
+%We begin by considering the case where all tasks have the same sample size and feature covariates, that is, $n_i = n$ and $X^{(i)} = X\in\real^{n\times p}$ for all $i = 1, \dots, t$.
+%We provide a sharp generalization error bound of hard parameter sharing estimators.
+When all tasks have the same sample size and feature covariates, we show that hard parameter sharing essentially approximates all tasks in a rank-$r$ subspace.
 %This setting is prevalent in applications of multi-task learning to image classification, where there are multiple prediction labels/tasks for every image \cite{chexnet17,EA20}.
 %We consider an arbitrary local minimum $B, W_1, \dots, W_2$ of the optimization objective.
 %We extend the bias-variance decomposition from the two-task case to the multiple-task case.
@@ -17,7 +17,6 @@ We show that the hard parameter sharing estimator finds a ``low-rank approximati
 %On the other hand, the bias equation \eqref{eq_bias_multiple} is always larger because of the difference between the task models.
 %We show the generalization error of hard parameter sharing estimators.
 %Before stating the result, we define the following notations.
-Let $B^\star := [{\beta}_1,{\beta}_2,\dots,{\beta}_{t}] \in \real^{p\times t}$ denote the ground truth model parameters.
 Let $\Sigma$ denote the (same) population covariance matrix of all tasks.
 Let $A^{\star} {A^{\star}}^{\top}$ denote the best rank-$r$ subspace approximation of ${B^{\star}}^\top\Sigma B^{\star}$, that is,
 \[ A^{\star} \define \argmin_{U\in\real^{t\times r} : U^{\top} U = \id_{r\times r}} \inner{U U^{\top}} {{B^{\star}}^{\top} \Sigma B^{\star}}. \]
@@ -47,15 +46,18 @@ Our main result in this section is stated as follows.
 	%	\[ \te(\hat{\beta}_t^{\MTL}) > \te(\hat{\beta}_t^{\STL}). \]
 	%\end{itemize}
 \end{theorem}
-	Theorem \ref{thm_many_tasks} provides a sharp generalization error bound that is asymptotically tight as $p$ goes to infinity.
-	The limiting loss of hard parameter sharing consists of two parts, a bias term that measures the error compared to the ground truth, and a variance term that scales with noise variance and sample size.
-	Our result implies that the variance of hard parameter sharing always reduces compared to single-task learning, whose variance is equal to $\frac{\sigma^2 \cdot p} {n - p}$ by Lemma \ref{lem_minv}.
-	This is because $\norm{a_i^{\star}}^2$ is at most one since the spectral norm of $U_r$, which is a projection matrix, is at most one.
+	Theorem \ref{thm_many_tasks} provides a sharp generalization error bound that is asymptotically tight when $p$ goes to infinity.
+	The limiting loss of hard parameter sharing consists of two parts, a bias term $L(B^{\star} a_i^{\star})$ that measures the error of $B^{\star} a_i^{\star}$, and a variance term that scales with noise variance $\sigma^2$.
+%	Our result implies that the variance of hard parameter sharing is always smaller than single-task learning.
+%	This is because	STL's variance is equal to $\frac{\sigma^2 \cdot p} {n - p}$ by Fact \ref{lem_minv}, and $\norm{a_i^{\star}}^2 \le 1$ since the spectral norm of $U_r$, which is a projection matrix, is at most one.
 
 \begin{example}[Sample efficiency]\label{ex_same_cov}
 We illustrate the above result in the random-effects model described in Section \ref{sec_hps}.
-We further assume that $\Sigma$ is isotropic for simplicity.
-Therefore, ${B^{\star}}^{\top}\Sigma B^{\star} = {B^{\star}}^{\top} B^{\star}$ and the $(i, j)$-th entry of this matrix is roughly equal to
+We further assume that $\Sigma$ is isotropic for illustration.
+
+For the bias term, we show that the average prediction loss of $B^{\star} a_i^{\star}$ satisfies that
+\[ \frac{1}{t} \sum_{i=1}^t L(B^{\star} a_i^{\star}) = \normFro{B^{\star} A^{\star} {A^{\star}}^{\top} - B^{\star}}^2 = (t - r) d^2. \]
+Recall that $A^{\star} {A^{\star}}^{\top}$ is the best rank-$r$ approximation of ${B^{\star}}^{\top}\Sigma B^{\star} = {B^{\star}}^{\top} B^{\star}$, and the $(i, j)$-th entry of this matrix is roughly equal to
 \begin{align*}
 	\beta_i^{\top} \beta_j \approx \norm{\beta_0}^2 + \begin{cases}
 																								0, \text{ if } i \neq j \\
@@ -64,17 +66,17 @@ Therefore, ${B^{\star}}^{\top}\Sigma B^{\star} = {B^{\star}}^{\top} B^{\star}$ a
 \end{align*}
 which follows from the definition of the random-effects model.
 Note that $\norm{\beta_0}^2$ is roughly $\kappa^2$.
-One can verify that the top singular value of ${B^{\star}}^{\top} B^{\star}$ is roughly $p \kappa^2 + d^2$ and the rest of its singular values are all equal to $d^2$.
-Therefore, by taking a rank-$r$ approximation of ${B^{\star}}^{\top} B^{\star}$, we get that the average prediction loss of $B^{\star} a_i^{\star}$ is equal to
-\[ \frac{1}{t} \sum_{i=1}^t L(B^{\star} a_i^{\star}) = \normFro{B^{\star} A^{\star} {A^{\star}}^{\top} - B^{\star}}^2 = (t - r) d^2. \]
-On the other hand, we observe that $\sum_{i=1}^t \norm{a_i^{\star}}^2 = r$.
-Therefore, equation \eqref{eq_thm_many} reduces to
+One can verify that the top singular value of ${B^{\star}}^{\top} B^{\star}$ is approximately $p \kappa^2 + d^2$ and the rest of its singular values are all equal to $d^2$.
+Therefore, by taking a rank-$r$ approximation of ${B^{\star}}^{\top} B^{\star}$, we get the average prediction loss equation above.
+
+For the variance term, since $A^{\star}$ has rank-$r$, we have that $\sum_{i=1}^t \norm{a_i^{\star}}^2 = r$.
+Combined together, the average prediction loss of hard parameter sharing is as follows
 \[ \frac{1}{t}\sum_{i=1}^t L(\hat{\beta}_i^{\MTL}) = \bigbrace{1 - \frac{r}{t}} d^2 + \frac{r}{t} \cdot \frac{\sigma^2 p}{n - p} \pm \OO(p^{-c_{\varphi}}). \]
-	We compare the prediction loss of hard parameter sharing to single-task learning.
-	Using Fact \ref{lem_minv}, the average prediction loss of single-task learning is $\sigma^2\cdot \bigtr{\Sigma (X^{\top} X)^{-1}} = \frac{\sigma^2 p}{n - p} \pm \OO(p^{-{c_{\varphi}}})$.
+We compare hard parameter sharing to single-task learning.
+Using Fact \ref{lem_minv}, the average prediction loss of single-task learning is $\sigma^2\cdot \bigtr{\Sigma (X^{\top} X)^{-1}} = \frac{\sigma^2 p}{n - p} \pm \OO(p^{-{c_{\varphi}}})$.
 	Suppose that $p$ is sufficiently large so that $p^{-c_{\varphi}}$ is negligible.
-	First, the prediction loss of hard parameter sharing is less than single-task learning if and only if $d^2 < \frac{\sigma^2 p}{n - p}$ -- the ``task-specific variance'' of $\beta_i$ is smaller than the ``noise variance''.
-	Second, when $d^2 < \frac{\sigma^2 p}{n - p}$, hard parameter sharing performs the best when the rank $r$ is one.
+First, the prediction loss of hard parameter sharing is less than single-task learning if and only if $d^2 < \frac{\sigma^2 p}{n - p}$: the ``task-specific variance'' of $\beta_i$ is smaller than the ``noise variance''.
+Second, when $d^2 < \frac{\sigma^2 p}{n - p}$, hard parameter sharing performs the best when the rank $r$ is one.
 	In this case, hard parameter sharing requires only $p + \frac{n - p}{t - (t - 1)\frac{d^2 (n - p)}{\sigma^2 p}}$ samples, which is less than $n$, to achieve comparable loss to single-task learning.
 
 %\begin{corollary}[Derived from Theorem \ref{thm_many_tasks}]\label{prop_same_cov}
@@ -95,28 +97,27 @@ Therefore, equation \eqref{eq_thm_many} reduces to
 
 
 	%First, we provide the steps for showing the bias-variance decomposition in equation \eqref{eq_bias_multiple} and \eqref{eq_var_multiple}.
-	\paragraph{Proof overview.} The key idea for proving Theorem \ref{thm_many_tasks} is a bias-variance decomposition of the prediction loss of hard parameter sharing.
-	We obtain the decomposition as follows.
+	\paragraph{Proof overview.} The key idea for proving Theorem \ref{thm_many_tasks} is a bias-variance decomposition of the prediction loss.
+%	We obtain the decomposition as follows.
 	Since all tasks have the same covariates, the optimization objective \eqref{eq_mtl} becomes
 	\begin{align}
 		f(A, B) = \sum_{j=1}^t \bignorm{X B A_j - Y^{(j)}}^2, \label{eq_mtl_same_cov}
 	\end{align}
-	where we recall that $B \in \real^{p \times r}$ and $A_1, A_2, \dots, A_t \in \R^r$. % for $1 < r < t$ by our assumption.
+	where we recall that $B \in \real^{p \times r}$ and $A_1, A_2, \dots, A_t \in \R^r$.
 %	Without loss of generality, we assume that $AA^{\top}$ is invertible.
 %	Otherwise, we can add a small amount of random perturbation to $A$ (e.g. an inverse exponential in $p$ amount of isotropic Gaussian noise), and the result still holds.
 	Using the local optimality condition over $B$, that is, $\frac{\partial f}{\partial B} = 0$, we obtain $\hat{B}$ as a function of the output layers as follows
-	\begin{align}
-		\hat{B} \define (X^{\top}X)^{-1} X^{\top} \bigbrace{\sum_{j=1}^t Y^{(j)} A_j^{\top}} (A  A^{\top})^{\dagger}. \label{eq_Bhat}
-		= (X^{\top} X)^{-1} X^{\top} Y A^{\top} (AA^{\top})^{\dagger}
-		%&= (B^\star A ^{\top}) (A A^{\top})^{-1} + (X^{\top}X)^{-1}X^{\top}   \bigbrace{\sum_{j=1}^t \varepsilon_i A_i^{\top}} (A  A^{\top})^{-1}.
+	\begin{align} \label{eq_Bhat}
+		\hat{B} \define (X^{\top}X)^{-1} X^{\top} \bigbrace{\sum_{j=1}^t Y^{(j)} A_j^{\top}} (A  A^{\top})^{\dagger}
+		= (X^{\top} X)^{-1} X^{\top} Y A^{\top} (AA^{\top})^{\dagger}.
 	\end{align}
-	In the above, we use the fact that $X^{\top}X$ is invertible by Fact \ref{lem_minv}.
-	By plugging in $\hat{B}$ back into equation \eqref{eq_mtl_same_cov}, we obtain an objective that only depends on the output layer as follows:
+	Above, we have used that $X^{\top}X$ is invertible by Fact \ref{lem_minv}.
+	Applying $\hat{B}$ to equation \eqref{eq_mtl_same_cov}, we obtain the following objective that only depends on the output layer:
 	\begin{align}
 		g(A) \define \sum_{j=1}^t \bignorm{X (X^{\top}X)^{-1}X^{\top} Y A^{\top} (AA^{\top})^{\dagger} A_j - Y^{(j)}}^2. \label{eq_mtl_output_layer}
 	\end{align}
 
-	\begin{claim}\label{lem_exp_opt}
+	\begin{claim}[Bias-variance decomposition]\label{lem_exp_opt}
 		In the setting of Theorem \ref{thm_many_tasks}, we have that
 		\begin{align}
 			\exarg{\set{\varepsilon^{(j)}}_{j=1}^t, X}{g(A)} = n \bignormFro{\Sigma^{1/2} B^{\star} \bigbrace{A^{\top} (AA^{\top})^{\dagger} A - \id_{t\times t}}}^2 + \sigma^2 (n\cdot t - p \cdot r). \label{eq_gA}
@@ -124,20 +125,20 @@ Therefore, equation \eqref{eq_thm_many} reduces to
 		As a result, the minimum of $\ex{g(A)}$, denoted by $A^{\star}$, is the best rank-$r$ approximation of ${B^{\star}}^{\top}\Sigma B^{\star}$.
 	\end{claim}
 
-	One can see that the expected prediction loss admits a bias-variance decomposition in equation \eqref{eq_gA}.
-	The first part measures the bias of hard parameter sharing compared to single-task learning for all tasks.
-	The second part measures the variance of hard parameter sharing and scales with $\sigma^2$.
-	In order to minimize the expected prediction loss, it suffices to minimize the bias equation since the variance equation does not depend on $A$.
+	One can see that the expected prediction loss admits a nice bias-variance decomposition in equation \eqref{eq_gA}.
+%	The first part measures the bias of hard parameter sharing and the second part measures the variance of hard parameter sharing and scales with $\sigma^2$.
+	Furthermore, its minimizer only depends on the bias term since the variance term is fixed.
 	%We denote $Q := \cal W^{\top} (\cal W\cal W^{\top})^{-1} \cal W \in\real^{t\times t}$, whose $(i,j)$-th entry is given by $W_i^{\top} (\cal W\cal W^{\top})^{-1} W_j$.
 	%Let $B^{\star} = [\beta_1, \beta_2, \dots, \beta_k] \in\real^{p \times k}$ denote the true model parameters.
 	%Now we can write $\delta_{\bias}(\cal W)$ succinctly as
 	%\begin{align*}
 	%	\delta_{\bias}(Q) \equiv \delta_{\bias}(\cal W) = \bignormFro{\Sigma^{1/2}B^{\star}  %\bigbrace{Q -\id}}^2 .
 	%\end{align*}
-	For the bias equation, we observe that the minimizer is equal to the best rank-$r$ (subspace) approximation to ${B^{\star}}^{\top} \Sigma B^{\star}$, which is denoted by $U_{r} U_r^{\top}$.
-	Recall that we obtain the hard parameter sharing estimator $\hat{\beta}_i^{\MTL} = \hat{B} \hat{A}_i$ from a global minimum solution $\hat{A}, \hat{B}$ of the training objective $f(A, B)$.
-	Since $\hat{A}, \hat{B}$ is a global minimum of the training objective, we know that $\hat{B}$ is equal to $\hat{B}(\hat{A})$ given by equation \eqref{eq_Bhat}.
-	Therefore, $\hat{A}$ is a global minimum of $g(A)$ in equation \eqref{eq_mtl_output_layer}.
+	The minimizer of the bias term is precisely $A^{\star} {A^{\star}}^{\top}$.
+
+	Recall that $\hat{A}, \hat{B}$ are a global minimum of $f(A, B)$.
+	We have that $\hat{B}$ is equal to $\hat{B}(\hat{A})$ given by equation \eqref{eq_Bhat}.
+	Furthermore, $\hat{A}$ is a global minimum of $g(A)$ in equation \eqref{eq_mtl_output_layer}.
 	Our next claim shows that the subspace spanned by the rows of $\hat{A}$ is close to that of $A^{\star}$.
 	\begin{claim}\label{claim_opt_dist}
 		Let $U_{\hat{A}} U_{\hat{A}}^{\top} \in\real^{t\times t}$ denote the subspace $\hat{A}^{\top} (\hat{A}\hat{A}^{\top})^{\dagger} \hat{A}$.
@@ -146,7 +147,7 @@ Therefore, equation \eqref{eq_thm_many} reduces to
 				\lesssim p^{-c_{\varphi}} \cdot C_1. \]
 	\end{claim}
 	The above claim shows that as $p$ goes to infinity, the distance between the column subspace of $U_{\hat{A}}$ and ${A^{\star}}$ goes to zero.
-	Finally, the following claim shows that the prediction loss of the hard parameter sharing estimator and the optimal solution of Claim \ref{lem_exp_opt} is small.
+	Finally, we show that the prediction loss of hard parameter sharing satisfies the following claim.
 	\begin{claim}\label{claim_pred_err}
 		In the setting of Theorem \ref{thm_many_tasks},
 		let $\hat{a}_i = \hat{A}^{\top} (\hat{A}\hat{A}^{\top})^{\dagger} \hat{A}_i$.

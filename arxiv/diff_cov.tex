@@ -1,23 +1,24 @@
 \section{The Different Covariates Case}\label{sec_diff}
 
-The different covariates case differs from the same covariates case in two key aspects.
+The different covariates case differs from the same covariates case in two aspects.
 First, different tasks may have different sample sizes. In extreme scenarios, one task may have much less labeled data compared to another task.
 Second, the features of different tasks may have different shapes, a phenomenon that is often called ``covariate shift''.
 In this section, we show how to deal with these two aspects.
 
-Unlike the previous section, we no longer have an optimal solution for $A$.
-This is because the minimization problem is non-convex with respect to $A$ and $B$.
-Therefore, we consider an arbitrary local minimum of equation \eqref{eq_mtl} and provide generalization bounds that scale with key properties of task data.
-We focus on the two-task case to better understand the impact of having different sample sizes and different covariates in hard parameter sharing.
+Unlike the previous section, we no longer have an optimal solution for $f(A, B)$.
+This is because $f(A, B)$ is in general non-convex.
+Our result implies tight generalization bounds for any local minimum of $f(A, B)$.
+We focus on the two-task case to better understand the impact of having different sample sizes and different covariates.
 
-We develop a key technical result using recent developments in random matrix theory.
-To motivate our study, we consider a specialized setting where the output layer weights $A_1, A_2$ are both equal to one.
-Without loss of generality, we consider the prediction loss of hard parameter sharing for task two and the same analysis applies to task one.
+Our key result characterizes the asymptotic limit of the sum of two arbitrarily different sample covariance matrices.
+To motivate our study, consider a special case where $A$ is equal to one.
+Without loss of generality, we consider task two's prediction loss and the same result applies to task one.
 By solving $B$ in equation \eqref{eq_mtl}, we obtain the hard parameter sharing estimator $\hat{\beta}_2^{\MTL} = B A_2 = B$ as follows:
 \begin{align}\label{def hatsig}
 	\hat{\beta}_2^{\MTL} = {\hat{\Sigma}}^{-1} ({X^{(1)}}^{\top} Y^{(1)} + {X^{(2)}}^{\top} Y^{(2)}), \text{ where } \hat{\Sigma} = {X^{(1)}}^{\top} X^{(1)} + {X^{(2)}}^{\top} X^{(2)}.
 \end{align}
-For the prediction loss, the empirical loss is close to the expected loss similar to what we have shown in Claim \ref{claim_pred_err}.
+The matrix $\hat{\Sigma}$ adds up both tasks' sample covariances, and the expectation of $\hat{\Sigma}$ is equal to a mixture of their population covariance matrices, with mixing proportions determined by their sample sizes.
+The empirical loss of $\hat{\beta}_2^{\MTL}$ is close to its expectation similar to Claim \ref{claim_pred_err}.
 Hence, we consider the expected loss conditional on the covariates as follows:
 \begin{align}\label{eq_diff_cov}
 	\exarg{\cE}{L(\hat{\beta}_2^{\MTL}) \mid X^{(1)}, X^{(2)}} =
@@ -25,19 +26,18 @@ Hence, we consider the expected loss conditional on the covariates as follows:
 	+ \sigma^2 \bigtr{\Sigma^{(2)}\hat{\Sigma}^{-1}}.
 \end{align}
 
-Interestingly, the prediction loss admits a bias-variance decomposition similar to the same covariates setting.
-The variance equation scales with the sample covariance matrice of both tsks, whereas the bias equation scales additionally with the distance between the beta vectors.
-In both the bias and variance equations, the matrix inverse $\hat{\Sigma}^{-1}$ is a crucial quantity.
-Intuitively, this matrix inverse combines the sample covariance matrix of both tasks, and it is not hard to see that the expectation of $\hat{\Sigma}$ is equal to a mixture of their population covariance matrices, with mixing proportions determined by the sample sizes.
-However, since the two tasks have different covariates, the scaling of $\hat{\Sigma}^{-1}$ not only depends on the tasks' sample sizes, but also depends on the covariate shift between the two tasks.
-Building on the intuition, We introduce a key result that shows tight asymptotic convergence rate of the bias and variance as $p$ goes to infinity.
-We define a key quantity $M \define \Sigma_1^{1/2}\Sigma_2^{-1/2}$ that captures the covariate shift between task $1$ and task $2$.
+Interestingly, the expected loss also admits a nice bias-variance decomposition.
+Our main result in this section characterizes the asymptotic limit of the above equation, when both sample size and feature dimension become increasingly large at a fixed ratio.
+The main technical challenge of our result deals with the ``covariate shift'' between task one and two.
+Intuitively, the scaling of $\hat{\Sigma}^{-1}$ not only depends on both tasks' sample sizes, but also depends on their covariance matrices.
+We introduce a key quantity $M \define \Sigma_1^{1/2}\Sigma_2^{-1/2}$ that captures the covariate shift between task $1$ and task $2$.
 Let $U\Lambda V^\top$ denote the singular value decomposition of $M$, where $\Lambda\in\real^{p\times p}$ consists of $M$'s singular values $\lambda_1, \lambda_2, \dots, \lambda_p$ as its diagonal entries in descending order.
+Our main result is stated as follows.
 
 \begin{theorem}\label{thm_main_RMT}
-	Suppose that $X_1$ and $X_2$ are both random matrices that satisfy Assumption \ref{assume_rm}.
+	Suppose that $X^{(1)}$ and $X^{(2)}$ are both random matrices that satisfy Assumption \ref{assume_rm}.
 	Assume that: a) $M$'s singular values are all greater than $\tau$ and less than $1/\tau$; b) task one's sample size is greater than $\tau p$ and task two's sample size is greater than $(1 + \tau) p$.
-	With high probability over the randomness of $X_1$ and $X_2$, we have the following limits:
+	With high probability over the randomness of $X^{(1)}$ and $X^{(2)}$, we have the following limits:
 
 	\noindent (i) The variance equation converges to the following asymptotic limit
 			\begin{align}\label{lem_cov_shift_eq}
@@ -59,20 +59,11 @@ Let $U\Lambda V^\top$ denote the singular value decomposition of $M$, where $\La
 %				= b_0.
 			\end{align}
 \end{theorem}
-Our result extends a well-known result on the inverse of sample covariance matrices.
-If $X_1$ is zero, then we obtain Fact \ref{lem_minv}(ii) as a special case.
+Our result extends a well-known result on the inverse of a sample covariance matrix.
+In particular, when $X_1$ is zero, we obtain Fact \ref{lem_minv}(ii) as a corollary.
 To see this, we solve equation \eqref{eq_a12extra} and obtain $a_1 = 0$ and $a_2 = (n_2-p) / n_2$, and apply these solutions to the variance limit.
-\HZ{go to intro}
-For a multivariate Gaussian random matrix, this result follows from the classical result for the mean of inverse Wishart distribution \cite{anderson1958introduction}.
-For a non-Gaussian random matrix, this result can be obtained using the well-known Stieltjes transform method (cf. Lemma 3.11 of \citet{bai2009spectral}).
-
-%As mentioned in the beginning of this section, different tasks may have different sample sizes and different feature covariance matrices.
-%Under these scenarios, Theorem \ref{thm_main_RMT} shows the bias and variance asymptotics for the two-task case.
 One can see that both the variance limit and the bias limit depend heavily on both tasks' samples sizes and the covariate shift matrix $M$.
-Next, we use our result to study how varying sample sizes and covariate shifts affects hard parameter sharing, respectively.
-
-
-
+Next, we illustrate how varying sample sizes and covariate shifts affects hard parameter sharing, respectively.
 
 \begin{example}[Sample ratio]\label{ex_sample_ratio}
 	We first consider the impact of varying sample sizes.
