@@ -69,9 +69,9 @@ where we used that the entries of $\beta_1-x\beta_2\in \R^p$ are i.i.d. Gaussian
 
 \paragraph{Part $1$: approximating the global minimum.}
 Let $\hat{x}$ denote the minimizer of $g(x)$.
-We show that in the setting of Corollary \ref{cor_MTL_loss}, $\hat x$ is close to 1.
+We show that in the setting of Corollary \ref{cor_MTL_loss}, $\hat x$ is close to 1. 
 
-Using the concentration estimates in Lemma \ref{largedeviation}, we first show that $g(x)$ and its conditional expectation over $X^{(1)}, X^{(2)}$ are close. %$\exarg{\epsilon^{(1)}, \epsilon^{(2)}}{g(x) \mid X_1, X_2 ,\beta_1,\beta_2}$.
+First, using the concentration estimates in Lemma \ref{largedeviation}, we show that $g(x)$ and its conditional expectation over $X^{(1)}, X^{(2)}$ are close. %$\exarg{\epsilon^{(1)}, \epsilon^{(2)}}{g(x) \mid X_1, X_2 ,\beta_1,\beta_2}$.
  \begin{claim}\label{claim_largedev1}
  In the setting of Corollary \ref{cor_MTL_loss}, we have that with high probability
 $$\left| g(x) - \exarg{\epsilon^{(1)}, \epsilon^{(2)} ,\beta_1,\beta_2}{g(x) \mid X_1, X_2 }\right| \le p^{1/2+c} \left(\sigma^2 + \kappa^2+d^2 \right)$$.
@@ -134,6 +134,7 @@ with high probability for any small constant $c>0$. %Combining \eqref{eq_hA1}, \
 Finally, we can obtain similar estimates for the second term on the right-hand side of \eqref{eq_mtl_A12} as in  \eqref{eq_hA1}, \eqref{eq_hA23}, \eqref{eq_hA4} and \eqref{eq_hA56}, which conclude the proof of Claim \ref{claim_largedev1}.
  \end{proof}
 
+Next, bu studying the conditional expectation in \eqref{EgA}, we show that $\hat x$ is close to 1. 
 
 \begin{claim}\label{lem_hat_v}
 %Suppose the assumptions of Lemma \ref{prop_model_shift_tight} hold. Assume that $ \kappa^2 \sim pd^2 \sim \sigma^2$ are of the same order.
@@ -321,7 +322,8 @@ L(\hat{\beta}_2^{\MTL}) &=\left\|\Sigma_2^{1/2} \left( \hat B \hat x_2 - \beta_2
 &=  \left\| (\Sigma^{(2)})^{1/2}\hat \Sigma(\hat x)^{-1} \left[(X^{(1)})^\top X^{(1)} (\hat x\beta_1-\hat x^2\beta_2)+ (X^{(2)})^\top \epsilon^{(2)} + \hat x   (X^{(1)})^\top \epsilon^{(1)} \right]\right\|^2.\label{Lbeta_HPS}
 \end{align}
 %where we denoted $$\hat \Sigma:= \hat x^2 (X^{(1)})^\top X^{(1)}  + (X^{(2)})^\top X^{(2)} .$$
-The main goal of this step is to prove the following two claims.  
+Using Lemma \ref{lem_hat_v} and the concentration estimates in Lemma \ref{largedeviation}, we can simplify $L(\hat{\beta}_2^{\MTL})$ as in the following claim. 
+
 \begin{claim}
 In the setting of Proposition \ref{cor_MTL_loss}, we have that with high probability,
 %\be\label{choiceofpara}
@@ -332,10 +334,11 @@ In the setting of Proposition \ref{cor_MTL_loss}, we have that with high probabi
 &\left|L(\hat{\beta}_2^{\MTL}) - d^2\cdot {p}^{-1}\tr\left[\hat\Sigma^{-2} \left((X^{(1)})^\top X^{(1)} \right)^2\right] -\sigma^2  \tr\left({\hat \Sigma^{-1}  }\right)\right| \nonumber\\
 &\lesssim  \frac{d^4 + \sigma^2 d^2}{\kappa^2}+p^{-1/2+2c}\kappa^2 +  p^{-1/4+c} (\sigma^2 +d^2) , \label{simple1}
 \end{align}
-for any small constant $c>0$, where we recall that $\hat \Sigma=\hat \Sigma(1)$ as defined in \eqref{def hatsig}.
+for any small constant $c>0$, where we recall that $\hat \Sigma=\hat \Sigma(1)$ was defined in \eqref{def hatsig}.
 \end{claim}
 \begin{proof}
-{\cor simplify} To illustrate the idea of bias-variance decomposition, we assume that $\hat x$ is independent of $\epsilon^{(1)}$, $\epsilon^{(2)}$, $\beta_1$ and $\beta_2$ for now. Then we can calculate the partial expectation of $L(\hat{\beta}_2^{\MTL})$ over the randomness in $\epsilon_1$ and $\epsilon_2$:
+ \iffalse
+ To illustrate the idea of bias-variance decomposition, we assume that $\hat x$ is independent of $\epsilon^{(1)}$, $\epsilon^{(2)}$, $\beta_1$ and $\beta_2$ for now. Then we can calculate the partial expectation of $L(\hat{\beta}_2^{\MTL})$ over the randomness in $\epsilon_1$ and $\epsilon_2$:
  \begin{align}
 	\exarg{\epsilon^{(1)}, \epsilon^{(2)}}{L(\hat{\beta}_2^{\MTL}) \mid X_1, X_2,\beta_1,\beta_2}  &=  \bignorm{(\Sigma^{(2)})^{1/2}\hat\Sigma(\hat x)^{-1} (X^{(1)})^{\top}X^{(1)} (\hat x \beta_1 - \hat x^2\beta_2)}^2 \nonumber\\ %\label{eq_bias_2task} 
 			& + \sigma^2\cdot \bigtr{ X^{(2)} \hat\Sigma(\hat x)^{-1}\Sigma^{(2)}\hat\Sigma(\hat x)^{-1} (X^{(2)})^\top} \nonumber\\
@@ -366,18 +369,73 @@ Therefore, whether multi-task learning outperforms single-task learning is deter
 %	\end{align}
 
 In general, for $\hat x$ as  the minimizer of $g(x)$, it depends on $\epsilon^{(1)}$, $\epsilon^{(2)}$, $\beta_1$ and $\beta_2$. However, using the concentration estimates in Lemma \ref{largedeviation}, we can still obtain the expression in equation \eqref{eq_var_2task} up to a small error. In particular, our proof will not use Lemma \ref{lem_hat_v}.
-
+\fi
+Our proof is divided into two steps. First, with the concentration estimates in Lemma \ref{largedeviation}, we can simplify $L(\hat{\beta}_2^{\MTL})$ as follows. With high probability, we have that for any small constant $c>0$,
 %control the difference between $g(x)$ and its partial expectation. 
- \begin{claim}\label{claim_largedev2}
- In the setting of Proposition \ref{cor_MTL_loss}, if $\hat x=\OO(1)$, then we have that with high probability,
-$$\left| L(\hat{\beta}_2^{\MTL})- \cal L(\hat x)\right| \le p^{-1/2+c} \left(\sigma^2 +\kappa^2 +d^2 \right),$$
-for any small constant $c>0$. Here we introduced the function
+% \begin{claim}\label{claim_largedev2}
+ %In the setting of Proposition \ref{cor_MTL_loss}, if $\hat x=\OO(1)$, then we have that 
+\be\label{claim_largedev2} \left| L(\hat{\beta}_2^{\MTL})- \cal L(\hat x)\right| \le p^{-1/2+c} \left(\sigma^2 +\kappa^2 +d^2 \right),
+\ee
+where the function $\cal L(\hat x)$ is defined as
 \begin{align*}
 	\cal L(\hat x)	:=  &\hat x^2\left[(\hat x-1)^2 \kappa^2 + \frac{(\hat x^2+1)d^2}2\right] \cdot p^{-1}\bigtr{ (X^{(1)})^{\top}X^{(1)} \hat\Sigma(\hat x)^{-1} \Sigma^{(2)} \hat\Sigma(\hat x)^{-1} (X^{(1)})^{\top}X^{(1)} } \\
 	& +\sigma^2\cdot \tr\left(\Sigma^{(2)}\hat \Sigma(\hat x)^{-1}\right).
 \end{align*}
- \end{claim}
- \begin{proof}
+% \end{claim}
+We postpone the proof of equation \eqref{claim_largedev2} until we complete the proof of \eqref{simple1}. Next, we can further simplify $\cal L(\hat x)$ using Claim \ref{lem_hat_v} and $\Sigma^{(1)}=\Sigma^{(2)}=\id_p$.
+More precisely, we claim that with high probability,
+%\begin{claim}
+%In the setting of Proposition \ref{cor_MTL_loss}, we have that with high probability,
+%\be\label{choiceofpara}
+%	\frac{pd^2}{\sigma^2} = \OO(1),\quad p^{-1+c_0} \le \frac{\kappa^2}{\sigma^2 }  \le p^{-\e_0-c_0},
+%\ee
+%where $\e_0$ is the constant as appeared in equation \eqref{approxvalid}. Then we have
+\begin{align}
+&\left|\cal L(\hat x)- d^2\cdot {p}^{-1}\tr\left[\hat\Sigma^{-2} \left((X^{(1)})^\top X^{(1)} \right)^2\right] -\sigma^2  \tr\left({\hat \Sigma^{-1}  }\right)\right| \nonumber\\
+&\lesssim  \frac{d^4 + \sigma^2 d^2}{\kappa^2}+p^{-1/2+2c}\kappa^2 +  p^{-1/4+c} (\sigma^2 +d^2) , \label{simple12}
+\end{align}
+for any small constant $c>0$. Combining \eqref{claim_largedev2} and \eqref{simple12}, we immediately obtain \eqref{simple1}. %, where we recall that $\hat \Sigma=\hat \Sigma(1)$ as defined in \eqref{def hatsig}.
+%\end{claim}
+%\begin{proof}
+
+It remains to prove \eqref{simple12}. Using Lemma \ref{lem_hat_v} and equations \eqref{op_X12}-\eqref{op_Sig1}, we obtain that with high probability,
+\begin{align}
+ \|\hat\Sigma^{-1}-\hat\Sigma(\hat x)^{-1}\| &\le |\hat x^2-1|\|\hat\Sigma^{-1}\| \| (X^{(1)})^\top X^{(1)}\|\|\hat\Sigma(\hat x)^{-1}\|  \lesssim p^{-1}\left(\frac{d^2}{\kappa^2} + p^{-1/4+c}\right),\label{est111}
+\end{align}
+for any small constant $c>0$. With similar arguments, we can get that with high probability,
+\begin{align}\label{est222}
+&\left\|\left(\hat\Sigma^{-2}-\hat\Sigma(\hat x)^{-2}\right)\left((X^{(1)})^\top X^{(1)} \right)^2\right\| \lesssim  \frac{d^2}{\kappa^2} + p^{-1/4+c} .
+\end{align}
+Moreover, using equations \eqref{op_X12}-\eqref{op_Sig1} we can bound that with high probability,
+%$$\bignorm{ (X^{(1)})^{\top}X^{(1)} \hat\Sigma^{-1} \Sigma^{(2)} \hat\Sigma^{-1} (X^{(1)})^{\top}X^{(1)}}\lesssim 1.$$
+%which further implies that with high probability,
+\begin{align}
+& \bigtr{ \hat\Sigma^{-2} \left((X^{(1)})^{\top}X^{(1)}\right)^2}  \le p \bignorm{\hat\Sigma^{-2} \left((X^{(1)})^{\top}X^{(1)}\right)^2}\lesssim p.\label{est333}
+\end{align}
+Now we bound the left-hand side of \eqref{simple1} as % \HZ{replace $\Sigma(1)$ with $\hat{\Sigma}$ throughout}
+\begin{align*}
+&\left|\cal L(\hat x)-\frac{d^2}{p}\tr\left[\hat\Sigma^{-2} \left((X^{(1)})^\top X^{(1)} \right)^2\right] -\sigma^2  \tr\left({\hat\Sigma^{-1}  }\right)\right| \\
+&\lesssim \left(|\hat x-1|^2 \kappa^2 + |\hat x-1|d^2\right)\cdot p^{-1}\bigtr{ \hat\Sigma^{-2} \left((X^{(1)})^{\top}X^{(1)}\right)^2 } \\
+&+ \frac{d^2}{p}\left|\tr\left[\left(\hat\Sigma(\hat x)^{-2}-\hat\Sigma^{-2}\right) \left((X^{(1)})^\top X^{(1)} \right)^2\right]\right|+ \sigma^2  \left|\bigtr{\hat\Sigma(\hat x)^{-1}-\hat\Sigma^{-1}  }\right|.
+\end{align*}
+Applying the estimates \eqref{hatw_add1}, \eqref{est111}, \eqref{est222} and \eqref{est333} to the three terms on the right-hand side, we can conclude \eqref{simple12}.
+% Inserting equation \eqref{hatv_add1} into equation \eqref{eq_te_mtl_2task} and applying Lemma  \ref{largedeviation} to $(\beta_1-\hat v\beta_s)$, we get that w.h.p.,
+%\begin{align}
+%\te(\hat{\beta}_2^{\MTL})&=(1+\OO(\cal E))\cdot \left[d^2 + \OO\left(\cal E^2 \kappa^2\right)\right] \tr\left[(X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right]\nonumber\\
+%&+(1+\OO(\cal E))\cdot \sigma^2  \bigtr{(X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} }. \label{1Liso}
+%\end{align}
+%In order to study the phenomenon of bias-variance trade-off, we need the bias term with $d^2$ and the variance term with $\sigma^2$ to be of the same order. Using Fact equation \eqref{lem_minv}, we have that
+%$$\tr\left[(X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right] \sim p,\quad \bigtr{(X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} } \sim 1.$$
+%Hence we need to choose that $p d^2 \sim \sigma^2$. On the other hand, we want the error term $\cal E^2 \kappa^2$ to be much smaller than $d^2$, which leads to the condition $p^{-1+\e_0+4\e}\kappa^2  \ll d^2 \ll \kappa^2$. The above considerations lead to the choices of parameters in equation \eqref{choiceofpara}, under which we can simplify equation \eqref{1Liso} to equation \eqref{simple1}.
+%\begin{align}
+%\te(\hat{\beta}_2^{\MTL})&=(1+\OO(n^{-\e}))\cdot d^2 \tr\left[(X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right] \nonumber \\
+%&+(1+\OO(n^{-\e}))\cdot \sigma^2  \bigtr{(X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} }  \label{simple1}
+%\end{align}
+%w.h.p. for some constant $\e>0$.
+%\end{proof}
+\end{proof}
+Now we give the proof of the estimate \eqref{claim_largedev2}.
+ \begin{proof}[Proof of equation \eqref{claim_largedev2}]
  The proof of this claim is very similar to the one for Claim \ref{claim_largedev1}, where the only difference is that $\hat x$ now may depend on $\epsilon^{(1)}$, $\epsilon^{(2)}$, $\beta_1$ and $\beta_2$. In this case, we can still use  Lemma \ref{largedeviation} to conclude the proof because $\hat x$ can be pulled out as a coefficient. Here we only give an outline of the proof without writing down all the details. Recall that $\beta_0$ is the shared component of $\beta_1$ and $\beta_2$ with i.i.d. Gaussian entries of mean zero and variance $p^{-1}\kappa^2$. Moreover, we denote the task-specific components by $\wt\beta_1$ and $\wt\beta_2$, whose entries are i.i.d. Gaussian random variables of mean zero and variance $p^{-1} d^2 / 2$. Then we write $L(\hat{\beta}_2^{\MTL}) $ in \eqref{Lbeta_HPS} as:
  \begin{align}
 L(\hat{\beta}_2^{\MTL})  =&  \left\| (\Sigma^{(2)})^{1/2}\hat \Sigma(\hat x)^{-1} \left[(X^{(1)})^\top X^{(1)} (\hat x -\hat x^2)\beta_0+(X^{(1)})^\top X^{(1)} \hat x\wt \beta_1 - (X^{(1)})^\top X^{(1)}  \hat x^2\wt \beta_2 \right] \right. \nonumber\\
@@ -398,58 +456,6 @@ For the cross term $\hat x \wt \beta_1^\top (X^{(1)})^\top X^{(1)} \hat \Sigma(\
 \end{align*}
 The rest of the terms in the expansion of \eqref{expand_15} can be bounded in the same way, and we omit the details.
  \end{proof}
- 
-In the setting of Proposition \ref{cor_MTL_loss}, we can further simplify $\cal L(\hat x)$ using Claim \ref{lem_hat_v} and $\Sigma^{(1)}=\Sigma^{(2)}=\id_p$.
- 
-\begin{claim}
-In the setting of Proposition \ref{cor_MTL_loss}, we have that with high probability,
-%\be\label{choiceofpara}
-%	\frac{pd^2}{\sigma^2} = \OO(1),\quad p^{-1+c_0} \le \frac{\kappa^2}{\sigma^2 }  \le p^{-\e_0-c_0},
-%\ee
-%where $\e_0$ is the constant as appeared in equation \eqref{approxvalid}. Then we have
-\begin{align}
-&\left|\cal L(\hat x)- d^2\cdot {p}^{-1}\tr\left[\hat\Sigma^{-2} \left((X^{(1)})^\top X^{(1)} \right)^2\right] -\sigma^2  \tr\left({\hat \Sigma^{-1}  }\right)\right| \nonumber\\
-&\lesssim  \frac{d^4 + \sigma^2 d^2}{\kappa^2}+p^{-1/2+2c}\kappa^2 +  p^{-1/4+c} (\sigma^2 +d^2) , \label{simple12}
-\end{align}
-for any small constant $c>0$, where we recall that $\hat \Sigma=\hat \Sigma(1)$ as defined in \eqref{def hatsig}.
-\end{claim}
-\begin{proof}
-Using Lemma \ref{lem_hat_v} and equations \eqref{op_X12}-\eqref{op_Sig1}, we can obtain that with high probability,
-\begin{align}
- \|\hat\Sigma^{-1}-\hat\Sigma(\hat x)^{-1}\| &\le |\hat x^2-1|\|\hat\Sigma^{-1}\| \| (X^{(1)})^\top X^{(1)}\|\|\hat\Sigma(\hat x)^{-1}\|  \lesssim p^{-1}\left(\frac{d^2}{\kappa^2} + p^{-1/4+c}\right),\label{est111}
-\end{align}
-for any small constant $c>0$. With similar arguments, we can get that with high probability,
-\begin{align}\label{est222}
-&\left\|\left(\hat\Sigma^{-2}-\hat\Sigma(\hat x)^{-2}\right)\left((X^{(1)})^\top X^{(1)} \right)^2\right\| \lesssim  \frac{d^2}{\kappa^2} + p^{-1/4+c} .
-\end{align}
-Moreover, using equations \eqref{op_X12}-\eqref{op_Sig1} we can bound that with high probability,
-%$$\bignorm{ (X^{(1)})^{\top}X^{(1)} \hat\Sigma^{-1} \Sigma^{(2)} \hat\Sigma^{-1} (X^{(1)})^{\top}X^{(1)}}\lesssim 1.$$
-%which further implies that with high probability,
-\begin{align}
-& \bigtr{ \hat\Sigma^{-2} \left((X^{(1)})^{\top}X^{(1)}\right)^2}  \le p \bignorm{\hat\Sigma^{-2} \left((X^{(1)})^{\top}X^{(1)}\right)^2}\lesssim p.\label{est333}
-\end{align}
-Now we bound the left-hand side of \eqref{simple1} as % \HZ{replace $\Sigma(1)$ with $\hat{\Sigma}$ throughout}
-\begin{align*}
-&\left|\cal L(\hat x)-\frac{d^2}{p}\tr\left[\hat\Sigma^{-2} \left((X^{(1)})^\top X^{(1)} \right)^2\right] -\sigma^2  \tr\left({\hat\Sigma^{-1}  }\right)\right| \\
-&\lesssim \left(|\hat x-1|^2 \kappa^2 + |\hat x-1|d^2\right)\cdot p^{-1}\bigtr{ \hat\Sigma^{-2} \left((X^{(1)})^{\top}X^{(1)}\right)^2 } \\
-&+ \frac{d^2}{p}\left|\tr\left[\left(\hat\Sigma(\hat x)^{-2}-\hat\Sigma^{-2}\right) \left((X^{(1)})^\top X^{(1)} \right)^2\right]\right|+ \sigma^2  \left|\bigtr{\hat\Sigma(\hat x)^{-1}-\hat\Sigma^{-1}  }\right|.
-\end{align*}
-Applying the estimates \eqref{hatw_add1}, \eqref{est111}, \eqref{est222} and \eqref{est333} to the three terms on the right-hand side, we can conclude \eqref{simple1}.
-% Inserting equation \eqref{hatv_add1} into equation \eqref{eq_te_mtl_2task} and applying Lemma  \ref{largedeviation} to $(\beta_1-\hat v\beta_s)$, we get that w.h.p.,
-%\begin{align}
-%\te(\hat{\beta}_2^{\MTL})&=(1+\OO(\cal E))\cdot \left[d^2 + \OO\left(\cal E^2 \kappa^2\right)\right] \tr\left[(X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right]\nonumber\\
-%&+(1+\OO(\cal E))\cdot \sigma^2  \bigtr{(X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} }. \label{1Liso}
-%\end{align}
-%In order to study the phenomenon of bias-variance trade-off, we need the bias term with $d^2$ and the variance term with $\sigma^2$ to be of the same order. Using Fact equation \eqref{lem_minv}, we have that
-%$$\tr\left[(X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right] \sim p,\quad \bigtr{(X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} } \sim 1.$$
-%Hence we need to choose that $p d^2 \sim \sigma^2$. On the other hand, we want the error term $\cal E^2 \kappa^2$ to be much smaller than $d^2$, which leads to the condition $p^{-1+\e_0+4\e}\kappa^2  \ll d^2 \ll \kappa^2$. The above considerations lead to the choices of parameters in equation \eqref{choiceofpara}, under which we can simplify equation \eqref{1Liso} to equation \eqref{simple1}.
-%\begin{align}
-%\te(\hat{\beta}_2^{\MTL})&=(1+\OO(n^{-\e}))\cdot d^2 \tr\left[(X_1^{\top}X_1 +X_2^{\top}X_2)^{-2} (X_1^{\top}X_1)^2\right] \nonumber \\
-%&+(1+\OO(n^{-\e}))\cdot \sigma^2  \bigtr{(X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} }  \label{simple1}
-%\end{align}
-%w.h.p. for some constant $\e>0$.
-\end{proof}
-\end{proof}
   
 \paragraph{Part $3$: Applying Theorem \ref{thm_main_RMT}.}
 Finally, we are ready to complete the proof of Corollary \ref{cor_MTL_loss}.
