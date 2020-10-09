@@ -35,10 +35,11 @@ Our main result in this section is stated as follows.
 	% Let $\delta$ be any fixed value such that $\delta \le \oo \left( \|B^\star\|^2 + \sigma^2\right)$.
 	Let $L(B^{\star}a_i^{\star}): = \norm{\Sigma^{1/2} (B^{\star} a_i^{\star}- \beta^{(i)})}^2$.
 	Let $C_1: = \frac{\rho\cdot \normFro{\Sigma^{1/2} B^{\star}}^2}{(\sqrt{\rho} - 1)^2\lambda_{\min}^2(\Sigma^{1/2} B^{\star}) + \sigma^2}$ and $C_2 :=  C_1\cdot \norm{\Sigma^{1/2} B^{\star}}$ ({\cor why not use $C_1: = \frac{ \normFro{\Sigma^{1/2} B^{\star}}^2}{ \lambda_{\min}^2(\Sigma^{1/2} B^{\star}) + \sigma^2}$? $C_2$ does not seem to be correct because the dimension does not match. I will check the proof to see whether $C_2 =  C_1\cdot \norm{\Sigma^{1/2} B^{\star}}^2$ or $C_1\cdot \sigma\norm{\Sigma^{1/2} B^{\star}}$?}), both of which do not grow with $p$.
-	Then, for any task $i = 1, 2, \dots, t$, the prediction loss of the hard parameter sharing estimator $\hat{\beta}_i^{\MTL}$ satisfies that
+	Then, for any task $i = 1, 2, \dots, t$, the prediction loss of the hard parameter sharing estimator $\hat{\beta}_i^{\MTL}$ satisfies that with high probability,
 	\begin{align}
-		\bigabs{L(\hat{\beta}_i^{\MTL}) - L(B^{\star}a_i^{\star}) - \sigma^2  \cdot \frac{p \cdot \norm{a_i^{\star}}^2}{n - p}} \lesssim p^{-c_{\varphi}}\bigbrace{C_1 L(B^{\star}a_i^{\star}) + C_1 \sigma^2 \frac{p \cdot{\norm{a_i^{\star}}^2}}{n-p} + C_2}. \label{eq_thm_many}
+		\bigabs{L(\hat{\beta}_i^{\MTL}) - L(B^{\star}a_i^{\star}) - \sigma^2  \cdot \frac{p \cdot \norm{a_i^{\star}}^2}{n - p}} \le  p^{-c_{\varphi}}\bigbrace{C_1 L(B^{\star}a_i^{\star}) + C_1 \sigma^2 \frac{p \cdot{\norm{a_i^{\star}}^2}}{n-p} + C_2}. \label{eq_thm_many}
 	\end{align}
+	
 	%\begin{itemize}
 	%	\item \textbf{Positive transfer:} If $\left(1 - \norm{v_t}^2 \right)\frac{\sigma^2}{\rho - 1} -  > \delta$, then w.h.p over the randomness of $X, \varepsilon_1, \dots, \varepsilon_t$, we have that
 	%	 \[ \te(\hat{\beta}_t^{\MTL}) < \te(\hat{\beta}_t^{\STL}). \]
@@ -111,8 +112,8 @@ Second, when $d^2 < \frac{\sigma^2 p}{n - p}$, hard parameter sharing performs t
 		\hat{B} \define (X^{\top}X)^{-1} X^{\top} \bigbrace{\sum_{j=1}^t Y^{(j)} A_j^{\top}} (A  A^{\top})^{\dagger}
 		= (X^{\top} X)^{-1} X^{\top} Y A^{\top} (AA^{\top})^{\dagger}.
 	\end{align}
-	Above, we have used that $X^{\top}X$ is invertible by Fact \ref{lem_minv}.
-	Applying $\hat{B}$ to equation \eqref{eq_mtl_same_cov}, we obtain the following objective that only depends on the output layer:
+	Above, we have used that $X^{\top}X$ is invertible by Fact \ref{lem_minv}, and $Y$ was defined as $Y=[Y^{(1)},Y^{(2)},\cdots, Y^{(t)}]$. {\cor(Is $\dag$ a standard notation? It is a bad notation at least for me because $\dag$ is more often used as Hermitian conjugate. Wiki page uses $(AA^{\top})^{+}$ for pseudo-inverse.)}
+	Plugging $\hat{B}$ into equation \eqref{eq_mtl_same_cov}, we obtain the following objective that only depends on the output layer:
 	\begin{align}
 		g(A) \define \sum_{j=1}^t \bignorm{X (X^{\top}X)^{-1}X^{\top} Y A^{\top} (AA^{\top})^{\dagger} A_j - Y^{(j)}}^2. \label{eq_mtl_output_layer}
 	\end{align}
