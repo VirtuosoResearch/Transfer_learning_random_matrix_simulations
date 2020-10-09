@@ -1,58 +1,15 @@
+\section{Conclusions and Discussions}\label{sec_conclude}
 
+This work proposed a formal study of a widely used hard paramaeter sharing approach in high-dimensional linear regression, where the sample size and feature dimension increase at a fixed ratio.
+We provided tight generalization bounds that scale with dataset properties such as their sample sizes and covariate shifts.
+Based on these bounds, we analyzed the impact of varying sample sizes and covariate shifts on the prediction loss of hard parameter sharing.
+Our work rigorously explains several empirical phenomena such as sample efficiency and negative transfer related to these dataset properties.
+We validated our results and conducted further studies on a real world classification task.
 
-\section{Conclusions and Discussions}
-
-In this work, we analyzed the bias and variance of multi-task learning versus single-task learning.
-We provided almost tight concentration bounds on the bias and variance.
-Based on these bounds, we analyzed the impact of three properties, including task similarity, sample size, and covariate shift, on the bias and variance, based on which we derived conditions for transfer.
-\todo{Finally, we consider the multiple-task case where all tasks have the same covariates.
-Both of our results regarding task similarity and sample ratio can be extended to this setting.}
-
-%Each of these results (based on each of the 3 properties) gives a different algorithmic/practical insight.
-We validated our theoretical results.
-Based on the theory, we proposed to train multi-task models by incrementally adding labeled data, and showed encouraging results inspired by our theory.
 We describe several open questions for future work.
-First, our bound on the bias term (cf. Lemma \ref{thm_model_shift}) involves an error term that scales down with $\rho_1$.
-Tightening this error bound might cover the unexplained observations in Figure \ref{fig_model_shift_phasetrans}.
-Second, it would be interesting to extend our results to non-linear settings.
-We remark that this likely requires addressing significant technical challenges  to deal with non-linearity.
-
-
-\iffalse
-\newpage
-\section*{Broader Impacts}
-
-In this work, we provide a theoretical framework to help understand when multi-task learning performs well.
-We approach this question by studying the bias-variance tradeoff of multi-task learning.
-We provide new technical tools to analyze the bias and variance of multi-task learning.
-%We relate the bounds to three properties of task data.
-%Overall, our theoretical study provides a framework to help understand multi-task learning performance.
-%We further provide guidance for detecting and mitigating negative transfer on image and text classification tasks.
-
-Our theoretical framework has the potential to impact many other neighboring areas in the ML community.
-(i) Our concentration bounds can apply to different settings such as soft parameter sharing \cite{R17} , kernel methods \cite{EMP05}, and convex formulation of multi-task learning \cite{ZY14}.
-(ii) Our analysis of the bias-variance tradeoff can extend to transfer learning and domain adaptation \cite{K18}.
-(iii) Our insights on positive and negative transfer can be useful in multimodal learning, where the data sources are usually heterogeneous.
-(iv) Our fine-gained study on sample sizes have the potential to provide new insight in meta learning, where limited labeled samples presents a significant challenge.
-Finally, since multi-task learning connects to a wide range of areas \cite{V20} such as semi-supervised learning, representation learning, and reinforcement learning \cite{YKGLHF20}.%
-We believe that the tools we have developed and the framework we have provided can inspire followup works in these areas.
-
-Our proposed algorithmic consequences also have the potential to help both researchers and practitioners to better develop their use cases of multi-task learning.
-For one example, many medical applications use multi-task learning to train large-scale image classification models by combining multiple datasets \cite{chexnet17,EA20}.
-Unlike the applications of multi-task learning in text classification where we can collect large amounts of labeled data \cite{GLUE}, in medical applications it is typically difficult and expensive to acquire labeled data.
-For such settings, our proposed training scheduler might improve the model training efficiency by using less labeled data.
-For another example, practitioners in industry often need to improve prediction performance by training many related tasks.
-But the results are not always positive and practitioners have a hard time figuring out why.
-Our proposed metric can provide guidance for selecting which tasks should be trained together in a multi-task model.
-\fi
-
-
-
-
-
-
-%Our algorithmic consequences of our theory have the potential to impact downstream applications of multi-task learning.
-%For example, many medical applications use multi-task learning to train large-scale image classification models by combining multiple datasets \cite{chexnet17,EA20}.
-%Unlike the applications of multi-task learning in text classification where large amounts of labeled data are collected \cite{GLUE}, in medical applications it is typically difficult to acquire large amounts of labeled data.
-%For such settings, training multi-task models can be very challenging.
-%Our insight on using single-task learning results to help understand multi-task learning can be valuable for helping practitioners understand their results.
+First, our bound in Corollary \eqref{cor_MTL_loss} involves an error term that scales down with $n_1$.
+Tightening this error bound requires showing the limit of $\normFro{({Z^{(1)}}^{\top} Z^{(1)} + {Z^{(2)}}^{\top} Z^{(2)})^{-1} {Z^{(1)}}^{\top} Z^{(1)}}^2$ for two random matrices $Z^{(1)}, Z^{(2)}$ with isotropic covariances.
+This might require new techniques beyond \HZ{to add}.
+Second, it would be interesting to extend our results to classification problems.
+Several recent work have made remarkable progress in the (one-sample) high-dimensional logistic regression setting \cite{sur2019modern}.
+An interesting question is to study hard parameter sharing in (multiple-sample) high-dimensional logistitic regression.

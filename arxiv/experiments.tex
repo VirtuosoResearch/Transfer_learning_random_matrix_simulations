@@ -1,12 +1,12 @@
 \section{Numerical Results}
 
-We validate our  algorithmic insights and then our theory.
-In Section \ref{sec_exp_res}, we first show that single-task learning results can help predict positive or negative transfer.
+%We validate our  algorithmic insights and then our theory.
+%In Section \ref{sec_exp_res}, we first show that single-task learning results can help predict positive or negative transfer.
 %the single-task based metric on sentiment analysis and ChestX-ray14 datasets.
-Second, our proposed incremental training schedule improves the training efficiency of standard multi-task training on sentiment analysis tasks.
+%Second, our proposed incremental training schedule improves the training efficiency of standard multi-task training on sentiment analysis tasks.
 %Third, we measure the data efficiency ratio of multi-task learning on six sentiment analysis tasks.
-In Section \ref{sec_exp_ab}, we validate our theoretical results.
-We further show that when the sample ratio is large, performing the alignment procedure of \cite{WZR20} provides more improvement for MTL.
+%In Section \ref{sec_exp_ab}, we validate our theoretical results.
+%We further show that when the sample ratio is large, performing the alignment procedure of \cite{WZR20} provides more improvement for MTL.
 
 
 
@@ -109,14 +109,14 @@ The noise variance $\sigma^2$ is $1/4$.
 \end{figure}
 
 
-\subsection{Further Studies on a Text Classification Task}\label{sec_text}
+\subsection{Further Studies on Text Classification Tasks}\label{sec_text}
 
 Our results and their implications are all in the high-dimensional linear regression setting.
-How well do they extend to other settings?
-In this section, we conduct further studies on a text classification task, for predicting whether  a sentence has a positive or negative sentiment.
+How well do they extend to other scenarios?
+In this section, we conduct further studies on six text classification datasets, for predicting whether a sentence has a positive or a negative sentiment.
 Our datasets include a review sentiment dataset (MR) \cite{pang2005seeing}, a sentence subjectivity dataset (SUBJ) \cite{pang2004sentimental}, a customer reviews dataset (CR) \cite{hu2004mining}, a question type dataset (TREC) \cite{li2002learning}, an opinion polarity dataset (MPQA) \cite{wiebe2005annotating}, and the Stanford sentiment treebank (SST) dataset \cite{socher2013recursive}.
 %The question is to predict positive or negative sentiment expressed in the text.
-Our model consists of a word embedding layer with GloVe embeddings \cite{pennington2014glove} followed by a long-short term memory (LSTM) or a multi-layer perception (MLP) layer \citet{lei2018simple}.\footnote{For multi-layer perception (MLP), we apply an average pooling layer over the word embeddings. For LSTM and CNN, we add a shared feature representation layer on top of the word embeddings.}
+Our model consists of a word embedding layer with GloVe embeddings \cite{pennington2014glove} followed by a long-short term memory (LSTM) or a multi-layer perception (MLP) layer \cite{lei2018simple}.\footnote{For MLP, we apply an average pooling layer over word embeddings. For LSTM, we add a shared feature representation layer on top of word embeddings.}
 
 %multi-layer perceptron (MLP), LSTM, CNN on all tasks
 %We use this task to verify our theoretical results on model capacity and task covariance in real world.
@@ -144,13 +144,12 @@ In Figure \ref{fig_ab_data}, we observe that for multiple example task pairs, in
 On the $y$-axis, we plot task two's test accuracy using HPS, subtracted by its STL test accuracy.
 %validate that as we increase the sample ratio while keeping task two's sample size fixed, task two's prediction accuracy does not always increase.
 We fix task one's sample size at $1000$ and increase task two's sample size from $100$ to $3000$.
-These examples and the one in Figure \ref{fig_size} suggest a natural progressive training schedule, where we add samples progressively until performance drops.
+These examples and the one in Figure \ref{fig_size} suggest a natural progressive training schedule, where we add samples progressively until performance drops:
 %In particular, Figure \ref{fig_size} (and our analysis) shows that $L(\hat{\beta}_t^{\MTL})$ behaves as a quadratic function over $\rho_1$.
 %More generally, depending on how large $\Psi(\beta_1, \beta_2)$ is, $L(\hat{\beta}_t^{\MTL})$ may also be monotonically increasing or decreasing.
 %Based on this observation, we propose a progressive training schedule to improve the compuational efficiency of hard parameter sharing.
-Concretely,
 \begin{itemize}
-	\item we divide the source task data into $S$ batches.
+	\item We divide the source task data into $S$ batches.
 	For $S$ rounds, we incrementally add the source task data by adding one batch at a time.
 	\item After training $T$ epochs, if the validation accuracy becomes worse than the previous round's result, we terminate.
 %	Algorithm \ref{alg_inc_train} in Appendix \ref{app_experiments} describes the procedure in detail.
