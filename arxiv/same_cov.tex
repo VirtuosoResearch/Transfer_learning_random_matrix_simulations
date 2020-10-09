@@ -2,7 +2,7 @@
 
 %We begin by considering the case where all tasks have the same sample size and feature covariates, that is, $n_i = n$ and $X^{(i)} = X\in\real^{n\times p}$ for all $i = 1, \dots, t$.
 %We provide a sharp generalization error bound of hard parameter sharing estimators.
-When all tasks have the same sample size and feature covariates, we show that hard parameter sharing essentially approximates all tasks in a rank-$r$ subspace.
+When all tasks have the same sample size and feature covariate, we show that hard parameter sharing essentially approximates all tasks in a rank-$r$ subspace.
 %This setting is prevalent in applications of multi-task learning to image classification, where there are multiple prediction labels/tasks for every image \cite{chexnet17,EA20}.
 %We consider an arbitrary local minimum $B, W_1, \dots, W_2$ of the optimization objective.
 %We extend the bias-variance decomposition from the two-task case to the multiple-task case.
@@ -23,18 +23,18 @@ Let $A^{\star} {A^{\star}}^{\top}$ denote the best rank-$r$ subspace approximati
 For $i = 1,\dots, t$, let $a_i^{\star} \in\real^r$ denote the $i$-th column of $A^{\star}{A^{\star}}^{\top}$.
 Our main result in this section is stated as follows.
 
-\begin{theorem}[Multiple tasks with the same covariates]\label{thm_many_tasks}
+\begin{theorem}[Multiple tasks with the same covariate]\label{thm_many_tasks}
 %Suppose $X=Z\Sigma^{1/2}\in \R^{n\times p}$ satisfy Assumption \ref{assm_secA1} with $\rho:=n/p>1$ being some fixed constant. Consider data models  $Y_i = X\beta_i + \varepsilon_i$, $i=1,2,\cdots, t$, where $\e_i\in \R^{n}$ are random vectors with i.i.d. entries with mean zero, variance $\sigma^2$ and all moments as in \eqref{assmAhigh}. Moreover, assume that $X$, $\beta_i$ and $\e_i$ are all independent of each other.
 	%Let $n = c \cdot p$.
 	%Let $X\in\real^{n\times p}$ and $Y_i = X\beta_i + \varepsilon_i$, for $i = 1,\dots,k$.
 %	Consider $t$ data models $Y_i = X\beta_i + \varepsilon_i$, $i=1,2,\cdots, t$, where $X$ has covariance matrix $\Sigma$, and the entries of $\e_i$ are i.i.d. with mean zero and variance $\sigma^2$.gT
 	%that satisfy Assumption \ref{assm_secA2} in the appendix.
-	Consider the multiple-task case where all tasks have the same covariates $X\in\real^{n\times p}$ and population covariance matrix $\Sigma\in\real^{p\times p}$.
+	Consider the multiple-task case where all tasks have the same covariate $X\in\real^{n\times p}$ and population covariance matrix $\Sigma\in\real^{p\times p}$.
 	Suppose that $X$ satisfies Assumption \ref{assume_rm} and the sample size $n$ is greater than $\rho \cdot p$ for an absolute constant $\rho$ greater than one.
 	Recall that $c_{\varphi}$ is any fixed value within $(0, \frac{\varphi-4}{2\varphi})$.
 	% Let $\delta$ be any fixed value such that $\delta \le \oo \left( \|B^\star\|^2 + \sigma^2\right)$.
-	Let $L(B^{\star}a_i^{\star}) = \norm{\Sigma^{1/2} (B^{\star} a_i^{\star}- \beta^{(i)})}^2$.
-	Let $C_1 = \frac{\rho\cdot \normFro{\Sigma^{1/2} B^{\star}}^2}{(\sqrt{\rho} - 1)^2\lambda_{\min}^2(\Sigma^{1/2} B^{\star}) + \sigma^2}$ and $C_2 =  C_1\cdot \norm{\Sigma^{1/2} B^{\star}}$, both of which do not grow with $p$.
+	Let $L(B^{\star}a_i^{\star}): = \norm{\Sigma^{1/2} (B^{\star} a_i^{\star}- \beta^{(i)})}^2$.
+	Let $C_1: = \frac{\rho\cdot \normFro{\Sigma^{1/2} B^{\star}}^2}{(\sqrt{\rho} - 1)^2\lambda_{\min}^2(\Sigma^{1/2} B^{\star}) + \sigma^2}$ and $C_2 :=  C_1\cdot \norm{\Sigma^{1/2} B^{\star}}$ ({\cor why not use $C_1: = \frac{ \normFro{\Sigma^{1/2} B^{\star}}^2}{ \lambda_{\min}^2(\Sigma^{1/2} B^{\star}) + \sigma^2}$? $C_2$ does not seem to be correct because the dimension does not match. I will check the proof to see whether $C_2 =  C_1\cdot \norm{\Sigma^{1/2} B^{\star}}^2$ or $C_1\cdot \sigma\norm{\Sigma^{1/2} B^{\star}}$?}), both of which do not grow with $p$.
 	Then, for any task $i = 1, 2, \dots, t$, the prediction loss of the hard parameter sharing estimator $\hat{\beta}_i^{\MTL}$ satisfies that
 	\begin{align}
 		\bigabs{L(\hat{\beta}_i^{\MTL}) - L(B^{\star}a_i^{\star}) - \sigma^2  \cdot \frac{p \cdot \norm{a_i^{\star}}^2}{n - p}} \lesssim p^{-c_{\varphi}}\bigbrace{C_1 L(B^{\star}a_i^{\star}) + C_1 \sigma^2 \frac{p \cdot{\norm{a_i^{\star}}^2}}{n-p} + C_2}. \label{eq_thm_many}
