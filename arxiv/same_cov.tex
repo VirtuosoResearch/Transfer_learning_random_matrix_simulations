@@ -34,7 +34,7 @@ Our main result in this section is stated as follows.
 	Recall that $c_{\varphi}$ is any fixed value within $(0, \frac{\varphi-4}{2\varphi})$.
 	% Let $\delta$ be any fixed value such that $\delta \le \oo \left( \|B^\star\|^2 + \sigma^2\right)$.
 	Let $L(B^{\star}a_i^{\star}): = \norm{\Sigma^{1/2} (B^{\star} a_i^{\star}- \beta^{(i)})}^2$.
-	Let $C_1: = \frac{\rho\cdot \normFro{\Sigma^{1/2} B^{\star}}^2}{(\sqrt{\rho} - 1)^2\lambda_{\min}^2(\Sigma^{1/2} B^{\star}) + \sigma^2}$ and $C_2 :=  C_1\cdot \norm{\Sigma^{1/2} B^{\star}}$ ({\cor why not use $C_1: = \frac{ \normFro{\Sigma^{1/2} B^{\star}}^2}{ \lambda_{\min}^2(\Sigma^{1/2} B^{\star}) + \sigma^2}$? $C_2$ does not seem to be correct because the dimension does not match. I will check the proof to see whether $C_2 =  C_1\cdot \norm{\Sigma^{1/2} B^{\star}}^2$ or $C_1\cdot \sigma\norm{\Sigma^{1/2} B^{\star}}$?}), both of which do not grow with $p$.
+	Let $C_1: = \frac{\rho\cdot \normFro{\Sigma^{1/2} B^{\star}}^2}{(\sqrt{\rho} - 1)^2\lambda_{\min}^2(\Sigma^{1/2} B^{\star}) + \sigma^2}$ and $C_2 :=  C_1\cdot \norm{\Sigma^{1/2} B^{\star}}$ \FY{why not use $C_1: = \frac{ \normFro{\Sigma^{1/2} B^{\star}}^2}{ \lambda_{\min}^2(\Sigma^{1/2} B^{\star}) + \sigma^2}$? $C_2$ does not seem to be correct because the dimension does not match. I will check the proof to see whether $C_2 =  C_1\cdot \norm{\Sigma^{1/2} B^{\star}}^2$ or $C_1\cdot \sigma\norm{\Sigma^{1/2} B^{\star}}$?}, both of which do not grow with $p$.
 	Then, for any task $i = 1, 2, \dots, t$, the prediction loss of the hard parameter sharing estimator $\hat{\beta}_i^{\MTL}$ satisfies that with high probability,
 	\begin{align}
 		\bigabs{L(\hat{\beta}_i^{\MTL}) - L(B^{\star}a_i^{\star}) - \sigma^2  \cdot \frac{p \cdot \norm{a_i^{\star}}^2}{n - p}} \le  p^{-c_{\varphi}}\bigbrace{C_1 L(B^{\star}a_i^{\star}) + C_1 \sigma^2 \frac{p \cdot{\norm{a_i^{\star}}^2}}{n-p} + C_2}. \label{eq_thm_many}
@@ -112,7 +112,7 @@ Second, when $d^2 < \frac{\sigma^2 p}{n - p}$, hard parameter sharing performs t
 		\hat{B} \define (X^{\top}X)^{-1} X^{\top} \bigbrace{\sum_{j=1}^t Y^{(j)} A_j^{\top}} (A  A^{\top})^{\dagger}
 		= (X^{\top} X)^{-1} X^{\top} Y A^{\top} (AA^{\top})^{\dagger}.
 	\end{align}
-	Above, we have used that $X^{\top}X$ is invertible by Fact \ref{lem_minv}, and $Y$ was defined as $Y=[Y^{(1)},Y^{(2)},\cdots, Y^{(t)}]$. {\cor(Is $\dag$ a standard notation? It is a bad notation at least for me because $\dag$ is more often used as Hermitian conjugate. Wiki page uses $(AA^{\top})^{+}$ for pseudo-inverse.)}
+	Above, we have used that $X^{\top}X$ is invertible by Fact \ref{lem_minv}, and $Y$ was defined as $Y=[Y^{(1)},Y^{(2)},\cdots, Y^{(t)}]$. \FY{Is $\dag$ a standard notation? It is a bad notation at least for me because $\dag$ is more often used as Hermitian conjugate. Wiki page uses $(AA^{\top})^{+}$ for pseudo-inverse.}
 	Plugging $\hat{B}$ into equation \eqref{eq_mtl_same_cov}, we obtain the following objective that only depends on the output layer:
 	\begin{align}
 		g(A) \define \sum_{j=1}^t \bignorm{X (X^{\top}X)^{-1}X^{\top} Y A^{\top} (AA^{\top})^{\dagger} A_j - Y^{(j)}}^2. \label{eq_mtl_output_layer}
@@ -126,7 +126,7 @@ Second, when $d^2 < \frac{\sigma^2 p}{n - p}$, hard parameter sharing performs t
 		As a result, the minimum of $\ex{g(A)}$, denoted by $A^{\star}$, is the best rank-$r$ approximation of ${B^{\star}}^{\top}\Sigma B^{\star}$.
 	\end{claim}
 
-	One can see that the expected prediction loss admits a nice bias-variance decomposition in equation \eqref{eq_gA}.
+	 One can see that the expected prediction loss admits a nice bias-variance decomposition in equation \eqref{eq_gA}.
 %	The first part measures the bias of hard parameter sharing and the second part measures the variance of hard parameter sharing and scales with $\sigma^2$.
 	Furthermore, its minimizer only depends on the bias term since the variance term is fixed.
 	%We denote $Q := \cal W^{\top} (\cal W\cal W^{\top})^{-1} \cal W \in\real^{t\times t}$, whose $(i,j)$-th entry is given by $W_i^{\top} (\cal W\cal W^{\top})^{-1} W_j$.
@@ -137,17 +137,16 @@ Second, when $d^2 < \frac{\sigma^2 p}{n - p}$, hard parameter sharing performs t
 	%\end{align*}
 	The minimizer of the bias term is precisely $A^{\star} {A^{\star}}^{\top}$.
 
-	Recall that $\hat{A}, \hat{B}$ are a global minimum of $f(A, B)$.
-	We have that $\hat{B}$ is equal to $\hat{B}(\hat{A})$ given by equation \eqref{eq_Bhat}.
-	Furthermore, $\hat{A}$ is a global minimum of $g(A)$ in equation \eqref{eq_mtl_output_layer}.
+	Recall that $(\hat{A}, \hat{B})$ is the global minimizer of $f(A, B)$, where $\hat{B}$ is equal to $\hat{B}(\hat{A})$ given by equation \eqref{eq_Bhat}.
+	Furthermore, $\hat{A}$ is a global minimizer of $g(A)$ in equation \eqref{eq_mtl_output_layer}.
 	Our next claim shows that the subspace spanned by the rows of $\hat{A}$ is close to that of $A^{\star}$.
 	\begin{claim}\label{claim_opt_dist}
 		Let $U_{\hat{A}} U_{\hat{A}}^{\top} \in\real^{t\times t}$ denote the subspace $\hat{A}^{\top} (\hat{A}\hat{A}^{\top})^{\dagger} \hat{A}$.
 		In the setting of Theorem \ref{thm_many_tasks}, we have that
 		\[ \bignormFro{U_{\hat{A}} U_{\hat{A}}^{\top} - A^{\star} {A^{\star}}^{\top}}
-				\lesssim p^{-c_{\varphi}} \cdot C_1. \]
+				\le  p^{-c_{\varphi}} \cdot C_1. \]
 	\end{claim}
-	The above claim shows that as $p$ goes to infinity, the distance between the column subspace of $U_{\hat{A}}$ and ${A^{\star}}$ goes to zero.
+	The above claim shows that as $p$ goes to infinity, the distance between the column subspace of $U_{\hat{A}}$ and the column subspace of ${A^{\star}}$ goes to zero.
 	Finally, we show that the prediction loss of hard parameter sharing satisfies the following claim.
 	\begin{claim}\label{claim_pred_err}
 		In the setting of Theorem \ref{thm_many_tasks},
@@ -155,15 +154,15 @@ Second, when $d^2 < \frac{\sigma^2 p}{n - p}$, hard parameter sharing performs t
 		We have that the prediction loss of $\hat{\beta}_i^{\MTL} = \hat{B} \hat{A}_i$ satisfies that
 		\begin{align*}
 			\bigabs{L(\hat{\beta}_i^{\MTL}) - L(B^{\star} \hat{a}_i) - \norm{\hat{a}_i}^2 \cdot \bigtr{\Sigma (X^{\top}X)^{-1}}}
-			\le 2\cdot p^{-c_\infty} \cdot \bigbrace{L(B^{\star} \hat{a}_i) + \norm{\hat{a}_i}^2 \cdot \bigtr{\Sigma (X^{\top}X)^{-1}}}.
+			\le  p^{-c_\infty} \cdot \bigbrace{L(B^{\star} \hat{a}_i) + \norm{\hat{a}_i}^2 \cdot \bigtr{\Sigma (X^{\top}X)^{-1}}}.
 		\end{align*}
 	\end{claim}
 	The proof of Claim \ref{lem_exp_opt}, Claim \ref{claim_opt_dist}, and Claim \ref{claim_pred_err} can be found in Appendix \ref{app_proof_error_same_cov}.
 	Provided with these results, we are ready to prove Theorem \ref{thm_many_tasks}.
 	\begin{proof}[Proof of Theorem \ref{thm_many_tasks}]
-		Using Claim \ref{claim_pred_err}, we get that the prediction loss of $\hat{\beta}_i^{\MTL}$ is within an $\OO(p^{-c_{\infty}})$ fraction from $L(B^{\star}\hat{a}_i)$ and $\norm{\hat{a}_i}^2 \bigtr{\Sigma(X^{\top}X)^{-1}}$.
-		For the latter, we use Claim \ref{claim_opt_dist} to upper bound the difference between $\norm{\hat{a}_i}^2$ and $\norm{A^{\star}}^2$, and Fact \ref{lem_minv} to get a precise estimate of $\bigtr{\Sigma (X^{\top}X)^{-1}}$.
-		For $L(B^{\star}\hat{a}_i)$, we again use Claim \ref{claim_opt_dist} to upper bound the distance between $\hat{a}_i$ and $A^{\star}$.
-		Combined together, we have shown that equation \eqref{eq_thm_many} holds and the proof is complete.
+		Using Claim \ref{claim_pred_err}, we get that the prediction loss of $\hat{\beta}_i^{\MTL}$ is within an $\OO(p^{-c_{\infty}})$ fraction of $L(B^{\star}\hat{a}_i)+\norm{\hat{a}_i}^2 \bigtr{\Sigma(X^{\top}X)^{-1}}$.
+		For the latter, we use Claim \ref{claim_opt_dist} to upper bound the difference between $\norm{\hat{a}_i}^2$ and $\norm{a_i^{\star}}^2$, and use Fact \ref{lem_minv} (ii) to get a precise estimate of $\bigtr{\Sigma (X^{\top}X)^{-1}}$.
+		For $L(B^{\star}\hat{a}_i)$, we again use Claim \ref{claim_opt_dist} to upper bound the distance between $\hat{a}_i$ and $a_i^{\star}$.
+		Combined together, we have shown that equation \eqref{eq_thm_many} holds for any fixed value $c_{\varphi}$ within $(0, \frac{\varphi-4}{2\varphi})$, and the proof is complete.
 	\end{proof}
 
