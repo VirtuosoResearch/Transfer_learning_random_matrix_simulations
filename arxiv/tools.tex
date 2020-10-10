@@ -77,9 +77,36 @@ As a corollary, we can obtain the following concentration estimates for random v
 
 \begin{corollary} \label{cor_largedeviation}
 Let $Z\in \R^{n\times p}$ be a random matrix as in Assumption \ref{assume_rm}. Then for any deterministic vector $v\in \R^p$, we have that
-$$\left|\|Zv\|^2- n\|v\|^2\right|\le  n^{1-2c_\varphi} \max_{1\le i\le p}|v(i)|^2$$
+\be\label{Zv_cor}\left|\|Zv\|^2- n\|v\|^2\right|\le  n^{1-c_\varphi} \|v\|^2\ee
 with high probability.
 \end{corollary}
  \begin{proof}
- Using \eqref{eq largedev10} and \eqref{eq largedev20}
+We introduce the truncated matrices $\wt Z$ with entries
+$ \wt Z_{ij}:= \mathbf 1\left( |Z_{ij}|\le q \right)\cdot Z_{ij} $
+for $q= n^{1/2-\frac{\varphi - 4}{2\varphi}}\log n$. By equation \eqref{Ptrunc}, we have that
+\begin{equation}\label{XneX222}
+\mathbb P(\wt Z= Z) =1-\OO ( (\log n)^{-\varphi}).
+\end{equation}
+Furthermore, by equation \eqref{meanshif} we have that
+\be\label{meanshif222}
+|\mathbb E  \wt  Z_{ij}| =\OO(n^{-3/2}), \quad  \mathbb E |\wt  Z_{ij}|^2 =1+ \OO(n^{-1}).
+\ee
+%From the first estimate in equation \eqref{meanshif}, we can also get a bound on the operator norm:
+%\be\label{EZ norm222}\|\E \wt Z^{(1)}\|=\OO(n^{-1/2}) .
+%\ee
+Then we can centralize and rescale $\wt Z$ as $ \wh Z:=\frac{\wt Z - \E \wt Z }{ (\E|\wt Z_{11}|^2)^{1/2}}.$ 
+It suffices to show that 
+\be\label{show_whZ}
+ \left|\|\wh Zv\|^2- n\|v\|^2\right|\prec n^{1/2} q \|v\|^2.
+\ee 
+In fact, provided that \eqref{show_whZ} holds, using \eqref{meanshif222} it is easy to get that 
+$$ \left|\|\wt Zv\|^2- n\|v\|^2\right|\prec n^{1/2} q \|v\|^2,$$
+which implies \eqref{Zv_cor} for any fixed value $c_{\varphi}$ within $(0, \frac{\varphi - 4}{2\varphi})$.
+
+For \eqref{show_whZ}, we first observe that for $1\le i \le n$, $(\wh Zv)_i=\sum_{1\le j \le p} \wh Z_{ij}v_j$ are i.i.d random variables of mean zero and variance $\|v\|^2$. Moreover, using \eqref{eq largedev10} we get that 
+$$ |(\wh Zv)_i| \prec q \max_{1\le i\le p}|v_i| + \|v\| . $$
+Together with the trivial $\max_{1\le i\le p}|v_i| \le \|v\|$, this implies that the random variables $\frac{(\wh Zv)_i}{\|v\|}$, $1\le i \le p$, are i.i.d random variables of mean zero, variance 1 and bounded support $q$. Then applying \eqref{eq largedev20}, we get that
+$$ \left|\|\wh Zv\|^2 - n\|v\|^2\right|=\left|\sum_i \left(|(\wh Zv)_i|^2-\E|(\wh Zv)_i|^2\right)\right|\prec n^{1/2} q  \|v\|^2 .
+ $$
+This concludes \eqref{show_whZ}.
  \end{proof}
