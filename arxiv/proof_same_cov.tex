@@ -53,13 +53,13 @@
 	%\end{align}
 	%We observe that
 	\begin{align*}
-			\exarg{\cE}{\cE A^{\top} (AA^{\top})^{\dagger} A \cE^{\top}}
-		&= \exarg{\cE}{\sum_{j=1}^t \sum_{k=1}^t \varepsilon^{(j)} A_j^{\top} (AA^{\top})^{\dagger} A_k {\varepsilon^{(k)}}^{\top}} \\
-		&= \exarg{\cE}{\sum_{j=1}^t \varepsilon^{(j)} A_j^{\top} (AA^{\top})^{\dagger} A_j {\varepsilon^{(j)}}^{\top}} \\
+			\exarg{\cE}{\cE A^{\top} (AA^{\top})^{+} A \cE^{\top}}
+		&= \exarg{\cE}{\sum_{j=1}^t \sum_{k=1}^t \varepsilon^{(j)} A_j^{\top} (AA^{\top})^{+} A_k {\varepsilon^{(k)}}^{\top}} \\
+		&= \exarg{\cE}{\sum_{j=1}^t \varepsilon^{(j)} A_j^{\top} (AA^{\top})^{+} A_j {\varepsilon^{(j)}}^{\top}} \\
 		&= \sigma^2 \cdot r \cdot \id_{n\times n}.
 	\end{align*}
 	In the above derivation, the second step used the fact that for any $j\neq k$, $\varepsilon^{(j)}$ and $\varepsilon^{(k)}$ are pairwise independent.
-	The third step used the fact that $\sum_{j=1}^t A_j^{\top} (AA^{\top})^{\dagger} A_j = \bigtr{\id_{r\times r}} = r$, and $\ex{\varepsilon^{(j)} {\varepsilon^{(j)}}^{\top}} = \sigma^2 \cdot \id_{n\times n}$.
+	The third step used the fact that $\sum_{j=1}^t A_j^{\top} (AA^{\top})^{+} A_j = \bigtr{\id_{r\times r}} = r$, and $\ex{\varepsilon^{(j)} {\varepsilon^{(j)}}^{\top}} = \sigma^2 \cdot \id_{n\times n}$.
 	Therefore, we have that
 %	\begin{align*}
 %		\inner{\cW A}{\cE} = \sigma^2 \cdot r \cdot \bigtr{U_X U_X^{\top}} = \sigma^2 \cdot r \cdot p,
@@ -113,7 +113,7 @@
 	\begin{align}
 		\bigabs{\inner{\cW A}{\cE} - \ex{\inner{\cW A}{\cE}}} &= \bigabs{\bigtr{U_X U_X^{\top} (\cE U_AU_A^{\top} \cE^{\top} - \sigma^2 \cdot r \id_{n\times n})}} \nonumber  \\
 		&\le \bignormFro{U_{X} U_X^{\top}} \cdot \bignorm{\cE U_A U_A^{\top} \cE^{\top} - \sigma^2 \cdot r \id_{n\times n}} \nonumber \\
-		&\le p^{1/2 + \e} \cdot \sigma^2 r. \label{eq_gA_err4}
+		&\le p^{1/2} \cdot (\sigma^2 r\cdot p^{\e}). \label{eq_gA_err4}
 	\end{align}
 	%\begin{align*}
 	%	%|\inner{U_X U_X^{\top} \bigbrace{\varepsilon_i W_i^{\top}} (\cW\cW^{\top})^{-1}W_j}{\varepsilon_j}|
@@ -175,7 +175,7 @@
 	The proof is complete.
 
 	\paragraph{Proof of Claim \ref{claim_pred_err}.}
-	We apply similar arguments to Claim \ref{lem_exp_opt} and \ref{claim_opt_dist} for this proof.
+	We apply similar arguments from Claim \ref{lem_exp_opt} and \ref{claim_opt_dist} for this proof.
 	The prediction loss of hard parameter sharing for task $i$ is equal to
 	\begin{align*}
 		L(\hat{\beta}_i^{\MTL}) &= \bignorm{\Sigma^{1/2} (\hat{B} \hat{A}_i - \beta_i)}^2 \\
@@ -191,32 +191,32 @@
 	\paragraph{Part 2:} The second part is the cross term, whose expectation over $\cE$ is zero. The concentration error is
 	\begin{align*}
 		\bigabs{\inner{\Sigma^{1/2}(B^{\star} \hat{a}_i - \beta_i)}{\Sigma^{1/2}E_i}}
-		\le \bignormFro{\Sigma^{1/2} (B^{\star} \hat{a}_i - \beta_i)} \cdot \bignorm{\Sigma^{1/2} E_i}.
+		\le \bignorm{\Sigma^{1/2} (B^{\star} \hat{a}_i - \beta_i)} \cdot \bignorm{\Sigma^{1/2} E_i}.
 	\end{align*}
 	Next, we use the fact that the spectral norm of $\cE$ is at most $\sigma \cdot p^{\e}$.
 	Hence, the spectral norm of $\Sigma^{1/2} E_i$ is at most
 		\[ \sigma \cdot p^{\e} \cdot \norm{\Sigma^{1/2} (X^{\top} X)^{-1} X^{\top}} \cdot \norm{\hat{a}_i}. \]
 	Therefore, the cross term is bounded by $\sigma \cdot p^{\e}$ times
 	\begin{align*}
-			& \bignormFro{\Sigma^{1/2} (B^{\star} \hat{a}_i - \beta_i)} \cdot \norm{\Sigma^{1/2} (X^{\top} X)^{-1} X^{\top}} \cdot \norm{\hat{a}_i} \\
-		\le & \bignormFro{\Sigma^{1/2} (B^{\star} \hat{a}_i - \beta_i)}^2 + \norm{\hat{a}_i}^2 \cdot \bignorm{\Sigma^{1/2} (X^{\top} X)^{-1} X^{\top}}^2 \tag{by Cauchy-Shwartz inequality} \\
-		\le & \bignormFro{\Sigma^{1/2}(B^{\star} \hat{a}_i - \beta_i)} + \norm{\hat{a}_i}^2 \cdot \bigtr{\Sigma (X^{\top} X)^{-1}}.
+			& \bignorm{\Sigma^{1/2} (B^{\star} \hat{a}_i - \beta_i)} \cdot \norm{\Sigma^{1/2} (X^{\top} X)^{-1} X^{\top}} \cdot \norm{\hat{a}_i} \\
+		\le & \bignorm{\Sigma^{1/2} (B^{\star} \hat{a}_i - \beta_i)}^2 + \norm{\hat{a}_i}^2 \cdot \bignorm{\Sigma^{1/2} (X^{\top} X)^{-1} X^{\top}}^2 \tag{by Cauchy-Shwartz inequality} \\
+		\le & \bignorm{\Sigma^{1/2}(B^{\star} \hat{a}_i - \beta_i)} + \norm{\hat{a}_i}^2 \cdot \bigtr{\Sigma (X^{\top} X)^{-1}}.
 	\end{align*}
 
-	\paragraph{Part 3:} The final part is the square of $E_i$. One can verify that the expectation of $\norm{\Sigma^{1/2} E_i}^2$ is equal to $\norm{\hat{a}_i}^2 \cdot \tr[\Sigma (X^{\top} X)^{-1}]$.
+	\paragraph{Part 3:} The final part is the square of $E_i$. One can verify that the expectation of $\norm{\Sigma^{1/2} E_i}^2$ is equal to $\sigma^2 \norm{\hat{a}_i}^2 \cdot \tr[\Sigma (X^{\top} X)^{-1}]$.
 	Next, we bound the concentration error.
 	Let $A = X (X^{\top} X)^{-1} \Sigma (X^{\top} X)^{-1} X^{\top}$.
 	We have that
 	\begin{align*}
 		\bigabs{\bignorm{\Sigma^{1/2} E_i}^2 - \exarg{\cE}{\bignorm{\Sigma^{1/2} E_i}^2}}
-		&= \bigabs{\inner{A}{\cE \hat{a}_i \hat{a}_i^{\top} \cE - \exarg{\cE}{\cE \hat{a}_i \hat{a}_i^{\top} \cE}}}.
+		&= \bigabs{\inner{A}{\cE \hat{a}_i \hat{a}_i^{\top} \cE^{\top} - \exarg{\cE}{\cE \hat{a}_i \hat{a}_i^{\top} \cE}}}.
 	\end{align*}
 	In the above equation, we note that the trace of $A$ is precisely the trace of $\Sigma (X^{\top} X)^{-1}$.
 	On the other hand, the concentration error of the spectral norm of $\cE \hat{a}_i \hat{a}_i^{\top} \cE^{\top}$ is at most $\sigma^2 \e $.
 
 	Combining the three parts together, we conclude the proof of Claim \ref{claim_pred_err}.
 
-	\paragraph{Proof of Theorem \ref{thm_many_tasks}.}
+	%\paragraph{Proof of Theorem \ref{thm_many_tasks}.}
 	%In sum, we have solved that $\hat{\beta}_i^{\MTL}=B^{\star}\left( U_r v_i +\oo(1)\right)$.
 	%Now we are ready to finish the proof.
 	%Similar to the proof of equation \eqref{eq_est_g1} and \eqref{eq_est_g2}, we have that
