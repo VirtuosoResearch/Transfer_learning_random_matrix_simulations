@@ -1,4 +1,4 @@
-\subsection{Setup and Main Results}
+\subsection{Problem Formulation and Main Results}
 
 Suppose we have $t$ labeled regression tasks. %where $t$ is a fixed value that does not grow with the feature dimension $p$.
 For each task $k$ from $1$ to $t$, we have $n_k$ samples $x_1, x_2, \dots, x_{n_k}$ that are all $p$-dimensional feature vectors with real-valued labels $y_1, y_2, \dots, y_{n_k}$.
@@ -185,8 +185,6 @@ For such models, their output dimension plays an important role of regularizatio
 Linear models in multi-task learning have been studied in various settings, including representation learning \cite{BHKL19}, online learning \cite{CCG10,DCSP18}, and sparse regression \cite{LPVT11}.
 Below, we describe several lines of work that are most related to this work.
 
-\medskip
-\noindent\textbf{Theoretical works.}
 Some of the earliest works on multi-task learning are Baxter \cite{B00}, Ben-David and Schuller \cite{BS03}.
 Mauer \cite{M06} studies generalization bounds for linear separation settings of MTL.
 Ben-David et al. \cite{BBCK10} provides uniform convergence bounds that combines source and target errors optimally.
@@ -195,9 +193,6 @@ Our work is closely related to Wu et al. \cite{WZR20}.
 While Wu et al. provide generalization bounds to show that adding more labeled helps learn the target task more accurately, their techniques cannot be used to explain when MTL outperforms STL.
 \todo{spell out the challenge more explicitly}
 
-% Adding a regularization over $B$, e.g. .
-\medskip
-\noindent\textbf{Methodological works.}
 Ando and Zhang \cite{AZ05} introduces an alternating minimization framework for learning multiple tasks.
 Argyriou et al. \cite{AEP08} present a convex algorithm which learns common sparse representations across a pool of related tasks.
 Evgeniou et al. \cite{EMP05} develop a framework for multi-task learning in the context of kernel methods.
@@ -205,88 +200,22 @@ Evgeniou et al. \cite{EMP05} develop a framework for multi-task learning in the 
 The multi-task learning model that we have focused on uses the idea of hard parameter sharing \cite{C93,KD12,R17}.
 We believe that our theoretical framework can apply to other approaches to multi-task learning.
 
-\medskip
-\noindent\textbf{Random matrix theory.}
 The random matrix theory tool and related proof of our work fall into a paradigm of the so-called local law of random matrices \cite{erdos2017dynamical}.
 For a sample covariance matrix $X^\top X$ with $\Sigma=\id$, such a local law was proved in \cite{isotropic}.
 It was later extended to sample covariance matrices with non-identity $\Sigma$ \cite{Anisotropic}, and separable covariance matrices \cite{yang2019spiked}. On the other hand, one may derive the asymptotic result in Theorem \ref{lem_cov_shift_informal} with error $\oo(1)$ using the free addition of two independent random matrices in free probability theory \cite{nica2006lectures}. To the best of my knowledge, we do not find an {\it explicit result} for the sum of two sample covariance matrices with general covariates in the literature.
 
-
-
 \paragraph{Organizations.}
 The rest of this paper is organized as follows.
-In Section \ref{sec_prelim}, we present a preliminary of hard parameter sharing and random matrices. We describe several well-known facts.
+In Section \ref{sec_prelim}, we describe and random matrices. We describe several well-known facts.
 In Section \ref{sec_example}, we describe illustrative examples of our technical results and discuss their implications.
 In Section \ref{sec_same}, we consider the same covariates setting and show the generalization error of hard parameter sharing.
 In Section \ref{sec_diff}, we consider the different covariates setting and show the bias and variance asymptotics using random matrix theory.
 
-
-\section{Preliminaries}\label{sec_prelim}
-
-\subsection{Notations}
+\paragraph{Notations.}
+Let $A = [A_1, A_2, \dots, A_t] \in \real^{r\times t}$ be a matrix notation that contains all the output layer parameters.
+Let $B^\star := [{\beta}_1,{\beta}_2,\dots,{\beta}_{t}] \in \real^{p\times t}$ denote the ground truth model parameters.
 We shall use $\oo(1)$ to mean a small positive quantity that converges to 0 as $p$ goes to infinity.
 We shall say an event $\Xi$ holds with high probability (w.h.p.) if $\P(\Xi)$ goes to $1$ as $p$ goes to infinity.
 %, while we say $\Xi$ holds with overwhelming probability (w.o.p.) if for any large constant $D>0$, $\P(\Xi)\ge 1- p^{-D}$ for large enough $p$.
 For a matrix $X$, let $\lambda_{\min}(X)$ denote its smallest singular value and $\norm{X}$ denote its spectral norm.
 We shall refer to random matrices of the form $\frac {X^\top X} n$ as sample covariance matrices following the standard notations in high-dimensional statistics.
-
-
-Let $A = [A_1, A_2, \dots, A_t] \in \real^{r\times t}$ be a matrix notation that contains all the output layer parameters.
-
-Let $B^\star := [{\beta}_1,{\beta}_2,\dots,{\beta}_{t}] \in \real^{p\times t}$ denote the ground truth model parameters.
-
-\subsection{Random Matrices}
-
-We introduce several standard assumptions on the random matrices we study.
-\begin{assumption}\label{assume_rm}
-	Let $\varphi > 4$ be a fixed value.
-	Let $\tau > 0$ be a small enough constant.
-	Let $X = Z \Sigma^{1/2} \in\real^{n\times p}$ be a random matrix where $Z \in \real^{n\times p}$ consists of i.i.d. entries with zero mean and unit variance and $\Sigma \in \real^{p\times p}$ is a positive semidefinite matrix.
-	We assume the following standard conditions.
-	\begin{enumerate}
-		\item For every entry of $Z$, we assume that its $\varphi$-th moment exists, that is, there exist a fixed constant $C > 0$ such that
-			\begin{align}\label{assmAhigh}
-				\ex{\abs{Z_{i,j}}^{\varphi}} \le C, \text{ for any } 1\le i \le n \text{ and } 1\le j \le p.
-			\end{align}
-		\item The sample size $n$ grows to infinity proportionally with the dimension $p$, i.e. $n / p \rightarrow \rho \in (0, 1/\tau)$ as $p$ goes infinity.
-	\end{enumerate}
-\end{assumption}
-
-Under the above assumption, we state several well-known facts regarding the random matrix $X$.
-
-\begin{fact}\label{lem_minv}
-	Let $c_{\varphi}$ be any fixed value within $(0, \frac{\varphi - 4}{2\varphi})$.
-	%Let $X  \in \real^{n\times p}$ be a random matrix that satisfies Assumption \ref{assume_rm}.
-	%Let $\Sigma\in\real^{p\times p}$ denote the population covariance matrix of $X$.
-	With high probability over the randomness of $X$, we have that
-	\begin{enumerate}
-		\item When $n / p$ converges to $\rho > 1$, the sample covariance matrix $\frac{X^{\top}X}{n}$ is full rank.
-		\item $\bigtr{\Sigma (X^{\top} X)^{-1}} = \frac{p}{n - p} + \OO(p^{-c_{\varphi}})$, cf. Theorem 2.4 in \citet{isotropic}.
-		\item The singular values of $Z^{\top}Z$ are greater than $(\sqrt{n} - \sqrt{p})^2 - n \cdot p^{-c_{\varphi}}$ and less than $(\sqrt{n} + \sqrt{p})^2 + n \cdot p^{-c_{\varphi}}$, cf. \citet[Theorem 2.10]{isotropic} and \citet[Lemma 3.12]{DY}.
-	\end{enumerate}
-\end{fact}
-
-%Second, we assume that the spectral norm of $\Sigma_k$ is bounded by a fixed constant, for every $k = 1,\dots, t$.
-%This is without loss of generality since we can always rescale $\Sigma_k$ so that its spectral norm satisfies the condition.
-Finally, for the random noise component, we assume that all of its moments exist.
-More precisely, there exists a fixed function $C(\cdot) : \mathbb{Z} \rightarrow \real^+$ such that for any $a = 1, 2, \dots, \infty$, we have that
-\begin{align}\label{assmAhigh2}
-	\ex{\abs{\varepsilon_{j}^{(i)}}^a} \le C(a), \text{ for any } 1\le i\le t \text{ and } 1\le j\le n_i.
-\end{align}
-Hence, for any value $\varphi > 4$, we get that Fact \ref{lem_minv} holds for $\varepsilon^{(i)}$, for all $i = 1, 2, \dots, t$.
-Let $\e$ be a small enough fixed value and let $c_{\infty}$ be any fixed value within $(0, 1/2-\e)$.
-We have that Fact \ref{lem_minv} holds for $\varepsilon^{(i)}$ where $c_{\varphi}$ becomes $c_{\infty}$ instead.
-
-\subsection{Hard Parameter Sharing}\label{sec_hps}
-
-\paragraph{Random-effects model.}
-A natural special case of the linear model is when every $\beta_i$ consists of two random components, one that is shared among all tasks and one that is task-specific.
-Thus, each task contributes a certain amount to the shared component and injects a task-specific bias.
-Let $\beta_0$ denote the shared component whose entries are sampled i.i.d. from an isotropic Gaussian distribution of mean zero and variance $p^{-1}\kappa^2$.
-Let the task-specific component be a random Gaussian vector whose coordinates all have mean zero and variance $p^{-1} d^2 / 2$.
-Thus, for any two different $\beta_i$ and $\beta_j$, their distance is roughly $d^2$.
-%	The labels are $Y_i = X_i\beta_i + \varepsilon_i$, where $\e_i$ consists of i.i.d. entries with mean zero and variance $\sigma^2$.
-For our purpose, it is enough to think of the order of $d$ being $1/\sqrt{p}$ and $pd^2/\sigma^2$ being constant.
-%The more precise conditions on the relations between $d^2$, $\sigma^2$ and $\kappa^2$ are given in  \eqref{choiceofpara}.
-We assume that all the random variables have finite moments up to any order as in equation \eqref{assmAhigh2}.
-
