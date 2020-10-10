@@ -68,7 +68,7 @@ Using the formula for expectation in terms of the tail probabilities, we can che
 &  = \int_0^{qn^{1/2}\log n}\P\left( |Z^{(1)}_{\mu i}|> q  n^{1/2}\log n \right)\dd s +\int_{qn^{1/2}\log n}^\infty \P\left(|Z^{(1)}_{\mu i}| \ge s\right)\dd s  \\
 &\lesssim \int_0^{qn^{1/2}\log n}\left(q  n^{1/2}\log n \right)^{-\varphi}\dd s +\int_{qn^{1/2}\log n}^\infty s^{-\varphi}\dd s \le n^{-2(\varphi-1)/\varphi}.
 \end{align*}
-where in the third step we used condition \eqref{assmAhigh} and Markov's inequality. Similarly, we can obtain that 
+where in the third step we used condition \eqref{assmAhigh} \HZ{check; I don't see which one} and Markov's inequality. Similarly, we can obtain that
 \begin{align*}
 &  \mathbb E \left| \mathbf 1\left( |Z^{(1)}_{\mu i}|> qn^{1/2} \log n \right)Z^{(1)}_{\mu i}\right|^2 = 2\int_0^\infty s \P\left( \left| \mathbf 1\left( |Z^{(1)}_{\mu i}|> q n^{1/2}\log n \right)Z^{(1)}_{\mu i}\right| \ge s\right)\dd s \\
 &  = 2\int_0^{qn^{1/2}\log n} s \P\left( |Z^{(1)}_{\mu i}|> q  n^{1/2}\log n \right)\dd s +2\int_{qn^{1/2}\log n}^\infty s\P\left(|Z^{(1)}_{\mu i}| \ge s\right)\dd s  \\
@@ -99,7 +99,7 @@ where $G(\wh Z^{(1)},\wh Z^{(2)},z)$ is defined in the same way as $G(z)$, but w
 
 Note that by equations \eqref{meanshif} and \eqref{EZ norm}, we can bound that for $k=1,2,$
 $$ \|\wh Z^{(k)} - \wt Z^{(k)}\|\lesssim n^{-1}\|\wt Z^{(k)}\| + \|\E \wt Z^{(k)}\|\lesssim n^{-1/2}$$
-with overwhelming probability, where we also used Fact \ref{lem_minv} to bound the operator norm of $\wt Z^{(k)}$. Together with equation \eqref{priorim} below, this bound implies that % check that
+with overwhelming probability, where we also used Fact \ref{fact_minv}(ii) to bound the operator norm of $\wt Z^{(k)}$. Together with equation \eqref{priorim} below, this bound implies that % check that
 $$\left| \mathbf u^\top (G(\wh Z^{(1)},\wh Z^{(2)},z)-G(Z^{(1)},Z^{(2)},z)) \mathbf v \right|  \lesssim  n^{-1/2}\|\wh Z^{(1)} - \wt Z^{(1)}\|+ n^{-1/2}\|\wh Z^{(2)} - \wt Z^{(2)}\|\lesssim n^{-1},$$
 with overwhelming probability on the event $\{\wt Z^{(1)} = Z^{(1)},  \wt Z^{(2)} = Z^{(2)}\}$. Combining this estimate with equation \eqref{GwhZZ}, we obtain that estimate \eqref{aniso_law} also holds for $G(z)$ on the event $\{\wt Z^{(1)} = Z^{(1)},  \wt Z^{(2)} = Z^{(2)}\}$, which concludes the proof by equation \eqref{XneX}.
 \end{proof}
@@ -159,7 +159,7 @@ Recall that in the setting of Theorem \ref{thm_main_RMT}, we have equation \eqre
 %$$n^2\bignorm{\Sigma_2^{1/2} ( (X^{(1)})^{\top}X^{(1)} + (X^{(2)})^{\top}X^{(2)})^{-1}\beta}^2= \bv^\top \cal G^2(0)  \bv,\quad \bv:=V^\top  \Sigma_2^{-1/2} \beta .$$ 
 For simplicity, we denote the vector $\bv:=V^\top  \Sigma_2^{-1/2} \Sigma_1^{1/2}w$. 
 %Note that $\cal G^2(0)=\partial_z \cal G|_{z=0}$. 
-Under the moment condition \eqref{assmAhigh}, using Corollary \ref{main_cor} we obtain that
+Under the constant $\varphi$-th moment condition, using Corollary \ref{main_cor} we obtain that
 %$Z^{(1)}$ and $Z^{(2)}$ have bounded support $q=n^{-1/2}$. Using Theorem \ref{LEM_SMALL}, %Now by Corollary \ref{main_cor}, we obtain that for any small constant $\e>0$, %with probability $1-\oo(1)$,
 \be\nonumber 
 \max_{z\in \C:|z|=(\log n)^{-1}}|\mathbf v^\top (G(z)-\Gi(z))\mathbf v| \prec q \|\mathbf v\|^2,\quad q:= n^{-\frac{\varphi - 4}{2\varphi}},
@@ -1665,14 +1665,11 @@ With estimate (\ref{entry_diagonal}), one can use the polynomialization method i
 \end{proof}
 
 
-%\subsubsection{Some Basic Estimates}\label{sec tools}
 \subsection{An Entrywise Local Law}\label{sec entry}
  
- Finally, this subsection is devoted to the proof of Lemma \ref{prop_entry}. We first collect some preliminary results, Lemmas \ref{lemm apri}-\ref{lemm_resolvent}, that will be used in the proof. We remark that theses results work under the general setting in Theorem \ref{LEM_SMALL}, that is, we do not require $Z^{(1)}$ and $Z^{(2)}$ to be Gaussian as in Lemma \ref{prop_entry}.
+Finally, this subsection is devoted to the proof of Lemma \ref{prop_entry}. We first collect some preliminary results, Lemmas \ref{lemm apri}-\ref{lemm_resolvent}, that will be used in the proof. We remark that theses results work under the general setting in Theorem \ref{LEM_SMALL}, that is, we do not require $Z^{(1)}$ and $Z^{(2)}$ to be Gaussian as in Lemma \ref{prop_entry}.
  
-% {\cor(start here)} In this subsection, we collect some basic estimates for the proof, while the main argument will be given in Section \ref{sec entry}. We remark that the estimates in this subsection work for general $G$, that is, we do not require $U$ and $V$ to be identity.
-
-First with Fact \ref{lem_minv}, we can obtain the following a priori estimate on the resolvent $G(z)$ for $z\in \mathbf D$.% (recall equation \eqref{SSET1}).
+First, we obtain the following a priori estimate on the resolvent $G(z)$ for $z\in \mathbf D$.
 
 \begin{lemma}\label{lemm apri}
 	In the setting of Lemma \ref{LEM_SMALL}, there exists a constant $C>0$ such that the following estimates hold uniformly in $z,z'\in \mathbf D$ with overwhelming probability:
@@ -1702,9 +1699,9 @@ z\sum_{k = 1}^{n} \frac{\zeta_k(\mu) \zeta_k^\top(\nu)}{\mu_k-z} , \ \ G_{i\mu} 
 \end{split}
 \ee
 %As in equation \eqref{SVDW}, $\{\mu_k\}_{1\le k \le p}$ are the eigenvalues of $WW^\top$. 
-By Fact \ref{lem_minv}, we have that with overwhelming probability \HZ{to check}
+By Fact \ref{fact_minv}, we have that with overwhelming probability
 %\be\label{lambdap} 
-$\mu_p \ge \lambda_p((Z^{(2)})^\top Z^{(2)}) \ge c_\tau $ for some constant $c_\tau>0$ depending only on $\tau$. This further implies that
+$\mu_p \ge \lambda_p((Z^{(2)})^\top Z^{(2)}) \ge c_\tau $ for some constant $c_\tau>0$ depending only on $\tau$.  \HZ{to check} This further implies that
 $$ \inf_{z\in \mathbf D}\min_{1\le k \le p}|\mu_k-z| \ge c_\tau - (\log n)^{-1}.$$
 Combining this bound with equation \eqref{spectral}, we can easily conclude estimates \eqref{priorim} and \eqref{priordiff}.
 \end{proof}
@@ -2129,7 +2126,7 @@ Finally, we give the proof of equation \eqref{Xiz0}.
 \begin{proof}[Proof of equation \eqref{Xiz0}]
 By equation \eqref{spectral}, we get
 $$ m(0)=\frac1p\sum_{i\in \cal I_0}G_{ii}(0) = \frac1p\sum_{i\in \cal I_0}\sum_{k = 1}^{p} \frac{|\xi_k(i)|^2 }{\lambda_k} \ge \lambda_1^{-1} \gtrsim 1,$$
-where we used Fact \ref{lem_minv} in the last step.
+where we used Fact \ref{fact_minv} in the last step. \HZ{to check}
 Similarly, we can also get that $m_0(0)$ is positive and has size $m_0(0)\sim 1$. Hence we have the estimates
 $$1+\gamma_n m(0)\sim 1,\quad 1+\gamma_n m_0(0)\sim 1.$$ 
 Combining these estimates with equations \eqref{self_Gmu1}, \eqref{self_Gmu2} and  \eqref{erri}, we obtain that equation \eqref{Gii000} holds at $z=0$ even without the indicator function $\mathbf 1(\Xi)$. Furthermore, we have that with overwhelming probability,
