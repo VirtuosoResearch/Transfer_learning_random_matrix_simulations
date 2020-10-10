@@ -7,28 +7,38 @@
 \[\cE  :=[\epsilon^{(1)},\epsilon^{(2)},\cdots, \epsilon^{(t)}],  \quad \text{ and } \quad \cW \define X(X^{\top} X)^{-1} X^{\top} \cE A^{\top} (AA^{\top})^{\dag}. \]
 	For any $j = 1,2,\dots, t$, let
 	\begin{align*}
-		H_j &\define B^{\star} A^{\top} (AA^{\top})^{\dagger} A_j - \beta^{(j)}, \quad \text{ and } \quad E_j \define \cW A_j - \varepsilon^{(j)}.
+		H_j &\define B^{\star} A^{\top} (AA^{\top})^{+} A_j - \beta^{(j)}, \quad \text{ and } \quad E_j \define \cW A_j - \varepsilon^{(j)}.
 	\end{align*}
 	Then, we can write the function $g(A)$ conveniently as
 	\[ g(A) = \sum_{j=1}^t \bignorm{X H_j + E_j}^2. \]
 	We will divide $g(A)$ into three parts.
-	First, we have that
+	We will use matrix notations in the proof since they are more compact.
+	That is, stacking $[H_j]_j$ gives matrix $B^{\star} A^{\top} (AA^{\top}) A - B^{\star}$,
+	and stacking $[E_j]_j$ gives $\cW A - \cE$.
+
+	\paragraph{Part 1:} The first part is the square of $XH_j$,
 	\begin{align}\label{eq_gA_p1}
-		\sum_{j=1}^t \bignorm{X H_j}^2 = \bignorm{X (B^{\star} U_A U_A^{\top} - B^{\star})}^2,
+		\sum_{j=1}^t \bignorm{X H_j}^2
+		= \bignormFro{X (B^{\star} A^{\top} (AA^{\top}) A - B^{\star})}^2
+		= \bignormFro{X (B^{\star} U_A U_A^{\top} - B^{\star})}^2,
 	\end{align}
-	where $U_{A} U_{A}^{\top} \in\real^{t\times t}$ denotes the subspace $ {A}^{\top} ( {A}{A}^{\top})^{\dagger}  {A}$. Note that the expectation of equation \eqref{eq_gA_p1} over $X$ is $\bignorm{\Sigma^{1/2}(B^{\star} U_A U_A^{\top} - B^{\star})}^2$.
-	Second, one can verify that the cross terms are equal to the following
+	where $U_{A} U_{A}^{\top} \in\real^{t\times t}$ denotes the subspace $ {A}^{\top} ( {A}{A}^{\top})^{+}  {A}$.
+	Taking expectation of equation \eqref{eq_gA_p1} over $X$, we get
+		\[ \bignorm{\Sigma^{1/2}(B^{\star} U_A U_A^{\top} - B^{\star})}^2. \]
+
+	\paragraph{Part 2:} The second part is the cross term, which is equal to the following using the matrix notations
 	\begin{align}\label{eq_gA_p2}
 		\sum_{j=1}^t\inner{XH_j}{E_j} = \inner{X(B^{\star} U_A U_A^{\top} - B^{\star})}{\cW A - \cE}
 		= - \inner{X (B^{\star} U_A U_A^{\top} - B^{\star})}{\cE},
 	\end{align}
 	which is zero in expectation over $\cE$.
-	Finally, we have that
+
+	\paragraph{Part 3:} The last part is the square of $E_j$,
 	\begin{align}\label{eq_gA_p3}
 		\sum_{j=1}^t \norm{E_j}^2 &= \bignormFro{\cW A - \cE}^2
 		= \bignormFro{\cE}^2 - \inner{\cW A}{\cE},
 	\end{align}
-	which is because $\norm{\cW A}^2 = \inner{\cW A}{\cE}$.
+	which is because $\norm{\cW A}^2 = \inner{\cW A}{\cE}$ by algebraic calculation.
 	Hence, it suffices to show that the expectation of equation \eqref{eq_gA_p3} is equal to $\sigma^2 (n\cdot t - p\cdot r)$.
 	First, we have that $\ex{\|\cE\|_F^2} = \sigma^2 \cdot n \cdot t$.
 %	Conditional on $X$, we have that
@@ -113,27 +123,34 @@
 	%\begin{align}
 	%	\left|g_2(\cal W)-\sigma^2(n\cdot t - p\cdot r)\right|=\left|g_2(\cal W)- \exarg{\varepsilon_1, \dots, \varepsilon_t} {g_2(\cal W)}\right| \lesssim \sigma^2 p^{1/2+\e}. \label{eq_gA_err}
 	%\end{align}
-	Combining equation \eqref{eq_gA_err1}, \eqref{eq_gA_err2}, \eqref{eq_gA_err3}, and \eqref{eq_gA_err4}, we obtain that  equation \eqref{eq_gA_err} holds.
-	Next, using triangle inequality, we have that
+	Combining equation \eqref{eq_gA_err1}, \eqref{eq_gA_err2}, \eqref{eq_gA_err3}, and \eqref{eq_gA_err4}, we obtain that equation \eqref{eq_gA_err} holds.
+
+	\bigskip
+	Next, we use equation \eqref{eq_gA_err} to prove the claim.
+	Using triangle inequality, we upper bound the gap between $g(A^{\star})$ and $g(\hat{A})$
 	\begin{align}
-		g(U_r) - g(\hat{A}) &\le \bigabs{g(U_r) - \ex{g(U_r)}} + (\ex{g(U_r)} - \ex{g(\hat{A})}) + \bigabs{g(\hat{A}) - \ex{g(\hat{A})}} \nonumber \\
-		&\le \bigabs{g(U_r) - \ex{g(U_r)}} +\bigabs{g(\hat{A}) - \ex{g(\hat{A})}} \nonumber \\
+		g(A^{\star}) - g(\hat{A}) &\le \bigabs{g(A^{\star}) - \ex{g(A^{\star})}} + (\ex{g(A^{\star})} - \ex{g(\hat{A})}) + \bigabs{g(\hat{A}) - \ex{g(\hat{A})}} \nonumber \\
+		&\le \bigabs{g(A^{\star}) - \ex{g(A^{\star})}} +\bigabs{g(\hat{A}) - \ex{g(\hat{A})}} \nonumber \\
 		&\le p^{-c} \cdot n \bignormFro{\Sigma^{1/2} B^{\star}}^2 + p^{-1/2 + \e}\cdot \sigma^2 n \cdot t. \label{eq_g_gap}
 	\end{align}
-	The second equation uses the fact that $U_r$ is a global minimum of $\ex{g(\cdot)}$.
-	The third equation uses equation \eqref{eq_gA_err} and the fact that the spectral norm of an identity matrix minus a projection matrix is at most one.
-	On the other hand, we simplify $g(A)$ as follows
+	The second equation uses the fact that $A^{\star}$ is a global minimum of $\ex{g(\cdot)}$, hence $\ex{g(A^{\star})} \le \ex{g(\hat{A})}$.
+	The third equation uses equation \eqref{eq_gA_err} and the fact that the spectral norm of $U_A U_A^{\top} - \id$ is at most one.
+
+	We can also derive a lower bound on the gap as follows.
+	We simplify $g(A)$ as
 	\begin{align*}
 		g(A)  &= \normFro{X (X^{\top}X)^{-1} X^{\top} Y U_A U_A^{\top} - Y}^2 \\
 					&= \normFro{Y}^2 - \inner{U_A U_A^{\top}}{Y^{\top} X (X^{\top} X)^{-1} X^{\top} Y}.
 	\end{align*}
-	We denote $M = Y^{\top} X (X^{\top} X)^{-1} X^{\top} Y$, which appears in the equation above.
-	Since $\hat{A}$ is a global minimum of $g(A)$, we have that
+	We denote $H = Y^{\top} X (X^{\top} X)^{-1} X^{\top} Y$, which appears in the equation above.
+	Since $\hat{A}$ is a global minimum of $g(A)$, we have that $g(A^{\star}) \ge g(\hat{A})$.
+	Hence,
 	\begin{align}
-		g(U_r) - g(\hat{A}) &= \abs{g(U_r) - g(\hat{A})} = \abs{\inner{M}{U_r U_r^{\top} - U_{\hat{A}} U_{\hat{A}}^{\top}}} \nonumber \\
-												&\ge \lambda_{\min}(M) \cdot \normFro{U_r U_r^{\top} - U_{\hat{A}} U_{\hat{A}}^{\top}}. \label{eq_g_gap1}
+		g(A^{\star}) - g(\hat{A}) &= \abs{g(A^{\star}) - g(\hat{A})} = \abs{\inner{H}{A^{\star} {A^{\star}}^{\top} - U_{\hat{A}} U_{\hat{A}}^{\top}}} \nonumber \\
+												&\ge \lambda_{\min}(H) \cdot \normFro{U_r U_r^{\top} - U_{\hat{A}} U_{\hat{A}}^{\top}}. \label{eq_g_gap1}
 	\end{align}
-	Recall that $Y = X B^{\star} + \cE$. Therefore, the minimum singular value of $H$ can be lowered bounded as follows
+	Recall that $Y = X B^{\star} + \cE$ in matrix notation.
+	We bound the minimum singular value of $H$ as follows
 	\begin{align}
 		\lambda_{\min}(H) &= \lambda_{\min}({B^{\star}}^{\top} X^{\top} X B^{\star} + \cE^{\top} X (X^{\top} X)^{-1} X^{\top} \cE) \nonumber \\
 		&\ge \lambda_{\min}({B^{\star}}^{\top}X^{\top}X B^{\star}) + \lambda_{\min}(\cE^{\top} X (X^{\top} X)^{-1} X^{\top} \cE) \nonumber \\
@@ -144,25 +161,56 @@
 	The third equation uses the fact that $X = Z \Sigma^{1/2}$ and Fact \ref{fact_proof_gA} in Appendix \ref{app_tool}.
 	The last equation uses Fact \ref{lem_minv} for the minimum singular value of $Z^{\top}Z$ and Lemma \ref{largedeviation} for $\cE\cE^{\top}$.
 
-	%\noindent\textbf{Dealing with the empirical minimizer.}
-	%eet $\hat {\cal W}$ be the minimizer of $g$, and denote $\hat Q:= \hat{\cal W}^{\top} (\hat{\cal W}\hat{\cal W}^{\top})^{-1} \hat{\cal W} $.
-	%We show that $\norm{\hat{\cW}^{\top} (\hat{\cW}\hat{\cW}^{\top})^{-1} \cW - U_r U_r^{\top}} \le o(1)$ w.h.p.
-	%\be\label{Q-Q}\|Q_0^{-1}\hat Q - \id\|_F = \oo(1) \quad \text{w.h.p.}\ee
-	%Since $\hat{\cW}$ is the minimizer of $g(\cdot)$, we have that
-	%\begin{align*}
-	%	g(U_r) - g(\hat{\cW}) = \bigabs{g(\hat{\cW}) - g(U_r)} &= n \cdot \bigabs{\inner{{B^{\star}}^{\top} \Sigma B^{\star}}{U_r U_r^{\top} - \hat{\cW}^{\top} (\hat{\cW}\hat{\cW}^{\top})^{-1} \hat{\cW}}}\\
-	%	&\ge n \cdot \sigma_{\min}({B^{\star}}^{\top} \Sigma B^{\star}) \cdot \bignormFro{U_r U_r^{\top} - \hat{\cW}^{\top} (\hat{\cW}\hat{\cW}^{\top})^{-1} \hat{\cW}}.
-	%\end{align*}
 	Combining equation \eqref{eq_g_gap}, \eqref{eq_g_gap1}, and \eqref{eq_g_gap2}, we conclude that
 	\begin{align*}
 		\bignormFro{U_r U_r^{\top} - U_{\hat{A}} U_{\hat{A}}^{\top}}
-		\le \frac{p^{-c} \rho \normFro{\Sigma^{1/2} B^{\star}}^2 + p^{-1/2 + \e} \cdot \sigma^2 \rho t}{\lambda_{\min}^2(\Sigma^{1/2} B^{\star}) ((\sqrt{\rho} - 1)^2 - \rho \cdot p^{-c}) + \sigma^2 (1 - p^{-1/2 + \e})}.
+		&\le \frac{p^{-c} \cdot n \bignormFro{\Sigma^{1/2} B^{\star}}^2 + p^{-1/2 + c} \cdot \sigma^2 nt} {\lambda_{\min}(H)} \\
+		&\le \frac{p^{-c} \rho \normFro{\Sigma^{1/2} B^{\star}}^2 + p^{-1/2 + \e} \cdot \sigma^2 \rho t}{\lambda_{\min}^2(\Sigma^{1/2} B^{\star}) ((\sqrt{\rho} - 1)^2 - \rho \cdot p^{-c}) + \sigma^2 (1 - p^{-1/2 + \e})}
 	\end{align*}
 	Hence for large enough $p$, we obtain that Claim \ref{claim_opt_dist} holds.
 	The proof is complete.
 
 	\paragraph{Proof of Claim \ref{claim_pred_err}.}
+	We apply similar arguments to Claim \ref{lem_exp_opt} and \ref{claim_opt_dist} for this proof.
+	The prediction loss of hard parameter sharing for task $i$ is equal to
+	\begin{align*}
+		L(\hat{\beta}_i^{\MTL}) &= \bignorm{\Sigma^{1/2} (\hat{B} \hat{A}_i - \beta_i)}^2 \\
+		&= \bignorm{\Sigma^{1/2} ((X^{\top} X)^{-1} X^{\top} Y \hat{A}^{\top} (\hat{A} \hat{A}^{\top})^{+} \hat{A}_i - \beta_i)}^2 \\
+		&= \bignorm{\Sigma^{1/2} (B^{\star} \hat{a}_i - \beta_i + E_i)}^2,
+	\end{align*}
+	where we denote $E_i = (X^{\top} X)^{-1} X^{\top} \cE \hat{a}_i$.
+	We divide the prediction loss to three parts.
 
+	\paragraph{Part 1:} The first part is the bias term:
+	$\norm{\Sigma^{1/2} (B^{\star} \hat{a}_i - \beta_i)}^2 = L(B^{\star} \hat{a}_i)$.
+
+	\paragraph{Part 2:} The second part is the cross term, whose expectation over $\cE$ is zero. The concentration error is
+	\begin{align*}
+		\bigabs{\inner{\Sigma^{1/2}(B^{\star} \hat{a}_i - \beta_i)}{\Sigma^{1/2}E_i}}
+		\le \bignormFro{\Sigma^{1/2} (B^{\star} \hat{a}_i - \beta_i)} \cdot \bignorm{\Sigma^{1/2} E_i}.
+	\end{align*}
+	Next, we use the fact that the spectral norm of $\cE$ is at most $\sigma \cdot p^{\e}$.
+	Hence, the spectral norm of $\Sigma^{1/2} E_i$ is at most
+		\[ \sigma \cdot p^{\e} \cdot \norm{\Sigma^{1/2} (X^{\top} X)^{-1} X^{\top}} \cdot \norm{\hat{a}_i}. \]
+	Therefore, the cross term is bounded by $\sigma \cdot p^{\e}$ times
+	\begin{align*}
+			& \bignormFro{\Sigma^{1/2} (B^{\star} \hat{a}_i - \beta_i)} \cdot \norm{\Sigma^{1/2} (X^{\top} X)^{-1} X^{\top}} \cdot \norm{\hat{a}_i} \\
+		\le & \bignormFro{\Sigma^{1/2} (B^{\star} \hat{a}_i - \beta_i)}^2 + \norm{\hat{a}_i}^2 \cdot \bignorm{\Sigma^{1/2} (X^{\top} X)^{-1} X^{\top}}^2 \tag{by Cauchy-Shwartz inequality} \\
+		\le & \bignormFro{\Sigma^{1/2}(B^{\star} \hat{a}_i - \beta_i)} + \norm{\hat{a}_i}^2 \cdot \bigtr{\Sigma (X^{\top} X)^{-1}}.
+	\end{align*}
+
+	\paragraph{Part 3:} The final part is the square of $E_i$. One can verify that the expectation of $\norm{\Sigma^{1/2} E_i}^2$ is equal to $\norm{\hat{a}_i}^2 \cdot \tr[\Sigma (X^{\top} X)^{-1}]$.
+	Next, we bound the concentration error.
+	Let $A = X (X^{\top} X)^{-1} \Sigma (X^{\top} X)^{-1} X^{\top}$.
+	We have that
+	\begin{align*}
+		\bigabs{\bignorm{\Sigma^{1/2} E_i}^2 - \exarg{\cE}{\bignorm{\Sigma^{1/2} E_i}^2}}
+		&= \bigabs{\inner{A}{\cE \hat{a}_i \hat{a}_i^{\top} \cE - \exarg{\cE}{\cE \hat{a}_i \hat{a}_i^{\top} \cE}}}.
+	\end{align*}
+	In the above equation, we note that the trace of $A$ is precisely the trace of $\Sigma (X^{\top} X)^{-1}$.
+	On the other hand, the concentration error of the spectral norm of $\cE \hat{a}_i \hat{a}_i^{\top} \cE^{\top}$ is at most $\sigma^2 \e $.
+
+	Combining the three parts together, we conclude the proof of Claim \ref{claim_pred_err}.
 
 	\paragraph{Proof of Theorem \ref{thm_many_tasks}.}
 	%In sum, we have solved that $\hat{\beta}_i^{\MTL}=B^{\star}\left( U_r v_i +\oo(1)\right)$.

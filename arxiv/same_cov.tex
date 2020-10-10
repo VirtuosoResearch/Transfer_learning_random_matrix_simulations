@@ -141,13 +141,14 @@ Second, when $d^2 < \frac{\sigma^2 p}{n - p}$, hard parameter sharing performs t
 	where we recall that $B \in \real^{p \times r}$ and $A_1, A_2, \dots, A_t \in \R^r$.
 	Using the local optimality condition over $B$, that is, $\frac{\partial f}{\partial B} = 0$, we obtain $\hat{B}$ as a function of the output layers as follows
 	\begin{align} \label{eq_Bhat}
-		\hat{B} \define (X^{\top}X)^{-1} X^{\top} \bigbrace{\sum_{j=1}^t Y^{(j)} A_j^{\top}} (A  A^{\top})^{\dagger}
-		= (X^{\top} X)^{-1} X^{\top} Y A^{\top} (AA^{\top})^{\dagger}.
+		\hat{B} \define (X^{\top}X)^{-1} X^{\top} \bigbrace{\sum_{j=1}^t Y^{(j)} A_j^{\top}} (A  A^{\top})^{+}
+		= (X^{\top} X)^{-1} X^{\top} Y A^{\top} (AA^{\top})^{+}.
 	\end{align}
-	Above, we have used that $X^{\top}X$ is invertible by Fact \ref{lem_minv}, and $Y$ was defined as $Y=[Y^{(1)},Y^{(2)},\cdots, Y^{(t)}]$. \FY{Is $\dag$ a standard notation? It is a bad notation at least for me because $\dag$ is more often used as Hermitian conjugate. Wiki page uses $(AA^{\top})^{+}$ for pseudo-inverse.}
+	Above, we have used that $X^{\top}X$ is invertible by Fact \ref{lem_minv}, and $Y$ was defined as $Y=[Y^{(1)},Y^{(2)},\cdots, Y^{(t)}]$.
+	%\FY{Is $\dag$ a standard notation? It is a bad notation at least for me because $\dag$ is more often used as Hermitian conjugate. Wiki page uses $(AA^{\top})^{+}$ for pseudo-inverse.}
 	Plugging $\hat{B}$ into equation \eqref{eq_mtl_same_cov}, we obtain the following objective that only depends on the output layer:
 	\begin{align}
-		g(A) \define \sum_{j=1}^t \bignorm{X (X^{\top}X)^{-1}X^{\top} Y A^{\top} (AA^{\top})^{\dagger} A_j - Y^{(j)}}^2. \label{eq_mtl_output_layer}
+		g(A) \define \sum_{j=1}^t \bignorm{X (X^{\top}X)^{-1}X^{\top} Y A^{\top} (AA^{\top})^{+} A_j - Y^{(j)}}^2. \label{eq_mtl_output_layer}
 	\end{align}
 
 	\begin{claim}[Characterizing global optimum]\label{lem_exp_opt}
@@ -173,7 +174,7 @@ Second, when $d^2 < \frac{\sigma^2 p}{n - p}$, hard parameter sharing performs t
 	Furthermore, $\hat{A}$ is a global minimizer of $g(A)$ in equation \eqref{eq_mtl_output_layer}.
 	Our next claim shows that the subspace spanned by the rows of $\hat{A}$ is close to that of $A^{\star}$.
 	\begin{claim}\label{claim_opt_dist}
-		Let $U_{\hat{A}} U_{\hat{A}}^{\top} \in\real^{t\times t}$ denote the subspace $\hat{A}^{\top} (\hat{A}\hat{A}^{\top})^{\dagger} \hat{A}$.
+		Let $U_{\hat{A}} U_{\hat{A}}^{\top} \in\real^{t\times t}$ denote the subspace $\hat{A}^{\top} (\hat{A}\hat{A}^{\top})^{+} \hat{A}$.
 		In the setting of Theorem \ref{thm_many_tasks}, we have that
 		\[ \bignormFro{U_{\hat{A}} U_{\hat{A}}^{\top} - A^{\star} {A^{\star}}^{\top}}
 				\le  p^{-c_{\varphi}} \cdot C_1. \]
@@ -182,11 +183,11 @@ Second, when $d^2 < \frac{\sigma^2 p}{n - p}$, hard parameter sharing performs t
 	Finally, we show that the prediction loss of hard parameter sharing satisfies the following claim.
 	\begin{claim}\label{claim_pred_err}
 		In the setting of Theorem \ref{thm_many_tasks},
-		let $\hat{a}_i = \hat{A}^{\top} (\hat{A}\hat{A}^{\top})^{\dagger} \hat{A}_i$.
+		let $\hat{a}_i = \hat{A}^{\top} (\hat{A}\hat{A}^{\top})^{+} \hat{A}_i$.
 		We have that the prediction loss of $\hat{\beta}_i^{\MTL} = \hat{B} \hat{A}_i$ satisfies that
 		\begin{align*}
 			\bigabs{L(\hat{\beta}_i^{\MTL}) - L(B^{\star} \hat{a}_i) - \norm{\hat{a}_i}^2 \cdot \bigtr{\Sigma (X^{\top}X)^{-1}}}
-			\le  p^{-c_\infty} \cdot \bigbrace{L(B^{\star} \hat{a}_i) + \norm{\hat{a}_i}^2 \cdot \bigtr{\Sigma (X^{\top}X)^{-1}}}.
+			\le  2\sigma \cdot p^{\e} \cdot \bigbrace{L(B^{\star} \hat{a}_i) + \sigma \cdot p^{\e} \cdot \norm{\hat{a}_i}^2 \cdot \bigtr{\Sigma (X^{\top}X)^{-1}}}.
 		\end{align*}
 	\end{claim}
 	The proof of Claim \ref{lem_exp_opt}, Claim \ref{claim_opt_dist}, and Claim \ref{claim_pred_err} can be found in Appendix \ref{app_proof_error_same_cov}.
