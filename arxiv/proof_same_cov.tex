@@ -83,23 +83,27 @@
 
 	For equation \eqref{eq_gA_p1}, % $g_0(\cal W)= \sum_{j=1}^t\left\|Z v_j \right\|^2$.
 %	$$g_0(\cal W)= \sum_{j=1}^t\left\|Z v_j \right\|^2,\quad v_j:= \Sigma^{1/2}\left(B^{\star} \cW^{\top} (\cW\cW^{\top})^{-1} W_j -  \beta_j\right).$$
-	note that $X H_j = Z \Sigma^{1/2} H_j \in \real^n$ is a random vector with i.i.d. entries of mean zero, variance $\|\Sigma^{1/2}H_j\|^2$, and finite $\varphi$-th moment by Assumption \eqref{assume_rm}.
-	Hence by the law of large numbers, we have that with high probability
-	${\left\|Z v_j \right\|^2 } = { n \|v_j\|^2} \cdot (1 + \OO(p^{-\e}))$, for a small enough constant $\e$,
-	which implies that
+%	note that $X H_j = Z \Sigma^{1/2} H_j \in \real^n$ is a random vector with i.i.d. entries of mean zero, variance $\|\Sigma^{1/2}H_j\|^2$, and finite $\varphi$-th moment by Assumption \eqref{assume_rm}.
+%	Hence by the law of large numbers, we have that with high probability	
+	applying Corollary \ref{cor_largedeviation} to $X H_j = Z \Sigma^{1/2} H_j$, we obtain that 
+	${\left\|Z \Sigma^{1/2} H_j \right\|^2 } = { n \|\Sigma^{1/2} H_j\|^2} \cdot (1 + \OO(p^{-c_\varphi}))$ with high probability. 
+	%, for a small enough constant $\e$,
+	This implies that
 	\begin{align}
-		\abs{\sum_{j=1}^t \|X H_j\|^2 - \exarg{X}{\sum_{j=1}^t \norm{X H_j}^2}} \lesssim p^{-c} \cdot n \bignorm{\Sigma^{1/2} B^{\star} (U_{A}U_A^{\top} - \id_{t\times t})}^2. \label{eq_gA_err1}
+		\abs{\sum_{j=1}^t \|X H_j\|^2 - \exarg{X}{\sum_{j=1}^t \norm{X H_j}^2}} \lesssim p^{-c_\varphi} \cdot n \bignorm{\Sigma^{1/2} B^{\star} (U_{A}U_A^{\top} - \id_{t\times t})}^2. \label{eq_gA_err1}
 	\end{align}
 
-	For equation \eqref{eq_gA_p2}, using Lemma \ref{largedeviation} in Appendix \ref{app_tool} and the fact that all moments of $\varepsilon_i$ exist by Assumption \eqref{assmAhigh2}, we obtain that the following holds with high probability:
+	For equation \eqref{eq_gA_p2}, 
+	%using Lemma \ref{largedeviation} in Appendix \ref{app_tool} and the fact that all moments of $\varepsilon_i$ exist by Assumption \eqref{assmAhigh2}, 
+	using Corollary \ref{cor_calE}, we obtain that the following holds with high probability:
 	\begin{align}
 		|\inner{XB^{\star} (U_AU_A^{\top} - \id)}{\cE}| &\le p^\e \cdot \sigma \cdot \bignormFro{XB^{\star} (U_AU_A^{\top} - \id)} \nonumber \\
 		&\le p^{\e} \cdot \sigma \cdot \norm{Z} \cdot \bignormFro{\Sigma^{1/2} B^{\star}(U_AU_A^{\top} -\id)} \nonumber \\
-		&\le p^{1/2 + \e} \cdot \sigma \cdot \bignormFro{\Sigma^{1/2} B^{\star}(U_AU_A^{\top} -\id)}, \label{eq_gA_err2}
+		&\lesssim p^{\e} \cdot \sigma \cdot \sqrt{n}\cdot \sqrt{t}\bignorm{\Sigma^{1/2} B^{\star}(U_AU_A^{\top} -\id)}, \label{eq_gA_err2}
 	\end{align}
-	which is less than the right hand side of equation \eqref{eq_gA_err} by Cauchy-Schwartz inequality.
-	In the second step, we use the fact that $X=Z\Sigma^{1/2}$.
-	In the third step, we use Fact \ref{lem_minv} to bound the operator norm $\|Z\|$ by $\OO(\sqrt{p})$.
+	which is bounded by the right hand side of equation \eqref{eq_gA_err} by AM-GM inequality.
+	In the second step, we used the fact that $X=Z\Sigma^{1/2}$.
+	In the third step, we used Fact \ref{lem_minv} (iii) to bound the operator norm $\|Z\|$ by $\OO(\sqrt{n})$, and used $\bignormFro{\Sigma^{1/2} B^{\star}(U_AU_A^{\top} -\id)}\le \sqrt{t} \bignorm{\Sigma^{1/2} B^{\star}(U_AU_A^{\top} -\id)}$ since the matrix $\Sigma^{1/2} B^{\star}(U_AU_A^{\top} -\id)$ has rank at most $t$.
 
 	For equation \eqref{eq_gA_p3}, using Lemma \ref{largedeviation} and the fact that all moments of $\varepsilon_i$ exist, we obtain that with high probability
 	\begin{align}
