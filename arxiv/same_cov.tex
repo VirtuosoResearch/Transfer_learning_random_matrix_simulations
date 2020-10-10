@@ -2,7 +2,7 @@
 
 %We begin by considering the case where all tasks have the same sample size and feature covariates, that is, $n_i = n$ and $X^{(i)} = X\in\real^{n\times p}$ for all $i = 1, \dots, t$.
 %We provide a sharp generalization error bound of hard parameter sharing estimators.
-When all tasks have the same sample size and feature covariate, we show that hard parameter sharing essentially approximates all tasks in a rank-$r$ subspace.
+We show that the prediction loss of hard parameter sharing admits a clean bias-variance decomposition, when all tasks have the same sample size and feature covariates.
 %This setting is prevalent in applications of multi-task learning to image classification, where there are multiple prediction labels/tasks for every image \cite{chexnet17,EA20}.
 %We consider an arbitrary local minimum $B, W_1, \dots, W_2$ of the optimization objective.
 %We extend the bias-variance decomposition from the two-task case to the multiple-task case.
@@ -21,9 +21,9 @@ Let $\Sigma$ denote the (same) population covariance matrix of all tasks.
 Let $A^{\star} {A^{\star}}^{\top}$ denote the best rank-$r$ subspace approximation of ${B^{\star}}^\top\Sigma B^{\star}$, that is,
 \[ A^{\star} \define \argmin_{U\in\real^{t\times r} : U^{\top} U = \id_{r\times r}} \inner{U U^{\top}} {{B^{\star}}^{\top} \Sigma B^{\star}}. \]
 For $i = 1,\dots, t$, let $a_i^{\star} \in\real^r$ denote the $i$-th column of $A^{\star}{A^{\star}}^{\top}$.
-Our main result in this section is stated as follows.
+Our main result shows that hard parameter sharing essentially approximates all tasks through the rank-$r$ matrix $B^{\star} A^{\star} {A^{\star}}^{\top}$.
 
-\begin{theorem}[Multiple tasks with the same covariate]\label{thm_many_tasks}
+\begin{theorem}[Bias-variance decomposition for prediction loss]\label{thm_many_tasks}
 %Suppose $X=Z\Sigma^{1/2}\in \R^{n\times p}$ satisfy Assumption \ref{assm_secA1} with $\rho:=n/p>1$ being some fixed constant. Consider data models  $Y_i = X\beta_i + \varepsilon_i$, $i=1,2,\cdots, t$, where $\e_i\in \R^{n}$ are random vectors with i.i.d. entries with mean zero, variance $\sigma^2$ and all moments as in \eqref{assmAhigh}. Moreover, assume that $X$, $\beta_i$ and $\e_i$ are all independent of each other.
 	%Let $n = c \cdot p$.
 	%Let $X\in\real^{n\times p}$ and $Y_i = X\beta_i + \varepsilon_i$, for $i = 1,\dots,k$.
@@ -130,34 +130,15 @@ Using Fact \ref{lem_minv}, the average prediction loss of single-task learning i
 First, the prediction loss of hard parameter sharing is less than single-task learning if and only if $d^2 < \frac{\sigma^2 p}{n - p}$: the ``task-specific variance'' of $\beta_i$ is smaller than the ``noise variance''.
 Second, when $d^2 < \frac{\sigma^2 p}{n - p}$, hard parameter sharing performs the best when the rank $r$ is one.
 	In this case, hard parameter sharing requires only $p + \frac{n - p}{t - (t - 1)\frac{d^2 (n - p)}{\sigma^2 p}}$ samples, which is less than $n$, to achieve comparable loss to single-task learning.
-
-%\begin{corollary}[Derived from Theorem \ref{thm_many_tasks}]\label{prop_same_cov}
-%	In the setting described above, if the sample size $n$ is greater than $(1 + \tau) p$, then the total prediction loss of the $t$ tasks satisfies that
-%	\begin{align*}
-%	 \sum_{i=1}^t L(\hat{\beta}_i^{\MTL})&= (t-r) \kappa^2 \cdot \frac{\tr\Sigma}{p}  + \sigma^2 \cdot \frac{r}{\rho-1} +\OO\left( p^{-c_\infty} \cdot\frac{\rho t(\kappa^2 + d^2) \|\Sigma\|}{(\sqrt{\rho}-1)^2 \kappa^2  \|\Sigma\| + \sigma^2}   \left( t \kappa^2 \|\Sigma \| + \frac{\sigma^2 r}{\rho-1} \right)  \right) .
-	 %& = \sum_{i=r+1}^t \lambda_i^2 (\Sigma^{1/2} B^{\star}) + \sigma^2 \frac{r}{\rho-1} +\OO\left(  p^{-c_\infty} \frac{t(\kappa^2 + d^2)\cdot (p^{-1}\tr \Sigma)}{(\sqrt{\rho}-1)^2 \kappa^2 \cdot (p^{-1}\tr \Sigma) + \sigma^2}   \left( t \kappa^2 \frac{\tr \Sigma}{p} + \frac{\sigma^2 r}{\rho-1} \right) \right) \\
-%	 &= (t-r) \kappa^2 \cdot \frac{\tr\Sigma}{p}  + \sigma^2 \cdot \frac{r}{\rho-1} \\
-%	 &+\OO\left( p^{-c_\infty}t(\kappa^2+d^2) \cdot p^{-1/2} \|\Sigma\|_F + p^{-c_\infty} \frac{t(\kappa^2 + d^2)\cdot (p^{-1}\tr \Sigma)}{(\sqrt{\rho}-1)^2 \kappa^2 \cdot (p^{-1}\tr \Sigma) + \sigma^2}   \left( t \kappa^2 \frac{\tr \Sigma}{p} + \frac{\sigma^2 r}{\rho-1} \right)  \right) .
-%	\end{align*}
-%and $\lambda_{r+1} (\Sigma^{1/2} B^{\star}) \ge \cdots\ge  \lambda_{t} (\Sigma^{1/2} B^{\star})$ denote the smallest $(t-r)$ singular values of $\Sigma^{1/2} B^{\star}$.
-%\end{corollary}
-%On the other hand, the total STL predication loss is
-%\begin{align*}
-% \sum_{i=1}^t L(\hat{\beta}_i^{\STL}) =\sigma^2\cdot \frac{t}{ \rho-1}  +\OO(p^{-c_\infty}\cdot t \sigma^2 ).
-%	 \end{align*}
 \end{example}
 
 
-	%First, we provide the steps for showing the bias-variance decomposition in equation \eqref{eq_bias_multiple} and \eqref{eq_var_multiple}.
-	\paragraph{Proof overview.} The key idea for proving Theorem \ref{thm_many_tasks} is a bias-variance decomposition of the prediction loss.
-%	We obtain the decomposition as follows.
+\paragraph{Proof overview.} The key idea for proving Theorem \ref{thm_many_tasks} is a bias-variance decomposition of the prediction loss.
 	Since all tasks have the same covariates, the optimization objective \eqref{eq_mtl} becomes
 	\begin{align}
 		f(A, B) = \sum_{j=1}^t \bignorm{X B A_j - Y^{(j)}}^2, \label{eq_mtl_same_cov}
 	\end{align}
 	where we recall that $B \in \real^{p \times r}$ and $A_1, A_2, \dots, A_t \in \R^r$.
-%	Without loss of generality, we assume that $AA^{\top}$ is invertible.
-%	Otherwise, we can add a small amount of random perturbation to $A$ (e.g. an inverse exponential in $p$ amount of isotropic Gaussian noise), and the result still holds.
 	Using the local optimality condition over $B$, that is, $\frac{\partial f}{\partial B} = 0$, we obtain $\hat{B}$ as a function of the output layers as follows
 	\begin{align} \label{eq_Bhat}
 		\hat{B} \define (X^{\top}X)^{-1} X^{\top} \bigbrace{\sum_{j=1}^t Y^{(j)} A_j^{\top}} (A  A^{\top})^{\dagger}
@@ -169,7 +150,7 @@ Second, when $d^2 < \frac{\sigma^2 p}{n - p}$, hard parameter sharing performs t
 		g(A) \define \sum_{j=1}^t \bignorm{X (X^{\top}X)^{-1}X^{\top} Y A^{\top} (AA^{\top})^{\dagger} A_j - Y^{(j)}}^2. \label{eq_mtl_output_layer}
 	\end{align}
 
-	\begin{claim}[Bias-variance decomposition]\label{lem_exp_opt}
+	\begin{claim}[Characterizing global optimum]\label{lem_exp_opt}
 		In the setting of Theorem \ref{thm_many_tasks}, we have that
 		\begin{align}
 			\exarg{\set{\varepsilon^{(j)}}_{j=1}^t, X}{g(A)} = n \bignormFro{\Sigma^{1/2} B^{\star} \bigbrace{A^{\top} (AA^{\top})^{\dagger} A - \id_{t\times t}}}^2 + \sigma^2 (n\cdot t - p \cdot r). \label{eq_gA}
@@ -216,4 +197,3 @@ Second, when $d^2 < \frac{\sigma^2 p}{n - p}$, hard parameter sharing performs t
 		For $L(B^{\star}\hat{a}_i)$, we again use Claim \ref{claim_opt_dist} to upper bound the distance between $\hat{a}_i$ and $a_i^{\star}$.
 		Combined together, we have shown that equation \eqref{eq_thm_many} holds for any fixed value $c_{\varphi}$ within $(0, \frac{\varphi-4}{2\varphi})$, and the proof is complete.
 	\end{proof}
-
