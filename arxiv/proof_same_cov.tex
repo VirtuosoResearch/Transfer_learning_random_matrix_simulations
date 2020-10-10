@@ -3,7 +3,8 @@
 	\paragraph{Proof of Claim \ref{lem_exp_opt}.}
 	To facilitate the analysis, we consider the following matrix notations.
 	Denote
-		\[ \cE A^{\top} := {\sum_{k=1}^t \varepsilon^{(k)} A_k^{\top}}, \quad \text{ and } \quad \cW \define X(X^{\top} X)^{-1} X^{\top} \cE A^{\top} (AA^{\top})^{\dag}. \]
+		%\[ \cE A^{\top} := {\sum_{k=1}^t \varepsilon^{(k)} A_k^{\top}}, \]
+\[\cE  :=[\epsilon^{(1)},\epsilon^{(2)},\cdots, \epsilon^{(t)}],  \quad \text{ and } \quad \cW \define X(X^{\top} X)^{-1} X^{\top} \cE A^{\top} (AA^{\top})^{\dag}. \]
 	For any $j = 1,2,\dots, t$, let
 	\begin{align*}
 		H_j &\define B^{\star} A^{\top} (AA^{\top})^{\dagger} A_j - \beta^{(j)}, \quad \text{ and } \quad E_j \define \cW A_j - \varepsilon^{(j)}.
@@ -29,14 +30,14 @@
 	\end{align}
 	which is because $\norm{\cW A}^2 = \inner{\cW A}{\cE}$.
 	Hence, it suffices to show that the expectation of equation \eqref{eq_gA_p3} is equal to $\sigma^2 (n\cdot t - p\cdot r)$.
-	First, we have that $\ex{\cE} = \sigma^2 \cdot n \cdot t$.
+	First, we have that $\ex{\|\cE\|_F^2} = \sigma^2 \cdot n \cdot t$.
 %	Conditional on $X$, we have that
 %	\begin{align*}
 %		\exarg{\cE}{\norm{E_j}^2}
 %		= \exarg{\cE}{\sum_{j=1}^t \bigbrace{\bignorm{\cW A_j}^2 - 2\inner{\cW A_j}{\varepsilon^{(j)}} }} + \sigma^2 \cdot n \cdot t.
 %	\end{align*}
 %	We consider both terms in the above equation one by one.
-	Second, note that
+	Second, notice that
 	%\begin{align}
 	%	\sum_{j=1}^t \norm{\cW A_j}^2 = \sum_{j=1}^t \bigtr{\cW A_j A_j^{\top} \cW^{\top}} = \bigtr{\cW AA^{\top} \cW^{\top}} = \bigtr{U_X U_X^{\top} \cE A^{\top} (AA^{\top})^{-1} A \cE^{\top}}. \label{eq_proof_same_cov_1}
 	%\end{align}
@@ -47,13 +48,17 @@
 		&= \exarg{\cE}{\sum_{j=1}^t \varepsilon^{(j)} A_j^{\top} (AA^{\top})^{\dagger} A_j {\varepsilon^{(j)}}^{\top}} \\
 		&= \sigma^2 \cdot r \cdot \id_{n\times n}.
 	\end{align*}
-	In the above, the first equation uses the fact that for any $j\neq k$, $\varepsilon^{(j)}$ and $\varepsilon^{(k)}$ are pairwise independent.
-	The second equation uses the fact that $\sum_{j=1}^t A_j^{\top} (AA^{\top})^{\dagger} A_j = \bigtr{\id_{r\times r}} = r$, and $\ex{\varepsilon^{(j)} {\varepsilon^{(j)}}^{\top}} = \sigma^2 \cdot \id_{n\times n}$.
+	In the above derivation, the second step used the fact that for any $j\neq k$, $\varepsilon^{(j)}$ and $\varepsilon^{(k)}$ are pairwise independent.
+	The third step used the fact that $\sum_{j=1}^t A_j^{\top} (AA^{\top})^{\dagger} A_j = \bigtr{\id_{r\times r}} = r$, and $\ex{\varepsilon^{(j)} {\varepsilon^{(j)}}^{\top}} = \sigma^2 \cdot \id_{n\times n}$.
 	Therefore, we have that
+%	\begin{align*}
+%		\inner{\cW A}{\cE} = \sigma^2 \cdot r \cdot \bigtr{U_X U_X^{\top}} = \sigma^2 \cdot r \cdot p,
+%	\end{align*}
+%because $U_X$ has rank $p$ by Fact \ref{lem_minv}.
 	\begin{align*}
-		\inner{\cW A}{\cE} = \sigma^2 \cdot r \cdot \bigtr{U_X U_X^{\top}} = \sigma^2 \cdot r \cdot p,
+		\inner{\cW A}{\cE} = \sigma^2 \cdot r \cdot \bigtr{X(X^{\top} X)^{-1} X^{\top}} =  \sigma^2 \cdot r \cdot \bigtr{ X^{\top}X(X^{\top} X)^{-1}}  = \sigma^2 \cdot r \cdot p.
 	\end{align*}
-	because $U_X$ has rank $p$ by Fact \ref{lem_minv}.
+   because $X^\top X$ is a $p\times p$ matrix.	
 	%Next, note that
 	%\[ \sum_{j=1}^t \inner{\cW A_j}{\varepsilon^{(j)}} = \bigtr{\cW A\cE^{\top}}, \]
 	%which is equal to equation \eqref{eq_proof_same_cov_1} by the definition of $\cW$.
