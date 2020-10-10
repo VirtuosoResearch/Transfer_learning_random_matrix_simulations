@@ -99,10 +99,16 @@
 \fi
 
 	\paragraph{Proof of Claim \ref{claim_opt_dist}.}
-	In order to show that the subspace spanned by the rows of $\hat{A}$ is close to $U_r$, we first show that $g(A)$ and its expectation is close as follows.
+	Corresponding to the right-hand side of \eqref{eq_gA}, we define the function
+	$$h(A):= n \bignormFro{\Sigma^{1/2} B^{\star} \bigbrace{A^{\top} (AA^{\top})^{\dagger} A - \id_{t\times t}}}^2 + \sigma^2 (n\cdot t - p \cdot r)$$
+	In order to show that the $U_{\hat{A}}U_{\hat{A}}^\top$ is close to $A^\star {A^\star}^\top$, we first show that $g(A)$ is close to $h(A)$ as follows:
 	\begin{align}\label{eq_gA_err}
-		\bigabs{g(A) - \exarg{\cE, X}{g(A)}} \lesssim p^{-c_{\varphi}} \cdot n \bignorm{\Sigma^{1/2} B^{\star} (U_AU_A^{\top} - \id)}^2 + p^{-c_{\infty}} \cdot \sigma^2 \cdot n \cdot t.
+		\bigabs{g(A) - h(A)} \lesssim  n^{-c_{\varphi}} \cdot n \bignorm{\Sigma^{1/2} B^{\star} (U_AU_A^{\top} - \id_{t\times t})}^2 + n^{-c_{\infty}} \cdot \sigma^2 \cdot n \cdot t,
 	\end{align}
+	for any fixed values $c_{\varphi}$ within $(0, \frac{\varphi-4}{2\varphi})$ and $c_{\infty}$ within $(0, 1/2)$. 
+%	\begin{align}\label{eq_gA_err}
+%		\bigabs{g(A) - \exarg{\cE, X}{g(A)}} \lesssim p^{-c_{\varphi}} \cdot n \bignorm{\Sigma^{1/2} B^{\star} (U_AU_A^{\top} - \id)}^2 + p^{-c_{\infty}} \cdot \sigma^2 \cdot n \cdot t.
+%	\end{align}
 	To show the above result, we consider the concentration error of each part of $g(A)$.
 
 	For equation \eqref{eq_gA_p1}, % $g_0(\cal W)= \sum_{j=1}^t\left\|Z v_j \right\|^2$.
@@ -114,36 +120,39 @@
 	%, for a small enough constant $\e$,
 	This implies that
 	\begin{align}
-		\abs{\sum_{j=1}^t \|X H_j\|^2 - \exarg{X}{\sum_{j=1}^t \norm{X H_j}^2}} \lesssim p^{-c_\varphi} \cdot n \bignorm{\Sigma^{1/2} B^{\star} (U_{A}U_A^{\top} - \id_{t\times t})}^2. \label{eq_gA_err1}
+		\abs{\sum_{j=1}^t \|X H_j\|^2 -  \sum_{j=1}^t n\norm{\Sigma^{1/2} H_j}^2} \lesssim   n^{-c_{\varphi}} \cdot n  \bignorm{\Sigma^{1/2} B^{\star} (U_{A}U_A^{\top} - \id_{t\times t})}^2. \label{eq_gA_err1}
 	\end{align}
 
 	For equation \eqref{eq_gA_p2}, 
 	%using Lemma \ref{largedeviation} in Appendix \ref{app_tool} and the fact that all moments of $\varepsilon_i$ exist by Assumption \eqref{assmAhigh2}, 
-	using Corollary \ref{cor_calE}, we obtain that the following holds with high probability:
+	using Corollary \ref{cor_calE}, we obtain that the following holds with high probability for any small constant $\e>0$:
 	\begin{align}
-		|\inner{XB^{\star} (U_AU_A^{\top} - \id)}{\cE}| &\le p^\e \cdot \sigma \cdot \bignormFro{XB^{\star} (U_AU_A^{\top} - \id)} \nonumber \\
-		&\le p^{\e} \cdot \sigma \cdot \norm{Z} \cdot \bignormFro{\Sigma^{1/2} B^{\star}(U_AU_A^{\top} -\id)} \nonumber \\
-		&\lesssim p^{\e} \cdot \sigma \cdot \sqrt{n}\cdot \sqrt{t}\bignorm{\Sigma^{1/2} B^{\star}(U_AU_A^{\top} -\id)}, \label{eq_gA_err2}
+		|\inner{XB^{\star} (U_AU_A^{\top} - \id)}{\cE}| &\le n^\e \cdot \sigma \cdot \bignormFro{XB^{\star} (U_AU_A^{\top} - \id)} \nonumber \\
+		&\le n^{\e} \cdot \sigma \cdot \norm{Z} \cdot \bignormFro{\Sigma^{1/2} B^{\star}(U_AU_A^{\top} -\id)} \nonumber \\
+		&\lesssim n^{\e} \cdot \sigma \cdot \sqrt{n}\cdot \sqrt{t}\bignorm{\Sigma^{1/2} B^{\star}(U_AU_A^{\top} -\id)} \nonumber \\
+		&\le  n^{c_\infty +c} \cdot \bignorm{\Sigma^{1/2} B^{\star} (U_AU_A^{\top} - \id_{t\times t})}^2 + n^{-c_{\infty}} \cdot \sigma^2 \cdot n \cdot t
+		\label{eq_gA_err2}
 	\end{align}
-	which is bounded by the right hand side of equation \eqref{eq_gA_err} by AM-GM inequality.
+	which is bounded by the right hand side of equation \eqref{eq_gA_err} as long as $c$ is taken sufficiently small.
 	In the second step, we used the fact that $X=Z\Sigma^{1/2}$.
-	In the third step, we used Fact \ref{fact_minv} (ii) to bound the operator norm $\|Z\|$ by $\OO(\sqrt{n})$, and used $\bignormFro{\Sigma^{1/2} B^{\star}(U_AU_A^{\top} -\id)}\le \sqrt{t} \bignorm{\Sigma^{1/2} B^{\star}(U_AU_A^{\top} -\id)}$ since the matrix $\Sigma^{1/2} B^{\star}(U_AU_A^{\top} -\id)$ has rank at most $t$.
+	In the third step, we used Fact \ref{fact_minv} (ii) to bound the operator norm $\|Z\|$ by $\OO(\sqrt{n})$, and used $\bignormFro{\Sigma^{1/2} B^{\star}(U_AU_A^{\top} -\id)}\le \sqrt{t} \bignorm{\Sigma^{1/2} B^{\star}(U_AU_A^{\top} -\id)}$ since the matrix $\Sigma^{1/2} B^{\star}(U_AU_A^{\top} -\id)$ has rank at most $t$. In the fourth step, we used AM-GM inequality.
 
 	For equation \eqref{eq_gA_p3}, using Corollary \ref{cor_calE},
 	%Lemma \ref{largedeviation} and the fact that all moments of $\varepsilon_i$ exist, 
 	we obtain that with high probability,
 	\begin{align}
-		\abs{\normFro{\cE}^2 - \ex{\normFro{\cE}^2}} \le p^{c} \sigma^2 \| \id_{n\times n}\|_F = p^{c} \cdot \sqrt{n} \cdot \sigma^2 \le p^{-c_{\infty}} \cdot \sigma^2 \cdot n \cdot t, \label{eq_gA_err3}
+		\abs{\normFro{\cE}^2 - \sigma^2 \cdot n \cdot t}=\abs{\tr\left( \cal E^\top \id_{n\times n}\cal E\right) - \sigma^2 \cdot n \cdot t} &\le n^{c} \cdot \sigma^2 \| \id_{n\times n}\|_F \nonumber\\
+		&= n^{1/2+c} \cdot \sigma^2 \le n^{-c_{\infty}} \cdot \sigma^2 \cdot n \cdot t, \label{eq_gA_err3}
 	\end{align}
-	as long as the constant $c$ is taken sufficiently small. 
+	as long as $c$ is taken sufficiently small. 
 	For the inner product between $\cW A$ and $\cE$, we have that with high probability,
 	\begin{align}
-		\bigabs{\inner{\cW A}{\cE} - \exarg{\cE}{\inner{\cW A}{\cE}} } &= \bigabs{\bigtr{\left(\cE^\top U_X U_X^{\top}\cE  - p\sigma^2 \cdot  \id_{t\times t} \right)  U_AU_A^{\top} }} \nonumber  \\
-		&\le \bignormFro{U_{A} U_A^{\top}} \cdot \bignormFro{\cE^\top U_X U_X^{\top} \cE - p \sigma^2 \cdot  \id_{t\times t}} \nonumber \\
-		&\le \sqrt{r} \cdot (p^{\e}\sigma^2\cdot \|U_X U_X^\top\|_F) \nonumber \\
-		&\le p^{1/2+c} \cdot \sigma^2 \cdot \sqrt{r} \nonumber\\
-		& \le  p^{-c_{\infty}} \cdot \sigma^2 \cdot n \cdot t .\label{eq_gA_err4}
+		\bigabs{\inner{\cW A}{\cE} - \sigma^2\cdot p \cdot r } &= \bigabs{\bigtr{\left(\cE^\top U_X U_X^{\top}\cE  - p\sigma^2 \cdot  \id_{t\times t} \right)  U_AU_A^{\top} }} \nonumber  \\
+		&\le \bignormFro{U_{A} U_A^{\top}} \cdot \bignorm{\cE^\top U_X U_X^{\top} \cE - p \sigma^2 \cdot  \id_{t\times t}} \nonumber \\
+		&\le \sqrt{r} \cdot (n^{\e}\cdot \sigma^2\cdot \|U_X U_X^\top\|_F) \nonumber \\
+		&\le n^{1/2+c} \cdot \sigma^2 \cdot \sqrt{r}  \le  n^{-c_{\infty}} \cdot \sigma^2 \cdot n \cdot t ,\label{eq_gA_err4}
 	\end{align}
+as long as $c$ is taken sufficiently small. Here in the third step, we applied Corollary \ref{cor_calE} to $\bignorm{\cE^\top U_X U_X^{\top} \cE - p \sigma^2 \cdot  \id_{t\times t}}$ and used that $ \bignormFro{U_{A} U_A^{\top}}=\sqrt{r}$ because $U_A$ is of rank $r$. In the fourth step, we used that $\|U_X U_X^\top\|_F=\sqrt{p}\le \sqrt{n}$ because $U_X$ is of rank $p$.
 
 %	\begin{align}
 %		\bigabs{\inner{\cW A}{\cE} - \ex{\inner{\cW A}{\cE}}} &= \bigabs{\bigtr{U_X U_X^{\top} (\cE U_AU_A^{\top} \cE^{\top} - \sigma^2 \cdot r \id_{n\times n})}} \nonumber  \\
@@ -166,24 +175,24 @@
 
 	\bigskip
 	Next, we use equation \eqref{eq_gA_err} to prove the claim.
-	Using triangle inequality, we upper bound the gap between $g(A^{\star})$ and $g(\hat{A})$
+	Using triangle inequality, we upper bound the gap between $g(A^{\star})$ and $g(\hat{A})$:
 	\begin{align}
-		g(A^{\star}) - g(\hat{A}) &\le \bigabs{g(A^{\star}) - \ex{g(A^{\star})}} + (\ex{g(A^{\star})} - \ex{g(\hat{A})}) + \bigabs{g(\hat{A}) - \ex{g(\hat{A})}} \nonumber \\
-		&\le \bigabs{g(A^{\star}) - \ex{g(A^{\star})}} +\bigabs{g(\hat{A}) - \ex{g(\hat{A})}} \nonumber \\
-		&\le p^{-c} \cdot n \bignormFro{\Sigma^{1/2} B^{\star}}^2 + p^{-1/2 + \e}\cdot \sigma^2 n \cdot t. \label{eq_g_gap}
+		g(A^{\star}) - g(\hat{A}) &\le \bigabs{g(A^{\star}) - h(A^{\star})} + (h(A^{\star}) - h(\hat{A})) + \big|g(\hat{A}) - h(\hat{A})\big| \nonumber \\
+		&\le \bigabs{g(A^{\star}) - h(A^{\star})}  + \big|g(\hat{A}) - h(\hat{A})\big|\nonumber \\
+		&\lesssim n^{-c_\varphi}\cdot n \bignormFro{\Sigma^{1/2} B^{\star}}^2 + n^{-c_\infty}\cdot \sigma^2 \cdot n \cdot t. \label{eq_g_gap}
 	\end{align}
-	The second equation uses the fact that $A^{\star}$ is a global minimum of $\ex{g(\cdot)}$, hence $\ex{g(A^{\star})} \le \ex{g(\hat{A})}$.
-	The third equation uses equation \eqref{eq_gA_err} and the fact that the spectral norm of $U_A U_A^{\top} - \id$ is at most one.
+	The second step used the fact that $A^{\star}$ is a global minimum of $h(\cdot)$, so that $h(A^{\star}) \le h(\hat{A})$.
+	The third step used equation \eqref{eq_gA_err} and the fact that the spectral norm of $U_A U_A^{\top} - \id$ is at most one.
 
-	We can also derive a lower bound on the gap as follows.
-	We simplify $g(A)$ as
+	Using \eqref{eq_g_gap}, we can derive an upper bound on $\bignormFro{A^{\star} {A^{\star}}^{\top}- U_{\hat{A}} U_{\hat{A}}^{\top}}$ as follows.
+	We simplify equation \eqref{eq_mtl_output_layer} as
 	\begin{align*}
 		g(A)  &= \normFro{X (X^{\top}X)^{-1} X^{\top} Y U_A U_A^{\top} - Y}^2 \\
 					&= \normFro{Y}^2 - \inner{U_A U_A^{\top}}{Y^{\top} X (X^{\top} X)^{-1} X^{\top} Y}.
 	\end{align*}
-	We denote $H = Y^{\top} X (X^{\top} X)^{-1} X^{\top} Y$, which appears in the equation above.
+	We denote $H = Y^{\top} X (X^{\top} X)^{-1} X^{\top} Y$, which appears in the above equation.
 	Since $\hat{A}$ is a global minimum of $g(A)$, we have that $g(A^{\star}) \ge g(\hat{A})$.
-	Hence,
+	Hence, we have
 	\begin{align}
 		g(A^{\star}) - g(\hat{A}) &= \abs{g(A^{\star}) - g(\hat{A})} = \abs{\inner{H}{A^{\star} {A^{\star}}^{\top} - U_{\hat{A}} U_{\hat{A}}^{\top}}} \nonumber \\
 												&\ge \lambda_{\min}(H) \cdot \normFro{A^{\star} {A^{\star}}^{\top} - U_{\hat{A}} U_{\hat{A}}^{\top}}. \label{eq_g_gap1}
