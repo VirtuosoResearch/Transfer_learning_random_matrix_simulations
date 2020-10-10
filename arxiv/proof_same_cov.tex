@@ -47,6 +47,33 @@
 %		= \exarg{\cE}{\sum_{j=1}^t \bigbrace{\bignorm{\cW A_j}^2 - 2\inner{\cW A_j}{\varepsilon^{(j)}} }} + \sigma^2 \cdot n \cdot t.
 %	\end{align*}
 %	We consider both terms in the above equation one by one.
+	Second, notice that for $U_XU_X^\top:=X(X^{\top} X)^{-1} X^{\top}$ and $1\le i, j \le t$,
+	%\begin{align}
+	%	\sum_{j=1}^t \norm{\cW A_j}^2 = \sum_{j=1}^t \bigtr{\cW A_j A_j^{\top} \cW^{\top}} = \bigtr{\cW AA^{\top} \cW^{\top}} = \bigtr{U_X U_X^{\top} \cE A^{\top} (AA^{\top})^{-1} A \cE^{\top}}. \label{eq_proof_same_cov_1}
+	%\end{align}
+	%We observe that
+	\begin{align*}
+			\exarg{\cE}{(\cE^{\top}U_XU_X^\top \cE)_{ij} }
+		&= \exarg{\cE}{{\varepsilon^{(i)}}^\top U_X U_X^\top  \varepsilon^{(j)} } = \sigma^2 \cdot \tr\left( U_XU_X^\top \right) \cdot \delta_{ij} = p\sigma^2 \cdot \delta_{ij},
+	\end{align*}
+	which implies that $\exarg{\cE}{\cE^{\top}U_XU_X^\top \cE }=p\sigma^2 \cdot \id_{t\times t}$.
+	In the above derivation, the second step used the fact that $\E(\varepsilon^{(i)}_k \varepsilon^{(i)}_l )=\sigma^2\cdot \delta_{ij}\delta_{kl}$ for $1\le k,l \le n$, and the third step used the fact that $\tr(U_XU_X^\top) =\tr(U_X^\top U_X) =p$.
+	Therefore, we have that
+%	\begin{align*}
+%		\inner{\cW A}{\cE} = \sigma^2 \cdot r \cdot \bigtr{U_X U_X^{\top}} = \sigma^2 \cdot r \cdot p,
+%	\end{align*}
+%because $U_X$ has rank $p$ by Fact \ref{lem_minv}.
+	\begin{align*}
+		\exarg{\cE}{ \inner{\cW A}{\cE}} = p\sigma^2 \cdot \bigtr{\id_{t\times t}U_AU_A^\top} =  p \sigma^2 \cdot r ,
+			\end{align*}
+   because $U_AU_A^\top$ has rank $r$.	
+	%Next, note that
+	%\[ \sum_{j=1}^t \inner{\cW A_j}{\varepsilon^{(j)}} = \bigtr{\cW A\cE^{\top}}, \]
+	%which is equal to equation \eqref{eq_proof_same_cov_1} by the definition of $\cW$.
+	Hence the proof is complete.
+	
+	
+	\iffalse
 	Second, notice that
 	%\begin{align}
 	%	\sum_{j=1}^t \norm{\cW A_j}^2 = \sum_{j=1}^t \bigtr{\cW A_j A_j^{\top} \cW^{\top}} = \bigtr{\cW AA^{\top} \cW^{\top}} = \bigtr{U_X U_X^{\top} \cE A^{\top} (AA^{\top})^{-1} A \cE^{\top}}. \label{eq_proof_same_cov_1}
@@ -66,13 +93,14 @@
 %	\end{align*}
 %because $U_X$ has rank $p$ by Fact \ref{lem_minv}.
 	\begin{align*}
-		\inner{\cW A}{\cE} = \sigma^2 \cdot r \cdot \bigtr{X(X^{\top} X)^{-1} X^{\top}} =  \sigma^2 \cdot r \cdot \bigtr{ X^{\top}X(X^{\top} X)^{-1}}  = \sigma^2 \cdot r \cdot p.
+		\exarg{\cE}{ \inner{\cW A}{\cE}} = \sigma^2 \cdot r \cdot \bigtr{X(X^{\top} X)^{-1} X^{\top}} =  \sigma^2 \cdot r \cdot \bigtr{ X^{\top}X(X^{\top} X)^{-1}}  = \sigma^2 \cdot r \cdot p.
 	\end{align*}
    because $X^\top X$ is a $p\times p$ matrix.	
 	%Next, note that
 	%\[ \sum_{j=1}^t \inner{\cW A_j}{\varepsilon^{(j)}} = \bigtr{\cW A\cE^{\top}}, \]
 	%which is equal to equation \eqref{eq_proof_same_cov_1} by the definition of $\cW$.
 	Hence the proof is complete.
+\fi
 
 	\paragraph{Proof of Claim \ref{claim_opt_dist}.}
 	In order to show that the subspace spanned by the rows of $\hat{A}$ is close to $U_r$, we first show that $g(A)$ and its expectation is close as follows.
@@ -105,16 +133,27 @@
 	In the second step, we used the fact that $X=Z\Sigma^{1/2}$.
 	In the third step, we used Fact \ref{lem_minv} (iii) to bound the operator norm $\|Z\|$ by $\OO(\sqrt{n})$, and used $\bignormFro{\Sigma^{1/2} B^{\star}(U_AU_A^{\top} -\id)}\le \sqrt{t} \bignorm{\Sigma^{1/2} B^{\star}(U_AU_A^{\top} -\id)}$ since the matrix $\Sigma^{1/2} B^{\star}(U_AU_A^{\top} -\id)$ has rank at most $t$.
 
-	For equation \eqref{eq_gA_p3}, using Lemma \ref{largedeviation} and the fact that all moments of $\varepsilon_i$ exist, we obtain that with high probability
+	For equation \eqref{eq_gA_p3}, using Corollary \ref{cor_calE},
+	%Lemma \ref{largedeviation} and the fact that all moments of $\varepsilon_i$ exist, 
+	we obtain that with high probability,
 	\begin{align}
-		\abs{\normFro{\cE}^2 - \ex{\normFro{\cE}^2}} \le p^{-c_{\infty}} \ex{\normFro{\cE}^2}. \label{eq_gA_err3}
+		\abs{\normFro{\cE}^2 - \ex{\normFro{\cE}^2}} \le p^{c} \sigma^2 \| \id_{n\times n}\|_F = p^{c} \cdot \sqrt{n} \cdot \sigma^2 \le p^{-c_{\infty}} \cdot \sigma^2 \cdot n \cdot t, \label{eq_gA_err3}
 	\end{align}
-	For the inner product between $\cW A$ and $\cE$, we have that
+	as long as the constant $c$ is taken sufficiently small. 
+	For the inner product between $\cW A$ and $\cE$, we have that with high probability,
 	\begin{align}
-		\bigabs{\inner{\cW A}{\cE} - \ex{\inner{\cW A}{\cE}}} &= \bigabs{\bigtr{U_X U_X^{\top} (\cE U_AU_A^{\top} \cE^{\top} - \sigma^2 \cdot r \id_{n\times n})}} \nonumber  \\
-		&\le \bignormFro{U_{X} U_X^{\top}} \cdot \bignorm{\cE U_A U_A^{\top} \cE^{\top} - \sigma^2 \cdot r \id_{n\times n}} \nonumber \\
-		&\le p^{1/2} \cdot (\sigma^2 r\cdot p^{\e}). \label{eq_gA_err4}
+		\bigabs{\inner{\cW A}{\cE} - \exarg{\cE}{\inner{\cW A}{\cE}} } &= \bigabs{\bigtr{\left(\cE^\top U_X U_X^{\top}\cE  - p\sigma^2 \cdot  \id_{t\times t} \right)  U_AU_A^{\top} }} \nonumber  \\
+		&\le \bignormFro{U_{A} U_A^{\top}} \cdot \bignormFro{\cE^\top U_X U_X^{\top} \cE - p \sigma^2 \cdot  \id_{t\times t}} \nonumber \\
+		&\le \sqrt{r} \cdot (p^{\e}\sigma^2\cdot \|U_X U_X^\top\|_F) \nonumber \\
+		&\le p^{1/2+c} \cdot \sigma^2 \cdot \sqrt{r} \nonumber\\
+		& \le  p^{-c_{\infty}} \cdot \sigma^2 \cdot n \cdot t .\label{eq_gA_err4}
 	\end{align}
+
+%	\begin{align}
+%		\bigabs{\inner{\cW A}{\cE} - \ex{\inner{\cW A}{\cE}}} &= \bigabs{\bigtr{U_X U_X^{\top} (\cE U_AU_A^{\top} \cE^{\top} - \sigma^2 \cdot r \id_{n\times n})}} \nonumber  \\
+%		&\le \bignormFro{U_{X} U_X^{\top}} \cdot \bignorm{\cE U_A U_A^{\top} \cE^{\top} - \sigma^2 \cdot r \id_{n\times n}} \nonumber \\
+%		&\le p^{1/2} \cdot (\sigma^2 r\cdot p^{\e}). \label{eq_gA_err4}
+%	\end{align}
 	%\begin{align*}
 	%	%|\inner{U_X U_X^{\top} \bigbrace{\varepsilon_i W_i^{\top}} (\cW\cW^{\top})^{-1}W_j}{\varepsilon_j}|
 	%	\abs{W_i^{\top} (\cW\cW^{\top})^{-1} W_j \cdot \bigbrace{\varepsilon_i^{\top} U_X U_X^{\top} \varepsilon_j}}
@@ -127,7 +166,7 @@
 	%\begin{align}
 	%	\left|g_2(\cal W)-\sigma^2(n\cdot t - p\cdot r)\right|=\left|g_2(\cal W)- \exarg{\varepsilon_1, \dots, \varepsilon_t} {g_2(\cal W)}\right| \lesssim \sigma^2 p^{1/2+\e}. \label{eq_gA_err}
 	%\end{align}
-	Combining equation \eqref{eq_gA_err1}, \eqref{eq_gA_err2}, \eqref{eq_gA_err3}, and \eqref{eq_gA_err4}, we obtain that equation \eqref{eq_gA_err} holds.
+	Combining equations \eqref{eq_gA_err1}, \eqref{eq_gA_err2}, \eqref{eq_gA_err3}, and \eqref{eq_gA_err4}, we obtain equation \eqref{eq_gA_err}.
 
 	\bigskip
 	Next, we use equation \eqref{eq_gA_err} to prove the claim.
