@@ -1,4 +1,4 @@
-\section{The Same Covariates Case}\label{sec_same}
+\section{A Bias-variance Decomposition for Multiple Tasks}\label{sec_same}
 
 %We begin by considering the case where all tasks have the same sample size and feature covariates, that is, $n_i = n$ and $X^{(i)} = X\in\real^{n\times p}$ for all $i = 1, \dots, t$.
 %We provide a sharp generalization error bound of hard parameter sharing estimators.
@@ -51,6 +51,57 @@ Our main result in this section is stated as follows.
 	The limiting loss of hard parameter sharing consists of two parts, a bias term $L(B^{\star} a_i^{\star})$ that measures the error of $B^{\star} a_i^{\star}$, and a variance term that scales with noise variance $\sigma^2$.
 %	Our result implies that the variance of hard parameter sharing is always smaller than single-task learning.
 %	This is because	STL's variance is equal to $\frac{\sigma^2 \cdot p} {n - p}$ by Fact \ref{lem_minv}, and $\norm{a_i^{\star}}^2 \le 1$ since the spectral norm of $U_r$, which is a projection matrix, is at most one.
+
+
+We introduce several standard assumptions on the random matrices we study.
+\begin{assumption}\label{assume_rm}
+	Let $\varphi > 4$ be a fixed value.
+	Let $\tau > 0$ be a small enough constant.
+	Let $X = Z \Sigma^{1/2} \in\real^{n\times p}$ be a random matrix where $Z \in \real^{n\times p}$ consists of i.i.d. entries with zero mean and unit variance and $\Sigma \in \real^{p\times p}$ is a positive semidefinite matrix.
+	We assume the following standard conditions.
+	\begin{enumerate}
+		\item For every entry of $Z$, we assume that its $\varphi$-th moment exists, that is, there exist a fixed constant $C > 0$ such that
+			\begin{align}\label{assmAhigh}
+				\ex{\abs{Z_{i,j}}^{\varphi}} \le C, \text{ for any } 1\le i \le n \text{ and } 1\le j \le p.
+			\end{align}
+		\item The sample size $n$ grows to infinity proportionally with the dimension $p$, i.e. $n / p \rightarrow \rho \in (0, 1/\tau)$ as $p$ goes infinity.
+	\end{enumerate}
+\end{assumption}
+
+Under the above assumption, we state several well-known facts regarding the random matrix $X$.
+
+\begin{fact}\label{lem_minv}
+	Let $c_{\varphi}$ be any fixed value within $(0, \frac{\varphi - 4}{2\varphi})$.
+	%Let $X  \in \real^{n\times p}$ be a random matrix that satisfies Assumption \ref{assume_rm}.
+	%Let $\Sigma\in\real^{p\times p}$ denote the population covariance matrix of $X$.
+	With high probability over the randomness of $X$, we have that
+	\begin{enumerate}
+		\item When $n / p$ converges to $\rho > 1$, the sample covariance matrix $\frac{X^{\top}X}{n}$ is full rank.
+		\item $\bigtr{\Sigma (X^{\top} X)^{-1}} = \frac{p}{n - p} + \OO(p^{-c_{\varphi}})$, cf. Theorem 2.4 in \citet{isotropic}.
+		\item The singular values of $Z^{\top}Z$ are greater than $(\sqrt{n} - \sqrt{p})^2 - n \cdot p^{-c_{\varphi}}$ and less than $(\sqrt{n} + \sqrt{p})^2 + n \cdot p^{-c_{\varphi}}$, cf. \citet[Theorem 2.10]{isotropic} and \citet[Lemma 3.12]{DY}.
+	\end{enumerate}
+\end{fact}
+
+Finally, for the random noise component, we assume that all of its moments exist.
+More precisely, there exists a fixed function $C(\cdot) : \mathbb{Z} \rightarrow \real^+$ such that for any $a = 1, 2, \dots, \infty$, we have that
+\begin{align}\label{assmAhigh2}
+	\ex{\abs{\varepsilon_{j}^{(i)}}^a} \le C(a), \text{ for any } 1\le i\le t \text{ and } 1\le j\le n_i.
+\end{align}
+Hence, for any value $\varphi > 4$, we get that Fact \ref{lem_minv} holds for $\varepsilon^{(i)}$, for all $i = 1, 2, \dots, t$.
+Let $\e$ be a small enough fixed value and let $c_{\infty}$ be any fixed value within $(0, 1/2-\e)$.
+We have that Fact \ref{lem_minv} holds for $\varepsilon^{(i)}$ where $c_{\varphi}$ becomes $c_{\infty}$ instead.
+
+\paragraph{Random-effects model.}
+A natural special case of the linear model is when every $\beta_i$ consists of two random components, one that is shared among all tasks and one that is task-specific.
+Thus, each task contributes a certain amount to the shared component and injects a task-specific bias.
+Let $\beta_0$ denote the shared component whose entries are sampled i.i.d. from an isotropic Gaussian distribution of mean zero and variance $p^{-1}\kappa^2$.
+Let the task-specific component be a random Gaussian vector whose coordinates all have mean zero and variance $p^{-1} d^2 / 2$.
+Thus, for any two different $\beta_i$ and $\beta_j$, their distance is roughly $d^2$.
+%	The labels are $Y_i = X_i\beta_i + \varepsilon_i$, where $\e_i$ consists of i.i.d. entries with mean zero and variance $\sigma^2$.
+For our purpose, it is enough to think of the order of $d$ being $1/\sqrt{p}$ and $pd^2/\sigma^2$ being constant.
+%The more precise conditions on the relations between $d^2$, $\sigma^2$ and $\kappa^2$ are given in  \eqref{choiceofpara}.
+We assume that all the random variables have finite moments up to any order as in equation \eqref{assmAhigh2}.
+
 
 \begin{example}[Sample efficiency]\label{ex_same_cov}
 We illustrate the above result in the random-effects model described in Section \ref{sec_hps}.
