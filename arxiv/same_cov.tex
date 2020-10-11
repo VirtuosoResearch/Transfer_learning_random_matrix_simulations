@@ -24,6 +24,7 @@ every entry of $\cE \in \real^{n \times t}$ is drawn indepdently from a one dime
 Let $A^{\star} {A^{\star}}^{\top}$ denote the best rank-$r$ subspace approximation of ${B^{\star}}^\top\Sigma B^{\star}$, that is,
 \[ A^{\star} \define \argmin_{U\in\real^{t\times r} : U^{\top} U = \id_{r\times r}} \inner{U U^{\top}} {{B^{\star}}^{\top} \Sigma B^{\star}}. \]
 For $i = 1,\dots, t$, let $a_i^{\star} \in\real^r$ denote the $i$-th column of $A^{\star}{A^{\star}}^{\top}$.
+Let $\lambda_1({B^\star}^\top \Sigma B^\star)\ge\lambda_2({B^\star}^\top \Sigma B^\star)\ge \cdots \ge \lambda_t({B^\star}^\top \Sigma B^\star)$ be the eigenvalues of ${B^\star}^\top \Sigma B^\star$.
 Our main result shows that hard parameter sharing essentially approximates all tasks through the rank-$r$ matrix $B^{\star} A^{\star} {A^{\star}}^{\top}$.
 
 \begin{theorem}[Bias-variance decomposition for prediction loss]\label{thm_many_tasks}
@@ -38,10 +39,11 @@ Our main result shows that hard parameter sharing essentially approximates all t
 	For any task $i = 1, 2, \dots, t$, the prediction loss of the estimator $\hat{\beta}_i^{\MTL}$ satisfies that with high probability,
 	\begin{align*}
 		\bigabs{L(\hat{\beta}_i^{\MTL}) - L(B^{\star}a_i^{\star}) - \sigma^2 \norm{a_i^{\star}}^2 \bigtr{\Sigma (X^{\top}X)^{-1}}}
-		\le  p^{-c_{\varphi}}\bigbrace{C_1 L(B^{\star}a_i^{\star}) + C_1 \sigma^2 \norm{a_i^{\star}}^2 \bigtr{\Sigma (X^{\top}X)^{-1}} + C_2},
+		\le n^{-c_{\varphi}}\bigbrace{C_1 L(B^{\star}a_i^{\star}) + C_1 \sigma^2 \norm{a_i^{\star}}^2 \bigtr{\Sigma (X^{\top}X)^{-1}} + C_2},
 	\end{align*}
-	where $C_1: = \frac{\rho\cdot \normFro{\Sigma^{1/2} B^{\star}}^2}{(\sqrt{\rho} - 1)^2\lambda_{\min}^2(\Sigma^{1/2} B^{\star}) + \sigma^2}$ and $C_2 :=  C_1\cdot \norm{\Sigma^{1/2} B^{\star}}$.
+	where $C_1: = \frac{\bignormFro{\Sigma^{1/2} B^{\star}}^2 + \sigma^2 t}{\lambda_r ({B^\star}^\top \Sigma B^\star)- \lambda_{r+1}({B^\star}^\top \Sigma B^\star)}$ and $C_2 :=  C_1\cdot \norm{\Sigma^{1/2} B^{\star}}$.
 \end{theorem}
+
 %\FY{why not use $C_1: = \frac{ \normFro{\Sigma^{1/2} B^{\star}}^2}{ \lambda_{\min}^2(\Sigma^{1/2} B^{\star}) + \sigma^2}$? $C_2$ does not seem to be correct because the dimension does not match. I will check the proof to see whether $C_2 =  C_1\cdot \norm{\Sigma^{1/2} B^{\star}}^2$ or $C_1\cdot \sigma\norm{\Sigma^{1/2} B^{\star}}$?}
 Theorem \ref{thm_many_tasks} provides a sharp generalization error bound that is asymptotically tight when $p$ goes to infinity.
 The limiting loss of hard parameter sharing consists of two parts, a bias term $L(B^{\star} a_i^{\star})$ that measures the error of $B^{\star} a_i^{\star}$, and a variance term that scales with noise variance $\sigma^2$.
