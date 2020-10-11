@@ -23,6 +23,7 @@ every entry of $Z \in \real^{n \times p}$ is drawn independently from a one dime
 every entry of $\cE \in \real^{n \times t}$ is drawn indepdently from a one dimensional ditribution with mean zero, variance $\sigma^2$, and bounded moment up to any order.\footnote{More precisely, there exists a fixed function $C: \mathbb{Z} \rightarrow \real^+$ such that for any $k = 2, 4, \dots, \infty$, the $k$-th moment is bounded by $C(k)$.}
 Let $A^{\star} {A^{\star}}^{\top}$ denote the best rank-$r$ subspace approximation of ${B^{\star}}^\top\Sigma B^{\star}$, that is,
 \[ A^{\star} \define \argmin_{U\in\real^{t\times r} : U^{\top} U = \id_{r\times r}} \inner{U U^{\top}} {{B^{\star}}^{\top} \Sigma B^{\star}}. \]
+To ensure that $A^{\star}$ is unique, we assume that the $r+1$-th singular value of $B^{\star}\Sigma B^{\star}$ is smaller than its $r$-th singular value.
 For $i = 1,\dots, t$, let $a_i^{\star} \in\real^r$ denote the $i$-th column of $A^{\star}{A^{\star}}^{\top}$.
 Let $\lambda_1({B^\star}^\top \Sigma B^\star)\ge\lambda_2({B^\star}^\top \Sigma B^\star)\ge \cdots \ge \lambda_t({B^\star}^\top \Sigma B^\star)$ be the eigenvalues of ${B^\star}^\top \Sigma B^\star$.
 Our main result shows that hard parameter sharing essentially approximates all tasks through the rank-$r$ matrix $B^{\star} A^{\star} {A^{\star}}^{\top}$.
@@ -94,15 +95,15 @@ Let $\beta_0$ denote the shared component whose entries are sampled i.i.d. from 
 Let the task-specific component be a random Gaussian vector whose coordinates all have mean zero and variance $p^{-1} d^2 / 2$.
 Thus, for any two different $\beta_i$ and $\beta_j$, their distance is roughly $d^2$.
 %	The labels are $Y_i = X_i\beta_i + \varepsilon_i$, where $\e_i$ consists of i.i.d. entries with mean zero and variance $\sigma^2$.
-For our purpose, it is enough to think of the order of $d$ being $1/\sqrt{p}$ and $pd^2/\sigma^2$ being constant.
+Concretely, we can think of $\kappa = 1$ and $d^2/\sigma^2 \le \OO(1)$.
 %The more precise conditions on the relations between $d^2$, $\sigma^2$ and $\kappa^2$ are given in  \eqref{choiceofpara}.
 %We assume that all the random variables have finite moments up to any order as in equation \eqref{assmAhigh2}.
 
 \begin{example}[Sample efficiency]\label{ex_same_cov}
-In the random-effects model described above, we show that the bias $L(B^{\star} a_i^{\star})$ satisfies that
-\[ \frac{1}{t} \sum_{i=1}^t L(B^{\star} a_i^{\star}) = \normFro{B^{\star} A^{\star} {A^{\star}}^{\top} - B^{\star}}^2 = (t - r) d^2. \]
+In the random-effects model described above, we show that when the rank of hard parameter sharing is one, the bias $L(B^{\star} a_i^{\star})$ satisfies that
+\[ \frac{1}{t} \sum_{i=1}^t L(B^{\star} a_i^{\star}) = \normFro{B^{\star} A^{\star} {A^{\star}}^{\top} - B^{\star}}^2 = (t - 1) d^2. \]
 We further assume that $\Sigma$ is isotropic for illustration.
-Hence $A^{\star} {A^{\star}}^{\top}$ is the best rank-$r$ approximation of ${B^{\star}}^{\top}\Sigma B^{\star} = {B^{\star}}^{\top} B^{\star}$, and the $(i, j)$-th entry of this matrix is roughly equal to
+Since $A^{\star} {A^{\star}}^{\top}$ is the best rank-$1$ approximation of ${B^{\star}}^{\top}\Sigma B^{\star} = {B^{\star}}^{\top} B^{\star}$, and the $(i, j)$-th entry of this matrix is roughly equal to
 \begin{align*}
 	\beta_i^{\top} \beta_j \approx \norm{\beta_0}^2 + \begin{cases}
 																								0, \text{ if } i \neq j \\
@@ -112,18 +113,19 @@ Hence $A^{\star} {A^{\star}}^{\top}$ is the best rank-$r$ approximation of ${B^{
 which follows from the definition of the random-effects model.
 Note that $\norm{\beta_0}^2$ is roughly $\kappa^2$.
 One can verify that the top singular value of ${B^{\star}}^{\top} B^{\star}$ is approximately $p \kappa^2 + d^2$ and the rest of its singular values are all equal to $d^2$.
-Therefore, by taking a rank-$r$ approximation of ${B^{\star}}^{\top} B^{\star}$, we get the average prediction loss equation above.
+Therefore, by taking a rank-$1$ approximation of ${B^{\star}}^{\top} B^{\star}$, we get the average prediction loss equation above.
 
-For the variance term, since $A^{\star}$ has rank-$r$, we have that $\sum_{i=1}^t \norm{a_i^{\star}}^2 = r$.
+For the variance term, since $A^{\star}$ has rank-$1$, we have that $\sum_{i=1}^t \norm{a_i^{\star}}^2 = 1$.
 Combined together, the average prediction loss of hard parameter sharing is as follows
-\[ \frac{1}{t}\sum_{i=1}^t L(\hat{\beta}_i^{\MTL}) = \bigbrace{1 - \frac{r}{t}} d^2 + \frac{r}{t} \cdot \frac{\sigma^2 p}{n - p} \pm \OO(p^{-c_{\varphi}}). \]
-We compare hard parameter sharing to single-task learning.
-Using Fact \ref{fact_tr}, the average prediction loss of single-task learning is $\sigma^2\cdot \bigtr{\Sigma (X^{\top} X)^{-1}} = \frac{\sigma^2 p}{n - p} \pm \OO(p^{-{c_{\varphi}}})$.
-	Suppose that $p$ is sufficiently large so that $p^{-c_{\varphi}}$ is negligible.
-First, the prediction loss of hard parameter sharing is less than single-task learning if and only if $d^2 < \frac{\sigma^2 p}{n - p}$: the ``task-specific variance'' of $\beta_i$ is smaller than the ``noise variance''.
-Second, when $d^2 < \frac{\sigma^2 p}{n - p}$, hard parameter sharing performs the best when the rank $r$ is one.
-	In this case, hard parameter sharing requires only $p + \frac{n - p}{t - (t - 1)\frac{d^2 (n - p)}{\sigma^2 p}}$ samples, which is less than $n$, to achieve comparable loss to single-task learning.
+\[ \frac{1}{t}\sum_{i=1}^t L(\hat{\beta}_i^{\MTL}) = \bigbrace{1 - \frac{1}{t}} d^2 + \frac{1}{t} \cdot \frac{\sigma^2 p}{n - p} \pm \OO(p^{-c_{\varphi}}). \]
 \end{example}
+We compare hard parameter sharing to single-task learning.
+Using Fact \ref{fact_tr} above, the average prediction loss of single-task learning is $\sigma^2\cdot \bigtr{\Sigma (X^{\top} X)^{-1}} = \frac{\sigma^2 p}{n - p} \pm \OO(p^{-{c_{\varphi}}})$.
+	Suppose that $p$ is sufficiently large so that $p^{-c_{\varphi}}$ is negligible.
+\begin{enumerate}
+	\item The prediction loss of hard parameter sharing is less than single-task learning if and only if $d^2 < \frac{\sigma^2 p}{n - p}$: the ``task-specific variance'' of $\beta_i$ is smaller than the ``noise variance''.
+	\item When $d^2 < \frac{\sigma^2 p}{n - p}$, increasing $r$ does not help, and hard parameter sharing requires at most $p + \frac{n - p}{t - (t - 1)\frac{d^2 (n - p)}{\sigma^2 p}} < n$ samples to get comparable loss to single-task learning.
+\end{enumerate}
 
 
 \paragraph{Proof overview.} The key idea for proving Theorem \ref{thm_many_tasks} is a characterization of $f(A, B)$'s global minimum.
