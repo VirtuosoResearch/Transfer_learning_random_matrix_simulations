@@ -44,7 +44,7 @@ Our main result is stated as follows.
 
 	\noindent (i) The variance equation \eqref{eq_variance_2task} satisfies the following estimate with high probability:
 			\begin{align}\label{lem_cov_shift_eq}
-				\bigabs{\bigtr{\Sigma^{(2)} \bigbrace{(n_1 + n_2){\hat{\Sigma}^{-1}} - (a_1 \Sigma^{(1)} + a_2 \Sigma^{(2)})^{-1}}}} \le  p^{-c_{\varphi}}, %\norm{\Sigma^{(2)}},
+				\bigabs{p^{-1}\bigtr{\Sigma^{(2)} \bigbrace{(n_1 + n_2){\hat{\Sigma}^{-1}} - (a_1 \Sigma^{(1)} + a_2 \Sigma^{(2)})^{-1}}}} \le  p^{-c_{\varphi}}, %\norm{\Sigma^{(2)}},
 			\end{align}
 			where $a_1$ and $a_2$ are the solutions of the following self-consistent equations
 			\begin{align}
@@ -246,69 +246,78 @@ Thus, we conclude that $f(\lambda) \ge f(1)$ if and only if $n_1 \ge n_2$.  If $
 
 \paragraph{Overview of Stieltjes transform.}
 For the rest of this section, we present an overview of the proof of Theorem \ref{thm_main_RMT}.
-The central quantify of interest is the inverse of the sample covariance matrices $\hat{\Sigma}^{-1}$.
+The central quantity of interest is the inverse of the sum of two sample covariance matrices $\hat{\Sigma}^{-1}$.
 Our proof uses the Stieltjes transform or the resolvent method in random matrix theory.
 We briefly describe the key ideas and refer interested readers to classical texts such as  \citet{bai2009spectral,tao2012topics,erdos2017dynamical}.
 For any probability measure $\mu$ supported on $[0,\infty)$, the Stieltjes transform of $\mu$ is given by
-$$m_\mu(z):= \int_0^\infty \frac{\dd\mu(x)}{x-z}, \text{ for any complex number } z\in \C\setminus [0,\infty).$$
-Hence the Stieltjes transform method reduces the study of a probability measure to the study of a complex function.
-To study the trace of $\hat{\Sigma}^{-1}$, we consider the Stieltjes transform of its empirical spectral distribution.
-Let $\mu=p^{-1}\sum_{i} \delta_{\lambda_i}$ denote the empirical spectral distribution of $Y$, where $\delta_{\lambda_i}$ is the indicator measure, and $Y$ is defined as follows
+$$m_\mu(z):= \int_0^\infty \frac{\dd\mu(x)}{x-z}, \ \ \text{ for any complex number } z\in \C\setminus [0,\infty).$$
+The Stieltjes transform method reduces the study of a probability measure $\mu$ to the study of a complex function $m_\mu(z)$.
+%To study the trace of $\hat{\Sigma}^{-1}$, we consider the Stieltjes transform of its empirical spectral distribution.
+
+We define the matrix $W$ as follows
 \begin{align}\label{eigen2extra}
-	Y \define \frac{1}{n_1 + n_2}(\Lambda U^\top (Z^{(1)})^\top Z^{(1)} U\Lambda  + V^\top (Z^{(2)})^\top Z^{(2)}V).
+	W \define \frac{1}{n_1 + n_2}(\Lambda U^\top (Z^{(1)})^\top Z^{(1)} U\Lambda  + V^\top (Z^{(2)})^\top Z^{(2)}V).
 \end{align}
-Recall that $\Lambda$ consists of the singular values of $M$, $V$ is an orthonormal matrix, ${Z^{(1)}}^{\top} Z^{(1)}$ and ${Z^{(2)}}^{\top} Z^{(2)}$ are both sample covariance matrix with isotropic covariance.
-It is not hard to verify that $(n_1 + n_2)\hat{\Sigma}^{-1}= \Sigma_2^{-1/2} VY^{-1}V^\top \Sigma_2^{-1/2}$ and $\tr[\Sigma^{(2)} \hat{\Sigma}^{-1}] = \bigtr{Y^{-1}} / (n_1 + n_2)$.
-The Stieltjes transform of $\mu$ is as follows
- \[ m_{\mu}(z) \define \frac{1}{p}\sum_{i=1}^p \frac{1}{\sigma_i - z}= p^{-1}\tr\left[(Y-z\id)^{-1}\right]. \]
-Above, $(Y - z\id)^{-1}$ is known as $Y$'s resolvent matrix or Green's function.
+Recall that  $U\Lambda V^\top$ is the singular value decomposition of $M$, %$\Lambda$ consists of the singular values of $M$, $V$ is an orthonormal matrix, 
+and ${Z^{(1)}}^{\top} Z^{(1)}$ and ${Z^{(2)}}^{\top} Z^{(2)}$ are both sample covariance matrices with isotropic population covariance.
+It is not hard to verify that $(n_1 + n_2)\hat{\Sigma}^{-1}= (\Sigma^{(2)})^{-1/2} V W^{-1}V^\top (\Sigma^{(2)})^{-1/2}$ and $\tr[\Sigma^{(2)} \hat{\Sigma}^{-1}] = \bigtr{W^{-1}} / (n_1 + n_2)$.
+Let $\mu=p^{-1}\sum_{i} \delta_{\sigma_i}$ denote the empirical spectral distribution of $W$, where $\sigma_i$'s are the eigenvalues of $W$ and $\delta_{\sigma_i}$ is the point mass measure at $\sigma_i$. Then it is easy to see that the Stieltjes transform of $\mu$ is equal to
+ \[ m_{\mu}(z) \define \frac{1}{p}\sum_{i=1}^p \frac{1}{\sigma_i - z}= p^{-1}\tr\left[(W-z\id)^{-1}\right]. \]
+Above, the matrix $(W - z\id)^{-1}$ is known as $W$'s resolvent or Green's function.
 %When $p$ goes to infinity, it is well-known that $m_{\mu}(z)$ converges to a fixed distribution governed by a set of self-consistent equations.
 %These self-consistent equations give the asymptotic limit of the trace of $\hat{\Sigma}^{-1}$.
 %The above approach applies when $\Sigma^{(2)}$ is isotropic in Theorem \ref{thm_main_RMT}.
 %Since our goal is to show the limit of $\tr\left[ (Y - z\id)^{-1}V^{\top}{\Sigma^{(2)}}^{-1}V \right]$ as shown in equation \eqref{eigen2extra}, we study the  $(Y-z\id)^{-1}$.
 %Compared to the Stieltjes transform, the resolvent also applies to random matrices.
-We will prove the convergence of $Y$'s resolvent matrix using the so-called ``local laws'' with a sharp convergence rate \cite{isotropic,erdos2017dynamical,Anisotropic}.
+We will prove the convergence of $W$'s resolvent using the so-called ``local laws'' with a sharp convergence rate \cite{isotropic,erdos2017dynamical,Anisotropic}.
 %Recent developments in the random matrix literature have shown the convergence of the resolvent matrix using the so-called ``local laws'' or ``deterministic equivalents'' (cf. \cite{Hachem2007deterministic,DS18}).
-We say that $(Y-z\id)^{-1}$ converges to a deterministic $p\times p$ matrix limit $R(z)$ if for any sequence of deterministic matrices $B$ with uniformly bounded operator norms, when $p$ is large enough
-$$\bigtr{((Y-z\id)^{-1}-R(z))B}\to 0.$$
+We say that $(W-z\id)^{-1}$ converges to a deterministic $p\times p$ matrix limit $R(z)$ if for any sequence of deterministic vectors $v\in \R^p$ with unit norm, 
+$$v^\top \left[(W-z\id)^{-1}-R(z)\right]v\to 0\ \ \ \text{when $p$ goes to infinity.
+}$$
+
 %For our purpose, we use a convenient linearization trick in linear algebra, that is, the SVD of a rectangular matrix $A$ is equivalent to the study of the eigendecomposition of the symmetric block matrix
 %$$H(A):=\begin{pmatrix}0 & A \\ A^\top & 0\end{pmatrix},$$
 %which is linear in $A$. This trick has been used in many random matrix literatures, such as \cite{Anisotropic, AEK_Gram, XYY_circular,DY20201}.
 
-To study $Y$'s resolvent, we observe that $Y$ is equal to $A A^{\top}$ for a $p$ by $n_1 + n_2$ matrix
-	\[ A = (n_1+ n_2)^{-1/2} [\Lambda U^\top (Z^{(1)})^\top,V^\top (Z^{(2)})^\top]. \]
+To study $W$'s resolvent, we observe that $W$ is equal to $\AF\AF^{\top}$ for a $p$ by $n_1 + n_2$ matrix
+	\[ \AF := (n_1+ n_2)^{-1/2} [\Lambda U^\top (Z^{(1)})^\top,V^\top (Z^{(2)})^\top]. \]
 %}\HZ{what does this trick mean? use less technical words},
 %This idea dates back at least to Girko, see e.g., the works \cite{girko1975random,girko1985spectral} and references therein.
-Consider the following symmetric and square matrix whose dimension is $p + n_1 + n_2$
+Consider the following symmetric block matrix whose dimension is $p + n_1 + n_2$
 %which is a linear function of $(Z^{(1)})$ and $(Z^{(2)})$:
 %\begin{definition}[Linearizing block matrix]\label{def_linearHG}%definiton of the Green function
 %We define the $(n+N)\times (n+N)$ block matrix
  \begin{equation}\label{linearize_block}
     H \define \left( {\begin{array}{*{20}c}
-   0 & A  \\
-   A^{\top} & 0
+   0 & \AF  \\
+   \AF^{\top} & 0
 %   {Z^{(2)}V} & 0 & 0
    \end{array}} \right).
  \end{equation}
-We denote $G(z) \define (H - z\id)^{-1}$ as the resolvent of $H$, for any complex value $z\in \mathbb C$.
-Since $H$ has a block structure, it is not hard to verify that
+For this block matrix, we define its resolvent as
+$$G(z) \define \left[H - \begin{pmatrix}z\id_{p\times p}&0\\ 0 & \id_{(n_1+n_2)\times (n_1+n_2)} \end{pmatrix}\right]^{-1},$$ 
+%as the resolvent of $H$, 
+for any complex value $z\in \mathbb C$.
+Using Schur complement formula for the inverse of a block matrix, it is not hard to verify that
 	\begin{equation*} %\label{green2}
 	  G(z) =  \left( {\begin{array}{*{20}c}
-			(Y - z\id)^{-1} & (Y - z\id)^{-1} A  \\
-      A^\top (Y - z\id)^{-1} & (A^\top A - z\id)^{-1}
+			(W- z\id)^{-1} & (W - z\id)^{-1} \AF  \\
+      \AF^\top (W - z\id)^{-1} & z(\AF^\top \AF - z\id)^{-1}
 		\end{array}} \right).%\quad \cal G_R:=(W^\top W - z)^{-1} ,
   \end{equation*}
 
 \paragraph{Variance asymptotic limit.}
-In Theorem \ref{LEM_SMALL}, we show that for $z$ in a small neighborhood around $0$, when $p$ goes to infinity, $G(z)$ converges to the following limit
+In Theorem \ref{main_cor}, we will show that for $z$ in a small neighborhood around $0$, when $p$ goes to infinity, $G(z)$ converges to the following limit
 \be \label{defn_piw}
-	\Gi(z) \define \begin{pmatrix} (a_{1}(z)\Lambda^2  +  (a_{2}(z)- z)\id)^{-1} & 0 & 0 \\ 0 & - \frac{\rho_1+\rho_2}{\rho_1} a_{1}(z)\id_{n_1} & 0 \\ 0 & 0 & -\frac{\rho_1+\rho_2}{\rho_2}a_{2}(z)\id_{n_2}  \end{pmatrix},\ee
+	\Gi(z) \define \begin{pmatrix} (a_{1}(z)\Lambda^2  +  (a_{2}(z)- z)\id_{p\times p})^{-1} & 0 & 0 \\ 0 & - \frac{n_1+n_2}{n_1} a_{1}(z)\id_{n_1\times n_1} & 0 \\ 0 & 0 & -\frac{n_1+n_2}{n_2}a_{2}(z)\id_{n_2\times n_2}  \end{pmatrix},\ee
 where $a_1(z)$ and $a_2(z)$ are the unique solutions to the following self-consistent equations
-\begin{align}
-	&a_1(z) + a_2(z) = 1 - \frac{1}{n_1 + n_2} \bigbrace{\sum_{i=1}^p \frac{\lambda_i^2 a_1(z) + a_2(z)}{\lambda_i^2 a_1(z) + a_2(z) - z}}, \nonumber\\
-	&a_1(z) + \frac{1}{n_1 + n_2}\bigbrace{\sum_{i=1}^p \frac{\lambda_i^2 a_1(z)}{\lambda_i^2 a_1(z) + a_2(z) - z}} = \frac{n_1}{n_1 + n_2}. \label{selfomega_a}
+\be
+\begin{split}\label{selfomega_a}
+	&a_1(z) + a_2(z) = 1 - \frac{1}{n_1 + n_2} \bigbrace{\sum_{i=1}^p \frac{\lambda_i^2 a_1(z) + a_2(z)}{\lambda_i^2 a_1(z) + a_2(z) - z}},  \\
+	&a_1(z) + \frac{1}{n_1 + n_2}\bigbrace{\sum_{i=1}^p \frac{\lambda_i^2 a_1(z)}{\lambda_i^2 a_1(z) + a_2(z) - z}} = \frac{n_1}{n_1 + n_2}. 
 % \frac{\rho_1}{a_{1}(z)} = \frac{1}{p}\sum_{i=1}^p \frac{\lambda_i^2}{ - z+\lambda_i^2 a_{1}(z) +a_{2} (z) } + (\rho_1+\rho_2),\  \frac{\rho_2}{a_{2}(z)} = \frac{1}{p}\sum_{i=1}^p \frac{1 }{  -z+\lambda_i^2 a_{1}(z) +  a_{2}(z)  }+ (\rho_1+\rho_2) .
-\end{align}
+\end{split}
+\ee
 The existence and uniqueness of solutions to the above system are shown in Lemma \ref{lem_mbehaviorw}.
 %First, we define the deterministic limits of $(m_1(z), m_{2}(z))$ by $\left(-\frac{\rho_1+\rho_2}{\rho_1}a_{1}(z),-\frac{\rho_1+\rho_2}{\rho_2}a_{2}(z)\right)$, where
 %satisfying that $\im a_{1}(z)< 0$ and $\im a_{2}(z)<0$ for $z\in \C_+$ with $\im z$.
@@ -317,9 +326,12 @@ The existence and uniqueness of solutions to the above system are shown in Lemma
 %\ee
 Given this result, we show that when $z = 0$, the matrix limit $\Gi(0)$ implies the variance limit shown in equation \eqref{lem_cov_shift_eq}.
 First, we have that $a_1 = a_1(0)$ and $a_2 = a_2(0)$ since equation \eqref{selfomega_a} reduces to equation \eqref{eq_a12extra}.
-Second, since $Y^{-1}$ is the upper-left block matrix of $G(0)$, we have that $Y^{-1}$ converges to $(a_1\Lambda^2 + a_2\id)^{-1}$.
-Using equation \eqref{eigen2extra}, we have that when $p$ goes to infinity, % the trace of $$ converges to
-\[ \bigtr{\Sigma^{(2)} \hat{\Sigma}} \rightarrow \bigtr{(a_1 \Lambda^2 + a_2\id)^{-1}} = \bigtr{(a_1 M^{\top}M + a_2 \id)^{-1}} = \bigtr{\Sigma^{(2)} (a_1 \Sigma^{(1)} + a_2 \Sigma^{(2)})^{-1}}. \]
+Second, since $W^{-1}$ is the upper-left block matrix of $G(0)$, we have that $W^{-1}$ converges to $ (a_1\Lambda^2 + a_2\id)^{-1} $.
+Using the fact that $\tr[\Sigma^{(2)} \hat{\Sigma}^{-1}] = \bigtr{W^{-1}} / (n_1 + n_2)$, we get that when $p$ goes to infinity, % the trace of $$ converges to
+\begin{align*}
+  \bigtr{\Sigma^{(2)} \hat{\Sigma}} \rightarrow \frac{1}{n_1+n_2}\bigtr{(a_1 \Lambda^2 + a_2\id)^{-1}} &= \frac1{n_1+n_2}\bigtr{(a_1 M^{\top}M + a_2 \id)^{-1}} \\
+  &=\frac{1}{n_1+n_2} \bigtr{\Sigma^{(2)} (a_1 \Sigma^{(1)} + a_2 \Sigma^{(2)})^{-1}}, 
+  \end{align*}
 %\noindent{\bf Variance asymptotics.} Using definition \eqref{mainG}, we can write equation \eqref{eigen2extra} as
 %\be\label{rewrite X as R} [(X^{(1)})^\top X^{(1)}+(X^{(2)})^\top X^{(2)}]^{-1}=n^{-1}\Sigma_2^{-1/2}V\cal G(0)V^\top\Sigma_2^{-1/2}.\ee
 %When $z=0$, it is easy to check that , which means that we actually have $a_1(0)=a_1$ and $a_2(0)=a_2$. Hence the matrix limit of $\cal G(0)$ is given by $(a_{1}\Lambda^2 + a_{2}\id_p)^{-1}$. Then inserting this limit into equation \eqref{rewrite X as R}, we can write the left-hand side of equation \eqref{lem_cov_shift_eq} as
