@@ -235,7 +235,8 @@ as long as $c$ is taken sufficiently small. Here in the third step, we applied C
 	
 
 	\paragraph{Proof of Claim \ref{claim_pred_err}.}
-	We apply similar arguments from Claim \ref{lem_exp_opt} and \ref{claim_opt_dist} for this proof.
+	%We apply similar arguments from Claim \ref{lem_exp_opt} and \ref{claim_opt_dist} for this proof.
+	The proof is similar to the one for equation \eqref{eq_gA_err}. 
 	The prediction loss of hard parameter sharing for task $i$ is equal to
 	\begin{align*}
 		L(\hat{\beta}_i^{\MTL}) &= \bignorm{\Sigma^{1/2} (\hat{B} \hat{A}_i - \beta_i)}^2 \\
@@ -248,11 +249,23 @@ as long as $c$ is taken sufficiently small. Here in the third step, we applied C
 	\paragraph{Part 1:} The first part is the bias term:
 	$\norm{\Sigma^{1/2} (B^{\star} \hat{a}_i - \beta_i)}^2 = L(B^{\star} \hat{a}_i)$.
 
-	\paragraph{Part 2:} The second part is the cross term, whose expectation over $\cE$ is zero. The concentration error is
+	\paragraph{Part 2:} The second part is the cross term, whose expectation over $\cE$ is zero. Using Corollary \ref{cor_calE}, the concentration error can be bounded as 
 	\begin{align*}
-		\bigabs{\inner{\Sigma^{1/2}(B^{\star} \hat{a}_i - \beta_i)}{\Sigma^{1/2}E_i}}
-		\le \bignorm{\Sigma^{1/2} (B^{\star} \hat{a}_i - \beta_i)} \cdot \bignorm{\Sigma^{1/2} E_i}.
+		\bigabs{\inner{\Sigma^{1/2}(B^{\star} \hat{a}_i - \beta_i)}{\Sigma^{1/2}E_i}} &= \bigabs{\inner{\hat a_i^\top X(X^\top X)^{-1}\Sigma (B^{\star} \hat{a}_i - \beta_i)}{\cal E}} \\
+		&\le n^{c}\sigma \cdot \bignormFro{\hat a_i^\top X(X^\top X)^{-1}\Sigma (B^{\star} \hat{a}_i - \beta_i)}\\
+		&\le n^{c}\sigma \cdot\|\hat a_i\| \cdot  \|\Sigma^{1/2}(B^{\star} \hat{a}_i - \beta_i)\| \cdot \| (Z^\top Z)^{-1} \|^{1/2} \\
+		&\lesssim n^{-1/2+c}\sigma \cdot\|\hat a_i\| \cdot \bignorm{\Sigma^{1/2}(B^{\star} \hat{a}_i - \beta_i)} \\
+		&\le n^{-1/2+c}\sigma^2  \cdot\|\hat a_i\|^2 + n^{-1/2+c} L(B^{\star} \hat{a}_i), 
 	\end{align*}
+	with high probability for any small constant $c>0$. Here in the third step we used 
+	\begin{align*}
+	\bignormFro{\hat a_i^\top X(X^\top X)^{-1}\Sigma (B^{\star} \hat{a}_i - \beta_i)} &=\|\hat a_i\|\cdot \left[ (B^{\star} \hat{a}_i - \beta_i)^\top \Sigma (X^\top X)^{-1}X^\top X(X^\top X)^{-1}\Sigma (B^{\star} \hat{a}_i - \beta_i) \right]^{1/2} \\
+	&\le \|\hat a_i\|\cdot  \|\Sigma^{1/2}(B^{\star} \hat{a}_i - \beta_i)\|  \cdot \left\| \Sigma^{1/2}(X^\top X)^{-1}\Sigma ^{1/2} \right\|^{1/2} \\
+	&= \|\hat a_i\|\cdot  \|\Sigma^{1/2}(B^{\star} \hat{a}_i - \beta_i)\|  \cdot \left\| (Z^\top Z)^{-1}\right\|^{1/2}
+	\end{align*}
+	because $X=Z\Sigma^{1/2}$. In the fourth step, we used Fact \ref{fact_minv} (ii) to bound the operator norm $\left\| (Z^\top Z)^{-1}\right\|$ by $\OO(n^{-1})$. In the last step we used AM-GM inequality. 
+	
+	\iffalse
 	Next, we use the fact that the spectral norm of $\cE$ is at most $\sigma \cdot p^{\e}$.
 	Hence, the spectral norm of $\Sigma^{1/2} E_i$ is at most
 		\[ \sigma \cdot p^{\e} \cdot \norm{\Sigma^{1/2} (X^{\top} X)^{-1} X^{\top}} \cdot \norm{\hat{a}_i}. \]
@@ -262,19 +275,43 @@ as long as $c$ is taken sufficiently small. Here in the third step, we applied C
 		\le & \bignorm{\Sigma^{1/2} (B^{\star} \hat{a}_i - \beta_i)}^2 + \norm{\hat{a}_i}^2 \cdot \bignorm{\Sigma^{1/2} (X^{\top} X)^{-1} X^{\top}}^2 \tag{by Cauchy-Shwartz inequality} \\
 		\le & \bignorm{\Sigma^{1/2}(B^{\star} \hat{a}_i - \beta_i)} + \norm{\hat{a}_i}^2 \cdot \bigtr{\Sigma (X^{\top} X)^{-1}}.
 	\end{align*}
+	\fi
 
-	\paragraph{Part 3:} The final part is the square of $E_i$. One can verify that the expectation of $\norm{\Sigma^{1/2} E_i}^2$ is equal to $\sigma^2 \norm{\hat{a}_i}^2 \cdot \tr[\Sigma (X^{\top} X)^{-1}]$.
-	Next, we bound the concentration error.
-	Let $A = X (X^{\top} X)^{-1} \Sigma (X^{\top} X)^{-1} X^{\top}$.
-	We have that
+	\paragraph{Part 3:} The final part is $\|E_i\|^2$. We rewrite it as 
+	\begin{align}
+	\|\Sigma^{1/2}E_i\|^2 &= \left\|\sum_{j=1}^t \hat{a}_j \Sigma^{1/2}(X^{\top} X)^{-1} X^{\top} \epsilon^{(j)}\right\|^2 \nonumber\\
+	& = \sum_{1\le j , k \le t}\hat a_i(j) \hat a_i(k)  {\epsilon^{(j)}}^\top X(X^{\top} X)^{-1}\Sigma (X^{\top} X)^{-1} X^{\top} {\epsilon^{(k)}}.\label{E_i^2}
+	\end{align}
+	If $j\ne k$, using Corollary \ref{cor_calE} we obtain that 
+	\begin{align}
+	\left|{\epsilon^{(j)}}^\top X(X^{\top} X)^{-1}\Sigma (X^{\top} X)^{-1} X^{\top} {\epsilon^{(k)}} \right| &\le \sigma^2 \cdot \bignormFro{X(X^{\top} X)^{-1}\Sigma (X^{\top} X)^{-1} X^{\top} } \nonumber\\
+	& =\sigma^2 \cdot \bignormFro{\Sigma^{1/2}(X^{\top} X)^{-1}\Sigma^{1/2}} \nonumber\\
+	&  \le \sigma^2 \cdot p^{1/2} \cdot \bignorm{(Z^{\top} Z)^{-1}} \lesssim \sigma^2 \cdot n^{-1/2+c} \label{jnek}
+	\end{align}
+	with high probability for any small constant $c>0$. On the other hand, if $j=k$, we notice that 
+	$$\exarg{\epsilon^{(j)}}{{\epsilon^{(j)}}^\top X(X^{\top} X)^{-1}\Sigma (X^{\top} X)^{-1} X^{\top} \epsilon^{(j)}}= \sigma^2\tr\left[\Sigma(X^\top X)^{-1}\right] .$$
+	Then using Corollary \ref{cor_calE}, we obtain that 
+	\begin{align}
+	\left|{\epsilon^{(j)}}^\top X(X^{\top} X)^{-1}\Sigma (X^{\top} X)^{-1} X^{\top} {\epsilon^{(j)}} -\sigma^2\tr\left[\Sigma(X^\top X)^{-1}\right]\right| &\le \sigma^2 \cdot \bignormFro{X(X^{\top} X)^{-1}\Sigma (X^{\top} X)^{-1} X^{\top} } \nonumber\\
+	& \lesssim \sigma^2 \cdot n^{-1/2+c} . \label{jeqk}
+	\end{align}
+	Plugging \eqref{jnek} and \eqref{jeqk} into \eqref{E_i^2}, we obtain that 
 	\begin{align*}
-		\bigabs{\bignorm{\Sigma^{1/2} E_i}^2 - \exarg{\cE}{\bignorm{\Sigma^{1/2} E_i}^2}}
-		&= \bigabs{\inner{A}{\cE \hat{a}_i \hat{a}_i^{\top} \cE^{\top} - \exarg{\cE}{\cE \hat{a}_i \hat{a}_i^{\top} \cE}}}.
+		\bigabs{\bignorm{\Sigma^{1/2} E_i}^2 -  \sigma^2 \|\hat a_i\|^2 \cdot\tr\left[\Sigma(X^\top X)^{-1}\right]} \lesssim  \sigma^2 \cdot n^{-1/2+c} \cdot \sum_{j,k}|\hat a_i(j)||\hat a_i(k)|\lesssim  n^{-1/2+c} \sigma^2 \cdot  \|\hat a_i\|^2.
 	\end{align*}
-	In the above equation, we note that the trace of $A$ is precisely the trace of $\Sigma (X^{\top} X)^{-1}$.
-	On the other hand, the concentration error of the spectral norm of $\cE \hat{a}_i \hat{a}_i^{\top} \cE^{\top}$ is at most $\sigma^2 \e $.
+	
+%	One can verify that the expectation of $\norm{\Sigma^{1/2} E_i}^2$ is equal to $\sigma^2 \norm{\hat{a}_i}^2 \cdot \tr[\Sigma (X^{\top} X)^{-1}]$.
+%	Next, we bound the concentration error.
+%	Let $A = X (X^{\top} X)^{-1} \Sigma (X^{\top} X)^{-1} X^{\top}$.
+%	We have that
+%	\begin{align*}
+%		\bigabs{\bignorm{\Sigma^{1/2} E_i}^2 - \exarg{\cE}{\bignorm{\Sigma^{1/2} E_i}^2}}
+%		&= \bigabs{\inner{A}{\cE \hat{a}_i \hat{a}_i^{\top} \cE^{\top} - \exarg{\cE}{\cE \hat{a}_i \hat{a}_i^{\top} \cE}}}.
+%	\end{align*}
+%	In the above equation, we note that the trace of $A$ is precisely the trace of $\Sigma (X^{\top} X)^{-1}$.
+%	On the other hand, the concentration error of the spectral norm of $\cE \hat{a}_i \hat{a}_i^{\top} \cE^{\top}$ is at most $\sigma^2 \e $.
 
-	Combining the three parts together, we conclude the proof of Claim \ref{claim_pred_err}.
+	Finally, combining the three parts together, we conclude the proof of Claim \ref{claim_pred_err}.
 
 	%\paragraph{Proof of Theorem \ref{thm_many_tasks}.}
 	%In sum, we have solved that $\hat{\beta}_i^{\MTL}=B^{\star}\left( U_r v_i +\oo(1)\right)$.
