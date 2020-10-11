@@ -177,40 +177,50 @@ We describe a sketch of the proof.
 %So far we have considered the isotropic model where $\Sigma_1 = \Sigma_2$.
 %This setting is relevant for settings where different tasks share the same input features such as multi-class image classification.
 %In general, the covariance matrices of the two tasks may be different such as in text classification.
-Our second example studies the impact of varying covariate shifts on variance in the left hand side of equation \eqref{lem_cov_shift_eq}:
+Our second example studies the effect of varying covariate shifts on the variance limit in equation \eqref{lem_cov_shift_eq}:
+%in the left hand side of equation \eqref{lem_cov_shift_eq}:
 	\[ \bigtr{\Sigma^{(2)} \hat{\Sigma}^{-1}} \rightarrow \frac{1}{n_1 + n_2} \bigtr{\Sigma^{(2)} (a_1 \Sigma^{(1)} + a_2 \Sigma^{(2)})^{-1}}= \frac{1}{n_1 + n_2} \bigtr{(a_1 M^{\top} M + a_2 \id)^{-1}}. \]
 %As we are going to show later, covariate shift is accurately captured by the spectrum of $\Sigma^{1/2}\Sigma^{-1/2}$.
-Hence the variance estimate is determined by the spectrum of $M$.
+Hence the variance limit is determined by the spectrum of $M$.
 
 To illustrate this result, suppose that half of $M$'s singular values are equal to $\lambda > 1$ and the other half are equal to $\lambda^{-1}$.
-Hence, when $\lambda = 1$, then there is no covariate shift.
+In particular, when $\lambda = 1$, there is no covariate shift.
 As $\lambda$ increases, the severity of covariate shift increases.
 We observe the following dichotomy.
 \begin{itemize}
-	\item If $n_1 \ge n_2$, then the variance estimate is smallest when there is no covariate shift.
-	\item If $n_1 < n_2$, then the variance estimate is largest when there is no covariate shift.
+	\item If $n_1 \ge n_2$, then the variance limit is smallest when there is no covariate shift.
+	\item If $n_1 < n_2$, then the variance limit is largest when there is no covariate shift.
 \end{itemize}
 \end{example}
 We explain why the dichotomy happens. The variance estimate for this example is equal to
 \begin{align*}
-	\frac{p}{2(n_1 + n_2)} f(\lambda), \text{ where } f(\lambda) = {(\lambda^{-2} a_1 + a_2)^{-1} + (\lambda^2 a_1 + a_2)^{-1}}.
+	\frac{p}{2(n_1 + n_2)} f(\lambda), \ \ \text{ where }\ \  f(\lambda) = {(\lambda^{-2} a_1 + a_2)^{-1} + (\lambda^2 a_1 + a_2)^{-1}}.
 \end{align*}
-Using the fact that $a_1 + a_2 = 1 - \frac{p}{n_1 + n_2 - p}$, we have that
+Using the fact that $a_1 + a_2 = 1 - \frac{p}{n_1 + n_2 }$, we can obtain that
 \begin{align*}
-	f(\lambda) - f(1) &= {(\lambda^2 a_1 + \frac{n_1 + n_2 - p}{n_1 + n_2} - a_1})^{-1}
-	+ (\lambda^{-2} a_1 + \frac{n_1 + n_2 - p}{n_1 + n_2} - a_1)^{-1}  - \frac{2(n_1 + n_2)}{n_1 + n_2 - p} \\
-	&= (2a_1 - \frac{n_1 + n_2} {n_1 + n_2 - p}) g(\lambda, a_1),
+	f(\lambda) - f(1) &= \left(\lambda^2 a_1 + \frac{n_1 + n_2 - p}{n_1 + n_2} - a_1\right)^{-1}
+	+ \left(\lambda^{-2} a_1 + \frac{n_1 + n_2 - p}{n_1 + n_2} - a_1\right)^{-1}  - \frac{2(n_1 + n_2)}{n_1 + n_2 - p} \\
+	&= \left(2a_1 - \frac{n_1 + n_2-p} {n_1 + n_2 }\right)\cdot (\lambda^2-1)^2  g(\lambda, a_1),
 \end{align*}
-where $g(\lambda, a_1) > 0$ is a fixed function and can be derived from algebraic calculation (details omitted).
+where $g(\lambda, a_1) > 0$ is a fixed function and can be derived from algebraic calculations (details omitted).
 %Hence, whether or not $f(\lambda)$ is small than $f(1)$ depends on $a_1$.
-We show that $a_1 \ge \frac{n_1 + n_2}{2(n_1 + n_2 - p)}$ if and only if $n_1 \ge n_2$, thus explaining the dichonomy.
+We now show that $a_1 \ge \frac{n_1 + n_2-p}{2(n_1 + n_2 )}$ if and only if $n_1 \ge n_2$, and hence explain the dichonomy. 
+%In Example \ref{ex_covshift}, with the fact $M=M^{-1}$, we observe that $a_1$ and $a_2$ play a symmetric role. 
+%in the self-consistent equations \eqref{lem_cov_shift_eq}.
+In fact, if $a_1>a_2$, then the equations in \eqref{eq_a12extra} give that $a_1> \frac{n_1 + n_2-p}{2 (n_1 + n_2)}$ and
+$$ 
+ \frac{n_1}{n_1 + n_2}=a_1 + \frac1{n_1 + n_2}\cdot \bigbrace{\sum_{i=1}^p \frac{\lambda_i^2 a_1}{\lambda_i^2 a_1 + a_2}} 
+> a_1 + \frac{p}{2(n_1+n_2)} \left(\frac{\lambda^2}{\lambda^2+1}+\frac{\lambda^{-2}}{\lambda^{-2}+1}\right) >\frac{1}{2}. 
+$$
+This implies $n_1>n_2$. Similarly, if $a_1<a_2$, equations in \eqref{eq_a12extra} give that $a_1 < \frac{n_1 + n_2-p}{2 (n_1 + n_2)}$ and $n_1<n_2$. Thus, we conclude that $f(\lambda) \ge f(1)$ if and only if $n_1 \ge n_2$. 
 
-In Example \ref{ex_covshift}, $a_1$ and $a_2$ have a symmetric role in the self-consistent equations \eqref{lem_cov_shift_eq}.
-Hence, when $n_1 \ge n_2$, we have that $a_1 \ge a_2$, hence $a_1 \ge \frac{1}{2}(1 - \frac{p}{n_1 + n_2 - p}) = \frac{n_1 + n_2}{2 (n_1 + n_2 - p)}$.
+
+\iffalse
+Hence, when $n_1 \ge n_2$, we have that $a_1 \ge a_2$, which gives $a_1 \ge \frac{1}{2}(1 - \frac{p}{n_1 + n_2 }) = \frac{n_1 + n_2-p}{2 (n_1 + n_2)}$.
 The other case when $n_1 < n_2$ is similar.
-A formal proof requires solving the self-consistent equations \eqref{lem_cov_shift_eq} and we omit the details.
-Thus, we conclude that if $n_1 \ge n_2$, then $f(\lambda) > f(1)$.
-If $n_1< n_2$, then $f(\lambda)< f(1)$.
+A formal proof follows from a study of the self-consistent equations \eqref{eq_a12extra} and we omit the details.
+Thus, we conclude that $f(\lambda) \ge f(1)$ if and only if $n_1 \ge n_2$.  If $n_1< n_2$, then $f(\lambda)< f(1)$.
+\fi
 %\begin{proposition}[Source/target sample ratio]\label{prop_data_size}
 %	In the isotropic model, suppose that $\rho_1 > 40$ and $\rho_2 > 110$ are fixed constants, and $\Psi(\beta_1, \beta_2) > 2/(\rho_2 - 1)$.
 %	Then we have that
