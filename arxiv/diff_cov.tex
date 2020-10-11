@@ -7,63 +7,63 @@ In this section, we show how to deal with these two aspects.
 
 Unlike the previous section, we no longer have an optimal solution for $f(A, B)$.
 This is because $f(A, B)$ is in general non-convex.
-Our result implies tight generalization bounds for any local minimum of $f(A, B)$.
+Instead, our result implies tight generalization bounds for any \emph{local minimum} of $f(A, B)$.
 We focus on the two-task case to better understand the impact of having different sample sizes and different covariates.
-Suppose that $X^{(1)} = Z^{(1)}{\Sigma^{(1)}}^{1/2} \in \real^{n_1 \times p}$ and $X^{(2)} = Z^{(2)}{\Sigma^{(2)}}^{1/2} \in \real^{n_2 \times p}$, where every entry of $Z^{(1)}, Z^{(2)}$ is drawn independently from a one dimensional distribution with zero mean, unit variance, and constant $\varphi$-th moment for $\varphi > 4$.
+Suppose that $X^{(1)} = Z^{(1)}{\Sigma^{(1)}}^{1/2} \in \real^{n_1 \times p}$ and $X^{(2)} = Z^{(2)}{\Sigma^{(2)}}^{1/2} \in \real^{n_2 \times p}$, where the entries of $Z^{(1)}$ and $ Z^{(2)}$ are drawn independently from a one dimensional distribution with zero mean, unit variance, and constant $\varphi$-th moment for a fixed $\varphi > 4$. The matrices $\Sigma^{(1)}\in \R^{p\times p}$ and $\Sigma^{(2)}\in \R^{p\times p}$ denote the population covariance matrices of task 1 and task 2, respectively.
 
-Our key result characterizes the asymptotic limit of the sum of two arbitrarily different sample covariance matrices.
-To motivate our study, consider a special case where $A$ is equal to one.
+Our key result characterizes the asymptotic limit of the inverse of the sum of two different sample covariance matrices. Recall that in the hard parameter sharing, we have to take $r<t$. Hence in the two-task case, we must have $r=1$. 
+To motivate our study, consider a special case where $A_1=A_2=1$. 
 Without loss of generality, we consider task two's prediction loss and the same result applies to task one.
 By solving $B$ in equation \eqref{eq_mtl}, we obtain the hard parameter sharing estimator $\hat{\beta}_2^{\MTL} = B A_2 = B$ as follows:
 \begin{align}\label{def hatsig}
-	\hat{\beta}_2^{\MTL} = {\hat{\Sigma}}^{-1} ({X^{(1)}}^{\top} Y^{(1)} + {X^{(2)}}^{\top} Y^{(2)}), \text{ where } \hat{\Sigma} = {X^{(1)}}^{\top} X^{(1)} + {X^{(2)}}^{\top} X^{(2)}.
+	\hat{\beta}_2^{\MTL} = {\hat{\Sigma}}^{-1} ({X^{(1)}}^{\top} Y^{(1)} + {X^{(2)}}^{\top} Y^{(2)}), \ \ \text{ where } \ \ \hat{\Sigma} = {X^{(1)}}^{\top} X^{(1)} + {X^{(2)}}^{\top} X^{(2)}.
 \end{align}
 The matrix $\hat{\Sigma}$ adds up both tasks' sample covariances, and the expectation of $\hat{\Sigma}$ is equal to a mixture of their population covariance matrices, with mixing proportions determined by their sample sizes.
 The empirical loss of $\hat{\beta}_2^{\MTL}$ is close to its expectation similar to Claim \ref{claim_pred_err}.
 Hence, we consider the expected loss conditional on the covariates as follows:
 \begin{align}
 	\exarg{\cE}{L(\hat{\beta}_2^{\MTL}) \mid X^{(1)}, X^{(2)}} =
-	& \bignorm{(\Sigma^{(2)})^{1/2} \hat{\Sigma}^{-1} {X^{(1)}}^{\top} X^{(1)} (\beta^{(1)} - \beta^{(2)})}^2 \label{eq_bias_2task} \\
+	& \bignorm{{\Sigma^{(2)}}^{1/2} \hat{\Sigma}^{-1} {X^{(1)}}^{\top} X^{(1)} (\beta^{(1)} - \beta^{(2)})}^2 \label{eq_bias_2task} \\
 	& + \sigma^2 \bigtr{\Sigma^{(2)}\hat{\Sigma}^{-1}}. \label{eq_variance_2task}
 \end{align}
 
 Interestingly, the expected loss also admits a nice bias-variance decomposition.
 Our main result in this section characterizes the asymptotic limit of the above equation, when both sample size and feature dimension become increasingly large at a fixed ratio.
-The main technical challenge of our result deals with the ``covariate shift'' between task one and two.
-Intuitively, the scaling of $\hat{\Sigma}^{-1}$ not only depends on both tasks' sample sizes, but also depends on their covariance matrices.
-We introduce a key quantity $M \define \Sigma_1^{1/2}\Sigma_2^{-1/2}$ that captures the covariate shift between task $1$ and task $2$.
-Let $U\Lambda V^\top$ denote the singular value decomposition of $M$, where $\Lambda\in\real^{p\times p}$ consists of $M$'s singular values $\lambda_1, \lambda_2, \dots, \lambda_p$ as its diagonal entries in descending order.
+The main technical challenge of our result deals with the ``covariate shift'' between tasks one and two.
+Intuitively, the scaling of $\hat{\Sigma}^{-1}$ not only depends on both tasks' sample sizes, but also depends on their population covariance matrices.
+We introduce a key quantity $M \define (\Sigma^{(1)})^{1/2}(\Sigma^{(2)})^{-1/2}$ that captures the covariate shift between task one and task two.
+Let $U\Lambda V^\top$ denote the singular value decomposition of $M$, where $\Lambda\in\real^{n\times p}$ consists of $M$'s singular values $\lambda_1\ge \lambda_2\ge \dots \ge \lambda_p$ as its diagonal entries in descending order.
 Our main result is stated as follows.
 
 \begin{theorem}\label{thm_main_RMT}
 	Let $c_{\varphi}$ be a fixed value in $(0, \frac{\varphi - 4}{2\varphi})$.
-	Assume that: a) $Z^{(1)}, Z^{(2)}$ both satisfy assumption \ref{assume_rm};
+	Assume that: a) $Z^{(1)}, Z^{(2)}$ both satisfy Assumption \ref{assume_rm};
 	b) $M$'s singular values are all greater than $\tau$ and less than $1/\tau$;
 	c) task one's sample size is greater than $\tau p$ and task two's sample size is greater than $(1 + \tau) p$.
-	With high probability over the randomness of $X^{(1)}$ and $X^{(2)}$, we have the following limits:
+	With high probability over the randomness of $X^{(1)}$ and $X^{(2)}$, we have the following limits.
 
-	\noindent (i) The variance equation \eqref{eq_variance_2task} satisfies the following limit
+	\noindent (i) The variance equation \eqref{eq_variance_2task} satisfies the following estimate with high probability:
 			\begin{align}\label{lem_cov_shift_eq}
-				\bigabs{\bigtr{\Sigma^{(2)} \bigbrace{(n_1 + n_2){\hat{\Sigma}^{-1}} - (a_1 \Sigma^{(1)} + a_2 \Sigma^{(2)})^{-1}}}} \lesssim p^{-c_{\varphi}}\norm{\Sigma^{(2)}},
+				\bigabs{\bigtr{\Sigma^{(2)} \bigbrace{(n_1 + n_2){\hat{\Sigma}^{-1}} - (a_1 \Sigma^{(1)} + a_2 \Sigma^{(2)})^{-1}}}} \le  p^{-c_{\varphi}}, %\norm{\Sigma^{(2)}},
 			\end{align}
 			where $a_1$ and $a_2$ are the solutions of the following self-consistent equations
 			\begin{align}
 				a_1 + a_2 = 1- \frac{p}{n_1 + n_2},\quad a_1 + \frac1{n_1 + n_2}\cdot \bigbrace{\sum_{i=1}^p \frac{\lambda_i^2 a_1}{\lambda_i^2 a_1 + a_2}} = \frac{n_1}{n_1 + n_2}. \label{eq_a12extra}
 			\end{align}
-	\noindent (ii) The bias equation \eqref{eq_bias_2task} satisfies the following limit for any fixed vector $w\in\real^p$ with unit norm,
+	\noindent (ii) The bias equation \eqref{eq_bias_2task} satisfies the following limit with high probability for any fixed vector $w\in\real^p$ with unit norm,
 			\begin{align}\label{lem_cov_derv_eq}
-				\bigabs{w^{\top} \Sigma^{(1)} \bigbrace{(n_1+n_2)^2\hat{\Sigma}^{-1} \Sigma^{(2)} \hat{\Sigma}^{-1} - {\Sigma^{(2)}}^{-1/2} V {\frac{a_3 \Lambda^2 + (a_4 + 1)\id}{(a_1 \Lambda^2 + a_2\id)^2}} V^{\top} {\Sigma^{(2)}}^{-1/2}} \Sigma^{(1)} w} \lesssim p^{-c_{\varphi}},
+				\bigabs{w^{\top} \Sigma^{(1)} \bigbrace{(n_1+n_2)^2\hat{\Sigma}^{-1} \Sigma^{(2)} \hat{\Sigma}^{-1} - {\Sigma^{(2)}}^{-1/2} V {\frac{a_3 \Lambda^2 + (a_4 + 1)\id}{(a_1 \Lambda^2 + a_2\id)^2}} V^{\top} {\Sigma^{(2)}}^{-1/2}} \Sigma^{(1)} w} \le  p^{-c_{\varphi}},
 			\end{align}
 				where $a_{3}$ and $a_4$ are the solutions of the following self-consistent equations % with $b_k = \frac1{p}\sum_{i=1}^p \frac{\lambda_i^{2k}} {(\lambda_i^2 a_1 + a_2)^2}$, for $k = 0, 1, 2$:
 			\begin{align}\label{eq_a34extra}
-				a_3 + a_4 = \frac{1}{n_1 + n_2}\sum_{i=1}^p \frac{1}{\lambda_i^2 a_1 + a_2},
+				a_3 + a_4 = \frac{1}{n_1 + n_2}\sum_{i=1}^p \frac{1}{\lambda_i^2 a_1 + a_2}, \ \ 
 				a_3 + \frac{1}{n_1 + n_2} \sum_{i=1}^p \frac{\lambda_i^2 (a_1 a_4 - a_2 a_3)}{(\lambda_i^2 a_1 + a_2)^2} = \frac{1}{n_1 + n_2} \sum_{i=1}^p \frac{\lambda_i^2 a_1}{(\lambda_i^2 a_1 + a_2)^{2}}.
 %				\left(\frac{\rho_1}{a_1^{2}} -  b_2  \right)\cdot  a_3 -  b_1 \cdot  a_4 = b_1,\quad \left(\frac{\rho_2}{a_2^{2}}-  b_0\right)\cdot  a_4 - b_1 \cdot  a_3
 %				= b_0.
 			\end{align}
 \end{theorem}
-Our result extends Fact \ref{fact_tr} on the inverse of a sample covariance matrix.
-When $X_1$ is zero, we solve equation \eqref{eq_a12extra} and obtain $a_1 = 0$ and $a_2 = (n_2-p) / n_2$, and apply these solutions to the variance limit.
+Our result extends Fact \ref{fact_tr} on the inverse of a single sample covariance matrix.
+When $n_1$ is zero, we solve equation \eqref{eq_a12extra} and obtain $a_1 = 0$ and $a_2 = (n_2-p) / n_2$, and apply these solutions to equation \eqref{lem_cov_shift_eq}.
 
 \paragraph{How does hard parameter sharing scale with sample size and covariate shift?}
 One can see that both the variance limit and the bias limit depend heavily on both tasks' samples sizes and the covariate shift matrix $M$.
@@ -75,8 +75,8 @@ Next, we illustrate how varying them impact prediction loss, respectively.
 	Applying Theorem \ref{thm_main_RMT} to the above setting, we first solve the self-consistent equations \eqref{eq_a12extra} by using $\lambda_i = 1$ for all $1\le i\le p$.
 	This gives us the variance limit
 	\[ \frac{1}{n_1 + n_2} \tr[\Sigma^{(2)} (a_1\Sigma^{(1)} + a_2\Sigma^{(2)})^{-1}] = \frac{p}{(n_1 + n_2)(a_1 + a_2)} = \frac{p}{n_1 + n_2 - p}, \]
-	since $a_1 + a_2 = 1 - \frac{p}{n_1 + n_2 - p}$.
-	Similarly, for the bias limit, we solve the self-consistent equations \eqref{eq_a34extra} since we have obtained $a_1, a_2$.
+	since $a_1 + a_2 = 1 - \frac{p}{n_1 + n_2}$.
+	Similarly, for the bias limit, we solve the self-consistent equations \eqref{eq_a34extra} to get $a_3$ and $a_4$ after we have obtained $a_1, a_2$.
 	Combined together, we obtain the following corollary of Theorem \ref{thm_main_RMT}.
 \end{example}
 
@@ -90,15 +90,16 @@ Next, we illustrate how varying them impact prediction loss, respectively.
 	%\be\label{choiceofpara0}
 %	(ii) the task-specific variance of $\beta_i$ is much smaller than the signal strength {\color{red}$d^2 = \oo( {\kappa^2})$}; \HZ{what does $\ll$ mean exactly?}
 %	(iii) the sample sizes $n_1$ and $n_2$ are greater than $(1 + \tau) p$.
-	(iii) task-specific variance is much smaller than the shared signal strength: $d^2 \le p^{-c_{\varphi}}{\kappa^2}$.
+	(iii) task-specific variance is much smaller than the shared signal variance: $d^2 \le p^{-\delta}{\kappa^2}$ for a small constant $\delta>0$.
 	Let $\varepsilon = (1 + \sqrt{p/n_1})^ 4 - 1$, which decreases as $n_1$ increases.
 	The prediction loss of hard parameter sharing for task two satisfies that
 	\begin{align}\label{cor_MTL_error}
 	%-\left[1- \left( 1-\frac{1}{\sqrt{\rho_1}}\right)^4\right] pd^2\cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3} +\OO(p^{-c}\sigma^2)  \le
-	  \left|L(\hat{\beta}_2^{\MTL}) - \frac{d^2 n_1^2 (n_1 + n_2)}{(n_1 + n_2 - p)^3} -\frac{\sigma^2 p}{n_1 + n_2 - p}  \right| \le \varepsilon \cdot \frac{d^2 n_1^2 (n_1 + n_2)}{(n_1 + n_2 - p)^3} + p^{-c_{\varphi}} \cdot \OO(d^2 + \sigma^2).
+	  \left|L(\hat{\beta}_2^{\MTL}) - \frac{d^2 n_1^2 (n_1 + n_2)}{(n_1 + n_2 - p)^3} -\frac{\sigma^2 p}{n_1 + n_2 - p}  \right| \le \varepsilon \cdot \frac{d^2 n_1^2 (n_1 + n_2)}{(n_1 + n_2 - p)^3} + p^{-c } \cdot \OO(d^2 + \sigma^2).
 	%\left[\left( 1+\frac{1}{\sqrt{\rho_1}}\right)^4-1\right] d^2\cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3} \\
 	%& +C \left[(p^{-c_\varphi}+p^{-c_\infty/2})(\sigma^2 +d^2)+p^{-c_\infty}\kappa^2 + %\frac{d^4+\sigma^2 d^2}{\kappa^2}\right],\nonumber
 	 \end{align}
+	 with high probability for any fixed $c\in(0, \min(\frac{1}{4}, \delta,\frac{\varphi-4}{2\varphi}))$.
 %	 {\color{red}[FY: the error also contains $p^{-1/2+2c}\kappa^2 +  p^{-1/4+c} (\sigma^2 +d^2) $, both of which cannot be omitted, because (i) there is no assumption on the upper bound of $\kappa^2$, and (ii) we do not necessarily have $c_\varphi<1/4$. We can decide how to present the result concisely (for instance we can impose an upper bound on $\kappa^2$ and that $c_\varphi<1/4$), but it needs to be correct.]}
 	 \end{corollary}
 
@@ -138,20 +139,20 @@ Next, we illustrate how varying them impact prediction loss, respectively.
 %Our theory accurately predicts a curious phenomenon, where increasing the sample size of the source task results in negative transfer!
 %On the other hand, we have observed that adding more labeled data does not always improve performance in multi-task learning.
 
-The above result provides a more concrete interpretation of the bias-variance decomposition, since the result depends explicitly on datasets' properties of interest.
+The above result provides a more concrete interpretation of the bias-variance decomposition, since it depends explicitly on datasets' properties of interest.
 The proof of Corollary \ref{cor_MTL_loss} can be found in Appendix \ref{app_iso_cov}.
-As a remark, by combining the bias and variance limits, we can also obtain a generalization bound for any local minimum of $f(A, B)$.
+As a remark, in equation \eqref{cor_MTL_error}, the predication loss $L(\hat{\beta}_2^{\MTL}) $ was obtained using the global minimizer $\hat A$ and $\hat B$. By combining the bias and variance limits, we can also obtain a generalization bound for any local minimizer of $f(A, B)$.
 The proof is similar to Corollary \ref{cor_MTL_loss}, so we omit the details.
 
 Next, we illustrate an interesting phenomenon where adding task one's samples helps task two initially, but hurts eventually.
-Consider the limiting estimate in the left hand side of equation \eqref{cor_MTL_error}.
+Consider the limiting estimate on the left hand side of equation \eqref{cor_MTL_error}.
 We vary sample ratio $n_1 / n_2$ by fixing $n_2$ and increasing $n_1$.
-As a function of the sample ratio, the limiting estimate always decreases first from $\frac{\sigma^2 p}{n_2 - p}$ with $n_1$ being zero, and then increases to $d^2$ with $n_1$ going to infinity.
-We describe a proof sketch.
+As a function of the sample ratio, the limiting estimate always decreases first from $\frac{\sigma^2 p}{n_2 - p}$ with $n_1$ being zero, and then increases to $d^2$ when $n_1$ goes to infinity.
+We describe a sketch of the proof.
 \begin{enumerate}
 	\item The variance term always reduces as $n_1$ increases.
 	\item The bias term always increases as $n_1$ increases, which can be verified by calculating the derivative of the bias term.
-	\item Moreover, near the point where $n_1$ is zero, one can verify that bias increases less than the decrease in variance, and there is only one positive root for the derivative being zero.
+	\item Moreover, near the point where $n_1$ is zero, one can verify that bias increases less than the variance decreases, and there is only one positive root for the derivative being zero.
 %Combined together, we observe that the \textit{optimal} sample ratio between $n_1$ and $n_2$ should be among one of following three cases:
 %(i) $n_1 = 0$, in which case the prediction loss reduces to $\frac{\sigma^2 p}{n_2 - p}$;
 %(ii) $n_1 = \infty$, in which case the prediction loss reduces to $d^2$;
