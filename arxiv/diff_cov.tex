@@ -1,4 +1,4 @@
-\section{Bias and Variance Limits when Tasks have Different Sample Sizes and Covariate Shifts}\label{sec_diff}
+\section{Bias-variance Limits: Different Sample Sizes and Covariate Shifts}\label{sec_diff}
 
 The different covariates case differs from the same covariates case in two aspects.
 First, different tasks may have different sample sizes. In extreme scenarios, one task may have much less labeled data compared to another task.
@@ -9,6 +9,7 @@ Unlike the previous section, we no longer have an optimal solution for $f(A, B)$
 This is because $f(A, B)$ is in general non-convex.
 Our result implies tight generalization bounds for any local minimum of $f(A, B)$.
 We focus on the two-task case to better understand the impact of having different sample sizes and different covariates.
+Suppose that $X^{(1)} = Z^{(1)}{\Sigma^{(1)}}^{1/2} \in \real^{n_1 \times p}$ and $X^{(2)} = Z^{(2)}{\Sigma^{(2)}}^{1/2} \in \real^{n_2 \times p}$, where every entry of $Z^{(1)}, Z^{(2)}$ is drawn independently from a one dimensional distribution with zero mean, unit variance, and constant $\varphi$-th moment for $\varphi > 4$.
 
 Our key result characterizes the asymptotic limit of the sum of two arbitrarily different sample covariance matrices.
 To motivate our study, consider a special case where $A$ is equal to one.
@@ -35,8 +36,10 @@ Let $U\Lambda V^\top$ denote the singular value decomposition of $M$, where $\La
 Our main result is stated as follows.
 
 \begin{theorem}\label{thm_main_RMT}
-	Suppose that $X^{(1)} \in \real^{n_1 \times p}$ and $X^{(2)} \in \real^{n_2 \times p}$ are both random matrices that satisfy Assumption \ref{assume_rm}.
-	Assume that: a) $M$'s singular values are all greater than $\tau$ and less than $1/\tau$; b) task one's sample size is greater than $\tau p$ and task two's sample size is greater than $(1 + \tau) p$.
+	Let $c_{\varphi}$ be a fixed value in $(0, \frac{\varphi - 4}{2\varphi})$.
+	Assume that: a) $Z^{(1)}, Z^{(2)}$ both satisfy assumption \ref{assume_rm};
+	b) $M$'s singular values are all greater than $\tau$ and less than $1/\tau$;
+	c) task one's sample size is greater than $\tau p$ and task two's sample size is greater than $(1 + \tau) p$.
 	With high probability over the randomness of $X^{(1)}$ and $X^{(2)}$, we have the following limits:
 
 	\noindent (i) The variance equation \eqref{eq_variance_2task} satisfies the following limit
@@ -59,12 +62,12 @@ Our main result is stated as follows.
 %				= b_0.
 			\end{align}
 \end{theorem}
-Our result extends a well-known result on the inverse of a sample covariance matrix.
-In particular, when $X_1$ is zero, we obtain Fact \ref{fact_tr} as a corollary.
-To see this, we solve equation \eqref{eq_a12extra} and obtain $a_1 = 0$ and $a_2 = (n_2-p) / n_2$, and apply these solutions to the variance limit.
-One can see that both the variance limit and the bias limit depend heavily on both tasks' samples sizes and the covariate shift matrix $M$.
-Next, we illustrate how varying sample sizes and covariate shifts impact hard parameter sharing, respectively.
+Our result extends Fact \ref{fact_tr} on the inverse of a sample covariance matrix.
+When $X_1$ is zero, we solve equation \eqref{eq_a12extra} and obtain $a_1 = 0$ and $a_2 = (n_2-p) / n_2$, and apply these solutions to the variance limit.
 
+\paragraph{How does hard parameter sharing scale with sample size and covariate shift?}
+One can see that both the variance limit and the bias limit depend heavily on both tasks' samples sizes and the covariate shift matrix $M$.
+Next, we illustrate how varying them impact prediction loss, respectively.
 \begin{example}[Sample ratio]\label{ex_sample_ratio}
 	We first consider the impact of varying sample sizes.
 	Consider the random-effects model from Section \ref{sec_same}, with both tasks having an isotropic population covariance matrix.
@@ -353,6 +356,6 @@ By rotational invariance, we have that $Z^{(1)} U$ and $Z^{(2)} V$ are both stil
 Next, we use the Schur complement formula to deal with the resolvent $G(z)$.
 We show that $G(z)$'s diagonal entries satisfy a set of self-consistent equations in the limit, leading to equation \eqref{selfomega_a}.
 $G(z)$'s off-diagonal entries are approximately zero using standard concentration bounds.
-Finally, we extend our result to general random matrices under the moment condition in Assumption \ref{assume_rm}.
+Finally, we extend our result to general random matrices under constant moment condition.
 We prove an anisotropic local law using recent developments in random matrix theory \cite{erdos2017dynamical,Anisotropic}.
 A complete proof of Theorem \ref{thm_main_RMT} can be found in Appendix \ref{appendix RMT}.
