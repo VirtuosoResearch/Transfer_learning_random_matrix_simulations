@@ -57,7 +57,7 @@ Our main result is stated as follows.
 				where $a_{3}$ and $a_4$ are the solutions of the following self-consistent equations % with $b_k = \frac1{p}\sum_{i=1}^p \frac{\lambda_i^{2k}} {(\lambda_i^2 a_1 + a_2)^2}$, for $k = 0, 1, 2$:
 			\begin{align}\label{eq_a34extra}
 				a_3 + a_4 = \frac{1}{n_1 + n_2}\sum_{i=1}^p \frac{1}{\lambda_i^2 a_1 + a_2}, \ \ 
-				a_3 + \frac{1}{n_1 + n_2} \sum_{i=1}^p \frac{\lambda_i^2 (a_1 a_4 - a_2 a_3)}{(\lambda_i^2 a_1 + a_2)^2} = \frac{1}{n_1 + n_2} \sum_{i=1}^p \frac{\lambda_i^2 a_1}{(\lambda_i^2 a_1 + a_2)^{2}}.
+				a_3 + \frac{1}{n_1 + n_2} \sum_{i=1}^p \frac{\lambda_i^2 (a_2 a_3-a_1 a_4 )}{(\lambda_i^2 a_1 + a_2)^2} = \frac{1}{n_1 + n_2} \sum_{i=1}^p \frac{\lambda_i^2 a_1}{(\lambda_i^2 a_1 + a_2)^{2}}.
 %				\left(\frac{\rho_1}{a_1^{2}} -  b_2  \right)\cdot  a_3 -  b_1 \cdot  a_4 = b_1,\quad \left(\frac{\rho_2}{a_2^{2}}-  b_0\right)\cdot  a_4 - b_1 \cdot  a_3
 %				= b_0.
 			\end{align}
@@ -343,18 +343,18 @@ where we note that $M^\top M = (\Sigma^{(2)})^{-1/2} \Sigma^{(1)} (\Sigma^{(2)})
 %For the asymptotic limit, its concentration error is shown in Appendix \ref{appendix RMT}.
 
 \paragraph{Bias asymptotic limit.}
-For the bias limit in equation \eqref{lem_cov_derv_eq}, we show that it is governed by the derivative of $(Y - z\id)^2$ with respect to $z$ at $z = 0$.
-First, we reduce the empirical bias term in equation \eqref{lem_cov_derv_eq} to $Y$
+For the bias limit in equation \eqref{lem_cov_derv_eq}, we show that it is governed by the derivative of $(W - z\id)^2$ with respect to $z$ at $z = 0$.
+First, we reduce the empirical bias term in equation \eqref{lem_cov_derv_eq} to $W$
 \begin{align}\label{calculate G'}
-	(n_1 + n_2)^2 \hat{\Sigma}^{-1}\Sigma^{(2)}\hat{\Sigma}^{-1} = {\Sigma^{(2)}}^{-1/2} V Y^{-2} V^{\top} {\Sigma^{(2)}}^{-1/2}.
+	(n_1 + n_2)^2 \hat{\Sigma}^{-1}\Sigma^{(2)}\hat{\Sigma}^{-1} = {\Sigma^{(2)}}^{-1/2} V W^{-2} V^{\top} {\Sigma^{(2)}}^{-1/2}.
 \end{align}
-Let $\cal G(z)$ denote the resolvent of $Y$.
-Our key observation is that $\frac{\dd{\cal G(z)}}{\dd z} = - \cal G^2(z)$.
-Hence, provided that limit of $(Y - z\id)^{-1}$ is $(a_1(z) \Lambda^2 + (a_2(z) - z) \id)^{-1}$ near $z = 0$, the limit of $\frac{\dd{\cal G(0)}}{\dd z}$ satisfies that
+Let $\cal G(z):=(W-z\id )^{-1}$ denote the resolvent of $W$.
+Our key observation is that $\frac{\dd{\cal G(z)}}{\dd z} =  \cal G^2(z)$.
+Hence, provided that limit of $(W - z\id)^{-1}$ is $(a_1(z) \Lambda^2 + (a_2(z) - z) \id)^{-1}$ near $z = 0$, the limit of $\frac{\dd{\cal G(0)}}{\dd z}$ satisfies that
 \begin{align}\label{cal G'0}
-	\frac{\dd \cal G(0)}{\dd z} = \frac{-\frac{\dd a_1(0)}{\dd z}\Lambda^2 - (\frac{\dd a_2(0)}{\dd z} - 1)\id}{(a_{1}(0)\Lambda^2 + a_{2}(0)\id_p)^2}.
+	\frac{\dd \cal G(0)}{\dd z} \to \frac{-\frac{\dd a_1(0)}{\dd z}\Lambda^2 - (\frac{\dd a_2(0)}{\dd z} - 1)\id}{(a_{1}(0)\Lambda^2 + a_{2}(0)\id_p)^2}.
 \end{align}
-For the derivative of $a_1(z)$ and $a_2(z)$, we take the derivative on both sides of equation \eqref{selfomega_a}.
+To find the derivatives of $a_1(z)$ and $a_2(z)$, we take the derivatives on both sides of equation \eqref{selfomega_a}.
 %\begin{align*}
 %	\frac{\dd a_1(z)}{\dd z} + \frac{\dd a_2(z)}{\dd z} = -\frac{1}{n_1 + n_2} \sum_{i=1}^p \frac{1}{\lambda_i^2 a_1 + a_2},
 %	\frac{\dd a_1(z)}{\dd z} + \frac{1}{n_1 + n_2}\sum_{i=1}^p \frac{\lambda_i^2 (a_1'(z) a_2 - a_2'(z) a_1)}{(\lambda_i^2 a_1 + a_2)^2} = -\frac{1}{n_1 + n_2} \sum_{i=1}^p \frac{\lambda_i^2 a_1}{(\lambda_i^2 a_1 + a_2)^2}
@@ -362,23 +362,23 @@ For the derivative of $a_1(z)$ and $a_2(z)$, we take the derivative on both side
 Let $a_3 = - \frac{\dd a_1(0)}{\dd z}$ and $a_4 = - \frac{\dd a_2(z)}{\dd z}$.
 %then taking implicit differentiation of equation \eqref{selfomega_a}
 One can verify that $a_3$ and $a_4$ satisfy the self-consistent equations \eqref{eq_a34extra} (details omitted).
-Applying equation \eqref{cal G'0} to equation \eqref{calculate G'}, we obtain that the asymptotic limit of the bias term.
+Applying equation \eqref{cal G'0} to equation \eqref{calculate G'}, we obtain the asymptotic limit of the bias term.
 %\begin{align}
 %& n^2\bignorm{\Sigma_2^{1/2} \bigbrace{ (X^{(1)})^{\top}(X^{(1)}) + (X^{(2)})^{\top}(X^{(2)}) }^{-1} \Sigma_1^{1/2} w}^2 \nonumber\\
 %&\approx  w^\top \Sigma_1^{1/2}\Sigma_2^{-1/2}V\frac{a_3\Lambda^2 +(1+ a_4)\id_p}{(a_{1}\Lambda^2 + a_{2}\id)^2}V^\top \Sigma_2^{-1/2}\Sigma_1^{1/2}w= w^{\top} \Pi_\bias w, \label{calculatePibias}
 %\end{align}
 %where in the last step we used $M = \Sigma_1^{1/2}\Sigma_2^{-1/2}$ and $V \Lambda^2 V^\top=M^\top M$. This concludes equation \eqref{lem_cov_derv_eq}.
 
-As a remark, for $\frac{\dd \cal G(z)}{\dd z}$ to stay close to its limit at $z = 0$, we not only need the limit of $\cal G(0)$, but also the limit of $\cal G(z)$ within a small neighborhood of $0$.
-This is why we consider $Y$'s resolvent matrix as opposed to the Stieljes transform of its empirical spectral distribution.
+As a remark, in order for $\frac{\dd \cal G(z)}{\dd z}$ to stay close to its limit at $z = 0$, we not only need to find the limit of $\cal G(0)$, but also the limit of $\cal G(z)$ within a small neighborhood of $0$.
+This is why we consider $W$'s resolvent for a general $z$. %as opposed to the Stieljes transform of its empirical spectral distribution.
 
 \paragraph{Schur complement and self-consistent equations.}
 We briefly describe how to derive the matrix limit $\Gi(z)$.
-First, we consider the case where $Z^{(1)}$ and $Z^{(2)}$ are both multivariate Gaussian random matrices.
-By rotational invariance, we have that $Z^{(1)} U$ and $Z^{(2)} V$ are both still multivariate Gaussian random matrices.
+First, we consider the special case where $Z^{(1)}$ and $Z^{(2)}$ are both multivariate Gaussian random matrices.
+By rotational invariance, we have that $Z^{(1)} U$ and $Z^{(2)} V$ are still multivariate Gaussian random matrices.
 Next, we use the Schur complement formula to deal with the resolvent $G(z)$.
 We show that $G(z)$'s diagonal entries satisfy a set of self-consistent equations in the limit, leading to equation \eqref{selfomega_a}.
-$G(z)$'s off-diagonal entries are approximately zero using standard concentration bounds.
-Finally, we extend our result to general random matrices under constant moment condition.
+On the other hand, $G(z)$'s off-diagonal entries are approximately zero using standard concentration bounds.
+Finally, we extend our result to general random matrices under the finite $\varphi$-th moment condition.
 We prove an anisotropic local law using recent developments in random matrix theory \cite{erdos2017dynamical,Anisotropic}.
 A complete proof of Theorem \ref{thm_main_RMT} can be found in Appendix \ref{appendix RMT}.
