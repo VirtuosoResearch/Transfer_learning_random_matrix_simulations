@@ -130,7 +130,7 @@ Using Fact \ref{fact_tr} above, the average prediction loss of single-task learn
 \end{enumerate}
 
 
-\paragraph{Proof overview.} The key idea for proving Theorem \ref{thm_many_tasks} is a characterization of $f(A, B)$'s global minimum.
+\paragraph{Proof overview.} The key idea for proving Theorem \ref{thm_many_tasks} is a characterization of $f(A, B)$'s global minimizer.
 	Since all tasks have the same covariates, the optimization objective \eqref{eq_mtl} becomes
 	\begin{align}
 		f(A, B) = \sum_{j=1}^t \bignorm{X B A_j - Y^{(j)}}^2, \label{eq_mtl_same_cov}
@@ -138,20 +138,21 @@ Using Fact \ref{fact_tr} above, the average prediction loss of single-task learn
 	where we recall that $B \in \real^{p \times r}$ and $A_1, A_2, \dots, A_t \in \R^r$.
 	Using the local optimality condition over $B$, that is, $\frac{\partial f}{\partial B} = 0$, we obtain $\hat{B}$ as a function of the output layers as follows
 	\begin{align} \label{eq_Bhat}
-		\hat{B} \define (X^{\top}X)^{-1} X^{\top} \bigbrace{\sum_{j=1}^t Y^{(j)} A_j^{\top}} (A  A^{\top})^{+}
+		\hat{B}(A) \define (X^{\top}X)^{-1} X^{\top} \bigbrace{\sum_{j=1}^t Y^{(j)} A_j^{\top}} (A  A^{\top})^{+}
 		= (X^{\top} X)^{-1} X^{\top} Y A^{\top} (AA^{\top})^{+}.
 	\end{align}
-	Above, we have used that $X^{\top}X$ is invertible since $n > p$, and $Y$ was defined as $Y=[Y^{(1)},Y^{(2)},\cdots, Y^{(t)}]$.
+	Here we have used that $X^{\top}X$ is invertible since $n > \rho p$ (cf. Fact \ref{fact_minv}).
 	%\FY{Is $\dag$ a standard notation? It is a bad notation at least for me because $\dag$ is more often used as Hermitian conjugate. Wiki page uses $(AA^{\top})^{+}$ for pseudo-inverse.}
-	Plugging $\hat{B}$ into equation \eqref{eq_mtl_same_cov}, we obtain the following objective that only depends on the output layer:
+	Plugging $\hat{B}(A)$ into equation \eqref{eq_mtl_same_cov}, we obtain the following objective that only depends on the output layer:
 	\begin{align}
 		g(A) \define \sum_{j=1}^t \bignorm{X (X^{\top}X)^{-1}X^{\top} Y A^{\top} (AA^{\top})^{+} A_j - Y^{(j)}}^2. \label{eq_mtl_output_layer}
 	\end{align}
-	Recall that $(\hat{A}, \hat{B})$ is the global minimizer of $f(A, B)$, where $\hat{B}$ is equal to $\hat{B}(\hat{A})$ given by equation \eqref{eq_Bhat}.
-	Furthermore, $\hat{A}$ is a global minimizer of $g(A)$ in equation \eqref{eq_mtl_output_layer}.
+	Let $\hat{A}$ be the global minimizer of $g(A)$. Then  $(\hat{A}, \hat{B}(\hat A))$ is the global minimizer of $f(A, B)$. 
+	%Recall that $(\hat{A}, \hat{B})$ is the global minimizer of $f(A, B)$, where $\hat{B}$ is equal to $\hat{B}(\hat{A})$ given by equation \eqref{eq_Bhat}.
+	%Furthermore, $\hat{A}$ is a global minimizer of $g(A)$ in equation \eqref{eq_mtl_output_layer}.
 	Our next claim shows that the subspace spanned by the rows of $\hat{A}$ is close to that of $A^{\star}$.
 	\begin{claim}\label{claim_opt_dist}
-		Let $U_{\hat{A}} U_{\hat{A}}^{\top} \in\real^{t\times t}$ denote the subspace $\hat{A}^{\top} (\hat{A}\hat{A}^{\top})^{+} \hat{A}$.
+		Let $U_{\hat{A}} U_{\hat{A}}^{\top} \in\real^{t\times t}$ denote the subspace projection $\hat{A}^{\top} (\hat{A}\hat{A}^{\top})^{+} \hat{A}$.
 		In the setting of Theorem \ref{thm_many_tasks}, we have that
 		\[ \bignormFro{U_{\hat{A}} U_{\hat{A}}^{\top} - A^{\star} {A^{\star}}^{\top}}^2
 				\le  p^{-c_{\varphi}} \cdot C_1. \]
@@ -166,14 +167,14 @@ Using Fact \ref{fact_tr} above, the average prediction loss of single-task learn
 		As a result, the minimum of $\ex{g(A)}$, denoted by $A^{\star}{A^\star}^\top$, is the best rank-$r$ approximation of ${B^{\star}}^{\top}\Sigma B^{\star}$.
 	\end{claim}
 
-	 One can see that the expected prediction loss admits a nice bias-variance decomposition.
+	 One can see that the expected optimization objective also admits a nice bias-variance decomposition.
 	Furthermore, its minimizer only depends on the bias term since the variance term is fixed, and the minimizer of the bias term is precisely $A^{\star} {A^{\star}}^{\top}$.
 
 	The next piece of our proof deals with the prediction loss of hard parameter sharing.
 	\begin{claim}\label{claim_pred_err}
 		In the setting of Theorem \ref{thm_many_tasks},
 		let $\hat{a}_i = \hat{A}^{\top} (\hat{A}\hat{A}^{\top})^{+} \hat{A}_i$.
-		We have that the prediction loss of $\hat{\beta}_i^{\MTL} = \hat{B} \hat{A}_i$ satisfies that
+		We have that the prediction loss of $\hat{\beta}_i^{\MTL} := \hat{B} \hat{A}_i$ satisfies that
 		\begin{align*}
 			\bigabs{L(\hat{\beta}_i^{\MTL}) - L(B^{\star} \hat{a}_i) - \sigma^2 \norm{\hat{a}_i}^2 \cdot \bigtr{\Sigma (X^{\top}X)^{-1}}}
 			\le  n^{-c_\infty} \left( L(B^{\star} \hat{a}_i)+ \sigma^2  \cdot\|\hat a_i\|^2\right) .
@@ -182,8 +183,10 @@ Using Fact \ref{fact_tr} above, the average prediction loss of single-task learn
 	The proof of Claim \ref{claim_opt_dist}, Claim \ref{lem_exp_opt}, and Claim \ref{claim_pred_err} can be found in Appendix \ref{app_proof_error_same_cov}.
 	Provided with these results, we are ready to prove Theorem \ref{thm_many_tasks}.
 	\begin{proof}[Proof of Theorem \ref{thm_many_tasks}]
-		Using Claim \ref{claim_pred_err}, we get that the prediction loss of $\hat{\beta}_i^{\MTL}$ is within an $\OO(n^{-c_{\infty}})$ fraction of $L(B^{\star}\hat{a}_i)+\norm{\hat{a}_i}^2 \bigtr{\Sigma(X^{\top}X)^{-1}}$.
-		For the latter, we use Claim \ref{claim_opt_dist} to upper bound the difference between $\norm{\hat{a}_i}^2$ and $\norm{a_i^{\star}}^2$.
-		For $L(B^{\star}\hat{a}_i)$, we again use Claim \ref{claim_opt_dist} to upper bound the distance between $\hat{a}_i$ and $a_i^{\star}$.
-		Combined together, our proof is complete.
+		Using Claim \ref{claim_pred_err}, we get that the prediction loss of $\hat{\beta}_i^{\MTL}$ is within an $\OO(n^{-c_{\infty}})$ fraction of $L(B^{\star}\hat{a}_i)+\sigma^2\norm{\hat{a}_i}^2\cdot \bigtr{\Sigma(X^{\top}X)^{-1}}$. Moreover, Claim \ref{claim_opt_dist} gives directly an upper bound on $\|\hat a_i - a_i^\star\|^2$. With this estimate, we can bound the difference 
+		$$L(B^{\star}\hat{a}_i)+\sigma^2\norm{\hat{a}_i}^2\cdot \bigtr{\Sigma(X^{\top}X)^{-1}} - L(B^{\star} {a}^\star_i)-\sigma^2\norm{{a}^\star_i}^2\cdot \bigtr{\Sigma(X^{\top}X)^{-1}}.$$
+		Combined together, our proof is complete. We omit the details.
+%		For the latter, we use Claim \ref{claim_opt_dist} to upper bound the difference between $\norm{\hat{a}_i}^2$ and $\norm{a_i^{\star}}^2$.
+%		For $L(B^{\star}\hat{a}_i)$, we again use Claim \ref{claim_opt_dist} to upper bound the distance between $\hat{a}_i$ and $a_i^{\star}$.
+%		Combined together, our proof is complete.
 	\end{proof}
