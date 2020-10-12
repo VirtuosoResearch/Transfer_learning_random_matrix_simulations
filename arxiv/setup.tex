@@ -116,10 +116,14 @@ See Figure \ref{fig_intro_sample_size} for an illustration.
 	\end{subfigure}\hfill
 	\begin{subfigure}[b]{0.5\textwidth}
 		\centering
-		\includegraphics[width=0.9\textwidth]{figures/sample_ratio_several_d.eps}
-		\caption{Different patterns of varying sample sizes}
+		\includegraphics[width=0.9\textwidth]{figures/sample_ratio_c2_400.eps}
+		\caption{Varying sample size ratio}
+		\label{fig_intro_sample_size}
 	\end{subfigure}
-	\caption{We observe that task two's prediction loss decreases initially before increasing again. Our result shows (provably) that this phenomenon occurs due to different bias-variance tradeoffs as the sample ratio increases. \HZ{rewrite}}
+	\caption{An illustrative example of our result:
+	Consider the prediction loss of hard parameter sharing (left) for task two, given two linear regression tasks.
+	Increasing task one's sample size helps reduce task two's prediction loss initially, but increases afterwards. Our result provides an estimated loss (solid line) that matches the empirical loss (dotted line) accurately. This phenomenon occurs due to different bias-variance tradeoffs as the sample size ratio increases.
+	See Section \ref{sec_simulation} for the precise setting.}
 	\label{fig_intro_sample_size}
 \end{figure}
 
@@ -128,13 +132,9 @@ As a consequence of our concrete and precise loss estimates, we observe qualitat
 	\item \textit{Sample efficiency (Example \ref{ex_same_cov})}:
 	One advantage of combining multiple datasets is that the requirement for labeled data reduces compared to STL, a phenomenon that is empirically observed in Taskonomy \cite{ZSSGM18}.
 	Our results further show that HPS's sample efficiency depends on task-specific variance vs. noise variance. It is generally high when the noise variance is large compared to model-specific variance across tasks.
-	\item \textit{Sample size ratio (Example \ref{ex_sample_ratio})}: Increasing one task's sample size does not always help reduce another task's loss. We find in a simplified setting that the task loss either decreases first before increasing afterwards, or decreases monotinically. These two trends result from different tradeoffs between increasing bias and decreasing variance.
+	\item \textit{Sample size ratio (Example \ref{ex_sample_ratio})}: Increasing one task's sample size does not always help reduce another task's loss. We find in a simplified setting that depending on how much bias increases, the task loss either decreases first before increasing afterwards, or decreases monotinically. These two trends result from different tradeoffs between increasing bias and decreasing variance.
 	\item \textit{Covariate shift (Example \ref{ex_covshift})}: In addition to sample sizes, variance also scales with the covariate shift between different datasets. For high sample size ratio, variance is smallest when there is no covariate shift. Counterintuitively, for low sample size ratio, having covariate shift reduces variance through a complementary spectrum.
 \end{enumerate}
-One natural implication from these results is that adding more data
-Second, we propose a new multi-task training schedule by incrementally adding task data batches to the training procedure.
-This is inspired by our observation in Figure \ref{fig_size} where .
-Using our incremental training schedule, we reduce the computational cost by $65\%$ compared to baseline multi-task training over six sentiment analysis datasets while keeping the accuracy the same.
 
 %First, we develop tight bounds for the bias and variance of the multi-task estimator for two tasks by applying recent development in random matrix theory \cite{erdos2017dynamical,isotropic,Anisotropic}.
 %We observe that the variance of the multi-task estimator is \textit{always smaller} than single-task learning, because of added source task samples.
@@ -210,13 +210,17 @@ Using our incremental training schedule, we reduce the computational cost by $65
 %Finally, we validate our three theoretical findings on sentiment analysis tasks.
 
 
-\paragraph{Our techniques.} \todo{rewrite} We describe the main ideas for showing the generalization error of hard parameter sharing estimators.
-There are two key ideas in the proof.
-First, we study a bias-variance decomposition of hard parameter sharing, and show that the variance always reduces compared to single-task learning, while the bias always increases.
-Second, we study the limiting bias and variance of hard parameter sharing, and derive their asymptotics using recent development from the random matrix theory literature.
-The asymptotic results scale with key properties of task data such as sample size and covariance shift, and allow us to study the performance of multi-task learning by varying these properties, which will be the focus of Section \ref{sec_special}.
+There are two main ideas in our analysis. The proof of our first result is based on a geometric intuition that hard parameter sharing finds a ``rank-$r$'' approximation of the datasets.
+We carefully keep track of the concentration error between the global minimum of $f(A, B)$ and their population version.
+The proof of our second result is significantly more involved because of different sample sizes and covariate shifts.
+\HZ{add several sentences on the technical insight}
+One limitation of our analysis is that for two tasks with different sample sizes, there is extra error term in the prediction loss of hard parameter sharing (cf. equation \eqref{cor_MTL_error}), which can be large for very small $n_1$.
+\HZ{add why this is challenging}
 
-
+Finally, we discuss the practical implications of work.
+One natural implication from our sample size ratio study is a progressive training procedure that gradually adds more data until performance drops.
+For example, in the setting of Figure \ref{fig_intro_sample_size}, this procedure will stop right at the minimum of the local basin.
+We conduct further studies of this procedure on six text classification datasets, and observe that it reduces the computational cost by $65\%$ compared to a standard round-robin training procedure, while keeping average accuracy of all tasks at the same level.
 
 %This part introduces a positive variance reduction effect from adding the source labels.
 %Hence, whether $\te(\hat{\beta}_t^{\MTL}) < \te(\hat{\beta}_t^{\STL})$ is determined precisely by the tradeoff between the negative effect of the bias term and the positive effect of the variance term!
@@ -261,15 +265,12 @@ In Section \ref{sec_exp}, we validate our theory in both simulations and a real 
 In Section \ref{sec_conclude}, we conclude the paper and describe several open questions.
 
 \paragraph{Notations.}
-Let $B^\star \define [{\beta}_1,{\beta}_2,\dots,{\beta}_{t}] \in \real^{p\times t}$ denote the ground truth model parameters.
-Let $\cE \define [\varepsilon_1, \varepsilon_2, \dots, \varepsilon_t] \in \real^{n \times t}$ denote the random noise.
-Let $Y$ denote $[Y^{(1)}, Y^{(2)}, \dots, Y^{(t)}]$.
-We can also write $Y = XB^{\star} + \cE$.
-Let $A = [A_1, A_2, \dots, A_t] \in \real^{r\times t}$ be a matrix notation that contains all the output layer parameters.
-
+%Let $\cE \define [\varepsilon_1, \varepsilon_2, \dots, \varepsilon_t] \in \real^{n \times t}$ denote the random noise.
+%We can also write $Y = XB^{\star} + \cE$.
+%Let $A = [A_1, A_2, \dots, A_t] \in \real^{r\times t}$ be a matrix notation that contains all the output layer parameters.
 For a matrix $X$, let $\lambda_{\min}(X)$ denote its smallest singular value and $\norm{X}$ denote its spectral norm.
 Let $\lambda_1(X) \ge \lambda_2(X) \ge \cdots \ge \lambda_t(X)$ denote the eigenvalues of $X$.
 Let $X^+$ denote its Moore-Penrose psuedoinverse.
 We shall refer to random matrices of the form $\frac {X^\top X} n$ as sample covariance matrices following the standard notations in high-dimensional statistics.
-We shall use $\oo(1)$ to mean a small positive quantity that converges to 0 as $p$ goes to infinity.
-We shall say an event $\Xi$ holds with high probability (w.h.p.) if $\P(\Xi)$ goes to $1$ as $p$ goes to infinity.
+We say that an event $\Xi$ holds with high probability if the probability that $\Xi$ happens goes to $1$ as $p$ goes to infinity.
+%We shall use $\oo(1)$ to mean a small positive quantity that converges to 0 as $p$ goes to infinity.
