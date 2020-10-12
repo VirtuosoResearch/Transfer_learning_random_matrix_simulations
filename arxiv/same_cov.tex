@@ -2,7 +2,8 @@
 
 %We begin by considering the case where all tasks have the same sample size and feature covariates, that is, $n_i = n$ and $X^{(i)} = X\in\real^{n\times p}$ for all $i = 1, \dots, t$.
 %We provide a sharp generalization error bound of hard parameter sharing estimators.
-We show that the prediction loss of hard parameter sharing admits a clean bias-variance decomposition, when all tasks have the same sample size and feature covariates. \FY{Is it should be "same covariate" or "same covariates"?}
+We show that the prediction loss of hard parameter sharing admits a clean bias-variance decomposition, when all tasks have the same sample size and features.
+%\FY{Is it should be "same covariate" or "same covariates"?}
 %This setting is prevalent in applications of multi-task learning to image classification, where there are multiple prediction labels/tasks for every image \cite{chexnet17,EA20}.
 %We consider an arbitrary local minimum $B, W_1, \dots, W_2$ of the optimization objective.
 %We extend the bias-variance decomposition from the two-task case to the multiple-task case.
@@ -18,7 +19,7 @@ We show that the prediction loss of hard parameter sharing admits a clean bias-v
 %We show the generalization error of hard parameter sharing estimators.
 %Before stating the result, we define the following notations.
 Let $\Sigma\in \R^{p\times p}$ denote the population covariance matrix of all tasks.
-Suppose we have $t$ datasets whose features are all equal to $X$, and the label (vector) of the $i$-th task is equal to $Y^{(i)} = X \beta^{(i)} + \varepsilon^{(i)}$.
+Suppose we have $t$ datasets whose samples size are all equal to $n$ and whose features are all denoted by $X \in \real^{n \times p}$, and the label (vector) of the $i$-th task follows a linear model $Y^{(i)} = X \beta^{(i)} + \varepsilon^{(i)}$.
 We assume that: $X = Z \Sigma^{1/2}$ and every entry of $Z \in \real^{n \times p}$ is drawn independently from a one dimensional distribution with mean zero, unit variance, and constant $\varphi$-th moment for a fixed $\varphi > 4$;
 every entry of $\varepsilon^{(i)} \in \real^{n \times t}$ is drawn indepdently from a one dimensional ditribution with mean zero, variance $\sigma^2$, and bounded moment up to any order.\footnote{More precisely, there exists a fixed function $C: \mathbb{N} \rightarrow \real^+$ such that for any $k \in \N$, the $k$-th moment is bounded by $C(k)$.}
 Let $A^{\star} {A^{\star}}^{\top}$ denote the best rank-$r$ subspace approximation of ${B^{\star}}^\top\Sigma B^{\star}$, that is,
@@ -27,7 +28,7 @@ To ensure that $A^{\star}$ is unique, we assume that $\lambda_{r+1}({B^\star}^\t
 For $i = 1,\dots, t$, let $a_i^{\star} \in\real^r$ denote the $i$-th column of $A^{\star}{A^{\star}}^{\top}$. 
 Our main result shows that hard parameter sharing essentially approximates all tasks through the rank-$r$ matrix $B^{\star} A^{\star} {A^{\star}}^{\top}$.
 
-\begin{theorem}[Bias-variance decomposition for prediction loss]\label{thm_many_tasks}
+\begin{theorem}\label{thm_many_tasks}
 %Suppose $X=Z\Sigma^{1/2}\in \R^{n\times p}$ satisfy Assumption \ref{assm_secA1} with $\rho:=n/p>1$ being some fixed constant. Consider data models  $Y_i = X\beta_i + \varepsilon_i$, $i=1,2,\cdots, t$, where $\e_i\in \R^{n}$ are random vectors with i.i.d. entries with mean zero, variance $\sigma^2$ and all moments as in \eqref{assmAhigh}. Moreover, assume that $X$, $\beta_i$ and $\e_i$ are all independent of each other.
 	%Let $n = c \cdot p$.
 	%Let $X\in\real^{n\times p}$ and $Y_i = X\beta_i + \varepsilon_i$, for $i = 1,\dots,k$.
@@ -39,9 +40,9 @@ Our main result shows that hard parameter sharing essentially approximates all t
 	For any task $i = 1, 2, \dots, t$, the prediction loss of the estimator $\hat{\beta}_i^{\MTL}$ satisfies that with high probability,
 	\begin{align*}
 		\bigabs{L(\hat{\beta}_i^{\MTL}) - L(B^{\star}a_i^{\star}) - \sigma^2 \norm{a_i^{\star}}^2 \bigtr{\Sigma (X^{\top}X)^{-1}}}
-		\le n^{-c_{\varphi}/2} \cdot C_1\bigbrace{ \norm{\Sigma^{1/2} B^{\star}}^2+  \sigma^2}  ,
+		\le n^{-\frac{c_{\varphi}}2} \cdot \frac{\bigbrace{ \norm{\Sigma^{1/2} B^{\star}}^2+  \sigma^2} \cdot (\bignormFro{\Sigma^{1/2} B^{\star}}^2 + \sigma^2 t)} {\lambda_r ({B^\star}^\top \Sigma B^\star)- \lambda_{r+1}({B^\star}^\top \Sigma B^\star)}.
 	\end{align*}
-	where $C_1: = \frac{\bignormFro{\Sigma^{1/2} B^{\star}}^2 + \sigma^2 t}{\lambda_r ({B^\star}^\top \Sigma B^\star)- \lambda_{r+1}({B^\star}^\top \Sigma B^\star)}$. %and $C_2 :=  C_1\cdot \norm{\Sigma^{1/2} B^{\star}}$.
+%	where $C_1: = \frac{\bignormFro{\Sigma^{1/2} B^{\star}}^2 + \sigma^2 t}{\lambda_r ({B^\star}^\top \Sigma B^\star)- \lambda_{r+1}({B^\star}^\top \Sigma B^\star)}$. %and $C_2 :=  C_1\cdot \norm{\Sigma^{1/2} B^{\star}}$.
 \end{theorem}
 
 %\FY{why not use $C_1: = \frac{ \normFro{\Sigma^{1/2} B^{\star}}^2}{ \lambda_{\min}^2(\Sigma^{1/2} B^{\star}) + \sigma^2}$? $C_2$ does not seem to be correct because the dimension does not match. I will check the proof to see whether $C_2 =  C_1\cdot \norm{\Sigma^{1/2} B^{\star}}^2$ or $C_1\cdot \sigma\norm{\Sigma^{1/2} B^{\star}}$?}
