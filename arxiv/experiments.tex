@@ -13,7 +13,7 @@
 \begin{figure}[!t]
 	\centering
 	\includegraphics[width=0.45\textwidth]{figures/same_covariates.eps}
-	\caption{Validating Example \ref{ex_same_cov} in the same covariates case: our estimated loss (solid line) matches the empirical loss (dotted line) accurately for various task-specific variance $d^2$ and sample size $n$ settings. The feature dimension $p$ is $200$, and noise variance $\sigma^2$ is $1/4$. \FY{What is $t$ in this setting?}}
+	\caption{Validating Example \ref{ex_same_cov} in Section \ref{sec_same} for $10$ tasks: our estimated loss (solid line) matches the empirical loss (dotted line) accurately for various task-specific variance $d^2$ and sample size $n$ settings. The feature dimension $p$ is $200$, and noise variance $\sigma^2$ is $1/4$.}
 	\label{fig_same_cov}
 \end{figure}
 
@@ -37,7 +37,9 @@ Second, we show how varying sample ratio impacts hard parameter sharing in the s
 Figure \ref{fig_size} shows task two's prediction loss as we increase the sample ratio $n_1 / n_2$ from $1/10$ to $7/10$.
 Again, our estimates are reasonably accurate compared to the empirical losses.
 We consider a regime where task two consists of $80,000$ samples, and task one's sample size varies from $8,000$ to $56,000$. 
-The  task-specific variance is $d^2 = 0.08$, the noise variance is $\sigma^2 = 0.3^2$, and the shared signal variance is \FY{What is $\kappa^2$?}. We observe that as we increase the sample ratio, task two's prediction loss decreases initially but later will increases when the sample ratio is above certain level.  Our work explains this trend as discussed below Corollary \ref{cor_MTL_loss}.
+The task-specific variance is $d^2 = 0.08$, the noise variance is $\sigma^2 = 0.3^2$, and the shared signal variance is $1$. We observe that as we increase the sample ratio, task two's prediction loss decreases initially but later will increases when the sample ratio is above certain level.
+On the other hand, when $d^2 = 0.045$, task two's prediction loss decreases monotonically.
+Our work explains this trend as discussed below Corollary \ref{cor_MTL_loss}. \HZ{check}
 
 \iffalse
 We observe that as we increase the sample ratio, task two's prediction loss decreases initially but increases above the initial loss level.
@@ -104,12 +106,12 @@ The noise variance $\sigma^2$ is $1/4$.
 		\label{fig_covariate}
 	\end{subfigure}
 	\caption{%Three takeaways of our theory in Section \ref{sec_insight}.
-	Validating Example \ref{ex_sample_ratio} and Example \ref{ex_covshift} in the different covariates case:
+	Validating Example \ref{ex_sample_ratio} and Example \ref{ex_covshift} in Section \ref{sec_diff} for two tasks:
 	in both experiments, our estimated losses (solid line) match the empirical losses (dotted line) accurately.
-	In Figure \ref{fig_size}, we discover an interesting phenomenon by fixing task two's sample size and increasing task one's sample size.
-	We observe that task two's prediction loss decreases initially before increasing again. Our result shows (provably) that this phenomenon occurs due to different bias-variance tradeoffs as the sample ratio increases.
+	In Figure \ref{fig_size}, we discover several interesting phenomena by fixing task two's sample size and increasing task one's sample size.
+	Depending on how large $d^2$ is, task two's prediction loss decreases initially before increasing again, or decreases monotonically.
 	In Figure \ref{fig_covariate}, we show how different levels of covariate shift affect hard parameter sharing when there is no bias.
-	Having covariate shift increases task two's prediction loss when task two's sample size is larger than task one. Otherwise, having covariate shift decreases task two's prediction loss (surprisingly).}
+	Having covariate shift increases task two's prediction loss when task two's sample size is larger than task one. Otherwise, having covariate shift (surprisingly) decreases task two's prediction loss.}
 	\label{fig_model_shift_phasetrans}
 \end{figure}
 
@@ -144,7 +146,7 @@ Our model consists of a word embedding layer with GloVe embeddings \cite{penning
 %We observe similar results for $91$ task pairs from the ChestX-ray14 dataset.
 %The results show that STL results are indicative of MTL results.
 
-\paragraph{Sample ratio.}
+\paragraph{Sample size ratio.}
 In Figure \ref{fig_ab_data}, we observe that for multiple example task pairs, increasing task one's sample size improves task two's prediction accuracy initially, but hurts eventually.
 On the $y$-axis, we plot task two's test accuracy using HPS, subtracted by its STL test accuracy.
 %validate that as we increase the sample ratio while keeping task two's sample size fixed, task two's prediction accuracy does not always increase.
