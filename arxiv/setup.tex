@@ -103,7 +103,7 @@ We analyze the global minimum of $f(A, B)$, and provide a sharp generalization b
 This case is tractable even though in general, $f(A, B)$ is non-convex in $A$ and $B$ (e.g. matrix completion is a special case for suitably designed $X^{(i)}, Y^{(i)}$).
 We show that the prediction loss of hard parameter sharing admits a clean bias-variance decomposition.
 Our results imply that hard parameter sharing helps by reducing variance compared to single-task learning, but hurts by increasing bias.
-Our second result (Theorem \ref{thm_main_RMT}) applies to two tasks with arbitrarily different sample sizes and covariance matrices.
+Our second result (Theorem \ref{thm_main_RMT}) applies to two tasks with arbitrarily different sample sizes and population covariance matrices.
 We analyze the local minimum of $f(A, B)$ and provide a sharp generalization bound for both tasks' prediction loss.
 Despite its simplicity, we show several rich phenomena by varying sample sizes and covariate shifts in this setting.
 See Figure \ref{fig_intro_sample_size} for an illustration.
@@ -212,8 +212,8 @@ Consequently, we observe qualitative properties of hard parameter sharing for va
 
 There are two main ideas in our analysis. The proof of our first result uses a geometric intuition that hard parameter sharing finds a ``rank-$r$'' approximation of the datasets.
 We carefully keep track of the concentration error between the global minimum of $f(A, B)$ and their population version.
-The proof of our second result is significantly more involved because of different sample sizes and covariate shifts.
-\HZ{add several sentences on the technical insight}
+The proof of our second result is significantly more involved because of different sample sizes and covariate shifts. We use some modern random matrix theory techniques developed in the past decade to obtain the sharp generalization bound \cite{erdos2017dynamical}. In particular, we use the novel technique in \cite{Anisotropic} to obtain a sharp estimate on the inverse of the sum of two sample covariance matrices with arbitrary population covariance matrices, which is commonly referred to as the \emph{local law}. 
+%\HZ{add several sentences on the technical insight} 
 One limitation of our analysis is that for two tasks with different sample sizes, there is extra error term in the prediction loss of hard parameter sharing (cf. equation \eqref{cor_MTL_error}), which can be large for very small $n_1$. This involves a study of the asymptotic singular values distribution of a non-symmetric random matrix plus an identity matrix, which is still an open problem in random matrix theory due to lack of freeness. 
 %\HZ{add why this is challenging}
 
