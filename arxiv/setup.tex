@@ -123,14 +123,17 @@ See Figure \ref{fig_intro_sample_size} for an illustration.
 	\label{fig_intro_sample_size}
 \end{figure}
 
-As a consequence of our concrete and precise loss estimates, we make qualititative predictions that are related to commonly observed empirical phenomena in hard parameter sharing.
+As a consequence of our concrete and precise loss estimates, we observe qualitative properties of hard parameter sharing for varying datasets' properties.
 \begin{enumerate}
-	\item \textit{Sample efficiency depends on task-specific variance vs. noise variance}:
-	\item \textit{Increasing one task's sample size does not always reduce another task's loss}:
-	\item \textit{Covariate shift worsens when sample size ratio increases}:
+	\item \textit{Sample efficiency (Example \ref{ex_same_cov})}:
+	One advantage of combining multiple datasets is that the requirement for labeled data reduces compared to STL, a phenomenon that is empirically observed in Taskonomy \cite{ZSSGM18}.
+	Our results further show that HPS's sample efficiency depends on task-specific variance vs. noise variance. It is generally high when the noise variance is large compared to model-specific variance across tasks.
+	\item \textit{Sample size ratio (Example \ref{ex_sample_ratio})}: Increasing one task's sample size does not always help reduce another task's loss. We find in a simplified setting that the task loss either decreases first before increasing afterwards, or decreases monotinically. These two trends result from different tradeoffs between increasing bias and decreasing variance.
+	\item \textit{Covariate shift (Example \ref{ex_covshift})}: In addition to sample sizes, variance also scales with the covariate shift between different datasets. For high sample size ratio, variance is smallest when there is no covariate shift. Counterintuitively, for low sample size ratio, having covariate shift reduces variance through a complementary spectrum.
 \end{enumerate}
+One natural implication from these results is that adding more data
 Second, we propose a new multi-task training schedule by incrementally adding task data batches to the training procedure.
-This is inspired by our observation in Figure \ref{fig_size} where adding more source task data helps initially, but hurts eventually.
+This is inspired by our observation in Figure \ref{fig_size} where .
 Using our incremental training schedule, we reduce the computational cost by $65\%$ compared to baseline multi-task training over six sentiment analysis datasets while keeping the accuracy the same.
 
 %First, we develop tight bounds for the bias and variance of the multi-task estimator for two tasks by applying recent development in random matrix theory \cite{erdos2017dynamical,isotropic,Anisotropic}.
