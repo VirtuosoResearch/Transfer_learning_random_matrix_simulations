@@ -96,8 +96,8 @@ We illustrate through a random-effects model, which has been studied for a singl
 Suppose every $\beta_i$ consists of two random components, one that is shared among all tasks and one that is task-specific.
 Thus, each task contributes a certain amount to the shared component and injects a task-specific bias.
 Let $\beta_0$ denote the shared component whose entries are sampled i.i.d. from an isotropic Gaussian distribution of mean zero and variance $p^{-1}\kappa^2$.
-Let the task-specific component be a random Gaussian vector with i.i.d. entries of mean zero and variance $p^{-1} d^2 / 2$.
-Thus, for any two different $\beta_i$ and $\beta_j$, their distance is roughly $d^2$.
+Let the task-specific component be a random Gaussian vector with i.i.d. entries of mean zero and variance $p^{-1} d^2$.
+Thus, for any two different $\beta_i$ and $\beta_j$, their distance is roughly $2d^2$.
 %	The labels are $Y_i = X_i\beta_i + \varepsilon_i$, where $\e_i$ consists of i.i.d. entries with mean zero and variance $\sigma^2$.
 Concretely, we can think of $\kappa = 1$ and $d^2/\sigma^2 = \OO(1)$.
 %The more precise conditions on the relations between $d^2$, $\sigma^2$ and $\kappa^2$ are given in  \eqref{choiceofpara}.
@@ -105,7 +105,7 @@ Concretely, we can think of $\kappa = 1$ and $d^2/\sigma^2 = \OO(1)$.
 
 \begin{example}[Sample efficiency]\label{ex_same_cov}
 In the random-effects model described above, we further assume that $\Sigma$ is isotropic for illustration. We show that when the rank of hard parameter sharing is one, the bias $L(B^{\star} a_i^{\star})$ satisfies that with high probability, 
-\[ \frac{1}{t} \sum_{i=1}^t L(B^{\star} a_i^{\star}) = \frac{1}{t}\normFro{B^{\star} A^{\star} {A^{\star}}^{\top} - B^{\star}}^2 \approx \left(1 - \frac{1}{t}\right) \frac{ d^2}{2}  . \]
+\[ \frac{1}{t} \sum_{i=1}^t L(B^{\star} a_i^{\star}) = \frac{1}{t}\normFro{B^{\star} A^{\star} {A^{\star}}^{\top} - B^{\star}}^2 \approx \left(1 - \frac{1}{t}\right) {d^2}{}  . \]
 Since $A^{\star} {A^{\star}}^{\top}$ is the best rank-$1$ approximation of ${B^{\star}}^{\top}\Sigma B^{\star} = {B^{\star}}^{\top} B^{\star}$, and the $(i, j)$-th entry of this matrix is roughly equal to
 %\begin{align*}
 %	\beta_i^{\top} \beta_j \approx \norm{\beta_0}^2 + \frac{d^2}{2}\delta_{ij},\quad 1\le i,j \le t,
@@ -113,27 +113,27 @@ Since $A^{\star} {A^{\star}}^{\top}$ is the best rank-$1$ approximation of ${B^{
 \begin{align*}
 	\beta_i^{\top} \beta_j \approx \norm{\beta_0}^2 + \begin{cases}
 																								0, &\text{ if } i \neq j \\
-																								d^2/2, &\text{ if } i = j
+																								d^2, &\text{ if } i = j
 	\end{cases}
 \end{align*}
 which follows from the definition of the random-effects model.
 Note that $\norm{\beta_0}^2$ is roughly $\kappa^2$.
-One can verify that the top eigenvalue of ${B^{\star}}^{\top} B^{\star}$ is approximately $t \kappa^2 + d^2/2$ and the rest of its eigenvalues are all equal to $d^2/2$.
+One can verify that the top eigenvalue of ${B^{\star}}^{\top} B^{\star}$ is approximately $t \kappa^2 + d^2$ and the rest of its eigenvalues are all equal to $d^2$.
 Therefore, by taking a rank-$1$ approximation of ${B^{\star}}^{\top} B^{\star}$, we get the average prediction loss as above.
 
 For the variance term, since $A^{\star}$ has rank-$1$, we have that $\sum_{i=1}^t \norm{a_i^{\star}}^2 = 1$. Moreover, we can use Fact \ref{fact_tr} to calculate $\bigtr{\Sigma (X^{\top} X)^{-1}}$. 
 Combined together, the average prediction loss of hard parameter sharing is as follows
-\[ \frac{1}{t}\sum_{i=1}^t L(\hat{\beta}_i^{\MTL}) = \bigbrace{1 - \frac{1}{t}} \frac{d^2}{2} + \frac{1}{t} \cdot \frac{\sigma^2 p}{n - p} \pm \OO(n^{-c_{\varphi} / 2}) .\] %\pm \OO(n^{-c_\varphi} (\sigma^2 +\kappa^2 +d^2)). \]
+\[ \frac{1}{t}\sum_{i=1}^t L(\hat{\beta}_i^{\MTL}) = \bigbrace{1 - \frac{1}{t}} {d^2}{} + \frac{1}{t} \cdot \frac{\sigma^2 p}{n - p} \pm \OO(n^{-c_{\varphi} / 2}) .\] %\pm \OO(n^{-c_\varphi} (\sigma^2 +\kappa^2 +d^2)). \]
 %In fact, the error for this approximate equation is at most $\OO(n^{-c_\varphi/2} (\sigma^2 +\kappa^2 +d^2))$.
 \end{example}
 We compare hard parameter sharing to single-task learning.
 Using Fact \ref{fact_tr} above, the average prediction loss of single-task learning is $\sigma^2\cdot \bigtr{\Sigma (X^{\top} X)^{-1}} = \frac{\sigma^2 p}{n - p}  \pm \OO(n^{-c_\varphi} \sigma^2)$ with high probability.
 	Suppose $n$ is sufficiently large so that the error is negligible.
 \begin{enumerate}
-	\item The prediction loss of hard parameter sharing is less than single-task learning if and only if $\frac{d^2}{2} < \frac{\sigma^2 p}{n - p}$, that is, the ``task-specific variance'' of $\beta_i$ is smaller than the ``noise variance''.
-	\item When $\frac{d^2}{2} < \frac{\sigma^2 p}{n - p}$, increasing $r$ does not help.
-	To see this, one can verify what when $r$ increases by one, bias reduces by $\frac{d^2}{2}$, but variance increases by $\frac{\sigma^2 p}{n-1}$ (details omitted).
-	\item Hard parameter sharing requires at most $p + \frac{n - p}{t - (t - 1)\frac{d^2 (n - p)}{2\sigma^2 p}} < n$ samples to get comparable loss to single-task learning.
+	\item The prediction loss of hard parameter sharing is less than single-task learning if and only if ${d^2}{} < \frac{\sigma^2 p}{n - p}$, that is, the ``task-specific variance'' of $\beta_i$ is smaller than the ``noise variance''.
+	\item When ${d^2}{} < \frac{\sigma^2 p}{n - p}$, increasing $r$ does not help.
+	To see this, one can verify what when $r$ increases by one, bias reduces by ${d^2}{}$, but variance increases by $\frac{\sigma^2 p}{n-1}$ (details omitted).
+	\item Hard parameter sharing requires at most $p + \frac{n - p}{t - (t - 1)\frac{d^2 (n - p)}{\sigma^2 p}} < n$ samples to get comparable loss to single-task learning.
 	This follows by using this sample size in the average prediction loss equation above.
 \end{enumerate}
 %\FY{I think these two facts probably need more clarification?}
