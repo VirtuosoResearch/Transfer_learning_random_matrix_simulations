@@ -228,31 +228,41 @@ We conduct further studies of this procedure on six text classification datasets
 
 \subsection{Related Work}
 
-We refer the interested readers to several excellent surveys on multi-task  learning for a comprehensive survey \cite{PY09,R17,ZY17,V20}.
-Our setting is closely related to domain adaptation \cite{DM06,BB07,BC08,DH09,MMR09,CWB11,ZS13,NB17,ZD19}.
-The important distinction is that we focus on predicting the target task using a hard parameter sharing model.
-For such models, their output dimension plays an important role of regularization \cite{KD12}.
-Linear models in multi-task learning have been studied in various settings, including representation learning \cite{BHKL19}, online learning \cite{CCG10,DCSP18}, and sparse regression \cite{LPVT11}.
-Below, we describe several lines of work that are most related to this work.
+There is a large body of both classical and recent work on multi-task learning.
+We focus our discussion on theoretical works, and refer interested readers to several excellent surveys for general references \cite{PY09,R17,ZY17,V20}.
+The early work of \citet{B00,BS03,M06} have sought a study of multi-task learning from a theoretical perspective, often using uniform convergence or Rademacher complexity based techniques.
+An influential paper by \citet{BBCK10} provides uniform convergence bounds that combines multiple datasets in certain settings.
+One limitation of uniform convergence based techniques is that the results often assume that all  tasks have the same sample size, e.g. \citet{B00,MPR16}.
+To the best of our knowledge, we are not aware of any previous work that provide explicit generalization bounds under different sample sizes and covariate shifts.
 
-Some of the earliest works on multi-task learning are Baxter \cite{B00}, Ben-David and Schuller \cite{BS03}.
-Mauer \cite{M06} studies generalization bounds for linear separation settings of MTL.
-Ben-David et al. \cite{BBCK10} provides uniform convergence bounds that combines source and target errors optimally.
-The benefit of learning multi-task representations has been studied for learning certain half-spaces \cite{MPR16} and sparse regression \cite{LPTV09,LPVT11}.
-Our work is closely related to Wu et al. \cite{WZR20}.
-While Wu et al. provide generalization bounds to show that adding more labeled helps learn the target task more accurately, their techniques cannot be used to explain when MTL outperforms STL.
-\todo{spell out the challenge more explicitly}
+The problem we study here is also related to high-dimensional prediction in transfer learning \cite{li2020transfer,bastani2020predicting} and distributed learning \cite{dobriban2018high}.
+For example, \citet{li2020transfer} provides minimax optimal rates for predicting a target regression task given multiple source tasks.
+One closely related work is \citet{WZR20}, which studies hard parameter sharing for two linear regression tasks.
+\citet{WZR20} (and an earlier work by \citet{KD12}) observed that the shared layer size $r$ in hard parameter sharing plays a critical role of regularization.
+%Linear models in multi-task learning have been studied in various settings, including online learning \cite{CCG10,DCSP18}, sparse regression \cite{LPTV09,LPVT11}, and representation learning \cite{BHKL19}.
 
-Ando and Zhang \cite{AZ05} introduces an alternating minimization framework for learning multiple tasks.
-Argyriou et al. \cite{AEP08} present a convex algorithm which learns common sparse representations across a pool of related tasks.
-Evgeniou et al. \cite{EMP05} develop a framework for multi-task learning in the context of kernel methods.
+%Our setting is closely related to domain adaptation \cite{DM06,BB07,BC08,DH09,MMR09,CWB11,ZS13,NB17,ZD19}.
+%The important distinction is that we focus on predicting the target task using a hard parameter sharing model.
+%For such models, their output dimension plays an important role of regularization \cite{KD12}.
+%Below, we describe several lines of work that are most related to this work.
+
+%Some of the earliest works on multi-task learning are Baxter , Ben-David and Schuller \cite{BS03}.
+%Mauer \cite{M06} studies generalization bounds for linear separation settings of MTL.
+%The benefit of learning multi-task representations has been studied for learning certain half-spaces \cite{MPR16} and sparse regression \cite{LPTV09,LPVT11}.
+%Our work is closely related to Wu et al. \cite{WZR20}.
+%While Wu et al. provide generalization bounds to show that adding more labeled helps learn the target task more accurately, their techniques cannot be used to explain when MTL outperforms STL.
+%\todo{spell out the challenge more explicitly}
+
+%Ando and Zhang \cite{AZ05} introduces an alternating minimization framework for learning multiple tasks.
+%Argyriou et al. \cite{AEP08} present a convex algorithm which learns common sparse representations across a pool of related tasks.
+%Evgeniou et al. \cite{EMP05} develop a framework for multi-task learning in the context of kernel methods.
 %\cite{KD12} observed that controlling the capacity can outperform the implicit capacity control of adding regularization over $B$.
-The multi-task learning model that we have focused on uses the idea of hard parameter sharing \cite{C93,KD12,R17}.
-We believe that our theoretical framework can apply to other approaches to multi-task learning.
+%The multi-task learning model that we have focused on uses the idea of hard parameter sharing \cite{C93,KD12,R17}.
+%We believe that our theoretical framework can apply to other approaches to multi-task learning.
 
 The random matrix theory tool and related proof of our work fall into a paradigm of the so-called local law of random matrices \cite{erdos2017dynamical}.
 For a sample covariance matrix $X^\top X$ with $\Sigma=\id$, such a local law was proved in \cite{isotropic}.
-It was later extended to sample covariance matrices with non-identity $\Sigma$ \cite{Anisotropic}, and separable covariance matrices \cite{yang2019spiked}. On the other hand, one may derive the asymptotic result in Theorem \ref{lem_cov_shift_informal} with error $\oo(1)$ using the free addition of two independent random matrices in free probability theory \cite{nica2006lectures}. To the best of my knowledge, we do not find an {\it explicit result} for the sum of two sample covariance matrices with general covariates in the literature.
+It was later extended to sample covariance matrices with non-identity $\Sigma$ \cite{Anisotropic}, and separable covariance matrices \cite{yang2019spiked}. On the other hand, one may derive the asymptotic result in Theorem \ref{thm_main_RMT} with error $\oo(1)$ using the free addition of two independent random matrices in free probability theory \cite{nica2006lectures}. To the best of my knowledge, we do not find an {\it explicit result} for the sum of two sample covariance matrices with general covariates in the literature.
 
 \smallskip
 \noindent\textbf{Organizations.}
