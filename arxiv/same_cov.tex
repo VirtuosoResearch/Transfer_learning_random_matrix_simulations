@@ -33,13 +33,13 @@ We assume that:
 For an estimator $\hat{\beta}_i$ of task $i$, we are interested in its (out-of-sample) prediction loss
 \[ L(\hat{\beta}_i) = \bignorm{\Sigma^{1/2} (\hat{\beta_i} - \beta^{(i)})}^2. \]
 
-Our main result shows that hard parameter sharing essentially approximates all tasks through a rank-$r$ subspace.
+Our first main result shows that hard parameter sharing essentially approximates all tasks through a rank-$r$ subspace.
 To formalize this intuition, we introduce several notations.
 Let $B^\star \define [{\beta}_1,{\beta}_2,\dots,{\beta}_{t}] \in \real^{p\times t}$.
 Let $A^{\star} {A^{\star}}^{\top}$ denote the best rank-$r$ subspace approximation of ${B^{\star}}^\top\Sigma B^{\star}$:\footnote{To ensure that $A^{\star}$ is unique, we assume that $\lambda_{r+1}({B^\star}^\top \Sigma B^\star)$ is strictly smaller than $\lambda_{r}({B^\star}^\top \Sigma B^\star)$.}
 \[ A^{\star} \define \argmin_{U\in\real^{t\times r} : U^{\top} U = \id_{r\times r}} \inner{U U^{\top}} {{B^{\star}}^{\top} \Sigma B^{\star}}. \]
 Let $a_i^{\star} \in\real^r$ denote the $i$-th column of $A^{\star}{A^{\star}}^{\top}$.
-We show that the prediction loss of hard parameter sharing decomposes to a bias term $L(B^{\star} a_i^{\star})$ measures the error of $B^{\star} a_i^{\star}$, and a variance term that scales with $\norm{a_i^{\star}}^2$.
+We show that the prediction loss of hard parameter sharing decomposes into a bias term $L(B^{\star} a_i^{\star})$ that measures the error of $B^{\star} a_i^{\star}$, plus a variance term that scales with $\norm{a_i^{\star}}^2$.
 % $B^{\star} A^{\star} {A^{\star}}^{\top}$.
 
 
@@ -52,11 +52,12 @@ We show that the prediction loss of hard parameter sharing decomposes to a bias 
 	Assume that $n > \rho p$ for a fixed constant $\rho > 1$.
 	Let $c_{\varphi}$ be any fixed value within $(0, \frac{\varphi-4}{2\varphi})$.
 	Let $L(B^{\star}a_i^{\star}): = \norm{\Sigma^{1/2} (B^{\star} a_i^{\star}- \beta^{(i)})}^2$.
-	Let $\hat{A}, \hat{B}$ be a global minimum of $f(A, B)$.
+	Let $(\hat{A}, \hat{B})$ be the global minimizer of $f(A, B)$.
 	For any task $i = 1, 2, \dots, t$, the prediction loss of $\hat{\beta}_i^{\MTL} = \hat{B} \hat{A}_i$ satisfies that with high probability,
 	\begin{align*}
-		\bigabs{L(\hat{\beta}_i^{\MTL}) - L(B^{\star}a_i^{\star}) - \sigma^2 \norm{a_i^{\star}}^2 \bigtr{\Sigma (X^{\top}X)^{-1}}} \\
-		\le n^{-\frac{c_{\varphi}}2} \cdot \frac{\bigbrace{ \norm{\Sigma^{1/2} B^{\star}}^2+  \sigma^2} \cdot (\bignormFro{\Sigma^{1/2} B^{\star}}^2 + \sigma^2 t)} {\lambda_r ({B^\star}^\top \Sigma B^\star)- \lambda_{r+1}({B^\star}^\top \Sigma B^\star)},
+		&\bigabs{L(\hat{\beta}_i^{\MTL}) - L(B^{\star}a_i^{\star}) - \sigma^2 \norm{a_i^{\star}}^2 \bigtr{\Sigma (X^{\top}X)^{-1}}} \\
+		&\le n^{-\frac{c_{\varphi}}2} \cdot \frac{t \bigbrace{ \norm{\Sigma^{1/2} B^{\star}}^2+  \sigma^2}^2} {\lambda_r ({B^\star}^\top \Sigma B^\star)- \lambda_{r+1}({B^\star}^\top \Sigma B^\star)},
+		%\le n^{-\frac{c_{\varphi}}2} \cdot \frac{\bigbrace{ \norm{\Sigma^{1/2} B^{\star}}^2+  \sigma^2} \cdot (\bignormFro{\Sigma^{1/2} B^{\star}}^2 + \sigma^2 t)} {\lambda_r ({B^\star}^\top \Sigma B^\star)- \lambda_{r+1}({B^\star}^\top \Sigma B^\star)},
 	\end{align*}
 %	where $C_1: = \frac{\bignormFro{\Sigma^{1/2} B^{\star}}^2 + \sigma^2 t}{\lambda_r ({B^\star}^\top \Sigma B^\star)- \lambda_{r+1}({B^\star}^\top \Sigma B^\star)}$. %and $C_2 :=  C_1\cdot \norm{\Sigma^{1/2} B^{\star}}$.
 \end{theorem}
@@ -83,7 +84,7 @@ It turns out that this quantity converges to a fixed limit in the high-dimension
 %			\begin{align}\label{assmAhigh}
 %				\ex{\abs{Z_{i,j}}^{\varphi}} \le C, \text{ for any } 1\le i \le n \text{ and } 1\le j \le p.
 %			\end{align}
-  the sample size $n$ grows to infinity proportionally with the dimension $p$, i.e. $n / p \rightarrow \rho \in (\tau, 1/\tau)$ as $p$ goes to infinity.
+  the sample size $n$ grows to infinity proportionally with the feature dimension $p$, i.e. $n / p \rightarrow \rho \in (\tau, 1/\tau)$ as $p$ goes to infinity.
 %	\end{enumerate}
 \end{assumption}
 Under the above assumption, the following result is well-known.
@@ -92,11 +93,11 @@ Under the above assumption, the following result is well-known.
 	%Let $X  \in \real^{n\times p}$ be a random matrix that satisfies Assumption \ref{assume_rm}.
 	%Let $\Sigma\in\real^{p\times p}$ denote the population covariance matrix of $X$.
 	With high probability over the randomness of $X$, we have that
-		\[ \bigtr{\Sigma (X^{\top} X)^{-1}} = \frac{p}{n - p} + \OO(n^{-c_{\varphi}}). \]
+		\[ \bigtr{\Sigma (X^{\top} X)^{-1}} = \frac{p}{n - p} \pm \OO(n^{-c_{\varphi}}). \]
 \end{fact}
-Applying \ref{fact_tr} to Theorem \ref{thm_many_tasks}, we obtain that hard parameter sharing's variance is
+Applying Fact \ref{fact_tr} to Theorem \ref{thm_many_tasks}, we obtain that hard parameter sharing's variance is
 		\[ \sigma^2 \norm{a^{\star}_i}^2 \bigtr{\Sigma (X^{\top} X)^{-1}} = \sigma^2 \norm{a^{\star}_i}^2 \frac{p}{n- p}. \]
-As a remark, Fact \ref{fact_tr} has a rich history in random matrix theory.
+As a remark, Fact \ref{fact_tr} has a long history in random matrix theory.
 For a multivariate Gaussian random matrix, this result follows from the classical result for the mean of inverse Wishart distribution \cite{anderson1958introduction}.
 For a non-Gaussian random matrix, this result can be obtained using the well-known Stieltjes transform method (cf. Lemma 3.11 of \citet{bai2009spectral}).
 %Finally, for the random noise component, we assume that all of its moments exist.
@@ -110,18 +111,18 @@ For a non-Gaussian random matrix, this result can be obtained using the well-kno
 
 Next, we consider the bias $L(B^{\star} a^{\star}_i)$.
 We illustrate through a random-effects model, which has been studied for a single task case \cite{dobriban2020wonder}.
-Suppose every $\beta_i$ consists of two random components, one that is shared among all tasks and one that is task-specific.
+Suppose every $\beta^{(i)}$ consists of two random components, one that is shared among all tasks and one that is task-specific.
 Thus, each task contributes a certain amount to the shared component and injects a task-specific bias.
 Let $\beta_0$ denote the shared component whose entries are sampled i.i.d. from an isotropic Gaussian distribution of mean zero and variance $p^{-1}\kappa^2$.
 Let the task-specific component be a random Gaussian vector with i.i.d. entries of mean zero and variance $p^{-1} d^2$.
-Thus, for any two different $\beta_i$ and $\beta_j$, their distance is roughly $2d^2$.
+Thus, for any two different $\beta^{(i)}$ and $\beta^{(j)}$, their distance is roughly $2d^2$.
 %	The labels are $Y_i = X_i\beta_i + \varepsilon_i$, where $\e_i$ consists of i.i.d. entries with mean zero and variance $\sigma^2$.
 Concretely, we can think of $\kappa = 1$ and $d^2/\sigma^2 = \OO(1)$.
 %The more precise conditions on the relations between $d^2$, $\sigma^2$ and $\kappa^2$ are given in  \eqref{choiceofpara}.
 %We assume that all the random variables have finite moments up to any order as in equation \eqref{assmAhigh2}.
 
 \begin{example}[Sample efficiency]\label{ex_same_cov}
-In the random-effects model described above, we further assume that $\Sigma$ is isotropic for illustration. We show that when the rank of hard parameter sharing is one, the bias $L(B^{\star} a_i^{\star})$ satisfies that with high probability, 
+In the random-effects model described above, we further assume that $\Sigma=\id$ for illustration. We show that when the rank of hard parameter sharing is one, the bias $L(B^{\star} a_i^{\star})$ satisfies that with high probability, 
 \[ \frac{1}{t} \sum_{i=1}^t L(B^{\star} a_i^{\star}) = \frac{1}{t}\normFro{B^{\star} A^{\star} {A^{\star}}^{\top} - B^{\star}}^2 \approx \left(1 - \frac{1}{t}\right) {d^2}{}  . \]
 Since $A^{\star} {A^{\star}}^{\top}$ is the best rank-$1$ approximation of ${B^{\star}}^{\top}\Sigma B^{\star} = {B^{\star}}^{\top} B^{\star}$, and the $(i, j)$-th entry of this matrix is roughly equal to
 %\begin{align*}
@@ -131,27 +132,27 @@ Since $A^{\star} {A^{\star}}^{\top}$ is the best rank-$1$ approximation of ${B^{
 	\beta_i^{\top} \beta_j \approx \norm{\beta_0}^2 + \begin{cases}
 																								0, &\text{ if } i \neq j \\
 																								d^2, &\text{ if } i = j
-	\end{cases}
+	\end{cases},
 \end{align*}
 which follows from the definition of the random-effects model.
 Note that $\norm{\beta_0}^2$ is roughly $\kappa^2$.
-One can verify that the top eigenvalue of ${B^{\star}}^{\top} B^{\star}$ is approximately $t \kappa^2 + d^2$ and the rest of its eigenvalues are all equal to $d^2$.
+Then one can verify that the top eigenvalue of ${B^{\star}}^{\top} B^{\star}$ is approximately $t \kappa^2 + d^2$ and the rest of its eigenvalues are all approximately equal to $d^2$.
 Therefore, by taking a rank-$1$ approximation of ${B^{\star}}^{\top} B^{\star}$, we get the average prediction loss as above.
 
-For the variance term, since $A^{\star}$ has rank-$1$, we have that $\sum_{i=1}^t \norm{a_i^{\star}}^2 = 1$. Moreover, we can use Fact \ref{fact_tr} to calculate $\bigtr{\Sigma (X^{\top} X)^{-1}}$. 
+For the variance term, since $A^{\star}$ has rank-$1$, we have that $\sum_{i=1}^t \norm{a_i^{\star}}^2 = 1$. Moreover, we have used Fact \ref{fact_tr} to calculate $\bigtr{\Sigma (X^{\top} X)^{-1}}$. 
 Combined together, the average prediction loss of hard parameter sharing is as follows
 \[ \frac{1}{t}\sum_{i=1}^t L(\hat{\beta}_i^{\MTL}) = \bigbrace{1 - \frac{1}{t}} {d^2}{} + \frac{1}{t} \cdot \frac{\sigma^2 p}{n - p} \pm \OO(n^{-c_{\varphi} / 2}) .\] %\pm \OO(n^{-c_\varphi} (\sigma^2 +\kappa^2 +d^2)). \]
 %In fact, the error for this approximate equation is at most $\OO(n^{-c_\varphi/2} (\sigma^2 +\kappa^2 +d^2))$.
 \end{example}
 We compare hard parameter sharing to single-task learning.
-Using Fact \ref{fact_tr} above, the average prediction loss of single-task learning is $\sigma^2\cdot \bigtr{\Sigma (X^{\top} X)^{-1}} = \frac{\sigma^2 p}{n - p}  \pm \OO(n^{-c_\varphi} \sigma^2)$ with high probability.
+By Fact \ref{fact_tr}, the average prediction loss of single-task learning is $\sigma^2\cdot \bigtr{\Sigma (X^{\top} X)^{-1}} = \frac{\sigma^2 p}{n - p}  \pm \OO(n^{-c_\varphi} \sigma^2)$ with high probability.
 	Suppose $n$ is sufficiently large so that the error is negligible.
 %\begin{enumerate}
 
-(i) The prediction loss of hard parameter sharing is less than single-task learning if and only if ${d^2}{} < \frac{\sigma^2 p}{n - p}$, that is, the ``task-specific variance'' of $\beta_i$ is smaller than the ``noise variance''.
+(i) The prediction loss of hard parameter sharing is less than single-task learning if and only if ${d^2}{} < \frac{\sigma^2 p}{n - p}$, that is, the ``task-specific variance'' of $\beta^{(i)}$ is smaller than the ``noise variance''.
 
 (ii) When ${d^2}{} < \frac{\sigma^2 p}{n - p}$, increasing $r$ does not help.
-	To see this, one can verify what when $r$ increases by one, bias reduces by ${d^2}{}$, but variance increases by $\frac{\sigma^2 p}{n-1}$ (details omitted).
+	To see this, one can verify what when $r$ increases by one, bias reduces by $\frac{d^2}{t}$, but variance increases by $\frac{\sigma^2 p}{t(n-p)}$ (details omitted).
 
 (iii) Hard parameter sharing requires at most $p + \frac{n - p}{t - (t - 1)\frac{d^2 (n - p)}{\sigma^2 p}} < n$ samples to get comparable loss to single-task learning.
 	This follows by using this sample size in the average prediction loss equation above.
@@ -180,6 +181,6 @@ Using Fact \ref{fact_tr} above, the average prediction loss of single-task learn
 	Let $\hat{A}$ be the global minimizer of $g(A)$. Then  $(\hat{A}, \hat{B}(\hat A))$ is the global minimizer of $f(A, B)$. 
 	%Recall that $(\hat{A}, \hat{B})$ is the global minimizer of $f(A, B)$, where $\hat{B}$ is equal to $\hat{B}(\hat{A})$ given by equation \eqref{eq_Bhat}.
 	%Furthermore, $\hat{A}$ is a global minimizer of $g(A)$ in equation \eqref{eq_mtl_output_layer}.
-	Our main idea is to show that the subspace spanned by the rows of $\hat{A}$ is close to that of $A^{\star}$.
+	Our main idea is to show that the subspaces spanned by the rows of $\hat{A}$ and by those of $A^{\star}$ are close to each other.
 	We carefully keep track of the concentration error between $\hat{A}$ and $A^{\star}$.
 	The proof can be found in Section \ref{app_proof_error_same_cov}.
