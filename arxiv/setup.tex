@@ -1,4 +1,4 @@
-\subsection{Problem Formulation and Main Results}
+\subsection{Setup and Main Results}
 
 %Suppose we have $t$ labeled regression tasks. %where $t$ is a fixed value that does not grow with the feature dimension $p$.
 %For each task $k$ from $1$ to $t$, we have $n_k$ samples $x_1, x_2, \dots, x_{n_k}$ that are all $p$-dimensional feature vectors with real-valued labels $y_1, y_2, \dots, y_{n_k}$.
@@ -26,14 +26,8 @@
 %Following \cite{HMRT19,BLLT20}, we assume that for each task $i = 1,2,\dots,t$,  every feature vector is generated as $x = \Sigma_i^{1/2} z$, where $z\in\real^p$ is a random vector with i.i.d. entries of mean zero and unit variance and $\Sigma_i\in\real^{p\times p}$ is a positive semidefinite matrix.
 %Without loss of generality, let the $t$-th task be the target task.
 
-Regression analysis is arguably one of the most fundamental methods in statistics and machine learning.
-In many multi-task learning applications, the amount of labeled data from each dataset is usually insufficient for learning a single task.
-For example, this is the case if a dataset's sample size is only a small constant factor of the feature dimension \cite{GLUE}.
-In this paper, we consider multi-task learning in a \textit{high-dimensional} linear regression setting, where each dataset's sample size and the feature dimension grow linearly at a fixed ratio.
-The high-dimensional setting is challenging but is crucial for understanding how datasets' sample sizes impact generalization performance.
 We assume that there are multiple datasets that all follow a (potentially different) linear model.
 In each dataset, suppose the feature vector $x = {\Sigma}^{1/2} z$, where $z \in \real^p$ has i.i.d entries with mean zero, unit variance, and covariance $\Sigma \in\real^{p \times p}$ that is deterministic and positive semidefinite.
-
 We study a hard parameter sharing architecture to learn jointly from multiple datasets.
 In this architecture, there is a shared feature representation layer $B\in\real^{p\times r}$ for all tasks and a separate output layer $A_i \in \real^r$ for every task $i$.
 Suppose we have $t$ datasets.
@@ -101,7 +95,7 @@ We analyze the global minimum of $f(A, B)$, and provide a sharp generalization b
 This case is tractable even though in general, $f(A, B)$ is non-convex in $A$ and $B$ (e.g. matrix completion is a special case for suitably designed $X^{(i)}, Y^{(i)}$).
 We show that the prediction loss of hard parameter sharing admits a clean bias-variance decomposition.
 Our results imply that hard parameter sharing helps by reducing variance compared to single-task learning, but hurts by increasing bias.
-Our second result (Theorem \ref{thm_main_RMT}) applies to two tasks with arbitrarily different sample sizes and population covariance matrices.
+Our second result (Theorem \ref{thm_main_RMT}) applies to two tasks with arbitrarily different sample size ratios and population covariance matrices.
 We analyze the local minimum of $f(A, B)$ and provide a sharp generalization bound for both tasks' prediction loss.
 Despite its simplicity, we show several rich phenomena by varying sample sizes and covariate shifts in this setting.
 See Figure \ref{fig_intro_sample_size} for an illustration.
