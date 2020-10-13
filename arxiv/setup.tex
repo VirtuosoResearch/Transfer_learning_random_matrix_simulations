@@ -26,7 +26,27 @@
 %Following \cite{HMRT19,BLLT20}, we assume that for each task $i = 1,2,\dots,t$,  every feature vector is generated as $x = \Sigma_i^{1/2} z$, where $z\in\real^p$ is a random vector with i.i.d. entries of mean zero and unit variance and $\Sigma_i\in\real^{p\times p}$ is a positive semidefinite matrix.
 %Without loss of generality, let the $t$-th task be the target task.
 
-We assume that there are multiple datasets that all follow (potentially different) linear models.
+\begin{figure*}[!t]
+	\begin{subfigure}[t]{0.5\textwidth}
+		\centering
+		\includegraphics[width=0.5\textwidth,valign=t]{figures/mtl_model_arch.pdf}
+		\caption{A hard parameter sharing architecture}
+	\end{subfigure}\hfill
+	\begin{subfigure}[t]{0.5\textwidth}
+		\centering
+		\includegraphics[width=0.713\textwidth,valign=t]{figures/sample_ratio_c2_400.eps}
+		\caption{Varying sample size ratio}
+		\label{fig_intro_sample_size_b}
+	\end{subfigure}
+	\caption{An illustrative example of our result:
+	Consider the prediction loss of hard parameter sharing (left) for task two, given two linear regression tasks.
+	Increasing task one's sample size decreases task two's prediction loss initially, but increases afterward. This phenomenon occurs due to different bias-variance tradeoffs as the sample size ratio increases. Our result provides an estimated loss (solid line) that accurately matches the empirical loss (dotted line).
+	See Section \ref{sec_simulation} for the precise setting.}
+	\label{fig_intro_sample_size}
+\end{figure*}
+
+
+We assume that there are multiple datasets that all follow a (potentially different) linear model.
 In each dataset, suppose the feature vector $x = {\Sigma}^{1/2} z$, where $z \in \real^p$ has i.i.d entries with mean zero, unit variance, and covariance $\Sigma \in\real^{p \times p}$ that is deterministic and positive semidefinite.
 We study a hard parameter sharing architecture to learn jointly from multiple datasets.
 In this architecture, there is a shared feature representation layer $B\in\real^{p\times r}$ for all tasks and a separate output layer $A_i \in \real^r$ for every task $i$.
@@ -100,24 +120,6 @@ We analyze the local minimum of $f(A, B)$ and provide a sharp generalization bou
 Despite its simplicity, we show several rich phenomena by varying sample sizes and covariate shifts in this setting.
 See Figure \ref{fig_intro_sample_size} for an illustration.
 
-\begin{figure}[!t]
-	\begin{subfigure}[t]{0.5\textwidth}
-		\centering
-		\includegraphics[width=0.5\textwidth,valign=t]{figures/mtl_model_arch.pdf}
-		\caption{A hard parameter sharing architecture}
-	\end{subfigure}\hfill
-	\begin{subfigure}[t]{0.5\textwidth}
-		\centering
-		\includegraphics[width=0.713\textwidth,valign=t]{figures/sample_ratio_c2_400.eps}
-		\caption{Varying sample size ratio}
-		\label{fig_intro_sample_size_b}
-	\end{subfigure}
-	\caption{An illustrative example of our result:
-	Consider the prediction loss of hard parameter sharing (left) for task two, given two linear regression tasks.
-	Increasing task one's sample size decreases task two's prediction loss initially, but increases afterward. This phenomenon occurs due to different bias-variance tradeoffs as the sample size ratio increases. Our result provides an estimated loss (solid line) that accurately matches the empirical loss (dotted line).
-	See Section \ref{sec_simulation} for the precise setting.}
-	\label{fig_intro_sample_size}
-\end{figure}
 
 Consequently, we observe qualitative properties of hard parameter sharing for varying datasets' properties using our precise loss estimates.
 \begin{enumerate}
