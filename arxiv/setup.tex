@@ -33,7 +33,7 @@ Our first result (Theorem \ref{thm_many_tasks}) applies to the multi-label predi
 We analyze the global minimizer of $f(A, B)$, and provide a sharp generalization bound on its (out-of-sample) prediction loss for any task.
 This case is tractable even though in general, $f(A, B)$ is non-convex in $A$ and $B$ (e.g. matrix completion is a special case for suitably designed $X^{(i)}, Y^{(i)}$).
 We show that the prediction loss of hard parameter sharing admits a clean bias-variance decomposition.
-Our results imply that hard parameter sharing helps by reducing variance compared to single-task learning, but hurts by increasing bias.
+Our results imply that hard parameter sharing helps by reducing the variance compared to single-task learning, but hurts by increasing the bias.
 Our second result (Theorem \ref{thm_main_RMT}) applies to two tasks with arbitrarily different sample size ratios and population covariance matrices.
 We analyze the local minimizers of $f(A, B)$ and provide a sharp generalization bound on both tasks' prediction loss.
 Despite its simplicity, we show several interesting phenomena by varying sample sizes and covariate shifts in this setting.
@@ -42,12 +42,12 @@ See Figure \ref{fig_intro_sample_size} for an illustration.
  
 
 
-Consequently, using our precise loss estimates, we observe qualitative properties of hard parameter sharing for varying datasets' properties.
+Consequently, using our precise loss estimates, we observe several qualitative properties of hard parameter sharing for varying datasets' properties.
 %\begin{enumerate}
 
 \textit{Sample efficiency (Example \ref{ex_same_cov})}:
 	One advantage of combining multiple datasets is that the requirement for labeled data reduces compared to STL, a phenomenon that \citet{ZSSGM18} has observed empirically.
-	Our results further imply that HPS's (sample) efficiency depends on model-specific variance across tasks vs. noise variance, and is generally high when the latter is large.
+	Our results further imply that HPS's sample efficiency depends on model-specific variances across tasks vs. the noise variance, and is generally high when the latter is large.
 
 \textit{Sample size ratio (Example \ref{ex_sample_ratio})}: Increasing one task's sample size does not always help to reduce another task's loss. In a simplified setting, we find that the task loss either decreases first before increasing afterwards, or decreases monotonically depending on how fast the bias increases. These two trends result from different bias-variance tradeoffs.
 
@@ -130,10 +130,10 @@ Consequently, using our precise loss estimates, we observe qualitative propertie
 
 There are two main ideas in our analysis. The proof of our first result uses a geometric intuition that hard parameter sharing finds a ``rank-$r$'' approximation of the datasets.
 We carefully keep track of the concentration error between the global minimum of $f(A, B)$ and its population version.
-The proof of our second result is significantly more involved because of different sample sizes and covariate shifts. Using recently developed techniques from random matrix theory \cite{Anisotropic}, we show that the inverse of the sum of two sample covariance matrices with arbitrary covariate shifts converges to a deterministic diagonal matrix asymptotically (cf. Theorem \ref{thm_main_RMT}(i)). % Moreover, we can obtain a sharp bound on the concentration error.
+The proof of our second result is significantly more involved because of different sample sizes and covariate shifts. Using recently developed techniques from random matrix theory \cite{Anisotropic}, we show that the inverse of the sum of two sample covariance matrices with arbitrary covariate shifts converges to a deterministic diagonal matrix asymptotically (cf. Theorem \ref{thm_main_RMT}). % Moreover, we can obtain a sharp bound on the concentration error.
 % to obtain a sharp estimate on the..., which is commonly referred to as the \emph{local law}. 
 %\HZ{add several sentences on the technical insight} 
-One limitation of our analysis is that for two tasks with different sample sizes, there is an extra error term in the prediction loss of hard parameter sharing (cf. equation \eqref{cor_MTL_error}), which can be large for very small $n_1$. This requires studying the spectrum of non-symmetric random matrices, which is an intriguing open question (see Section \ref{sec_conclude} for more discussion).
+One limitation of our analysis is that for two tasks with different sample sizes, there is an extra error term in the prediction loss of hard parameter sharing (cf. equation \eqref{cor_MTL_error}), which can be large for very small $n_1$. This requires studying the singular value spectrum of certain non-symmetric random matrices, which is an intriguing open question (see Section \ref{sec_conclude} for more discussion).
 % plus an identity matrix,  due to lack of freeness
 %\HZ{add why this is challenging}
 
@@ -153,7 +153,7 @@ We conduct further studies of this procedure on six text classification datasets
 There is a large body of both classical and recent works on multi-task learning.
 We focus our discussion on theoretical works, and refer interested readers to several excellent surveys for general references \cite{PY09,R17,ZY17,V20}.
 The early work of \citet{B00,BS03,M06} have sought for a study of multi-task learning from a theoretical perspective, often using uniform convergence or Rademacher complexity based techniques.
-An influential paper by \citet{BBCK10} provides uniform convergence bound that combines multiple datasets in certain settings.
+An influential paper by \citet{BBCK10} provides uniform convergence bounds that combine multiple datasets in certain settings.
 One limitation of uniform convergence based techniques is that the results often assume that all  tasks have the same sample size, see e.g. \citet{B00,MPR16}.
 Moreover, these techniques do not apply to the high-dimensional setting, because the results usually require a sample size at least $p \log p$.
 
