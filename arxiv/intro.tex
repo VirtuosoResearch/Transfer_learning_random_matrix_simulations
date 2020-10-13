@@ -1,7 +1,8 @@
 \begin{abstract}
-	Hard parameter sharing is a widely used approach to learn from multiple tasks in many applications, such as text classification. The idea is that all tasks share the same feature layer, while each task uses a specific output layer for prediction. Intuitively, the performance of hard parameter sharing depends on dataset properties such as their sample sizes. Yet, rigorously formulating such intuition can be technically challenging.
-
-	This paper analyzes the generalization performance of hard parameter sharing in high-dimensional linear regression, where the sample size and feature dimension become increasingly large in a fixed ratio. We present tight generalization bounds for two canonical cases: (i) multiple tasks with the same feature covariates; (ii) two tasks with arbitrarily different sample sizes and covariance matrices. We also demonstrate that these estimates for the empirical loss of hard parameter sharing are incredibly accurate in modest dimensions. Finally, we explain several intriguing empirical phenomena. For example, increasing one task's sample size helps another task initially by reducing variance, but hurts eventually due to increasing bias. This suggests progressively adding data for optimizing hard parameter sharing, and we validate its efficiency in text classification tasks.
+	Hard parameter sharing is a widely used approach to learn jointly from multiple tasks in many applications, such as text classification. The idea is to use a shared feature space for all tasks, while each task also has a separate layer for making the prediction.
+%	It becomes increasingly important to understand when they work well on typical data. For example, the performance of hard parameter sharing depends on dataset properties such as their sample sizes. Yet, rigorously formulating such intuition can be challenging.
+	This paper studies a fundamental question to better understand this approach: How does hard parameter sharing work given multiple linear regression tasks?
+	We consider the high-dimensional setting, where the sample size and feature dimension become increasingly large in a fixed ratio. We present tight generalization bounds for two canonical cases: (i) multiple tasks with the same feature covariates; (ii) two tasks with arbitrarily different sample size ratios and covariance matrices. We also demonstrate that these estimates for the empirical loss are incredibly accurate in modest dimensions. Finally, our results provide new explanations for several intriguing phenomena. For example, increasing one task's sample size helps another task initially by reducing variance, but hurts eventually due to increasing bias. This suggests progressively adding data for optimizing hard parameter sharing, and we validate its efficiency in text classification tasks.
 \end{abstract}
 
 \section{Introduction}\label{sec introduction}
@@ -28,11 +29,10 @@ While many empirical approaches have been proposed to mitigate negative transfer
 
 Understanding negative transfer requires developing generalization bounds that scale tightly with properties of each task data, such as its sample size.
 This presents a technical challenge in the multi-task setting because of the difference among task features, even for two tasks.
-For Rademacher complexity or VC-based techniques, the generalization error scales down as the sample sizes of all tasks increase, when applied to the multi-task setting \cite{B00,AZ05,M06,MPR16,WZR20}.
-Without a tight lower bound for multi-task learning, comparing its performance to single-task learning results in vacuous bounds.
+ithout a tight lower bound for multi-task learning, comparing its performance to single-task learning results in vacuous bounds.
 \todo{add more technical motivation (or maybe later)}
 From a practical standpoint, developing a better understanding of multi-task learning in terms of properties of task data can provide guidance for downstream applications \cite{RH19}.
-%For example, the sample sizes of all tasks are often assumed to be equal \cite{B00,LPTV09,LPVT11}.
+%For example,
 %On the other hand, uneven sample sizes (or dominating tasks) have been empirically observed to cause negative transfer \cite{YKGLHF20}.
 %The benefit of learning multi-task representations has also been studied for certain half-spaces \cite{} and sparse regression \cite{}.
 %When all tasks are sufficiently similar, adding more labeled data improves the generalization performance for predicting a particular task \cite{WZR20}.
@@ -56,23 +56,27 @@ We refer to the first task as the source task and the second as the target task.
 	%$x = \Sigma_i^{1/2}z$, where $z\in\real^p$ consists of i.i.d. entries with mean zero and unit variance, and is a positive semidefinite matrix.
 	We measure covariate shift with matrix $\Sigma_1^{1/2}\Sigma_2^{-1/2}$.
 \squishend
-
-%The observations highlight the need to develop generalization bounds that scale tightly with properties of multiple tasks data.
-% that only contains limited amount of labeled data.
-%Following Hastie et al.  and Bartlett et al. \cite{},
-
-%Let $n_i = \rho_i \cdot p$ denote the data size and $X_i\in\real^{n_i\times p}$ denote the features of task $i$.
-%The labels of task $i$ are given by $Y_i = X_i\beta_i + \varepsilon_i$, where $\beta_i\in\real^p$ denotes task $i$'s ground truth parameters and $\varepsilon_i$ denotes i.i.d. random noise with mean zero and variance $\sigma^2$.
-We consider a multi-task estimator obtained using a shared linear layer for all tasks and a separate output layer for each task \cite{WZR20}.
-This two-layer model is inspired by a commonly used idea of hard parameter sharing in multi-task learning \cite{R17,MTDNN19}.
-We consider the bias and variance of the multi-task estimator for predicting a target task and compare its performance to single-task learning.
-%This corresponds to minimizing $ \sum_{i=1}^t \norm{X_i B W_i - Y_i}^2$.
-%Let $\hat{\beta}_t^{\MTL}$ denote the optimal multi-task estimator for the target task, which is defined precisely in Section \ref{sec_prelim}.
-%We revisit the bias-variance tradeoff of $\hat{\beta}_t^{\MTL}$.
-
-
-\HZ{go to intro}
-For a multivariate Gaussian random matrix, this result follows from the classical result for the mean of inverse Wishart distribution \cite{anderson1958introduction}.
-For a non-Gaussian random matrix, this result can be obtained using the well-known Stieltjes transform method (cf. Lemma 3.11 of \citet{bai2009spectral}).
 \fi
 
+
+Hard parameter sharing (HPS) is a widely used approach to learn from multiple tasks and goes back to the seminal work of \citet{C97}.
+It is generally applied by sharing the feature layers between all tasks while keeping an output layer for every task.
+Recent work has revived interest in this classical approach through many applications \cite{MTDNN19,ZSSGM18}.
+Hard parameter sharing offers two critical advantages:
+(i) it reduces model parameters since all tasks use the same feature space;
+(ii) it reduces the need for labeled data from each task while augmenting the entire training dataset.
+
+Hard parameter sharing is often thought of as a mechanism for inducing inductive bias.
+Since all tasks share the same feature space, by restricting the space's, HPS acts as a regularizer and reduces overfitting \cite{KD12,WZR20}.
+Another source of inductive bias comes from the tasks and depends on datasets' properties such as sample sizes and task covariances \cite{WZR20}.
+Previous generalization theories have considered when all tasks' sample sizes are equal \cite{B00,MPR16}.
+Using Rademacher complexity or VC-based techniques, the generalization error scales down as all tasks' sample sizes increase \cite{AZ05,M06}.
+%For, the generalization error scales down as the sample sizes of all tasks increase, when applied to the multi-task setting \cite{B00,AZ05,M06,MPR16,WZR20}.
+
+
+This paper presents a new generalization theory to understand the hard parameter sharing approach by studying its performance in the high-dimensional linear regression setting.
+Linear regression is arguably one of the most fundamental problems in statistics and machine learning.
+We are interested in the \textit{high-dimensional} setting, where each dataset's sample size and the feature dimension grow linearly at a fixed ratio.
+This is motivated by many multi-task learning applications, where the amount of labeled data from each dataset is usually insufficient for learning a single task.
+For example, this is the case if a dataset's sample size is only a small constant factor of the feature dimension \cite{socher2013recursive}.
+The high-dimensional setting is challenging but is crucial for understanding how datasets' sample sizes impact generalization performance.
