@@ -19,17 +19,13 @@ In this section, we show that the prediction loss of hard parameter sharing admi
 %We show the generalization error of hard parameter sharing estimators.
 %Before stating the result, we define the following notations.
 
-\textbf{Setting.} Suppose we have $t$ datasets whose samples size are all equal to $n$ and whose features are all denoted by $X \in \real^{n \times p}$, and the label (vector) of the $i$-th task follows a linear model $Y^{(i)} = X \beta^{(i)} + \varepsilon^{(i)}$.
+\paragraph{Setting.} Suppose we have $t$ datasets whose samples size are all equal to $n$ and whose features are all denoted by $X \in \real^{n \times p}$, and the label (vector) of the $i$-th task follows a linear model $Y^{(i)} = X \beta^{(i)} + \varepsilon^{(i)}$.
 Let $\Sigma\in \R^{p\times p}$ denote the population covariance matrix of all tasks.
 We assume that:
-
-\vspace{-0.05in}
-(i) $X = Z \Sigma^{1/2}$ and every entry of $Z \in \real^{n \times p}$ is drawn independently from a one dimensional distribution with mean zero, unit variance, and constant $\varphi$-th moment for a fixed $\varphi > 4$.
-
-\vspace{-0.05in}
-(ii) every entry of $\varepsilon^{(i)} \in \real^{n \times t}$ is drawn indepdently from a one dimensional ditribution with mean zero, variance $\sigma^2$, and bounded moment up to any order.\footnote{More precisely, there exists a fixed function $C: \mathbb{N} \rightarrow \real^+$ such that for any $k \in \N$, the $k$-th moment is bounded by $C(k)$.}
-
-%\end{itemize}
+\begin{itemize}
+	\item $X = Z \Sigma^{1/2}$ and every entry of $Z \in \real^{n \times p}$ is drawn independently from a one dimensional distribution with mean zero, unit variance, and constant $\varphi$-th moment for a fixed $\varphi > 4$;
+	\item every entry of $\varepsilon^{(i)} \in \real^{n \times t}$ is drawn indepdently from a one dimensional ditribution with mean zero, variance $\sigma^2$, and bounded moment up to any order.\footnote{More precisely, there exists a fixed function $C: \mathbb{N} \rightarrow \real^+$ such that for any $k \in \N$, the $k$-th moment is bounded by $C(k)$.}
+\end{itemize}
 For an estimator $\hat{\beta}_i$ of task $i$, we are interested in its (out-of-sample) prediction loss
 \[ L(\hat{\beta}_i) = \bignorm{\Sigma^{1/2} (\hat{\beta_i} - \beta^{(i)})}^2. \]
 
@@ -55,7 +51,7 @@ We show that the prediction loss of hard parameter sharing decomposes to a bias 
 	Let $\hat{A}, \hat{B}$ be a global minimum of $f(A, B)$.
 	For any task $i = 1, 2, \dots, t$, the prediction loss of $\hat{\beta}_i^{\MTL} = \hat{B} \hat{A}_i$ satisfies that with high probability,
 	\begin{align*}
-		\bigabs{L(\hat{\beta}_i^{\MTL}) - L(B^{\star}a_i^{\star}) - \sigma^2 \norm{a_i^{\star}}^2 \bigtr{\Sigma (X^{\top}X)^{-1}}} \\
+		\bigabs{L(\hat{\beta}_i^{\MTL}) - L(B^{\star}a_i^{\star}) - \sigma^2 \norm{a_i^{\star}}^2 \bigtr{\Sigma (X^{\top}X)^{-1}}}
 		\le n^{-\frac{c_{\varphi}}2} \cdot \frac{\bigbrace{ \norm{\Sigma^{1/2} B^{\star}}^2+  \sigma^2} \cdot (\bignormFro{\Sigma^{1/2} B^{\star}}^2 + \sigma^2 t)} {\lambda_r ({B^\star}^\top \Sigma B^\star)- \lambda_{r+1}({B^\star}^\top \Sigma B^\star)},
 	\end{align*}
 %	where $C_1: = \frac{\bignormFro{\Sigma^{1/2} B^{\star}}^2 + \sigma^2 t}{\lambda_r ({B^\star}^\top \Sigma B^\star)- \lambda_{r+1}({B^\star}^\top \Sigma B^\star)}$. %and $C_2 :=  C_1\cdot \norm{\Sigma^{1/2} B^{\star}}$.
@@ -146,20 +142,17 @@ Combined together, the average prediction loss of hard parameter sharing is as f
 We compare hard parameter sharing to single-task learning.
 Using Fact \ref{fact_tr} above, the average prediction loss of single-task learning is $\sigma^2\cdot \bigtr{\Sigma (X^{\top} X)^{-1}} = \frac{\sigma^2 p}{n - p}  \pm \OO(n^{-c_\varphi} \sigma^2)$ with high probability.
 	Suppose $n$ is sufficiently large so that the error is negligible.
-%\begin{enumerate}
-
-(i) The prediction loss of hard parameter sharing is less than single-task learning if and only if ${d^2}{} < \frac{\sigma^2 p}{n - p}$, that is, the ``task-specific variance'' of $\beta_i$ is smaller than the ``noise variance''.
-
-(ii) When ${d^2}{} < \frac{\sigma^2 p}{n - p}$, increasing $r$ does not help.
+\begin{enumerate}
+	\item The prediction loss of hard parameter sharing is less than single-task learning if and only if ${d^2}{} < \frac{\sigma^2 p}{n - p}$, that is, the ``task-specific variance'' of $\beta_i$ is smaller than the ``noise variance''.
+	\item When ${d^2}{} < \frac{\sigma^2 p}{n - p}$, increasing $r$ does not help.
 	To see this, one can verify what when $r$ increases by one, bias reduces by ${d^2}{}$, but variance increases by $\frac{\sigma^2 p}{n-1}$ (details omitted).
-
-(iii) Hard parameter sharing requires at most $p + \frac{n - p}{t - (t - 1)\frac{d^2 (n - p)}{\sigma^2 p}} < n$ samples to get comparable loss to single-task learning.
+	\item Hard parameter sharing requires at most $p + \frac{n - p}{t - (t - 1)\frac{d^2 (n - p)}{\sigma^2 p}} < n$ samples to get comparable loss to single-task learning.
 	This follows by using this sample size in the average prediction loss equation above.
-%\end{enumerate}
+\end{enumerate}
 %\FY{I think these two facts probably need more clarification?}
 
 
-\textbf{Proof overview.} The key idea for proving Theorem \ref{thm_many_tasks} is a characterization of $f(A, B)$'s global minimizer.
+\paragraph{Proof overview.} The key idea for proving Theorem \ref{thm_many_tasks} is a characterization of $f(A, B)$'s global minimizer.
 	Since all tasks have the same covariates, the optimization objective \eqref{eq_mtl} becomes
 	\begin{align}
 		f(A, B) = \sum_{j=1}^t \bignorm{X B A_j - Y^{(j)}}^2, \label{eq_mtl_same_cov}
