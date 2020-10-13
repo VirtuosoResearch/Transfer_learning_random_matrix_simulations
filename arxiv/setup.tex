@@ -1,56 +1,9 @@
+
 \subsection{Setup and Main Results}
-
-%Suppose we have $t$ labeled regression tasks. %where $t$ is a fixed value that does not grow with the feature dimension $p$.
-%For each task $k$ from $1$ to $t$, we have $n_k$ samples $x_1, x_2, \dots, x_{n_k}$ that are all $p$-dimensional feature vectors with real-valued labels $y_1, y_2, \dots, y_{n_k}$.
-%Without loss of generality, we focus on predicting the $t$-th task and refer the $t$-th task as the target.
-%We refer to task $1$ to task $t-1$ as source tasks.
-%We assume that the labels of each task $k$ satisfy the linear model with unknown parameters $\beta_k\in\real^p$, that is,
-%	\[ y_i = x_i^{\top}\beta_k + e_i, \text{ for all } 1 \le i \le n_k, \]
-%where $e_i$ denotes random noise with mean zero and variance $\sigma^2$.
-%To write the above notations more succiently, let $X_k \in \real^{n_k \times p}$ denote the covariates that consists of a feature vector in every row.
-%Let
-%	\be\label{model_YvsX} Y^{(k)} = X^{(k)} \beta_k + \varepsilon_k, \text{ for all } 1\le k \le t \ee denote the label vector of task $k$ and $\varepsilon_k$ denote an i.i.d. random vector with mean zero and variance $\sigma^2$.
-%Following \citet{HMRT19} and \citet{BLLT20},
-%In the high-dimensional linear regression setting (e.g. ), the features of the $k$-th task, denoted by $X_k\in\real^{n_i\times p}$, consist of $n_k$ feature vectors given by $x_1, x_2, \dots, x_{n_k}$.
-%we assume that for each task $k$ from $1$ to $t$, each feature vector $x_i = \Sigma^{1/2}_k z_i$ for $i = 1, \dots, n_k$, where $z_i\in\real^p$ is an i.i.d. random vector with  mean zero and unit variance.
-%Recall that $\Sigma_k$ is the population covariance matrix task $k$'s feature vectors.
-%Let $\Sigma_k = U_k D_k U_k^{\top}$ denote the singular value decomposition of $\Sigma_k$.
-%We denote $\Sigma_k = U_k D_k^{1/2}$ as the square root of $\Sigma_k$.
-%The sample size of task $k$, given by $n_k$, is equal to $\rho_k\cdot p$ for a fixed value $\rho_k$ that does not grow with feature dimension $p$.
-%This setting is also known as the high-dimensional linear regression setting in the literature.
-%There are two motivations for studying the high-dimensional linear regression setting for multi-task learning.
-%First, this setting captures salient properties of modern large-scale datasets, where the sample sizes are usually on the order of tens to hundreds of the number of features \cite{sur2019modern}.
-%Second, as we will see soon in Section \ref{sec_general}, we can derive precise asymptotics of the generalization error that scale with properties of the task data such as sample sizes.
-%The labels $Y_k = X_k \beta_k + \varepsilon_k$, where $\beta_k$ denotes the linear model parameters and $\varepsilon_k$ denotes i.i.d. noise with mean zero and variance $\sigma^2$.
-%Recall that we have $t$ labeled training datasets, denoted by $(X_1, Y_1), (X_2, Y_2), \dots, (X_t, Y_t)$, where $X_i\in\real^{n_i\times p}$ and $Y_i\in\real^{n_i}$ for $1\le i\le t$.
-%Following \cite{HMRT19,BLLT20}, we assume that for each task $i = 1,2,\dots,t$,  every feature vector is generated as $x = \Sigma_i^{1/2} z$, where $z\in\real^p$ is a random vector with i.i.d. entries of mean zero and unit variance and $\Sigma_i\in\real^{p\times p}$ is a positive semidefinite matrix.
-%Without loss of generality, let the $t$-th task be the target task.
-
 
 We assume that there are multiple datasets that all follow (potentially different) linear models.
 In each dataset, suppose the feature vector is $x = {\Sigma}^{1/2} z$, where $z \in \real^p$ has i.i.d entries with zero mean and unit variance, and the population covariance matrix $\Sigma \in\real^{p \times p}$ is deterministic and positive semidefinite.
 
-%\begin{figure*}[!t]
-%	\begin{subfigure}[t]{0.5\textwidth}
-%		\centering
-%		\includegraphics[width=0.5\textwidth,valign=t]{figures/mtl_model_arch.pdf}
-%		\caption{A hard parameter sharing architecture}
-%	\end{subfigure}\hfill
-%	\begin{subfigure}[t]{0.5\textwidth}
-%		\centering
-%		\includegraphics[width=0.713\textwidth,valign=t]{figures/sample_ratio_c2_400.eps}
-%		\caption{Varying sample size ratio}
-%		\label{fig_intro_sample_size_b}
-%	\end{subfigure}
-%	\caption{An illustrative example of our result:
-%	Consider the prediction loss of hard parameter sharing (left) for task two, given two linear regression tasks.
-%	Increasing task one's sample size decreases task two's prediction loss initially, but increases afterward. This phenomenon occurs due to different bias-variance tradeoffs as the sample size ratio increases. Our result provides an estimated loss (solid line) that accurately matches the empirical loss (dotted line).
-%	See Section \ref{sec_simulation} for the precise setting.}
-%	\label{fig_intro_sample_size}
-%\end{figure*}
-
-%We assume that there are multiple datasets that all follow a (potentially different) linear model.
-%In each dataset, suppose the feature vector $x = {\Sigma}^{1/2} z$, where $z \in \real^p$ has i.i.d entries with mean zero, unit variance, and covariance $\Sigma \in\real^{p \times p}$ that is deterministic and positive semidefinite.
 
 We study a hard parameter sharing architecture to learn jointly from multiple datasets.
 In this architecture, there is a shared feature representation layer $B\in\real^{p\times r}$ for all tasks and a separate output layer $A_i \in \real^r$ for every task $i$.
@@ -74,45 +27,6 @@ Some critical questions are:
 (ii) For datasets with different sample sizes and covariate shifts, how do they affect the estimator?
 
 
-%	\item Learn the output layers $W_1, W_2, \dots, W_t$: set $B = \hat{B}$ and minimize the training loss over $W_1, W_2, \dots, W_t$.
-%		{\begin{align}\label{eq_mtl_eval}
-%			g(W_1, \dots, W_t) = \sum_{k=1}^t \norm{X_k \hat{B} W_k - Y_k}^2.
-%		\end{align}}
-%\end{enumerate}
-%Let $\hat{\beta}_t^{\MTL}$ denote the multi-task learning estimator obtained from the procedure above.
-%By contrast, let $\hat{\beta}_t^{\STL} = (X_t^{\top}X_t)^{-1}X_t^{\top}{Y_t}$ denote the single-task learning estimator. % denoted by $L(\hat{\beta}_t^{\STL})$.
-%where $B\in\real^{p\times r}$ and $W_k\in\real^r$ for every $1\le k\le t$.
-%Following , we assume that $r < t$, because otherwise minimizing $f(\cdot)$ could result in $BW_i$ being the single-task optimum.
-%\smallskip
-%\noindent\textit{Remark.}
-%In general, the multi-task learning objective $f(\cdot)$ is non-convex with respect to $B$ and $W_1, \dots, W_t$.
-%Therefore, we first minimize $B$ in equation \eqref{eq_mtl} and then minimize $W_k$ given $B$ in equation \eqref{eq_mtl_eval}.
-%For our results later in Section \ref{sec_general} and \ref{sec_special}, we will identify tractable cases and provide guarantees to the above procedure.
-%\paragraph{Problem statement.}
-%We focus on predicting a particular task, say the $t$-th task, without loss of generality.
-%For an estimator $\hat{\beta}$ of the target task model $\beta_t$, we define the prediction loss of the estimator $\hat{\beta}$ as
-%	{\begin{align}\label{eq1_prediction_loss}
-%		\te(\hat{\beta}) = \exarg{x = \Sigma_t^{1/2} z}{({x}^{\top}\hat{\beta} - {x}^{\top}\beta_t)^2}
-%		= \bignorm{\Sigma_t^{1/2} (\hat{\beta} - \beta_t)}^2,
-%	\end{align}}%
-%where $x = \Sigma_t^{1/2} z$ denotes a random feature vector with covariance $\Sigma_t$.
-%In the above equation, $x^{\top}\beta_t$ is the true label of $x$.
-%= (\hat{\beta} - \beta_t)^{\top}\Sigma_t(\hat{\beta} - \beta_t)
-%We say that the source tasks provide a \textit{positive transfer} to the target task if the prediction loss of the MTL estimator is lower than that of the STL estimator, that is, if
-%	\[ L(\hat{\beta}_t^{\MTL}) > L(\hat{\beta}_t^{\STL}). \]
-%On the other hand, we say that the source tasks provide a \textit{negative transfer} to the target task if $L(\hat{\beta}_t^{\MTL}) < L(\hat{\beta}_t^{\STL})$.
-%Our goal is to study when the source tasks provide a positive transfer to the target task.
-%More specifically, we study how varying properties of task data including task similarity, sample ratio, and covariate shift affects information transfer in multi-task learning.
-
-%We begin by defining our problem setup including the multi-task estimator we study.
-%Then, we describe the bias-variance tradeoff of the multi-task estimator and connect the bias and variance of the estimator to \textit{task similarity}, \textit{sample size}, and \textit{covariate shift}.
-%Finally, we show a tight concentration bound for the bias and variance quantities using random matrix theory.
-
-%\subsection{Problem Formulation}
-
-%In the worst case, the optimization objective \eqref{eq_mtl} is non-convex in $A$ and $B$ (e.g. matrix completion is a special case for suitably designed $X^{(i)}, Y^{(i)}$).
-%Therefore, we work in cases where a global and/or local minimum characterization is possible
-
 \paragraph{Main results.}
 Our first result (Theorem \ref{thm_many_tasks}) applies to the multi-label prediction setting where all datasets have the same features, and we want to make multiple predictions (see e.g. \cite{hsu2009multi}).
 We analyze the global minimizer of $f(A, B)$, and provide a sharp generalization bound on its (out-of-sample) prediction loss for any task.
@@ -125,25 +39,7 @@ Despite its simplicity, we show several interesting phenomena by varying sample 
 See Figure \ref{fig_intro_sample_size} for an illustration.
 
  
-\begin{figure}[!t]
-	\begin{subfigure}[t]{0.5\textwidth}
-		\centering
-		\includegraphics[width=0.5\textwidth,valign=t]{figures/mtl_model_arch.pdf}
-		\caption{A hard parameter sharing architecture}
-	\end{subfigure}\hfill
-	\begin{subfigure}[t]{0.5\textwidth}
-		\centering
-		\includegraphics[width=0.713\textwidth,valign=t]{figures/sample_ratio_c2_400.eps}
-		\caption{Varying sample size ratio}
-		\label{fig_intro_sample_size_b}
-	\end{subfigure}
-	\caption{An illustrative example of our result:
-	Consider the prediction loss of hard parameter sharing (left) for task two, given two linear regression tasks.
-	Increasing task one's sample size decreases task two's prediction loss initially, but increases afterwards. This phenomenon occurs due to different bias-variance tradeoffs as the sample size ratio increases. Our result provides an estimated loss (solid line) that accurately matches the empirical loss (dotted line).
-	See Section \ref{sec_simulation} for the precise setting.}
-	\label{fig_intro_sample_size}
-\end{figure}
- 
+
 
 Consequently, using our precise loss estimates, we observe qualitative properties of hard parameter sharing for varying datasets' properties.
 \begin{enumerate}

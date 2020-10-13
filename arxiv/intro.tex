@@ -3,59 +3,7 @@
 	Hard parameter sharing for multi-task learning is widely used in empirical research despite the fact that their generalization properties have not been established in many cases. This paper studies a fundamental question to better understand this approach: How does hard parameter sharing work given multiple linear regression tasks? We develop new techniques and establish a number of new results in the high-dimensional setting, where the sample size and feature dimension become increasingly large in a fixed ratio. First, we show a sharp bias-variance decomposition of hard parameter sharing, given multiple tasks with the same features. Second, we characterize the asymptotic bias-variance limit for two tasks, even when they have arbitrarily different sample size ratios and covariate shifts. We also demonstrate that these limiting estimates for the empirical loss are incredibly accurate in moderate dimensions. Finally, we explain an intriguing phenomenon where increasing one task's sample size helps another task initially by reducing variance but hurts eventually due to increasing bias. This suggests progressively adding data for optimizing hard parameter sharing, and we validate its efficiency in text classification tasks.
 \end{abstract}
 
-\section{Introduction}\label{sec introduction}
-
-\iffalse
-%Multi-task learning is an inductive learning mechanism to improve generalization performance using related task data.
-%Many state-of-the-art results in computer vision and natural language processing are obtained using multi-task learning.
-Multi-task learning is a powerful approach to improve performance for many tasks in computer vision, natural language processing, and other areas \cite{C97,ZY17,R17}.
-%In multi-task learning, having related task data is fundamental to its performance.
-%Multi-task learning is particularly powerful when there is limited labeled data for a task to be solved, meanwhile more labeled data from different but related tasks is available.
-%By combining multiple information sources, it is possible to share all the information in the same model.
-In many settings, multiple source tasks are available to help with predicting a particular target task.
-\todo{clarify setting is different from traditional MTL}
-%For example, many applications in , and many other areas have been achieved by learning from multiple tasks together.
-The performance of multi-task learning depends on the relationship between the source and target tasks \cite{C97}.
-%	We define that multi-task learning provides \textit{positive transfer} if it outperforms single-task learning, or \textit{negative transfer} otherwise.
-When the sources are relatively different from the target, multi-task learning (MTL) has often been observed to perform worse than single-task learning (STL) \cite{AP16,BS17}, which is referred to as \textit{negative transfer} \cite{PY09}.
-While many empirical approaches have been proposed to mitigate negative transfer \cite{ZY17}, a precise understanding of when negative transfer occurs remains elusive in the literature \cite{R17}.
-%This phenomenon, known as \textit{negative transfer}, is fundamental to the understanding of multi-task learning.
-
-%Inspired by the theory, we propose an incremental training schedule to improve multi-task training.
-%We consider a setting where the target task has limited labeled data and show
-%On the other hand, unless the structures across task data are well-understood, applying multi-task learning on several different datasets often result in suboptimal models (or negative transfer in more technical terms).
-
-Understanding negative transfer requires developing generalization bounds that scale tightly with properties of each task data, such as its sample size.
-This presents a technical challenge in the multi-task setting because of the difference among task features, even for two tasks.
-ithout a tight lower bound for multi-task learning, comparing its performance to single-task learning results in vacuous bounds.
-\todo{add more technical motivation (or maybe later)}
-From a practical standpoint, developing a better understanding of multi-task learning in terms of properties of task data can provide guidance for downstream applications \cite{RH19}.
-%For example,
-%On the other hand, uneven sample sizes (or dominating tasks) have been empirically observed to cause negative transfer \cite{YKGLHF20}.
-%The benefit of learning multi-task representations has also been studied for certain half-spaces \cite{} and sparse regression \cite{}.
-%When all tasks are sufficiently similar, adding more labeled data improves the generalization performance for predicting a particular task \cite{WZR20}.
-
-%\textbf{Setup and Main Results.}
-In this work, we study the bias and variance of multi-task learning in the high-dimensional linear regression setting \cite{HMRT19,BLLT20}.
-Our key observation is that three properties of task data, including \textit{task similarity}, \textit{sample ratio}, and \textit{covariate shift}, can affect whether multi-task learning outperforms single-task learning (which we refer to as \textit{positive transfer}).
-As an example, we vary each property in Figure \ref{fig_model_shift_phasetrans} for two linear regression tasks and measure the improvement of multi-task learning over single-task learning for a particular task.
-We observe that the effect of transfer can be either positive or negative as we vary each property.
-These phenomena cannot be explained using previous techniques \cite{WZR20}.
-The high-dimensional linear regression setting allows us to measure the three properties precisely.
-Here we define each property for the case of two tasks, while our definition applies to general settings.
-We refer to the first task as the source task and the second as the target task.
-\squishlist
-	\item \textbf{Task similarity:} Assume that both tasks follow a linear model with parameters $\beta_1, \beta_2\in\real^p$, respectively.
-	We measure the distance between them by $\norm{\beta_1 - \beta_2}$.
-	\item \textbf{Sample ratio:} Let $n_1 = \rho_1 \cdot p, n_2 = \rho_2 \cdot p$ be the sample size of each task, where $\rho_1, \rho_2>1$ are both fixed values that do not grow with $p$.
-	We measure the source/target sample ratio by $\rho_1 / \rho_2$.
-%	Importantly, $\rho_2$ can be a small constant (say $2$) to capture the need for more labeled data.
-	\item \textbf{Covariate shift:} Assume that the task features are random vectors with positive semidefinite covariance matrices $\Sigma_1\in\real^{p\times p}$ and $\Sigma_2\in\real^{p\times p}$, respectively.
-	%$x = \Sigma_i^{1/2}z$, where $z\in\real^p$ consists of i.i.d. entries with mean zero and unit variance, and is a positive semidefinite matrix.
-	We measure covariate shift with matrix $\Sigma_1^{1/2}\Sigma_2^{-1/2}$.
-\squishend
-\fi
-
+\section{Introduction}\label{sec_introduction}
 
 Hard parameter sharing (HPS) for multi-task learning is widely used in empirical research and goes back to the seminal work of \citet{C97}.
 Recent work has revived interest in this approach because it improves performance and reduces the cost of collecting labeled data \cite{MTDNN19,ZSSGM18}.
@@ -73,6 +21,27 @@ However, how these dataset properties impacts HPS has not been established.
 Part of the challenge may be that HPS' generalization performance depends intricately on the sample size ratios and covariate shifts between tasks, not amenable to standard concentration results.
 Previous results based on Rademacher complexity or VC dimensions have considered when all tasks' sample sizes are equal to logarithm factors of feature dimension \cite{B00,MPR16}, and when all tasks' sample sizes increase simultaneously \cite{AZ05,M06}.
 %For, the generalization error scales down as the sample sizes of all tasks increase, when applied to the multi-task setting \cite{B00,AZ05,M06,MPR16,WZR20}.
+
+\begin{figure*}[!t]
+	\begin{subfigure}[t]{0.5\textwidth}
+		\centering
+		\includegraphics[width=0.5\textwidth,valign=t]{figures/mtl_model_arch.pdf}
+		\caption{A hard parameter sharing architecture}
+	\end{subfigure}\hfill
+	\begin{subfigure}[t]{0.5\textwidth}
+		\centering
+		\includegraphics[width=0.713\textwidth,valign=t]{figures/sample_ratio_c2_400.eps}
+		\caption{Varying sample size ratio}
+		\label{fig_intro_sample_size_b}
+	\end{subfigure}
+	\caption{An illustrative example of our result:
+	Consider the prediction loss of hard parameter sharing (left) for task two, given two linear regression tasks.
+	Increasing task one's sample size decreases task two's prediction loss initially, but increases afterwards. This phenomenon occurs due to different bias-variance tradeoffs as the sample size ratio increases. Our result provides an estimated loss (solid line) that accurately matches the empirical loss (dotted line).
+	See Section \ref{sec_simulation} for the precise setting.}
+	\label{fig_intro_sample_size}
+\end{figure*}
+
+
 
 This paper presents new techniques to study hard parameter sharing and establish a number of new results.
 We consider regression analysis, which is arguably one of the most fundamental problems in statistics and machine learning.
