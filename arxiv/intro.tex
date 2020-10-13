@@ -1,8 +1,8 @@
 \begin{abstract}
-	Hard parameter sharing is a widely used approach to learn jointly from multiple tasks in many applications, such as text classification. The idea is to use a shared feature space for all tasks, while each task also has a separate layer for making prediction.
+	Hard parameter sharing is a widely used approach to learn jointly from multiple tasks in many applications, such as text classification. The idea is to use a shared feature space for all tasks, while each task also has a separate layer for making the prediction.
 %	It becomes increasingly important to understand when they work well on typical data. For example, the performance of hard parameter sharing depends on dataset properties such as their sample sizes. Yet, rigorously formulating such intuition can be challenging.
 	This paper studies a fundamental question to better understand this approach: How does hard parameter sharing work given multiple linear regression tasks?
-	We consider the high-dimensional setting, where the sample size and feature dimension become increasingly large in a fixed ratio, and present tight generalization bounds for two canonical cases: (i) multiple tasks with the same feature covariates; (ii) two tasks with arbitrarily different sample size ratios and covariance matrices. We also demonstrate that these estimates for the empirical loss are incredibly accurate in modest dimensions. Finally, our results provide new explainanations to several intriguing empirical phenomena. For example, increasing one task's sample size helps another task initially by reducing variance, but hurts eventually due to increasing bias. This suggests progressively adding data for optimizing hard parameter sharing, and we validate its efficiency in text classification tasks.
+	We consider the high-dimensional setting, where the sample size and feature dimension become increasingly large in a fixed ratio. We present tight generalization bounds for two canonical cases: (i) multiple tasks with the same feature covariates; (ii) two tasks with arbitrarily different sample size ratios and covariance matrices. We also demonstrate that these estimates for the empirical loss are incredibly accurate in modest dimensions. Finally, our results provide new explanations for several intriguing phenomena. For example, increasing one task's sample size helps another task initially by reducing variance, but hurts eventually due to increasing bias. This suggests progressively adding data for optimizing hard parameter sharing, and we validate its efficiency in text classification tasks.
 \end{abstract}
 
 \section{Introduction}\label{sec introduction}
@@ -60,22 +60,22 @@ We refer to the first task as the source task and the second as the target task.
 
 
 Hard parameter sharing (HPS) is a widely used approach to learn from multiple tasks and goes back to the seminal work of \citet{C97}.
-It is generally applied by sharing the feature layers between all tasks, while keeping an output layer for every task.
+It is generally applied by sharing the feature layers between all tasks while keeping an output layer for every task.
 Recent work has revived interest in this classical approach through many applications \cite{MTDNN19,ZSSGM18}.
 Hard parameter sharing offers two critical advantages:
 (i) it reduces model parameters since all tasks use the same feature space;
 (ii) it reduces the need for labeled data from each task while augmenting the entire training dataset.
 
 Hard parameter sharing is often thought of as a mechanism for inducing inductive bias.
-Since all tasks share the same feature space, by restricting the size of the space, HPS acts as a regularizer and reduces overfitting \cite{KD12,WZR20}.
-Another source of inductive bias comes from the tasks, and depends on datasets' properties such as sample sizes and task covariances \cite{WZR20}.
+Since all tasks share the same feature space, by restricting the space's, HPS acts as a regularizer and reduces overfitting \cite{KD12,WZR20}.
+Another source of inductive bias comes from the tasks and depends on datasets' properties such as sample sizes and task covariances \cite{WZR20}.
 Previous generalization theories have considered when all tasks' sample sizes are equal \cite{B00,MPR16}.
-Using Rademacher complexity or VC-based techniques, the generalization error scales down as the sample sizes of all tasks increase \cite{AZ05,M06}.
+Using Rademacher complexity or VC-based techniques, the generalization error scales down as all tasks' sample sizes increase \cite{AZ05,M06}.
 %For, the generalization error scales down as the sample sizes of all tasks increase, when applied to the multi-task setting \cite{B00,AZ05,M06,MPR16,WZR20}.
 
 
-In this paper, we present a new generalization theory for hard parameter sharing by studying its  performance in the high-dimensional linear regression setting.
-Linear regression is arguably one of the most fundamental problem in statistics and machine learning.
+This paper presents a new generalization theory to understand the hard parameter sharing approach by studying its performance in the high-dimensional linear regression setting.
+Linear regression is arguably one of the most fundamental problems in statistics and machine learning.
 We are interested in the \textit{high-dimensional} setting, where each dataset's sample size and the feature dimension grow linearly at a fixed ratio.
 This is motivated by many multi-task learning applications, where the amount of labeled data from each dataset is usually insufficient for learning a single task.
 For example, this is the case if a dataset's sample size is only a small constant factor of the feature dimension \cite{socher2013recursive}.
