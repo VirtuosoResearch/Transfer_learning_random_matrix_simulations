@@ -1,5 +1,142 @@
 \section{Proof of Theorem \ref{thm_main_RMT}}\label{appendix RMT}
 
+	\noindent (ii) The bias equation \eqref{eq_bias_2task} satisfies the following limit with high probability for any fixed vector $w\in\real^p$ with unit norm,
+			\begin{align}\label{lem_cov_derv_eq}
+				\bigabs{w^{\top} \Sigma^{(1)} \bigbrace{(n_1+n_2)^2\hat{\Sigma}^{-1} \Sigma^{(2)} \hat{\Sigma}^{-1} - {\Sigma^{(2)}}^{-1/2} V {\frac{a_3 \Lambda^2 + (a_4 + 1)\id}{(a_1 \Lambda^2 + a_2\id)^2}} V^{\top} {\Sigma^{(2)}}^{-1/2}} \Sigma^{(1)} w} \le  p^{-c_{\varphi}},
+			\end{align}
+				where $a_{3}$ and $a_4$ are the solutions of the following self-consistent equations % with $b_k = \frac1{p}\sum_{i=1}^p \frac{\lambda_i^{2k}} {(\lambda_i^2 a_1 + a_2)^2}$, for $k = 0, 1, 2$:
+			\begin{align}\label{eq_a34extra}
+				a_3 + a_4 = \frac{1}{n_1 + n_2}\sum_{i=1}^p \frac{1}{\lambda_i^2 a_1 + a_2}, \ \
+				a_3 + \frac{1}{n_1 + n_2} \sum_{i=1}^p \frac{\lambda_i^2 (a_2 a_3-a_1 a_4 )}{(\lambda_i^2 a_1 + a_2)^2} = \frac{1}{n_1 + n_2} \sum_{i=1}^p \frac{\lambda_i^2 a_1}{(\lambda_i^2 a_1 + a_2)^{2}}.
+%				\left(\frac{\rho_1}{a_1^{2}} -  b_2  \right)\cdot  a_3 -  b_1 \cdot  a_4 = b_1,\quad \left(\frac{\rho_2}{a_2^{2}}-  b_0\right)\cdot  a_4 - b_1 \cdot  a_3
+%				= b_0.
+			\end{align}
+
+We say that $(W-z\id)^{-1}$ converges to a deterministic $p\times p$ matrix limit $R(z)$ if for any sequence of deterministic vectors $v\in \R^p$ with unit norm,
+$$v^\top \left[(W-z\id)^{-1}-R(z)\right]v\to 0\ \ \ \text{when $p$ goes to infinity.
+}$$
+
+To study $W$'s resolvent, we observe that $W$ is equal to $\AF\AF^{\top}$ for a $p$ by $n_1 + n_2$ matrix
+	\[ \AF := (n_1+ n_2)^{-1/2} [\Lambda U^\top (Z^{(1)})^\top,V^\top (Z^{(2)})^\top]. \]
+%}\HZ{what does this trick mean? use less technical words},
+%This idea dates back at least to Girko, see e.g., the works \cite{girko1975random,girko1985spectral} and references therein.
+Consider the following symmetric block matrix whose dimension is $p + n_1 + n_2$
+%which is a linear function of $(Z^{(1)})$ and $(Z^{(2)})$:
+%\begin{definition}[Linearizing block matrix]\label{def_linearHG}%definiton of the Green function
+%We define the $(n+N)\times (n+N)$ block matrix
+ \begin{equation}\label{linearize_block}
+    H \define \left( {\begin{array}{*{20}c}
+   0 & \AF  \\
+   \AF^{\top} & 0
+%   {Z^{(2)}V} & 0 & 0
+   \end{array}} \right).
+ \end{equation}
+For this block matrix, we define its resolvent as
+$$G(z) \define \left[H - \begin{pmatrix}z\id_{p\times p}&0\\ 0 & \id_{(n_1+n_2)\times (n_1+n_2)} \end{pmatrix}\right]^{-1},$$
+%as the resolvent of $H$,
+for any complex value $z\in \mathbb C$.
+Using Schur complement formula for the inverse of a block matrix, it is not hard to verify that
+	\begin{equation*} %\label{green2}
+	  G(z) =  \left( {\begin{array}{*{20}c}
+			(W- z\id)^{-1} & (W - z\id)^{-1} \AF  \\
+      \AF^\top (W - z\id)^{-1} & z(\AF^\top \AF - z\id)^{-1}
+		\end{array}} \right).%\quad \cal G_R:=(W^\top W - z)^{-1} ,
+  \end{equation*}
+
+
+
+\paragraph{Variance asymptotic limit.}
+In Theorem \ref{main_cor}, we will show that for $z$ in a small neighborhood around $0$, when $p$ goes to infinity, $G(z)$ converges to the following limit
+\be \label{defn_piw}
+	\Gi(z) \define \begin{pmatrix} (a_{1}(z)\Lambda^2  +  (a_{2}(z)- z)\id_{p\times p})^{-1} & 0 & 0 \\ 0 & - \frac{n_1+n_2}{n_1} a_{1}(z)\id_{n_1\times n_1} & 0 \\ 0 & 0 & -\frac{n_1+n_2}{n_2}a_{2}(z)\id_{n_2\times n_2}  \end{pmatrix},\ee
+where $a_1(z)$ and $a_2(z)$ are the unique solutions to the following self-consistent equations
+\be
+\begin{split}\label{selfomega_a}
+	&a_1(z) + a_2(z) = 1 - \frac{1}{n_1 + n_2} \bigbrace{\sum_{i=1}^p \frac{\lambda_i^2 a_1(z) + a_2(z)}{\lambda_i^2 a_1(z) + a_2(z) - z}},  \\
+	&a_1(z) + \frac{1}{n_1 + n_2}\bigbrace{\sum_{i=1}^p \frac{\lambda_i^2 a_1(z)}{\lambda_i^2 a_1(z) + a_2(z) - z}} = \frac{n_1}{n_1 + n_2}.
+% \frac{\rho_1}{a_{1}(z)} = \frac{1}{p}\sum_{i=1}^p \frac{\lambda_i^2}{ - z+\lambda_i^2 a_{1}(z) +a_{2} (z) } + (\rho_1+\rho_2),\  \frac{\rho_2}{a_{2}(z)} = \frac{1}{p}\sum_{i=1}^p \frac{1 }{  -z+\lambda_i^2 a_{1}(z) +  a_{2}(z)  }+ (\rho_1+\rho_2) .
+\end{split}
+\ee
+The existence and uniqueness of solutions to the above system are shown in Lemma \ref{lem_mbehaviorw}.
+%First, we define the deterministic limits of $(m_1(z), m_{2}(z))$ by $\left(-\frac{\rho_1+\rho_2}{\rho_1}a_{1}(z),-\frac{\rho_1+\rho_2}{\rho_2}a_{2}(z)\right)$, where
+%satisfying that $\im a_{1}(z)< 0$ and $\im a_{2}(z)<0$ for $z\in \C_+$ with $\im z$.
+%\be\label{ratios}
+% \gamma_n :=\frac{p}{n}=\frac{1}{\rho_1+\rho_2},\quad r_1 :=\frac{n_1}{n}=\frac{\rho_1}{\rho_1+\rho_2},\quad r_2 :=\frac{n_2}{n}=\frac{\rho_2}{\rho_1+\rho_2}.
+%\ee
+Given this result, we show that when $z = 0$, the matrix limit $\Gi(0)$ implies the variance limit shown in equation \eqref{lem_cov_shift_eq}.
+First, we have that $a_1 = a_1(0)$ and $a_2 = a_2(0)$ since equation \eqref{selfomega_a} reduces to equation \eqref{eq_a12extra}.
+Second, since $W^{-1}$ is the upper-left block matrix of $G(0)$, we have that $W^{-1}$ converges to $ (a_1\Lambda^2 + a_2\id)^{-1} $.
+Using the fact that $\tr[\Sigma^{(2)} \hat{\Sigma}^{-1}] = \bigtr{W^{-1}} / (n_1 + n_2)$, we get that when $p$ goes to infinity, % the trace of $$ converges to
+\begin{align*}
+  \bigtr{\Sigma^{(2)} \hat{\Sigma}} \rightarrow \frac{1}{n_1+n_2}\bigtr{(a_1 \Lambda^2 + a_2\id)^{-1}} &= \frac1{n_1+n_2}\bigtr{(a_1 M^{\top}M + a_2 \id)^{-1}} \\
+  &=\frac{1}{n_1+n_2} \bigtr{\Sigma^{(2)} (a_1 \Sigma^{(1)} + a_2 \Sigma^{(2)})^{-1}},
+  \end{align*}
+%\noindent{\bf Variance asymptotics.} Using definition \eqref{mainG}, we can write equation \eqref{eigen2extra} as
+%\be\label{rewrite X as R} [(X^{(1)})^\top X^{(1)}+(X^{(2)})^\top X^{(2)}]^{-1}=n^{-1}\Sigma_2^{-1/2}V\cal G(0)V^\top\Sigma_2^{-1/2}.\ee
+%When $z=0$, it is easy to check that , which means that we actually have $a_1(0)=a_1$ and $a_2(0)=a_2$. Hence the matrix limit of $\cal G(0)$ is given by $(a_{1}\Lambda^2 + a_{2}\id_p)^{-1}$. Then inserting this limit into equation \eqref{rewrite X as R}, we can write the left-hand side of equation \eqref{lem_cov_shift_eq} as
+%\begin{align}
+%&\bigtr{\left( (X^{(1)})^{\top}X^{(1)} + (X^{(2)})^{\top}X^{(2)}\right)^{-1} \Sigma}\approx n^{-1}\bigtr{\Sigma_2^{-1/2}V\cal (a_{1}\Lambda^2 + a_{2}\id_p)^{-1}V^\top\Sigma_2^{-1/2}\Sigma}  \nonumber\\
+%&=n^{-1}\bigtr{\Sigma_2^{-1/2}\cal (a_{1}\Sigma_2^{-1/2}\Sigma_1\Sigma_2^{-1/2} + a_{2}\id_p)^{-1}\Sigma_2^{-1/2}\Sigma}  = n^{-1}\bigtr{\cal (a_{1} \Sigma_1  + a_{2}\Sigma_2)^{-1}\Sigma}  ,\label{Gi00}
+%\end{align}
+where we note that $M^\top M = (\Sigma^{(2)})^{-1/2} \Sigma^{(1)} (\Sigma^{(2)})^{-1/2}$ and its SVD is equal to $V^{\top}\Lambda^2 V$.
+%For the asymptotic limit, its concentration error is shown in Appendix \ref{appendix RMT}.
+
+
+
+
+\paragraph{Bias asymptotic limit.}
+For the bias limit in equation \eqref{lem_cov_derv_eq}, we show that it is governed by the derivative of $(W - z\id)^2$ with respect to $z$ at $z = 0$.
+First, we reduce the empirical bias term in equation \eqref{lem_cov_derv_eq} to $W$
+\begin{align}\label{calculate G'}
+	(n_1 + n_2)^2 \hat{\Sigma}^{-1}\Sigma^{(2)}\hat{\Sigma}^{-1} = {\Sigma^{(2)}}^{-1/2} V W^{-2} V^{\top} {\Sigma^{(2)}}^{-1/2}.
+\end{align}
+Let $\cal G(z):=(W-z\id )^{-1}$ denote the resolvent of $W$.
+Our key observation is that $\frac{\dd{\cal G(z)}}{\dd z} =  \cal G^2(z)$.
+Hence, provided that limit of $(W - z\id)^{-1}$ is $(a_1(z) \Lambda^2 + (a_2(z) - z) \id)^{-1}$ near $z = 0$, the limit of $\frac{\dd{\cal G(0)}}{\dd z}$ satisfies that
+\begin{align}\label{cal G'0}
+	\frac{\dd \cal G(0)}{\dd z} \to \frac{-\frac{\dd a_1(0)}{\dd z}\Lambda^2 - (\frac{\dd a_2(0)}{\dd z} - 1)\id}{(a_{1}(0)\Lambda^2 + a_{2}(0)\id_p)^2}.
+\end{align}
+To find the derivatives of $a_1(z)$ and $a_2(z)$, we take the derivatives on both sides of equation \eqref{selfomega_a}.
+%\begin{align*}
+%	\frac{\dd a_1(z)}{\dd z} + \frac{\dd a_2(z)}{\dd z} = -\frac{1}{n_1 + n_2} \sum_{i=1}^p \frac{1}{\lambda_i^2 a_1 + a_2},
+%	\frac{\dd a_1(z)}{\dd z} + \frac{1}{n_1 + n_2}\sum_{i=1}^p \frac{\lambda_i^2 (a_1'(z) a_2 - a_2'(z) a_1)}{(\lambda_i^2 a_1 + a_2)^2} = -\frac{1}{n_1 + n_2} \sum_{i=1}^p \frac{\lambda_i^2 a_1}{(\lambda_i^2 a_1 + a_2)^2}
+%\end{align*}
+Let $a_3 = - \frac{\dd a_1(0)}{\dd z}$ and $a_4 = - \frac{\dd a_2(z)}{\dd z}$.
+%then taking implicit differentiation of equation \eqref{selfomega_a}
+One can verify that $a_3$ and $a_4$ satisfy the self-consistent equations \eqref{eq_a34extra} (details omitted).
+Applying equation \eqref{cal G'0} to equation \eqref{calculate G'}, we obtain the asymptotic limit of the bias term.
+%\begin{align}
+%& n^2\bignorm{\Sigma_2^{1/2} \bigbrace{ (X^{(1)})^{\top}(X^{(1)}) + (X^{(2)})^{\top}(X^{(2)}) }^{-1} \Sigma_1^{1/2} w}^2 \nonumber\\
+%&\approx  w^\top \Sigma_1^{1/2}\Sigma_2^{-1/2}V\frac{a_3\Lambda^2 +(1+ a_4)\id_p}{(a_{1}\Lambda^2 + a_{2}\id)^2}V^\top \Sigma_2^{-1/2}\Sigma_1^{1/2}w= w^{\top} \Pi_\bias w, \label{calculatePibias}
+%\end{align}
+%where in the last step we used $M = \Sigma_1^{1/2}\Sigma_2^{-1/2}$ and $V \Lambda^2 V^\top=M^\top M$. This concludes equation \eqref{lem_cov_derv_eq}.
+
+As a remark, in order for $\frac{\dd \cal G(z)}{\dd z}$ to stay close to its limit at $z = 0$, we not only need to find the limit of $\cal G(0)$, but also the limit of $\cal G(z)$ within a small neighborhood of $0$.
+This is why we consider $W$'s resolvent for a general $z$. %as opposed to the Stieljes transform of its empirical spectral distribution.
+
+\paragraph{Schur complement and self-consistent equations.}
+We briefly describe how to derive the matrix limit $\Gi(z)$.
+First, we consider the special case where $Z^{(1)}$ and $Z^{(2)}$ are both multivariate Gaussian random matrices.
+By rotational invariance, we have that $Z^{(1)} U$ and $Z^{(2)} V$ are still multivariate Gaussian random matrices.
+Next, we use the Schur complement formula to deal with the resolvent $G(z)$.
+We show that $G(z)$'s diagonal entries satisfy a set of self-consistent equations in the limit, leading to equation \eqref{selfomega_a}.
+On the other hand, $G(z)$'s off-diagonal entries are approximately zero using standard concentration bounds.
+Finally, we extend our result to general random matrices under the finite $\varphi$-th moment condition.
+We prove an anisotropic local law using recent developments in random matrix theory \cite{erdos2017dynamical,Anisotropic}.
+A complete proof of Theorem \ref{thm_main_RMT} can be found in Appendix \ref{appendix RMT}.
+
+
+
+
+
+
+
+
+
+
+
+
+
 We begin with a warm up analysis when the entries of $Z^{(1)}$ and $Z^{(2)}$ are drawn i.i.d. from an isotropic Gaussian distribution.
 By the rotational invariance of the multivariate Gaussian distribution, we have that the entries of $Z^{(1)} U$ and $Z^{(2)}$ also follow an isotropic Gaussian distribution.
 Hence it suffices to consider the following resolvent

@@ -1,5 +1,46 @@
 \section{Missing Proof of Theorem \ref{thm_many_tasks}}\label{app_proof_error_same_cov}
 
+	Our next claim shows that the subspace spanned by the rows of $\hat{A}$ is close to that of $A^{\star}$.
+	\begin{claim}\label{claim_opt_dist}
+		Let $U_{\hat{A}} U_{\hat{A}}^{\top} \in\real^{t\times t}$ denote the subspace projection $\hat{A}^{\top} (\hat{A}\hat{A}^{\top})^{+} \hat{A}$.
+		In the setting of Theorem \ref{thm_many_tasks}, we have that
+		\[ \bignormFro{U_{\hat{A}} U_{\hat{A}}^{\top} - A^{\star} {A^{\star}}^{\top}}^2
+				\le  p^{-c_{\varphi}} \cdot C_1. \]
+	\end{claim}
+	The proof of the above claim is based on the following characterization.
+
+	\begin{claim}\label{lem_exp_opt}
+		In the setting of Theorem \ref{thm_many_tasks}, we have that
+		\begin{align}
+			\exarg{\set{\varepsilon^{(j)}}_{j=1}^t, X}{g(A)} = n \bignormFro{\Sigma^{1/2} B^{\star} \bigbrace{A^{\top} (AA^{\top})^{\dagger} A - \id_{t\times t}}}^2 + \sigma^2 (n\cdot t - p \cdot r). \label{eq_gA}
+		\end{align}
+		As a result, the minimum of $\ex{g(A)}$, denoted by $A^{\star}{A^\star}^\top$, is the best rank-$r$ approximation of ${B^{\star}}^{\top}\Sigma B^{\star}$.
+	\end{claim}
+
+	 One can see that the expected optimization objective also admits a nice bias-variance decomposition.
+	Furthermore, its minimizer only depends on the bias term since the variance term is fixed, and the minimizer of the bias term is precisely $A^{\star} {A^{\star}}^{\top}$.
+
+	The next piece of our proof deals with the prediction loss of hard parameter sharing.
+	\begin{claim}\label{claim_pred_err}
+		In the setting of Theorem \ref{thm_many_tasks},
+		let $\hat{a}_i = \hat{A}^{\top} (\hat{A}\hat{A}^{\top})^{+} \hat{A}_i$.
+		We have that the prediction loss of $\hat{\beta}_i^{\MTL} := \hat{B} \hat{A}_i$ satisfies that
+		\begin{align*}
+			\bigabs{L(\hat{\beta}_i^{\MTL}) - L(B^{\star} \hat{a}_i) - \sigma^2 \norm{\hat{a}_i}^2 \cdot \bigtr{\Sigma (X^{\top}X)^{-1}}}
+			\le  n^{-1/4} \left( L(B^{\star} \hat{a}_i)+ \sigma^2  \cdot\|\hat a_i\|^2\right) .
+		\end{align*}
+	\end{claim}
+	The proof of Claim \ref{claim_opt_dist}, Claim \ref{lem_exp_opt}, and Claim \ref{claim_pred_err} can be found in Appendix \ref{app_proof_error_same_cov}.
+	Provided with these results, we are ready to prove Theorem \ref{thm_many_tasks}.
+	\begin{proof}[Proof of Theorem \ref{thm_many_tasks}]
+		Using Claim \ref{claim_pred_err}, we get that the prediction loss of $\hat{\beta}_i^{\MTL}$ is within an $\OO(n^{-1/4})$ fraction of $L(B^{\star}\hat{a}_i)+\sigma^2\norm{\hat{a}_i}^2\cdot \bigtr{\Sigma(X^{\top}X)^{-1}}$. Moreover, Claim \ref{claim_opt_dist} gives directly an upper bound on $\|\hat a_i - a_i^\star\|^2$. With this estimate, we can bound the difference
+		$$L(B^{\star}\hat{a}_i)+\sigma^2\norm{\hat{a}_i}^2\cdot \bigtr{\Sigma(X^{\top}X)^{-1}} - L(B^{\star} {a}^\star_i)-\sigma^2\norm{{a}^\star_i}^2\cdot \bigtr{\Sigma(X^{\top}X)^{-1}}.$$
+		Combined together, our proof is complete. We omit the details.
+%		For the latter, we use Claim \ref{claim_opt_dist} to upper bound the difference between $\norm{\hat{a}_i}^2$ and $\norm{a_i^{\star}}^2$.
+%		For $L(B^{\star}\hat{a}_i)$, we again use Claim \ref{claim_opt_dist} to upper bound the distance between $\hat{a}_i$ and $a_i^{\star}$.
+%		Combined together, our proof is complete.
+	\end{proof}
+
 	\paragraph{Proof of Claim \ref{lem_exp_opt}.}
 	To facilitate the analysis, we consider the following matrix notations.
 	Denote
