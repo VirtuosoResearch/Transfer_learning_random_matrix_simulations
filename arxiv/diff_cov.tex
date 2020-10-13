@@ -1,43 +1,47 @@
 \section{Bias-variance Limits: Different Sample Sizes and Covariate Shifts}\label{sec_diff}
 
-The different covariates case differs from the same covariates case in two aspects.
-First, different tasks may have different sample sizes. In extreme scenarios, one task may have much less labeled data compared to another task.
-Second, the features of different tasks may have different shapes, a phenomenon that is often called ``covariate shift''.
-In this section, we show how to deal with these two aspects.
+The previous section assumes that all tasks have the same sample size and feature vectors.
+This section studies how different sample sizes and different features impact hard parameter sharing.
+%The different covariates case differs from the same covariates case in two aspects.
+%First, different tasks may have different sample sizes. In extreme scenarios, one task may have much less labeled data compared to another task.
+The setting where features differ across tasks is often also called ``covariate shift''.
 
 Unlike the previous section, we no longer have an optimal solution for $f(A, B)$.
 This is because $f(A, B)$ is in general non-convex.
 Instead, our result implies tight generalization bounds for any \emph{local minimum} of $f(A, B)$.
 We focus on the two-task case to better understand the impact of having different sample sizes and different covariates.
-Suppose that $X^{(1)} = Z^{(1)}{\Sigma^{(1)}}^{1/2} \in \real^{n_1 \times p}$ and $X^{(2)} = Z^{(2)}{\Sigma^{(2)}}^{1/2} \in \real^{n_2 \times p}$, where the entries of $Z^{(1)}$ and $ Z^{(2)}$ are drawn independently from a one dimensional distribution with zero mean, unit variance, and constant $\varphi$-th moment for a fixed $\varphi > 4$. The matrices $\Sigma^{(1)}\in \R^{p\times p}$ and $\Sigma^{(2)}\in \R^{p\times p}$ denote the population covariance matrices of task 1 and task 2, respectively.
+Suppose that $X^{(1)} = Z^{(1)}(\Sigma^{(1)})^{1/2} \in \real^{n_1 \times p}$ and $X^{(2)} = Z^{(2)}(\Sigma^{(2)})^{1/2} \in \real^{n_2 \times p}$, where the entries of $Z^{(1)}$ and $ Z^{(2)}$ are drawn independently from a one dimensional distribution with zero mean, unit variance, and constant $\varphi$-th moment for a fixed $\varphi > 4$. The matrices $\Sigma^{(1)}\in \R^{p\times p}$ and $\Sigma^{(2)}\in \R^{p\times p}$ denote the population covariance matrices of task 1 and task 2, respectively.
 
-Our key result characterizes the asymptotic limit of the inverse of the sum of two different sample covariance matrices. Recall that in the hard parameter sharing, we have to take $r<t$. Hence in the two-task case, we must have $r=1$. 
+Our key result characterizes the asymptotic limit of the inverse of the sum of two different sample covariance matrices.
 To motivate our study, consider a special case where $A_1=A_2=1$. 
 Without loss of generality, we consider task two's prediction loss and the same result applies to task one.
+By Proposition 1 of \citet{WZR20}, we consider the case of $r = 1 < t = 2$, since when $r > 1$, the optimal solution of $f(A, B)$ is equivalent to single-task learning.
+When $r = 1$, $B$ is a vector and $A_1, A_2$ are both scalars.
+Hence we can write down a closed form equation for any local minimum of $f(A, B)$.
 By solving $B$ in equation \eqref{eq_mtl}, we obtain the hard parameter sharing estimator $\hat{\beta}_2^{\MTL} = B A_2 = B$ as follows:
 \begin{align}\label{def hatsig}
 	\hat{\beta}_2^{\MTL} = {\hat{\Sigma}}^{-1} ({X^{(1)}}^{\top} Y^{(1)} + {X^{(2)}}^{\top} Y^{(2)}), \ \ \text{ where } \ \ \hat{\Sigma} = {X^{(1)}}^{\top} X^{(1)} + {X^{(2)}}^{\top} X^{(2)}.
 \end{align}
 The matrix $\hat{\Sigma}$ adds up both tasks' sample covariances, and the expectation of $\hat{\Sigma}$ is equal to a mixture of their population covariance matrices, with mixing proportions determined by their sample sizes.
-The empirical loss of $\hat{\beta}_2^{\MTL}$ is close to its expectation similar to Claim \ref{claim_pred_err}.
-Hence, we consider the expected loss conditional on the covariates as follows:
+
+To derive the bias and variance equation, we consider the expected loss conditional on the covariates as follows (the empirical loss is close to its expectation similar to Claim \ref{claim_pred_err}):
 \begin{align}
 	\exarg{\cE}{L(\hat{\beta}_2^{\MTL}) \mid X^{(1)}, X^{(2)}} =
 	& \bignorm{{\Sigma^{(2)}}^{1/2} \hat{\Sigma}^{-1} {X^{(1)}}^{\top} X^{(1)} (\beta^{(1)} - \beta^{(2)})}^2 \label{eq_bias_2task} \\
 	& + \sigma^2 \bigtr{\Sigma^{(2)}\hat{\Sigma}^{-1}}. \label{eq_variance_2task}
 \end{align}
+Our main result in this section characterizes the asymptotic limit of the above equation under the high-dimensional assumption.
+Intuitively, the spectrum of $\hat{\Sigma}^{-1}$ (and hence its trace) not only depends on both tasks' sample sizes, but also depends on the ``alignment'' between $\Sigma^{(1)}$ and $\Sigma^{(2)}$.
+However, capturing this intuition quantitatively turns out to be technically challenging.
+%The main technical challenge of our result deals with the ``covariate shift'' between tasks one and two.
+We introduce a key quantity $M \define (\Sigma^{(1)})^{1/2}(\Sigma^{(2)})^{-1/2}$, and as we show below, the trace of $\hat{\Sigma}^{-1}$ has an intricate dependence on the spectrum of $M$.
 
-Interestingly, the expected loss also admits a nice bias-variance decomposition.
-Our main result in this section characterizes the asymptotic limit of the above equation, when both sample size and feature dimension become increasingly large at a fixed ratio.
-The main technical challenge of our result deals with the ``covariate shift'' between tasks one and two.
-Intuitively, the scaling of $\hat{\Sigma}^{-1}$ not only depends on both tasks' sample sizes, but also depends on their population covariance matrices.
-We introduce a key quantity $M \define (\Sigma^{(1)})^{1/2}(\Sigma^{(2)})^{-1/2}$ that captures the covariate shift between task one and task two.
-Let $U\Lambda V^\top$ denote the singular value decomposition of $M$, where $\Lambda\in\real^{n\times p}$ consists of $M$'s singular values $\lambda_1\ge \lambda_2\ge \dots \ge \lambda_p$ as its diagonal entries in descending order.
+Let $U\Lambda V^\top$ denote the SVD of $M$ and let $\lambda_1, \lambda_2, \dots, \lambda_p$ denote $M$'s singular values in descending order.
 Our main result is stated as follows.
 
 \begin{theorem}\label{thm_main_RMT}
 	Let $c_{\varphi}$ be a fixed value in $(0, \frac{\varphi - 4}{2\varphi})$.
-	Assume that: a) $Z^{(1)}, Z^{(2)}$ both satisfy Assumption \ref{assume_rm};
+	Assume that: a) the sample sizes $n_1$ and $n_2$ both satisfy Assumption \ref{assume_rm};
 	b) $M$'s singular values are all greater than $\tau$ and less than $1/\tau$;
 	c) task one's sample size is greater than $\tau p$ and task two's sample size is greater than $(1 + \tau) p$.
 	With high probability over the randomness of $X^{(1)}$ and $X^{(2)}$, we have the following limits.
@@ -62,11 +66,11 @@ Our main result is stated as follows.
 %				= b_0.
 			\end{align}
 \end{theorem}
-Our result extends Fact \ref{fact_tr} on the inverse of a single sample covariance matrix.
-When $n_1$ is zero, we solve equation \eqref{eq_a12extra} and obtain $a_1 = 0$ and $a_2 = (n_2-p) / n_2$, and apply these solutions to equation \eqref{lem_cov_shift_eq}.
+Part (i) of our result extends Fact \ref{fact_tr} to the inverse of the sum of two sample covariance matrices.
+To see this, when $n_1$ is zero, we solve equation \eqref{eq_a12extra} and obtain $a_1 = 0$ and $a_2 = (n_2-p) / n_2$, and apply these solutions to equation \eqref{lem_cov_shift_eq}.
 
 \paragraph{How does hard parameter sharing scale with sample size and covariate shift?}
-One can see that both the variance limit and the bias limit depend heavily on both tasks' samples sizes and the covariate shift matrix $M$.
+One can see that the bias-variance limits depend intricately on both tasks' samples sizes and covariate shift.
 Next, we illustrate how varying them impact prediction loss, respectively.
 \begin{example}[Sample size ratio]\label{ex_sample_ratio}
 	We first consider the impact of varying sample sizes.
@@ -90,16 +94,16 @@ Next, we illustrate how varying them impact prediction loss, respectively.
 	%\be\label{choiceofpara0}
 %	(ii) the task-specific variance of $\beta_i$ is much smaller than the signal strength {\color{red}$d^2 = \oo( {\kappa^2})$}; \HZ{what does $\ll$ mean exactly?}
 %	(iii) the sample sizes $n_1$ and $n_2$ are greater than $(1 + \tau) p$.
-	(iii) task-specific variance is much smaller than the shared signal variance: $d^2 \le p^{-\delta}{\kappa^2}$ for a small constant $\delta>0$.
+	(iii) task-specific variance is much smaller than the shared signal variance: $d^2 \le p^{-\e}{\kappa^2}$.
 	Let $\varepsilon = (1 + \sqrt{p/n_1})^ 4 - 1$, which decreases as $n_1$ increases.
 	The prediction loss of hard parameter sharing for task two satisfies that
 	\begin{align}\label{cor_MTL_error}
 	%-\left[1- \left( 1-\frac{1}{\sqrt{\rho_1}}\right)^4\right] pd^2\cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3} +\OO(p^{-c}\sigma^2)  \le
-	  \left|L(\hat{\beta}_2^{\MTL}) - \frac{d^2 n_1^2 (n_1 + n_2)}{(n_1 + n_2 - p)^3} -\frac{\sigma^2 p}{n_1 + n_2 - p}  \right| \le \varepsilon \cdot \frac{d^2 n_1^2 (n_1 + n_2)}{(n_1 + n_2 - p)^3} + p^{-c } \cdot \OO(d^2 + \sigma^2).
+	  \left|L(\hat{\beta}_2^{\MTL}) - \frac{d^2 n_1^2 (n_1 + n_2)}{(n_1 + n_2 - p)^3} -\frac{\sigma^2 p}{n_1 + n_2 - p}  \right| \le \varepsilon \cdot \frac{d^2 n_1^2 (n_1 + n_2)}{(n_1 + n_2 - p)^3} +  \OO(p^{-c/2}).
 	%\left[\left( 1+\frac{1}{\sqrt{\rho_1}}\right)^4-1\right] d^2\cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3} \\
 	%& +C \left[(p^{-c_\varphi}+p^{-c_\infty/2})(\sigma^2 +d^2)+p^{-c_\infty}\kappa^2 + %\frac{d^4+\sigma^2 d^2}{\kappa^2}\right],\nonumber
 	 \end{align}
-	 with high probability for any fixed $c\in(0, \min(\frac{1}{4}, \delta,\frac{\varphi-4}{2\varphi}))$.
+%	 with high probability for any fixed $c\in(0, \min(\frac{1}{4}, \delta,\frac{\varphi-4}{2\varphi}))$.
 %	 {\color{red}[FY: the error also contains $p^{-1/2+2c}\kappa^2 +  p^{-1/4+c} (\sigma^2 +d^2) $, both of which cannot be omitted, because (i) there is no assumption on the upper bound of $\kappa^2$, and (ii) we do not necessarily have $c_\varphi<1/4$. We can decide how to present the result concisely (for instance we can impose an upper bound on $\kappa^2$ and that $c_\varphi<1/4$), but it needs to be correct.]}
 	 \end{corollary}
 
@@ -151,41 +155,24 @@ We vary sample ratio $n_1 / n_2$ by fixing $n_2$ and increasing $n_1$.
 %We describe a sketch of the proof.
 The variance term always reduces as $n_1$ increases.
 The bias term always increases as $n_1$ increases, which can be verified by calculating the derivative of the bias term.
+Furthermore, by calculating the derivative of the bias-variance limits with respect to $n_1$, we obtain the following dichotomy (details omitted).
 \begin{enumerate}
-	\item When $\frac{2d^2}{d^2 + \sigma^2} > \frac{p}{n_2 - p}$, \FY{$\frac{d^2}{\sigma^2}<\frac{p}{2n_2-3p} $} the prediction loss decreases monotonically as $n_1$ increases.
-	\item When $\frac{2d^2}{d^2 + \sigma^2} < \frac{p}{n_2 - p}$, \FY{$\frac{d^2}{\sigma^2}>\frac{p}{2n_2-3p}$} the limiting estimate always decreases first from $\frac{\sigma^2 p}{n_2 - p}$ with $n_1$ being zero, and then increases to $d^2$ when $n_1$ goes to infinity.
+	\item When $\frac{2d^2}{d^2 + \sigma^2} < \frac{p}{n_2 - p}$, the prediction loss decreases monotonically as $n_1$ increases.
+	\item When $\frac{2d^2}{d^2 + \sigma^2} > \frac{p}{n_2 - p}$, the limiting estimate always decreases first from $\frac{\sigma^2 p}{n_2 - p}$ with $n_1$ being zero, and then increases to $d^2$ when $n_1$ goes to infinity.
 	To see this, near the point where $n_1$ is zero, one can verify that bias increases less than the variance decreases, and there is only one positive root for the derivative being zero.
-%Combined together, we observe that the \textit{optimal} sample ratio between $n_1$ and $n_2$ should be among one of following three cases:
-%(i) $n_1 = 0$, in which case the prediction loss reduces to $\frac{\sigma^2 p}{n_2 - p}$;
-%(ii) $n_1 = \infty$, in which case the prediction loss reduces to $d^2$;
-%(iii) the critial point where the derivative of the bias and the variance terms w.r.t. $n_1$ equals zero.
 \end{enumerate}
-
-%Based on this observation, we have the following trend when we fix $n_2$ and increase $n_1$:
-%\begin{itemize}
-%	\item If $d^2$ is smaller than $\frac{\sigma^2 p}{n_2 - p}$, then the prediction loss of hard parameter sharing is always lower than STL. That is, task one always transfers positively to task two.
-%	\item Otherwise, task one transfers positively to task two initially, but transfers negatively eventually.
-%\end{itemize}
-%Therefore, while the variance of MTL still reduces compared to STL,
-%If the bias increases more than the amount of variance reduced, we observe negative transfer.
-%of MTL increases and converges to $pd^2$ as the sample ratio $\rho_1/\rho_2$ increases, and the variance reduction $\frac{\sigma^2}{ \rho_2-1}  -\frac{\sigma^2}{\rho_1+\rho_2-1}$ also increases and converges to $\frac{\sigma^2}{\rho_2-1}$ as $\rho_1/\rho_2$ increases. The tradeoff between these two terms depends on $\rho_1$ in a nonlinear way that is more complicated than the one in the case of varying model distance. But from our results, one can check the following phenomena. If $\frac{\sigma^2}{\rho_2-1} > pd^2$, then the transfer is always positive. On the other hand, if $\frac{\sigma^2}{\rho_2-1} < pd^2$, then there is a transition from the positive transfer to negative transfer as $\rho_1/\rho_2$ increases.
-%Therefore, while the variance of MTL still reduces compared to STL,
-%If the bias increases more than the amount of variance reduced, we will observe negative transfer.
-%Figure \ref{fig_size} provides a simulation result for such a setting (described in Appendix \ref{app_synthetic}).
-%We observe that as $n_1 / n_2$ increases, there is a transition from positive to negative transfer.
-%There are several unexplained observations near $y = 0$ caused by the concentration error on the right-hand side of \eqref{cor_MTL_error}.
 
 \begin{example}[Covariate shift]\label{ex_covshift}
 %So far we have considered the isotropic model where $\Sigma_1 = \Sigma_2$.
 %This setting is relevant for settings where different tasks share the same input features such as multi-class image classification.
 %In general, the covariance matrices of the two tasks may be different such as in text classification.
-Our second example studies the effect of varying covariate shifts on the variance limit in equation \eqref{lem_cov_shift_eq}:
+Our second example focuses on how varying covariate shifts impacts the \textit{variance} limit in equation \eqref{lem_cov_shift_eq}, which shows that
 %in the left hand side of equation \eqref{lem_cov_shift_eq}:
 	\[ \bigtr{\Sigma^{(2)} \hat{\Sigma}^{-1}} \rightarrow \frac{1}{n_1 + n_2} \bigtr{\Sigma^{(2)} (a_1 \Sigma^{(1)} + a_2 \Sigma^{(2)})^{-1}}= \frac{1}{n_1 + n_2} \bigtr{(a_1 M^{\top} M + a_2 \id)^{-1}}. \]
 %As we are going to show later, covariate shift is accurately captured by the spectrum of $\Sigma^{1/2}\Sigma^{-1/2}$.
-Hence the variance limit is determined by the spectrum of $M$. To be clear, for this example we assume that the bias is $0$.
+Hence the variance limit is determined by the spectrum of $M$.% To be clear, for this example we assume that the bias is $0$.
 
-To illustrate this result, suppose that half of $M$'s singular values are equal to $\lambda > 1$ and the other half are equal to $\lambda^{-1}$.
+To illustrate the above result, suppose that half of $M$'s singular values are equal to $\lambda > 1$ and the other half are equal to $\lambda^{-1}$.
 In particular, when $\lambda = 1$, there is no covariate shift.
 As $\lambda$ increases, the severity of covariate shift increases.
 We observe the following dichotomy.
@@ -202,53 +189,26 @@ Using the fact that $a_1 + a_2 = 1 - \frac{p}{n_1 + n_2 }$, we can obtain that
 \begin{align*}
 	f(\lambda) - f(1) &= \left(\lambda^2 a_1 + \frac{n_1 + n_2 - p}{n_1 + n_2} - a_1\right)^{-1}
 	+ \left(\lambda^{-2} a_1 + \frac{n_1 + n_2 - p}{n_1 + n_2} - a_1\right)^{-1}  - \frac{2(n_1 + n_2)}{n_1 + n_2 - p} \\
-	&= \left(2a_1 - \frac{n_1 + n_2-p} {n_1 + n_2 }\right)\cdot (\lambda^2-1)^2  g(\lambda, a_1),
+	&= \left(2a_1 - \frac{n_1 + n_2-p} {n_1 + n_2 }\right)  g(\lambda, a_1), %\cdot (\lambda^2-1)^2
 \end{align*}
 where $g(\lambda, a_1) > 0$ is a fixed function and can be derived from algebraic calculations (details omitted).
-%Hence, whether or not $f(\lambda)$ is small than $f(1)$ depends on $a_1$.
-We now show that $a_1 \ge \frac{n_1 + n_2-p}{2(n_1 + n_2 )}$ if and only if $n_1 \ge n_2$, and hence explain the dichonomy. 
-%In Example \ref{ex_covshift}, with the fact $M=M^{-1}$, we observe that $a_1$ and $a_2$ play a symmetric role. 
-%in the self-consistent equations \eqref{lem_cov_shift_eq}.
-In fact, if $a_1>a_2$, then the equations in \eqref{eq_a12extra} give that $a_1> \frac{n_1 + n_2-p}{2 (n_1 + n_2)}$ and
+We now show that $a_1 \ge \frac{n_1 + n_2-p}{2(n_1 + n_2 )}$ if and only if $n_1 \ge n_2$, and hence explain the dichonomy.
+In fact, if $a_1>a_2$, then the equations in \eqref{eq_a12extra} give that $a_1> \frac{n_1 + n_2-p}{2 (n_1 + n_2)}$, and one can verify that
 $$ 
  \frac{n_1}{n_1 + n_2}=a_1 + \frac1{n_1 + n_2}\cdot \bigbrace{\sum_{i=1}^p \frac{\lambda_i^2 a_1}{\lambda_i^2 a_1 + a_2}} 
-> a_1 + \frac{p}{2(n_1+n_2)} \left(\frac{\lambda^2}{\lambda^2+1}+\frac{\lambda^{-2}}{\lambda^{-2}+1}\right) >\frac{1}{2}. 
+> a_1 + \frac{p}{2(n_1+n_2)} \left(\frac{\lambda^2}{\lambda^2+1}+\frac{\lambda^{-2}}{\lambda^{-2}+1}\right) =\frac{1}{2}.
 $$
 This implies $n_1>n_2$. Similarly, if $a_1<a_2$, equations in \eqref{eq_a12extra} give that $a_1 < \frac{n_1 + n_2-p}{2 (n_1 + n_2)}$ and $n_1<n_2$. Thus, we conclude that $f(\lambda) \ge f(1)$ if and only if $n_1 \ge n_2$. 
-
-
-\iffalse
-Hence, when $n_1 \ge n_2$, we have that $a_1 \ge a_2$, which gives $a_1 \ge \frac{1}{2}(1 - \frac{p}{n_1 + n_2 }) = \frac{n_1 + n_2-p}{2 (n_1 + n_2)}$.
-The other case when $n_1 < n_2$ is similar.
-A formal proof follows from a study of the self-consistent equations \eqref{eq_a12extra} and we omit the details.
-Thus, we conclude that $f(\lambda) \ge f(1)$ if and only if $n_1 \ge n_2$.  If $n_1< n_2$, then $f(\lambda)< f(1)$.
-\fi
-%\begin{proposition}[Source/target sample ratio]\label{prop_data_size}
-%	In the isotropic model, suppose that $\rho_1 > 40$ and $\rho_2 > 110$ are fixed constants, and $\Psi(\beta_1, \beta_2) > 2/(\rho_2 - 1)$.
-%	Then we have that
-%	\begin{itemize}
-%		\item \textbf{Positive transfer:} If $\frac{n_1}{n_2} = \frac{\rho_1}{\rho_2} < \frac{1}{\nu} \cdot \frac{1 - 2\rho_2^{-1}}{\Psi(\beta_1, \beta_2) (\rho_2 - 1) - \nu^{-1}}$, then w.h.p. $$\te(\hat{\beta}_2^{\MTL}) < \te(\hat{\beta}_2^{\STL}).$$
-%		\item \textbf{Negative transfer:} If $\frac{n_1}{n_2} = \frac{\rho_1}{\rho_2} > {\nu} \cdot \frac{1 - 2\rho_2^{-1}}{\Psi(\beta_1, \beta_2) (\rho_2 - 3/2) - \nu}$, then w.h.p. $$\te(\hat{\beta}_2^{\MTL}) > \te(\hat{\beta}_2^{\STL}).$$
-%	\end{itemize}
-%\end{proposition}
-%Proposition \ref{prop_data_size} describes the bias-variance tradeoff in terms of the sample ratio $\rho_1 / \rho_2$.
-
-
-%We apply the result to the setting of Figure \ref{fig_size} (described in Appendix \ref{app_synthetic}).
-%There are several unexplained observations near $y = 0$ caused by $\nu$.
-%The proof of Proposition \ref{prop_data_size} can be found in Appendix \ref{app_proof_32}.
-
-%Proposition \ref{prop_covariate} implies that when $\rho_1\gg \rho_2$, having no covariate shift is the optimal choice for choosing the source task.
-%This provides evidence that covariate shift is unfavorable when there are many source task datapoints,
-
-%We ask: is it better to have $M$ as being close to identity, or should $M$ involve varying levels of singular values?
-%Understanding this question has implications for applying normalization methods in multi-task learning \cite{LV19,CBLR18,YKGLHF20}.
-%We show that if $n_1$ is much larger than $n_2$, then the optimal $M$ matrix should be proportional to identity, under certain assumptions on its range of singular values (to be formulated in Proposition \ref{prop_covariate}).
-%On the other hand, if $n_1$ is comparable or even smaller than $n_2$, we show an example where having ``complementary'' covariance matrices is better performing than having the same covariance matrices.
 
 \paragraph{Overview of Stieltjes transform.}
 For the rest of this section, we present an overview of the proof of Theorem \ref{thm_main_RMT}.
 The central quantity of interest is the inverse of the sum of two sample covariance matrices $\hat{\Sigma}^{-1}$.
+We note that the variance equation $\tr[\Sigma^{(2)} \hat{\Sigma}^{-1}]$ is equal to $(n_1 + n_2)^{-1} \bigtr{W^{-1}}$, where $W$ is
+\begin{align}\label{eigen2extra}
+	W \define \frac{1}{n_1 + n_2}(\Lambda U^\top (Z^{(1)})^\top Z^{(1)} U\Lambda  + V^\top (Z^{(2)})^\top Z^{(2)}V).
+\end{align}
+This formulation is helpful because we know that ${Z^{(1)}}^{\top} Z^{(1)}$ and ${Z^{(2)}}^{\top} Z^{(2)}$ are both sample covariance matrices with isotropic population covariance, and $U, V$ are both orthonormal matrices.
+
 Our proof uses the Stieltjes transform or the resolvent method in random matrix theory.
 We briefly describe the key ideas and refer interested readers to classical texts such as  \citet{bai2009spectral,tao2012topics,erdos2017dynamical}.
 For any probability measure $\mu$ supported on $[0,\infty)$, the Stieltjes transform of $\mu$ is given by
@@ -256,13 +216,8 @@ $$m_\mu(z):= \int_0^\infty \frac{\dd\mu(x)}{x-z}, \ \ \text{ for any complex num
 The Stieltjes transform method reduces the study of a probability measure $\mu$ to the study of a complex function $m_\mu(z)$.
 %To study the trace of $\hat{\Sigma}^{-1}$, we consider the Stieltjes transform of its empirical spectral distribution.
 
-We define the matrix $W$ as follows
-\begin{align}\label{eigen2extra}
-	W \define \frac{1}{n_1 + n_2}(\Lambda U^\top (Z^{(1)})^\top Z^{(1)} U\Lambda  + V^\top (Z^{(2)})^\top Z^{(2)}V).
-\end{align}
-Recall that  $U\Lambda V^\top$ is the singular value decomposition of $M$, %$\Lambda$ consists of the singular values of $M$, $V$ is an orthonormal matrix, 
-and ${Z^{(1)}}^{\top} Z^{(1)}$ and ${Z^{(2)}}^{\top} Z^{(2)}$ are both sample covariance matrices with isotropic population covariance.
-It is not hard to verify that $(n_1 + n_2)\hat{\Sigma}^{-1}= (\Sigma^{(2)})^{-1/2} V W^{-1}V^\top (\Sigma^{(2)})^{-1/2}$ and $\tr[\Sigma^{(2)} \hat{\Sigma}^{-1}] = \bigtr{W^{-1}} / (n_1 + n_2)$.
+%Recall that  $U\Lambda V^\top$ is the singular value decomposition of $M$, %$\Lambda$ consists of the singular values of $M$, $V$ is an orthonormal matrix,
+%It is not hard to verify that $(n_1 + n_2)\hat{\Sigma}^{-1}= (\Sigma^{(2)})^{-1/2} V W^{-1}V^\top (\Sigma^{(2)})^{-1/2}$ and .
 Let $\mu=p^{-1}\sum_{i} \delta_{\sigma_i}$ denote the empirical spectral distribution of $W$, where $\sigma_i$'s are the eigenvalues of $W$ and $\delta_{\sigma_i}$ is the point mass measure at $\sigma_i$. Then it is easy to see that the Stieltjes transform of $\mu$ is equal to
  \[ m_{\mu}(z) \define \frac{1}{p}\sum_{i=1}^p \frac{1}{\sigma_i - z}= p^{-1}\tr\left[(W-z\id)^{-1}\right]. \]
 Above, the matrix $(W - z\id)^{-1}$ is known as $W$'s resolvent or Green's function.

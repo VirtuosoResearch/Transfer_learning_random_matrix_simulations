@@ -30,9 +30,9 @@ Regression analysis is arguably one of the most fundamental methods in statistic
 In many multi-task learning applications, the amount of labeled data from each dataset is usually insufficient for learning a single task.
 For example, this is the case if a dataset's sample size is only a small constant factor of the feature dimension \cite{GLUE}.
 In this paper, we consider multi-task learning in a \textit{high-dimensional} linear regression setting, where each dataset's sample size and the feature dimension grow linearly at a fixed ratio.
+The high-dimensional setting is challenging but is crucial for understanding how datasets' sample sizes impact generalization performance.
 We assume that there are multiple datasets that all follow a (potentially different) linear model.
 In each dataset, suppose the feature vector $x = {\Sigma}^{1/2} z$, where $z \in \real^p$ has i.i.d entries with mean zero, unit variance, and covariance $\Sigma \in\real^{p \times p}$ that is deterministic and positive semidefinite.
-The high-dimensional setting is challenging but is crucial for understanding how datasets' sample sizes impact generalization performance.
 
 We study a hard parameter sharing architecture to learn jointly from multiple datasets.
 In this architecture, there is a shared feature representation layer $B\in\real^{p\times r}$ for all tasks and a separate output layer $A_i \in \real^r$ for every task $i$.
@@ -107,14 +107,14 @@ Despite its simplicity, we show several rich phenomena by varying sample sizes a
 See Figure \ref{fig_intro_sample_size} for an illustration.
 
 \begin{figure}[!t]
-	\begin{subfigure}[b]{0.5\textwidth}
+	\begin{subfigure}[t]{0.5\textwidth}
 		\centering
-		\includegraphics[width=0.65\textwidth]{figures/mtl_model.pdf}
+		\includegraphics[width=0.5\textwidth,valign=t]{figures/mtl_model_arch.pdf}
 		\caption{A hard parameter sharing architecture}
 	\end{subfigure}\hfill
-	\begin{subfigure}[b]{0.5\textwidth}
+	\begin{subfigure}[t]{0.5\textwidth}
 		\centering
-		\includegraphics[width=0.9\textwidth]{figures/sample_ratio_c2_400.eps}
+		\includegraphics[width=0.713\textwidth,valign=t]{figures/sample_ratio_c2_400.eps}
 		\caption{Varying sample size ratio}
 		\label{fig_intro_sample_size_b}
 	\end{subfigure}
@@ -210,10 +210,10 @@ Consequently, we observe qualitative properties of hard parameter sharing for va
 
 There are two main ideas in our analysis. The proof of our first result uses a geometric intuition that hard parameter sharing finds a ``rank-$r$'' approximation of the datasets.
 We carefully keep track of the concentration error between the global minimum of $f(A, B)$ and their population version.
-The proof of our second result is significantly more involved because of different sample sizes and covariate shifts. Using some novel random matrix theory techniques developed recently \cite{Anisotropic}, we show that inverse of the sum of two sample covariance matrices with arbitrary population covariance matrices converge to a deterministic diagonal matrix asymptotically. Moreover, we can obtain a sharp bound on the concentration error. 
+The proof of our second result is significantly more involved because of different sample sizes and covariate shifts. Using recently developed techniques from the random matrix theory technique \cite{Anisotropic}, we show that inverse of the sum of two sample covariance matrices with arbitrary covariate shifts converges to a deterministic diagonal matrix asymptotically (cf. Theorem \ref{thm_main_RMT}(i)). % Moreover, we can obtain a sharp bound on the concentration error.
 % to obtain a sharp estimate on the..., which is commonly referred to as the \emph{local law}. 
 %\HZ{add several sentences on the technical insight} 
-One limitation of our analysis is that for two tasks with different sample sizes, there is extra error term in the prediction loss of hard parameter sharing (cf. equation \eqref{cor_MTL_error}), which can be large for very small $n_1$. This involves a study of the asymptotic singular values distribution of a certain non-symmetric random matrix, which requires new techniques beyond the ones used in this paper. 
+One limitation of our analysis is that for two tasks with different sample sizes, there is extra error term in the prediction loss of hard parameter sharing (cf. equation \eqref{cor_MTL_error}), which can be large for very small $n_1$. This requires studying the spectrum of non-symmetric random matrices, which is an intriguing open question (see Section \ref{sec_conclude} for more discussion).
 % plus an identity matrix,  due to lack of freeness
 %\HZ{add why this is challenging}
 
@@ -235,14 +235,14 @@ We focus our discussion on theoretical works, and refer interested readers to se
 The early work of \citet{B00,BS03,M06} have sought a study of multi-task learning from a theoretical perspective, often using uniform convergence or Rademacher complexity based techniques.
 An influential paper by \citet{BBCK10} provides uniform convergence bounds that combines multiple datasets in certain settings.
 One limitation of uniform convergence based techniques is that the results often assume that all  tasks have the same sample size, e.g. \citet{B00,MPR16}.
-To the best of our knowledge, we are not aware of any previous work that provide explicit generalization bounds under different sample sizes and covariate shifts.
+Secondly, these techniques do not apply to the high-dimensional setting, because the results usually require a sample size at least $p \log p$.
 
 Our proof techniques use the so-called local law of random matrices \cite{erdos2017dynamical}, which is a recent development in the random matrix theory literature.
 \citet{isotropic} first proved such a local law for sample covariance matrices with isotropic covariance.
-This result is later extended to non-identity covariance \cite{Anisotropic} and separable covariance matrices \cite{yang2019spiked}.
+\citet{Anisotropic} later extended this result to arbitrary covariances.
 %On the other hand, one may derive the asymptotic result in Theorem \ref{thm_main_RMT} with error $\oo(1)$ using the free addition of two independent random matrices in  theory .
 These techniques provide the most sharp convergence rates for the asymptotic limit compared to other techniques such as free probability \cite{nica2006lectures}.
-To the best of my knowledge, we are not aware of any previous result for the sum of two sample covariance matrices with arbitrary covariance matrices.
+To the best of our knowledge, we are not aware of any previous result for the inverse of the sum of two sample covariance matrices with arbitrary covariate shifts.
 
 The problem we study here is also related to high-dimensional prediction in transfer learning \cite{li2020transfer,bastani2020predicting} and distributed learning \cite{dobriban2018high}.
 For example, \citet{li2020transfer} provides minimax optimal rates for predicting a target regression task given multiple sparse regression tasks.
