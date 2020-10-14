@@ -6,8 +6,8 @@ Suppose we have $t$ datasets.
 For each dataset $i$ from $1$ to $t$, let $n_i$ denote its sample size.
 Let $X^{(i)} \in \real^{n_i \times p}$ denote dataset $i$'s feature covariates.
 We assume that the label vector $Y^{(i)} \in \real^{n_i}$ follows a linear model plus random noise.
-We study the standard hard parameter sharing architecture to learn jointly from multiple datasets.
-In this architecture, there is a shared feature representation layer $B\in\real^{p\times r}$ for all tasks and a separate output layer $A_i \in \real^r$ for every task $i$.
+We study the standard hard parameter sharing architecture:
+there is a shared feature representation layer $B\in\real^{p\times r}$ for all tasks and a separate output layer $A_i \in \real^r$ for every task $i$.
 See Figure \ref{fig_intro_arch} for an illustration.
 %The width of $B$, denoted by $r$, plays an important role in regularization.
 %As observed in Proposition 1 of \citet{WZR20}, if $r \ge t$, there is no regularization effect.
@@ -21,7 +21,7 @@ We study the following minimization problem:
 \begin{align}\label{eq_mtl}
 			f(A, B) = \sum_{i=1}^t \norm{X^{(i)} B A_i - Y^{(i)}}^2,
 \end{align}
-%\vspace{-0.1in}
+%\vspace{-0.05in}
 where $A = [A_1, A_2, \dots, A_t] \in \real^{r \times t}$.
 Given a solution $(\hat{A}, \hat{B})$ of $f(A, B)$ (which we will specify later), let $\hat{\beta}_i^{\MTL} = \hat{B} \hat{A}_i$ denote the HPS estimator for task $i$.
 The critical questions here are:
@@ -30,11 +30,11 @@ The critical questions here are:
 
 
 \textbf{Main results.}
-Our first result (Theorem \ref{thm_many_tasks}) applies to the multi-label prediction setting where all datasets have the same features, and we want to make multiple predictions (see e.g. \cite{hsu2009multi}).
-We analyze the global minimizer of $f(A, B)$, and provide a sharp generalization bound on its (out-of-sample) prediction loss for any task.
-This case is tractable even though in general, $f(A, B)$ is non-convex in $A$ and $B$ (e.g. matrix completion is a special case for suitably designed $X^{(i)}, Y^{(i)}$).
-We show that the prediction loss of HPS admits a clean bias-variance decomposition.
-Our results imply that in the same covariates setting where the sample sizes are also equal, HPS helps by reducing the variance compared to single-task learning, but hurts by increasing the bias.
+Our first result (Theorem \ref{thm_many_tasks}) applies to multi-label prediction settings where all datasets have the same features (and sample size), and we want to make multiple predictions (see e.g. \cite{hsu2009multi}).
+We analyze the global minimizer of $f(A, B)$, and provide a sharp bias-variance decomposition of its (out-of-sample) prediction loss for any task.
+This setting is tractable even though in general, $f(A, B)$ is non-convex in $A$ and $B$ (e.g. matrix completion is a special case for suitably designed $X^{(i)}, Y^{(i)}$).
+%We show that the prediction loss of HPS admits a clean bias-variance decomposition.
+Our result implies that when all tasks have the same covariates, HPS helps by reducing variance compared to single-task learning, but hurts by increasing bias.
 
 Our second result (Theorem \ref{thm_main_RMT}) applies to two tasks with arbitrarily different sample size ratios and population covariance matrices.
 We analyze the local minimizers of $f(A, B)$ and provide a sharp generalization bound on both tasks' prediction loss.
@@ -49,7 +49,7 @@ Consequently, using our precise loss estimates, we observe several qualitative p
 
 \textit{Sample size ratio (Example \ref{ex_sample_ratio})}: Increasing one task's sample size does not always help to reduce another task's loss. In a simplified setting, we find that the task loss either decreases first before increasing afterwards, or decreases monotonically depending on how fast the bias increases. These two trends result from different bias-variance tradeoffs. This result is surprising because previous generalization bounds in MTL typically scale down as the sample sizes of all tasks increase, thus do not apply for different sample sizes.
 
-\textit{Covariate shift (Example \ref{ex_covshift})}: In addition to sample sizes, variance also scales with the covariate shift between different datasets. For a large sample size ratio, HPS's  variance is smallest when there is no covariate shift. Counterintuitively, for a small sample size ratio, having covariate shifts reduces variance through a complementary spectrum.
+\textit{Covariate shift (Example \ref{ex_covshift})}: In addition to sample sizes, variance also scales with two datasets' covariate shifts. For a large sample size ratio, HPS's  variance is smallest when there is no covariate shift. Counterintuitively, for a small sample size ratio, having covariate shifts reduces variance through a complementary spectrum. We achieve this result through a novel characterization on the sum of two sample covariance matrices with arbitrary covariate shifts. See our discussion of proof techniques below for more details.
 %\end{enumerate}
 
 %First, we develop tight bounds for the bias and variance of the multi-task estimator for two tasks by applying recent development in random matrix theory \cite{erdos2017dynamical,isotropic,Anisotropic}.
@@ -195,16 +195,17 @@ One closely related work is \citet{WZR20}, which studied hard parameter sharing 
 The rest of this paper is organized as follows.
 In Section \ref{sec_same}, we present the bias-variance decomposition for hard parameter sharing.
 In Section \ref{sec_diff}, we present our technical results that describe how varying sample sizes and covariate shifts impact hard parameter sharing using random matrix theory.
-In Sections \ref{sec_simulation} and \ref{sec_text}, we validate our theory in both simulations and a real world classification task.
+In Sections \ref{sec_simulation} and \ref{sec_text}, we validate our theory in simulations and real world classification tasks.
 In Section \ref{sec_conclude}, we conclude the paper and describe several open questions.
+Section \ref{app_proof_error_same_cov} and \ref{appendix RMT} present proofs of our results.
 
 \textbf{Notations.}
 %Let $\cE \define [\varepsilon_1, \varepsilon_2, \dots, \varepsilon_t] \in \real^{n \times t}$ denote the random noise.
 %We can also write $Y = XB^{\star} + \cE$.
 %Let $A = [A_1, A_2, \dots, A_t] \in \real^{r\times t}$ be a matrix notation that contains all the output layer parameters.
-For an $n\times p$ matrix $X$, let $\lambda_{\min}(X)$ denote its smallest singular value and $\norm{X}$ denote its spectral norm.
-Let $\lambda_1(X) \ge \lambda_2(X) \ge \cdots \ge \lambda_{p\wedge n}(X)$ denote the singular values of $X$.
-Let $X^+$ denote the Moore-Penrose psuedoinverse.
+For an $n\times p$ matrix $X$, let $\lambda_{\min}(X)$ denote its smallest singular value and $\norm{X}$ denote its largest singular value.
+Let $\lambda_1(X), \lambda_2(X), \cdots, \lambda_{p\wedge n}(X)$ denote the singular values of $X$ in decreasing order.
+Let $X^+$ denote the Moore-Penrose psuedoinverse of $X$.
 We refer to random matrices of the form $\frac {X^\top X} n$ as sample covariance matrices.
 We say that an event $\Xi$ holds with high probability if the probability that $\Xi$ happens goes to $1$ as $p$ goes to infinity.
 %We shall use $\oo(1)$ to mean a small positive quantity that converges to 0 as $p$ goes to infinity.
