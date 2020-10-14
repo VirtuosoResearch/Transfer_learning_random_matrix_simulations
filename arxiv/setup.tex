@@ -7,7 +7,7 @@ For each dataset $i$ from $1$ to $t$, let $n_i$ denote its sample size.
 Let $X^{(i)} \in \real^{n_i \times p}$ denote dataset $i$'s feature covariates.
 We assume that the label vector $Y^{(i)} \in \real^{n_i}$ follows a linear model plus random noise.
 We study the standard hard parameter sharing architecture:
-there is a shared feature representation layer $B\in\real^{p\times r}$ for all tasks and a separate output layer $A_i \in \real^r$ for every task $i$.
+there is a shared feature representation layer $B\in\real^{p\times r}$ for all datasets and a separate output layer $A_i \in \real^r$ for every dataset $i$.
 See Figure \ref{fig_intro_arch} for an illustration.
 %The width of $B$, denoted by $r$, plays an important role in regularization.
 %As observed in Proposition 1 of \citet{WZR20}, if $r \ge t$, there is no regularization effect.
@@ -23,21 +23,21 @@ We study the following minimization problem:
 \end{align}
 %\vspace{-0.05in}
 where $A = [A_1, A_2, \dots, A_t] \in \real^{r \times t}$.
-Given a solution $(\hat{A}, \hat{B})$ of $f(A, B)$ (which we will specify below), let $\hat{\beta}_i^{\MTL} = \hat{B} \hat{A}_i$ denote the HPS estimator for task $i$.
+Given a solution of $f(A, B)$, denoted by $(\hat{A}, \hat{B})$  (which we will specify below), let $\hat{\beta}_i^{\MTL} = \hat{B} \hat{A}_i$ denote the HPS estimator for task $i$.
 The critical questions here are:
 (i) How well does the estimator work? In particular, how does the performance of the estimator scale with sample size?
 (ii) For datasets with different sample sizes and covariate shifts, how do they affect the estimator?
 
 
 \textbf{Main results.}
-Our first result (Theorem \ref{thm_many_tasks}) applies to multi-label prediction settings where all datasets have the same features (and sample size), and we want to make multiple predictions (see e.g. \cite{hsu2009multi}).
+Our first result (Theorem \ref{thm_many_tasks}) applies to multi-label prediction settings where all datasets have the same features (and sample size), and we want to make several predictions for every input (cf. examples in \citet{hsu2009multi}).
 We analyze the global minimizer of $f(A, B)$, and provide a sharp bias-variance decomposition of its (out-of-sample) prediction loss for any task.
 This setting is tractable even though in general, $f(A, B)$ is non-convex in $A$ and $B$ (e.g. matrix completion is a special case for suitably designed $X^{(i)}, Y^{(i)}$).
 %We show that the prediction loss of HPS admits a clean bias-variance decomposition.
 Our result implies that when all tasks have the same covariates, HPS helps by reducing variance compared to single-task learning, but hurts by increasing bias.
 
-Our second result (Theorem \ref{thm_main_RMT}) applies to two tasks with arbitrarily different sample size ratios and population covariance matrices.
-We analyze the local minimizers of $f(A, B)$ and provide a sharp generalization bound on both tasks' prediction loss.
+Our second result (Theorem \ref{thm_main_RMT}) applies to two tasks with arbitrarily different sample size ratios and covariate shifts.
+While we no longer have a characterization of $f(A, B)$'s global minimum because of non-convexity, for any local minimizer of $f(A, B)$, we provide a sharp bias-variance tradeoff of both tasks' prediction loss.
 Despite its simplicity, we show several interesting phenomena by varying sample sizes and covariate shifts in this setting.
 See Figure \ref{fig_intro_sample_size} for an illustration.
 Consequently, using our precise loss estimates, we observe several qualitative properties of hard parameter sharing for varying datasets' properties.
@@ -135,12 +135,12 @@ We conduct further studies of this procedure on six text classification datasets
 
 \textbf{Proof techniques.}
 There are two main ideas in our analysis. The proof of our first result uses a geometric intuition that hard parameter sharing finds a ``rank-$r$'' approximation of the datasets.
-We carefully keep track of the concentration error between the global minimum of $f(A, B)$ and its population version.
+We carefully keep track of the concentration error between the global minimizer of $f(A, B)$ and its population version (cf. equation \eqref{eq_A_star}).
 The proof of our second result is significantly more involved because of different sample sizes and covariate shifts. Using recently developed techniques from random matrix theory \cite{Anisotropic}, we show that the inverse of the sum of two sample covariance matrices with arbitrary covariate shifts converges to a deterministic diagonal matrix asymptotically (cf. Theorem \ref{thm_main_RMT}). % Moreover, we can obtain a sharp bound on the concentration error.
 % to obtain a sharp estimate on the..., which is commonly referred to as the \emph{local law}.
 %\HZ{add several sentences on the technical insight}
-One limitation of our analysis is that in Example \ref{ex_sample_ratio}, there is an error term that can result in vacuous bounds equation for very small $n_1$ (cf. equation \eqref{cor_MTL_error})).
-We believe that our analysis has provided important initial insight and it is an interesting question to tighten our result (see Section \ref{sec_conclude} for more discussion).
+One limitation of our analysis is that in Example \ref{ex_sample_ratio}, there is an error term that can result in vacuous bounds for very small $n_1$ (cf. equation \eqref{cor_MTL_error})).
+We believe that our analysis has provided important initial insight and it is an interesting question to tighten our result.
 
 %This part introduces a positive variance reduction effect from adding the source labels.
 %Hence, whether $\te(\hat{\beta}_t^{\MTL}) < \te(\hat{\beta}_t^{\STL})$ is determined precisely by the tradeoff between the negative effect of the bias term and the positive effect of the variance term!
@@ -167,7 +167,8 @@ To the best of our knowledge, we are not aware of any previous results about the
 The problem we study here is also related to high-dimensional prediction in transfer learning \cite{li2020transfer,bastani2020predicting} and distributed learning \cite{dobriban2018high}.
 For example, \citet{li2020transfer} provides minimax optimal rates for predicting a target regression task given multiple sparse regression tasks.
 One closely related work is \citet{WZR20}, which studied hard parameter sharing for two linear regression tasks.
-\citet{WZR20} (and an earlier work by \citet{KD12}) observed that the shared layer size $r$ in hard parameter sharing plays a critical role of regularization.
+However, their results only apply to sample size regimes at least logarithmic factors of dimension.
+%\citet{WZR20} (and an earlier work by \citet{KD12}) observed that the shared layer size $r$ in hard parameter sharing plays a critical role of regularization.
 %Linear models in multi-task learning have been studied in various settings, including online learning \cite{CCG10,DCSP18}, sparse regression \cite{LPTV09,LPVT11}, and representation learning \cite{BHKL19}.
 
 %Our setting is closely related to domain adaptation \cite{DM06,BB07,BC08,DH09,MMR09,CWB11,ZS13,NB17,ZD19}.
