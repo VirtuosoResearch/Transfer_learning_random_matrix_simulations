@@ -23,7 +23,7 @@ We study the following minimization problem:
 \end{align}
 %\vspace{-0.05in}
 where $A = [A_1, A_2, \dots, A_t] \in \real^{r \times t}$.
-Given a solution $(\hat{A}, \hat{B})$ of $f(A, B)$ (which we will specify later), let $\hat{\beta}_i^{\MTL} = \hat{B} \hat{A}_i$ denote the HPS estimator for task $i$.
+Given a solution $(\hat{A}, \hat{B})$ of $f(A, B)$ (which we will specify below), let $\hat{\beta}_i^{\MTL} = \hat{B} \hat{A}_i$ denote the HPS estimator for task $i$.
 The critical questions here are:
 (i) How well does the estimator work? In particular, how does the performance of the estimator scale with sample size?
 (ii) For datasets with different sample sizes and covariate shifts, how do they affect the estimator?
@@ -49,7 +49,7 @@ Consequently, using our precise loss estimates, we observe several qualitative p
 
 \textit{Sample size ratio (Example \ref{ex_sample_ratio})}: Increasing one task's sample size does not always help to reduce another task's loss. In a simplified setting, we find that the task loss either decreases first before increasing afterwards, or decreases monotonically depending on how fast the bias increases. These two trends result from different bias-variance tradeoffs. This result is surprising because previous generalization bounds in MTL typically scale down as the sample sizes of all tasks increase, thus do not apply for different sample sizes.
 
-\textit{Covariate shift (Example \ref{ex_covshift})}: In addition to sample sizes, variance also scales with two datasets' covariate shifts. For a large sample size ratio, HPS's  variance is smallest when there is no covariate shift. Counterintuitively, for a small sample size ratio, having covariate shifts reduces variance through a complementary spectrum. We achieve this result through a novel characterization on the sum of two sample covariance matrices with arbitrary covariate shifts. See our discussion of proof techniques below for more details.
+\textit{Covariate shift (Example \ref{ex_covshift})}: In addition to sample sizes, variance also scales with two datasets' covariate shifts. For a large sample size ratio, HPS's  variance is smallest when there is no covariate shift. Counterintuitively, for a small sample size ratio, having covariate shifts reduces variance through a complementary spectrum. We achieve this result through a novel characterization on the inverse of the sum of two sample covariance matrices with arbitrary covariate shifts. See our discussion of proof techniques below for details.
 %\end{enumerate}
 
 %First, we develop tight bounds for the bias and variance of the multi-task estimator for two tasks by applying recent development in random matrix theory \cite{erdos2017dynamical,isotropic,Anisotropic}.
@@ -196,8 +196,8 @@ The rest of this paper is organized as follows.
 In Section \ref{sec_same}, we present the bias-variance decomposition for hard parameter sharing.
 In Section \ref{sec_diff}, we present our technical results that describe how varying sample sizes and covariate shifts impact hard parameter sharing using random matrix theory.
 In Sections \ref{sec_simulation} and \ref{sec_text}, we validate our theory in simulations and real world classification tasks.
-In Section \ref{sec_conclude}, we conclude the paper and describe several open questions.
-Section \ref{app_proof_error_same_cov} and \ref{appendix RMT} present proofs of our results.
+In Section \ref{sec_conclude}, we summarize our work and discuss future work.
+Section \ref{app_proof_error_same_cov}, \ref{appendix RMT}, and \ref{app_iso_cov} present proofs of our results.
 
 \textbf{Notations.}
 %Let $\cE \define [\varepsilon_1, \varepsilon_2, \dots, \varepsilon_t] \in \real^{n \times t}$ denote the random noise.
