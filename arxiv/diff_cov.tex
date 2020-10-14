@@ -26,14 +26,15 @@ By solving $B$ in equation \eqref{eq_mtl}, we obtain the hard parameter sharing 
 \end{align}
 The matrix $\hat{\Sigma}$ adds up both tasks' sample covariance matrices, and the expectation of $\hat{\Sigma}$ is equal to a mixture of their population covariance matrices, with mixing proportions determined by their sample sizes.
 
-To derive the bias and variance equation, we consider the expected loss conditional on the covariates as follows (the empirical loss is close to its expectation similar to Claim \ref{claim_pred_err}):
+ To derive the bias and variance equation, we consider the expected loss conditional on the covariates as follows (the empirical loss is actually close to this expectation as will be shown in equation \eqref{claim_largedev2}):
+ %similar to Claim \ref{claim_pred_err}
 \begin{align}
 	& \exarg{\cE}{L(\hat{\beta}_2^{\MTL}) \mid X^{(1)}, X^{(2)}}  \nonumber \\
 	=& \bignorm{{\Sigma^{(2)}}^{1/2} \hat{\Sigma}^{-1} {X^{(1)}}^{\top} X^{(1)} (\beta^{(1)} - \beta^{(2)})}^2 \label{eq_bias_2task} \\
 	& + \sigma^2 \bigtr{\Sigma^{(2)}\hat{\Sigma}^{-1}}. \label{eq_variance_2task}
 \end{align}
-Equation \eqref{eq_bias_2task} and \eqref{eq_variance_2task} correspond to the bias and variance of hard parameter sharing for two tasks, respectively.
-Our main result in this section characterizes the asymptotic bias-variance limits under the high-dimensional assumption.
+Equations \eqref{eq_bias_2task} and \eqref{eq_variance_2task} correspond to the bias and variance of hard parameter sharing for two tasks, respectively.
+Our main result in this section characterizes the asymptotic bias-variance limits in the high-dimensional setting.
 Intuitively, the spectrum of $\hat{\Sigma}^{-1}$ (and hence its trace) not only depends on both tasks' sample sizes, but also depends on the ``alignment'' between $\Sigma^{(1)}$ and $\Sigma^{(2)}$.
 However, capturing this intuition quantitatively turns out to be technically challenging.
 %The main technical challenge of our result deals with the ``covariate shift'' between tasks one and two.
@@ -43,25 +44,25 @@ Let $U\Lambda V^\top$ denote the SVD of $M$ and let $\lambda_1, \lambda_2, \dots
 Our main result is stated as follows.
 
 \begin{theorem}\label{thm_main_RMT}
-	Let $c_{\varphi}$ be a fixed value in $(0, \frac{\varphi - 4}{2\varphi})$.
+	Let $c_{\varphi}$ be any fixed value within $(0, \frac{\varphi - 4}{2\varphi})$.
 	Assume that: a) the sample sizes $n_1$ and $n_2$ both satisfy Assumption \ref{assume_rm};
 	b) $M$'s singular values are all greater than $\tau$ and less than $1/\tau$;
 	c) task one's sample size is greater than $\tau p$ and task two's sample size is greater than $(1 + \tau) p$.
 	With high probability over the randomness of $X^{(1)}$ and $X^{(2)}$, we have that
 	the variance equation \eqref{eq_variance_2task} satisfies the following estimate with high probability:
-			\begin{align}\label{lem_cov_shift_eq}
-				&\bigabs{\bigtr{\Sigma^{(2)} \bigbrace{\frac{n_1 + n_2}p{\hat{\Sigma}^{-1}} - \frac{(a_1 \Sigma^{(1)} + a_2 \Sigma^{(2)})^{-1}}{p} }}} \nonumber \\
-			&\le  p^{-c_{\varphi}}, %\norm{\Sigma^{(2)}},
+			\begin{align}
+				&\bigabs{\bigtr{\Sigma^{(2)} \bigbrace{ {\hat{\Sigma}^{-1}} - \frac{(a_1 \Sigma^{(1)} + a_2 \Sigma^{(2)})^{-1}}{n_1+n_2} }}}\nonumber \\
+				&\le  p^{-c_{\varphi}}, \label{lem_cov_shift_eq} %\norm{\Sigma^{(2)}},
 			\end{align}
 			where $a_1$ and $a_2$ are the solutions of the following self-consistent equations
 			\begin{align}
-				&a_1 + a_2 = 1- \frac{p}{n_1 + n_2},\\
+				&a_1 + a_2 = 1- \frac{p}{n_1 + n_2},\label{eq_a12extra000}\\
 				&a_1 + \frac1{n_1 + n_2}\cdot \bigbrace{\sum_{i=1}^p \frac{\lambda_i^2 a_1}{\lambda_i^2 a_1 + a_2}} = \frac{n_1}{n_1 + n_2}. \label{eq_a12extra}
 			\end{align}
 \end{theorem}
 The bias limit can be found in Section \ref{appendix RMT}.
 Our result extends Fact \ref{fact_tr} to the inverse of the sum of two sample covariance matrices.
-To see this, when $n_1$ is zero, we solve equation \eqref{eq_a12extra} and obtain $a_1 = 0$ and $a_2 = (n_2-p) / n_2$, and apply these solutions to equation \eqref{lem_cov_shift_eq}.
+To see this, when $n_1$ is zero, we solve equations \eqref{eq_a12extra000} and  \eqref{eq_a12extra} to obtain that $a_1 = 0$ and $a_2 = (n_2-p) / n_2$, and apply these solutions to equation \eqref{lem_cov_shift_eq}.
 We also remark that for general $A_1$ and $A_2$ that are not equal to 1, we need to replace $\hat \Sigma$ with $\frac{A_1^2}{A_2^2}{X^{(1)}}^{\top} X^{(1)} + {X^{(2)}}^{\top} X^{(2)}$.
 This amounts to replacing $M$ with $\frac{A_1}{A_2}M$ in Theorem \ref{thm_main_RMT}.
 
@@ -202,6 +203,16 @@ Using the fact that $a_1 + a_2 = 1 - \frac{p}{n_1 + n_2 }$, we can obtain that
 \end{align*}
 where $g(\lambda, a_1) > 0$ is a fixed function and can be derived from algebraic calculations (details omitted).
 We now show that $a_1 \ge \frac{n_1 + n_2-p}{2(n_1 + n_2 )}$ if and only if $n_1 \ge n_2$, and hence explain the dichonomy.
+
+\iffalse
+In Example \ref{ex_covshift}, $a_1$ and $a_2$ have a symmetric role in the self-consistent equations \eqref{lem_cov_shift_eq}.
+Hence, when $n_1 \ge n_2$, we have that $a_1 \ge a_2$, hence $a_1 \ge \frac{1}{2}(1 - \frac{p}{n_1 + n_2 - p}) = \frac{n_1 + n_2}{2 (n_1 + n_2 - p)}$.
+The other case when $n_1 < n_2$ is similar.
+A formal proof requires solving the self-consistent equations \eqref{lem_cov_shift_eq} and we omit the details.
+Thus, we conclude that if $n_1 \ge n_2$, then $f(\lambda) > f(1)$.
+If $n_1< n_2$, then $f(\lambda)< f(1)$.
+\fi
+
 In fact, if $a_1>a_2$, then the equations in \eqref{eq_a12extra} give that $a_1> \frac{n_1 + n_2-p}{2 (n_1 + n_2)}$, and one can verify that
 \begin{align*}
  \frac{n_1}{n_1 + n_2} &=a_1 + \frac1{n_1 + n_2}\cdot \bigbrace{\sum_{i=1}^p \frac{\lambda_i^2 a_1}{\lambda_i^2 a_1 + a_2}} \\
