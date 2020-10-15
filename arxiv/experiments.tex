@@ -1,11 +1,13 @@
+\vspace{-0.05in}
 \section{Simulation Studies}\label{sec_simulation}
+\vspace{-0.05in}
 
 We demonstrate the accuracy of our results in simulations.
 While our theory is asymptotic (with error terms that are negligible when $p$ is sufficiently large), we observe that they are incredibly accurate in a moderate dimension of $p = 200$.
 
 \textbf{Sample efficiency.}
 First, we validate the result of Example \ref{ex_same_cov}.
-Figure \ref{fig_same_cov} shows the average prediction loss as we increase the number of samples per-task   from $400$ to $2000$.
+Figure \ref{fig_same_cov} shows the average prediction loss over ten tasks as we increase the number of samples per-task from $400$ to $2000$.
 In all the parameter settings, our results estimate the empirical losses accurately.
 We also observe a trend that the average prediction loss increases as we increase distance $d$ from $0.1$ to $0.2$.
 Our work explains the differences between these two settings since $d^2 = 0.1^2$ is always smaller than $\frac{\sigma^2 p}{n - p}$, but $d^2 = 0.2^2$ is not.
@@ -15,11 +17,11 @@ Finally, for $d = 0.2$, looking horizontally, we find that HPS requires fewer sa
 
 \textbf{Sample size ratio.}
 Second, we validate the result of Example \ref{ex_sample_ratio}.
-Figure \ref{fig_size} shows task two's prediction loss as we increase the sample ratio $n_1 / n_2$ from $1/10$ to $7/10$.
+Figure \ref{fig_size} shows task two's prediction loss  as we increase the sample ratio $n_1 / n_2$ from $1/10$ to $7/10$.
 %Again, our estimates are accurate compared to the empirical losses.
 We consider a regime where task two consists of $80,000$ samples, and task one's sample size varies from $8,000$ to $56,000$. 
-The task-specific variance is $d^2 = 0.08$, the noise variance is $\sigma^2 = 4^2$, and the shared signal variance is $1$. We observe that as we increase the sample ratio, task two's prediction loss decreases initially but later will increase when the sample ratio is above a certain level.
-On the other hand, when $d^2 = 0.045$, task two's prediction loss decreases faster.
+The task-specific variance (which scales with model distance) is $d = 0.2$, the noise variance is $\sigma^2 = 4^2$, and the shared signal variance is $1$. We observe that as we increase the sample ratio, task two's prediction loss decreases initially but later will increase when the sample ratio is above a certain level.
+On the other hand, when $d = 0.15$, task two's prediction loss decreases faster.
 Intuitively, this is because bias increases less for smaller $d^2$.
 %Our result from Corollary \ref{cor_MTL_loss} explains this trend.
 
