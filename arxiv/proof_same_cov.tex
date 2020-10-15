@@ -42,20 +42,20 @@
 	\end{proof}
 	
 Next we present the proof of Claim \ref{claim_opt_dist}, Claim \ref{lem_exp_opt}, and Claim \ref{claim_pred_err}. 
-	\paragraph{Proof of Claim \ref{lem_exp_opt}.}
+	\begin{proof}[Proof of Claim \ref{lem_exp_opt}]
 	To facilitate the analysis, we consider the following matrix notations.
 	Denote
 		%\[ \cE A^{\top} := {\sum_{k=1}^t \varepsilon^{(k)} A_k^{\top}}, \]
-\[\cE  :=[\epsilon^{(1)},\epsilon^{(2)},\cdots, \epsilon^{(t)}],  \quad \text{ and } \quad \cW \define X(X^{\top} X)^{-1} X^{\top} \cE A^{\top} (AA^{\top})^{\dag}. \]
+\[\cE  :=[\epsilon^{(1)},\epsilon^{(2)},\cdots, \epsilon^{(t)}],  \quad \text{ and } \quad \cW \define X(X^{\top} X)^{-1} X^{\top} \cE A^{\top} (AA^{\top})^{+}. \]
 	For any $j = 1,2,\dots, t$, let
 	\begin{align*}
 		H_j &\define B^{\star} A^{\top} (AA^{\top})^{+} A_j - \beta^{(j)}, \quad \text{ and } \quad E_j \define \cW A_j - \varepsilon^{(j)}.
 	\end{align*}
-	Then, we can write the function $g(A)$ conveniently as
+	Then we can write the function $g(A)$ conveniently as
 	\[ g(A) = \sum_{j=1}^t \bignorm{X H_j + E_j}^2. \]
 	We will divide $g(A)$ into three parts.
-	We will use matrix notations in the proof since they are more compact.
-	That is, stacking $[H_j]_j$ gives matrix $B^{\star} A^{\top} (AA^{\top}) A - B^{\star}$,
+	For simplicity, we will use matrix notations in the proof, %since they are more compact.
+	that is, stacking $[H_j]_j$ gives matrix $B^{\star} A^{\top} (AA^{\top}) A - B^{\star}$,
 	and stacking $[E_j]_j$ gives $\cW A - \cE$.
 
 	\paragraph{Part 1:} The first part is the square of $XH_j$,
@@ -64,23 +64,23 @@ Next we present the proof of Claim \ref{claim_opt_dist}, Claim \ref{lem_exp_opt}
 		= \bignormFro{X (B^{\star} A^{\top} (AA^{\top}) A - B^{\star})}^2
 		= \bignormFro{X (B^{\star} U_A U_A^{\top} - B^{\star})}^2,
 	\end{align}
-	where $U_{A} U_{A}^{\top} \in\real^{t\times t}$ denotes the subspace $ {A}^{\top} ( {A}{A}^{\top})^{+}  {A}$.
+	where $U_{A} U_{A}^{\top} \in\real^{t\times t}$ denotes the subspace projection $ {A}^{\top} ( {A}{A}^{\top})^{+}  {A}$.
 	Taking expectation of equation \eqref{eq_gA_p1} over $X$, we get
-		\[ \bignorm{\Sigma^{1/2}(B^{\star} U_A U_A^{\top} - B^{\star})}^2. \]
+		\[ \sum_{j=1}^t \bignorm{X H_j}^2=n\bignorm{\Sigma^{1/2}(B^{\star} U_A U_A^{\top} - B^{\star})}^2. \]
 
-	\paragraph{Part 2:} The second part is the cross term, which is equal to the following using the matrix notations
+	\paragraph{Part 2:} The second part is the cross term, which is equal to the following using the matrix notations:
 	\begin{align}\label{eq_gA_p2}
 		\sum_{j=1}^t\inner{XH_j}{E_j} = \inner{X(B^{\star} U_A U_A^{\top} - B^{\star})}{\cW A - \cE}
 		= - \inner{X (B^{\star} U_A U_A^{\top} - B^{\star})}{\cE},
 	\end{align}
 	which is zero in expectation over $\cE$.
 
-	\paragraph{Part 3:} The last part is the square of $E_j$,
+	\paragraph{Part 3:} The last part is the square of $E_j$:
 	\begin{align}\label{eq_gA_p3}
 		\sum_{j=1}^t \norm{E_j}^2 &= \bignormFro{\cW A - \cE}^2
 		= \bignormFro{\cE}^2 - \inner{\cW A}{\cE},
 	\end{align}
-	which is because $\norm{\cW A}^2 = \inner{\cW A}{\cE}$ by algebraic calculation.
+	where in the second step we used $\norm{\cW A}^2 = \inner{\cW A}{\cE}$ by algebraic calculation.
 	Hence, it suffices to show that the expectation of equation \eqref{eq_gA_p3} is equal to $\sigma^2 (n\cdot t - p\cdot r)$.
 	First, we have that $\ex{\|\cE\|_F^2} = \sigma^2 \cdot n \cdot t$.
 %	Conditional on $X$, we have that
@@ -89,31 +89,32 @@ Next we present the proof of Claim \ref{claim_opt_dist}, Claim \ref{lem_exp_opt}
 %		= \exarg{\cE}{\sum_{j=1}^t \bigbrace{\bignorm{\cW A_j}^2 - 2\inner{\cW A_j}{\varepsilon^{(j)}} }} + \sigma^2 \cdot n \cdot t.
 %	\end{align*}
 %	We consider both terms in the above equation one by one.
-	Second, notice that for $U_XU_X^\top:=X(X^{\top} X)^{-1} X^{\top}$ and $1\le i, j \le t$,
+	Second, notice that for the subspace projection $U_XU_X^\top:=X(X^{\top} X)^{-1} X^{\top}$ and $1\le i, j \le t$,
 	%\begin{align}
 	%	\sum_{j=1}^t \norm{\cW A_j}^2 = \sum_{j=1}^t \bigtr{\cW A_j A_j^{\top} \cW^{\top}} = \bigtr{\cW AA^{\top} \cW^{\top}} = \bigtr{U_X U_X^{\top} \cE A^{\top} (AA^{\top})^{-1} A \cE^{\top}}. \label{eq_proof_same_cov_1}
 	%\end{align}
 	%We observe that
 	\begin{align*}
-			\exarg{\cE}{(\cE^{\top}U_XU_X^\top \cE)_{ij} }
+			 \exarg{\cE}{(\cE^{\top}U_XU_X^\top \cE)_{ij} }
 		&= \exarg{\cE}{{\varepsilon^{(i)}}^\top U_X U_X^\top  \varepsilon^{(j)} } = \sigma^2 \cdot \tr\left( U_XU_X^\top \right) \cdot \delta_{ij} = p\sigma^2 \cdot \delta_{ij},
 	\end{align*}
 	which implies that $\exarg{\cE}{\cE^{\top}U_XU_X^\top \cE }=p\sigma^2 \cdot \id_{t\times t}$.
-	In the above derivation, the second step used the fact that $\E(\varepsilon^{(i)}_k \varepsilon^{(i)}_l )=\sigma^2\cdot \delta_{ij}\delta_{kl}$ for $1\le k,l \le n$, and the third step used the fact that $\tr(U_XU_X^\top) =\tr(U_X^\top U_X) =p$.
+	Above, the second step used the fact that $\E(\varepsilon^{(i)}_k \varepsilon^{(i)}_l )=\sigma^2\cdot \delta_{ij}\delta_{kl}$ for $1\le k,l \le n$, and the third step used the fact that $\tr(U_XU_X^\top) =\tr(U_X^\top U_X) =p$.
 	Therefore, we have that
 %	\begin{align*}
 %		\inner{\cW A}{\cE} = \sigma^2 \cdot r \cdot \bigtr{U_X U_X^{\top}} = \sigma^2 \cdot r \cdot p,
 %	\end{align*}
 %because $U_X$ has rank $p$ by Fact \ref{lem_minv}.
 	\begin{align*}
-		\exarg{\cE}{ \inner{\cW A}{\cE}} = p\sigma^2 \cdot \bigtr{\id_{t\times t}U_AU_A^\top} =  p \sigma^2 \cdot r ,
+		\exarg{\cE}{ \inner{\cW A}{\cE}} =\E \bigtr{\cal E^\top U_X U_X^\top \cal E U_AU_A^\top}= p\sigma^2 \cdot \bigtr{ U_AU_A^\top} =  p \sigma^2 \cdot r ,
 			\end{align*}
    because $U_AU_A^\top$ has rank $r$.	
 	%Next, note that
 	%\[ \sum_{j=1}^t \inner{\cW A_j}{\varepsilon^{(j)}} = \bigtr{\cW A\cE^{\top}}, \]
 	%which is equal to equation \eqref{eq_proof_same_cov_1} by the definition of $\cW$.
-	Hence the proof is complete.
 	
+	Combining the above three parts, the proof of Claim \ref{lem_exp_opt} is completed.
+	\end{proof}
 	
 	\iffalse
 	Second, notice that
@@ -140,9 +141,9 @@ Next we present the proof of Claim \ref{claim_opt_dist}, Claim \ref{lem_exp_opt}
 	Hence the proof is complete.
 \fi
 
-	\paragraph{Proof of Claim \ref{claim_opt_dist}.}
+	\begin{proof}[Proof of Claim \ref{claim_opt_dist}]
 	Corresponding to the right-hand side of \eqref{eq_gA}, we define the function
-	\be\label{same_hA}h(A):= n \bignormFro{\Sigma^{1/2} B^{\star} \bigbrace{A^{\top} (AA^{\top})^{\dagger} A - \id_{t\times t}}}^2 + \sigma^2 (n\cdot t - p \cdot r).\ee
+	\be\label{same_hA}h(A):= n \bignormFro{\Sigma^{1/2} B^{\star} \bigbrace{A^{\top} (AA^{\top})^{+} A - \id_{t\times t}}}^2 + \sigma^2 (n\cdot t - p \cdot r).\ee
 	In order to show that the $U_{\hat{A}}U_{\hat{A}}^\top$ is close to $A^\star {A^\star}^\top$, we first show that $g(A)$ is close to $h(A)$ as follows:
 	\begin{align}\label{eq_gA_err}
 		\bigabs{g(A) - h(A)} \lesssim  n^{-c_{\varphi}} \cdot n \bignorm{\Sigma^{1/2} B^{\star} (U_AU_A^{\top} - \id_{t\times t})}^2 + n^{-c_{\infty}} \cdot \sigma^2 \cdot n \cdot t,
@@ -158,7 +159,7 @@ Next we present the proof of Claim \ref{claim_opt_dist}, Claim \ref{lem_exp_opt}
 %	note that $X H_j = Z \Sigma^{1/2} H_j \in \real^n$ is a random vector with i.i.d. entries of mean zero, variance $\|\Sigma^{1/2}H_j\|^2$, and finite $\varphi$-th moment by Assumption \eqref{assume_rm}.
 %	Hence by the law of large numbers, we have that with high probability	
 	applying Corollary \ref{cor_largedeviation} to $X H_j = Z \Sigma^{1/2} H_j$, we obtain that 
-	${\left\|Z \Sigma^{1/2} H_j \right\|^2 } = { n \|\Sigma^{1/2} H_j\|^2} \cdot (1 + \OO(p^{-c_\varphi}))$ with high probability. 
+	${\left\|Z \Sigma^{1/2} H_j \right\|^2 } = { n \|\Sigma^{1/2} H_j\|^2} \cdot (1 + \OO(n^{-c_\varphi}))$ with high probability. 
 	%, for a small enough constant $\e$,
 	This implies that
 	\begin{align}
@@ -167,17 +168,17 @@ Next we present the proof of Claim \ref{claim_opt_dist}, Claim \ref{lem_exp_opt}
 
 	For equation \eqref{eq_gA_p2}, 
 	%using Lemma \ref{largedeviation} in Appendix \ref{app_tool} and the fact that all moments of $\varepsilon_i$ exist by Assumption \eqref{assmAhigh2}, 
-	using Corollary \ref{cor_calE}, we obtain that the following holds with high probability for any small constant $\e>0$:
+	using Corollary \ref{cor_calE}, we obtain the following with high probability for any small constant $\e>0$:
 	\begin{align}
-		|\inner{XB^{\star} (U_AU_A^{\top} - \id)}{\cE}| &\le n^\e \cdot \sigma \cdot \bignormFro{XB^{\star} (U_AU_A^{\top} - \id)} \nonumber \\
-		&\le n^{\e} \cdot \sigma \cdot \norm{Z} \cdot \bignormFro{\Sigma^{1/2} B^{\star}(U_AU_A^{\top} -\id)} \nonumber \\
-		&\lesssim n^{\e} \cdot \sigma \cdot \sqrt{n}\cdot \sqrt{t}\bignorm{\Sigma^{1/2} B^{\star}(U_AU_A^{\top} -\id)} \nonumber \\
-		&\le  n^{c_\infty +c} \cdot \bignorm{\Sigma^{1/2} B^{\star} (U_AU_A^{\top} - \id_{t\times t})}^2 + n^{-c_{\infty}} \cdot \sigma^2 \cdot n \cdot t
+		|\inner{XB^{\star} (U_AU_A^{\top} - \id_{t\times t})}{\cE}| &\le n^\e \cdot \sigma \cdot \bignormFro{XB^{\star} (U_AU_A^{\top} - \id_{t\times t})} \nonumber \\
+		&\le n^{\e} \cdot \sigma \cdot \norm{Z} \cdot \bignormFro{\Sigma^{1/2} B^{\star}(U_AU_A^{\top} -\id_{t\times t})} \nonumber \\
+		&\lesssim n^{\e} \cdot \sigma \cdot \sqrt{n}\cdot \sqrt{t}\bignorm{\Sigma^{1/2} B^{\star}(U_AU_A^{\top} -\id_{t\times t})} \nonumber \\
+		&\le  n^{c_\infty +c} \cdot \bignorm{\Sigma^{1/2} B^{\star} (U_AU_A^{\top} - \id_{t\times t})}^2 + n^{-c_{\infty}} \cdot \sigma^2 \cdot n \cdot t,
 		\label{eq_gA_err2}
 	\end{align}
-	which is bounded by the right hand side of equation \eqref{eq_gA_err} as long as $c$ is taken sufficiently small.
+	which is bounded by the right hand side of equation \eqref{eq_gA_err} as long as $c$ is sufficiently small.
 	In the second step, we used the fact that $X=Z\Sigma^{1/2}$.
-	In the third step, we used Fact \ref{fact_minv} (ii) to bound the operator norm $\|Z\|$ by $\OO(\sqrt{n})$, and used $\bignormFro{\Sigma^{1/2} B^{\star}(U_AU_A^{\top} -\id)}\le \sqrt{t} \bignorm{\Sigma^{1/2} B^{\star}(U_AU_A^{\top} -\id)}$ since the matrix $\Sigma^{1/2} B^{\star}(U_AU_A^{\top} -\id)$ has rank at most $t$. In the fourth step, we used AM-GM inequality.
+	In the third step, we used Fact \ref{fact_minv} (ii) to bound the operator norm $\|Z\|$ by $\OO(\sqrt{n})$, and used $\bignormFro{\Sigma^{1/2} B^{\star}(U_AU_A^{\top} -\id_{t\times t})}\le \sqrt{t} \bignorm{\Sigma^{1/2} B^{\star}(U_AU_A^{\top} -\id_{t\times t})}$ since the matrix $\Sigma^{1/2} B^{\star}(U_AU_A^{\top} -\id_{t\times t})$ has rank at most $t$. In the fourth step, we used AM-GM inequality.
 
 	For equation \eqref{eq_gA_p3}, using Corollary \ref{cor_calE},
 	%Lemma \ref{largedeviation} and the fact that all moments of $\varepsilon_i$ exist, 
@@ -186,7 +187,7 @@ Next we present the proof of Claim \ref{claim_opt_dist}, Claim \ref{lem_exp_opt}
 		\abs{\normFro{\cE}^2 - \sigma^2 \cdot n \cdot t}=\abs{\tr\left( \cal E^\top \id_{n\times n}\cal E\right) - \sigma^2 \cdot n \cdot t} &\le n^{c} \cdot \sigma^2 \| \id_{n\times n}\|_F \nonumber\\
 		&= n^{1/2+c} \cdot \sigma^2 \le n^{-c_{\infty}} \cdot \sigma^2 \cdot n \cdot t, \label{eq_gA_err3}
 	\end{align}
-	as long as $c$ is taken sufficiently small. 
+	as long as $c$ is sufficiently small. 
 	For the inner product between $\cW A$ and $\cE$, we have that with high probability,
 	\begin{align}
 		\bigabs{\inner{\cW A}{\cE} - \sigma^2\cdot p \cdot r } &= \bigabs{\bigtr{\left(\cE^\top U_X U_X^{\top}\cE  - p\sigma^2 \cdot  \id_{t\times t} \right)  U_AU_A^{\top} }} \nonumber  \\
@@ -194,7 +195,7 @@ Next we present the proof of Claim \ref{claim_opt_dist}, Claim \ref{lem_exp_opt}
 		&\le \sqrt{r} \cdot (n^{\e}\cdot \sigma^2\cdot \|U_X U_X^\top\|_F) \nonumber \\
 		&\le n^{1/2+c} \cdot \sigma^2 \cdot \sqrt{r}  \le  n^{-c_{\infty}} \cdot \sigma^2 \cdot n \cdot t ,\label{eq_gA_err4}
 	\end{align}
-as long as $c$ is taken sufficiently small. Here in the third step, we applied Corollary \ref{cor_calE} to $\bignorm{\cE^\top U_X U_X^{\top} \cE - p \sigma^2 \cdot  \id_{t\times t}}$ and used that $ \bignormFro{U_{A} U_A^{\top}}=\sqrt{r}$ because $U_A$ is of rank $r$. In the fourth step, we used that $\|U_X U_X^\top\|_F=\sqrt{p}\le \sqrt{n}$ because $U_X$ is of rank $p$.
+as long as $c$ is sufficiently small. Here in the third step, we applied equation \eqref{vcalAE3} to $\bignorm{\cE^\top U_X U_X^{\top} \cE - p \sigma^2 \cdot  \id_{t\times t}}$ and used that $ \bignormFro{U_{A} U_A^{\top}}=\sqrt{r}$ because $U_A$ is of rank $r$. In the fourth step, we used that $\|U_X U_X^\top\|_F=\sqrt{p}\le \sqrt{n}$ because $U_X$ is of rank $p$.
 
 %	\begin{align}
 %		\bigabs{\inner{\cW A}{\cE} - \ex{\inner{\cW A}{\cE}}} &= \bigabs{\bigtr{U_X U_X^{\top} (\cE U_AU_A^{\top} \cE^{\top} - \sigma^2 \cdot r \id_{n\times n})}} \nonumber  \\
@@ -217,18 +218,18 @@ as long as $c$ is taken sufficiently small. Here in the third step, we applied C
 
 	\bigskip
 	Next, we use equation \eqref{eq_gA_err} to prove the claim.
-	Using triangle inequality, we upper bound the gap between $g(A^{\star})$ and $g(\hat{A})$:
+	Using triangle inequality, we upper bound the gap between $h(A^{\star})$ and $h(\hat{A})$:
 	\begin{align}
 		h(\hat{A})- h(A^{\star})   &\le \bigabs{g(A^{\star}) - h(A^{\star})} + (g(\hat A) - g({A}^{\star})) + \big|g(\hat{A}) - h(\hat{A})\big| \nonumber \\
 		&\le \bigabs{g(A^{\star}) - h(A^{\star})}  + \big|g(\hat{A}) - h(\hat{A})\big|\nonumber \\
 		&\lesssim n^{-c_\varphi}\cdot n \bignormFro{\Sigma^{1/2} B^{\star}}^2 + n^{-c_\infty}\cdot \sigma^2 \cdot n \cdot t. \label{eq_g_gap}
 	\end{align}
 	The second step used the fact that $\hat A$ is the global minimizer of $g(\cdot)$, so that $g(\hat A) \le g({A}^\star)$.
-	The third step used equation \eqref{eq_gA_err} and the fact that the spectral norm of $U_A U_A^{\top} - \id$ is at most one. 
+	The third step used equation \eqref{eq_gA_err} and the fact that the spectral norm of $U_A U_A^{\top} - \id_{t\times t}$ is at most one. 
 	%With \eqref{eq_g_gap}, we can derive an upper bound on $\bignormFro{A^{\star} {A^{\star}}^{\top}- U_{\hat{A}} U_{\hat{A}}^{\top}}$ as follows. 
-	Using equation \eqref{same_hA}, we can obtain that
+	Using equation \eqref{same_hA}, we can verify that
 	$$h(\hat A)-h(A^\star) = n \bigtr{{B^\star}^\top\Sigma B^\star ( A^\star {A^\star}^\top -U_{\hat A}U^\top_{\hat A})} .$$
-	Let $\lambda_1\ge\lambda_2 \ge \cdots\ge \lambda_t$ be the eigenvalues of ${B^\star}^\top\Sigma B^\star$, and $v_i$, $1\le i \le t$, be the corresponding eigenvectors. Then we have $A^\star {A^\star}^\top =\sum_{i=1}^r v_i v_i^\top$, and 
+	..... Let $\lambda_1\ge\lambda_2 \ge \cdots\ge \lambda_t$ be the eigenvalues of ${B^\star}^\top\Sigma B^\star$, and $v_i$, $1\le i \le t$, be the corresponding eigenvectors. Then we have $A^\star {A^\star}^\top =\sum_{i=1}^r v_i v_i^\top$, and 
 	\begin{align}
 	h(\hat A)-h(A^\star) = n \sum_{i=1}^r \lambda_i - n\sum_{i=1}^t \lambda_i \| U^\top_{\hat A} v_i\|^2 &= n\sum_{i=1}^r \lambda_i\left(1 -  \| U^\top_{\hat A} v_i\|^2\right)-n\sum_{i=r+1}^t \lambda_i \| U^\top_{\hat A} v_i\|^2 \nonumber\\
 	&\ge  n(\lambda_r-\lambda_{r+1}) \sum_{i=r+1}^t \| U^\top_{\hat A} v_i\|^2 , \label{bdd_A-A}
@@ -241,6 +242,8 @@ as long as $c$ is taken sufficiently small. Here in the third step, we applied C
 	Thus from \eqref{bdd_A-A}, we obtain that 
 	$$\| A^\star {A^\star}^\top -U_{\hat A}U^\top_{\hat A}\|_F^2  =2 \sum_{i=r+1}^t \| U^\top_{\hat A} v_i\|^2 \lesssim \frac{n^{-c_\varphi}\cdot  \bignormFro{\Sigma^{1/2} B^{\star}}^2 + n^{-c_\infty}\cdot \sigma^2 t}{\lambda_r- \lambda_{r+1}}.$$
 	This completes the proof of Claim \ref{claim_opt_dist}.
+	\end{proof}
+	
 	\iffalse
 	We simplify equation \eqref{eq_mtl_output_layer} as
 	\begin{align*}
