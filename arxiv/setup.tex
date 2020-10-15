@@ -34,10 +34,10 @@ Our first result (Theorem \ref{thm_many_tasks}) applies to multi-label predictio
 We analyze the global minimizer of $f(A, B)$, and provide a sharp bias-variance decomposition of its (out-of-sample) prediction loss for any task.
 This setting is tractable even though in general, $f(A, B)$ is non-convex in $A$ and $B$ (e.g. matrix completion is a special case for suitably designed $X^{(i)}, Y^{(i)}$).
 %We show that the prediction loss of HPS admits a clean bias-variance decomposition.
-Our result implies that when all tasks have the same features but different labels, for any task, HPS helps reduce the task's variance compared to single-task learning, but increases bias.
+Our result implies that when all tasks have the same features but different labels, for any task, HPS helps reduce the task's variance compared to single-task learning but increases bias.
 
 Our second result (Theorem \ref{thm_main_RMT}) applies to two tasks with arbitrarily different sample size ratios and covariate shifts.
-While we no longer have a characterization of $f(A, B)$'s global minimum because of non-convexity, we can still provide a sharp bias-variance tradeoff of any local minimizer's prediction loss for both tasks.
+While we can no longer characterize $f(A, B)$'s global minimum because of non-convexity, we can still provide a sharp bias-variance tradeoff of any local minimizer's prediction loss for both tasks.
 Despite being a simple setting, we observe several non-trivial phenomena by varying sample size ratios and covariate shifts between the two tasks.
 See Figure \ref{fig_intro_sample_size_b} for an illustration of the former.
 Consequently, using our precise loss estimates, we observe several qualitative properties of HPS for varying dataset properties.
@@ -45,9 +45,9 @@ Consequently, using our precise loss estimates, we observe several qualitative p
 
 \textit{Sample efficiency (Example \ref{ex_same_cov})}:
 	One advantage of combining multiple datasets is that the requirement for labeled data reduces compared to single-task learning, a phenomenon that \citet{ZSSGM18} has observed empirically.
-	Our results further imply that HPS's sample efficiency depends on model-specific variances across tasks vs. the noise variance, and is generally high when the latter is large.
+	Our results further imply that HPS's sample efficiency depends on model-specific variances across tasks vs. the noise variance and is generally high when the latter is large.
 
-\textit{Sample size ratio (Example \ref{ex_sample_ratio})}: Increasing one task's sample size does not always help to reduce another task's loss. In a simplified setting, we find that the task loss either decreases first before increasing afterwards, or decreases monotonically depending on how fast the bias increases. These two trends result from different bias-variance tradeoffs. This result is surprising because previous generalization bounds in multi-task learning typically scale down as the sample sizes of all tasks increase, thus do not apply for different sample size ratios.
+\textit{Sample size ratio (Example \ref{ex_sample_ratio})}: Increasing one task's sample size does not always reduce another task's loss. In a simplified setting, we find that the task loss either decreases first before increasing afterward or decreases monotonically depending on how fast the bias grows. These two trends result from different bias-variance tradeoffs. This result is surprising because previous generalization bounds in multi-task learning typically scale down as all tasks' sample sizes increase, thus do not apply for different sample size ratios.
 
 \textit{Covariate shift (Example \ref{ex_covshift})}: In addition to sample sizes, variance also scales with two datasets' covariate shifts. For a large sample size ratio, HPS's  variance is smallest when there is no covariate shift. Counterintuitively, for a small sample size ratio, having covariate shifts reduces variance through a complementary spectrum. We achieve this result through a novel characterization on the inverse of the sum of two sample covariance matrices with arbitrary covariate shifts. See our discussion of proof techniques below for details.
 %\end{enumerate}
