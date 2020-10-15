@@ -8,32 +8,39 @@ The setting where features differ across tasks is often called ``covariate shift
 
 Unlike the previous section, we no longer have an optimal solution to $f(A, B)$.
 This is because $f(A, B)$ is in general non-convex.
-Instead, our result implies tight generalization bounds for any \emph{local minimizer} of $f(A, B)$.
+Instead, our result implies sharp bias-variance tradeoffs for any \emph{local minimizer} of $f(A, B)$.
 We focus on the two-task case to better understand the impact of having different sample sizes and different covariates.
-Suppose that $X^{(1)} = Z^{(1)}(\Sigma^{(1)})^{1/2} \in \real^{n_1 \times p}$ and $X^{(2)} = Z^{(2)}(\Sigma^{(2)})^{1/2} \in \real^{n_2 \times p}$, where the entries of $Z^{(1)}$ and $ Z^{(2)}$ are drawn independently from a one dimensional distribution with zero mean, unit variance, and constant $\varphi$-th moment for a fixed $\varphi > 4$. The matrices $\Sigma^{(1)}\in \R^{p\times p}$ and $\Sigma^{(2)}\in \R^{p\times p}$ denote the population covariance matrices of task 1 and task 2, respectively.
+Let $n_1, n_2$ denote task one  and two's sample size, respectively.
+Suppose that
+\begin{align*}
+	X^{(1)} &= Z^{(1)}(\Sigma^{(1)})^{1/2} \in \real^{n_1 \times p}, \text{ and} \\
+	X^{(2)} &= Z^{(2)}(\Sigma^{(2)})^{1/2} \in \real^{n_2 \times p},
+\end{align*}
+where the entries of $Z^{(1)}$ and $ Z^{(2)}$ are drawn independently from a one dimensional distribution with zero mean, unit variance, and constant $\varphi$-th moment for a fixed $\varphi > 4$. The matrices $\Sigma^{(1)}\in \R^{p\times p}$ and $\Sigma^{(2)}\in \R^{p\times p}$ denote the population covariance matrices of task 1 and task 2, respectively.
 
 \paragraph{Bias-variance equations.}
-Our key result characterizes the asymptotic limit of the inverse of the sum of two different sample covariance matrices.
+Our key result characterizes the asymptotic limit of the inverse of the sum of two arbitrarily different sample covariance matrices.
 Without loss of generality, we consider task two's prediction loss and the same result applies to task one.
-By Proposition 1 of \citet{WZR20}, we consider the case of $r = 1 < t = 2$, since when $r > 1$, the optimal solution of $f(A, B)$ is equivalent to single-task learning.
+By Proposition 1 of \citet{WZR20}, we consider the case of $r = 1 < t = 2$, since when $r > 1$, the global minimum of $f(A, B)$ is equivalent to single-task learning.
 When $r = 1$, $B$ is a vector and $A_1, A_2$ are both scalars.
-To motivate our study, we consider a special case where $A_1=A_2=1$. 
+To motivate our study, we consider a special case where $A_1=A_2=1$.
+Hence the HPS estimator is equal to $B$.
 %Hence we can write down a closed form equation for any local minimizer of $f(A, B)$.
-By solving $B$ in equation \eqref{eq_mtl}, we obtain the hard parameter sharing estimator $\hat{\beta}_2^{\MTL} = B A_2 = B$ as follows:
+By solving $B$ in equation \eqref{eq_mtl}, we obtain the estimator for task two as follows:
 \begin{align}
 	\hat{\beta}_2^{\MTL} &= {\hat{\Sigma}}^{-1} ({X^{(1)}}^{\top} Y^{(1)} + {X^{(2)}}^{\top} Y^{(2)}), \ \ \text{ where } \nonumber \\
 	\hat{\Sigma} &= {X^{(1)}}^{\top} X^{(1)} + {X^{(2)}}^{\top} X^{(2)}. \label{def hatsig}
 \end{align}
 The matrix $\hat{\Sigma}$ adds up both tasks' sample covariance matrices, and the expectation of $\hat{\Sigma}$ is equal to a mixture of their population covariance matrices, with mixing proportions determined by their sample sizes.
 
- To derive the bias and variance equation, we consider the expected loss conditional on the covariates as follows (the empirical loss is actually close to this expectation as will be shown in equation \eqref{claim_largedev2}):
+ To derive the bias and variance equation, we consider the expected loss conditional on the covariates as follows (the empirical loss is close to this expectation as will be shown in equation \eqref{claim_largedev2}):
  %similar to Claim \ref{claim_pred_err}
 \begin{align}
 	& \exarg{\cE}{L(\hat{\beta}_2^{\MTL}) \mid X^{(1)}, X^{(2)}}  \nonumber \\
 	=& \bignorm{{\Sigma^{(2)}}^{1/2} \hat{\Sigma}^{-1} {X^{(1)}}^{\top} X^{(1)} (\beta^{(1)} - \beta^{(2)})}^2 \label{eq_bias_2task} \\
 	& + \sigma^2 \bigtr{\Sigma^{(2)}\hat{\Sigma}^{-1}}. \label{eq_variance_2task}
 \end{align}
-Equations \eqref{eq_bias_2task} and \eqref{eq_variance_2task} correspond to the bias and variance of hard parameter sharing for two tasks, respectively.
+Equations \eqref{eq_bias_2task} and \eqref{eq_variance_2task} correspond to the bias and variance of HPS for two tasks, respectively.
 Our main result in this section characterizes the asymptotic bias-variance limits in the high-dimensional setting.
 Intuitively, the spectrum of $\hat{\Sigma}^{-1}$ (and hence its trace) not only depends on both tasks' sample sizes, but also depends on the ``alignment'' between $\Sigma^{(1)}$ and $\Sigma^{(2)}$.
 However, capturing this intuition quantitatively turns out to be technically challenging.
@@ -50,10 +57,12 @@ Our main result is stated as follows.
 	b) $M$'s singular values are all greater than $\tau$ and less than $1/\tau$;
 	c) task one's sample size is greater than $\tau p$ and task two's sample size is greater than $(1 + \tau) p$.
 	With high probability over the randomness of $X^{(1)}$ and $X^{(2)}$, we have that
-	the variance equation \eqref{eq_variance_2task} satisfies the following estimate with high probability:
-			\begin{align}
-				&\bigabs{\bigtr{\Sigma^{(2)} \bigbrace{ {\hat{\Sigma}^{-1}} - \frac{(a_1 \Sigma^{(1)} + a_2 \Sigma^{(2)})^{-1}}{n_1+n_2} }}}\nonumber \\
-				\le & p^{-c_{\varphi}}, \label{lem_cov_shift_eq} %\norm{\Sigma^{(2)}},
+	the variance equation \eqref{eq_variance_2task} satisfies the following estimate:
+			\begin{align}\label{lem_cov_shift_eq}
+				\resizebox{0.869\hsize}{!}{%
+				$\bigabs{\bigtr{\Sigma^{(2)} \bigbrace{ {\hat{\Sigma}^{-1}} - \frac{(a_1 \Sigma^{(1)} + a_2 \Sigma^{(2)})^{-1}}{n_1+n_2} }}}
+				\le p^{-c_{\varphi}}$
+				}%
 			\end{align}
 			where $a_1$ and $a_2$ are the solutions of the following self-consistent equations
 			\begin{align}
@@ -61,29 +70,29 @@ Our main result is stated as follows.
 				&a_1 + \frac1{n_1 + n_2}\cdot \bigbrace{\sum_{i=1}^p \frac{\lambda_i^2 a_1}{\lambda_i^2 a_1 + a_2}} = \frac{n_1}{n_1 + n_2}. \label{eq_a12extra}
 			\end{align}
 \end{theorem}
-The bias limit can be found in equation \eqref{lem_cov_derv_eq}.
+Due to space limit, we defer the bias limit result to Appendix \eqref{appendix RMT}.
 Our result extends Fact \ref{fact_tr} to the inverse of the sum of two sample covariance matrices.
-To see this, when $n_1$ is zero, we solve equations \eqref{eq_a12extra000} and  \eqref{eq_a12extra} to obtain that $a_1 = 0$ and $a_2 = (n_2-p) / n_2$, and apply these solutions to equation \eqref{lem_cov_shift_eq}.
-We also remark that for general $A_1$ and $A_2$, we need to replace $\hat \Sigma$ with $\frac{A_1^2}{A_2^2}{X^{(1)}}^{\top} X^{(1)} + {X^{(2)}}^{\top} X^{(2)}$.
-This amounts to replacing $M$ with $\frac{A_1}{A_2}M$ in Theorem \ref{thm_main_RMT}.
+To see this, when $n_1$ is zero, we solve equations \eqref{eq_a12extra000} and  \eqref{eq_a12extra} to obtain that $a_1 = 0$ and $a_2 = (n_2-p) / n_2$, and apply them to equation \eqref{lem_cov_shift_eq}.
+For general $A_1,A_2$ that are not equal to one, we can still apply our result by rescaling $X^{(1)}$ and $M$ with $A_1 / A_2$.
+We defer a proof sketch of Theorem \ref{thm_main_RMT} until the end of the section.
+%This amounts to replacing $M$ with $\frac{A_1}{A_2}M$ in Theorem \ref{thm_main_RMT}.
 
-\paragraph{How does hard parameter sharing scale with sample size and covariate shift?}
-One can see that both the variance limit and the bias limit (in equation \eqref{lem_cov_derv_eq}) depend intricately on both tasks' samples sizes and covariate shift.
+\paragraph{How does hard parameter sharing scale with sample sizes and covariate shift $M$?}
+One can see that the variance limit depends intricately on both tasks' samples sizes and covariate shift.
 Next, we illustrate how varying them impact the prediction loss.
 \begin{example}[Sample size ratio]\label{ex_sample_ratio}
 	We first consider the impact of varying sample sizes.
 	Consider the random-effects model from Section \ref{sec_same}, with both tasks having an isotropic population covariance matrix.
 
-	Applying Theorem \ref{thm_main_RMT} to the above setting, we first solve the self-consistent equations \eqref{eq_a12extra000} and \eqref{eq_a12extra} using $\lambda_i = 1$ for all $1\le i\le p$.
-	This gives us the following variance limit by equation \eqref{eq_a12extra000}: 
+	Applying Theorem \ref{thm_main_RMT} to the above setting, we get that
 	\begin{align*}
-		&\frac{1}{n_1 + n_2} \tr[\Sigma^{(2)} (a_1\Sigma^{(1)} + a_2\Sigma^{(2)})^{-1}]  \\
-		=& \frac{p}{(n_1 + n_2)(a_1 + a_2)}
+		&\frac{1}{n_1 + n_2} \tr[\Sigma^{(2)} (a_1\Sigma^{(1)} + a_2\Sigma^{(2)})^{-1}] \\
+		=& \frac{1}{n_1 + n_2} \bigtr{((a_1 + a_2)\id_p)^{-1}}
 		= \frac{p}{n_1 + n_2 - p},
 	\end{align*}
-	%since $a_1 + a_2 = 1 - \frac{p}{n_1 + n_2}$.
+	because $a_1 + a_2 = 1 - \frac{p}{n_1 + n_2}$ by equation \eqref{eq_a12extra000}.
 	%Similarly, for the bias limit, we solve the self-consistent equations \eqref{eq_a34extra} to get $a_3$ and $a_4$ after we have obtained $a_1, a_2$.
-	Similarly, we can calculate the bias limit using equation \eqref{lem_cov_derv_eq}. 
+	Similarly, we can calculate the bias limit (details omitted).
 	Combined together, we obtain the following corollary of Theorem \ref{thm_main_RMT}.
 \end{example}
 
@@ -99,7 +108,9 @@ Next, we illustrate how varying them impact the prediction loss.
 %	(iii) the sample sizes $n_1$ and $n_2$ are greater than $(1 + \tau) p$.
 	(iii) task-specific variance is much smaller than the shared signal variance: $d^2 \le p^{-\e}{\kappa^2}$ for a small constant $c>0$.
 	Let $\varepsilon = (1 + \sqrt{p/n_1})^ 4 - 1$, which decreases as $n_1$ increases.
-	The prediction loss of hard parameter sharing for task two satisfies that with high probability,
+	Let $\hat{A},\hat{B}$ be the global minimizer of $f(A, B)$.
+	With high probability over the randomness of the input,
+	the prediction loss of $\hat{\beta}_2^{\MTL} = \hat{B} \hat{A}_2$ for task two satisfies that
 	\begin{align}
 	%-\left[1- \left( 1-\frac{1}{\sqrt{\rho_1}}\right)^4\right] pd^2\cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3} +\OO(p^{-c}\sigma^2)  \le
 	  & \left|L(\hat{\beta}_2^{\MTL}) - \frac{d^2 n_1^2 (n_1 + n_2)}{(n_1 + n_2 - p)^3} -\frac{\sigma^2 p}{n_1 + n_2 - p}  \right| \nonumber\\
@@ -147,10 +158,12 @@ Next, we illustrate how varying them impact the prediction loss.
 %Our theory accurately predicts a curious phenomenon, where increasing the sample size of the source task results in negative transfer!
 %On the other hand, we have observed that adding more labeled data does not always improve performance in multi-task learning.
 
-The above result provides a more concrete interpretation of the bias-variance decomposition, since it depends explicitly on datasets' properties of interest.
+In the above equation, the $d^2$ scaling term is the bias limit and the $\sigma^2$ scaling term is the variance limit.
+This result allows for a more concrete interpretation since the dependence on datasets' properties is explicit.
 The proof of Corollary \ref{cor_MTL_loss} can be found in Appendix \ref{app_iso_cov}.
-As a remark, in equation \eqref{cor_MTL_error}, the predication loss $L(\hat{\beta}_2^{\MTL}) $ was obtained using the global minimizer $(\hat A,\hat B)$. By combining the bias and variance limits, we can also obtain a generalization bound for any local minimizer of $f(A, B)$ in a similar way.
-%The proof is similar to Corollary \ref{cor_MTL_loss}, so we omit the details.
+As a remark, %in equation \eqref{cor_MTL_error}, the predication loss $L(\hat{\beta}_2^{\MTL}) $ was obtained using the global minimizer $(\hat A,\hat B)$. B
+by combining the bias and variance limits, we can also obtain a bias-variance tradeoff for any local minimizer of $f(A, B)$.
+The proof is similar to Corollary \ref{cor_MTL_loss}, so we omit the details.
 
 Now we illustrate an interesting phenomenon that adding task one's samples helps task two initially, but may hurt eventually.
 Consider the limiting estimate on the left hand side of equation \eqref{cor_MTL_error}.
