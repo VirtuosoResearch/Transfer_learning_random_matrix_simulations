@@ -5,7 +5,7 @@
 Suppose we have $t$ datasets.
 For each dataset $i$ from $1$ to $t$, let $n_i$ denote its sample size.
 Let $X^{(i)} \in \real^{n_i \times p}$ denote dataset $i$'s feature covariates.
-We assume that the label vector $Y^{(i)} \in \real^{n_i}$ follows a linear model plus random noise.
+We assume that the label vector $Y^{(i)} \in \real^{n_i}$ for $X^{(i)}$ follows a linear model plus random noise.
 We study the standard hard parameter sharing architecture:
 there is a shared feature representation layer $B\in\real^{p\times r}$ for all datasets and a separate output layer $A_i \in \real^r$ for every dataset $i$.
 See Figure \ref{fig_intro_arch} for an illustration.
@@ -23,8 +23,8 @@ We study the following minimization problem:
 \end{align}
 %\vspace{-0.05in}
 where $A = [A_1, A_2, \dots, A_t] \in \real^{r \times t}$.
-Given a solution of $f(A, B)$, denoted by $(\hat{A}, \hat{B})$  (which we will specify below), let $\hat{\beta}_i^{\MTL} = \hat{B} \hat{A}_i$ denote the HPS estimator for task $i$.
-The critical questions here are:
+Given a solution from minimizing $f(A, B)$, denoted by $(\hat{A}, \hat{B})$  (which we will specify below), let $\hat{\beta}_i^{\MTL} = \hat{B} \hat{A}_i$ denote the HPS estimator for task $i$.
+The critical questions are:
 (i) How well does the estimator work? In particular, how does the performance of the estimator scale with sample size?
 (ii) For datasets with different sample sizes and covariate shifts, how do they affect the estimator?
 
@@ -34,7 +34,7 @@ Our first result (Theorem \ref{thm_many_tasks}) applies to multi-label predictio
 We analyze the global minimizer of $f(A, B)$, and provide a sharp bias-variance decomposition of its (out-of-sample) prediction loss for any task.
 This setting is tractable even though in general, $f(A, B)$ is non-convex in $A$ and $B$ (e.g. matrix completion is a special case for suitably designed $X^{(i)}, Y^{(i)}$).
 %We show that the prediction loss of HPS admits a clean bias-variance decomposition.
-Our result implies that when all tasks have the same features but different labels, HPS helps by reducing variance compared to single-task learning, but hurts by increasing bias.
+Our result implies that when all tasks have the same features but different labels, for any task, HPS helps reduce the task's variance compared to single-task learning, but increases bias.
 
 Our second result (Theorem \ref{thm_main_RMT}) applies to two tasks with arbitrarily different sample size ratios and covariate shifts.
 While we no longer have a characterization of $f(A, B)$'s global minimum because of non-convexity, we can still provide a sharp bias-variance tradeoff of any local minimizer's prediction loss for both tasks.
@@ -136,11 +136,11 @@ We conduct further studies of this procedure on six text classification datasets
 \textbf{Proof techniques.}
 There are two main ideas in our analysis. The proof of our first result uses a geometric intuition that hard parameter sharing finds a ``rank-$r$'' approximation of the datasets.
 We carefully keep track of the concentration error between the global minimizer of $f(A, B)$ and its population version (cf. equation \eqref{eq_A_star}).
-The proof of our second result is significantly more involved because of different sample sizes and covariate shifts. Using recently developed techniques from random matrix theory \cite{Anisotropic}, we show that the inverse of the sum of two sample covariance matrices with arbitrary covariate shifts converges to a deterministic diagonal matrix asymptotically (cf. Theorem \ref{thm_main_RMT}). % Moreover, we can obtain a sharp bound on the concentration error.
+The proof of our second result is significantly more involved because of different sample sizes and covariate shifts. Using recently developed techniques from random matrix theory, we show that the inverse of the sum of two sample covariance matrices with arbitrary covariate shifts converges to a deterministic diagonal matrix asymptotically (cf. Theorem \ref{thm_main_RMT}). % Moreover, we can obtain a sharp bound on the concentration error.
 % to obtain a sharp estimate on the..., which is commonly referred to as the \emph{local law}.
 %\HZ{add several sentences on the technical insight}
-One limitation of our analysis is that in Example \ref{ex_sample_ratio}, there is an error term that can result in vacuous bounds for very small $n_1$ (cf. equation \eqref{cor_MTL_error})).
-We believe that our analysis has provided important initial insight and it is an interesting question to tighten our result.
+One limitation of our analysis is that in Example \ref{ex_sample_ratio}, there is an error term that can result in vacuous bounds for very small $n_1$ (cf. equation \eqref{cor_MTL_error}).
+We believe our result has provided important initial insights and it is an interesting question to tighten our result.
 
 %This part introduces a positive variance reduction effect from adding the source labels.
 %Hence, whether $\te(\hat{\beta}_t^{\MTL}) < \te(\hat{\beta}_t^{\STL})$ is determined precisely by the tradeoff between the negative effect of the bias term and the positive effect of the variance term!
@@ -150,19 +150,19 @@ We believe that our analysis has provided important initial insight and it is an
 
 \subsection{Related Work}
 
-There is a large body of both classical and recent works on multi-task learning.
-We focus our discussion on theoretical works, and refer interested readers to several excellent surveys for general references \cite{PY09,R17,ZY17,V20}.
-The early work of \citet{B00,BS03,M06} have sought for a study of multi-task learning from a theoretical perspective, often using uniform convergence or Rademacher complexity based techniques.
+There is a large body of classical and recent works on multi-task learning.
+We focus our discussion on theoretical works, and refer interested readers to several excellent surveys for general references \cite{PY09,ZY17,V20}.
+The early work of \citet{B00,BS03,M06} studied multi-task learning from a theoretical perspective, often using uniform convergence or Rademacher complexity based techniques.
 An influential paper by \citet{BBCK10} provides uniform convergence bounds that combine multiple datasets in certain settings.
 One limitation of uniform convergence based techniques is that the results often assume that all  tasks have the same sample size, see e.g. \citet{B00,MPR16}.
 Moreover, these techniques do not apply to the high-dimensional setting, because the results usually require a sample size at least $p \log p$.
 
 Our proof techniques use the so-called local law of random matrices \cite{erdos2017dynamical}, which is a recent development in the random matrix theory literature.
-\citet{isotropic} first proved such a local law for sample covariance matrices with isotropic covariance.
+In the single task case, \citet{isotropic} first proved such a local law for sample covariance matrices with isotropic covariance.
 \citet{Anisotropic} later extended this result to arbitrary covariance setting.
 %On the other hand, one may derive the asymptotic result in Theorem \ref{thm_main_RMT} with error $\oo(1)$ using the free addition of two independent random matrices in  theory .
 These techniques provide almost sharp convergence rates to the asymptotic limit compared to other techniques such as free probability \cite{nica2006lectures}.
-To the best of our knowledge, we are not aware of any previous results about the inverse of the sum of two sample covariance matrices with arbitrary covariate shifts.
+To the best of our knowledge, we are not aware of any previous results in the multi-task case, even for two tasks (with arbitrary covarite shifts).
 
 The problem we study here is also related to high-dimensional prediction in transfer learning \cite{li2020transfer,bastani2020predicting} and distributed learning \cite{dobriban2018high}.
 For example, \citet{li2020transfer} provides minimax optimal rates for predicting a target regression task given multiple sparse regression tasks.

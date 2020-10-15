@@ -2,7 +2,7 @@
 
 %We begin by considering the case where all tasks have the same sample size and feature covariates, that is, $n_i = n$ and $X^{(i)} = X\in\real^{n\times p}$ for all $i = 1, \dots, t$.
 %We provide a sharp generalization error bound of hard parameter sharing estimators.
-In this section, we show that the prediction loss of hard parameter sharing admits a clean bias-variance decomposition, when all tasks have the same sample size and features.
+In this section, we show that the prediction loss of hard parameter sharing admits a clean bias-variance decomposition, when all tasks have the same features.
 %\FY{Is it should be "same covariate" or "same covariates"?}
 %This setting is prevalent in applications of multi-task learning to image classification, where there are multiple prediction labels/tasks for every image \cite{chexnet17,EA20}.
 %We consider an arbitrary local minimum $B, W_1, \dots, W_2$ of the optimization objective.
@@ -32,10 +32,12 @@ We assume:
 %\end{itemize}
 For an estimator $\hat{\beta}_i$ of task $i$, we are interested in its (out-of-sample) prediction loss
 \[ L(\hat{\beta}_i) = \bignorm{\Sigma^{1/2} (\hat{\beta_i} - \beta^{(i)})}^2. \]
+Recall that $r$ is the width of $B$.
+We focus on cases where $r < t$, because otherwise the global minimum of $f(A, B)$ reduces to single-task learning (cf. Proposition 1 of \citet{WZR20}).
 
 Our first main result shows that hard parameter sharing essentially approximates all tasks through a rank-$r$ subspace.
 To formalize this geometric intuition, we introduce the matrix $B^\star \define [{\beta}_1,{\beta}_2,\dots,{\beta}_{t}] \in \real^{p\times t}$ which contains all the linear model parameters.
-Let $A^{\star} {A^{\star}}^{\top}$ denote the best rank-$r$ subspace approximation of ${B^{\star}}^\top\Sigma B^{\star}$:\footnote{To ensure that $A^{\star}$ is unique, we assume that $\lambda_{r+1}({B^\star}^\top \Sigma B^\star)$ is strictly smaller than $\lambda_{r}({B^\star}^\top \Sigma B^\star)$.}
+Let $A^{\star} {A^{\star}}^{\top}$ denote the best rank-$r$ subspace approximation of ${B^{\star}}^\top\Sigma B^{\star}$ (which is task labels' ``covariance''):\footnote{To ensure that $A^{\star}$ is unique, we assume that $\lambda_{r+1}({B^\star}^\top \Sigma B^\star)$ is strictly smaller than $\lambda_{r}({B^\star}^\top \Sigma B^\star)$.}
 \begin{align}\label{eq_A_star}
 	A^{\star} \define \argmin_{U\in\real^{t\times r} : U^{\top} U = \id_{r\times r}} \inner{U U^{\top}} {{B^{\star}}^{\top} \Sigma B^{\star}}.
 \end{align}
@@ -65,7 +67,7 @@ Our result is stated as follows.
 \end{theorem}
 
 %\FY{why not use $C_1: = \frac{ \normFro{\Sigma^{1/2} B^{\star}}^2}{ \lambda_{\min}^2(\Sigma^{1/2} B^{\star}) + \sigma^2}$? $C_2$ does not seem to be correct because the dimension does not match. I will check the proof to see whether $C_2 =  C_1\cdot \norm{\Sigma^{1/2} B^{\star}}^2$ or $C_1\cdot \sigma\norm{\Sigma^{1/2} B^{\star}}$?}
-\textbf{Comparison to single-task learning.}
+\textbf{Comparison to single-task learning (STL).}
 Theorem \ref{thm_many_tasks} provides a sharp generalization error bound that is asymptotically tight when $n$ goes to infinity.
 %The limiting loss of hard parameter sharing consists of two parts, a bias term $L(B^{\star} a_i^{\star})$ that measures the error of $B^{\star} a_i^{\star}$, and a variance term that scales with noise variance $\sigma^2$.
 %	Our result implies that the variance of hard parameter sharing is always smaller than single-task learning.
@@ -76,7 +78,7 @@ On the other hand, the bias always increases.
 
 \paragraph{How does hard parameter sharing scale with sample size $n$?}
 Obviously, the concentration error decreases with $n$.
-How about the variance $\bigtr{\Sigma (X^{\top} X)^{-1}}$?
+First, we consider the variance of $\hat{\beta}_i^{\MTL}$, which is $\sigma^2\norm{a_i^{\star}} \bigtr{\Sigma (X^{\top} X)^{-1}}$?
 It turns out that this quantity converges to a fixed limit in the high-dimensional setting, which is formally stated in the following assumption.
 
 \begin{assumption}\label{assume_rm}
@@ -90,7 +92,7 @@ It turns out that this quantity converges to a fixed limit in the high-dimension
   the sample size $n$ grows to infinity proportionally with the feature dimension $p$, i.e. $n / p \rightarrow \rho \in (\tau, 1/\tau)$ as $p$ goes to infinity.
 %	\end{enumerate}
 \end{assumption}
-Under the above assumption, the following result is well-known.
+Under the above assumption, we can use the following result to simplify the variance of $\hat{\beta}_i^{\MTL}$.
 
 \begin{fact}[cf. Theorem 2.4 in \citet{isotropic}]\label{fact_tr}
 	%Let $X  \in \real^{n\times p}$ be a random matrix that satisfies Assumption \ref{assume_rm}.
@@ -113,12 +115,12 @@ Applying Fact \ref{fact_tr} to Theorem \ref{thm_many_tasks}, we obtain that hard
 %Let $\e$ be a small enough fixed value and let $c_{\infty}$ be any fixed value within $(0, 1/2-\e)$.
 %We have that Fact \ref{lem_minv} holds for $\varepsilon^{(i)}$ where $c_{\varphi}$ becomes $c_{\infty}$ instead.
 
-Next, we consider the bias $L(B^{\star} a^{\star}_i)$.
-We illustrate the bias through a random-effects model, which has been studied for a single task case \cite{dobriban2020wonder}.
+Next, we consider the bias of $\hat{\beta}_i^{\MTL}$, that is $L(B^{\star} a^{\star}_i)$.
+We illustrate the bias through a random-effect model, which has been studied for a single task case \cite{dobriban2020wonder}.
 Suppose every $\beta^{(i)}$ consists of two random components, one that is shared among all tasks and one that is task-specific.
 Thus, each task contributes a certain amount to the shared component and injects a task-specific bias.
 Let $\beta_0$ denote the shared component whose entries are sampled i.i.d. from an isotropic Gaussian distribution of mean zero and variance $p^{-1}\kappa^2$.
-Let the task-specific component be a random Gaussian vector with i.i.d. entries of mean zero and variance $p^{-1} d^2$.
+Let $\beta^{(i)}$ be equal to $\beta_0$ plus a task-specific component that is a random Gaussian vector with i.i.d. entries of mean zero and variance $p^{-1} d^2$.
 Thus, for any two different $\beta^{(i)}$ and $\beta^{(j)}$, their distance is roughly $2d^2$.
 %	The labels are $Y_i = X_i\beta_i + \varepsilon_i$, where $\e_i$ consists of i.i.d. entries with mean zero and variance $\sigma^2$.
 Concretely, we can think of $\kappa = 1$ and $d^2/\sigma^2 = \OO(1)$.
@@ -126,7 +128,7 @@ Concretely, we can think of $\kappa = 1$ and $d^2/\sigma^2 = \OO(1)$.
 %We assume that all the random variables have finite moments up to any order as in equation \eqref{assmAhigh2}.
 
 \begin{example}[Sample efficiency]\label{ex_same_cov}
-In the random-effects model described above, we further assume that $\Sigma$ is isotropic as an example.
+In the random-effect model described above, we further assume that $\Sigma$ is isotropic as an example.
 We show that when the rank $r$ is one, the average prediction loss of hard parameter sharing is as follows
 \[ \frac{1}{t}\sum_{i=1}^t L(\hat{\beta}_i^{\MTL}) = \bigbrace{1 - \frac{1}{t}} {d^2}{} + \frac{1}{t} \cdot \frac{\sigma^2 p}{n - p} \pm \OO(n^{- \frac {c_{\varphi}} 2}) .\]
 We describe a proof sketch.
@@ -134,7 +136,7 @@ First, we show that the bias equation $L(B^{\star} a_i^{\star})$ simplifies to t
 \[ \frac{1}{t} \sum_{i=1}^t L(B^{\star} a_i^{\star}) = \frac{1}{t}\normFro{B^{\star} A^{\star} {A^{\star}}^{\top} - B^{\star}}^2 \approx \left(1 - \frac{1}{t}\right) {d^2}{}  . \]
 To see this, recall that $r$ is one and $A^{\star} {A^{\star}}^{\top}$ is the best rank-$1$ approximation of ${B^{\star}}^{\top}\Sigma B^{\star} = {B^{\star}}^{\top} B^{\star}$.
 Hence, the above expression is equal to the sum of ${B^{\star}}^{\top} {B^{\star}}$'s bottom $r-1$ singular values.
-Based on the definition of the random-effects model, the $(i, j)$-th entry of ${B^{\star}}^{\top} B^{\star}$ is equal to (ignoring lower order terms)
+Based on the definition of the random-effect model, the $(i, j)$-th entry of ${B^{\star}}^{\top} B^{\star}$ is equal to (ignoring lower order terms)
 %\begin{align*}
 %	\beta_i^{\top} \beta_j \approx \norm{\beta_0}^2 + \frac{d^2}{2}\delta_{ij},\quad 1\le i,j \le t,
 %\end{align*}
@@ -154,7 +156,7 @@ Second, using Fact \ref{fact_tr}, one can see that the average variance is
 	&= \frac{1}{t}\frac{\sigma^2 p}{n - p},
 \end{align*}
 because $A^{\star}$ has rank-$1$ and $\sum_{i=1}^t \norm{a_i^{\star}}^2 = 1$.
-Combined together, we have derived the average prediction loss in the random-effects model.
+Combined together, we have derived the average prediction loss in the random-effect model.
 \end{example}
 
 \textbf{Comparison to single-task learning.}
@@ -165,7 +167,7 @@ Comparing HPS to STL, we have the following qualitative properties.
 
 (i) The prediction loss of HPS is smaller than STL if and only if ${d^2}{} < \frac{\sigma^2 p}{n - p}$, that is, the ``task-specific variance'' of $\beta^{(i)}$ is smaller than the ``noise variance''.
 
-(iii) HPS requires at most $p + \frac{n - p}{t - (t - 1)\frac{d^2 (n - p)}{\sigma^2 p}} < n$ samples to get comparable loss to STL.
+(iii) HPS requires at most $p + \frac{n - p}{t - (t - 1)\frac{d^2 (n - p)}{\sigma^2 p}}$ samples that is less than $n$ samples to get comparable loss to STL.
 	This follows by using this sample size in the average prediction loss equation in Example \ref{ex_same_cov}.
 
 (ii) When ${d^2}{} < \frac{\sigma^2 p}{n - p}$, increasing $r$ does not help.
@@ -188,7 +190,7 @@ Comparing HPS to STL, we have the following qualitative properties.
 	where $Y = [Y^{(1)}, Y^{(2)}, \dots, Y^{(t)}]$.
 	Here we have used that $X^{\top}X$ is invertible since $n > \rho \cdot p$ and $\rho > 1$ (cf. Fact \ref{fact_minv}).
 	%\FY{Is $\dag$ a standard notation? It is a bad notation at least for me because $\dag$ is more often used as Hermitian conjugate. Wiki page uses $(AA^{\top})^{+}$ for pseudo-inverse.}
-	Plugging $\hat{B}(A)$ into equation \eqref{eq_mtl_same_cov}, we obtain the following problem that only depends on $A$ (in matrix notation):
+	Plugging $\hat{B}(A)$ into equation \eqref{eq_mtl_same_cov}, we obtain the following objective that only depends on $A$ (in matrix notation):
 	\begin{align}\label{eq_mtl_output_layer}
 		\resizebox{0.869\hsize}{!}{%
 		$g(A) = \bignormFro{X (X^{\top}X)^{-1}X^{\top} Y A^{\top} (AA^{\top})^{+} A - Y}^2.$
