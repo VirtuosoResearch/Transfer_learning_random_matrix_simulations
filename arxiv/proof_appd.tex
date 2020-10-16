@@ -12,14 +12,14 @@ for any deterministic unit vectors $\mathbf u, \mathbf v \in \mathbb R^{p+n_1+n_
 	\max_{z\in \mathbf D}\left| \mathbf u^\top (G(z)-\Gi(z)) \mathbf v \right|  \prec  q
 \end{equation}
 holds on the high probability event
-\be\label{one_event}\left\{ \max_{1\le i\le n, 1\le j \le p}|Z^{(1)}_{i, j}| \le (\log n) n^{\frac{2}{\varphi}}, \ \max_{1\le i\le n, 1\le j \le p}|Z^{(2)}_{i, j}|\le (\log n) n^{\frac{2}{\varphi}} \right\}.\ee
+\be\label{one_event}\left\{ \max_{1\le i\le n_1, 1\le j \le p}|Z^{(1)}_{i j}| \le (\log n) n^{\frac{2}{\varphi}}, \ \max_{1\le i\le n_2, 1\le j \le p}|Z^{(2)}_{i j}|\le (\log n) n^{\frac{2}{\varphi}} \right\}.\ee
 \end{theorem}
 %[{\color{red}FY: I changed the statement a little bit. The subtlety is that for our purpose, we will apply it to a set of $p$ unit vectors simultaneously. Hence we need to take a union bound, which requires the statement to hold with overwhelming probability on a {\bf fixed} high probability event. Our union bound can be taken on this fixed event. This union bound argument is hidden in Fact \ref{lem_stodomin}, which we need to use in the proof of Theorem \ref{thm_main_RMT}. In the original form, if we only know that the estimates holds with high probability $1-\oo(1)$, then we cannot take union bound of $p$ possibly different high probability events.}]
 
 The above result can be derived using the following lemma, which holds under a more general bounded support assumption on the random matrices.
 
 \begin{lemma} \label{LEM_SMALL} %[Results on covariance matrices with small support]
-In the setting of Theorem \ref{main_cor}, assume that $Z^{(1)}$ and $Z^{(2)}$ satisfy the bounded support condition \eqref{eq_support} with $q = n^{-\frac{\varphi - 4}{2\varphi}}$.
+In the setting of Theorem \ref{main_cor}, assume that $Z^{(1)}$ and $Z^{(2)}$ satisfy the bounded support condition \eqref{eq_support} with $\sqrt{n}q = n^{ \frac{2}{\varphi}}$.
 Then we have that the anisotropic local law in equation \eqref{aniso_law} holds 
 %uniformly for any $z \in \mathbf D$, and 
 for any deterministic unit vectors $\mathbf u, \mathbf v \in \mathbb R^{p+n_1+n_2}$.
@@ -41,15 +41,15 @@ for any deterministic unit vectors $\mathbf u, \mathbf v \in \mathbb R^{p+n_1+n_
 %[{\cor FY: I added this remark to explain why the bounded support condition is more general in case the reader wonders. You can comment it if you think it is not necessary.}]
 The reason why we say the bounded support assumption is more general is because it provides greater flexibility in dealing with bounded moments. For example, we can also replace equation \eqref{Ptrunc} with
 \begin{align*}
-	\P\left(\max_{1\le i\le n, 1\le j \le p}|Z_{i, j}|\ge n^{\frac{2}{\varphi}+\delta}\right) = \OO(  n^{-\varphi \delta}) 
+	\P\left(\max_{1\le i\le n, 1\le j \le p}|Z_{i j}|\ge n^{\frac{2}{\varphi}+\delta}\right) = \OO(  n^{-\varphi \delta}) 
 	\end{align*}
 	for a small constant $\delta>0$. Hence we can replace event \eqref{one_event} with 
-	\be\nonumber \left\{ \max_{1\le i\le n, 1\le j \le p}|Z^{(1)}_{i, j}| \le n^{\frac{2}{\varphi}+\delta}, \ \max_{1\le i\le n, 1\le j \le p}|Z^{(2)}_{i, j}|\le   n^{\frac{2}{\varphi}+\delta} \right\},\ee
-	which holds with higher probability. But on this event we need to take a larger support $q=n^{-\frac{\varphi - 4}{2\varphi}+\delta}$, which means a worse convergence rate. In general, with Lemma \ref{LEM_SMALL} one can determine the most suitable trade-off between probability and convergence rate depending on one's need.
+	\be\nonumber \left\{ \max_{1\le i\le n, 1\le j \le p}|Z^{(1)}_{i j}| \le n^{\frac{2}{\varphi}+\delta}, \ \max_{1\le i\le n, 1\le j \le p}|Z^{(2)}_{i j}|\le   n^{\frac{2}{\varphi}+\delta} \right\},\ee
+	which holds with higher probability. But on this event we need to take a larger $q=n^{-\frac{\varphi - 4}{2\varphi}+\delta}$, which means a worse convergence rate. In general, with Lemma \ref{LEM_SMALL} one can determine the most suitable trade-off between probability and convergence rate depending on one's need.
 \end{remark}
 
 Using the above result, we prove Theorem \ref{main_cor} using a simple cutoff argument.
-\begin{proof}%[Proof of Corollary \ref{main_cor}]
+\begin{proof}[Proof of Theorem \ref{main_cor}]%[Proof of Corollary \ref{main_cor}]
 %Fix any sufficiently small constant $\e>0$. We choose $q= n^{-c_a +\e}$ with $c_a:=1/2-2/a $. Then 
 We introduce the truncated matrices $\wt Z^{(1)}$ and $\wt Z^{(2)}$ with entries
 $$ \wt Z^{(1)}_{\mu i}:= \mathbf 1\left( n^{-1/2}|Z^{(1)}_{\mu i}|\le q \log n \right)\cdot Z^{(1)}_{\mu i}, \quad \wt Z^{(2)}_{\nu i}:= \mathbf 1\left( n^{-1/2}|Z^{(2)}_{\nu i}|\le q \log n \right)\cdot Z^{(2)}_{\nu i}, $$
@@ -64,15 +64,15 @@ By definition, we have
 \be\label{EwtZ}\E  \wt  Z^{(1)}_{\mu i} = - \mathbb E \left[ \mathbf 1\left( |Z^{(1)}_{\mu i}|> qn^{1/2} \log n \right)Z^{(1)}_{\mu i}\right] ,\quad \E  |\wt  Z^{(1)}_{\mu i}|^2 = 1 - \mathbb E \left[ \mathbf 1\left( |Z^{(1)}_{\mu i}|> qn^{1/2} \log n \right)|Z^{(1)}_{\mu i}|^2\right] .\ee
 Using the formula for expectation in terms of the tail probabilities, we can check that
 \begin{align*}
-&  \mathbb E \left| \mathbf 1\left( |Z^{(1)}_{\mu i}|> q n^{1/2}\log n \right)Z^{(1)}_{\mu i}\right| = \int_0^\infty \P\left( \left| \mathbf 1\left(  |Z^{(1)}_{\mu i}|> q n^{1/2}\log n \right)Z^{(1)}_{\mu i}\right| \ge s\right)\dd s \\
-&  = \int_0^{qn^{1/2}\log n}\P\left( |Z^{(1)}_{\mu i}|> q  n^{1/2}\log n \right)\dd s +\int_{qn^{1/2}\log n}^\infty \P\left(|Z^{(1)}_{\mu i}| \ge s\right)\dd s  \\
-&\lesssim \int_0^{qn^{1/2}\log n}\left(q  n^{1/2}\log n \right)^{-\varphi}\dd s +\int_{qn^{1/2}\log n}^\infty s^{-\varphi}\dd s \le n^{-2(\varphi-1)/\varphi}.
+&  \mathbb E \left| \mathbf 1\left( |Z^{(1)}_{\mu i}|> q n^{1/2}\log n \right)Z^{(1)}_{\mu i}\right| = \int_0^\infty \P\left( \left| \mathbf 1\left(  |Z^{(1)}_{\mu i}|> q n^{1/2}\log n \right)Z^{(1)}_{\mu i}\right| > s\right)\dd s \\
+&  = \int_0^{qn^{1/2}\log n}\P\left( |Z^{(1)}_{\mu i}|> q  n^{1/2}\log n \right)\dd s +\int_{qn^{1/2}\log n}^\infty \P\left(|Z^{(1)}_{\mu i}| > s\right)\dd s  \\
+&\lesssim \int_0^{qn^{1/2}\log n}\left(q  n^{1/2}\log n \right)^{-\varphi}\dd s +\int_{qn^{1/2}\log n}^\infty s^{-\varphi}\dd s \le n^{-2(\varphi-1)/\varphi},
 \end{align*}
 where in the third step we used the finite $\varphi$-th moment condition of $Z_{\mu i}^{(1)}$ %\eqref{assmAhigh} \HZ{check; I don't see which one} 
 and Markov's inequality. Similarly, we can obtain that
 \begin{align*}
-&  \mathbb E \left| \mathbf 1\left( |Z^{(1)}_{\mu i}|> qn^{1/2} \log n \right)Z^{(1)}_{\mu i}\right|^2 = 2\int_0^\infty s \P\left( \left| \mathbf 1\left( |Z^{(1)}_{\mu i}|> q n^{1/2}\log n \right)Z^{(1)}_{\mu i}\right| \ge s\right)\dd s \\
-&  = 2\int_0^{qn^{1/2}\log n} s \P\left( |Z^{(1)}_{\mu i}|> q  n^{1/2}\log n \right)\dd s +2\int_{qn^{1/2}\log n}^\infty s\P\left(|Z^{(1)}_{\mu i}| \ge s\right)\dd s  \\
+&  \mathbb E \left| \mathbf 1\left( |Z^{(1)}_{\mu i}|> qn^{1/2} \log n \right)Z^{(1)}_{\mu i}\right|^2 = 2\int_0^\infty s \P\left( \left| \mathbf 1\left( |Z^{(1)}_{\mu i}|> q n^{1/2}\log n \right)Z^{(1)}_{\mu i}\right| > s\right)\dd s \\
+&  = 2\int_0^{qn^{1/2}\log n} s \P\left( |Z^{(1)}_{\mu i}|> q  n^{1/2}\log n \right)\dd s +2\int_{qn^{1/2}\log n}^\infty s\P\left(|Z^{(1)}_{\mu i}| > s\right)\dd s  \\
 &\lesssim \int_0^{qn^{1/2}\log n}s\left(q  n^{1/2}\log n \right)^{-\varphi}\dd s +\int_{qn^{1/2}\log n}^\infty s^{-\varphi+1}\dd s \le n^{-2(\varphi-2)/\varphi}.
 \end{align*}
 Plugging the above two estimates into equation \eqref{EwtZ} and using $\varphi>4$, we get that
@@ -94,21 +94,22 @@ Similar estimates also hold for $\wt Z^{(2)}$.
 %$$\mathbb E  |\wt  z^{(\al)}_{ij}|^4 \le \mathbb E  |z^{(\al)}_{ij}|^4 =\OO(n^{-2}), \quad \al=1,2.$$
 Then we can centralize and rescale $\wt Z^{(1)}$ and $\wt Z^{(2)}$ as
 $$ \wh Z^{(1)} :=\frac{\wt Z^{(1)} - \E \wt Z^{(1)} }{\left(\E|\wt Z^{(1)}_{\mu i}|^2\right)^{1/2}},\quad \wh Z^{(2)} :=\frac{\wt Z^{(2)} - \E \wt Z^{(2)} }{\left(\E|\wt Z^{(2)}_{\mu i}|^2\right)^{1/2}}.$$ 
-Now $\wh Z^{(1)}$ and $\wh Z^{(2)}$ satisfy the assumptions of Theorem \ref{LEM_SMALL} with bounded support $q$, so we get that %and equation \eqref{aniso_law} gives that
+Now $\wh Z^{(1)}$ and $\wh Z^{(2)}$ satisfy the assumptions of Theorem \ref{LEM_SMALL} with bounded support $\sqrt{n}q = n^{ \frac{2}{\varphi}}$, so we get that %and equation \eqref{aniso_law} gives that
 \be\label{GwhZZ}\left| \mathbf u^\top (G(\wh Z^{(1)},\wh Z^{(2)},z)-\Gi(z)) \mathbf v \right|  \prec  q,\ee
 where $G(\wh Z^{(1)},\wh Z^{(2)},z)$ is defined in the same way as $G(z)$, but with $(Z^{(1)}, Z^{(2)})$ replaced by $(\wh Z^{(1)},\wh Z^{(2)})$.
 
 Note that by equations \eqref{meanshif} and \eqref{EZ norm}, we can bound that for $k=1,2,$
 $$ \|\wh Z^{(k)} - \wt Z^{(k)}\|\lesssim n^{-1}\|\wt Z^{(k)}\| + \|\E \wt Z^{(k)}\|\lesssim n^{-1/2}$$
-with overwhelming probability, where we also used Fact \ref{fact_minv}(ii) to bound the operator norm of $\wt Z^{(k)}$. Together with equation \eqref{priorim} below, this bound implies that % check that
+with overwhelming probability, where we also used Fact \ref{fact_minv}(ii) to bound the operator norm of $\wt Z^{(k)}$. Together with estimate \eqref{priorim} below, this bound implies that % check that
 $$\left| \mathbf u^\top (G(\wh Z^{(1)},\wh Z^{(2)},z)-G(Z^{(1)},Z^{(2)},z)) \mathbf v \right|  \lesssim  n^{-1/2}\|\wh Z^{(1)} - \wt Z^{(1)}\|+ n^{-1/2}\|\wh Z^{(2)} - \wt Z^{(2)}\|\lesssim n^{-1},$$
-with overwhelming probability on the event $\{\wt Z^{(1)} = Z^{(1)},  \wt Z^{(2)} = Z^{(2)}\}$. Combining this estimate with equation \eqref{GwhZZ}, we obtain that estimate \eqref{aniso_law} also holds for $G(z)$ on the event $\{\wt Z^{(1)} = Z^{(1)},  \wt Z^{(2)} = Z^{(2)}\}$, which concludes the proof by equation \eqref{XneX}.
+with overwhelming probability on the event $\{\wt Z^{(1)} = Z^{(1)},  \wt Z^{(2)} = Z^{(2)}\}$. Combining this estimate with equation \eqref{GwhZZ}, we obtain that estimate \eqref{aniso_law} holds for $G(z)$ on the event $\{\wt Z^{(1)} = Z^{(1)},  \wt Z^{(2)} = Z^{(2)}\}$, which concludes the proof by equation \eqref{XneX}.
 \end{proof}
 
 
-Now we are ready to complete the proof of Theorem \ref{thm_main_RMT} using Theorem \ref{main_cor}.
+Now we are ready to complete the proof of Theorem \ref{thm_main_RMT} and Theorem \ref{thm_main_RMT_app} using Theorem \ref{main_cor}.
 
-\begin{proof}[Proof of Theorem \ref{thm_main_RMT}, Part i)]
+\begin{proof}[Proof of Theorem \ref{thm_main_RMT}]
+%\begin{proof}[Proof of Theorem \ref{thm_main_RMT}, Part i)]
 %Recall that in the setting of Theorem \ref{thm_main_RMT} we have equation \eqref{rewrite X as R},
 %using equation \eqref{eigen2extra} and equation \eqref{mainG} we can write 
 %$$\cal R:= ( (X^{(1)})^\top X^{(1)} + (X^{(2)})^\top X^{(2)})^{-1}= n^{-1}\Sigma_2^{-1/2}V \cal G(0)V^\top\Sigma_2^{-1/2}.$$
@@ -148,7 +149,8 @@ This concludes equation \eqref{lem_cov_shift_eq} using Definition \ref{stoch_dom
 \end{proof}
  
 
-\begin{proof}[Proof of Theorem \ref{thm_main_RMT}, part ii)]
+\begin{proof}[Proof of Theorem \ref{thm_main_RMT_app}]
+%\begin{proof}[Proof of Theorem \ref{thm_main_RMT}, part ii)]
 Recall that in the setting of Theorem \ref{thm_main_RMT}, we have equation \eqref{calculate G'}.
 %\begin{align*}
 % n^{2}\bignorm{\Sigma_2^{1/2} ( (X^{(1)})^{\top}X^{(1)} + (X^{(2)})^{\top}X^{(2)})^{-1}\Sigma_1^{1/2}w}^2 =\beta^\top \Sigma_2^{-1/2}  \left(M^\top (Z^{(1)})^{\top} Z^{(1)} M +  (Z^{(2)})^\top Z^{(2)} \right)^{-2}   \Sigma_2^{-1/2}\beta,
