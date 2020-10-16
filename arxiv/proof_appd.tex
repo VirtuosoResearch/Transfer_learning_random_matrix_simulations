@@ -124,26 +124,29 @@ Now we are ready to complete the proof of Theorem \ref{thm_main_RMT} and Theorem
 %$$\cal R= n^{-1}\Sigma_2^{-1/2}V \cal G(0)V^\top\Sigma_2^{-1/2},\quad \cal G(0)=\left(   \Lambda U^\top (Z^{(1)})^{\top} Z^{(1)} U\Lambda  + V^\top (Z^{(2)})^\top Z^{(2)}V\right)^{-1}.$$
 %and that the entries of $Z^{(1)}$ and $Z^{(2)}$ have finite $\varphi$-th moments as in equation \eqref{assmAhigh}.
 %Suppose $\Sigma=\sum_i \lambda_i(\Sigma)\mathbf u_i \mathbf v_i^\top$ is a SVD of $\Sigma$ with $\{\mathbf u_i\}$ and $\{\bv_i\}$ being the left and right singular vectors. 
-Following up our discussion in Section \ref{sec_diff}, by Theorem \ref{main_cor}, for any $1\le i \le p$ we have that
+With the definition of matrix $W$ in equation \eqref{eigen2extra}, we can express $\Sigma^{(2)}\hat \Sigma^{-1}$ as
+$$\Sigma^{(2)}\hat \Sigma^{-1} = n^{-1} ({\Sigma^{(2)}})^{1/2} V \cal G(0) V^{\top} ({\Sigma^{(2)}})^{-1/2},$$
+where we recall that $\cal G(z)=(W-z\id )^{-1}$ is the resolvent of $W$.
+%Following our discussion in Section \ref{sec_diff}, 
+Then by Theorem \ref{main_cor}, for any $1\le i \le p$ we have that
 %$Z^{(1)}$ and $Z^{(2)}$ have bounded support $q=n^{-1/2}$. Using Theorem \ref{LEM_SMALL}, %Now by Corollary \ref{main_cor}, we obtain that for any small constant $\e>0$, %with probability $1-\oo(1)$,
 \begin{align}
-& \left| \left[\left((X^{(1)})^\top X^{(1)}+(X^{(2)})^\top X^{(2)}\right)^{-1}\Sigma - n^{-1}  \Sigma_2^{-1/2}V \Gi(0)V^\top\Sigma_2^{-1/2}\Sigma\right]_{ii}\right| \nonumber\\
-&=n^{-1} \left|\mathbf e_i^\top \Sigma_2^{-1/2}V \left(\cal G(0)-\Gi(0)\right)V^\top\Sigma_2^{-1/2}\Sigma\mathbf e_i\right| \prec n^{-1}q\|V^\top\Sigma_2^{-1/2} \Sigma\mathbf e_i\| \lesssim n^{-1}q\| \Sigma\mathbf e_i\|,\label{G0Pi0}
+\left| \left[\Sigma^{(2)}\hat \Sigma^{-1} - n^{-1} (\Sigma^{(2)})^{1/2}V \Gi(0)V^\top(\Sigma^{(2)})^{-1/2} \right]_{ii}\right|  & = n^{-1} \left|\mathbf e_i^\top (\Sigma^{(2)})^{1/2}V \left(\cal G(0)-\Gi(0)\right)V^\top (\Sigma^{(2)})^{-1/2} \mathbf e_i\right| \nonumber\\
+& \prec n^{-1}q\|V^\top (\Sigma^{(2)})^{-1/2} \mathbf e_i\|\cdot \|V^\top (\Sigma^{(2)})^{1/2} \mathbf e_i\|   \lesssim n^{-1}q ,\label{G0Pi0}
 \end{align}
 on the event \eqref{one_event}, %$\Omega$ with $\P(\Omega)=1-\oo(1)$, 
 where $ q= n^{-\frac{\varphi - 4}{2\varphi}}$ and $\mathbf e_i$ denotes the standard basis vector along the $i$-th direction.
-Next, recall from Section \ref{sec_diff} that
-$$ n^{-1}  \Sigma_2^{-1/2}V \Gi(0)V^\top\Sigma_2^{-1/2}\Sigma= n^{-1}(a_1\Sigma_1 +  a_2\Sigma_2)^{-1}\Sigma.$$
+Next, we can verify that %recall from Section \ref{sec_diff} that
+$$ n^{-1}  (\Sigma^{(2)})^{1/2}V \Gi(0)V^\top (\Sigma^{(2)})^{-1/2} = n^{-1}  \Sigma^{(2)}(a_1 \Sigma^{(1)}+  a_2\Sigma^{(2)})^{-1} .$$
 %$$\Gi(0)= -(a_{1}(0)\Lambda^2  +  a_{2}(0))^{-1}= (a_1 V^\top M^\top M V +  a_2)^{-1},$$
 %with $(a_1,a_2)$ satisfying equation \eqref{selfomega0}. 
 Together with equation \eqref{G0Pi0}, this identity implies that % we get that
 \begin{align*}
- \tr \left[\left((X^{(1)})^\top X^{(1)}+(X^{(2)})^\top X^{(2)}\right)^{-1}\Sigma\right]& = \sum_{i=1}^p\left[\left((X^{(1)})^\top X^{(1)}+(X^{(2)})^\top X^{(2)}\right)^{-1}\Sigma\right]_{ii} \\
- &= n^{-1}\tr \left[ \left(a_1  \Sigma_1  +  a_2\Sigma_2\right)^{-1}\Sigma\right] +\OO_\prec(q \|A\|) 
+ \tr \left[\Sigma^{(2)}\hat \Sigma^{-1} \right]& = \sum_{i=1}^p\left(\Sigma^{(2)}\hat \Sigma^{-1} \right)_{ii} = n^{-1}\tr \left[ \Sigma^{(2)}(a_1 \Sigma^{(1)}+  a_2\Sigma^{(2)})^{-1} \right] +\OO_\prec(q  ) 
  \end{align*}
- on event $\Omega$, where we used Fact \ref{lem_stodomin} (i) in the last step. 
+on the event \eqref{one_event}, where we used Fact \ref{lem_stodomin} (i) in the second step. 
 %with probability $1-\oo(1)$. 
-This concludes equation \eqref{lem_cov_shift_eq} using Definition \ref{stoch_domination} and the fact that $c_{\varphi}$ be any fixed value within $(0, \frac{\varphi - 4}{2\varphi})$.  %if we rename $(r_1X^{(2)},r_2x_3)$ to $(a_1,a_2)$. 
+This concludes equation \eqref{lem_cov_shift_eq} using Definition \ref{stoch_domination} and the fact that $c_{\varphi}$ is any fixed value within $(0, \frac{\varphi - 4}{2\varphi})$.  %if we rename $(r_1X^{(2)},r_2x_3)$ to $(a_1,a_2)$. 
 %For equation \eqref{lem_cov_shift_eq}, it is a well-known result for inverse Whishart matrices {\color{red}(add some references)}. 
 %Note that if we set $n_1=0$ and $n_2=n$, then $a_1 = 0$ and $a_2 = (n_2-p) / n_2$ is the solution to equation \eqref{eq_a12extra}. This gives equation \eqref{XXA} using equation \eqref{lem_cov_shift_eq}. 
 \end{proof}
@@ -160,14 +163,15 @@ Recall that in the setting of Theorem \ref{thm_main_RMT}, we have equation \eqre
 %Again we assume that $M$ has the singular value decomposition equation \eqref{tildeM}. 
 %With equation \eqref{eigen2}, we can write the above expression as
 %$$n^2\bignorm{\Sigma_2^{1/2} ( (X^{(1)})^{\top}X^{(1)} + (X^{(2)})^{\top}X^{(2)})^{-1}\beta}^2= \bv^\top \cal G^2(0)  \bv,\quad \bv:=V^\top  \Sigma_2^{-1/2} \beta .$$ 
-For simplicity, we denote the vector $\bv:=V^\top  \Sigma_2^{-1/2} \Sigma_1^{1/2}w$. 
+For simplicity, we denote the vector $\bv:=V^\top  (\Sigma^{(2)})^{-1/2} \Sigma^{(1)}w$. 
 %Note that $\cal G^2(0)=\partial_z \cal G|_{z=0}$. 
-Under the constant $\varphi$-th moment condition, using Corollary \ref{main_cor} we obtain that
+%Under the constant $\varphi$-th moment condition, 
+By Corollary \ref{main_cor}, we have that
 %$Z^{(1)}$ and $Z^{(2)}$ have bounded support $q=n^{-1/2}$. Using Theorem \ref{LEM_SMALL}, %Now by Corollary \ref{main_cor}, we obtain that for any small constant $\e>0$, %with probability $1-\oo(1)$,
 \be\nonumber 
-\max_{z\in \C:|z|=(\log n)^{-1}}|\mathbf v^\top (G(z)-\Gi(z))\mathbf v| \prec q \|\mathbf v\|^2,\quad q:= n^{-\frac{\varphi - 4}{2\varphi}},
+\max_{z\in \C:|z|=(\log n)^{-1}}|\mathbf v^\top (G(z)-\Gi(z))\mathbf v| \prec q \|\mathbf v\|^2,%\quad q:= n^{-\frac{\varphi - 4}{2\varphi}},
 \ee
-on an event $\Omega$ with $\P(\Omega)=1-\oo(1)$. Now combining this estimate with Cauchy's integral formula, we get that on $\Omega$, %with probability $1-\oo(1)$, 
+on the event \eqref{one_event} with $ q:= n^{-\frac{\varphi - 4}{2\varphi}}$. Now combining this estimate with Cauchy's integral formula, we get that %on the event \eqref{one_event}, %with probability $1-\oo(1)$, 
 \be\label{apply derivlocal}
 \begin{split}
   \bv^\top \cal G'(0)\bv  = \frac{1}{2\pi \ii}\oint_{\cal C} \frac{ \bv^\top \cal G(z)\bv }{z^2}\dd z &=  \frac{1}{2\pi \ii}\oint_{\cal C} \frac{ \bv^\top\Gi(z)\bv}{z^2}\dd z +\OO_\prec(q\|\mathbf v\|^2) \\
@@ -176,9 +180,9 @@ on an event $\Omega$ with $\P(\Omega)=1-\oo(1)$. Now combining this estimate wit
 \ee
 where $\cal C$ is the contour $\{z\in \C: |z| = (\log n)^{-1} \}$. We can calculate the derivative $\bv^\top \Gi'(0)\bv$ as
 \be\label{dervPi}
-\bv^\top \Gi'(0)\bv = \bv  \frac{a_3\Lambda^2+(1+a_4)\id_p}{(a_{1}\Lambda^2 + a_{2}\id_p)^2}\bv,
+\bv^\top \Gi'(0)\bv = \bv^\top  \frac{a_3\Lambda^2+(1+a_4)\id_p}{(a_{1}\Lambda^2 + a_{2}\id_p)^2}\bv,
 \ee
-where we recall \eqref{cal G'0} and that $a_3=-a_1'(0)$ and $a_4=-a_2'(0)$. 
+where we recall equation \eqref{cal G'0} and that $a_3 = - \frac{\dd a_1(0)}{\dd z}$ and $a_4 = - \frac{\dd a_2(0)}{\dd z}$. 
 %Then we have
 %$$  \left\|(X^{(1)})^{\top}X^{(1)} (\beta_s - \beta_t)  - \frac{n_1}{n}(\beta_s - \beta_t)\right\|_2 \le C \sqrt{\frac{p}{n}} \left\| (\beta_s - \beta_t)\right\|_2. $$
 %\todo{(revise the following proof)} It remain to study the following expression
@@ -202,12 +206,13 @@ where we recall \eqref{cal G'0} and that $a_3=-a_1'(0)$ and $a_4=-a_2'(0)$.
 %\begin{align}\label{m34shift}
 %\frac{n_2}{n}\frac1{m_3} = - z +\frac1n\sum_{i=1}^p \frac1{  1+m_3 + \lambda_i^2m_4  } ,\quad \frac{n_1}{n}\frac1{m_4} = - z +\frac1n\sum_{i=1}^p \frac{\lambda_i^2 }{  1+m_3 + \lambda_i^2m_4  } .
 %\end{align}
-It remains to derive equation \eqref{eq_a34extra} for $(a_3,a_4)$. Taking implicit differentiation of equation \eqref{selfomega_a}, we obtain that
-\be \nonumber%\label{dotm34}
-\begin{split}
- \rho_1\frac{-a'_{1}(0) }{a_{1}^2(0)}=   \frac1p\sum_{i=1}^p \frac{\lambda_i^2\left(1-\lambda_i^2 a'_{1}(0) - a'_{2}(0)\right) }{  ( \lambda_i^2 a_{1}(0) +a_{2}(0))^2 } ,\quad \rho_2\frac{-a'_{2}(0)}{a_2^2(0)} &=  \frac1p\sum_{i=1}^p \frac{1-\lambda_i^2 a'_{1}(0) - a'_{2}(0)}{ ( \lambda_i^2a_{1}(0) +a_{2}(0))^2  } .
-\end{split}
-\ee
+Taking the derivatives of the system of equations \eqref{selfomega_a}, we can derive equation \eqref{eq_a34extra} for $(a_3,a_4)$. This concludes the proof together with equation \eqref{apply derivlocal}.
+%It remains to derive equation \eqref{eq_a34extra} for $(a_3,a_4)$. Taking implicit differentiation of equation \eqref{selfomega_a}, we obtain that
+%\be \nonumber%\label{dotm34}
+%\begin{split}
+% \rho_1\frac{-a'_{1}(0) }{a_{1}^2(0)}=   \frac1p\sum_{i=1}^p \frac{\lambda_i^2\left(1-\lambda_i^2 a'_{1}(0) - a'_{2}(0)\right) }{  ( \lambda_i^2 a_{1}(0) +a_{2}(0))^2 } ,\quad \rho_2\frac{-a'_{2}(0)}{a_2^2(0)} &=  \frac1p\sum_{i=1}^p \frac{1-\lambda_i^2 a'_{1}(0) - a'_{2}(0)}{ ( \lambda_i^2a_{1}(0) +a_{2}(0))^2  } .
+%\end{split}
+%\ee
 %Using $(a_1,a_2)=(a_1(0),a_2(0))$ and $(a_3,a_4)=(-a_1'(0),-a_2'(0))$,
 %Recalling that we have denoted  $(a_1, a_2)=(-r_1M_{1}(0),-r_2M_{2}(0))$, we can rewrite these two equations as
 %%\be%\label{dotm34}
@@ -237,8 +242,8 @@ It remains to derive equation \eqref{eq_a34extra} for $(a_3,a_4)$. Taking implic
 %\end{split}
 %\ee
 %where we denoted  $(a_3 ,a_4):=(r_1M_{1}'(0),r_2M'_{2}(0))$. 
-It is not hard to see that this equation is equivalent to equation \eqref{eq_a34extra}. 
-Finally, we can calculate $\bv^\top \Gi'(0)\bv$ as in equation \eqref{cal G'0}, which concludes equation \eqref{lem_cov_derv_eq} by equation \eqref{apply derivlocal}. 
+%It is not hard to see that this equation is equivalent to equation \eqref{eq_a34extra}. 
+%Finally, we can calculate $\bv^\top \Gi'(0)\bv$ as in equation \eqref{cal G'0}, which concludes equation \eqref{lem_cov_derv_eq} by equation \eqref{apply derivlocal}. 
 %Then by equation \eqref{apply derivlocal} and equation \eqref{dervPi}, we get
 %\begin{align*}
 %n^2\bignorm{\Sigma_2^{1/2} ( (X^{(1)})^{\top}X^{(1)} + (X^{(2)})^{\top}X^{(2)})^{-1}\beta}^2&=\beta^\top \Sigma_2^{-1/2} V  \frac{1 + a_4+ a_3\Lambda^2 }{(a_1\Lambda^2 + a_2)^2}  V^\top  \Sigma_2^{-1/2} \beta \\
@@ -267,7 +272,7 @@ Finally, we can calculate $\bv^\top \Gi'(0)\bv$ as in equation \eqref{cal G'0}, 
 
 \subsection{Self-Consistent Equations}\label{sec contract}
 
-The rest of this section is devoted to the proof of Theorem \ref{LEM_SMALL}. In this section, we show that the limiting equation \eqref{selfomega_a} has a unique solution $(a_1(z), a_2(z))$ for any $z\in \mathbf D$ in equation \eqref{SSET1}. Otherwise, Theorem \ref{LEM_SMALL} will be a vacuous statement. 
+The rest of this section is devoted to the proof of Lemma \ref{LEM_SMALL}. In this section, we show that the limiting equation \eqref{selfomega_a} has a unique solution $(a_1(z), a_2(z))$ for any $z\in \mathbf D$ in equation \eqref{SSET1}. Otherwise, Lemma \ref{LEM_SMALL} will be a vacuous statement. 
 
 
 First observe that when $z=0$, equation \eqref{selfomega_a} can be reduced to equation \eqref{eq_a12extra}, from which we can derive an equation of $a_1$ only: 
