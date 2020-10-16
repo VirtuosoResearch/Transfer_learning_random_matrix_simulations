@@ -20,7 +20,7 @@ In this section, we give the proof of Theorem \ref{thm_main_RMT} and Theorem \re
 Since the full proof of Theorem \ref{thm_main_RMT} and Theorem \ref{thm_main_RMT_app} is rather technical, in this subsection we give a more detailed proof overview, which contains the main ideas of the proof. 
 
 Recall that $(W-z\id)^{-1}$ is the resolvent of matrix $W$. 
-We say that $(W-z\id)^{-1}$ converges to a deterministic $p\times p$ matrix limit $R(z)$ if for any sequence of deterministic vectors $v\in \R^p$ with unit norm,
+We say that $(W-z\id)^{-1}$ converges to a deterministic $p\times p$ matrix limit $R(z)$ if for any sequence of deterministic unit vectors $v\in \R^p$,
 $$v^\top \left[(W-z\id)^{-1}-R(z)\right]v\to 0\ \ \ \text{when $p$ goes to infinity.
 }$$
 
@@ -58,23 +58,21 @@ In Theorem \ref{main_cor}, we will show that for $z$ in a small neighborhood aro
 \be \label{defn_piw}
 	\Gi(z) \define \begin{pmatrix} (a_{1}(z)\Lambda^2  +  (a_{2}(z)- z)\id_{p\times p})^{-1} & 0 & 0 \\ 0 & - \frac{n_1+n_2}{n_1} a_{1}(z)\id_{n_1\times n_1} & 0 \\ 0 & 0 & -\frac{n_1+n_2}{n_2}a_{2}(z)\id_{n_2\times n_2}  \end{pmatrix},\ee
 where $a_1(z)$ and $a_2(z)$ are the unique solutions to the following self-consistent equations
-\be
-\begin{split}\label{selfomega_a}
-	&a_1(z) + a_2(z) = 1 - \frac{1}{n_1 + n_2} \bigbrace{\sum_{i=1}^p \frac{\lambda_i^2 a_1(z) + a_2(z)}{\lambda_i^2 a_1(z) + a_2(z) - z}},  \\
-	&a_1(z) + \frac{1}{n_1 + n_2}\bigbrace{\sum_{i=1}^p \frac{\lambda_i^2 a_1(z)}{\lambda_i^2 a_1(z) + a_2(z) - z}} = \frac{n_1}{n_1 + n_2}.
+\begin{align}
+	&a_1(z) + a_2(z) = 1 - \frac{1}{n_1 + n_2} \bigbrace{\sum_{i=1}^p \frac{\lambda_i^2 a_1(z) + a_2(z)}{\lambda_i^2 a_1(z) + a_2(z) - z}}, \label{selfomega_a000} \\
+	&a_1(z) + \frac{1}{n_1 + n_2}\bigbrace{\sum_{i=1}^p \frac{\lambda_i^2 a_1(z)}{\lambda_i^2 a_1(z) + a_2(z) - z}} = \frac{n_1}{n_1 + n_2}.\label{selfomega_a}
 % \frac{\rho_1}{a_{1}(z)} = \frac{1}{p}\sum_{i=1}^p \frac{\lambda_i^2}{ - z+\lambda_i^2 a_{1}(z) +a_{2} (z) } + (\rho_1+\rho_2),\  \frac{\rho_2}{a_{2}(z)} = \frac{1}{p}\sum_{i=1}^p \frac{1 }{  -z+\lambda_i^2 a_{1}(z) +  a_{2}(z)  }+ (\rho_1+\rho_2) .
-\end{split}
-\ee
+\end{align}
 The existence and uniqueness of solutions to the above system are shown in Lemma \ref{lem_mbehaviorw}.
 %First, we define the deterministic limits of $(m_1(z), m_{2}(z))$ by $\left(-\frac{\rho_1+\rho_2}{\rho_1}a_{1}(z),-\frac{\rho_1+\rho_2}{\rho_2}a_{2}(z)\right)$, where
 %satisfying that $\im a_{1}(z)< 0$ and $\im a_{2}(z)<0$ for $z\in \C_+$ with $\im z$.
 %\be\label{ratios}
 % \gamma_n :=\frac{p}{n}=\frac{1}{\rho_1+\rho_2},\quad r_1 :=\frac{n_1}{n}=\frac{\rho_1}{\rho_1+\rho_2},\quad r_2 :=\frac{n_2}{n}=\frac{\rho_2}{\rho_1+\rho_2}.
 %\ee
-Given this result, we show that when $z = 0$, the matrix limit $\Gi(0)$ implies the variance limit shown in equation \eqref{lem_cov_shift_eq}.
-First, we have that $a_1 = a_1(0)$ and $a_2 = a_2(0)$ since equation \eqref{selfomega_a} reduces to equation \eqref{eq_a12extra}.
+Given this result, we now show that when $z = 0$, the matrix limit $\Gi(0)$ implies the variance limit shown in equation \eqref{lem_cov_shift_eq}.
+First, we have that $a_1 = a_1(0)$ and $a_2 = a_2(0)$ since equations \eqref{selfomega_a000} and \eqref{selfomega_a} reduce to equations \eqref{eq_a12extra000} and \eqref{eq_a12extra} when $z=0$.
 Second, since $W^{-1}$ is the upper-left block matrix of $G(0)$, we have that $W^{-1}$ converges to $ (a_1\Lambda^2 + a_2\id)^{-1} $.
-Using the fact that $\tr[\Sigma^{(2)} \hat{\Sigma}^{-1}] = \bigtr{W^{-1}} / (n_1 + n_2)$, we get that when $p$ goes to infinity, % the trace of $$ converges to
+Using the fact that $\tr[\Sigma^{(2)} \hat{\Sigma}^{-1}] = (n_1 + n_2)^{-1}\bigtr{W^{-1}} $, we get that when $p$ goes to infinity, % the trace of $$ converges to
 \begin{align*}
   \bigtr{\Sigma^{(2)} \hat{\Sigma}} \rightarrow \frac{1}{n_1+n_2}\bigtr{(a_1 \Lambda^2 + a_2\id)^{-1}} &= \frac1{n_1+n_2}\bigtr{(a_1 M^{\top}M + a_2 \id)^{-1}} \\
   &=\frac{1}{n_1+n_2} \bigtr{\Sigma^{(2)} (a_1 \Sigma^{(1)} + a_2 \Sigma^{(2)})^{-1}},
@@ -93,14 +91,14 @@ where we note that $M^\top M = (\Sigma^{(2)})^{-1/2} \Sigma^{(1)} (\Sigma^{(2)})
 
 
 \paragraph{Bias asymptotic limit.}
-For the bias limit in equation \eqref{lem_cov_derv_eq}, we show that it is governed by the derivative of $(W - z\id)^2$ with respect to $z$ at $z = 0$.
-First, we reduce the empirical bias term in equation \eqref{lem_cov_derv_eq} to $W$
+ For the bias limit in equation \eqref{lem_cov_derv_eq}, we show that it is governed by the derivative of $(W - z\id)^2$ with respect to $z$ at $z = 0$.
+First, we can express the empirical bias term in equation \eqref{lem_cov_derv_eq} as %$W$
 \begin{align}\label{calculate G'}
 	(n_1 + n_2)^2 \hat{\Sigma}^{-1}\Sigma^{(2)}\hat{\Sigma}^{-1} = {\Sigma^{(2)}}^{-1/2} V W^{-2} V^{\top} {\Sigma^{(2)}}^{-1/2}.
 \end{align}
 Let $\cal G(z):=(W-z\id )^{-1}$ denote the resolvent of $W$.
 Our key observation is that $\frac{\dd{\cal G(z)}}{\dd z} =  \cal G^2(z)$.
-Hence, provided that limit of $(W - z\id)^{-1}$ is $(a_1(z) \Lambda^2 + (a_2(z) - z) \id)^{-1}$ near $z = 0$, the limit of $\frac{\dd{\cal G(0)}}{\dd z}$ satisfies that
+Hence, provided that the limit of $(W - z\id)^{-1}$ is $(a_1(z) \Lambda^2 + (a_2(z) - z) \id)^{-1}$ near $z = 0$, the limit of $\frac{\dd{\cal G(0)}}{\dd z}$ satisfies that
 \begin{align}\label{cal G'0}
 	\frac{\dd \cal G(0)}{\dd z} \to \frac{-\frac{\dd a_1(0)}{\dd z}\Lambda^2 - (\frac{\dd a_2(0)}{\dd z} - 1)\id}{(a_{1}(0)\Lambda^2 + a_{2}(0)\id_p)^2}.
 \end{align}
@@ -111,7 +109,7 @@ To find the derivatives of $a_1(z)$ and $a_2(z)$, we take the derivatives on bot
 %\end{align*}
 Let $a_3 = - \frac{\dd a_1(0)}{\dd z}$ and $a_4 = - \frac{\dd a_2(z)}{\dd z}$.
 %then taking implicit differentiation of equation \eqref{selfomega_a}
-One can verify that $a_3$ and $a_4$ satisfy the self-consistent equations \eqref{eq_a34extra} (details omitted).
+One can verify that $a_3$ and $a_4$ satisfy the self-consistent equations in \eqref{eq_a34extra} (details omitted).
 Applying equation \eqref{cal G'0} to equation \eqref{calculate G'}, we obtain the asymptotic limit of the bias term.
 %\begin{align}
 %& n^2\bignorm{\Sigma_2^{1/2} \bigbrace{ (X^{(1)})^{\top}(X^{(1)}) + (X^{(2)})^{\top}(X^{(2)}) }^{-1} \Sigma_1^{1/2} w}^2 \nonumber\\
