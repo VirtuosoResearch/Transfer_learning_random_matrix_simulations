@@ -1,22 +1,22 @@
 \section{Bias-variance Limits: Different Sample Sizes and Covariate Shifts}\label{sec_diff}
 
 The previous section assumes that all tasks have the same sample size and feature vectors.
-In this section, we study how different sample sizes and different features impact hard parameter sharing.
+In this section, we study how having different sample sizes and different covariance matrices impact hard parameter sharing.
 %The different covariates case differs from the same covariates case in two aspects.
 %First, different tasks may have different sample sizes. In extreme scenarios, one task may have much less labeled data compared to another task.
-The setting where features differ across tasks is often called ``covariate shift''.
+The setting where covariates differ across tasks is often called ``covariate shift''.
 
-Unlike the previous section, we no longer have an optimal solution to $f(A, B)$.
+Unlike the previous section, we can no longer characterize the global minimum of $f(A, B)$.
 This is because $f(A, B)$ is in general non-convex.
 Instead, our result implies sharp bias-variance tradeoffs for any \emph{local minimizer} of $f(A, B)$.
 We focus on the two-task case to better understand the impact of having different sample sizes and different covariates.
 Let $n_1, n_2$ denote task one  and two's sample size, respectively.
-Suppose that
+Suppose
 \begin{align*}
 	X^{(1)} &= Z^{(1)}(\Sigma^{(1)})^{1/2} \in \real^{n_1 \times p}, \text{ and} \\
 	X^{(2)} &= Z^{(2)}(\Sigma^{(2)})^{1/2} \in \real^{n_2 \times p},
 \end{align*}
-where the entries of $Z^{(1)}$ and $ Z^{(2)}$ are drawn independently from a one dimensional distribution with zero mean, unit variance, and constant $\varphi$-th moment for a fixed $\varphi > 4$. The matrices $\Sigma^{(1)}\in \R^{p\times p}$ and $\Sigma^{(2)}\in \R^{p\times p}$ denote the population covariance matrices of task 1 and task 2, respectively.
+where the entries of $Z^{(1)}$ and $ Z^{(2)}$ are drawn independently from a one dimensional distribution with zero mean, unit variance, and constant $\varphi$-th moment for a fixed $\varphi > 4$. $\Sigma^{(1)}\in \R^{p\times p}$ and $\Sigma^{(2)}\in \R^{p\times p}$ denote the population covariance matrices of task 1 and task 2, respectively.
 
 \paragraph{Bias-variance equations.}
 Our key result characterizes the asymptotic limit of the inverse of the sum of two arbitrarily different sample covariance matrices.
@@ -82,7 +82,7 @@ One can see that the variance limit depends intricately on both tasks' samples s
 Next, we illustrate how varying them impact the prediction loss.
 \begin{example}[Sample size ratio]\label{ex_sample_ratio}
 	We first consider the impact of varying sample sizes.
-	Consider the random-effects model from Section \ref{sec_same}, with both tasks having an isotropic population covariance matrix.
+	Consider the random-effect model from Section \ref{sec_same}, with both tasks having an isotropic population covariance matrix.
 
 	Applying Theorem \ref{thm_main_RMT} to the above setting, we get that
 	\begin{align*}

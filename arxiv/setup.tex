@@ -136,11 +136,12 @@ We conduct further studies of this procedure on six text classification datasets
 \textbf{Proof techniques.}
 There are two main ideas in our analysis. The proof of our first result uses a geometric intuition that hard parameter sharing finds a ``rank-$r$'' approximation of the datasets.
 We carefully keep track of the concentration error between the global minimizer of $f(A, B)$ and its population version (cf. equation \eqref{eq_A_star}).
-The proof of our second result is significantly more involved because of different sample sizes and covariate shifts. Using recently developed techniques from random matrix theory, we show that the inverse of the sum of two sample covariance matrices with arbitrary covariate shifts converges to a deterministic diagonal matrix asymptotically (cf. Theorem \ref{thm_main_RMT}). % Moreover, we can obtain a sharp bound on the concentration error.
+The proof of our second result is significantly more involved because of different sample sizes and covariate shifts. We show that the inverse of the sum of two sample covariance matrices with arbitrary covariate shifts converges to a deterministic diagonal matrix asymptotically (cf. Theorem \ref{thm_main_RMT}).
+We use recently developed techniques from random matrix theory to show a sharp convergence rate.
 % to obtain a sharp estimate on the..., which is commonly referred to as the \emph{local law}.
 %\HZ{add several sentences on the technical insight}
 One limitation of our analysis is that in Example \ref{ex_sample_ratio}, there is an error term that can result in vacuous bounds for very small $n_1$ (cf. equation \eqref{cor_MTL_error}).
-We believe our result has provided important initial insights and it is an interesting question to tighten our result.
+We believe our result has provided significant initial insights, and it is an interesting question to tighten our result.
 
 %This part introduces a positive variance reduction effect from adding the source labels.
 %Hence, whether $\te(\hat{\beta}_t^{\MTL}) < \te(\hat{\beta}_t^{\STL})$ is determined precisely by the tradeoff between the negative effect of the bias term and the positive effect of the variance term!
@@ -151,21 +152,21 @@ We believe our result has provided important initial insights and it is an inter
 \subsection{Related Work}
 
 There is a large body of classical and recent works on multi-task learning.
-We focus our discussion on theoretical works, and refer interested readers to several excellent surveys for general references \cite{PY09,ZY17,V20}.
+We focus our discussion on theoretical results and refer interested readers to several excellent surveys for general references \cite{PY09,ZY17,V20}.
 The early work of \citet{B00,BS03,M06} studied multi-task learning from a theoretical perspective, often using uniform convergence or Rademacher complexity based techniques.
 An influential paper by \citet{BBCK10} provides uniform convergence bounds that combine multiple datasets in certain settings.
 One limitation of uniform convergence based techniques is that the results often assume that all  tasks have the same sample size, see e.g. \citet{B00,MPR16}.
-Moreover, these techniques do not apply to the high-dimensional setting, because the results usually require a sample size at least $p \log p$.
+Moreover, these techniques do not apply to the high-dimensional setting because the results usually require a sample size of at least $p \log p$.
 
-Our proof techniques use the so-called local law of random matrices \cite{erdos2017dynamical}, which is a recent development in the random matrix theory literature.
-In the single task case, \citet{isotropic} first proved such a local law for sample covariance matrices with isotropic covariance.
-\citet{Anisotropic} later extended this result to arbitrary covariance setting.
+Our proof techniques use the so-called local law of random matrices \cite{erdos2017dynamical}, a recent development in the random matrix theory literature.
+In the single-task case, \citet{isotropic} first proved such a local law for sample covariance matrices with isotropic covariance.
+\citet{Anisotropic} later extended this result to arbitrary covariance matrices.
 %On the other hand, one may derive the asymptotic result in Theorem \ref{thm_main_RMT} with error $\oo(1)$ using the free addition of two independent random matrices in  theory .
-These techniques provide almost sharp convergence rates to the asymptotic limit compared to other techniques such as free probability \cite{nica2006lectures}.
-To the best of our knowledge, we are not aware of any previous results in the multi-task case, even for two tasks (with arbitrary covarite shifts).
+These techniques provide almost sharp convergence rates to the asymptotic limit compared to other methods such as free probability \cite{nica2006lectures}.
+To the best of our knowledge, we are not aware of any previous results in the multi-task case, even for two tasks (with arbitrary covariate shifts).
 
 The problem we study here is also related to high-dimensional prediction in transfer learning \cite{li2020transfer,bastani2020predicting} and distributed learning \cite{dobriban2018high}.
-For example, \citet{li2020transfer} provides minimax optimal rates for predicting a target regression task given multiple sparse regression tasks.
+For example, \citet{li2020transfer} provide minimax-optimal rates to predict a target regression task given multiple sparse regression tasks.
 One closely related work is \citet{WZR20}, which studied hard parameter sharing for two linear regression tasks.
 However, their results only apply to sample size regimes at least logarithmic factors of dimension.
 %\citet{WZR20} (and an earlier work by \citet{KD12}) observed that the shared layer size $r$ in hard parameter sharing plays a critical role of regularization.
@@ -195,9 +196,10 @@ However, their results only apply to sample size regimes at least logarithmic fa
 \textbf{Organizations.}
 The rest of this paper is organized as follows.
 In Section \ref{sec_same}, we present the bias-variance decomposition for hard parameter sharing.
-In Section \ref{sec_diff}, we present our technical results that describe how varying sample sizes and covariate shifts impact hard parameter sharing using random matrix theory.
-In Sections \ref{sec_simulation} and \ref{sec_text}, we validate our theory in simulations and real world classification tasks.
+In Section \ref{sec_diff}, we describe how varying sample sizes and covariate shifts impact hard parameter sharing using random matrix theory.
+In Sections \ref{sec_simulation}, we validate our results in simulations.
 In Section \ref{sec_conclude}, we summarize our work and discuss future work.
+Section \ref{sec_text} describes our study on text classification tasks.
 Section \ref{app_proof_error_same_cov}, \ref{appendix RMT}, and \ref{app_iso_cov} present proofs of our results.
 
 \textbf{Notations.}
