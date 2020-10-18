@@ -73,9 +73,9 @@ Hence, by further taking expectation over $\beta^{(1)}$ and $\beta^{(2)}$, we ob
 Let $\hat{x}$ denote the global minimizer of $g(x)$.
 We show that in the setting of Corollary \ref{cor_MTL_loss}, $\hat x$ is close to 1.
 This gives us the global minimum of $f(A, B)$, since $\hat{B}$ is given by $\hat{x}$ using local optimality conditions.
-First, we show that $g(x)$ and $\ex{g(x) \mid X^{(1)}, X^{(2)}}$ are close using standard concentration bounds.
+First, we show that $g(x)$ and its expectation are close using standard concentration bounds.
 \begin{claim}\label{claim_largedev1}
- In the setting of Corollary \ref{cor_MTL_loss}, for any $x = O(1)$, we have that with high probability
+ In the setting of Corollary \ref{cor_MTL_loss}, for any $x$, we have that with high probability
 $$\left| g(x) - \ex{g(x) \mid X^{(1)}, X^{(2)} }\right| \le p^{1/2+c} \left(\sigma^2 + \kappa^2+d^2 \right).$$
 \end{claim}
 \begin{proof}
@@ -98,7 +98,7 @@ $$\left| g(x) - \ex{g(x) \mid X^{(1)}, X^{(2)} }\right| \le p^{1/2+c} \left(\sig
 Next, we estimate each term using Lemma \ref{largedeviation} for random variables with bounded moment up to any order.
 We first state several facts that will be commonly used in the proof.
 By Fact \ref{fact_minv} (ii), we have that w.h.p. the operator norm of $X^{(1)}$ and $X^{(2)}$ are both bounded by $O(\sqrt{n})$.
-Furthermore, the operator norm of $\hat\Sigma(x)^{-1}$ is bounded by $(x^2 + 1)^{-1} O(n_1 + n_2) = (x^2 + 1) O(p)$.
+Furthermore, the operator norm of $\hat\Sigma(x)^{-1}$ is bounded by $(x^2 + 1)^{-1} O(n_1 + n_2) = (x^2 + 1)^{-1} O(p)$.
  % \be\label{op_X12}
 %\|X^{(1)}\|\le \sqrt{(\sqrt{n_1} + \sqrt{p})^2 + n_1 \cdot p^{-c_{\varphi}}}\lesssim \sqrt{p}, \quad \|X^{(2)}\|\le \sqrt{(\sqrt{n_2} + \sqrt{p})^2 + n_2 \cdot p^{-c_{\varphi}}}\lesssim \sqrt{p},
 % \ee
@@ -225,51 +225,58 @@ In summary, the global minimizer of $h(x)$ lies within $1-d^2/\kappa^2$ and $1+d
 %\ee
 %for some small constant $c_0>0$.
 
-For the second step, we first argue that $\hat{x}$ is $O(1)$. Hence we can apply Claim \ref{claim_largedev1} to bound the concentration error of $g(x)$.
-Using Fact \ref{fact_minv} (ii), we can obtain that with high probability,
-\begin{align}
-p(x^2+1)^{-1}&\lesssim \left( x^2 \left[(\sqrt{n_2}-\sqrt{p})^{2}-n_2p^{-c_\varphi}\right]^{-1} +\left[(\sqrt{n_1}-\sqrt{p})^{2}-n_1p^{-c_\varphi}\right]^{-1} \right)^{-1} \nonumber\\
-&\preceq (X^{(1)})^\top X^{(1)} \hat\Sigma(x)^{-1}(X^{(2)})^\top X^{(2)} =\left( x^2 [(X^{(2)})^\top X^{(2)}]^{-1} + [(X^{(1)})^\top X^{(1)}]^{-1} \right)^{-1} \nonumber\\
-&\preceq \left( x^2 \left[(\sqrt{n_2}+\sqrt{p})^{2}+n_2p^{-c_\varphi}\right]^{-1} +\left[(\sqrt{n_1}+\sqrt{p})^{2}+n_1p^{-c_\varphi}\right]^{-1} \right)^{-1}\lesssim p(x^2+1)^{-1}, \label{op_uplow}
-\end{align}
-where we also used that $3\le n_1/p \le \tau^{-1}$ and $3\le  n_2/p \le \tau^{-1}$ for a small constant $\tau>0$. Then we get that
-\be\label{eq_h1}h(1)= 2d^2 \cdot p^{-1} \tr\left[ (X^{(1)})^\top X^{(1)} \hat\Sigma(1)^{-1}(X^{(2)})^\top X^{(2)}\right]\lesssim pd^2 .\ee
-On the other hand, if $|x-1|\ge \delta$ for a small constant $\delta>0$, then we have
-\begin{align}\label{eq_hA}
-h(x)\gtrsim (1+x^2)\kappa^2 \cdot p\left( x^2 +1\right)^{-1} =p\kappa^2 ,
-\end{align}
-where in the first step we used that $|x-1|^2\gtrsim 1+x^2$ for $|x-1|\ge \delta$ and equation \eqref{op_uplow}.
-and in the second step we used equation \eqref{choiceofpara0} \HZ{I'm not sure which condition we use? put it here}.
-\begin{align}
-g(x)&\ge  h(x) +\sigma^2(n_1+n_2-p) -p^{-1/2+c}\cdot p\left(\sigma^2 +\kappa^2+d^2 \right) \nonumber\\
-&\ge h(1) +\sigma^2(n_1+n_2-p) + p^{-1/2+c}\cdot p\left(\sigma^2 +\kappa^2+d^2 \right) \ge g(1), \label{gA>g1}
-\end{align}
-under conditions $\sigma^2 =\OO( \kappa^2)$ and $d^2 =\oo({\kappa^2})$. %\eqref{choiceofpara0} \HZ{again, I don't see which condition we use here?}.
-This gives that
-Hence it remains to consider the region $|A-1|\le \delta$ for a small enough constant $\delta>0$.
-
-
-
-
-First, using equations \eqref{op_uplow} and  \eqref{h'(A)1}, we obtain that for $1+3d^2/(2\kappa^2) \le x\le 1+\delta$,
-$$h'(x)\ge \frac{2(x-1)\kappa^2 - 2d^2}{x^3} \cdot p^{-1} \tr\left[\left([(X^{(2)})^\top X^{(2)}]^{-1} + x^{-2} [(X^{(1)})^\top X^{(1)}]^{-1}\right)^{-1}\right] \gtrsim p\left(d^2 + |x-1|\kappa^2\right).$$
-Thus we get that if $1+2d^2/\kappa^2 +p^{-1/4+c}\le x\le 1+\delta$,
+For the second step, using Claim \ref{claim_largedev1}, we have that $g(x)$ and $h(x)$ differ by at most $p^{1/2 + \e}(\sigma^2 + \kappa^2 + d^2)$.
+Therefore, our goal reduces to showing that if $\hat{x}$ deviates too far from $1 \pm d^2 / \kappa^2$, it is no longer a global minimum of $g(x)$.
+%we first argue that $\hat{x}$ is $O(1)$. Hence we can apply Claim \ref{claim_largedev1} to bound the concentration error of $g(x)$.
+%Using Fact \ref{fact_minv} (ii), we can obtain that with high probability,
+%\begin{align}
+%p(x^2+1)^{-1}&\lesssim \left( x^2 \left[(\sqrt{n_2}-\sqrt{p})^{2}-n_2p^{-c_\varphi}\right]^{-1} +\left[(\sqrt{n_1}-\sqrt{p})^{2}-n_1p^{-c_\varphi}\right]^{-1} \right)^{-1} \nonumber\\
+%&\preceq (X^{(1)})^\top X^{(1)} \hat\Sigma(x)^{-1}(X^{(2)})^\top X^{(2)} =\left( x^2 [(X^{(2)})^\top X^{(2)}]^{-1} + [(X^{(1)})^\top X^{(1)}]^{-1} \right)^{-1} \nonumber\\
+%&\preceq \left( x^2 \left[(\sqrt{n_2}+\sqrt{p})^{2}+n_2p^{-c_\varphi}\right]^{-1} +\left[(\sqrt{n_1}+\sqrt{p})^{2}+n_1p^{-c_\varphi}\right]^{-1} \right)^{-1}\lesssim p(x^2+1)^{-1}, \label{op_uplow}
+%\end{align}
+%where we also used that $3\le n_1/p \le \tau^{-1}$ and $3\le  n_2/p \le \tau^{-1}$ for a small constant $\tau>0$. Then we get that
+%\be\label{eq_h1}h(1)= 2d^2 \cdot p^{-1} \tr\left[ (X^{(1)})^\top X^{(1)} \hat\Sigma(1)^{-1}(X^{(2)})^\top X^{(2)}\right]\lesssim pd^2 .\ee
+%On the other hand, if $|x-1|\ge \delta$ for a small constant $\delta>0$, then we have
+%\begin{align}\label{eq_hA}
+%h(x)\gtrsim (1+x^2)\kappa^2 \cdot p\left( x^2 +1\right)^{-1} =p\kappa^2 ,
+%\end{align}
+%where in the first step we used that $|x-1|^2\gtrsim 1+x^2$ for $|x-1|\ge \delta$ and equation \eqref{op_uplow}.
+%and in the second step we used equation \eqref{choiceofpara0} \HZ{I'm not sure which condition we use? put it here}.
+%\begin{align}
+%g(x)&\ge  h(x) +\sigma^2(n_1+n_2-p) -p^{-1/2+c}\cdot p\left(\sigma^2 +\kappa^2+d^2 \right) \nonumber\\
+%&\ge h(1) +\sigma^2(n_1+n_2-p) + p^{-1/2+c}\cdot p\left(\sigma^2 +\kappa^2+d^2 \right) \ge g(1), \label{gA>g1}
+%\end{align}
+%under conditions $\sigma^2 =\OO( \kappa^2)$ and $d^2 =\oo({\kappa^2})$. %\eqref{choiceofpara0} \HZ{again, I don't see which condition we use here?}.
+%This gives that
+%Hence it remains to consider the region $|A-1|\le \delta$ for a small enough constant $\delta>0$.
+We prove by contradiction.
+First, suppose that $\hat{x} \ge 1 + 2d^2 /\kappa^2 + p^{-1/2 + \e}$.
+For any $x \ge 1+3d^2/(2\kappa^2)$, we can lower bound the derivative of $h(x)$ using equation \eqref{h'(A)1} as follows
+	\[ h'(x) \ge \frac{2(x-1)\kappa^2 - 2d^2}{x^3} \cdot p^{-1} \tr\left[\left([(X^{(2)})^\top X^{(2)}]^{-1} + x^{-2} [(X^{(1)})^\top X^{(1)}]^{-1}\right)^{-1}\right]
+	\gtrsim p\kappa^2\cdot \frac{x-1}{x (1 + x^2)}. \]
+Therefore, the difference between $h(x)$ and $h(1)$ is at least the following
 \begin{align*}
-h(x)-h(1)\ge h(x)-h\left(1+\frac{3d^2}{2\kappa^2}\right) \ge \int_{1+\frac{3d^2}{2\kappa^2}}^x h'(x)\dd x \gtrsim p\kappa^2 \cdot |x-1|^2  \gtrsim p\frac{d^4}{\kappa^2} + p^{1/2+2c} \kappa^2 .
+		h(x)-h(1) \ge h(x) - h\left(1+\frac{3d^2}{2\kappa^2}\right)
+	\ge \int_{1+\frac{3d^2}{2\kappa^2}}^x h'(x)\dd x \gtrsim p\kappa^2 \cdot \int_{1 + \frac{3d^2}{2\kappa^2}}^x \frac{x-1}{x(1 + x^2)} \dd x.
 \end{align*}
-On the other hand, by Claim \ref{claim_largedev1} we have that
-$$ g(x)=h(x)+\sigma^2 (n_1+n_2-p)+\OO \left(p^{1/2+c}\left(\sigma^2 +\kappa^2+d^2 \right)\right)$$
-with high probability. Combining the above two estimates, we obtain that under the conditions $\sigma^2 =\OO( \kappa^2)$ and $d^2 =\oo({\kappa^2})$,
-$$g(x)-g(1) = h(x)-h(1) + \OO \left(p^{1/2+c}\left(\sigma^2 +\kappa^2+d^2 \right)\right) >0$$
-with high probability, i.e. $x$ cannot be the minimizer of $g$.
+When $\hat{x}$ is sufficiently far from $1$ (e.g. $2d^2 / \kappa^2 + p^{-1/4+\e}$), one can verify that $h(x) - h(1)$ is at least $\OO(p\frac{d^4}{\kappa^2} + p^{1/2+2c} \kappa^2) > \OO(p^{1/2 + c} (\sigma^2 + \kappa^2 + d^2))$, under the condition that $\sigma^2 =\OO( \kappa^2)$ and $d^2 =\oo({\kappa^2})$.
+On the other hand, by triangle inequality and Claim \ref{claim_largedev1} we have that
+\begin{align*}
+	h(\hat{x}) - h(1) = g(\hat{x}) - g(1) + (h(\hat{x}) - g(\hat{x})) + (g(1) - h(1))
+	\le \OO\left(p^{1/2+c}\left(\sigma^2 +\kappa^2+d^2 \right)\right).
+\end{align*}
+Hence, we have arrived at a contradition.
+
+
 %Then if we choose the constant $c$ in Claim \ref{claim_largedev1} such that $e_1<2e_2$, we have
 %$$ h(x)-h(1)\gtrsim  p^{-1/2+2e_2}\cdot p\kappa^2 \gg p^{-1/2+e_1}\cdot p\left(\sigma^2 +\kappa^2+d^2 \right),$$ where we use the assumption that $\sigma^2$ and $d^2$ are both at most $\OO(\kappa^2)$, which implies the inequality \eqref{gA>g1}.
-Second, using equations \eqref{op_uplow} and  \eqref{h'(A)2}, we obtain that for $1-\delta \le x \le 1-3d^2/(2\kappa^2)$,
-$$- h'(x)\ge  [2(1-x)\kappa^2 - 2xd^2] \cdot p^{-1} \tr\left[\left(x^2[(X^{(2)})^\top X^{(2)}]^{-1} + [(X^{(1)})^\top X^{(1)}]^{-1}\right)^{-1}\right]  \gtrsim p\left(d^2 + |x-1|\kappa^2\right).$$
-Then with a similar argument as above, we can get that if $1-2d^2/\kappa^2 - p^{-1/4+c}\le x\le 1-\delta$, then
-$$ h(x)-h(1) \gtrsim p\frac{d^4}{\kappa^2} +p^{1/2+2c} \kappa^2, $$
+Second, suppose that $\hat{x} \le 1 - 2d^2/ \kappa^2 - p^{-1/2 + \e}$.
+Using equation \eqref{h'(A)2}, we obtain that for any $x \le 1 - 3d^2/(2\kappa^2)$,
+	\[ -h'(x)\ge  [2(1-x)\kappa^2 - 2xd^2] \cdot p^{-1} \tr\left[\left(x^2[(X^{(2)})^\top X^{(2)}]^{-1} + [(X^{(1)})^\top X^{(1)}]^{-1}\right)^{-1}\right]  \gtrsim p\kappa^2 \cdot \frac{(1 - x)x^2}{1 + x^2}. \]
+Using a similar argument to the first case, we get that the difference between $h(x)$ and $h(1)$ is at least the integral of the abvoe derivative.
 %under equation \eqref{choiceofpara0} \HZ{I don't see which condition we want to use here?},
-which again implies that $g(x)>g(1)$, i.e. $x$ cannot be the minimizer of $g$. In sum, we obtain that the minimizer $\hat x$ of $g$ must satisfy equation \eqref{hatw_add1}.
+This implies that $\hat{x}$ cannot be too far from one.
+Hence we have completed the proof.
 %Next we prove the following estimate on the optimizer $\hat x$: with high probability,
 %%\begin{lemma}
 %%For the isotropic model, we have
@@ -290,94 +297,99 @@ which again implies that $g(x)>g(1)$, i.e. $x$ cannot be the minimizer of $g$. I
 
 \paragraph{Part $2$: a reduction to the bias and variance limits.}
 Recall that the hard parameter sharing estimator $\hat{\beta}_2^{\MTL}$ is equal to $\hat{B} \hat{A}_2$.
-The predication loss of hard parameter sharing is as follows
+Using the local optimility condition for $\hat{B}$, we obtain the predication loss of HPS as follows
 \begin{align}
 L(\hat{\beta}_2^{\MTL}) &=\left\|(\Sigma^{(2)})^{1/2} \left( \hat B \hat A_2 - \beta^{(2)}\right)\right\| \nonumber\\
 &=  \left\| (\Sigma^{(2)})^{1/2}\hat \Sigma(\hat x)^{-1} \left[(X^{(1)})^\top X^{(1)} (\hat x\beta^{(1)}-\hat x^2\beta^{(2)})+ (X^{(2)})^\top \epsilon^{(2)} + \hat x   (X^{(1)})^\top \epsilon^{(1)} \right]\right\|^2.\label{Lbeta_HPS}
 \end{align}
-Using Lemma \ref{lem_hat_v} and the concentration estimates in Lemma \ref{largedeviation}, we can simplify $L(\hat{\beta}_2^{\MTL})$ as follows.
+Using Lemma \ref{lem_hat_v} and the concentration estimates in Lemma \ref{largedeviation}, we simplify $L(\hat{\beta}_2^{\MTL})$ as follows.
 
 \begin{claim}\label{claim_reduction}
 Recall that $\hat \Sigma(1)$ is equal to $\hat \Sigma$ (cf. equation \eqref{def hatsig}).
-In the setting of Proposition \ref{cor_MTL_loss}, we have the following estimate with high probability for any small constant $c>0$:
+In the setting of Claim \ref{cor_MTL_loss}, we have the following estimate w.h.p.
 \begin{align*}
-&\left|L(\hat{\beta}_2^{\MTL}) - \frac{2d^2}{p}\tr\left[\hat\Sigma^{-2} \left((X^{(1)})^\top X^{(1)} \right)^2\right] -\sigma^2  \tr\left({\hat \Sigma^{-1}  }\right)\right| \nonumber\\
+&\left|L(\hat{\beta}_2^{\MTL}) - \frac{2d^2}{p}\tr\left[\hat\Sigma^{-2} \left((X^{(1)})^\top X^{(1)} \right)^2\right] -\sigma^2  \bigtr{{\hat \Sigma^{-1}  }}\right| \nonumber\\
 \lesssim&  \frac{d^4 + \sigma^2 d^2}{\kappa^2}+p^{-1/2+2c}\kappa^2 +  p^{-1/4+c} (\sigma^2 +d^2).
 \end{align*}
 \end{claim}
 \begin{proof}
-Our proof is divided into two steps. First, with the concentration estimates in Lemma \ref{largedeviation}, we can simplify $L(\hat{\beta}_2^{\MTL})$ as follows. With high probability, we have that for any small constant $c>0$,
+Our proof is divided into two steps. First, using Lemma \ref{largedeviation}, we show that
 \be\label{claim_largedev2} \left| L(\hat{\beta}_2^{\MTL})- \cal L(\hat x)\right| \le p^{-1/2+c} \left(\sigma^2 +\kappa^2 +d^2 \right),
 \ee
-where the function $\cal L(\hat x)$ is defined as
+where $\cal L(\hat x)$ is defined as
 \begin{align*}
-	\cal L(\hat x)	:=  &\hat x^2\left[(\hat x-1)^2 \kappa^2 +  (\hat x^2+1)d^2 \right] \cdot p^{-1}\bigtr{ (X^{(1)})^{\top}X^{(1)} \hat\Sigma(\hat x)^{-1} \Sigma^{(2)} \hat\Sigma(\hat x)^{-1} (X^{(1)})^{\top}X^{(1)} } \\
-	& +\sigma^2\cdot \tr\left(\Sigma^{(2)}\hat \Sigma(\hat x)^{-1}\right).
+	\resizebox{0.97\hsize}{!}{%
+	$\cal L(\hat x)	:=  \hat x^2\left[(\hat x-1)^2 \kappa^2 +  (\hat x^2+1)d^2 \right] \cdot p^{-1}\bigtr{ (X^{(1)})^{\top}X^{(1)} \hat\Sigma(\hat x)^{-1} \Sigma^{(2)} \hat\Sigma(\hat x)^{-1} (X^{(1)})^{\top}X^{(1)} }
+	 +\sigma^2\cdot \bigtr{\Sigma^{(2)}\hat \Sigma(\hat x)^{-1}}.$
+	}%
 \end{align*}
 % \end{claim}
 %We are now ready to finish the proof of Claim \ref{claim_reduction}.
-We defer the proof of equation \eqref{claim_largedev2} until the end.
-Next, we can further simplify $\cal L(\hat x)$ using Claim \ref{lem_hat_v} and $\Sigma^{(1)}=\Sigma^{(2)}=\id_{p\times p}$.
-More precisely, we claim that with high probability
+Next, we further simplify $\cal L(\hat x)$ since $\hat{x}$ is close to one and $\Sigma^{(1)},\Sigma^{(2)}$ are both isotropic
 \begin{align}
-&\left|\cal L(\hat x)- \frac{2d^2}{p} \tr\left[\hat\Sigma^{-2} \left((X^{(1)})^\top X^{(1)} \right)^2\right] -\sigma^2  \tr\left(\hat \Sigma^{-1}  \right)\right| \nonumber\\
+	&\left|\cal L(\hat x)- \frac{2d^2}{p} \tr\left[\hat\Sigma^{-2} \left((X^{(1)})^\top X^{(1)} \right)^2\right] -\sigma^2  \bigtr{\hat \Sigma^{-1}}\right| \nonumber\\
 \lesssim & \frac{d^4 + \sigma^2 d^2}{\kappa^2}+p^{-1/2+2c}\kappa^2 +  p^{-1/4+c} (\sigma^2 +d^2). \label{simple12}
 \end{align}
-Combining equations \eqref{claim_largedev2} and \eqref{simple12}, we conclude Claim \ref{claim_reduction}.
+Combining equation \eqref{claim_largedev2} and \eqref{simple12}, we obtain the desired claim.
+We prove these two equations one by one as follows.
 
-Now we prove equation \eqref{simple12}. Using Claim \ref{lem_hat_v} and equations \eqref{op_X12} and \eqref{op_Sig1}, we obtain that with high probability,
+First, we prove equation \eqref{simple12}.
+We can bound the left hand side of equation \eqref{simple12} as
+\begin{align*}
+	&\left|\cal L(\hat x)-\frac{2d^2}{p}\tr\left[\hat\Sigma^{-2} \left((X^{(1)})^\top X^{(1)} \right)^2\right] -\sigma^2  \tr\left({\hat\Sigma^{-1}  }\right)\right| \\
+	\lesssim &\left(|\hat x-1|^2 \kappa^2 + |\hat x-1|d^2\right)\cdot p^{-1}\bigtr{ \hat\Sigma^{-2} \left((X^{(1)})^{\top}X^{(1)}\right)^2 } \\
+	&+ \frac{d^2}{p}\left|\tr\left[\left(\hat\Sigma(\hat x)^{-2}-\hat\Sigma^{-2}\right) \left((X^{(1)})^\top X^{(1)} \right)^2\right]\right|+ \sigma^2  \left|\bigtr{\hat\Sigma(\hat x)^{-1}-\hat\Sigma^{-1}  }\right|.
+\end{align*}
+We deal with the trace terms in the above equation one by one.
+Using Claim \ref{lem_hat_v} and operator norm bound of $X^{(1)}$, $X^{(2)}$, and $\hat{\Sigma}(x)$, we have that w.h.p.
 \begin{align}
- \|\hat\Sigma^{-1}-\hat\Sigma(\hat x)^{-1}\| &\le |\hat x^2-1|\|\hat\Sigma^{-1}\| \| (X^{(1)})^\top X^{(1)}\|\|\hat\Sigma(\hat x)^{-1}\|  \lesssim p^{-1}\left(\frac{d^2}{\kappa^2} + p^{-1/4+c}\right).\label{est111}
+	\|\hat\Sigma^{-1}-\hat\Sigma(\hat x)^{-1}\| &\le |\hat x^2-1| \cdot \|\hat\Sigma^{-1}\| \cdot \| (X^{(1)})^\top X^{(1)}\| \cdot \|\hat\Sigma(\hat x)^{-1}\|  \lesssim p^{-1}\left(\frac{d^2}{\kappa^2} + p^{-1/4+c}\right).\label{est111}
 \end{align}
-Using similar arguments, we get that with high probability,
+Using similar arguments, we get that w.h.p.
 \begin{align}\label{est222}
-&\left\|\left(\hat\Sigma^{-2}-\hat\Sigma(\hat x)^{-2}\right)\left((X^{(1)})^\top X^{(1)} \right)^2\right\| \lesssim  \frac{d^2}{\kappa^2} + p^{-1/4+c} .
+&\left\|\left(\hat\Sigma^{-2}-\hat\Sigma(\hat x)^{-2}\right)\left((X^{(1)})^\top X^{(1)} \right)^2\right\| \lesssim  \frac{d^2}{\kappa^2} + p^{-1/4+c},
 \end{align}
-Moreover, using equations \eqref{op_X12} and \eqref{op_Sig1}, we can bound that with high probability,
-%$$\bignorm{ (X^{(1)})^{\top}X^{(1)} \hat\Sigma^{-1} \Sigma^{(2)} \hat\Sigma^{-1} (X^{(1)})^{\top}X^{(1)}}\lesssim 1.$$
-%which further implies that with high probability,
+and
 \begin{align}
 & \bigtr{ \hat\Sigma^{-2} \left((X^{(1)})^{\top}X^{(1)}\right)^2}  \le p \bignorm{\hat\Sigma^{-2} \left((X^{(1)})^{\top}X^{(1)}\right)^2}\lesssim p.\label{est333}
 \end{align}
-We can bound the left hand side of equation \eqref{simple12} as
-\begin{align*}
-&\left|\cal L(\hat x)-\frac{2d^2}{p}\tr\left[\hat\Sigma^{-2} \left((X^{(1)})^\top X^{(1)} \right)^2\right] -\sigma^2  \tr\left({\hat\Sigma^{-1}  }\right)\right| \\
-\lesssim &\left(|\hat x-1|^2 \kappa^2 + |\hat x-1|d^2\right)\cdot p^{-1}\bigtr{ \hat\Sigma^{-2} \left((X^{(1)})^{\top}X^{(1)}\right)^2 } \\
-&+ \frac{d^2}{p}\left|\tr\left[\left(\hat\Sigma(\hat x)^{-2}-\hat\Sigma^{-2}\right) \left((X^{(1)})^\top X^{(1)} \right)^2\right]\right|+ \sigma^2  \left|\bigtr{\hat\Sigma(\hat x)^{-1}-\hat\Sigma^{-1}  }\right|.
-\end{align*}
-Applying the estimates \eqref{hatw_add1}, \eqref{est111}, \eqref{est222} and \eqref{est333} to the three terms on the right-hand side, we can conclude \eqref{simple12}.
+Applying the above results \eqref{est111}, \eqref{est222}, and \eqref{est333} to the bound of $\cL(\hat{x})$ above, we have shown that equation \eqref{simple12} holds.
 
-Finally we give the proof of the estimate \eqref{claim_largedev2}.
-The proof of this claim is very similar to Claim \ref{claim_largedev1}, where the only difference is that $\hat x$ now may depend on $\epsilon^{(1)}$, $\epsilon^{(2)}$, $\beta^{(1)}$ and $\beta^{(2)}$.
-In this case, we can still use  Lemma \ref{largedeviation} to conclude the proof because $\hat x$ can be pulled out as a coefficient.
-Here we only give a proof sketch and omit the details.
-Recall that $\beta_0$ is the shared component of $\beta^{(1)}$ and $\beta^{(2)}$ with i.i.d. Gaussian entries of mean zero and variance $p^{-1}\kappa^2$. Moreover, we denote the task-specific components by $\wt\beta^{(1)}$ and $\wt\beta^{(2)}$, whose entries are i.i.d. Gaussian random variables of mean zero and variance $p^{-1} d^2 $. Then we write $L(\hat{\beta}_2^{\MTL}) $ in \eqref{Lbeta_HPS} as:
+Second, we prove equation \eqref{claim_largedev2}.
+The proof is very similar to Claim \ref{claim_largedev1}.
+The key difference is that $\hat x$ correlates with $\epsilon^{(1)}$, $\epsilon^{(2)}$, $\beta^{(1)}$, and $\beta^{(2)}$.
+Nevertheless, Lemma \ref{largedeviation} still applies for any arbitrary $\hat x$.
+We describe a proof sketch and omit the details.
+Recall that $\beta_0$ is the shared component of $\beta^{(1)}$ and $\beta^{(2)}$ with i.i.d. Gaussian entries of mean zero and variance $p^{-1}\kappa^2$.
+The task-specific components, denoted by $\wt\beta^{(1)}$ and $\wt\beta^{(2)}$, consist of i.i.d. Gaussian random variables with mean zero and variance $p^{-1} d^2$.
+We write $L(\hat{\beta}_2^{\MTL}) $ from equation \eqref{Lbeta_HPS} as:
 \begin{align}
 L(\hat{\beta}_2^{\MTL})  =&  \left\| (\Sigma^{(2)})^{1/2}\hat \Sigma(\hat x)^{-1} \left[(X^{(1)})^\top X^{(1)} (\hat x -\hat x^2)\beta_0+(X^{(1)})^\top X^{(1)} \hat x\wt \beta^{(1)} - (X^{(1)})^\top X^{(1)}  \hat x^2\wt \beta^{(2)} \right] \right. \nonumber\\
 &\left. + (\Sigma^{(2)})^{1/2}\hat \Sigma(\hat x)^{-1}\left[ (X^{(2)})^\top \epsilon^{(2)} + \hat x   (X^{(1)})^\top \epsilon^{(1)} \right]\right\|^2. \label{expand_15}
 \end{align}
-As in equation \eqref{expand_6}, we can expand this expression into the sum of 15 terms, and bound each term as in equations \eqref{eq_hA1}-\eqref{eq_hA56}. For example, for the main term $\hat x^2 (\wt \beta^{(1)})^\top (X^{(1)})^\top X^{(1)} \hat \Sigma(\hat x)^{-1}  \Sigma^{(2)} \hat \Sigma(\hat x)^{-1}  (X^{(1)})^\top X^{(1)}\wt\beta^{(1)}$, using 
-Lemma \ref{largedeviation} and equations \eqref{op_X12} and \eqref{op_Sig1}, we can obtain the following estimate with high probability:
+Similar to the analysis of $g(x)$, we expand $L(\hat{\beta}_2^{\MTL})$ into the sum of 15 terms, and bound the concentration error of each term similar to $h_1(x), \dots, h_6(x)$.
+For example, for the leading term $\hat x^2 (\wt \beta^{(1)})^\top (X^{(1)})^\top X^{(1)} \hat \Sigma(\hat x)^{-1}  \Sigma^{(2)} \hat \Sigma(\hat x)^{-1}  (X^{(1)})^\top X^{(1)}\wt\beta^{(1)}$, using
+Lemma \ref{largedeviation} and the operator norm bounds, we obtain the following estimate w.h.p.
 \begin{align*}
 &  \left| (\wt \beta^{(1)})^\top (X^{(1)})^\top X^{(1)} \hat \Sigma(\hat x)^{-1}  \Sigma^{(2)} \hat \Sigma(\hat x)^{-1}  (X^{(1)})^\top X^{(1)}\wt\beta^{(1)} - \frac{d^2}{p}\bigtr{(X^{(1)})^\top X^{(1)} \hat \Sigma(\hat x)^{-1}  \Sigma^{(2)} \hat \Sigma(\hat x)^{-1}  (X^{(1)})^\top X^{(1)}}\right| \\
 &\le p^{-1+c}d^2 \cdot \left\| (X^{(1)})^\top X^{(1)} \hat \Sigma(\hat x)^{-1}  \Sigma^{(2)} \hat \Sigma(\hat x)^{-1}  (X^{(1)})^\top X^{(1)} \right\|_F \\
 &\le p^{-1/2+c}d^2 \cdot  \left\| (X^{(1)})^\top X^{(1)} \hat \Sigma(\hat x)^{-1}  \Sigma^{(2)} \hat \Sigma(\hat x)^{-1}  (X^{(1)})^\top X^{(1)} \right\|  \lesssim p^{-1/2+c}d^2.
 \end{align*} 
-For the cross term $\hat x (\wt \beta^{(1)})^\top (X^{(1)})^\top X^{(1)} \hat \Sigma(\hat x)^{-1}  \Sigma^{(2)} \hat \Sigma(\hat x)^{-1}  (X^{(2)})^\top  \epsilon^{(2)}$, using Lemma \ref{largedeviation} and equations \eqref{op_X12} and \eqref{op_Sig1}, we can obtain the following estimate with high probability for any small constant $c>0$:
+For the cross term $\hat x (\wt \beta^{(1)})^\top (X^{(1)})^\top X^{(1)} \hat \Sigma(\hat x)^{-1}  \Sigma^{(2)} \hat \Sigma(\hat x)^{-1}  (X^{(2)})^\top  \epsilon^{(2)}$, using Lemma \ref{largedeviation} and the operator norm bounds, we obtain the following estimate w.h.p.
 \begin{align*}
  \left| (\wt \beta^{(1)})^\top (X^{(1)})^\top X^{(1)} \hat \Sigma(\hat x)^{-1}  \Sigma^{(2)} \hat \Sigma(\hat x)^{-1}  (X^{(2)})^\top  \epsilon^{(2)}\right|  & \le p^c \cdot \sigma\sqrt{p^{-1}d^2} \cdot \|(X^{(1)})^\top X^{(1)} \hat \Sigma(\hat x)^{-1}  \Sigma^{(2)} \hat \Sigma(\hat x)^{-1}  (X^{(2)})^\top  \|_F \\
 &\lesssim p^{c}\cdot \sigma d \cdot  \|(X^{(1)})^\top X^{(1)} \hat \Sigma(\hat x)^{-1}  \Sigma^{(2)} \hat \Sigma(\hat x)^{-1}  (X^{(2)})^\top  \| \\
 &\lesssim p^{-1/2+c}\sigma d\le p^{-1/2+c}(\sigma^2+ d^2).
 \end{align*}
-The rest of the terms in the expansion of \eqref{expand_15} can be bounded in the same way, and we omit the details.
+The rest of the terms in the expansion of $L(\hat{\beta}_2^{\MTL})$ can be dealt with similarly, and we omit the details.
  \end{proof}
   
-\paragraph{Part $3$: applying the bias and variance limits.}
+\paragraph{Part $3$: applying the bias-variance limits.}
 Finally, we are ready to complete the proof of Corollary \ref{cor_MTL_loss}.
-We derive the variance term $\sigma^2  \tr[\hat\Sigma^{-1}]$ and the bias term $\frac{2d^2}{p} \tr\left[\hat\Sigma^{-2} \left((X^{(1)})^\top X^{(1)} \right)^2\right]$ using Theorem \ref{thm_main_RMT}.
+We derive the variance term $\sigma^2  \tr[\hat\Sigma^{-1}]$ and the bias term $\frac{2d^2}{p} \tr\left[\hat\Sigma^{-2} \left((X^{(1)})^\top X^{(1)} \right)^2\right]$ using our random matrix theory results.
 
 \begin{proof}[Proof of Corollary \ref{cor_MTL_loss}]
-Using equation \eqref{lem_cov_shift_eq}, we obtain that
+For the variance term, using equation \eqref{lem_cov_shift_eq}, we obtain that
 \be\label{eq_var111}\tr[\hat\Sigma^{-1}] = \tr\left[ \left((X^{(1)})^\top X^{(1)}  + (X^{(2)})^\top X^{(2)}\right)^{-1}\right]=\bigtr{\frac{(a_1 +a_2)^{-1}\id_{p\times p}}{n_{1}+n_2} }+\OO(p^{-c_\varphi})\ee
 with high probability. Solving equation \eqref{eq_a12extra} with $\lambda_i\equiv 1$, $1\le i\le p$, we get that  
 	\begin{align}
@@ -388,29 +400,28 @@ Applying the above to equation \eqref{eq_var111}, we obtain that
 \be\label{eq_var112}\tr[\hat\Sigma^{-1}]  = \frac{p}{n_1+n_2} \cdot \frac{n_1+n_2}{n_1+n_2-p}+\OO(p^{-c_\varphi})=  \frac{p}{n_1+n_2-p}+\OO(p^{-c_\varphi})\ee
 with high probability. 
 
-On the other hand, we have that with high probability,
+For the bias term, since the spectrum of $(X^{(1)})^{\top} X^{(1)}$ is tightly concentrated by Fact \ref{fact_minv}, we have that
 \begin{align}
- \frac{(\sqrt{n_1}-\sqrt{p})^4 \cdot (1- p^{-c_\varphi})}{p}\sum_{i=1}^p \left(\hat \Sigma^{-2}\right)_{ii}  &\le {p}^{-1}\tr\left[\hat\Sigma^{-2} \left((X^{(1)})^\top X^{(1)} \right)^2\right] \label{eq_bias111}\\ 
- &\le \frac{(\sqrt{n_1}+\sqrt{p})^4 \cdot (1+ p^{-c_\varphi})}{p}\sum_{i=1}^p \left(\hat\Sigma^{-2}\right)_{ii} .\nonumber
+ \frac{(\sqrt{n_1}-\sqrt{p})^4 \cdot (1- p^{-c_\varphi})}{p} \bigtr{\hat \Sigma^{-2}}  &\le {p}^{-1}\tr\left[\hat\Sigma^{-2} \left((X^{(1)})^\top X^{(1)} \right)^2\right] \label{eq_bias111}\\
+ &\le \frac{(\sqrt{n_1}+\sqrt{p})^4 \cdot (1+ p^{-c_\varphi})}{p} \bigtr{\hat\Sigma^{-2}}.\nonumber
 \end{align}
-To obtain this inequality, we used  
-$$ (\sqrt{n_1}-\sqrt{p})^4 \cdot (1-p^{-c_\varphi}) \preceq \left((X^{(1)})^\top X^{(1)} \right)^2 \preceq (\sqrt{n_1}+\sqrt{p})^4 \cdot (1+ p^{-c_\varphi}) \quad \text{with high probability},$$
-by Fact \ref{fact_minv} (ii), and the fact that for the product of two PSD matrices, its trace is always nonnegative.
-Using equation \eqref{lem_cov_derv_eq} with $\Sigma^{(1)}=\Sigma^{(2)}=\Lambda=V=\id_{p\times p}$ and $w$ being the $i$-th coordinate vector, we can calculate that 
-\begin{align}\label{eq_bias112}
- \left(\hat\Sigma^{-2}\right)_{ii} = \frac{1}{(n_1+n_2)^2} \left[\frac{a_3+a_4+1}{(a_1+a_2)^2} +\OO(p^{-c_\varphi})\right]
-\end{align}
-with high probability. Solving equation \eqref{eq_a34extra} with $a_1, a_2$ in \eqref{simplesovlea12} and $\lambda_i\equiv 1$, $1\le i\le p$, we can obtain that
+%To obtain this inequality, we used
+%$$ (\sqrt{n_1}-\sqrt{p})^4 \cdot (1-p^{-c_\varphi}) \preceq \left((X^{(1)})^\top X^{(1)} \right)^2 \preceq (\sqrt{n_1}+\sqrt{p})^4 \cdot (1+ p^{-c_\varphi}) \quad \text{with high probability},$$
+%by Fact \ref{fact_minv} (ii), and the fact that for the product of two PSD matrices, its trace is always nonnegative.
+Using the bias limit \eqref{lem_cov_derv_eq} with $\Sigma^{(1)}=\Sigma^{(2)}=\Lambda=V=\id_{p\times p}$, and $w = e_i$ (the $i$-th coordinate vector), we have w.h.p.
+\begin{align*}%\label{eq_bias112}
+ \left(\hat\Sigma^{-2}\right)_{ii} = \frac{1}{(n_1+n_2)^2} \left[\frac{a_3+a_4+1}{(a_1+a_2)^2} +\OO(p^{-c_\varphi})\right].
+\end{align*}
+We solve the self-consistent equations \eqref{eq_a34extra} given $a_1, a_2$, and obtain
 	\begin{align*}
-		% a_1 = \frac{\rho_1(\rho_1 + \rho_2 - 1)}{(\rho_1 + \rho_2)^2} ,\quad & a_2 = \frac{\rho_2(\rho_1 + \rho_2 - 1)}{(\rho_1 + \rho_2)^2} , \label{simplesovlea12}\\
 		a_3 = \frac{p\cdot n_1}{(n_1 +n_2)(n_1 +n_2 - p)}, \quad
 		&  a_4 = \frac{p\cdot n_2}{(n_1 + n_2)(n_1 + n_2 - p)}. %\label{simplesovlea34}
 	\end{align*}
-Inserting them into equation \eqref{eq_bias112}, we obtain that 
+Applying them to the above equation, we obtain that w.h.p.
 \begin{align*}%\label{eq_bias113}
- \left(\hat\Sigma^{-2}\right)_{ii} =  \frac{1}{(n_1+n_2)^2} \left[  \frac{ (n_1+n_2)^3 }{(n_1+n_2-p)^3} +\OO(p^{-c_\varphi})\right]
+ \left(\hat\Sigma^{-2}\right)_{ii} =  \frac{1}{(n_1+n_2)^2} \left[  \frac{ (n_1+n_2)^3 }{(n_1+n_2-p)^3} +\OO(p^{-c_\varphi})\right].
 \end{align*}
-with high probability. In fact, we need this estimate to hold simultaneously for all $1\le i \le p$ with high probability. For this purpose, we shall use equation \eqref{apply derivlocal} to get that 
+In fact, we need this estimate to hold simultaneously for all $1\le i \le p$ with high probability. For this purpose, we shall use equation \eqref{apply derivlocal} to get that
 \begin{align*}%\label{eq_bias113}
 \left| \left(\hat\Sigma^{-2}\right)_{ii} - \frac{1}{(n_1+n_2)^2}\cdot \frac{(n_1+n_2)^3}{(n_1+n_2-p)^3}\right|\prec \frac{p^{-\frac{\varphi-4}{2\varphi}}}{(n_1+n_2)^2}
 \end{align*}
