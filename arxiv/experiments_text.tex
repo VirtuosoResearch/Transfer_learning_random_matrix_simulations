@@ -1,9 +1,9 @@
 \section{Further Studies on Text Classification Tasks}\label{sec_text}
 
-Our results and their implications are all in the high-dimensional linear regression setting.
+Our results and simulations are all in the high-dimensional linear regression setting.
 How well do they extend to other scenarios?
-In this section, we conduct further studies on six text classification datasets, for predicting whether a sentence has a positive or a negative sentiment.
-Our datasets include a review sentiment dataset (MR) \cite{pang2005seeing}, a sentence subjectivity dataset (SUBJ) \cite{pang2004sentimental}, a customer reviews dataset (CR) \cite{hu2004mining}, a question type dataset (TREC) \cite{li2002learning}, an opinion polarity dataset (MPQA) \cite{wiebe2005annotating}, and the Stanford sentiment treebank (SST) dataset \cite{socher2013recursive}.
+In this section, we conduct further studies on six text classification datasets.
+Our datasets include a movie review sentiment dataset (MR) \cite{pang2005seeing}, a sentence subjectivity dataset (SUBJ) \cite{pang2004sentimental}, a customer reviews dataset (CR) \cite{hu2004mining}, a question type dataset (TREC) \cite{li2002learning}, an opinion polarity dataset (MPQA) \cite{wiebe2005annotating}, and the Stanford sentiment treebank (SST) dataset \cite{socher2013recursive}.
 %The question is to predict positive or negative sentiment expressed in the text.
 Our model consists of a word embedding layer with GloVe embeddings \cite{pennington2014glove} followed by a long-short term memory (LSTM) or a multi-layer perception (MLP) layer \cite{lei2018simple}.\footnote{For MLP, we apply an average pooling layer over word embeddings. For LSTM, we add a shared feature representation layer on top of word embeddings.}
 
@@ -29,43 +29,28 @@ Our model consists of a word embedding layer with GloVe embeddings \cite{penning
 %The results show that STL results are indicative of MTL results.
 
 \paragraph{Sample size ratio.}
+First, we we show that our observation in Figure \ref{fig_size} also occurs in the text classification tasks.
 In Figure \ref{fig_ab_data}, we observe that for multiple example task pairs, increasing task one's sample size improves task two's prediction accuracy initially, but hurts eventually.
 On the $y$-axis, we plot task two's test accuracy using HPS, subtracted by its STL test accuracy.
 %validate that as we increase the sample ratio while keeping task two's sample size fixed, task two's prediction accuracy does not always increase.
-We fix task one's sample size at $1000$ and increase task two's sample size from $100$ to $3000$.
-These examples and the one in Figure \ref{fig_size} suggest a natural progressive training schedule, where we add samples progressively until performance drops:
+We fix task two's sample size at $1000$ and increase task one's sample size from $100$ to $3000$.
+
+These examples and the one in Figure \ref{fig_size} suggest a natural progressive training schedule, where we add samples progressively until performance drops.
+Concretely, here is one implementation of this idea.
 %In particular, Figure \ref{fig_size} (and our analysis) shows that $L(\hat{\beta}_t^{\MTL})$ behaves as a quadratic function over $\rho_1$.
 %More generally, depending on how large $\Psi(\beta_1, \beta_2)$ is, $L(\hat{\beta}_t^{\MTL})$ may also be monotonically increasing or decreasing.
 %Based on this observation, we propose a progressive training schedule to improve the compuational efficiency of hard parameter sharing.
 \begin{itemize}
-	\item We divide the source task data into $S$ batches.
-	For $S$ rounds, we incrementally add the source task data by adding one batch at a time.
-	\item After training $T$ epochs, if the validation accuracy becomes worse than the previous round's result, we terminate.
+	\item We divide the training data into $S$ batches.
+	We divide the training procedure into $S$ stages. During every stage, we progressively add one more data batch.
+	\item During every stage, we train for $T$ epochs using only the $S$ batches. If the validation accuracy drops compared to the previous round's result or reach a desired threshold $\tau$, we terminate.
 %	Algorithm \ref{alg_inc_train} in Appendix \ref{app_experiments} describes the procedure in detail.
 \end{itemize}
 For example, if we apply this procedure to the settings of Figure \ref{fig_ab_data} and \ref{fig_size}, it will terminate once reaching the optimal sample ratio.
+%See Algorithm \ref{alg_inc_train} for a complete description for two tasks.
 The advantage of this procedure is that it reduces the computational cost compared to standard round-robin training schedules.
+For example, if the procedure terminates at 30\% of all batches, then SGD only passes over 30\% of its data, whereas standard round-robin training passes over 100\% of task one's data.
 
-%\begin{algorithm}[!t]
-%	\caption{An incremental training schedule for efficient multi-task learning with two tasks}
-%	\label{alg_inc_train}
-%	\begin{algorithmic}[1]
-%		\Input Two tasks $(X_1, Y_1)$ and $(X_2, Y_2)$.
-%		\Param A shared module $B$, output layers $W_1, W_2$ as in the hard parameter sharing architecture.
-%		\Req \# batches $S$, epochs $T$, task $2$'s validation accuracy $\hat{g}(B; W_2)$, a threshold $\tau\in(0,1)$.
-%		\Output The trained modules $B, W_2$ optimized for task $2$.
-%		\State Divide $(X_1, Y_1)$ randomly into $S$ batches: $(x^{(1)}, y^{(1)}), \dots, (x^{(S)}, y^{(S)})$.
-%		\For{$i = 1,\dots, S$}
-%			\For{$j = 1,\dots, T$}
-%				\State Update $B, W_1, W_2$ using the training data $\set{x^{(k)}, x^{(k)}}_{k=1}^i$ and  $(X_2, Y_2)$.
-%			\EndFor
-%			\State Let $a_i = \hat{g}(B; W_2)$ be the validation accuracy.
-%			\If{$a_i < a_{i-1}$ or $a_i > \tau$}
-%				\State \textbf{break}
-%			\EndIf
-%		\EndFor
-%	\end{algorithmic}
-%\end{algorithm}
 
 %We fill in the details of the experimental procedure used for the results in Figure \ref{fig_ablation}.
 %\squishlist
@@ -75,14 +60,19 @@ The advantage of this procedure is that it reduces the computational cost compar
 %TREC is less similar to MR because the task is about question types.
 %Third pair: MPQA (opinion polarity) is more similar to TREC (question type)
 We evaluate the progressive training procedure on the six text classification datasets.
-First, we conduct multi-task training over all $15$ pairs from the six datasets.
-We find that adding task one's samples progressively requires only $45\%$ of the computational cost to achieve the same test accuracy for task two compared to the standard round-robin training schedules.
+First, we conduct multi-task training over all $15$ two-task pairs from the six datasets.
+We focus on task two's test accuracy and set $\tau$ as task two's test accuracy obtained via the standard round-robin training schedule.
+We include all of task two's data and progressively add task one's data using the procedure described above.
+Since the prediction accuracy has been controlled the same, we compare the computational cost.
+We find that when averaged over all $15$ two-task pairs, this procedure requires only $45\%$ of the computational cost to reach the desired accuracy $\tau$ for task two.
 %Our insight is that since adding more samples from the source task does not always help, we can improve efficiency by adding source samples \textit{progressively} during training.
 %\textbf{Improving transfer learning training efficiency.}
 %We show that Algorithm \ref{alg_inc_train} also applies to transfer learning settings.
 %Compared to fine-tuning the source model on the target task, we show that our proposed method reduces the computional cost by \alert{$xx\%$}, without sacrificing accuracy.
-Second, we conduct multi-task training on all six datasets.
-We find that adding samples progressively from all datasets requires less than $35\%$ of the computational cost to achieve the same test accuracy averaged over the six datasets than the standard round-robin training schedules.
+Second, we conduct multi-task training on all six datasets jointly.
+We extend our procedure to all six datasets. We include the data from all tasks except SST. For SST, we progressively add data similar to the above procedure.
+We set $\tau$ to be the average test accuracy of all six tasks obtained using standard round-robin training.
+We find that adding samples progressively from SST requires less than $35\%$ of the computational cost to reach the same average test accuracy $\tau$.
 %As a further validation, excluding TREC, we observe similar comparative results.
 %The data efficiency ratio of using MLP is $100\%$ because the average performance of MTL is worse than the average of STL.
 %We further show that applying incremental training helps reduce the data efficiency ratio to \alert{$xx\%$}.
@@ -126,7 +116,7 @@ We find that adding samples progressively from all datasets requires less than $
 
 \paragraph{Covariate shift.}
 Recall from Example \ref{ex_covshift} that having covariate shifts worsens the variance (hence the loss) of hard parameter sharing when the sample ratio increases.
-This highlights the need for correcting covariate shifts when the sample ratio rises.
+This highlights the need for correcting covariate shifts when the sample size ratio rises.
 To this end, we study a covariance alignment procedure proposed in \citet{WZR20}, designed to correct covariate shifts.
 The idea is to add an alignment module between the input and the shared module $B$.
 This module is then trained together with $B$ and the output layers. We refer to \citet{WZR20} for more details about the procedure and the implementation.
@@ -136,7 +126,7 @@ This module is then trained together with $B$ and the output layers. We refer to
 We conduct multi-task training on all $15$ task pairs from the six datasets.
 In Figure \ref{fig_ab_cov}, we measure the performance gains from performing covariance alignment vs. HPS.
 To get a robust comparison, we average the improvements over the 15 task pairs.
-The result shows that as the sample ratio increases, performing covariance alignment provides more significant gains over HPS.
+The result shows that as the sample size ratio increases, performing covariance alignment provides more significant gains over HPS.
 We fix task two's sample size at $1,000$, and increase task one's sample size from $1,000$ to $3,000$.
 
 %\begin{figure}[!t]
@@ -203,7 +193,7 @@ We fix task two's sample size at $1,000$, and increase task one's sample size fr
 		\label{fig_ab_cov}
 	\end{subfigure}
 	\caption{Comparing hard parameter sharing (HPS) to single-task learning (STL) and a covariance alignment approach proposed by \citet{WZR20}:
-	In Figure \ref{fig_ab_data}, we observe that for multiple example task pairs, increasing task one's sample size improves task two's prediction accuracy initially, but hurts eventually -- a phenomenon similar  to Figure \ref{fig_size}.
+	In Figure \ref{fig_ab_data}, we observe that for multiple task pairs, increasing task one's sample size improves task two's prediction accuracy initially, but hurts eventually -- a phenomenon similar  to Figure \ref{fig_size}.
 	In Figure \ref{fig_ab_cov}, we observe that as task one's sample size increases, covariance alignment improves more over HPS.}
 	\label{fig_text}
 %	\begin{minipage}[t]{0.4\textwidth}
@@ -227,3 +217,23 @@ We fix task two's sample size at $1,000$, and increase task one's sample size fr
 %	\end{minipage}
 \end{figure}
 
+%\begin{algorithm}[!t]
+%	\caption{A progressive training schedule given two tasks}
+%	\label{alg_inc_train}
+%	\begin{algorithmic}[1]
+%		\Input Two tasks $(X^{(1)}, Y^{(1)})$ and $(X^{(2)}, Y^{(2)})$.
+%		\Param A shared module $B$, output layers $A_1, A_2$ as in the hard parameter sharing architecture.
+%		\Req \# batches $S$, epochs $T$, task $2$'s validation accuracy $\hat{g}(B; W_2)$, a threshold $\tau\in(0,1)$.
+%		\Output The trained modules $B, A_2$ optimized for task $2$.
+%		\State Divide $(X^{(1)}, Y^{(1)})$ randomly into $S$ batches: $(x^{(1)}, y^{(1)}), \dots, (x^{(S)}, y^{(S)})$.
+%		\For{$i = 1,\dots, S$}
+%			\For{$j = 1,\dots, T$}
+%				\State Update $B, A_1, A_2$ using the training data $\set{x^{(k)}, x^{(k)}}_{k=1}^i$ and  $(X^{(2)}, Y^{(2)})$.
+%			\EndFor
+%			\State Let $a_i = \hat{g}(B; A_2)$ be the validation accuracy.
+%			\If{$a_i < a_{i-1}$ or $a_i > \tau$}
+%				\State \textbf{break}
+%			\EndIf
+%		\EndFor
+%	\end{algorithmic}
+%\end{algorithm}

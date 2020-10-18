@@ -1,11 +1,11 @@
 \section{Missing Proof of Theorem \ref{thm_many_tasks}}\label{app_proof_error_same_cov}
 
-	Our next claim shows that the subspace spanned by the rows of $\hat{A}$ is close to that of $A^{\star}$.
+	We fill in missing details in the proof. Our first claim shows that the subspace spanned by the rows of $\hat{A}$ is close to that of $A^{\star}$.
 	\begin{claim}\label{claim_opt_dist}
 		Let $U_{\hat{A}} U_{\hat{A}}^{\top} \in\real^{t\times t}$ denote the subspace projection $\hat{A}^{\top} (\hat{A}\hat{A}^{\top})^{+} \hat{A}$.
 		In the setting of Theorem \ref{thm_many_tasks}, we have that
 		\[ \bignormFro{U_{\hat{A}} U_{\hat{A}}^{\top} - A^{\star} {A^{\star}}^{\top}}^2
-				\le  n^{-c_{\varphi}} \cdot \frac{t(  \bignorm{\Sigma^{1/2} B^{\star}}^2 +  \sigma^2 )}{\lambda_r- \lambda_{r+1}}. \]
+				\le  n^{-c_{\varphi}} \cdot \frac{t(  \bignorm{\Sigma^{1/2} B^{\star}}^2 +  \sigma^2 )}{\lambda_r({B^{\star}}^{\top}\Sigma B^{\star})- \lambda_{r+1}({B^{\star}}^{\top}\Sigma B^{\star})}. \]
 	\end{claim}
 	The proof of the above claim is based on the following characterization.
 
@@ -27,7 +27,7 @@
 		We have that the prediction loss of $\hat{\beta}_i^{\MTL} := \hat{B} \hat{A}_i$ satisfies that
 		\begin{align*}
 			\bigabs{L(\hat{\beta}_i^{\MTL}) - L(B^{\star} \hat{a}_i) - \sigma^2 \norm{\hat{a}_i}^2 \cdot \bigtr{\Sigma (X^{\top}X)^{-1}}}
-			\le  n^{-1/4} \left(\|\Sigma^{1/2}B^{\star} \|^2+ \sigma^2  \cdot\|\hat a_i\|^2\right) .
+			\le  n^{-1/4} \left(L(B^{\star} \hat{a}_i) + \sigma^2  \cdot\|\hat a_i\|^2\right) .
 		\end{align*}
 	\end{claim}
 	%The proof of Claim \ref{claim_opt_dist}, Claim \ref{lem_exp_opt}, and Claim \ref{claim_pred_err} can be found in Appendix \ref{app_proof_error_same_cov}.
@@ -35,7 +35,7 @@
 	\begin{proof}[Proof of Theorem \ref{thm_many_tasks}]
 		Using Claim \ref{claim_pred_err}, we get that the prediction loss of $\hat{\beta}_i^{\MTL}$ is equal to  $L(B^{\star}\hat{a}_i)+\sigma^2\norm{\hat{a}_i}^2\cdot \bigtr{\Sigma(X^{\top}X)^{-1}}$ up to a small enough error. Moreover, Claim \ref{claim_opt_dist} gives directly an upper bound on $\|\hat a_i - a_i^\star\|^2$. With this estimate, we can bound the difference
 		$$L(B^{\star}\hat{a}_i)+\sigma^2\norm{\hat{a}_i}^2\cdot \bigtr{\Sigma(X^{\top}X)^{-1}} - L(B^{\star} {a}^\star_i)-\sigma^2\norm{{a}^\star_i}^2\cdot \bigtr{\Sigma(X^{\top}X)^{-1}}.$$
-		Combined together, our proof is complete. We omit the details.
+		Combined together, our proof is complete.
 %		For the latter, we use Claim \ref{claim_opt_dist} to upper bound the difference between $\norm{\hat{a}_i}^2$ and $\norm{a_i^{\star}}^2$.
 %		For $L(B^{\star}\hat{a}_i)$, we again use Claim \ref{claim_opt_dist} to upper bound the distance between $\hat{a}_i$ and $a_i^{\star}$.
 %		Combined together, our proof is complete.
@@ -80,7 +80,7 @@ Next we present the proof of Claim \ref{claim_opt_dist}, Claim \ref{lem_exp_opt}
 		\sum_{j=1}^t \norm{E_j}^2 &= \bignormFro{\cW A - \cE}^2
 		= \bignormFro{\cE}^2 - \inner{\cW A}{\cE},
 	\end{align}
-	where in the second step we used $\norm{\cW A}^2 = \inner{\cW A}{\cE}$ by algebraic calculation.
+	where in the second step we use $\norm{\cW A}^2 = \inner{\cW A}{\cE}$ by algebraic calculation.
 	Hence, it suffices to show that the expectation of equation \eqref{eq_gA_p3} is equal to $\sigma^2 (n\cdot t - p\cdot r)$.
 	First, we have that $\ex{\|\cE\|_F^2} = \sigma^2 \cdot n \cdot t$.
 %	Conditional on $X$, we have that
@@ -89,31 +89,36 @@ Next we present the proof of Claim \ref{claim_opt_dist}, Claim \ref{lem_exp_opt}
 %		= \exarg{\cE}{\sum_{j=1}^t \bigbrace{\bignorm{\cW A_j}^2 - 2\inner{\cW A_j}{\varepsilon^{(j)}} }} + \sigma^2 \cdot n \cdot t.
 %	\end{align*}
 %	We consider both terms in the above equation one by one.
-	Second, notice that for the subspace projection $U_XU_X^\top:=X(X^{\top} X)^{-1} X^{\top}$ and $1\le i, j \le t$,
+	Second, we show that
+	%	\begin{align*}
+	%		\inner{\cW A}{\cE} = \sigma^2 \cdot r \cdot \bigtr{U_X U_X^{\top}} = \sigma^2 \cdot r \cdot p,
+	%	\end{align*}
+	%because $U_X$ has rank $p$ by Fact \ref{lem_minv}.
+	\begin{align*}
+		\exarg{\cE}{ \inner{\cW A}{\cE}} =\exarg{\cE}{\bigtr{\cal E^\top U_X U_X^\top \cal E U_AU_A^\top} }= p\sigma^2 \cdot \bigtr{ U_AU_A^\top} =  p \sigma^2 \cdot r,
+	\end{align*}
+	where $U_XU_X^\top = X(X^{\top} X)^{-1} X^{\top}$.
+	The first step follows by applying the definition of $\cW$.
+	The last step is because $U_AU_A^\top$ has rank $r$.
+	Hence, it suffices to show the second step is correct.
+	For any $1\le i, j \le t$, let $\delta_{i, j} = 1$ if $i = j$, and $0$ otherwise.
 	%\begin{align}
 	%	\sum_{j=1}^t \norm{\cW A_j}^2 = \sum_{j=1}^t \bigtr{\cW A_j A_j^{\top} \cW^{\top}} = \bigtr{\cW AA^{\top} \cW^{\top}} = \bigtr{U_X U_X^{\top} \cE A^{\top} (AA^{\top})^{-1} A \cE^{\top}}. \label{eq_proof_same_cov_1}
 	%\end{align}
 	%We observe that
+	Because $\varepsilon^{(i)}$ and $\varepsilon^{(j)}$ are pairwise independent, we have that
 	\begin{align*}
 			 \exarg{\cE}{(\cE^{\top}U_XU_X^\top \cE)_{ij} }
-		&= \exarg{\cE}{{\varepsilon^{(i)}}^\top U_X U_X^\top  \varepsilon^{(j)} } = \sigma^2 \cdot \tr\left( U_XU_X^\top \right) \cdot \delta_{ij} = p\sigma^2 \cdot \delta_{ij},
+		&= \exarg{\cE}{{\varepsilon^{(i)}}^\top U_X U_X^\top  \varepsilon^{(j)} } = \sigma^2 \cdot \tr\left[U_XU_X^\top \right] \cdot \delta_{ij} = p\sigma^2 \cdot \delta_{ij}.
 	\end{align*}
-	which implies that $\exarg{\cE}{\cE^{\top}U_XU_X^\top \cE }=p\sigma^2 \cdot \id_{t\times t}$.
-	Above, the second step used the fact that $\E(\varepsilon^{(i)}_k \varepsilon^{(i)}_l )=\sigma^2\cdot \delta_{ij}\delta_{kl}$ for $1\le k,l \le n$, and the third step used the fact that $\tr(U_XU_X^\top) =\tr(U_X^\top U_X) =p$.
-	Therefore, we have that
-%	\begin{align*}
-%		\inner{\cW A}{\cE} = \sigma^2 \cdot r \cdot \bigtr{U_X U_X^{\top}} = \sigma^2 \cdot r \cdot p,
-%	\end{align*}
-%because $U_X$ has rank $p$ by Fact \ref{lem_minv}.
-	\begin{align*}
-		\exarg{\cE}{ \inner{\cW A}{\cE}} =\E \bigtr{\cal E^\top U_X U_X^\top \cal E U_AU_A^\top}= p\sigma^2 \cdot \bigtr{ U_AU_A^\top} =  p \sigma^2 \cdot r ,
-			\end{align*}
-   because $U_AU_A^\top$ has rank $r$.	
+	The last step uses the fact that $\tr[U_XU_X^\top] = p$.
+	Hence, the second step is correct.
+	%Above, the second step used the fact that $\E(\varepsilon^{(i)}_k \varepsilon^{(i)}_l )=\sigma^2\cdot \delta_{ij}\delta_{kl}$ for $1\le k,l \le n$, and the third step used the fact that $\tr(U_XU_X^\top) =\tr(U_X^\top U_X) =p$.
 	%Next, note that
 	%\[ \sum_{j=1}^t \inner{\cW A_j}{\varepsilon^{(j)}} = \bigtr{\cW A\cE^{\top}}, \]
 	%which is equal to equation \eqref{eq_proof_same_cov_1} by the definition of $\cW$.
-	
-	Combining the above three parts, the proof of Claim \ref{lem_exp_opt} is completed.
+
+	Combining the three parts, the proof is complete.
 	\end{proof}
 	
 	\iffalse
@@ -144,15 +149,16 @@ Next we present the proof of Claim \ref{claim_opt_dist}, Claim \ref{lem_exp_opt}
 	\begin{proof}[Proof of Claim \ref{claim_opt_dist}]
 	Corresponding to the right-hand side of \eqref{eq_gA}, we define the function
 	\be\label{same_hA}h(A):= n \bignormFro{\Sigma^{1/2} B^{\star} \bigbrace{A^{\top} (AA^{\top})^{+} A - \id_{t\times t}}}^2 + \sigma^2 (n\cdot t - p \cdot r).\ee
-	In order to show that the $U_{\hat{A}}U_{\hat{A}}^\top$ is close to $A^\star {A^\star}^\top$, we first show that $g(A)$ is close to $h(A)$ as follows:
+	Let $\e$ be a fixed constant that is sufficiently small.
+	Let $c_{\infty}$ be any fixed value within $(0, 1/2 - \e)$.
+	To show that $U_{\hat{A}}U_{\hat{A}}^\top$ is close to $A^\star {A^\star}^\top$, we first show that $g(A)$ is close to $h(A)$ as follows:
 	\begin{align}\label{eq_gA_err}
-		\bigabs{g(A) - h(A)} \lesssim  n^{-c_{\varphi}} \cdot n \bignorm{\Sigma^{1/2} B^{\star} (U_AU_A^{\top} - \id_{t\times t})}^2 + n^{-c_{\infty}} \cdot \sigma^2 \cdot n \cdot t,
+		\bigabs{g(A) - h(A)} \lesssim  n^{-c_{\varphi}} \cdot n \bignorm{\Sigma^{1/2} B^{\star} (U_AU_A^{\top} - \id_{t\times t})}_F^2 + n^{-c_{\infty}} \cdot \sigma^2 \cdot n \cdot t.
 	\end{align}
-	for any fixed values $c_{\varphi}$ within $(0, \frac{\varphi-4}{2\varphi})$ and $c_{\infty}$ within $(0, 1/2)$. 
 %	\begin{align}\label{eq_gA_err}
 %		\bigabs{g(A) - \exarg{\cE, X}{g(A)}} \lesssim p^{-c_{\varphi}} \cdot n \bignorm{\Sigma^{1/2} B^{\star} (U_AU_A^{\top} - \id)}^2 + p^{-c_{\infty}} \cdot \sigma^2 \cdot n \cdot t.
 %	\end{align}
-	To show the above result, we consider the concentration error of each part of $g(A)$.
+	We consider the concentration error of each part of $g(A)$.
 
 	For equation \eqref{eq_gA_p1}, % $g_0(\cal W)= \sum_{j=1}^t\left\|Z v_j \right\|^2$.
 %	$$g_0(\cal W)= \sum_{j=1}^t\left\|Z v_j \right\|^2,\quad v_j:= \Sigma^{1/2}\left(B^{\star} \cW^{\top} (\cW\cW^{\top})^{-1} W_j -  \beta_j\right).$$
@@ -160,7 +166,6 @@ Next we present the proof of Claim \ref{claim_opt_dist}, Claim \ref{lem_exp_opt}
 %	Hence by the law of large numbers, we have that with high probability	
 	applying Corollary \ref{cor_largedeviation} to $X H_j = Z \Sigma^{1/2} H_j$, we obtain that 
 	${\left\|Z \Sigma^{1/2} H_j \right\|^2 } = { n \|\Sigma^{1/2} H_j\|^2} \cdot (1 + \OO(n^{-c_\varphi}))$ with high probability. 
-	%, for a small enough constant $\e$,
 	This implies that
 	\begin{align}
 		\abs{\sum_{j=1}^t \|X H_j\|^2 -  \sum_{j=1}^t n\norm{\Sigma^{1/2} H_j}^2} \lesssim   n^{-c_{\varphi}} \cdot n  \bignorm{\Sigma^{1/2} B^{\star} (U_{A}U_A^{\top} - \id_{t\times t})}^2. \label{eq_gA_err1}
@@ -168,52 +173,33 @@ Next we present the proof of Claim \ref{claim_opt_dist}, Claim \ref{lem_exp_opt}
 
 	For equation \eqref{eq_gA_p2}, 
 	%using Lemma \ref{largedeviation} in Appendix \ref{app_tool} and the fact that all moments of $\varepsilon_i$ exist by Assumption \eqref{assmAhigh2}, 
-	using Corollary \ref{cor_calE}, we obtain the following with high probability for any small constant $\e>0$:
+	using Corollary \ref{cor_calE}, we obtain the following with high probability:
 	\begin{align}
 		|\inner{XB^{\star} (U_AU_A^{\top} - \id_{t\times t})}{\cE}| &\le n^\e \cdot \sigma \cdot \bignormFro{XB^{\star} (U_AU_A^{\top} - \id_{t\times t})} \nonumber \\
 		&\le n^{\e} \cdot \sigma \cdot \norm{Z} \cdot \bignormFro{\Sigma^{1/2} B^{\star}(U_AU_A^{\top} -\id_{t\times t})} \nonumber \\
-		&\lesssim n^{\e} \cdot \sigma \cdot \sqrt{n}\cdot \sqrt{t}\bignorm{\Sigma^{1/2} B^{\star}(U_AU_A^{\top} -\id_{t\times t})} \nonumber \\
-		&\le  n^{c_\infty +c} \cdot \bignorm{\Sigma^{1/2} B^{\star} (U_AU_A^{\top} - \id_{t\times t})}^2 + n^{-c_{\infty}} \cdot \sigma^2 \cdot n \cdot t,
-		\label{eq_gA_err2}
+		&\lesssim n^{\e} \cdot \sigma \cdot \sqrt{n} \bignorm{\Sigma^{1/2} B^{\star}(U_AU_A^{\top} -\id_{t\times t})} \label{eq_gA_err2}
+%		&\le  n^{c_\infty +c} \cdot \bignorm{\Sigma^{1/2} B^{\star} (U_AU_A^{\top} - \id_{t\times t})}^2 + n^{-c_{\infty}} \cdot \sigma^2 \cdot n \cdot t.
 	\end{align}
-	which is bounded by the right hand side of equation \eqref{eq_gA_err} as long as $c$ is sufficiently small.
-	In the second step, we used the fact that $X=Z\Sigma^{1/2}$.
-	In the third step, we used Fact \ref{fact_minv} (ii) to bound the operator norm $\|Z\|$ by $\OO(\sqrt{n})$, and used $\bignormFro{\Sigma^{1/2} B^{\star}(U_AU_A^{\top} -\id_{t\times t})}\le \sqrt{t} \bignorm{\Sigma^{1/2} B^{\star}(U_AU_A^{\top} -\id_{t\times t})}$ since the matrix $\Sigma^{1/2} B^{\star}(U_AU_A^{\top} -\id_{t\times t})$ has rank at most $t$. In the fourth step, we used AM-GM inequality.
+	In the second step, we use the fact that $X=Z\Sigma^{1/2}$.
+	In the third step, we use Fact \ref{fact_minv}(ii) to bound the operator norm of $Z$ by $\OO(\sqrt{n})$, and use $\bignormFro{\Sigma^{1/2} B^{\star}(U_AU_A^{\top} -\id_{t\times t})}\le \sqrt{t} \bignorm{\Sigma^{1/2} B^{\star}(U_AU_A^{\top} -\id_{t\times t})}$ since the matrix $\Sigma^{1/2} B^{\star}(U_AU_A^{\top} -\id_{t\times t})$ has rank at most $t$.
+	By the AM-GM inequality, equation \eqref{eq_gA_err2} is bounded by the right-hand side of \eqref{eq_gA_err}.
 
 	For equation \eqref{eq_gA_p3}, using Corollary \ref{cor_calE},
 	%Lemma \ref{largedeviation} and the fact that all moments of $\varepsilon_i$ exist, 
 	we obtain that with high probability,
 	\begin{align}
-		\abs{\normFro{\cE}^2 - \sigma^2 \cdot n \cdot t}=\abs{\tr\left( \cal E^\top \id_{n\times n}\cal E\right) - \sigma^2 \cdot n \cdot t} &\le n^{c} \cdot \sigma^2 \| \id_{n\times n}\|_F \nonumber\\
-		&= n^{1/2+c} \cdot \sigma^2 \le n^{-c_{\infty}} \cdot \sigma^2 \cdot n \cdot t, \label{eq_gA_err3}
+		\abs{\normFro{\cE}^2 - \sigma^2 \cdot n \cdot t}=\abs{\tr\left[ \cal E^\top \id_{n\times n}\cal E\right] - \sigma^2 \cdot n \cdot t} &\le n^{c} \cdot \sigma^2 \| \id_{n\times n}\|_F \nonumber\\
+		&= n^{1/2+c} \cdot \sigma^2 \le n^{-c_{\infty}} \cdot \sigma^2 \cdot n \cdot t. \label{eq_gA_err3}
 	\end{align}
-	as long as $c$ is sufficiently small. 
 	For the inner product between $\cW A$ and $\cE$, we have that with high probability,
 	\begin{align}
 		\bigabs{\inner{\cW A}{\cE} - \sigma^2\cdot p \cdot r } &= \bigabs{\bigtr{\left(\cE^\top U_X U_X^{\top}\cE  - p\sigma^2 \cdot  \id_{t\times t} \right)  U_AU_A^{\top} }} \nonumber  \\
 		&\le \bignormFro{U_{A} U_A^{\top}} \cdot \bignorm{\cE^\top U_X U_X^{\top} \cE - p \sigma^2 \cdot  \id_{t\times t}} \nonumber \\
-		&\le \sqrt{r} \cdot (n^{\e}\cdot \sigma^2\cdot \|U_X U_X^\top\|_F) \nonumber \\
-		&\le n^{1/2+c} \cdot \sigma^2 \cdot \sqrt{r}  \le  n^{-c_{\infty}} \cdot \sigma^2 \cdot n \cdot t ,\label{eq_gA_err4}
+		&\le \sqrt{r} \cdot n^{\e}\cdot \sigma^2\cdot \|U_X U_X^\top\|_F \nonumber \\
+		&\le n^{1/2+c} \cdot \sigma^2 \cdot \sqrt{r}  \le  n^{-c_{\infty}} \cdot \sigma^2 \cdot n \cdot t.\label{eq_gA_err4}
 	\end{align}
-as long as $c$ is sufficiently small. Here in the third step, we applied equation \eqref{vcalAE3} to $\bignorm{\cE^\top U_X U_X^{\top} \cE - p \sigma^2 \cdot  \id_{t\times t}}$ and used that $ \bignormFro{U_{A} U_A^{\top}}=\sqrt{r}$ because $U_A$ is of rank $r$. In the fourth step, we used that $\|U_X U_X^\top\|_F=\sqrt{p}\le \sqrt{n}$ because $U_X$ is of rank $p$.
+	Here in the third step, we apply equation \eqref{vcalAE3} to $\bignorm{\cE^\top U_X U_X^{\top} \cE - p \sigma^2 \cdot  \id_{t\times t}}$ and use that $ \bignormFro{U_{A} U_A^{\top}}=\sqrt{r}$ because $U_A$ has rank $r$. In the fourth step, we use $\|U_X U_X^\top\|_F=\sqrt{p}$ because $U_X$ has rank $p$.
 
-%	\begin{align}
-%		\bigabs{\inner{\cW A}{\cE} - \ex{\inner{\cW A}{\cE}}} &= \bigabs{\bigtr{U_X U_X^{\top} (\cE U_AU_A^{\top} \cE^{\top} - \sigma^2 \cdot r \id_{n\times n})}} \nonumber  \\
-%		&\le \bignormFro{U_{X} U_X^{\top}} \cdot \bignorm{\cE U_A U_A^{\top} \cE^{\top} - \sigma^2 \cdot r \id_{n\times n}} \nonumber \\
-%		&\le p^{1/2} \cdot (\sigma^2 r\cdot p^{\e}). \label{eq_gA_err4}
-%	\end{align}
-	%\begin{align*}
-	%	%|\inner{U_X U_X^{\top} \bigbrace{\varepsilon_i W_i^{\top}} (\cW\cW^{\top})^{-1}W_j}{\varepsilon_j}|
-	%	\abs{W_i^{\top} (\cW\cW^{\top})^{-1} W_j \cdot \bigbrace{\varepsilon_i^{\top} U_X U_X^{\top} \varepsilon_j}}
-	%	&\le |W_i^{\top} (\cW\cW^{\top})^{-1}W_j| \cdot \sigma^2 p^{\e} \bigtr{(U_X U_X^{\top})^2}^{1/2} \le \sigma^2 p^{1/2+\e}
-  % &\left|\left(1-\mathop{\mathbb{E}}_{\varepsilon_j} \right)\left[\inner{U_X U_X^{\top} \bigbrace{\varepsilon_j W_j^{\top}} (\cW\cW^{\top})^{-1}W_j}{\varepsilon_j}\right]\right| \le |W_j^{\top} (\cW\cW^{\top})^{-1}W_j| \cdot \sigma^2 p^{\e} \tr \left[(U_X U_X^{\top})^2\right]\le \sigma^2 p^{1/2+\e},\\
-  % &\left|\left(1-\mathop{\mathbb{E}}_{\varepsilon_j} \right)\left[\inner{U_X U_X^{\top} \bigbrace{\varepsilon_j W_j^{\top}} (\cW\cW^{\top})^{-1}W_j}{U_X U_X^{\top} \bigbrace{\varepsilon_j W_j^{\top}} (\cW\cW^{\top})^{-1}W_j}\right]\right|\\
-  % &\le |W_j^{\top} (\cW\cW^{\top})^{-1}W_j|^2 \cdot \sigma^2 p^{\e} \tr \left[(U_X U_X^{\top})^4\right]\le \sigma^2 p^{1/2+\e},
-	%\end{align*}
-	%Combining equation \eqref{eq_gA_}, we get that with high probability
-	%\begin{align}
-	%	\left|g_2(\cal W)-\sigma^2(n\cdot t - p\cdot r)\right|=\left|g_2(\cal W)- \exarg{\varepsilon_1, \dots, \varepsilon_t} {g_2(\cal W)}\right| \lesssim \sigma^2 p^{1/2+\e}. \label{eq_gA_err}
-	%\end{align}
 	Combining equations \eqref{eq_gA_err1}, \eqref{eq_gA_err2}, \eqref{eq_gA_err3}, and \eqref{eq_gA_err4}, we obtain equation \eqref{eq_gA_err}.
 
 	\bigskip
@@ -222,26 +208,30 @@ as long as $c$ is sufficiently small. Here in the third step, we applied equatio
 	\begin{align}
 		h(\hat{A})- h(A^{\star})   &\le \bigabs{g(A^{\star}) - h(A^{\star})} + (g(\hat A) - g({A}^{\star})) + \big|g(\hat{A}) - h(\hat{A})\big| \nonumber \\
 		&\le \bigabs{g(A^{\star}) - h(A^{\star})}  + \big|g(\hat{A}) - h(\hat{A})\big|\nonumber \\
-		&\lesssim n^{-c_\varphi}\cdot n \bignorm{\Sigma^{1/2} B^{\star}}^2 + n^{-c_\infty}\cdot \sigma^2 \cdot n \cdot t. \label{eq_g_gap}
+		&\lesssim n^{-c_\varphi}\cdot n \bignormFro{\Sigma^{1/2} B^{\star}}^2 + n^{-c_\infty}\cdot \sigma^2 \cdot n \cdot t. \label{eq_g_gap}
 	\end{align}
 	The second step used the fact that $\hat A$ is the global minimizer of $g(\cdot)$, so that $g(\hat A) \le g({A}^\star)$.
 	The third step used equation \eqref{eq_gA_err} and the fact that the spectral norm of $U_A U_A^{\top} - \id_{t\times t}$ is at most one. 
 	%With \eqref{eq_g_gap}, we can derive an upper bound on $\bignormFro{A^{\star} {A^{\star}}^{\top}- U_{\hat{A}} U_{\hat{A}}^{\top}}$ as follows. 
 	Using equation \eqref{same_hA}, we can verify that
 	$$h(\hat A)-h(A^\star) = n \bigtr{{B^\star}^\top\Sigma B^\star ( A^\star {A^\star}^\top -U_{\hat A}U^\top_{\hat A})} .$$
-	Let $\lambda_1\ge\lambda_2 \ge \cdots\ge \lambda_t$ be the eigenvalues of ${B^\star}^\top\Sigma B^\star$, and $v_i$, $1\le i \le t$, be the corresponding eigenvectors. Then we have $A^\star {A^\star}^\top =\sum_{i=1}^r v_i v_i^\top$, and 
+	Let $\lambda_1\ge\lambda_2 \ge \cdots\ge \lambda_t$ be the eigenvalues of ${B^\star}^\top\Sigma B^\star$.
+	Let $v_i$ be the corresponding eigenvector of $\lambda_i$.
+	Then, we have $A^\star {A^\star}^\top =\sum_{i=1}^r v_i v_i^\top$, and
 	\begin{align}
 	h(\hat A)-h(A^\star) = n \sum_{i=1}^r \lambda_i - n\sum_{i=1}^t \lambda_i \| U^\top_{\hat A} v_i\|^2 &= n\sum_{i=1}^r \lambda_i\left(1 -  \| U^\top_{\hat A} v_i\|^2\right)-n\sum_{i=r+1}^t \lambda_i \| U^\top_{\hat A} v_i\|^2 \nonumber\\
 	&\ge  n(\lambda_r-\lambda_{r+1}) \sum_{i=r+1}^t \| U^\top_{\hat A} v_i\|^2 , \label{bdd_A-A}
 	\end{align}
-	where we used $\sum_{i=1}^r \left(1 -  \| U^\top_{\hat A} v_i\|^2\right) = r- \sum_{i=1}^r  \| U^\top_{\hat A} v_i\|^2 =\sum_{i=r+1}^t \| U^\top_{\hat A} v_i\|^2  $ in the last step. On the other hand, we have 
+	where we use $\sum_{i=1}^r \left(1 -  \| U^\top_{\hat A} v_i\|^2\right) = r- \sum_{i=1}^r  \| U^\top_{\hat A} v_i\|^2 =\sum_{i=r+1}^t \| U^\top_{\hat A} v_i\|^2  $ in the last step.
+	On the other hand, we have
 	\begin{align*}
-	\| A^\star {A^\star}^\top -U_{\hat A}U^\top_{\hat A}\|_F^2 & =\sum_{i=1}^t v_i^\top (A^\star {A^\star}^\top -U_{\hat A}U^\top_{\hat A})^2 v_i \\
-	& =\sum_{i=1}^r \left(1 -  \| U^\top_{\hat A} v_i\|^2\right) + \sum_{i=r+1}^t \| U^\top_{\hat A} v_i\|^2 =2 \sum_{i=r+1}^t \| U^\top_{\hat A} v_i\|^2.
+	\| A^\star {A^\star}^\top -U_{\hat A}U^\top_{\hat A}\|_F^2
+	&= 2r - 2\inner{A^{\star}{A^{\star}}^{\top}}{U_{\hat{A}} {U_{\hat{A}}}^{\top}} \\
+	&= 2 \sum_{i=r+1}^t \| U^\top_{\hat A} v_i\|^2.
 	\end{align*}
-	Thus from \eqref{bdd_A-A}, we obtain that 
-	$$\| A^\star {A^\star}^\top -U_{\hat A}U^\top_{\hat A}\|_F^2  =2 \sum_{i=r+1}^t \| U^\top_{\hat A} v_i\|^2 \lesssim \frac{n^{-c_\varphi}\cdot  \bignorm{\Sigma^{1/2} B^{\star}}^2 + n^{-c_\infty}\cdot \sigma^2 t}{\lambda_r- \lambda_{r+1}}  .$$
-	This completes the proof of Claim \ref{claim_opt_dist}.
+	Thus from equation \eqref{eq_g_gap} and  \eqref{bdd_A-A}, we obtain that
+	$$\| A^\star {A^\star}^\top -U_{\hat A}U^\top_{\hat A}\|_F^2  =2 \sum_{i=r+1}^t \| U^\top_{\hat A} v_i\|^2 \lesssim \frac{n^{-c_\varphi}\cdot  \bignormFro{\Sigma^{1/2} B^{\star}}^2 + n^{-c_\infty}\cdot \sigma^2 t}{\lambda_r- \lambda_{r+1}}  .$$
+	Hence the proof is complete.
 	\end{proof}
 	
 	\iffalse
@@ -281,7 +271,7 @@ as long as $c$ is sufficiently small. Here in the third step, we applied equatio
 
 	\begin{proof}[Proof of Claim \ref{claim_pred_err}]
 	%We apply similar arguments from Claim \ref{lem_exp_opt} and \ref{claim_opt_dist} for this proof.
-	The proof is similar to the one for equation \eqref{eq_gA_err}. 
+	The proof is similar to that of equation \eqref{eq_gA_err}.
 	The prediction loss of hard parameter sharing for task $i$ is equal to
 	\begin{align*}
 		L(\hat{\beta}_i^{\MTL}) &= \bignorm{\Sigma^{1/2} (\hat{B} \hat{A}_i - \beta^{(i)})}^2 \\
@@ -292,15 +282,18 @@ as long as $c$ is sufficiently small. Here in the third step, we applied equatio
 	We divide the prediction loss into three parts.
 
 	\paragraph{Part 1:} The first part is the bias term:
-	$\norm{\Sigma^{1/2} (B^{\star} \hat{a}_i - \beta_i)}^2 = L(B^{\star} \hat{a}_i)$.
+	$\norm{\Sigma^{1/2} (B^{\star} \hat{a}_i - \beta^{(i)})}^2 = L(B^{\star} \hat{a}_i)$.
 
-	\paragraph{Part 2:} The second part is the cross term, whose expectation over $\cE$ is zero. Using Corollary \ref{cor_calE}, the concentration error can be bounded as 
+	\paragraph{Part 2:} The second part is the cross term, whose expectation over $\cE$ is zero.
+	Let $b = B^{\star} \hat{a}_i - \beta^{(i)}$ for simplicity.
+	Using Corollary \ref{cor_calE}, the concentration error can be bounded as
 	\begin{align*}
-		& \bigabs{\inner{\Sigma^{1/2}(B^{\star} \hat{a}_i - \beta^{(i)})}{\Sigma^{1/2}R_i}} \\
-		\le &\sum_{1\le j, k\le t}|\hat a_i(j)| |\hat a_i(k)| \bigabs{ \inner{ X(X^\top X)^{-1}\Sigma \beta^{(j)} }{\epsilon^{(k)}}}  + \sum_{  j =1}^{t}|\hat a_i(j)|\bigabs{ \inner{ X(X^\top X)^{-1}\Sigma \beta^{(i)}}{\epsilon^{(j)}}} \\
-		\le & n^{c}\sigma \cdot \bignormFro{ X(X^\top X)^{-1}\Sigma B^{\star} } \cdot \left[ \sum_{j=1}^t |\hat a_i(j)| + \sum_{1\le j,k \le t} |\hat a_i(j)| |\hat a_i(k)| \right] \\
-		 \lesssim & n^{c}\sigma   \cdot \|\hat a_i\|\cdot \|\Sigma^{1/2}B^{\star} \| \cdot \| (Z^\top Z)^{-1} \|^{1/2}  \le  n^{-1/2+c}\sigma^2 \|\hat a_i\|^2 + n^{-1/2+c} \|\Sigma^{1/2}B^{\star} \|^2 , 
-	\end{align*}	
+		\bigabs{\inner{\Sigma^{1/2}b}{\Sigma^{1/2}R_i}}
+		&= \bigabs{\inner{X (X^{\top}X)^{-1} \Sigma b \hat{a}_i^{\top}}{\cE}} \\
+		&\le \sum_{j=1}^t \abs{\hat{a}_i(j)} \cdot \bigabs{\inner{X (X^{\top} X)^{-1} \Sigma b}{\varepsilon^{(j)}}} \\
+		&\le \sum_{j=1}^t \abs{\hat{a}_i(j)} \cdot n^{\e}\sigma \bignorm{X (X^{\top}X)^{-1} \Sigma b} \\
+		&\le \sqrt{t} \norm{\hat{a}_i} \cdot n^{\e} \sigma \bignormFro{X (X^{\top} X)^{-1} \Sigma b}.
+	\end{align*}
 %	\begin{align*}
 %		\bigabs{\inner{\Sigma^{1/2}(B^{\star} \hat{a}_i - \beta_i)}{\Sigma^{1/2}R_i}} &= \bigabs{\inner{\hat a_i^\top X(X^\top X)^{-1}\Sigma (B^{\star} \hat{a}_i - \beta_i)}{\cal E}} \\
 %		&\le n^{c}\sigma \cdot \bignormFro{\hat a_i^\top X(X^\top X)^{-1}\Sigma (B^{\star} \hat{a}_i - \beta_i)}\\
@@ -308,17 +301,23 @@ as long as $c$ is sufficiently small. Here in the third step, we applied equatio
 %		&\lesssim n^{-1/2+c}\sigma \cdot\|\hat a_i\| \cdot \bignorm{\Sigma^{1/2}(B^{\star} \hat{a}_i - \beta_i)} \\
 %		&\le n^{-1/2+c}\sigma^2  \cdot\|\hat a_i\|^2 + n^{-1/2+c} L(B^{\star} \hat{a}_i), 
 %	\end{align*}
-	with high probability for any small constant $c>0$. Here in the first step, we expand $B^\star \hat a_i=\sum_{1\le j \le t} \hat a_i(j) \beta^{(j)}$ amd $\cal E \hat a_i=\sum_{1\le j \le t} \hat a_i(j) \epsilon^{(j)}$. In the second step, we used equation \eqref{vcalE}. In the third step we used $\sum_j |\hat a_i(j)|\le \sqrt{t}\|\hat a_i\|$ by Cauchy-Schwarz inequality, and 
+	In the first step, we plug in the definition of $R_i$ and re-arrange terms.
+	In the second step, we use $\hat{a}_i(j)$ to denote the $j$-th coordinate of $\hat{a}_i$.
+	In the third step, we use equation \eqref{vcalE}.
+	In the last step, we use $\sum_j |\hat a_i(j)|\le \sqrt{t}\|\hat a_i\|$ by Cauchy-Schwarz inequality.
+	Finally, we have
 	\begin{align*}
-	\bignormFro{ X(X^\top X)^{-1}\Sigma B^{\star}} &=\left[ {B^{\star}}^\top \Sigma (X^\top X)^{-1}X^\top X(X^\top X)^{-1}\Sigma B^{\star} \right]^{1/2} \\
-	&\le  \|\Sigma^{1/2} B^{\star} \|  \cdot \left\| \Sigma^{1/2}(X^\top X)^{-1}\Sigma ^{1/2} \right\|^{1/2}  =   \|\Sigma^{1/2} B^{\star} \|  \cdot \left\| (Z^\top Z)^{-1}\right\|^{1/2},
+		\bignormFro{ X(X^\top X)^{-1}\Sigma b} &=\left[ {b}^\top \Sigma (X^\top X)^{-1}X^\top X(X^\top X)^{-1}\Sigma b \right]^{1/2} \\
+		&\le  \|\Sigma^{1/2} b \|  \cdot \left\| \Sigma^{1/2}(X^\top X)^{-1}\Sigma ^{1/2} \right\|^{1/2}  =   \|\Sigma^{1/2} b \|  \cdot \left\| (Z^\top Z)^{-1}\right\|^{1/2} \\
+		&\le n^{-1/2} \cdot \norm{\Sigma^{1/2} b}.
 	\end{align*}
 %	\begin{align*}
 %	\bignormFro{\hat a_i^\top X(X^\top X)^{-1}\Sigma (B^{\star} \hat{a}_i - \beta_i)} &=\|\hat a_i\|\cdot \left[ (B^{\star} \hat{a}_i - \beta_i)^\top \Sigma (X^\top X)^{-1}X^\top X(X^\top X)^{-1}\Sigma (B^{\star} \hat{a}_i - \beta_i) \right]^{1/2} \\
 %	&\le \|\hat a_i\|\cdot  \|\Sigma^{1/2}(B^{\star} \hat{a}_i - \beta_i)\|  \cdot \left\| \Sigma^{1/2}(X^\top X)^{-1}\Sigma ^{1/2} \right\|^{1/2} \\
 %	&= \|\hat a_i\|\cdot  \|\Sigma^{1/2}(B^{\star} \hat{a}_i - \beta_i)\|  \cdot \left\| (Z^\top Z)^{-1}\right\|^{1/2}
 %	\end{align*}
-	because $X=Z\Sigma^{1/2}$. In the fourth step, we used Fact \ref{fact_minv} (ii) to bound the operator norm $\left\| (Z^\top Z)^{-1}\right\|$ by $\OO(n^{-1})$, and applied the AM-GM inequality. 
+	Above, we use $X=Z\Sigma^{1/2}$. In the last step, we use Fact \ref{fact_minv}(ii) to bound the operator norm of $Z^\top Z$ by $\OO(n^{-1})$. %, and apply the AM-GM inequality.
+	One can see that the concentration error from this part is upper bounded by the result in Claim \ref{claim_pred_err}.
 	
 	\iffalse
 	Next, we use the fact that the spectral norm of $\cE$ is at most $\sigma \cdot p^{\e}$.
@@ -332,7 +331,7 @@ as long as $c$ is sufficiently small. Here in the third step, we applied equatio
 	\end{align*}
 	\fi
 
-	\paragraph{Part 3:} The final part is $\|R_i\|^2$. We rewrite it as 
+	\paragraph{Part 3:} The final part is the squared term of $R_i$. We rewrite it as
 	\begin{align}
 	\|\Sigma^{1/2}R_i\|^2 &= \left\|\sum_{j=1}^t \hat{a}_i(j) \Sigma^{1/2}(X^{\top} X)^{-1} X^{\top} \epsilon^{(j)}\right\|^2 \nonumber\\
 	& = \sum_{1\le j , k \le t}\hat a_i(j) \hat a_i(k)  {\epsilon^{(j)}}^\top X(X^{\top} X)^{-1}\Sigma (X^{\top} X)^{-1} X^{\top} {\epsilon^{(k)}}.\label{E_i^2}
@@ -344,21 +343,19 @@ as long as $c$ is sufficiently small. Here in the third step, we applied equatio
 %	&  \le \sigma^2 \cdot p^{1/2} \cdot \bignorm{(Z^{\top} Z)^{-1}} \lesssim \sigma^2 \cdot n^{-1/2+c} \label{jnek}
 %	\end{align}
 %	with high probability for any small constant $c>0$. On the other hand, if $j=k$, 
-	First we can calculate that 
+	First, for any $1 \le j, k \le t$, the expectation is
 	$$\exarg{\cal E}{{\epsilon^{(j)}}^\top X(X^{\top} X)^{-1}\Sigma (X^{\top} X)^{-1} X^{\top} \epsilon^{(k)}}=\delta_{jk}\cdot \sigma^2\tr\left[\Sigma(X^\top X)^{-1}\right] .$$
-	Then using equation \eqref{vcalA2}, we obtain that 
+	Second, using equation \eqref{vcalA2}, the concentration error is at most
 	\begin{align}
 	& \left|{\epsilon^{(j)}}^\top X(X^{\top} X)^{-1}\Sigma (X^{\top} X)^{-1} X^{\top} {\epsilon^{(k)}} -\delta_{jk}\cdot \sigma^2\tr\left[\Sigma(X^\top X)^{-1}\right]\right|\nonumber \\
 	\le &n^c\cdot \sigma^2  \bignormFro{X(X^{\top} X)^{-1}\Sigma (X^{\top} X)^{-1} X^{\top} }   = n^c\cdot \sigma^2  \bignormFro{\Sigma^{1/2}(X^{\top} X)^{-1}\Sigma^{1/2}} \nonumber\\
-	  \le &\sigma^2 \cdot p^{1/2} \cdot  \bignorm{(Z^{\top} Z)^{-1}}^{1/2} \lesssim \sigma^2 \cdot n^{-1/2+c}, \label{jeqk}
+	  \le &\sigma^2 \cdot p^{1/2} \cdot  \bignorm{(Z^{\top} Z)^{-1}}^{1/2} \lesssim \sigma^2 \cdot n^{-1/2+c}. \label{jeqk}
 	\end{align}
-	with high probability for any small constant $c>0$. 
-	Above, we used Fact \ref{fact_minv} (ii) in the last step to bound $ \bignorm{(Z^{\top} Z)^{-1}}$ by $\OO(n^{-1})$.
+	Above, we used Fact \ref{fact_minv}(ii) in the last step to bound the operator norm of $(Z^{\top} Z)^{-1}$.
 	Plugging equation \eqref{jeqk} into equation \eqref{E_i^2}, we obtain that 
 	\begin{align*}
-		\bigabs{\bignorm{\Sigma^{1/2} R_i}^2 -  \sigma^2 \|\hat a_i\|^2 \cdot\tr\left[\Sigma(X^\top X)^{-1}\right]} \lesssim  \sigma^2 \cdot n^{-1/2+c}  \sum_{1\le j,k\le t}|\hat a_i(j)||\hat a_i(k)|\lesssim  n^{-1/2+c} \sigma^2 \cdot  \|\hat a_i\|^2.
+		\bigabs{\bignorm{\Sigma^{1/2} R_i}^2 -  \sigma^2 \|\hat a_i\|^2 \cdot\tr\left[\Sigma(X^\top X)^{-1}\right]} \lesssim  \sigma^2 \cdot n^{-1/2+c}  \sum_{1\le j,k\le t}|\hat a_i(j)||\hat a_i(k)| =  n^{-1/2+c} \sigma^2 \cdot  \|\hat a_i\|^2.
 	\end{align*}
-	
 %	One can verify that the expectation of $\norm{\Sigma^{1/2} E_i}^2$ is equal to $\sigma^2 \norm{\hat{a}_i}^2 \cdot \tr[\Sigma (X^{\top} X)^{-1}]$.
 %	Next, we bound the concentration error.
 %	Let $A = X (X^{\top} X)^{-1} \Sigma (X^{\top} X)^{-1} X^{\top}$.
@@ -370,64 +367,5 @@ as long as $c$ is sufficiently small. Here in the third step, we applied equatio
 %	In the above equation, we note that the trace of $A$ is precisely the trace of $\Sigma (X^{\top} X)^{-1}$.
 %	On the other hand, the concentration error of the spectral norm of $\cE \hat{a}_i \hat{a}_i^{\top} \cE^{\top}$ is at most $\sigma^2 \e $.
 
-	Finally, combining the three parts together, we conclude the proof of Claim \ref{claim_pred_err}.
+	Finally, combining the three parts together, we complete the proof.
 \end{proof}
-	%\paragraph{Proof of Theorem \ref{thm_many_tasks}.}
-	%In sum, we have solved that $\hat{\beta}_i^{\MTL}=B^{\star}\left( U_r v_i +\oo(1)\right)$.
-	%Now we are ready to finish the proof.
-	%Similar to the proof of equation \eqref{eq_est_g1} and \eqref{eq_est_g2}, we have that
-	%\begin{align}
-	%	L(\hat{\beta}_t^{\MTL}) = \exarg{\varepsilon_1, \dots, \varepsilon_t}{L(\hat{\beta}_t^{\MTL})} (1 + O(p^{-1/2+c})) + O(\sigma^2 \cdot p^{-1/2 + c}). \label{eq_multiple_last1}
-	%\end{align}
-	%Using equation \eqref{eq_ex_pred}, we have that
-	%\begin{align}
-	%	\exarg{\varepsilon_1, \dots, \varepsilon_t}{\hat{\beta}_t^{\MTL}} &= \bignorm{\Sigma^{1/2} \left((B^\star \hat{\cal W}^\top) (\hat{\cal W}\hat{\cal W}^{\top})^{-1} \hat W_t - \beta_t \right) }^2
-	%	+ \sigma^2  \hat W_t^{\top} (\hat{\cal W}\hat{\cal W}^{\top})^{-1} \hat W_t \cdot \bigtr{\Sigma (X^{\top}X)^{-1}} \nonumber \\
-	%	&= \bignorm{\Sigma^{1/2} \bigbrace{B^{\star} U_r v_t-\beta_t}}^2 + \oo\left(\bigtr{{B^{\star}}^{\top} \Sigma B^{\star}}\right) + \sigma^2(\norm{v_t}^2 + o(1)) \bigtr{\Sigma (X^{\top}X)^{-1}} \cdot (1+\oo(1)) \nonumber \\
-	%	&= \bignorm{\Sigma^{1/2} \bigbrace{B^{\star} U_r v_t-\beta_t}}^2 + \frac{\sigma^2}{\rho-1}\norm{v_t}^2 + \oo \left( \bigtr{{B^{\star}}^{\top} \Sigma B^{\star}} + \sigma^2\right), \label{eq_multiple_last2}
-	%\end{align}
-	%In the second step, we use that $\norm{\hat{\cW}^{\top} (\cW \cW^{\top})^{-1} \cW - U_r U_r^{\top}} \le o(1)$ w.h.p., which implies that
-	%\[ \bignorm{U_r v_t - \hat{\cW}^{\top} (\cW \cW^{\top})^{-1} \hat{\cW}_t} \le o(1) \quad \text{ and } \quad \bigabs{\hat{\cW}_t^{\top} (\hat{\cW} \hat{\cW}^{\top})^{-1} \hat{W}_t - \norm{v_t}^2} \le o(1). \]
-  %In the last step, we use Lemma \ref{lem_minv}, that is, $\bigtr{\Sigma (X^{\top} X)^{-1}} = \sigma^2 \cdot (1 + o(1))/ (\rho - 1)$.
-	%Combining equation \eqref{eq_multiple_last1}, \eqref{eq_multiple_last2}, and $\te(\hat{\beta}_t^{\STL})=\frac{\sigma^2}{\rho-1} \cdot \left( 1+\oo(1)\right)$, we conclude the proof.
-	%The second step uses the fact that $U_r U_r^{\top}$ is the global minimum of $\ex{g(\cdot)}$.
-	%In fact, if \eqref{Q-Q} does not hold, then using the condition $\lambda_{\min}((B^{\star})^\top\Sigma B^{\star})\gtrsim \sigma^2$ and that $\delta_{\vari}(\cal W)=\OO(\sigma^2)$ by  Lemma \ref{lem_minv}, we obtain that
-	%$$   \val(\hat {Q}) + t  \sigma^2 > (\val( Q_0) + t \sigma^2 )\cdot (1+\oo(1)) \ \Rightarrow \ g( \hat{\cal W})>g( {\cal W}_0),$$
-	%where $\cal W_0\in \R^{r\times t}$ is a matrix such that  $ \cal W_0^{\top} (\cal W_0\cal W_0^{\top})^{-1} \cal W_0=Q_0$. Hence $\hat {\cal W}$ is not a minimizer, which leads to a contradiction.
-	%with high probability
-	%\begin{align}
-	%g(\cal W)&= n \bignorm{\Sigma^{1/2} B^{\star} (\cW^{\top} (\cW \cW^{\top})^{-1} \cW - \id_{t\times t})}^2 \cdot (1+\oo(1)) + \sigma^2 (n\cdot t - p \cdot r)+\OO(\sigma^2 p^{1/2+\e}) \nonumber \\
-	%&=\ex{g(\cW)} \cdot (1+\oo(1)) + \OO(\sigma^2 p^{1/2+\e}). \label{eq_est_g}
-	%\end{align}
-
-%		Applying the above estimates into $g_1(\cW)$, we get that
-%	First, for $g_1(\cW)$, using Lemma \ref{largedeviation} in Appendix \ref{sec_maintools} and the fact that all moments of $\varepsilon_i$ exist, we obtain that for a sufficiently small constant $\e>0$, the following holds with high probability:
-%	\[ \text{for any } 1\le j \le t, |\inner{XB^{\star} \cW^{\top} (\cW\cW^{\top})^{-1}W_j - X\beta_j}{\varepsilon_j}| \le p^\e \sigma\|XB^{\star} \cW^{\top} (\cW\cW^{\top})^{-1}W_j - X\beta_j\|. \]
-%		Applying the above estimates into $g_1(\cW)$, we get that
-%	\begin{align}
-%	  \abs{g_1(\cal W)}    &\le p^\e \sigma \sum_{j=1}^t \|  {XB^{\star} \cW^{\top} (\cW\cW^{\top})^{-1}W_j - X\beta_j}\| \nonumber \\
-%	&\le  p^\e \sigma \sum_{j=1}^t \bignorm{  \Sigma^{1/2}\left(B^{\star} \cW^{\top} (\cW\cW^{\top})^{-1}W_j - \beta_j\right)} \cdot \|Z\| \nonumber\\
-%	&\lesssim p^{1/2+\e} \sigma \sum_{j=1}^t \bignorm{  \Sigma_1^{1/2}\left(B^{\star} \cW^{\top} (\cW\cW^{\top})^{-1}W_j - \beta_j\right)} \nonumber\\
-%	& \le p^{1/2+\e} \bignorm{\Sigma^{1/2} B^{\star} (\cW^{\top} (\cW \cW^{\top})^{-1} \cW - \id_{t\times t})}^2 + t\sigma^2 p^{1/2+\e}.  \label{eq_est_g1}
-%	\end{align}
-%	In the second step, we use the fact that $X=Z\Sigma^{1/2}$.
-%	In the third step, we use equation \eqref{eq_isometric} to bound the operator norm $\|Z\|$ by $\OO(\sqrt{p})$.
-%	In the last step, we use the AM-GM inequality.
-
-
-	%\paragraph{Proof of Lemma \ref{lem_error_same_cov}.} Next, we show that the concentration errors of $g_0(\cW), g_1(\cW), g_2(\cW)$ are all lower order terms compared to $\ex{g(\cW)}$.
-
-
-	%and
-	%\begin{align*}  &|\inner{XB^{\star} \cW^{\top} (\cW\cW^{\top})^{-1}W_j - X\beta_j}{U_X U_X^{\top} \bigbrace{\varepsilon_i W_i^{\top}} (\cW\cW^{\top})^{-1} W_j }| \\
-	%&\le p^\e \sigma |W_i^{\top} (\cW\cW^{\top})^{-1} W_j|\cdot \|U_X U_X^{\top}( {XB^{\star} \cW^{\top} (\cW\cW^{\top})^{-1}W_j - X\beta_j})\|
-	%\end{align*}
-
-
-
-	%	\begin{align*}
-	%	g_0(\cal W) &= \sum_{j=1}^t \bignorm{XB^{\star} \cW^{\top} (\cW\cW^{\top})^{-1} W_j - X\beta_j}^2 = \bignorm{X B^{\star} (\cW^{\top} (\cW\cW^{\top})^{-1} \cW - \id_{t\times t})}^2, \\
-	%	g_1(\cal W)  &= \sum_{j=1}^t \inner{XB^{\star} \cW^{\top} (\cW\cW^{\top})^{-1}W_j - X\beta_j}{U_X U_X^{\top} \bigbrace{\sum_{i=1}^t \varepsilon_i W_i^{\top}} (\cW\cW^{\top})^{-1} W_j - \varepsilon_j} ,\\
-	%			&= \sum_{j=1}^t \inner{-X B^{\star} \cW^{\top} (\cW \cW^{\top})^{-1} W_j + X\beta_j}{\varepsilon_j},\\
-	%	g_2(\cal W)  &= \sum_{j=1}^t \bignorm{U_X U_X^{\top} \bigbrace{\sum_{i=1}^t \varepsilon_i W_i^{\top}} (\cW\cW^{\top})^{-1}W_j - \varepsilon_j}^2 .
-	%				\end{align*}
