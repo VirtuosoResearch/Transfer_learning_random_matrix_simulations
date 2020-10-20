@@ -13,8 +13,8 @@ We focus on the two-task case to better understand the impact of having differen
 Let $n_1, n_2$ denote task one  and two's sample size, respectively.
 Suppose
 \begin{align*}
-	X^{(1)} &= Z^{(1)}(\Sigma^{(1)})^{1/2} \in \real^{n_1 \times p}, \text{ and} \\
-	X^{(2)} &= Z^{(2)}(\Sigma^{(2)})^{1/2} \in \real^{n_2 \times p},
+	X^{(1)} = Z^{(1)}(\Sigma^{(1)})^{1/2} \in \real^{n_1 \times p}, \text{ and}
+	X^{(2)} = Z^{(2)}(\Sigma^{(2)})^{1/2} \in \real^{n_2 \times p},
 \end{align*}
 where the entries of $Z^{(1)}$ and $ Z^{(2)}$ are drawn independently from a one dimensional distribution with zero mean, unit variance, and constant $\varphi$-th moment for a fixed $\varphi > 4$. $\Sigma^{(1)}\in \R^{p\times p}$ and $\Sigma^{(2)}\in \R^{p\times p}$ denote the population covariance matrices of task 1 and task 2, respectively.
 
@@ -28,15 +28,15 @@ Hence the HPS estimator is equal to $B$.
 %Hence we can write down a closed form equation for any local minimizer of $f(A, B)$.
 By solving $B$ in equation \eqref{eq_mtl}, we obtain the estimator for task two as follows:
 \begin{align}
-	\hat{\beta}_2^{\MTL} &= {\hat{\Sigma}}^{-1} ({X^{(1)}}^{\top} Y^{(1)} + {X^{(2)}}^{\top} Y^{(2)}), \ \ \text{ where } \nonumber \\
-	\hat{\Sigma} &= {X^{(1)}}^{\top} X^{(1)} + {X^{(2)}}^{\top} X^{(2)}. \label{def hatsig}
+	\hat{\beta}_2^{\MTL} = {\hat{\Sigma}}^{-1} ({X^{(1)}}^{\top} Y^{(1)} + {X^{(2)}}^{\top} Y^{(2)}), \text{ where }
+	\hat{\Sigma} = {X^{(1)}}^{\top} X^{(1)} + {X^{(2)}}^{\top} X^{(2)}. \label{def hatsig}
 \end{align}
 The matrix $\hat{\Sigma}$ adds up both tasks' sample covariance matrices, and the expectation of $\hat{\Sigma}$ is equal to a mixture of their population covariance matrices, with mixing proportions determined by their sample sizes.
 
  To derive the bias and variance equation, we consider the expected loss conditional on the covariates as follows (the empirical loss is close to this expectation as will be shown in equation \eqref{claim_largedev2}):
  %similar to Claim \ref{claim_pred_err}
 \begin{align}
-	& \exarg{\cE}{L(\hat{\beta}_2^{\MTL}) \mid X^{(1)}, X^{(2)}}  \nonumber \\
+	 \exarg{\cE}{L(\hat{\beta}_2^{\MTL}) \mid X^{(1)}, X^{(2)}}
 	=& \bignorm{{\Sigma^{(2)}}^{1/2} \hat{\Sigma}^{-1} {X^{(1)}}^{\top} X^{(1)} (\beta^{(1)} - \beta^{(2)})}^2 \label{eq_bias_2task} \\
 	& + \sigma^2 \bigtr{\Sigma^{(2)}\hat{\Sigma}^{-1}}. \label{eq_variance_2task}
 \end{align}
@@ -57,22 +57,33 @@ Our main result is stated as follows.
 	b) $M$'s singular values are all greater than $\tau$ and less than $1/\tau$;
 	c) task one's sample size is greater than $\tau p$ and task two's sample size is greater than $(1 + \tau) p$.
 	With high probability over the randomness of $X^{(1)}$ and $X^{(2)}$, we have that
-	the variance equation \eqref{eq_variance_2task} $\tr[\Sigma^{(2)} \hat{\Sigma}^{-1}]$ (leaving out $\sigma^2$) satisfies the following estimate:
+
+\noindent(i) The variance equation \eqref{eq_variance_2task} $\tr[\Sigma^{(2)} \hat{\Sigma}^{-1}]$ (leaving out $\sigma^2$) satisfies the following estimate:
 			\begin{align}\label{lem_cov_shift_eq}
-				\resizebox{0.869\hsize}{!}{%
-				$\bigabs{\bigtr{\Sigma^{(2)} \bigbrace{ {\hat{\Sigma}^{-1}} - \frac{(a_1 \Sigma^{(1)} + a_2 \Sigma^{(2)})^{-1}}{n_1+n_2} }}}
-				\le p^{-c_{\varphi}}$,
-				}%
+				\bigabs{\bigtr{\Sigma^{(2)} \bigbrace{ {\hat{\Sigma}^{-1}} - \frac{(a_1 \Sigma^{(1)} + a_2 \Sigma^{(2)})^{-1}}{n_1+n_2} }}}
+				\le p^{-c_{\varphi}},
 			\end{align}
 			where $a_1$ and $a_2$ are the solutions of the following self-consistent equations
 			\begin{align}
-				&a_1 + a_2 = 1- \frac{p}{n_1 + n_2},\label{eq_a12extra000}\\
-				&a_1 + \frac1{n_1 + n_2}\cdot \bigbrace{\sum_{i=1}^p \frac{\lambda_i^2 a_1}{\lambda_i^2 a_1 + a_2}} = \frac{n_1}{n_1 + n_2}. \label{eq_a12extra}
+				a_1 + a_2 = 1- \frac{p}{n_1 + n_2},
+				a_1 + \frac1{n_1 + n_2}\cdot \bigbrace{\sum_{i=1}^p \frac{\lambda_i^2 a_1}{\lambda_i^2 a_1 + a_2}} = \frac{n_1}{n_1 + n_2}. \label{eq_a12extra}
+			\end{align}
+
+\noindent(ii) The bias equation \eqref{eq_bias_2task} satisfies the following limit with high probability: Let $S$ be an arbitrary subset of the unit sphere in dimension $p$ whose size is polynomial in $p$, for any unit vector $w\in S$,
+			\begin{align}\label{lem_cov_derv_eq}
+				\bigabs{w^{\top} \Sigma^{(1)} \bigbrace{\hat{\Sigma}^{-1} \Sigma^{(2)} \hat{\Sigma}^{-1} - \frac{1}{(n_1+n_2)^2}{\Sigma^{(2)}}^{-1/2} V {\frac{a_3 \Lambda^2 + (a_4 + 1)\id}{(a_1 \Lambda^2 + a_2\id)^2}} V^{\top} {\Sigma^{(2)}}^{-1/2}} \Sigma^{(1)} w} \le  \frac{p^{-c_{\varphi}}}{(n_1+n_2)^2},
+			\end{align}
+				where $a_{3}$ and $a_4$ are the solutions of the following self-consistent equations % with $b_k = \frac1{p}\sum_{i=1}^p \frac{\lambda_i^{2k}} {(\lambda_i^2 a_1 + a_2)^2}$, for $k = 0, 1, 2$:
+			\begin{align}\label{eq_a34extra}
+				a_3 + a_4 = \frac{1}{n_1 + n_2}\sum_{i=1}^p \frac{1}{\lambda_i^2 a_1 + a_2}, \ \
+				a_3 + \frac{1}{n_1 + n_2} \sum_{i=1}^p \frac{\lambda_i^2 (a_2 a_3-a_1 a_4 )}{(\lambda_i^2 a_1 + a_2)^2} = \frac{1}{n_1 + n_2} \sum_{i=1}^p \frac{\lambda_i^2 a_1}{(\lambda_i^2 a_1 + a_2)^{2}}.
+%				\left(\frac{\rho_1}{a_1^{2}} -  b_2  \right)\cdot  a_3 -  b_1 \cdot  a_4 = b_1,\quad \left(\frac{\rho_2}{a_2^{2}}-  b_0\right)\cdot  a_4 - b_1 \cdot  a_3
+%				= b_0.
 			\end{align}
 \end{theorem}
-Due to space limit, we defer the bias limit result to Appendix \eqref{appendix RMT}.
+%Due to space limit, we defer the bias limit result to Appendix \eqref{appendix RMT}.
 Our result extends Fact \ref{fact_tr} to the inverse of the sum of two sample covariance matrices.
-To see this, when $n_1$ is zero, we solve equations \eqref{eq_a12extra000} and  \eqref{eq_a12extra} to obtain that $a_1 = 0$ and $a_2 = (n_2-p) / n_2$, and apply them to equation \eqref{lem_cov_shift_eq}.
+To see this, when $n_1$ is zero, we solve equation \eqref{eq_a12extra} to obtain that $a_1 = 0$ and $a_2 = (n_2-p) / n_2$, and apply them to equation \eqref{lem_cov_shift_eq}.
 For general $A_1,A_2$ that are not equal to one, we can still apply our result by rescaling $X^{(1)}$ and $M$ with $A_1 / A_2$.
 We defer a proof sketch of Theorem \ref{thm_main_RMT} until the end of the section.
 %This amounts to replacing $M$ with $\frac{A_1}{A_2}M$ in Theorem \ref{thm_main_RMT}.
@@ -86,13 +97,13 @@ Next, we illustrate how varying them impact the prediction loss.
 
 	Applying Theorem \ref{thm_main_RMT} to the above setting, we get that
 	\begin{align*}
-		&\frac{1}{n_1 + n_2} \tr[\Sigma^{(2)} (a_1\Sigma^{(1)} + a_2\Sigma^{(2)})^{-1}] \\
-		=& \frac{1}{n_1 + n_2} \bigtr{((a_1 + a_2)\id_p)^{-1}}
+		\frac{1}{n_1 + n_2} \tr[\Sigma^{(2)} (a_1\Sigma^{(1)} + a_2\Sigma^{(2)})^{-1}]
+		= \frac{1}{n_1 + n_2} \bigtr{((a_1 + a_2)\id_p)^{-1}}
 		= \frac{p}{n_1 + n_2 - p},
 	\end{align*}
-	because $a_1 + a_2 = 1 - \frac{p}{n_1 + n_2}$ by equation \eqref{eq_a12extra000}.
+	because $a_1 + a_2 = 1 - \frac{p}{n_1 + n_2}$ by equation \eqref{eq_a12extra}.
 	%Similarly, for the bias limit, we solve the self-consistent equations \eqref{eq_a34extra} to get $a_3$ and $a_4$ after we have obtained $a_1, a_2$.
-	Similarly, we can calculate the bias limit (details omitted).
+	Similarly, we can calculate the bias limit.
 	Combined together, we obtain the following corollary of Theorem \ref{thm_main_RMT}.
 \end{example}
 
@@ -113,50 +124,14 @@ Next, we illustrate how varying them impact the prediction loss.
 	the prediction loss of $\hat{\beta}_2^{\MTL} = \hat{B} \hat{A}_2$ for task two satisfies that
 	\begin{align}
 	%-\left[1- \left( 1-\frac{1}{\sqrt{\rho_1}}\right)^4\right] pd^2\cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3} +\OO(p^{-c}\sigma^2)  \le
-	  & \left|L(\hat{\beta}_2^{\MTL}) - \frac{2d^2 n_1^2 (n_1 + n_2)}{(n_1 + n_2 - p)^3} -\frac{\sigma^2 p}{n_1 + n_2 - p}  \right| \nonumber\\
-	\le& \varepsilon \cdot \frac{2d^2 n_1^2 (n_1 + n_2)}{(n_1 + n_2 - p)^3} +  \OO(p^{-c/2}).\label{cor_MTL_error}
+	   \left|L(\hat{\beta}_2^{\MTL}) - \frac{2d^2 n_1^2 (n_1 + n_2)}{(n_1 + n_2 - p)^3} -\frac{\sigma^2 p}{n_1 + n_2 - p}  \right|
+	\le \varepsilon \cdot \frac{2d^2 n_1^2 (n_1 + n_2)}{(n_1 + n_2 - p)^3} +  \OO(p^{-c/2}).\label{cor_MTL_error}
 	%\left[\left( 1+\frac{1}{\sqrt{\rho_1}}\right)^4-1\right] d^2\cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3} \\
 	%& +C \left[(p^{-c_\varphi}+p^{-c_\infty/2})(\sigma^2 +d^2)+p^{-c_\infty}\kappa^2 + %\frac{d^4+\sigma^2 d^2}{\kappa^2}\right],\nonumber
 	 \end{align}
 %	 with high probability for any fixed $c\in(0, \min(\frac{1}{4}, \delta,\frac{\varphi-4}{2\varphi}))$.
 %	 {\color{red}[FY: the error also contains $p^{-1/2+2c}\kappa^2 +  p^{-1/4+c} (\sigma^2 +d^2) $, both of which cannot be omitted, because (i) there is no assumption on the upper bound of $\kappa^2$, and (ii) we do not necessarily have $c_\varphi<1/4$. We can decide how to present the result concisely (for instance we can impose an upper bound on $\kappa^2$ and that $c_\varphi<1/4$), but it needs to be correct.]}
 	 \end{corollary}
-
-%It is well-known since the seminal work of Caruana \cite{C97} that how well multi-task learning performs depends on task relatedness. We formalize this connection in the above isotropic setting, where we can perform explicit calculations. The prediction loss of MTL has been given in Corollary \ref{cor_MTL_loss}. We can also calculate the prediction loss of STL easily using Fact \ref{lem_minv} (ii). The proof of the following claim will be given in Section \ref{app_iso_cov}.
-%\begin{claim} \label{claim_STL_loss}
-%Under the above isotropic setting for task two, we have that with high probability,
-%\begin{align*}
-%	 L(\hat{\beta}_2^{\STL}) = \frac{\sigma^2}{ \rho_2-1}  +\OO(p^{-\e}\sigma^2 )
-%	 \end{align*}
-%	 for any constant $\e\in (0,1/2)$.
-%\end{claim}
-%We now discuss two implications of Corollary \ref{cor_MTL_loss} and Claim \ref{claim_STL_loss} regarding the information transfer in MTL: the transitions from positive transfer to negative transfer with respect to varying model distance and varying sample ratio, respectively.
-
-%\noindent{\bf Varying model distance.}
-%With Corollary \ref{cor_MTL_loss} and Claim \ref{claim_STL_loss}, it is not hard to see
-%One can observe that as we increase the distance $pd^2$ between $\beta_1$ and $\beta_2$, there is a transition from positive transfer to negative transfer in MTL. More precisely, the bias term $  pd^2\cdot \frac{\rho_1^2 (\rho_1+\rho_2)}{(\rho_1 + \rho_2 - 1)^3}$ of MTL increases as the distance between $\beta_1$ and $\beta_2$ increases, while variance reduction from STL to MTL is $\frac{\sigma^2}{ \rho_2-1}  -\frac{\sigma^2}{\rho_1+\rho_2-1}$.
-%Therefore, while the variance of MTL still reduces compared to STL,
-%If the bias increases more than the amount of variance reduced, we will observe negative transfer.
-
-%We apply Corollary \ref{cor_MTL_loss} to the parameter setting of Figure \ref{fig_model_shift} (the details are left to Appendix \ref{app_synthetic}). We can see that our result is able to predict positive or negative transfer  accurately and matches the empirical curve.
-%There are several unexplained observations near the transition threshold $0$, which are caused by the concentration error on the right-hand side of \eqref{cor_MTL_error}.
-%We fix the target task and vary the source task, in particular the parameter $d$ which determines $\norm{\beta_1 - \beta_2}$.
-%Figure \ref{fig_model_shift} shows the result.
-%We observe that Proposition \ref{prop_dist_transition} explains most of the observations in Figure \ref{fig_model_shift}.
-
-%The proof of Proposition \ref{prop_dist_transition} involves two parts.
-%First, in equation \eqref{eq_te_var}, the positive variance reduction effect scales with $n_1 = \rho_1 p$, the number of source task data points.
-%Second, we show that the negative effect of model-shift bias scales with $pd^2$, which is the expectation of $\norm{\beta_1 - \beta_2}^2$.
-%The proof of Proposition \ref{prop_dist_transition} can be found in Appendix \ref{app_proof_31}.
-%A key part of the analysis shows that $\hat{W}_1 / \hat{W}_2$ is roughly equal to one in the isotropic model,
-%thus simplifying the general condition in Theorem \ref{thm_main_informal}.
-
-%In classical Rademacher or VC based theory of multi-task learning, the generalization bounds are usually presented for settings where the sample sizes are equal for all tasks \cite{B00,M06,MPR16}.
-%More generally, such results are still applicable when all task data are being added simultaneously.
-%On the other hand, uneven sample sizes between different tasks (or even dominating tasks) have been empirically observed as a cause of negative transfer \cite{YKGLHF20}.
-%For such settings, we have also observed that adding more labeled data from one task does not always help.
-%Our theory accurately predicts a curious phenomenon, where increasing the sample size of the source task results in negative transfer!
-%On the other hand, we have observed that adding more labeled data does not always improve performance in multi-task learning.
 
 In the above inequality, the $d^2$ scaling term is the bias limit and the $\sigma^2$ scaling term is the variance limit.
 This result allows for a more concrete interpretation since the dependence on datasets' properties is explicit.
@@ -174,14 +149,12 @@ It turns out that the bias term always increases with $n_1$, which can be verifi
 %As a function of the sample ratio, the limiting estimate always decreases first from $\frac{\sigma^2 p}{n_2 - p}$ with $n_1$ being zero, and then increases to $d^2$ when $n_1$ goes to infinity.
 %We describe a sketch of the proof.
 By comparing the derivative of the bias and variance limits with respect to $n_1$ (details omitted), we obtain the following dichotomy.
-%\begin{enumerate}
-
-(i) When $\frac{d^2}{\sigma^2} < \frac{p}{4n_2 - 6p}$, the prediction loss decreases monotonically as $n_1$ increases.
+\begin{enumerate}
+	\item When $\frac{d^2}{\sigma^2} < \frac{p}{4n_2 - 6p}$, the prediction loss decreases monotonically as $n_1$ increases.
 	Intuitively, this regime of $d^2$ always helps task two.
-
-(ii) When $\frac{d^2}{\sigma^2} > \frac{p}{4n_2 - 6p}$, the prediction loss always decreases first from $\frac{\sigma^2 p}{n_2 - p}$ (when $n_1 = 0$), and then increases to $d^2$ (when $n_1 \rightarrow \infty$).
+	\item When $\frac{d^2}{\sigma^2} > \frac{p}{4n_2 - 6p}$, the prediction loss always decreases first from $\frac{\sigma^2 p}{n_2 - p}$ (when $n_1 = 0$), and then increases to $d^2$ (when $n_1 \rightarrow \infty$).
 	To see this, near the point where $n_1$ is zero, one can verify (from the derivatives) that bias increases less while variance decreases more, and there is \textit{exactly} one critical point where the derivative is zero, which corresponds to the \textit{optimal sample size ratio}.
-%\end{enumerate}
+\end{enumerate}
 
 \begin{example}[Covariate shift]\label{ex_covshift}
 %So far we have considered the isotropic model where $\Sigma_1 = \Sigma_2$.
@@ -199,12 +172,10 @@ To illustrate the above result, suppose that half of $M$'s singular values are e
 In particular, when $\lambda = 1$, there is no covariate shift.
 As $\lambda$ increases, the severity of covariate shift increases.
 We observe the following dichotomy.
-%\begin{itemize}
-
-(i) If $n_1 \ge n_2$, then the variance limit is smallest when there is no covariate shift.
-
-(ii) If $n_1 < n_2$, then the variance limit is largest when there is no covariate shift.
-%\end{itemize}
+\begin{enumerate}
+	\item If $n_1 \ge n_2$, then the variance limit is smallest when there is no covariate shift.
+	\item If $n_1 < n_2$, then the variance limit is largest when there is no covariate shift.
+\end{enumerate}
 \end{example}
 
 We explain why the dichotomy happens. The variance limit in this example is equal to
@@ -222,7 +193,7 @@ Using the fact that $a_1 + a_2 = 1 - \frac{p}{n_1 + n_2}$, we can verify
 \end{align*}
 where $g(\lambda, a_1) \ge 0$.
 %and can be derived from algebraic calculations (details omitted).
-We claim that $a_1 \ge \frac{n_1 + n_2-p}{2(n_1 + n_2 )}$ if and only if $n_1 \ge n_2$, which explains the dichonomy. In fact, if $a_1>a_2$, then equation \eqref{eq_a12extra000} gives that $a_1> \frac{n_1 + n_2-p}{2 (n_1 + n_2)}$, and equation \eqref{eq_a12extra} gives that
+We claim that $a_1 \ge \frac{n_1 + n_2-p}{2(n_1 + n_2 )}$ if and only if $n_1 \ge n_2$, which explains the dichonomy. In fact, if $a_1>a_2$, then equation \eqref{eq_a12extra} gives that $a_1> \frac{n_1 + n_2-p}{2 (n_1 + n_2)}$, and equation \eqref{eq_a12extra} gives that
 \begin{align*}
  \frac{n_1}{n_1 + n_2} &> a_1 + \frac{p}{2(n_1+n_2)} \left(\frac{\lambda^2}{\lambda^2+1}+\frac{\lambda^{-2}}{\lambda^{-2}+1}\right) >\frac{1}{2}.
 \end{align*}
@@ -246,7 +217,7 @@ If $n_1< n_2$, then $f(\lambda)< f(1)$.
  
 
 
-\textbf{Proof overview of Theorem \ref{thm_main_RMT}.}
+\paragraph{Proof overview of Theorem \ref{thm_main_RMT}.}
 For the rest of this section, we present an overview of the proof of Theorem \ref{thm_main_RMT}.
 The central quantity of interest is the inverse of the sum of two sample covariance matrices.
 We note that the variance equation $\tr[\Sigma^{(2)} \hat{\Sigma}^{-1}]$ is equal to $(n_1 + n_2)^{-1} \bigtr{W^{-1}}$, where $W$ is
@@ -266,36 +237,6 @@ Thus, the Stieltjes transform method reduces the study of a probability measure 
 
 
 
-\begin{figure*}[!t]
-	\begin{subfigure}[b]{0.33\textwidth}
-		\centering
-		\includegraphics[width=0.98\textwidth]{figures/same_covariates.eps}
-		\caption{Example \ref{ex_same_cov}}
-		\label{fig_same_cov}
-	\end{subfigure}\hfill
-	\begin{subfigure}[b]{0.33\textwidth}
-		\centering
-		\includegraphics[width=0.98\textwidth]{figures/sample_ratio_several_d.eps}
-		\caption{Example \ref{ex_sample_ratio}}
-		\label{fig_size}
-	\end{subfigure}\hfill
-	\begin{subfigure}[b]{0.33\textwidth}
-		\centering
-		\includegraphics[width=0.98\textwidth]{figures/covariate_shift.eps}
-		\caption{Example \ref{ex_covshift}}
-		\label{fig_covariate}
-	\end{subfigure}
-	\caption{%Three takeaways of our theory in Section \ref{sec_insight}.
-	Our estimated losses (solid line) match the empirical losses (dotted line) accurately under various settings in dimension $p = 200$.
-	\textbf{Left.} Validating Example \ref{ex_same_cov} for ten tasks: the noise variance $\sigma^2$ is $1/4$.
-	\textbf{Middle.} Validating Example \ref{ex_sample_ratio} for two tasks: we discover an interesting phenomena by fixing task two's sample size and increasing task one's sample size.
-	Moreover, our result accurately predicts the critical point (marked in circle) of the loss curve.
-%	Depending on how large the distance $d^2$ is, task two's prediction loss decreases initially before increasing again, or decreases monotonically.
-	\textbf{Right.} We show how different levels of covariate shift affect hard parameter sharing when there is no bias.
-	Having covariate shift increases task two's prediction loss when task two's sample size is smaller than task one. Otherwise, having covariate shift (surprisingly) decreases task two's prediction loss.}
-	\label{fig_model_shift_phasetrans}
-\end{figure*}
-
 
 
 %Recall that  $U\Lambda V^\top$ is the singular value decomposition of $M$, %$\Lambda$ consists of the singular values of $M$, $V$ is an orthonormal matrix,
@@ -308,11 +249,120 @@ The above matrix $(W - z\id)^{-1}$ is known as $W$'s resolvent or Green's functi
 %The above approach applies when $\Sigma^{(2)}$ is isotropic in Theorem \ref{thm_main_RMT}.
 %Since our goal is to show the limit of $\tr\left[ (Y - z\id)^{-1}V^{\top}{\Sigma^{(2)}}^{-1}V \right]$ as shown in equation \eqref{eigen2extra}, we study the  $(Y-z\id)^{-1}$.
 %Compared to the Stieltjes transform, the resolvent also applies to random matrices.
-We prove the convergence of $W$'s resolvent using the so-called ``local law'' with a sharp convergence rate \cite{isotropic,erdos2017dynamical,Anisotropic}. The complete proof is provided in Section \ref{appendix RMT}.
+We prove the convergence of $W$'s resolvent using the so-called ``local law'' with a sharp convergence rate \cite{isotropic,erdos2017dynamical,Anisotropic}.
 %Recent developments in the random matrix literature have shown the convergence of the resolvent matrix using the so-called ``local laws'' or ``deterministic equivalents'' (cf. \cite{Hachem2007deterministic,DS18}).
 
 %For our purpose, we use a convenient linearization trick in linear algebra, that is, the SVD of a rectangular matrix $A$ is equivalent to the study of the eigendecomposition of the symmetric block matrix
 %$$H(A):=\begin{pmatrix}0 & A \\ A^\top & 0\end{pmatrix},$$
 %which is linear in $A$. This trick has been used in many random matrix literatures, such as \cite{Anisotropic, AEK_Gram, XYY_circular,DY20201}.
+We say that $(W-z\id)^{-1}$ converges to a deterministic $p\times p$ matrix limit $R(z)$ if for any sequence of deterministic unit vectors $v\in \R^p$,
+$$v^\top \left[(W-z\id)^{-1}-R(z)\right]v\to 0\ \ \ \text{when $p$ goes to infinity.
+}$$
 
+To study $W$'s resolvent, we observe that $W$ is equal to $\AF\AF^{\top}$ for a $p$ by $n_1 + n_2$ matrix
+	\be\label{defn AF} \AF := (n_1+ n_2)^{-1/2} [\Lambda U^\top (Z^{(1)})^\top,V^\top (Z^{(2)})^\top]. \ee
+%}\HZ{what does this trick mean? use less technical words},
+%This idea dates back at least to Girko, see e.g., the works \cite{girko1975random,girko1985spectral} and references therein.
+Consider the following symmetric block matrix whose dimension is $p + n_1 + n_2$
+%which is a linear function of $(Z^{(1)})$ and $(Z^{(2)})$:
+%\begin{definition}[Linearizing block matrix]\label{def_linearHG}%definiton of the Green function
+%We define the $(n+N)\times (n+N)$ block matrix
+ \begin{equation}\label{linearize_block}
+    H \define \left( {\begin{array}{*{20}c}
+   0 & \AF  \\
+   \AF^{\top} & 0
+%   {Z^{(2)}V} & 0 & 0
+   \end{array}} \right).
+ \end{equation}
+For this block matrix, we define its resolvent as
+$$G(z) \define \left[H - \begin{pmatrix}z\id_{p\times p}&0\\ 0 & \id_{(n_1+n_2)\times (n_1+n_2)} \end{pmatrix}\right]^{-1},$$
+%as the resolvent of $H$,
+for any complex value $z\in \mathbb C$.
+Using Schur complement formula for the inverse of a block matrix, it is not hard to verify that
+	\begin{equation} \label{green2}
+	  G(z) =  \left( {\begin{array}{*{20}c}
+			(W- z\id)^{-1} & (W - z\id)^{-1} \AF  \\
+      \AF^\top (W - z\id)^{-1} & z(\AF^\top \AF - z\id)^{-1}
+		\end{array}} \right).%\quad \cal G_R:=(W^\top W - z)^{-1} ,
+  \end{equation}
+
+
+
+\paragraph{Variance asymptotic limit.}
+In Theorem \ref{main_cor}, we will show that for $z$ in a small neighborhood around $0$, when $p$ goes to infinity, $G(z)$ converges to the following limit
+\be \label{defn_piw}
+	\Gi(z) \define \begin{pmatrix} (a_{1}(z)\Lambda^2  +  (a_{2}(z)- z)\id_{p\times p})^{-1} & 0 & 0 \\ 0 & - \frac{n_1+n_2}{n_1} a_{1}(z)\id_{n_1\times n_1} & 0 \\ 0 & 0 & -\frac{n_1+n_2}{n_2}a_{2}(z)\id_{n_2\times n_2}  \end{pmatrix},\ee
+where $a_1(z)$ and $a_2(z)$ are the unique solutions to the following self-consistent equations
+\be\label{selfomega_a}
+\begin{split}
+	&a_1(z) + a_2(z) = 1 - \frac{1}{n_1 + n_2} \bigbrace{\sum_{i=1}^p \frac{\lambda_i^2 a_1(z) + a_2(z)}{\lambda_i^2 a_1(z) + a_2(z) - z}}, \\ %\label{selfomega_a000} \\
+	&a_1(z) + \frac{1}{n_1 + n_2}\bigbrace{\sum_{i=1}^p \frac{\lambda_i^2 a_1(z)}{\lambda_i^2 a_1(z) + a_2(z) - z}} = \frac{n_1}{n_1 + n_2}.
+% \frac{\rho_1}{a_{1}(z)} = \frac{1}{p}\sum_{i=1}^p \frac{\lambda_i^2}{ - z+\lambda_i^2 a_{1}(z) +a_{2} (z) } + (\rho_1+\rho_2),\  \frac{\rho_2}{a_{2}(z)} = \frac{1}{p}\sum_{i=1}^p \frac{1 }{  -z+\lambda_i^2 a_{1}(z) +  a_{2}(z)  }+ (\rho_1+\rho_2) .
+\end{split}
+\ee
+The existence and uniqueness of solutions to the above system are shown in Lemma \ref{lem_mbehaviorw}.
+%First, we define the deterministic limits of $(m_1(z), m_{2}(z))$ by $\left(-\frac{\rho_1+\rho_2}{\rho_1}a_{1}(z),-\frac{\rho_1+\rho_2}{\rho_2}a_{2}(z)\right)$, where
+%satisfying that $\im a_{1}(z)< 0$ and $\im a_{2}(z)<0$ for $z\in \C_+$ with $\im z$.
+%\be\label{ratios}
+% \gamma_n :=\frac{p}{n}=\frac{1}{\rho_1+\rho_2},\quad r_1 :=\frac{n_1}{n}=\frac{\rho_1}{\rho_1+\rho_2},\quad r_2 :=\frac{n_2}{n}=\frac{\rho_2}{\rho_1+\rho_2}.
+%\ee
+Given this result, we now show that when $z = 0$, the matrix limit $\Gi(0)$ implies the variance limit shown in equation \eqref{lem_cov_shift_eq}.
+First, we have that $a_1 = a_1(0)$ and $a_2 = a_2(0)$ since the equations in \eqref{selfomega_a} reduce to equation \eqref{eq_a12extra} when $z=0$.
+Second, since $W^{-1}$ is the upper-left block matrix of $G(0)$, we have that $W^{-1}$ converges to $ (a_1\Lambda^2 + a_2\id)^{-1} $.
+Using the fact that $\tr[\Sigma^{(2)} \hat{\Sigma}^{-1}] = (n_1 + n_2)^{-1}\bigtr{W^{-1}} $, we get that when $p$ goes to infinity, % the trace of $$ converges to
+\begin{align*}
+  \bigtr{\Sigma^{(2)} \hat{\Sigma}} \rightarrow \frac{1}{n_1+n_2}\bigtr{(a_1 \Lambda^2 + a_2\id)^{-1}} &= \frac1{n_1+n_2}\bigtr{(a_1 M^{\top}M + a_2 \id)^{-1}} \\
+  &=\frac{1}{n_1+n_2} \bigtr{\Sigma^{(2)} (a_1 \Sigma^{(1)} + a_2 \Sigma^{(2)})^{-1}},
+  \end{align*}
+%\noindent{\bf Variance asymptotics.} Using definition \eqref{mainG}, we can write equation \eqref{eigen2extra} as
+%\be\label{rewrite X as R} [(X^{(1)})^\top X^{(1)}+(X^{(2)})^\top X^{(2)}]^{-1}=n^{-1}\Sigma_2^{-1/2}V\cal G(0)V^\top\Sigma_2^{-1/2}.\ee
+%When $z=0$, it is easy to check that , which means that we actually have $a_1(0)=a_1$ and $a_2(0)=a_2$. Hence the matrix limit of $\cal G(0)$ is given by $(a_{1}\Lambda^2 + a_{2}\id_p)^{-1}$. Then inserting this limit into equation \eqref{rewrite X as R}, we can write the left-hand side of equation \eqref{lem_cov_shift_eq} as
+%\begin{align}
+%&\bigtr{\left( (X^{(1)})^{\top}X^{(1)} + (X^{(2)})^{\top}X^{(2)}\right)^{-1} \Sigma}\approx n^{-1}\bigtr{\Sigma_2^{-1/2}V\cal (a_{1}\Lambda^2 + a_{2}\id_p)^{-1}V^\top\Sigma_2^{-1/2}\Sigma}  \nonumber\\
+%&=n^{-1}\bigtr{\Sigma_2^{-1/2}\cal (a_{1}\Sigma_2^{-1/2}\Sigma_1\Sigma_2^{-1/2} + a_{2}\id_p)^{-1}\Sigma_2^{-1/2}\Sigma}  = n^{-1}\bigtr{\cal (a_{1} \Sigma_1  + a_{2}\Sigma_2)^{-1}\Sigma}  ,\label{Gi00}
+%\end{align}
+where we note that $M^\top M = (\Sigma^{(2)})^{-1/2} \Sigma^{(1)} (\Sigma^{(2)})^{-1/2}$ and its SVD is equal to $V^{\top}\Lambda^2 V$.
+%For the asymptotic limit, its concentration error is shown in Appendix \ref{appendix RMT}.
+
+
+
+\paragraph{Bias asymptotic limit.}
+ For the bias limit in equation \eqref{lem_cov_derv_eq}, we show that it is governed by the derivative of $(W - z\id)^2$ with respect to $z$ at $z = 0$.
+First, we can express the empirical bias term in equation \eqref{lem_cov_derv_eq} as %$W$
+\begin{align}\label{calculate G'}
+	(n_1 + n_2)^2 \hat{\Sigma}^{-1}\Sigma^{(2)}\hat{\Sigma}^{-1} = {\Sigma^{(2)}}^{-1/2} V W^{-2} V^{\top} {\Sigma^{(2)}}^{-1/2}.
+\end{align}
+Let $\cal G(z):=(W-z\id )^{-1}$ denote the resolvent of $W$.
+Our key observation is that $\frac{\dd{\cal G(z)}}{\dd z} =  \cal G^2(z)$.
+Hence, provided that the limit of $(W - z\id)^{-1}$ is $(a_1(z) \Lambda^2 + (a_2(z) - z) \id)^{-1}$ near $z = 0$, the limit of $\frac{\dd{\cal G(0)}}{\dd z}$ satisfies that
+\begin{align}\label{cal G'0}
+	\frac{\dd \cal G(0)}{\dd z} \to \frac{-\frac{\dd a_1(0)}{\dd z}\Lambda^2 - (\frac{\dd a_2(0)}{\dd z} - 1)\id}{(a_{1}(0)\Lambda^2 + a_{2}(0)\id_p)^2}.
+\end{align}
+To find the derivatives of $a_1(z)$ and $a_2(z)$, we take the derivatives on both sides of the system of equations \eqref{selfomega_a}.
+%\begin{align*}
+%	\frac{\dd a_1(z)}{\dd z} + \frac{\dd a_2(z)}{\dd z} = -\frac{1}{n_1 + n_2} \sum_{i=1}^p \frac{1}{\lambda_i^2 a_1 + a_2},
+%	\frac{\dd a_1(z)}{\dd z} + \frac{1}{n_1 + n_2}\sum_{i=1}^p \frac{\lambda_i^2 (a_1'(z) a_2 - a_2'(z) a_1)}{(\lambda_i^2 a_1 + a_2)^2} = -\frac{1}{n_1 + n_2} \sum_{i=1}^p \frac{\lambda_i^2 a_1}{(\lambda_i^2 a_1 + a_2)^2}
+%\end{align*}
+Let $a_3 = - \frac{\dd a_1(0)}{\dd z}$ and $a_4 = - \frac{\dd a_2(0)}{\dd z}$.
+%then taking implicit differentiation of equation \eqref{selfomega_a}
+One can verify that $a_3$ and $a_4$ satisfy the self-consistent equations in \eqref{eq_a34extra} (details omitted).
+Applying equation \eqref{cal G'0} to equation \eqref{calculate G'}, we obtain the asymptotic limit of the bias term.
+%\begin{align}
+%& n^2\bignorm{\Sigma_2^{1/2} \bigbrace{ (X^{(1)})^{\top}(X^{(1)}) + (X^{(2)})^{\top}(X^{(2)}) }^{-1} \Sigma_1^{1/2} w}^2 \nonumber\\
+%&\approx  w^\top \Sigma_1^{1/2}\Sigma_2^{-1/2}V\frac{a_3\Lambda^2 +(1+ a_4)\id_p}{(a_{1}\Lambda^2 + a_{2}\id)^2}V^\top \Sigma_2^{-1/2}\Sigma_1^{1/2}w= w^{\top} \Pi_\bias w, \label{calculatePibias}
+%\end{align}
+%where in the last step we used $M = \Sigma_1^{1/2}\Sigma_2^{-1/2}$ and $V \Lambda^2 V^\top=M^\top M$. This concludes equation \eqref{lem_cov_derv_eq}.
+
+As a remark, in order for $\frac{\dd \cal G(z)}{\dd z}$ to stay close to its limit at $z = 0$, we not only need to find the limit of $\cal G(0)$, but also the limit of $\cal G(z)$ within a small neighborhood of $0$.
+This is why we consider $W$'s resolvent for a general $z$. %as opposed to the Stieljes transform of its empirical spectral distribution.
+
+\paragraph{Schur complement and self-consistent equations.}
+First, we consider the special case where $Z^{(1)}$ and $Z^{(2)}$ are both multivariate Gaussian random matrices.
+By rotational invariance, we have that $Z^{(1)} U$ and $Z^{(2)} V$ are still multivariate Gaussian random matrices.
+Next, we use the Schur complement formula to deal with the resolvent $G(z)$.
+We show that $G(z)$'s diagonal entries satisfy a set of self-consistent equations in the limit, leading to equations in \eqref{selfomega_a}.
+On the other hand, $G(z)$'s off-diagonal entries are approximately zero using standard concentration bounds.
+Finally, we extend our result to general random matrices under the finite $\varphi$-th moment condition.
+We prove an anisotropic local law using recent developments in random matrix theory \cite{erdos2017dynamical,Anisotropic}.
+A complete proof of Theorem \ref{thm_main_RMT} will be given in Appendix \ref{sec pf RMTlemma}-Appendix \ref{sec entry}. %Appendix \ref{appendix RMT}.
 
