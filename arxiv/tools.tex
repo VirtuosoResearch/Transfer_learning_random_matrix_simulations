@@ -20,12 +20,11 @@ For any deterministic vector $v\in \R^p$, we have that w.h.p.
 \end{corollary}
 \begin{proof}
 	Let $Q= n^{ \frac{2}{\varphi}}\log n$.
-	We introduce a truncated matrix $\wt Z$ with entries $\wt Z_{ij}:= \mathbf 1\left( |Z_{ij}|\le Q \right)\cdot Z_{ij}$
-. By equation \eqref{Ptrunc}, we have that
+	We introduce a truncated matrix $\wt Z$ with entries $\wt Z_{ij}:= \mathbf 1\left( |Z_{ij}|\le Q \right)\cdot Z_{ij}$. Then $\wt Z$ is equal to $Z$ when all the entries of $Z$ are smaller than $Q$. Using Markov's inequality and a simple union bound (cf. equation \eqref{Ptrunc}), this happens with probability 
 \begin{equation}\label{XneX222}
 \mathbb P(\wt Z= Z) =1-\OO ( (\log n)^{-\varphi}).
 \end{equation}
-Furthermore, by equation \eqref{meanshif}, we have that
+Furthermore, using the finite $\varphi$-th moment condition and the tail probabilities, we can show that the mean and variance of $Z-\wt Z$ are small, which gives that (cf. equation \eqref{meanshif}) %, we have that
 \be\label{meanshif222}
 	|\mathbb E  \wt  Z_{ij}| =\OO(n^{-3/2}), \quad  \mathbb E |\wt  Z_{ij}|^2 =1+ \OO(n^{-1}).
 \ee
@@ -41,10 +40,10 @@ This is because provided with equation \eqref{show_whZ}, using \eqref{meanshif22
 $$ \left|\|\wt Zv\|^2- n\|v\|^2\right| \le n^{1/2 + \e} Q\|v\|^2,$$
 which implies \eqref{Zv_cor} for any fixed value $c_{\varphi}$ within $(0, \frac{\varphi - 4}{2\varphi})$.
 
-To prove equation \eqref{show_whZ}, we first observe that for $1\le i \le n$, $(\wh Zv)_i=\sum_{1\le j \le p} \wh Z_{ij}v_j$ are i.i.d random variables of mean zero and variance $\|v\|^2$. Moreover, using equation \eqref{eq largedev10} we get that 
-$$ |(\wh Zv)_i| \prec Q\max_{1\le i\le p}|v_i| + \|v\| . $$
+To prove equation \eqref{show_whZ}, we first observe that for $1\le i \le n$, $(\wh Zv)_i=\sum_{1\le j \le p} \wh Z_{ij}v_j$ are i.i.d random variables of mean zero and variance $\|v\|^2$. Moreover, using equation \eqref{eq largedev10} we get that with overwhelming probability
+$$ |(\wh Zv)_i| \le n^\e Q\max_{1\le i\le p}|v_i| + n^\e \|v\| . $$
 Together with the trivial bound $\max_{1\le i\le p}|v_i| \le \|v\|$, this implies that the random variables $\frac{(\wh Zv)_i}{\|v\|}$, $1\le i \le p$, are i.i.d random variables of mean zero, variance 1 and bounded support $Q$. Then applying equation \eqref{eq largedev20}, we get that
-$$ \left|\|\wh Zv\|^2 - n\|v\|^2\right|=\left|\sum_i \left(|(\wh Zv)_i|^2-\E|(\wh Zv)_i|^2\right)\right|\prec n^{1/2} Q  \|v\|^2 .
+$$ \left|\|\wh Zv\|^2 - n\|v\|^2\right|=\left|\sum_i \left(|(\wh Zv)_i|^2-\E|(\wh Zv)_i|^2\right)\right|\le n^{1/2+\e} Q  \|v\|^2 .
  $$
 This concludes equation \eqref{show_whZ}.
  \end{proof}
