@@ -1,148 +1,84 @@
-\section{Tools}\label{app_tool}
+\section{Random Matrices with Bounded Moments}\label{app_tool}
 
-\subsection{Algebraic Inequalities}
-
-\begin{fact}\label{fact_proof_gA}
-	The minimum singular value of a matrix $X^{\top}YX$ is at least the minimum singular value of $Y$ times the minimum singular value of $X^{\top}X$.
-\end{fact}
-
-The following simple resolvent identities are important tools for our proof. Recall that the resolvent minors have been defined in Definition \ref{defn_Minor}.
-\begin{lemma}\label{lemm_resolvent}
-We have the following resolvent identities.
-\begin{itemize}
-\item[(i)]
-For $i\in \mathcal I_1$ and $\mu\in \mathcal I_1\cup \cal I_2$, we have
-\begin{equation}
-\frac{1}{G_{ii}} =  - z - \left( {AG^{\left( i \right)} A^\top} \right)_{ii} ,\quad  \frac{1}{{G_{\mu \mu } }} =  - 1  - \left( {A^\top  G^{\left( \mu  \right)} A} \right)_{\mu \mu }.\label{resolvent2}
-\end{equation}
-
- \item[(ii)]
- For $i\in \mathcal I_1$, $\mu \in \mathcal I_1\cup \cal I_2$, $a\in \cal I\setminus \{i\}$ and $b\in \cal I\setminus \{ \mu\}$, we have
-\begin{equation}
-G_{ia}   = -G_{ii}  \left( AG^{\left( {i} \right)} \right)_{ia},\quad  G_{\mu b }  = - G_{\mu \mu }  \left( A^\top  G^{\left( {\mu } \right)}  \right)_{\mu b }. \label{resolvent3}
-\end{equation}
-%For $i\in \mathcal I_1$ and $\mu\in \mathcal I_2$, we have
-%\begin{equation}\label{resolvent6}
-%\begin{split}
-% G_{i\mu } =  -G_{ii}  \left( WG^{\left( {i} \right)} \right)_{i\mu}, \quad G_{\mu i}= -G_{\mu\mu}\left( W^\top G^{(\mu)}\right)_{\mu i}. %\left( { - Y_{i\mu }  +  {\left( {YG^{\left( {i\mu } \right)} Y} \right)_{i\mu } } } \right) . %, \ \  G_{\mu i}  = G_{\mu \mu } G_{ii}^{\left( \mu  \right)} \left( { - Y_{\mu i}^\top  + \left( {Y^\top  G^{\left( {\mu i} \right)} Y^\top  } \right)_{\mu i} } \right).
-%\end{split}
-%\end{equation}
-
- \item[(iii)]
- For $a \in \mathcal I$ and $a_1,a_2 \in \mathcal I \setminus \{a\}$, we have
-\begin{equation}
-G_{a_1a_2}^{\left( a \right)}  = G_{a_1a_2}  - \frac{G_{a_1a} G_{aa_2}}{G_{aa}} .
-%, \quad  \frac{1}{{G_{{b}{b}} }} = \frac{1}{{G_{{b}{b}}^{({a})} }} - \frac{{G_{{b}{a}} G_{{a}{b}} }}{{G_{{b}{b}} G_{{b}{b}}^{({a})} G_{{a}{a}} }}.
-\label{resolvent8}
-\end{equation}
-%and
-%\begin{equation}
-%\frac{1}{{G_{ss} }} = \frac{1}{{G_{ss}^{(r)} }} - \frac{{G_{sr} G_{rs} }}{{G_{ss} G_{ss}^{(r)} G_{rr} }}.
-%\label{resolvent9}
-%\end{equation}
-% \item[(iv)]
-%All of the above identities hold for $G^{(\mathbb T)}$ instead of $G$ for $\mathbb T \subset \mathcal I$, and in the case where $A$ and $B$ are not diagonal.
-\end{itemize}
-\end{lemma}
-\begin{proof}
-All these identities can be proved directly using Schur's complement formula. The reader can also refer to, for example, \cite[Lemma 4.4]{Anisotropic}.
-\end{proof}
-
-
-\subsection{Random Variables with Bounded Moments}
+We state several concentration results for dealing with random matrices with bounded moments.
+Recall from Section \ref{sec_same} that we consider random matrices $Z \in \real^{n\times p}$ whose entries are i.i.d. with zero mean, unit variance, and bounded $\varphi$-th moment.
+The following facts are well-known.
 
 \begin{fact}\label{fact_minv}
-	In the setting of Theorem \ref{thm_many_tasks}, with high probability over the randomness of $X$, we have that
+	Suppose Assumption \ref{assume_rm} holds. With probability $1- 1 / \poly(n)$ over the randomness of $Z$, we have:
 	\begin{enumerate}
-		\item When $n / p$ converges to $\rho > 1$, the sample covariance matrix $\frac{X^{\top}X}{n}$ is full rank.
+		\item When $n / p$ converges to a fixed $\rho > 1$, the sample covariance matrix ${X^{\top}X} / n$ has full rank $p$.
 		\item The singular values of $Z^{\top}Z$ are greater than $(\sqrt{n} - \sqrt{p})^2 - n \cdot p^{-c_{\varphi}}$ and less than $(\sqrt{n} + \sqrt{p})^2 + n \cdot p^{-c_{\varphi}}$, cf. \citet[Theorem 2.10]{isotropic} and \citet[Lemma 3.12]{DY}.
 	\end{enumerate}
 \end{fact}
 
-The following lemma gives (almost) sharp concentration bounds for linear and quadratic forms of bounded supported random variables. Here we recall that the stochastic domination ``$\prec$" was defined in Definition \ref{stoch_domination}.
-%Besides the proof of Lemma \ref{prop_entry}, we also use it in several other places of this paper, including the proofs in Section \ref{sec_proof_general} and Section \ref{app_iso_cov}.
-%It constitutes the main difference between our proof and the one in \cite{KY2}, where the authors used a large deviation bound for random variables with arbitrarily high moments.
-
-\begin{lemma}[Lemma 3.8 of \cite{EKYY1} and Theorem B.1 of \cite{Delocal}]\label{largedeviation}
-Let $(x_i)$, $(y_j)$ be independent families of centered and independent random variables, and $(A_i)$, $(B_{ij})$ be families of deterministic complex numbers. Suppose the entries $x_i$ and $y_j$ have variances at most $1$, and $ x_i$ and $ y_j$ satisfy the bounded support condition (\ref{eq_support}) for a deterministic parameter $q$. %with $q\le n^{-\phi}$ for a small constant $\phi>0$. 
-Then we have the following bounds:
-%for any fixed $\xi>0$, the following bounds hold with $\xi$-high probability:
-\begin{align}
-\Big| \sum_{i=1}^n A_i x_i \Big\vert \prec  q \max_{i} \vert A_i \vert+ \Big(\sum_i |A_i|^2 \Big)^{1/2} , \quad &\Big\vert  \sum_{i,j=1}^n x_i B_{ij} y_j \Big\vert \prec q^2 B_d  + q n^{1/2}B_o +  \Big(\sum_{i\ne j} |B_{ij}|^2\Big)^{{1}/{2}},\label{eq largedev10}  \\
-\Big\vert  \sum_{i=1}^n (|x_i|^2-\mathbb E|x_i|^2) B_{ii}  \Big\vert  \prec q n^{1/2}B_d   , \quad &\Big\vert  \sum_{1\le i\ne j\le n} \bar x_i B_{ij} x_j \Big\vert  \prec qn^{1/2}B_o +  \Big(\sum_{i\ne j} |B_{ij}|^2\Big)^{{1}/{2}} ,\label{eq largedev20} 
-\end{align}
-where $B_d:=\max_{i} |B_{ii} |$ and $B_o:= \max_{i\ne j} |B_{ij}|.$ Moreover, if the moments of $ x_i$ and $ y_j$ exist up to any order, then we have stronger bounds
-\begin{align}
-\Big\vert \sum_i A_i x_i \Big\vert \prec  \Big(\sum_i |A_i|^2 \Big)^{1/2} , \quad  & \Big\vert \sum_{i,j} x_i B_{ij} y_j \Big\vert \prec  \Big(\sum_{i\ne j} |B_{ij}|^2\Big)^{{1}/{2}} ,\label{eq largedev1} \\
- \Big\vert  \sum_{i} (|x_i|^2-\mathbb E|x_i|^2) B_{ii}  \Big\vert  \prec  \Big( \sum_i |B_{ii} |^2\Big)^{1/2}  ,\quad & \Big\vert  \sum_{i\ne j} \bar x_i B_{ij} x_j \Big\vert  \prec \Big(\sum_{i\ne j} |B_{ij}|^2\Big)^{{1}/{2}} .\label{eq largedev2}
-\end{align}
-%\begin{align}
-%\Big\vert \frac1{\sqrt{n}}\sum_i A_i x_i \Big\vert \prec  \frac{1}{\sqrt{n}}\Big(\sum_i |A_i|^2 \Big)^{1/2} , \quad  & \Big\vert \frac1n\sum_{i,j} x_i B_{ij} y_j \Big\vert \prec  \frac{1}{n}\Big(\sum_{i\ne j} |B_{ij}|^2\Big)^{{1}/{2}} ,\label{eq largedev1} \\
-% \Big\vert  \frac1n \sum_{i} (|x_i|^2-\mathbb E|x_i|^2) B_{ii}  \Big\vert  \prec \frac1{n}\Big( \sum_i |B_{ii} |^2\Big)^{1/2}  ,\quad & \Big\vert \frac1n\sum_{i\ne j} \bar x_i B_{ij} x_j \Big\vert  \prec  \frac{1}{n}\Big(\sum_{i\ne j} |B_{ij}|^2\Big)^{{1}/{2}} .\label{eq largedev2}
-%\end{align}
-\end{lemma}
-
-As a corollary, we can obtain the following concentration estimates for random variables with bounded $\varphi$-th moment. 
+Next, we state a concentration result for $Z$.
 
 \begin{corollary} \label{cor_largedeviation}
-Let $Z\in \R^{n\times p}$ be a random matrix as in Assumption \ref{assume_rm}. Then for any deterministic vector $v\in \R^p$, we have that
-\be\label{Zv_cor}\left|\|Zv\|^2- n\|v\|^2\right|\le  n^{1-c_\varphi} \|v\|^2\ee
-with high probability.
+For any deterministic vector $v\in \R^p$, we have that w.h.p.
+\be\label{Zv_cor}\left|\|Zv\|^2- n\|v\|^2\right|\le 2n^{1-c_\varphi} \|v\|^2.\ee
 \end{corollary}
- \begin{proof}
-We introduce the truncated matrices $\wt Z$ with entries
-$ \wt Z_{ij}:= \mathbf 1\left( |Z_{ij}|\le q \right)\cdot Z_{ij} $
-for $q= n^{1/2-\frac{\varphi - 4}{2\varphi}}\log n$. By equation \eqref{Ptrunc}, we have that
+\begin{proof}
+	Let $Q= n^{ \frac{2}{\varphi}}\log n$.
+	We introduce a truncated matrix $\wt Z$ with entries $\wt Z_{ij}:= \mathbf 1\left( |Z_{ij}|\le Q \right)\cdot Z_{ij}$. Then $\wt Z$ is equal to $Z$ when all the entries of $Z$ are smaller than $Q$. Using Markov's inequality and a simple union bound (cf. equation \eqref{Ptrunc}), this happens with probability 
 \begin{equation}\label{XneX222}
 \mathbb P(\wt Z= Z) =1-\OO ( (\log n)^{-\varphi}).
 \end{equation}
-Furthermore, by equation \eqref{meanshif} we have that
+Furthermore, using the finite $\varphi$-th moment condition and the tail probabilities, we can show that the mean and variance of $Z-\wt Z$ are small, which gives that (cf. equation \eqref{meanshif}) %, we have that
 \be\label{meanshif222}
-|\mathbb E  \wt  Z_{ij}| =\OO(n^{-3/2}), \quad  \mathbb E |\wt  Z_{ij}|^2 =1+ \OO(n^{-1}).
+	|\mathbb E  \wt  Z_{ij}| =\OO(n^{-3/2}), \quad  \mathbb E |\wt  Z_{ij}|^2 =1+ \OO(n^{-1}).
 \ee
 %From the first estimate in equation \eqref{meanshif}, we can also get a bound on the operator norm:
 %\be\label{EZ norm222}\|\E \wt Z^{(1)}\|=\OO(n^{-1/2}) .
 %\ee
-Then we can centralize and rescale $\wt Z$ as $ \wh Z:=\frac{\wt Z - \E \wt Z }{ (\E|\wt Z_{11}|^2)^{1/2}}.$ 
-It suffices to show that 
+We centralize and rescale $\wt Z$ as $ \wh Z:=\frac{\wt Z - \E \wt Z }{ (\E|\wt Z_{11}|^2)^{1/2}}.$
+Let $\e$ be a sufficiently small fixed constant.
+To prove the result, it suffices to show that
 \be\label{show_whZ}
- \left|\|\wh Zv\|^2- n\|v\|^2\right|\prec n^{1/2} q \|v\|^2.
+ \left|\|\wh Zv\|^2- n\|v\|^2\right| \le n^{1/2 + \e} Q\|v\|^2.
 \ee 
-In fact, provided that \eqref{show_whZ} holds, using \eqref{meanshif222} it is easy to get that 
-$$ \left|\|\wt Zv\|^2- n\|v\|^2\right|\prec n^{1/2} q \|v\|^2,$$
-which implies \eqref{Zv_cor} for any fixed value $c_{\varphi}$ within $(0, \frac{\varphi - 4}{2\varphi})$.
-
-For \eqref{show_whZ}, we first observe that for $1\le i \le n$, $(\wh Zv)_i=\sum_{1\le j \le p} \wh Z_{ij}v_j$ are i.i.d random variables of mean zero and variance $\|v\|^2$. Moreover, using \eqref{eq largedev10} we get that 
-$$ |(\wh Zv)_i| \prec q \max_{1\le i\le p}|v_i| + \|v\| . $$
-Together with the trivial $\max_{1\le i\le p}|v_i| \le \|v\|$, this implies that the random variables $\frac{(\wh Zv)_i}{\|v\|}$, $1\le i \le p$, are i.i.d random variables of mean zero, variance 1 and bounded support $q$. Then applying \eqref{eq largedev20}, we get that
-$$ \left|\|\wh Zv\|^2 - n\|v\|^2\right|=\left|\sum_i \left(|(\wh Zv)_i|^2-\E|(\wh Zv)_i|^2\right)\right|\prec n^{1/2} q  \|v\|^2 .
+This is because provided with equation \eqref{meanshif222} and \eqref{show_whZ}, we can get that
+$$ \left|\|\wt Zv\|^2- n\|v\|^2\right| \le n^{1/2 + \e} Q\|v\|^2,$$
+which implies the desired our (recall that $c_{\varphi} < 1/2 - \e$).
+To prove equation \eqref{show_whZ}, we first show that for any $i = 1, 2, \dots, n$, $(\wh Zv)_i=\sum_{1\le j \le p} \wh Z_{ij}v_j$ is at most $2n^{\e} Q$.
+Since $\wh{Z} v$ consists of i.i.d random variables with mean zero and variance $\|v\|^2$,
+using equation \eqref{eq largedev10} from Lemma \ref{largedeviation}, we get that with overwhelming probability
+$$ |(\wh Zv)_i| \le n^\e Q\max_{1\le i\le p}|v_i| + n^\e \|v\| \le 2n^{\e} Q. $$
+Hence, $\frac{(\wh Zv)}{\|v\|}$ consists of i.i.d random variables with mean zero, unit variance, and bounded support $2n^{\e}Q$.
+Applying equation \eqref{eq largedev20}, we get that
+$$ \left|\|\wh Zv\|^2 - n\|v\|^2\right|=\left|\sum_i \left(|(\wh Zv)_i|^2-\E|(\wh Zv)_i|^2\right)\right|\le 2n^{1/2+2\e} Q  \|v\|^2 .
  $$
-This concludes \eqref{show_whZ}.
+Hence the proof is complete.
  \end{proof}
  
-Next we can obtain the following concentration estimates for random noise in the setting of Section \ref{sec_same}.
+Next, we provide several concentration results for $\cal E=[\epsilon^{(1)},\epsilon^{(2)},\cdots, \epsilon^{(t)}]\in \R^{n\times t}$, which consists of i.i.d. random variables with mean zero, variance $\sigma^2$ and bounded moments up to any order.
  
- \begin{corollary}\label{cor_calE}
-Suppose the entries of $\cal E=[\epsilon^{(1)},\epsilon^{(2)},\cdots, \epsilon^{(t)}]\in \R^{n\times t}$ are i.i.d. random variables of mean zero, variance $\sigma^2$ and bounded moments up to any order. Then for any deterministic vector $v\in \R^n$ and deterministic $n\times n$ matrix $B\in \R^{n\times n}$, we have that with high probability,
-\be\label{vcalE} |v^\top \epsilon^{(i)}| \le \sigma n^{c} \|v\|, \ee
-and
-\be\label{vcalA2} \left|(\epsilon^{(i)})^\top B \epsilon^{(j)} - \delta_{ij}\cdot \sigma^2 \tr(B)\right| \le n^{c} \|B\|_F ,\ee
-for any small constant $c>0$. As a consequence, equations \eqref{vcalE} and \eqref{vcalA2} imply that 
-\be\label{vcalAE3}
-\|v^\top \cal E\| \le \sigma n^{c} \|v\|, \ \ \ \text{and}\ \ \ \left\| \cal E^\top B \cal E - \sigma^2 \tr(B)\cdot \id_{t\times t}\right\|_F \le n^{c} \|B\|_F ,
+\begin{corollary}\label{cor_calE}
+Let $\e>0$ be a sufficiently small fixed constant.
+For any deterministic vector $v\in \R^n$, we have that w.h.p.
+\be\label{vcalE}
+	|v^\top \epsilon^{(i)}| \le n^{c} \cdot \sigma \|v\|, \text{ and } \|v^\top \cal E\| \le n^{c} \cdot \sigma  \|v\|.
 \ee
- with high probability for any small constant $c>0$.
- \end{corollary}
- \begin{proof}
-Note that $\epsilon^{(i)}_j/\sigma$, $1\le i \le t,1\le j \le n$, are i.i.d. random variable of mean zero, variable one and bounded moments up to any order. Then using the first estimate in equation \eqref{eq largedev1}, we can obtain that $|v^\top \epsilon^{(i)}| = \Big|\sum_{j=1}^n v_j \epsilon^{(i)}_j \Big| \prec \sigma \|v\|,$  which concludes \eqref{vcalE} together with the definition of stochastic domination in Definition \ref{stoch_domination}. Similarly, using the second estimate in equation \eqref{eq largedev1}, we can obtain that for $i\ne j$,
+For any deterministic matrix $B \in \real^{n\times n}$, we have that w.h.p.
+\begin{align}\label{vcalA2}
+	\left|(\epsilon^{(i)})^\top B \epsilon^{(j)} - \delta_{ij}\cdot \sigma^2 \tr(B)\right| \le n^{c}\cdot \sigma^2 \|B\|_F, \text{ and }
+	\left\| \cal E^\top B \cal E - \sigma^2 \tr[B]\cdot \id_{t\times t}\right\|_F \le n^{c} \cdot  \sigma^2\|B\|_F.
+\end{align}
+%\be\label{vcalAE3}
+%,
+%\ee
+\end{corollary}
+\begin{proof}
+Rescaling $\epsilon^{(i)}$ by $\sigma$, we get a random vector with zero mean, unit variance, and bounded moments up to any order.
+Using the first estimate in equation \eqref{eq largedev1} of Lemma \ref{largedeviation} (recall that the stochastic domination notation means the inequality holds with a multiplicative factor of $p^{\e}$ on the right), we obtain that equation \eqref{vcalE} holds (the second result is a consequence of the first).
+Using the second estimate in equation \eqref{eq largedev1}, we obtain that for $i\ne j$,
  \begin{align*}
-\left|(\epsilon^{(i)})^\top B \epsilon^{(j)}\right| = \Big|\sum_{k,l=1}^n \epsilon^{(i)}_k\epsilon^{(j)}_l B_{kl} \Big| \prec \sigma^2 \Big(\sum_{k,l}|B_{kl}|^2\Big)^{1/2}=\sigma^2 \|B\|_F.
+\left|(\epsilon^{(i)})^\top B \epsilon^{(j)}\right| = \Big|\sum_{k,l=1}^n \epsilon^{(i)}_k\epsilon^{(j)}_l B_{kl} \Big| \le p^{\e} \cdot \sigma^2 \Big(\sum_{k,l=1}^n|B_{kl}|^2\Big)^{1/2}=\sigma^2 \|B\|_F.
  \end{align*}
 Using the two estimates in equation \eqref{eq largedev2}, we obtain that 
 \begin{align*}
-\left|(\epsilon^{(i)})^\top B \epsilon^{(j)} - \delta_{ij}\cdot \sigma^2 \tr(B)\right| &\le \Big| \sum_{k=1} \left(|\epsilon^{(i)}_k|^2-\E|\epsilon^{(i)}_k|^2\right)B_{ii} \Big|+\Big| \sum_{ k\ne l } \epsilon^{(i)}_k \epsilon^{(i)}_l B_{kl} \Big| \\
-&\prec \sigma^2 \Big( \sum_{k}|B_{kk}|^2\Big)+\sigma^2 \Big( \sum_{k\ne l}|B_{kl}|^2\Big)^{1/2}\lesssim \sigma^2 \|B\|_F.
+\left|(\epsilon^{(i)})^\top B \epsilon^{(i)} - \sigma^2 \tr[B]\right| &\le \Big| \sum_{k=1} \left(|\epsilon^{(i)}_k|^2-\E|\epsilon^{(i)}_k|^2\right)B_{ii} \Big|+\Big| \sum_{ k\ne l } \epsilon^{(i)}_k \epsilon^{(i)}_l B_{kl} \Big| \\
+&\le p^{\e}\cdot \sigma^2 \Big( \sum_{k}|B_{kk}|^2\Big)+ p^{\e}\cdot \sigma^2 \Big( \sum_{k\ne l}|B_{kl}|^2\Big)^{1/2}\le n^{\e}\cdot\sigma^2 \|B\|_F.
 \end{align*}
-The above two estimates conclude  \eqref{vcalA2}. Finally, the estimates in equation \eqref{vcalAE3} are easy consequences of equations \eqref{vcalE} and \eqref{vcalA2} since $t$ is a fixed integer that does not change with $p$.
- \end{proof}
- 
+Hence, we have shown equation \eqref{vcalA2} (the second result is again a consequence of the first result).
+\end{proof}
