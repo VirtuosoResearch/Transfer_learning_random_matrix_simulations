@@ -40,7 +40,7 @@ Hence, by further taking expectation over $\beta^{(1)}$ and $\beta^{(2)}$, we ob
 	&\ex{g(x) \mid X_1, X_2} \nonumber\\
 %&=[(x-1)^2\kappa^2 + (x^2+1)d^2/2] \cdot p^{-1}\tr\left[  (X^{(2)})^\top X^{(2)} \hat\Sigma(x)^{-1}(X^{(1)})^\top X^{(1)} \hat\Sigma(x)^{-1} (X^{(2)})^\top X^{(2)}\right] \nonumber\\
 %&+ A^2[(x-1)^2\kappa^2 + (x^2+1)d^2/2] \cdot p^{-1}\tr\left[  (X^{(1)})^\top X^{(1)} \hat\Sigma(x)^{-1}(X^{(2)})^\top X^{(2)} \hat\Sigma(x)^{-1} (X^{(1)})^\top X^{(1)}\right] +\sigma^2(n_1+n_2-p) \nonumber\\
-	=& ((x-1)^2\kappa^2 + (x^2+1)d^2){p^{-1}} \tr\left[ (X^{(1)})^\top X^{(1)} \hat \Sigma(x)^{-1}(X^{(2)})^\top X^{(2)}\right]+\sigma^2(n_1+n_2-p), \label{EgA}
+	=& [(x-1)^2\kappa^2 + (x^2+1)d^2]\cdot {p^{-1}} \tr\left[ (X^{(1)})^\top X^{(1)} \hat \Sigma(x)^{-1}(X^{(2)})^\top X^{(2)}\right]+\sigma^2(n_1+n_2-p), \label{EgA}
 \end{align}
 
 %\HZ{could you align the Eq so that they look better on page?}
@@ -194,7 +194,7 @@ Finally, we consider the case where $x \le 1$. Notice that the following functio
 $$\tr\left[\left(x^2[(X^{(2)})^\top X^{(2)}]^{-1} +  [(X^{(1)})^\top X^{(1)}]^{-1}\right)^{-1}\right].$$
 Hence, by taking derivative of $h(x)$, we obtain that for any $x\le 1-d^2/\kappa^2$,
 \begin{align}\label{h'(A)2}
-	h'(x)\le [-2(1-x)\kappa^2 +2 xd^2] \cdot p^{-1} \tr\left[\left(x^2[(X^{(2)})^\top X^{(2)}]^{-1} + [(X^{(1)})^\top X^{(1)}]^{-1}\right)^{-1}\right] < 0,
+	h'(x)\le [-2(1-x)\kappa^2 +2 xd^2] \cdot p^{-1} \tr\left[\left(x^2[(X^{(2)})^\top X^{(2)}]^{-1} + [(X^{(1)})^\top X^{(1)}]^{-1}\right)^{-1}\right] < 0.
 \end{align}
 In summary, the global minimizer of $h(x)$ lies within $1-d^2/\kappa^2$ and $1+d^2/\kappa^2$.
 
@@ -368,8 +368,9 @@ L(\hat{\beta}_2^{\MTL})  =&  \left\| (\Sigma^{(2)})^{1/2}\hat \Sigma(\hat x)^{-1
 &\left. + (\Sigma^{(2)})^{1/2}\hat \Sigma(\hat x)^{-1}\left[ (X^{(2)})^\top \epsilon^{(2)} + \hat x   (X^{(1)})^\top \epsilon^{(1)} \right]\right\|^2. \label{expand_15}
 \end{align}
 Similar to the analysis of $g(x)$, we expand $L(\hat{\beta}_2^{\MTL})$ into the sum of 15 terms, and bound the concentration error of each term similar to $h_1(x), \dots, h_6(x)$.
-For example, for the leading term $\hat x^2 (\wt \beta^{(1)})^\top (X^{(1)})^\top X^{(1)} \hat \Sigma(\hat x)^{-1}  \Sigma^{(2)} \hat \Sigma(\hat x)^{-1}  (X^{(1)})^\top X^{(1)}\wt\beta^{(1)}$, using
-Lemma \ref{largedeviation} and the operator norm bounds, we obtain the following estimate w.h.p.
+For example, for the leading term 
+\[\hat x^2 (\wt \beta^{(1)})^\top (X^{(1)})^\top X^{(1)} \hat \Sigma(\hat x)^{-1}  \Sigma^{(2)} \hat \Sigma(\hat x)^{-1}  (X^{(1)})^\top X^{(1)}\wt\beta^{(1)},\] 
+using Lemma \ref{largedeviation} and the operator norm bounds, we obtain the following estimate w.h.p.
 \begin{align*}
 &  \left| (\wt \beta^{(1)})^\top (X^{(1)})^\top X^{(1)} \hat \Sigma(\hat x)^{-1}  \Sigma^{(2)} \hat \Sigma(\hat x)^{-1}  (X^{(1)})^\top X^{(1)}\wt\beta^{(1)} - \frac{d^2}{p}\bigtr{(X^{(1)})^\top X^{(1)} \hat \Sigma(\hat x)^{-1}  \Sigma^{(2)} \hat \Sigma(\hat x)^{-1}  (X^{(1)})^\top X^{(1)}}\right| \\
 &\le p^{-1+c}d^2 \cdot \left\| (X^{(1)})^\top X^{(1)} \hat \Sigma(\hat x)^{-1}  \Sigma^{(2)} \hat \Sigma(\hat x)^{-1}  (X^{(1)})^\top X^{(1)} \right\|_F \\
@@ -377,9 +378,10 @@ Lemma \ref{largedeviation} and the operator norm bounds, we obtain the following
 \end{align*} 
 For the cross term $\hat x (\wt \beta^{(1)})^\top (X^{(1)})^\top X^{(1)} \hat \Sigma(\hat x)^{-1}  \Sigma^{(2)} \hat \Sigma(\hat x)^{-1}  (X^{(2)})^\top  \epsilon^{(2)}$, using Lemma \ref{largedeviation} and the operator norm bounds, we obtain the following estimate w.h.p.
 \begin{align*}
- \left| (\wt \beta^{(1)})^\top (X^{(1)})^\top X^{(1)} \hat \Sigma(\hat x)^{-1}  \Sigma^{(2)} \hat \Sigma(\hat x)^{-1}  (X^{(2)})^\top  \epsilon^{(2)}\right|  & \le p^c \cdot \sigma\sqrt{p^{-1}d^2} \cdot \|(X^{(1)})^\top X^{(1)} \hat \Sigma(\hat x)^{-1}  \Sigma^{(2)} \hat \Sigma(\hat x)^{-1}  (X^{(2)})^\top  \|_F \\
-&\lesssim p^{c}\cdot \sigma d \cdot  \|(X^{(1)})^\top X^{(1)} \hat \Sigma(\hat x)^{-1}  \Sigma^{(2)} \hat \Sigma(\hat x)^{-1}  (X^{(2)})^\top  \| \\
-&\lesssim p^{-1/2+c}\sigma d\le p^{-1/2+c}(\sigma^2+ d^2).
+& \left| (\wt \beta^{(1)})^\top (X^{(1)})^\top X^{(1)} \hat \Sigma(\hat x)^{-1}  \Sigma^{(2)} \hat \Sigma(\hat x)^{-1}  (X^{(2)})^\top  \epsilon^{(2)}\right|  \\
+  \le & p^c \cdot \sigma\sqrt{p^{-1}d^2} \cdot \|(X^{(1)})^\top X^{(1)} \hat \Sigma(\hat x)^{-1}  \Sigma^{(2)} \hat \Sigma(\hat x)^{-1}  (X^{(2)})^\top  \|_F \\
+ \lesssim & p^{c}\cdot \sigma d \cdot  \|(X^{(1)})^\top X^{(1)} \hat \Sigma(\hat x)^{-1}  \Sigma^{(2)} \hat \Sigma(\hat x)^{-1}  (X^{(2)})^\top  \| \\
+ \lesssim & p^{-1/2+c}\sigma d\le p^{-1/2+c}(\sigma^2+ d^2).
 \end{align*}
 The rest of the terms in the expansion of $L(\hat{\beta}_2^{\MTL})$ can be dealt with similarly, and we omit the details.
  \end{proof}
@@ -442,7 +444,8 @@ Applying the above result to equation \eqref{eq_bias111}, we get the desired res
 %\end{align*}
 Combining the bias and variance estimates, we get that
 \begin{align*}
-	\left|L(\hat{\beta}_2^{\MTL})  -  \frac{2d^2 n_1^2 (n_1+n_2)}{(n_1 + n_2 - p)^3} - \frac{\sigma^2 p}{n_1+n_2-p}   \right| &\le   \left[\left( 1+\sqrt{\frac{p}{n_1}}\right)^4-1\right] \cdot \frac{2d^2n_1^2 (n_1+n_2)}{(n_1 + n_2 - p)^3} \\
+	& \left|L(\hat{\beta}_2^{\MTL})  -  \frac{2d^2 n_1^2 (n_1+n_2)}{(n_1 + n_2 - p)^3} - \frac{\sigma^2 p}{n_1+n_2-p}   \right| \\
+	  \le &  \left[\left( 1+\sqrt{\frac{p}{n_1}}\right)^4-1\right] \cdot \frac{2d^2n_1^2 (n_1+n_2)}{(n_1 + n_2 - p)^3} \\
 	&+\OO\left( p^{-c_\varphi} (\sigma^2 + d^2)+ \frac{d^4 + \sigma^2 d^2}{\kappa^2}+p^{-1/2+2c}\kappa^2 +  p^{-1/4+c} (\sigma^2 +d^2) \right).
 \end{align*}
 Since $\sigma^2 \lesssim  \kappa^2$ and $d^2 \le p^{-\e}{\kappa^2}$ by our assumption, we obtain the desired result.
