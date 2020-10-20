@@ -16,7 +16,7 @@ Next, we state a concentration result for $Z$.
 
 \begin{corollary} \label{cor_largedeviation}
 For any deterministic vector $v\in \R^p$, we have that w.h.p.
-\be\label{Zv_cor}\left|\|Zv\|^2- n\|v\|^2\right|\le  n^{1-c_\varphi} \|v\|^2.\ee
+\be\label{Zv_cor}\left|\|Zv\|^2- n\|v\|^2\right|\le 2n^{1-c_\varphi} \|v\|^2.\ee
 \end{corollary}
 \begin{proof}
 	Let $Q= n^{ \frac{2}{\varphi}}\log n$.
@@ -32,20 +32,23 @@ Furthermore, using the finite $\varphi$-th moment condition and the tail probabi
 %\be\label{EZ norm222}\|\E \wt Z^{(1)}\|=\OO(n^{-1/2}) .
 %\ee
 We centralize and rescale $\wt Z$ as $ \wh Z:=\frac{\wt Z - \E \wt Z }{ (\E|\wt Z_{11}|^2)^{1/2}}.$
-It suffices to show that 
+Let $\e$ be a sufficiently small fixed constant.
+To prove the result, it suffices to show that
 \be\label{show_whZ}
  \left|\|\wh Zv\|^2- n\|v\|^2\right| \le n^{1/2 + \e} Q\|v\|^2.
 \ee 
-This is because provided with equation \eqref{show_whZ}, using \eqref{meanshif222} we can get that
+This is because provided with equation \eqref{meanshif222} and \eqref{show_whZ}, we can get that
 $$ \left|\|\wt Zv\|^2- n\|v\|^2\right| \le n^{1/2 + \e} Q\|v\|^2,$$
-which implies \eqref{Zv_cor} for any fixed value $c_{\varphi}$ within $(0, \frac{\varphi - 4}{2\varphi})$.
-
-To prove equation \eqref{show_whZ}, we first observe that for $1\le i \le n$, $(\wh Zv)_i=\sum_{1\le j \le p} \wh Z_{ij}v_j$ are i.i.d random variables of mean zero and variance $\|v\|^2$. Moreover, using equation \eqref{eq largedev10} we get that with overwhelming probability
-$$ |(\wh Zv)_i| \le n^\e Q\max_{1\le i\le p}|v_i| + n^\e \|v\| . $$
-Together with the trivial bound $\max_{1\le i\le p}|v_i| \le \|v\|$, this implies that the random variables $\frac{(\wh Zv)_i}{\|v\|}$, $1\le i \le p$, are i.i.d random variables of mean zero, variance 1 and bounded support $Q$. Then applying equation \eqref{eq largedev20}, we get that
-$$ \left|\|\wh Zv\|^2 - n\|v\|^2\right|=\left|\sum_i \left(|(\wh Zv)_i|^2-\E|(\wh Zv)_i|^2\right)\right|\le n^{1/2+\e} Q  \|v\|^2 .
+which implies the desired our (recall that $c_{\varphi} < 1/2 - \e$).
+To prove equation \eqref{show_whZ}, we first show that for any $i = 1, 2, \dots, n$, $(\wh Zv)_i=\sum_{1\le j \le p} \wh Z_{ij}v_j$ is at most $2n^{\e} Q$.
+Since $\wh{Z} v$ consists of i.i.d random variables with mean zero and variance $\|v\|^2$,
+using equation \eqref{eq largedev10} from Lemma \ref{largedeviation}, we get that with overwhelming probability
+$$ |(\wh Zv)_i| \le n^\e Q\max_{1\le i\le p}|v_i| + n^\e \|v\| \le 2n^{\e} Q. $$
+Hence, $\frac{(\wh Zv)}{\|v\|}$ consists of i.i.d random variables with mean zero, unit variance, and bounded support $2n^{\e}Q$.
+Applying equation \eqref{eq largedev20}, we get that
+$$ \left|\|\wh Zv\|^2 - n\|v\|^2\right|=\left|\sum_i \left(|(\wh Zv)_i|^2-\E|(\wh Zv)_i|^2\right)\right|\le 2n^{1/2+2\e} Q  \|v\|^2 .
  $$
-This concludes equation \eqref{show_whZ}.
+Hence the proof is complete.
  \end{proof}
  
 Next, we provide several concentration results for $\cal E=[\epsilon^{(1)},\epsilon^{(2)},\cdots, \epsilon^{(t)}]\in \R^{n\times t}$, which consists of i.i.d. random variables with mean zero, variance $\sigma^2$ and bounded moments up to any order.
