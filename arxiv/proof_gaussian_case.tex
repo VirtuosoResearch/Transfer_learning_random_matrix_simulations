@@ -304,70 +304,56 @@ More generally, if the entries of $Z$ have finite $\varphi$-th moment, then usin
 	&\le \sum_{i=1}^n \sum_{j=1}^p \frac{C(\varphi)}{\left[(\log n) n^{\frac{2}{\varphi}}\right]^\varphi} = \OO((\log n)^{-\varphi}).\label{Ptrunc}
 	\end{align}
 In other words, $Z$ has bounded support $Q=n^{\frac{2}{\varphi}}$ with high probability.
-%This leads to the exponent $\frac{\varphi-4}{2\varphi}$ in Fact \ref{lem_minv}. %This fact will be used in the proof of Corollary \ref{main_cor} below.
-%The above discussion shows that the bounded support condition provides great flexibility in dealing with finite moment conditions.
-%\begin{assumption}%\label{assm_big1}
-%As in Section \todo{add reference}, we consider random matrices $X^{(1)}=Z^{(1)}\Sigma_1^{1/2}$ and $X^{(2)}=Z^{(2)}\Sigma_2^{1/2}$, where $Z^{(1)}$ and $Z^{(2)}$ are independent $n_1\times p$ and $n_2\times p$ random matrices with i.i.d. entries of zero mean and unit variance. Recall that $\rho_1= n_1/p$ and $\rho_2=n_2/p$. We assume that for a small constant $0<\tau<1$,
-%\HZ{We have defined $\rho_1,\rho_2$ already in sec 2. Consider using ``Recall that $\rho_1 =, \rho_2 =$.''}
-%\be\label{assm2}
-%0\le \rho_1 \le \tau^{-1}, \quad 1+\tau \le \rho_{2} \le \tau^{-1}.
-%\ee
-%Recall that the singular value decomposition of $M = \Sig_1^{1/2} \Sig_2^{-1/2}$ is $U \Lambda V^{\top}$. We assume that
-%\begin{equation}\label{assm32}
-%\tau \le \lambda_p \le \lambda_1 \le \tau^{-1} .%, \quad \max\left\{\pi_A^{(n)}([0,\tau]), \pi_B^{(n)}([0,\tau])\right\} \le 1 - \tau .
+
+The following resolvent identities are important tools for our proof. Recall that the resolvent minors have been defined in Definition \ref{defn_Minor}, and matrix $\AF$ is given in equation \eqref{diagW}.
+\begin{lemma}\label{lemm_resolvent}
+We have the following resolvent identities.
+\begin{itemize}
+	\item[(i)] For $i\in \mathcal I_1$ and $\mu\in \mathcal I_1\cup \cal I_2$, we have
+		\begin{equation}
+			\frac{1}{G_{ii}} =  - z - \left( {\AF G^{\left( i \right)} \AF^\top} \right)_{ii} ,\quad  \frac{1}{{G_{\mu \mu } }} =  - 1  - \left( {\AF^\top  G^{\left( \mu  \right)} \AF} \right)_{\mu \mu }.\label{resolvent2}
+		\end{equation}
+	\item[(ii)] For $i\in \mathcal I_1$, $\mu \in \mathcal I_1\cup \cal I_2$, $a\in \cal I\setminus \{i\}$ and $b\in \cal I\setminus \{ \mu\}$, we have
+		\begin{equation}
+			G_{ia}   = -G_{ii}  \left( \AF G^{\left( {i} \right)} \right)_{ia},\quad  G_{\mu b }  = - G_{\mu \mu }  \left( \AF^\top  G^{\left( {\mu } \right)}  \right)_{\mu b }. \label{resolvent3}
+		\end{equation}
+%For $i\in \mathcal I_1$ and $\mu\in \mathcal I_2$, we have
+%\begin{equation}\label{resolvent6}
+%\begin{split}
+% G_{i\mu } =  -G_{ii}  \left( WG^{\left( {i} \right)} \right)_{i\mu}, \quad G_{\mu i}= -G_{\mu\mu}\left( W^\top G^{(\mu)}\right)_{\mu i}. %\left( { - Y_{i\mu }  +  {\left( {YG^{\left( {i\mu } \right)} Y} \right)_{i\mu } } } \right) . %, \ \  G_{\mu i}  = G_{\mu \mu } G_{ii}^{\left( \mu  \right)} \left( { - Y_{\mu i}^\top  + \left( {Y^\top  G^{\left( {\mu i} \right)} Y^\top  } \right)_{\mu i} } \right).
+%\end{split}
 %\end{equation}
-%Finally, recalling the notations in equation \eqref{labelZ}, we assume that $Z^{(1)}$ and $Z^{(2)}$ satisfy
+ \item[(iii)] For $a \in \mathcal I$ and $a_1,a_2 \in \mathcal I \setminus \{a\}$, we have
+		\begin{equation}
+			G_{a_1a_2}^{\left( a \right)}  = G_{a_1a_2}  - \frac{G_{a_1a} G_{aa_2}}{G_{aa}}.
+%, \quad  \frac{1}{{G_{{b}{b}} }} = \frac{1}{{G_{{b}{b}}^{({a})} }} - \frac{{G_{{b}{a}} G_{{a}{b}} }}{{G_{{b}{b}} G_{{b}{b}}^{({a})} G_{{a}{a}} }}.
+			\label{resolvent8}
+		\end{equation}
+%and
 %\begin{equation}
-%n^{-1/2}\max_{i\in \cal I_0,\mu \in \cal I_1}\vert Z^{(1)}_{\mu i}\vert \prec q,\quad n^{-1/2}\max_{i\in \cal I_0,\nu \in \cal I_2}\vert Z^{(2)}_{\nu i}\vert \prec q, \label{eq_support}
+%\frac{1}{{G_{ss} }} = \frac{1}{{G_{ss}^{(r)} }} - \frac{{G_{sr} G_{rs} }}{{G_{ss} G_{ss}^{(r)} G_{rr} }}.
+%\label{resolvent9}
 %\end{equation}
-%for some deterministic parameter $q$ satisfying $ n^{-{1}/{2}} \leq q \leq n^{- \tau} $ for a small constant $\tau>0$.
-%Here we recall the notations in \eqref{labelZ}.
- %and (\ref{assm2}). We assume that $T$ is an $M\times M$ deterministic diagonal matrix satisfying (\ref{simple_assumption}) and (\ref{assm3}).
-%\end{assumption}
-%\HZ{This is restating what's stated above again. Remove redundant statements (unless there's something critical missing in Sec 2).} [\cor FY: The setting in sec 1 is too vague for the purpose of this section in the sense that it is hard to find the exact properties we need. In this section, I want to state rigorous statements with a reference to an exact assumption. Moreover, the above assumption contains more.\nc]
+% \item[(iv)]
+%All of the above identities hold for $G^{(\mathbb T)}$ instead of $G$ for $\mathbb T \subset \mathcal I$, and in the case where $A$ and $B$ are not diagonal.
+\end{itemize}
+\end{lemma}
+The above result can be proved using Schur's complement formula, cf. \citet[Lemma 4.4]{Anisotropic}.
 
-
-%\begin{remark}
-%The lower bound $\rho_2\ge 1+\tau$ in equation \eqref{assm2} is to ensure that the sample covariance matrix $(X^{(2)})^\top X^{(2)}$ is non-singular with overwhelming probability. Moreover, we have allowed that $\rho_1=0$, because we want to state a general result that also covers the special case with no source task.
-%\end{remark}
-
-
-%\begin{definition}\label{defn_support}
-%We say a (rescaled) random matrix $\cal M$ satisfies the {\it{bounded support condition}} with $q$, if
-%\begin{equation}
-%\max_{i,j}\vert \cal M_{ij}\vert \prec q. \label{eq_support}
-%\end{equation}
-%%Here $q\equiv q(n)$ is a deterministic parameter and usually satisfies $ n^{-{1}/{2}} \leq q \leq n^{- \phi} $ for some (small) constant $\phi>0$.
-%Whenever (\ref{eq_support}) holds, we say that $M$ has support $q$.
-%%Moreover, if the entries of $X$ satisfy (\ref{size_condition}), then $X$ trivially satisfies the bounded support condition with $q=N^{-\phi}$.
-%\end{definition}
-%\begin{example}
-%\todo{Talk about the Gaussian case and Bernoulli case.}
-
-%\end{example}
-
-
-
-%Recall that $n:=n_1+n_2$, which is the total number of data in the two tasks.
-%Before giving the main proof, we first introduce some notations and tools.
-%Following the notations in \cite{EKYY,EKYY1}, we will use the following definition to characterize events of overwhelming probability.
-%
-%\begin{definition}[overwhelming probability event] \label{high_prob}
-%Define
-%\begin{equation}\label{def_phi}
-%\varphi:=(\log N)^{\log \log N}.
-%\end{equation}
-%We say that an $N$-dependent event $\Omega$ holds with {\it{$\xi$-overwhelming probability}} if there exist constant $c,C>0$ independent of $N$, such that
-%\begin{equation}
-%\mathbb{P}(\Omega) \geq 1-N^{C} \exp(- c\varphi^{\xi}),  \label{D25}
-%\end{equation}
-%for all sufficiently large $N$. For simplicity, for the case $\xi=1$, we just say {\it{overwhelming probability}}. Note that if (\ref{D25}) holds, then $\mathbb P(\Omega) \ge 1 - \exp(-c'\varphi^{\xi})$ for any constant $0\le c' <c$.
-%\end{definition}
-%\begin{remark}
-%For any $c, C>0$, there exists a $0< c^{\prime}<c$, such that $N^{C} \exp(-c \varphi^{\xi}) \leq \exp(-c^{\prime} \varphi^{\xi})$. Hence, if
-%\begin{equation}
-%\mathbb{P}(\Omega) \geq 1- \exp(-c \varphi^{\xi})
-%\end{equation}
-%$\Omega$ is also a $\xi$-overwhelming probability event.
-%\end{remark}
-
+The following lemma gives sharp concentration bounds for linear and quadratic forms of bounded random variables. We recall that the stochastic domination ``$\prec$" has been defined in Definition \ref{stoch_domination}.
+%Besides the proof of Lemma \ref{prop_entry}, we also use it in several other places of this paper, including the proofs in Section \ref{sec_proof_general} and Section \ref{app_iso_cov}.
+%It constitutes the main difference between our proof and the one in \cite{KY2}, where the authors used a large deviation bound for random variables with arbitrarily high moments.
+\begin{lemma}[Lemma 3.8 of \cite{EKYY1} and Theorem B.1 of \cite{Delocal}]\label{largedeviation}
+Let $(x_i)$, $(y_j)$ be independent families of centered and independent random variables, and $(A_i)$, $(B_{ij})$ be families of deterministic complex numbers. Suppose the entries $x_i$ and $y_j$ have variance at most $1$, and satisfy the bounded support condition (\ref{eq_support}) for a deterministic parameter $Q$. %with $q\le n^{-\phi}$ for a small constant $\phi>0$.
+Then we have the following results:
+%for any fixed $\xi>0$, the following bounds hold with $\xi$-high probability:
+\begin{align}
+\Big| \sum_{i=1}^n A_i x_i \Big\vert \prec Q \max_{i} \vert A_i \vert+ \Big(\sum_i |A_i|^2 \Big)^{1/2} , \quad &\Big\vert  \sum_{i,j=1}^n x_i B_{ij} y_j \Big\vert \prec Q^2 B_d  + Q n^{1/2}B_o +  \Big(\sum_{i\ne j} |B_{ij}|^2\Big)^{{1}/{2}},\label{eq largedev10}  \\
+\Big\vert  \sum_{i=1}^n (|x_i|^2-\mathbb E|x_i|^2) B_{ii}  \Big\vert  \prec Q n^{1/2}B_d   , \quad &\Big\vert  \sum_{1\le i\ne j\le n} \bar x_i B_{ij} x_j \Big\vert  \prec Qn^{1/2}B_o +  \Big(\sum_{i\ne j} |B_{ij}|^2\Big)^{{1}/{2}} ,\label{eq largedev20}
+\end{align}
+where we denote $B_d:=\max_{i} |B_{ii} |$ and $B_o:= \max_{i\ne j} |B_{ij}|.$ Moreover, if the moments of $ x_i$ and $ y_j$ exist up to any order, then we have the following stronger results:
+\begin{align}
+\Big\vert \sum_i A_i x_i \Big\vert \prec  \Big(\sum_i |A_i|^2 \Big)^{1/2} , \quad  & \Big\vert \sum_{i,j} x_i B_{ij} y_j \Big\vert \prec  \Big(\sum_{i, j} |B_{ij}|^2\Big)^{{1}/{2}}, \label{eq largedev1} \\
+ \Big\vert  \sum_{i} (|x_i|^2-\mathbb E|x_i|^2) B_{ii}  \Big\vert  \prec  \Big( \sum_i |B_{ii} |^2\Big)^{1/2}  ,\quad & \Big\vert  \sum_{i\ne j} \bar x_i B_{ij} x_j \Big\vert  \prec \Big(\sum_{i\ne j} |B_{ij}|^2\Big)^{{1}/{2}}.\label{eq largedev2}
+\end{align}
+\end{lemma}
