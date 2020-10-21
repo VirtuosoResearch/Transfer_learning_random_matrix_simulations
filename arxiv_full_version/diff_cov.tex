@@ -13,7 +13,7 @@ We focus on the two-task case to better understand the impact of having differen
 Let $n_1, n_2$ denote task one  and two's sample size, respectively.
 Suppose
 \begin{align*}
-	X^{(1)} = Z^{(1)}(\Sigma^{(1)})^{1/2} \in \real^{n_1 \times p}, \text{ and}
+	X^{(1)} = Z^{(1)}(\Sigma^{(1)})^{1/2} \in \real^{n_1 \times p} \text{ and }
 	X^{(2)} = Z^{(2)}(\Sigma^{(2)})^{1/2} \in \real^{n_2 \times p},
 \end{align*}
 where the entries of $Z^{(1)}$ and $ Z^{(2)}$ are drawn independently from a one dimensional distribution with zero mean, unit variance, and constant $\varphi$-th moment for a fixed $\varphi > 4$. $\Sigma^{(1)}\in \R^{p\times p}$ and $\Sigma^{(2)}\in \R^{p\times p}$ denote the population covariance matrices of task 1 and task 2, respectively.
@@ -33,7 +33,7 @@ By solving $B$ in equation \eqref{eq_mtl}, we obtain the estimator for task two 
 \end{align}
 The matrix $\hat{\Sigma}$ adds up both tasks' sample covariance matrices, and the expectation of $\hat{\Sigma}$ is equal to a mixture of their population covariance matrices, with mixing proportions determined by their sample sizes.
 
- To derive the bias and variance equation, we consider the expected loss conditional on the covariates as follows (the empirical loss is close to this expectation as will be shown in equation \eqref{claim_largedev2}):
+To derive the bias and variance equation, we consider the expected loss conditional on the covariates as follows (the empirical loss is close to this expectation as will be shown in equation \eqref{claim_largedev2}):
  %similar to Claim \ref{claim_pred_err}
 \begin{align}
 	 \exarg{\cE}{L(\hat{\beta}_2^{\MTL}) \mid X^{(1)}, X^{(2)}}
@@ -46,8 +46,7 @@ Intuitively, the spectrum of $\hat{\Sigma}^{-1}$ (and hence its trace) not only 
 However, capturing this intuition quantitatively turns out to be technically challenging.
 %The main technical challenge of our result deals with the ``covariate shift'' between tasks one and two.
 We introduce a key quantity $M \define (\Sigma^{(1)})^{1/2}(\Sigma^{(2)})^{-1/2}$, and as we show below, the trace of $\hat{\Sigma}^{-1}$ has an intricate dependence on the spectrum of $M$.
-
-%Let $U\Lambda V^\top$ denote the SVD of $M$ and 
+%Let $U\Lambda V^\top$ denote the SVD of $M$ and
 Let $\lambda_1, \lambda_2, \dots, \lambda_p$ denote $M$'s singular values in descending order.
 Our main result is stated as follows.
 
@@ -56,7 +55,7 @@ Our main result is stated as follows.
 	Assume that: a) the sample sizes $n_1$ and $n_2$ both satisfy Assumption \ref{assume_rm};
 	b) $M$'s singular values are all greater than $\tau$ and less than $1/\tau$;
 	c) task one's sample size is greater than $\tau p$ and task two's sample size is greater than $(1 + \tau) p$.
-	With high probability over the randomness of $X^{(1)}$ and $X^{(2)}$, we have that
+	With high probability over the randomness of $X^{(1)}$ and $X^{(2)}$, we have the following limits:
 
 \noindent(i) The variance equation \eqref{eq_variance_2task} $\tr[\Sigma^{(2)} \hat{\Sigma}^{-1}]$ (leaving out $\sigma^2$) satisfies the following estimate:
 			\begin{align}\label{lem_cov_shift_eq}
@@ -163,12 +162,12 @@ By comparing the derivative of the bias and variance limits with respect to $n_1
 Our second example focuses on how varying covariate shifts impacts the \textit{variance} limit in equation \eqref{lem_cov_shift_eq}. For large enough $p$,
 %in the left hand side of equation \eqref{lem_cov_shift_eq}:
 \begin{align*}
-	\bigtr{\Sigma^{(2)} \hat{\Sigma}^{-1}} &\rightarrow \frac{1}{n_1 + n_2} \bigtr{\Sigma^{(2)} (a_1 \Sigma^{(1)} + a_2 \Sigma^{(2)})^{-1}} \\
-	&= \frac{1}{n_1 + n_2} \bigtr{(a_1 M^{\top} M + a_2 \id)^{-1}}.
+	\bigtr{\Sigma^{(2)} \hat{\Sigma}^{-1}} &\rightarrow \frac{1}{n_1 + n_2} \bigtr{\Sigma^{(2)} (a_1 \Sigma^{(1)} + a_2 \Sigma^{(2)})^{-1}}
+	= \frac{1}{n_1 + n_2} \bigtr{(a_1 M^{\top} M + a_2 \id)^{-1}}.
 \end{align*}
 %As we are going to show later, covariate shift is accurately captured by the spectrum of $\Sigma^{1/2}\Sigma^{-1/2}$.
-Hence the variance limit is determined by the spectrum of $M$. % To be clear, for this example we assume that the bias is $0$.
-To illustrate the above result, suppose that half of $M$'s singular values are equal to $\lambda > 1$ and the other half are equal to $\lambda^{-1}$.
+Hence the variance limit depends on the spectrum of $M$. % To be clear, for this example we assume that the bias is $0$.
+To illustrate the result, suppose that half of $M$'s singular values are equal to $\lambda > 1$ and the other half are equal to $\lambda^{-1}$.
 In particular, when $\lambda = 1$, there is no covariate shift.
 As $\lambda$ increases, the severity of covariate shift increases.
 We observe the following dichotomy.
@@ -177,8 +176,7 @@ We observe the following dichotomy.
 	\item If $n_1 < n_2$, then the variance limit is largest when there is no covariate shift.
 \end{enumerate}
 \end{example}
-
-We explain why the dichotomy happens. The variance limit in this example is equal to
+\noindent We explain why the dichotomy happens. The variance limit in this example is equal to
 $\frac{p}{2(n_1 + n_2)} f(\lambda)$, where
 \[ f(\lambda) = {(\lambda^{-2} a_1 + a_2)^{-1} + (\lambda^2 a_1 + a_2)^{-1}}. \]
 Using the fact that $a_1 + a_2 = 1 - \frac{p}{n_1 + n_2}$, we can verify
@@ -258,7 +256,6 @@ We prove the convergence of $W$'s resolvent using the so-called ``local law'' wi
 We say that $(W-z\id)^{-1}$ converges to a deterministic $p\times p$ matrix limit $R(z)$ if for any sequence of deterministic unit vectors $v\in \R^p$,
 $$v^\top \left[(W-z\id)^{-1}-R(z)\right]v\to 0\ \ \ \text{when $p$ goes to infinity.
 }$$
-
 To study $W$'s resolvent, we observe that $W$ is equal to $\AF\AF^{\top}$ for a $p$ by $n_1 + n_2$ matrix
 	\be\label{defn AF} \AF := (n_1+ n_2)^{-1/2} [\Lambda U^\top (Z^{(1)})^\top,V^\top (Z^{(2)})^\top]. \ee
 %}\HZ{what does this trick mean? use less technical words},
@@ -334,7 +331,7 @@ First, we can express the empirical bias term in equation \eqref{lem_cov_derv_eq
 \end{align}
 Let $\cal G(z):=(W-z\id )^{-1}$ denote the resolvent of $W$.
 Our key observation is that $\frac{\dd{\cal G(z)}}{\dd z} =  \cal G^2(z)$.
-Hence, provided that the limit of $(W - z\id)^{-1}$ is $(a_1(z) \Lambda^2 + (a_2(z) - z) \id)^{-1}$ near $z = 0$, the limit of $\frac{\dd{\cal G(0)}}{\dd z}$ satisfies that
+Hence, provided that the limit of $(W - z\id)^{-1}$ is $(a_1(z) \Lambda^2 + (a_2(z) - z) \id)^{-1}$ near $z = 0$, the limit of $\frac{\dd{\cal G(0)}}{\dd z}$ satisfies
 \begin{align}\label{cal G'0}
 	\frac{\dd \cal G(0)}{\dd z} \to \frac{-\frac{\dd a_1(0)}{\dd z}\Lambda^2 - (\frac{\dd a_2(0)}{\dd z} - 1)\id}{(a_{1}(0)\Lambda^2 + a_{2}(0)\id_p)^2}.
 \end{align}
@@ -346,7 +343,7 @@ To find the derivatives of $a_1(z)$ and $a_2(z)$, we take the derivatives on bot
 Let $a_3 = - \frac{\dd a_1(0)}{\dd z}$ and $a_4 = - \frac{\dd a_2(0)}{\dd z}$.
 %then taking implicit differentiation of equation \eqref{selfomega_a}
 One can verify that $a_3$ and $a_4$ satisfy the self-consistent equations in \eqref{eq_a34extra} (details omitted).
-Applying equation \eqref{cal G'0} to equation \eqref{calculate G'}, we obtain the asymptotic limit of the bias term.
+Applying equation \eqref{cal G'0} to equation \eqref{calculate G'}, we obtain the bias limit.
 %\begin{align}
 %& n^2\bignorm{\Sigma_2^{1/2} \bigbrace{ (X^{(1)})^{\top}(X^{(1)}) + (X^{(2)})^{\top}(X^{(2)}) }^{-1} \Sigma_1^{1/2} w}^2 \nonumber\\
 %&\approx  w^\top \Sigma_1^{1/2}\Sigma_2^{-1/2}V\frac{a_3\Lambda^2 +(1+ a_4)\id_p}{(a_{1}\Lambda^2 + a_{2}\id)^2}V^\top \Sigma_2^{-1/2}\Sigma_1^{1/2}w= w^{\top} \Pi_\bias w, \label{calculatePibias}
@@ -354,7 +351,7 @@ Applying equation \eqref{cal G'0} to equation \eqref{calculate G'}, we obtain th
 %where in the last step we used $M = \Sigma_1^{1/2}\Sigma_2^{-1/2}$ and $V \Lambda^2 V^\top=M^\top M$. This concludes equation \eqref{lem_cov_derv_eq}.
 
 As a remark, in order for $\frac{\dd \cal G(z)}{\dd z}$ to stay close to its limit at $z = 0$, we not only need to find the limit of $\cal G(0)$, but also the limit of $\cal G(z)$ within a small neighborhood of $0$.
-This is why we consider $W$'s resolvent for a general $z$. %as opposed to the Stieljes transform of its empirical spectral distribution.
+This is why we consider $W$'s resolvent for a general $z$ (as opposed to the Stieljes transform of its empirical spectral distribution discussed earlier).
 
 \paragraph{Schur complement and self-consistent equations.}
 First, we consider the special case where $Z^{(1)}$ and $Z^{(2)}$ are both multivariate Gaussian random matrices.
@@ -364,5 +361,5 @@ We show that $G(z)$'s diagonal entries satisfy a set of self-consistent equation
 On the other hand, $G(z)$'s off-diagonal entries are approximately zero using standard concentration bounds.
 Finally, we extend our result to general random matrices under the finite $\varphi$-th moment condition.
 We prove an anisotropic local law using recent developments in random matrix theory \cite{erdos2017dynamical,Anisotropic}.
-A complete proof of Theorem \ref{thm_main_RMT} will be given in Appendix \ref{sec pf RMTlemma}-Appendix \ref{sec entry}. %Appendix \ref{appendix RMT}.
+The proof of Theorem \ref{thm_main_RMT} is shown in Appendix \ref{appendix RMT}. %Appendix \ref{appendix RMT}.
 
