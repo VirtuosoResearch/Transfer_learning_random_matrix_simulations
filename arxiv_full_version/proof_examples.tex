@@ -125,7 +125,7 @@ For $h_2(x)$ and $h_3(x)$, since the entries of $\epsilon^{(1)},\epsilon^{(2)}\i
 \be\label{eq_hA23}\left|h_2(x) - \exarg{\epsilon^{(1)}}{h_2(x) \mid X_1, X_2}\right| \lesssim p^{1/2+c}\sigma^2, \quad \left|h_3(x) - \exarg{\epsilon^{(2)}}{h_3(x) \mid X_1, X_2}\right| \lesssim p^{1/2+c}\sigma^2.\ee
 For $h_4(x)$, using Lemma \ref{largedeviation}, we obtain w.h.p.:
 \begin{align}
-			&\left|h_4(x)\right| \nonumber\\
+			\left|h_4(x)\right|
 	\le& p^{c}\cdot \sigma \cdot \sqrt{b / p}\left\| \left(x^2 X^{(1)}\hat\Sigma(x)^{-1} (X^{(1)})^\top-\id_{n_1\times n_1}\right) X^{(1)} \hat\Sigma(x)^{-1} (X^{(2)})^\top X^{(2)} \right\|_F\nonumber \\
 	\le& p^{c}\cdot \sigma \sqrt{b / p} \cdot p^{1/2} \left\| \left(x^2 X^{(1)}\hat\Sigma(x)^{-1} (X^{(1)})^\top-\id_{n_1\times n_1}\right) X^{(1)} \hat\Sigma(x)^{-1} (X^{(2)})^\top X^{(2)} \right\|  \nonumber\\
 	\le&  p^{c}\cdot \sigma \sqrt{b} \cdot \left\|  x^2 X^{(1)}\hat\Sigma(x)^{-1} (X^{(1)})^\top - \id_{n_1\times n_1} \right\| \cdot \left\|X^{(1)}\right\| \cdot \left\|\hat\Sigma(x)^{-1}\right\| \cdot \left\| (X^{(2)})^\top X^{(2)} \right\|  \nonumber\\
@@ -156,8 +156,8 @@ Corresponding to equation \eqref{EgA}, we define the function
 \end{align*}
 Let $x^{\star}$ denote the global minimizer of $h(x)$.
 Our proof involves two steps.
-First, we will show that $\abs{x^{\star} - 1} \le d^2 / \kappa^2$.
-Second, we will use Claim \ref{claim_largedev1} to show that the global minimizer of $g(x)$ and $h(x)$ are close to each other.
+First, we  show that $\abs{x^{\star} - 1} \le d^2 / \kappa^2$.
+Second, we use Claim \ref{claim_largedev1} to show that the global minimizer of $g(x)$ and $h(x)$ are close to each other.
 %Using Lemma \ref{largedeviation} again, we can simplify equation \eqref{revise_eq_val_mtl} as $\val(v)= N_2h(v) \cdot  \left( 1+\OO(p^{-1/2+\e})\right)$, where the function $ h$ is defined as
 %	%We define the function
 %	\begin{align}
@@ -297,7 +297,7 @@ Hence we have completed the proof.
 
 \paragraph{Part $2$: a reduction to the bias and variance limits.}
 Recall that the hard parameter sharing estimator $\hat{\beta}_2^{\MTL}$ is equal to $\hat{B} \hat{A}_2$.
-Using the local optimility condition for $\hat{B}$, we obtain the predication loss of HPS as follows
+Using the local optimality condition for $\hat{B}$, we obtain the predication loss of HPS:
 \begin{align}
 L(\hat{\beta}_2^{\MTL}) &=\left\|(\Sigma^{(2)})^{1/2} \left( \hat B \hat A_2 - \beta^{(2)}\right)\right\| \nonumber\\
 &=  \left\| (\Sigma^{(2)})^{1/2}\hat \Sigma(\hat x)^{-1} \left[(X^{(1)})^\top X^{(1)} (\hat x\beta^{(1)}-\hat x^2\beta^{(2)})+ (X^{(2)})^\top \epsilon^{(2)} + \hat x   (X^{(1)})^\top \epsilon^{(1)} \right]\right\|^2.\label{Lbeta_HPS}
@@ -398,10 +398,8 @@ with high probability. Solving equation \eqref{eq_a12extra} with $\lambda_i\equi
 		 a_1 = \frac{n_1(n_1 + n_2 - p)}{(n_1 + n_2)^2} ,\quad
 		& a_2 = \frac{n_2(n_1 + n_2 - p)}{(n_1 +n_2)^2} . \label{simplesovlea12}
 			\end{align}
-Applying the above to equation \eqref{eq_var111}, we obtain that
-\be\label{eq_var112}\tr[\hat\Sigma^{-1}]  = \frac{p}{n_1+n_2} \cdot \frac{n_1+n_2}{n_1+n_2-p}+\OO(p^{-c_\varphi})=  \frac{p}{n_1+n_2-p}+\OO(p^{-c_\varphi})\ee
-with high probability. 
-
+Applying the above to equation \eqref{eq_var111}, we obtain that with high probability
+\be\label{eq_var112}\tr[\hat\Sigma^{-1}]  = \frac{p}{n_1+n_2} \cdot \frac{n_1+n_2}{n_1+n_2-p}+\OO(p^{-c_\varphi})=  \frac{p}{n_1+n_2-p}+\OO(p^{-c_\varphi}).\ee
 For the bias term, since the spectrum of $(X^{(1)})^{\top} X^{(1)}$ is tightly concentrated by Fact \ref{fact_minv}, we have that
 \begin{align}
  \frac{(\sqrt{n_1}-\sqrt{p})^4 \cdot (1- p^{-c_\varphi})}{p} \bigtr{\hat \Sigma^{-2}}  &\le {p}^{-1}\tr\left[\hat\Sigma^{-2} \left((X^{(1)})^\top X^{(1)} \right)^2\right] \label{eq_bias111}\\
@@ -444,9 +442,9 @@ Applying the above result to equation \eqref{eq_bias111}, we get the desired res
 %\end{align*}
 Combining the bias and variance estimates, we get that
 \begin{align*}
-	& \left|L(\hat{\beta}_2^{\MTL})  -  \frac{2d^2 n_1^2 (n_1+n_2)}{(n_1 + n_2 - p)^3} - \frac{\sigma^2 p}{n_1+n_2-p}   \right| \\
-	  \le &  \left[\left( 1+\sqrt{\frac{p}{n_1}}\right)^4-1\right] \cdot \frac{2d^2n_1^2 (n_1+n_2)}{(n_1 + n_2 - p)^3} \\
-	&+\OO\left( p^{-c_\varphi} (\sigma^2 + d^2)+ \frac{d^4 + \sigma^2 d^2}{\kappa^2}+p^{-1/2+2c}\kappa^2 +  p^{-1/4+c} (\sigma^2 +d^2) \right).
+	 \left|L(\hat{\beta}_2^{\MTL})  -  \frac{2d^2 n_1^2 (n_1+n_2)}{(n_1 + n_2 - p)^3} - \frac{\sigma^2 p}{n_1+n_2-p}   \right|&
+	  \le   \left[\left( 1+\sqrt{\frac{p}{n_1}}\right)^4-1\right] \cdot \frac{2d^2n_1^2 (n_1+n_2)}{(n_1 + n_2 - p)^3} \\
+	&\hspace{-2cm}+\OO\left( p^{-c_\varphi} (\sigma^2 + d^2)+ \frac{d^4 + \sigma^2 d^2}{\kappa^2}+p^{-1/2+2c}\kappa^2 +  p^{-1/4+c} (\sigma^2 +d^2) \right).
 \end{align*}
 Since $\sigma^2 \lesssim  \kappa^2$ and $d^2 \le p^{-\e}{\kappa^2}$ by our assumption, we obtain the desired result.
 The proof is complete.
