@@ -1,87 +1,27 @@
-%We shall refer to random matrices of the form $X^\top X$ as sample covariance matrices following the standard notations in high-dimensional statistics. The second lemma extends Lemma \ref{lem_minv} for a single sample covariance matrix to the sum of two independent sample covariance matrices. It is the main random matrix theoretical input of this paper.
-%%which deals with the inverse of the sum of two random matrices, which
-%%any is can be viewed as a special case of Theorem \ref{thm_model_shift}.
-%
-%\begin{lemma}[Variance bound: Lemma \ref{lem_cov_shift_informal} restated]\label{lem_cov_shift}
-%	%Let $X_i\in\real^{n_i\times p}$ be a random matrix that contains i.i.d. row vectors with mean $0$ and variance $\Sigma_i\in\real^{p\times p}$, for $i = 1, 2$.
-%	Suppose $X_1=Z_1\Sigma_1^{1/2}\in \R^{n_1\times p}$ and $X_2=Z_2\Sigma_2^{1/2}\in \R^{n_2\times p}$ satisfy Assumption \ref{assm_secA1} with $\rho_1:=n_1/p>1$ and $\rho_2:=n_2/p>1$ being fixed constants.
-%	Denote by $M = \Sigma_1^{1/2}\Sigma_2^{-1/2}$ and let $\lambda_1, \lambda_2, \dots, \lambda_p$ be the singular values of $M$ in descending order. Let $A$ be any $p\times p$ matrix that is independent of $X_1$ and $X_2$. We have that for any constant $\e>0$,
-%	%When $n_1 = c_1 p$ and $n_2 = c_2 p$, we have that with high probability over the randomness of $X_1$ and $X_2$, the following equation holds
-%	\begin{align}\label{lem_cov_shift_eq}
-%		\bigtr{(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}A} = \frac{1}{\rho_1+\rho_2}\frac1p\bigtr{ (a_1 \Sigma_1 + a_2\Sigma_2)^{-1} A} +\bigo{\|A\| p^{-1/2+\epsilon}}
-%	\end{align}
-%with high probability, where $(a_1, a_2)$ is the solution to the following deterministic equations:
-%	\begin{align}
-%		a_1 + a_2 = 1- \frac{1}{\rho_1 + \rho_2},\quad a_1 + \frac1{\rho_1 + \rho_2}\cdot \frac{1}{p}\sum_{i=1}^p \frac{\lambda_i^2 a_1}{\lambda_i^2 a_1 + a_2} = \frac{\rho_1}{\rho_1 + \rho_2}. \label{eq_a12extra}
-%	\end{align}
-%\end{lemma}
-%
-%Finally, the last lemma describes the asymptotic limit of $(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2(X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}$, which will be needed when we estimate the first term on the right-hand side of \eqref{eq_te_mtl_2task}.
-
-
-%We will give the proof of this lemma in Section \ref{sec_maintools}.
 
 
 
 
 
 
-%\subsection{Proof for Two Tasks with General Covariates}\label{app_proof_main}
-
-%To illustrate the idea, we observe that by using Lemma \ref{lem_minv}, we have that
-%\[ \te(\hat{\beta}_t^{\STL}) = \frac{\sigma^2}{n_2 - p}\bigtr{\Sigma_2^{-1}}. \]
-%We shall also derive the limit of $\te(\hat{\beta}_t^{\MTL})$.
-%\todo{write a brief technical overview}
-
-%We shall consider the case where the entries of $\e_1$ and $\e_2$ have the same variance $\sigma_1^2=\sigma_2^2=\sigma^2$.
-%Moreover, we shall denote $\beta_1$ and $\beta_2$ by $\beta_1$ and $\beta_2$, standing for ``source task" and ``target task", respectively.
-%First, we introduce several quantities that will be used in our statement, and they are also related to the quantities in Lemma \ref{lem_cov_shift} and Lemma \ref{lem_cov_derivative}. Given the optimal ratio $\hat v$,
-%%let $\hat{M} = \hat{v} \Sigma_1^{1/2}\Sigma_2^{-1/2}$ denote the weighted covariate shift matrix, and ${\hat\lambda}_1\ge {\hat\lambda}_2 \ge \dots \ge {\hat\lambda}_p$ be the eigenvalues of $\hat{M}^{\top}\hat{M}$. Define
-%let $(\hat a_1, \hat a_2)$ be the solution to the following system of deterministic equations,
-%	\be
-%		 \hat a_1 +  \hat a_2 = 1- \frac{1}{\rho_1 + \rho_2},\quad  \hat a_1 + \frac1{\rho_1 + \rho_2}\cdot \frac1p\sum_{i=1}^p \frac{ \hat v^2 \lambda_i^2 \hat a_1}{ \hat v^2 \lambda_i^2\hat a_1 +  \hat a_2} = \frac{\rho_1}{\rho_1 + \rho_2}.\label{eq_a2} \\
-%		 \ee
-%		 After obtaining $(\hat a_1,\hat a_2)$, we can solve the following linear equations to get $(\hat a_3,\hat a_4)$:
-%\begin{gather}
-%		\left(\rho_2 \hat a_2^{-2}- \hat b_0\right)\cdot \hat  a_3 - \hat b_1 \cdot \hat a_4
-%		=\hat b_0, \quad \left(\rho_1\hat a_1^{-2} - \hat b_2  \right)\cdot \hat a_4 - \hat b_1 \cdot \hat a_3 =\hat b_1 .\label{eq_a3}
-%%		\left(\frac{n_1}{\hat a_1^2} -  \sum_{i=1}^p \frac{\hat \lambda_i^4   }{  (\hat a_2 + \hat \lambda_i^2\hat a_1)^2  }\right)\hat a_4 -\left(\sum_{i=1}^p \frac{\hat \lambda_i^2  }{  (\hat a_2 + \hat \lambda_i^2\hat a_1)^2  }\right)\hat a_3
-%%		= \sum_{i=1}^p \frac{\hat \lambda_i^2 }{  (\hat a_2 + \hat \lambda_i^2\hat a_1)^2  }. \label{eq_a4}
-%	\end{gather}
-%where we denoted
-%$$\hat b_k:= \frac1{p}\sum_{i=1}^p \frac{\hat v^{2k} \lambda_i^{2k}}{ (\hat a_2 +\hat v^2 \lambda_i^2\hat a_1)^2  },\quad k=0,1,2.$$
 
 
-%For our purpose, a validation set that is much larger than the number of output layer parameters $r\cdot t$ suffices (e.g. $\rho_i \cdot p^{0.5}$).
-%The size of the training set is then $\rho_i (p - p^{0.99})$.
-%The advantage of tuning the output layers on the validation set is to reduce the effect of noise from $\hat{B}$.
-%For more details, we refer the reader to Appendix \ref{app_proof_sec3}.
-
-%The single-task estimator $\hat{\beta}_t^{\STL}$ is given by $(X_t^{\top}X_t)^{-1}X_t^{\top}Y_t$.
-%For an estimator $\hat{\beta}\in\real^p$, we define the out-of-sample prediction loss as
-
-%which can be further decomposed as the bias plus the variance of $\hat{\beta}$.
-%In order to relate the btradeoff to properties of the data, we need tight concentration bounds for the bias and variance.
-%We consider the high-dimensional regime where $n_i$ is a fixed constant $\rho_i > 1$  multiple of $p$ for every $1\le i\le t$, and $p$ is sufficiently large.
-%We focus on a setting where $\rho_t$ is small compared to $\set{\rho_i}_{i=1}^{t-1}$.
-%This setting captures the need to add more labeled data to reduce the prediction loss of the target task.
-
-%However, this result only applies to a single task.
-%Therefore, our goal is to extend this result to multiple tasks.
-
-%\textbf{Notations.}
-%When there is no ambiguity, we drop the subscript $t$ from $\te_t(\hat{\beta}_t^{\MTL})$ and write $\te(\hat{\beta}_t^{\MTL})$ for simplicity.
-%We refer to the first task as the source task when there are only two tasks.
-%We call $M = \Sigma_1^{1/2}\Sigma_2^{-1/2}$ the covariate shift matrix.
 
 
-%\subsection{Analyzing the Tradeoff via Random Matrix Theory}
+
+
+
+
+
+
+
+
 
 
 \iffalse
 First, we give the basic assumption for our main objects---the random matrices $X_i$, $i=1,2$.
 
-\begin{assumption}[Moment assumptions]%\label{assm_secA1}
+\begin{assumption}[Moment assumptions]%
 We will consider $n\times p$ random matrices of the form $X=Z\Sigma^{1/2}$, where $\Sigma$  is a $p\times p$ deterministic positive definite symmetric matrix, and $Z=(z_{ij})$ is an $n\times p$ random matrix with real i.i.d. entries with mean zero and variance one. Note that the rows of $X$ are i.i.d. centered random vectors with covariance matrix $\Sigma$. For simplicity, we assume that all the moments of $z_{ij}$ exists, that is, for any fixed $k\in \N$, there exists a constant $C_k>0$ such that
 \begin{equation}\label{assmAhigh}
 \mathbb{E} |z_{ij}|^k \le C_k ,\quad 1\le i \le n, \ \ 1\le j \le p.
@@ -92,32 +32,10 @@ Here we have assumed \eqref{assmAhigh} solely for simplicity of representation. 
 We will not get deeper into this issue in this section, but refer the reader to Corollary \ref{main_cor} in Section \ref{sec locallaw1}.
 \fi
 
-%As an example, for the setting of two tasks, we can decompose $L(\hat{\beta}_t^{\MTL}) - L(\hat{\beta}_t^{\STL})$ into a bias term and a variance term as follows .
-%Recall that $\hat{\beta}_t^{\MTL}$ is defined as $BW_t$ after solving equation \eqref{eq_mtl}.
-%We can  the test error of $\hat{\beta}_{t}^{\MTL}$ on the target task into two parts as follows.
-%{\small\begin{align}
-%	\te(\hat{\beta}_t^{\MTL}) - L(\hat{\beta}_t^{\STL}) =& ~ \hat{v}^2 \bignorm{\Sigma_2^{1/2} (\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}X_1^{\top}X_1 (\beta_1 - \hat{v}\beta_2)}^2 \label{eq_te_model_shift} \\
-%	+&~ \sigma^2 \bigbrace{\bigtr{(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1}\Sigma_2} - \bigtr{(X_2^{\top}X_2)^{-1}\Sigma_2}}. \label{eq_te_var}
-%\end{align}}%
-%In the above, $\hat{v} = W_1 / W_2$ where $W_1, W_2$ are obtained from solving equation \eqref{eq_mtl_eval} (recalling that $W_1, W_2$ are scalars for two tasks).
-%The role of $\hat{v}$ is to scale the shared subspace $B$ to fit each task.
-
-%Hence, the bias term introduces a negative effect that depends on the \textit{similarity} between $\beta_1$ and $\beta_2$.
-%Intuitively, the more \textit{samples} we have, the smaller the variance is.
-%Meanwhile, \textit{covariate shift} also affects how small the variance can be.
-
-%Then we make the following assumptions on the data models.
-%\begin{assumption}[Linear regression model]\label{assm_secA2}
-%For some fixed $t\in \N$, let $Y_i = X_i\beta_i + \varepsilon_i$, $1\le i \le t$, be independent data models, where $X_i$, $\beta_i$ and $\varepsilon_i$ are also independent of each other. Suppose that $X_i=Z_i\Sigma_i^{1/2}\in \R^{n_i\times p}$ satisfy Assumption \ref{assm_secA1} with $\rho_i:=n_i/p>1$ being fixed constants.
-%$\e_i\in \R^{n_i}$ are random vectors with i.i.d. entries with mean zero, variance $\sigma_i^2$ and all moments as in \eqref{assmAhigh}.
-%\end{assumption}
 
 
-%As a remark, since the spectral norm of $U_r$ is less than $1$, we have that $\norm{U_r(i)} < 1$ for all $1 \le i \le t$. Compared to Theorem \ref{thm_main_informal}, we can get a simple expression for the two functions $\Delta_{vari}$ and $\Delta_{\bias}$. The proof of Theorem \ref{thm_many_tasks} can be found in Appendix \ref{app_proof_many_tasks}.
-%In this section we consider the setting with $k$ many that have the same covariates.
-%Since every task has the same number of data points as well as the same covariance, the only differences between different tasks are their models $\set{\beta_i}_{i=1}^k$.
-%For this setting, we derive solutions for the multi-task training and the transfer learning setting that match our insights qualitatively from Section \ref{sec_denoise}.
-%Using Lemma \ref{lem_minv} and some concentration bounds, we can complete the proof of Theorem \ref{thm_many_tasks}.
+
+
 
 \iffalse
 Next, we derive a closed-form solution of the multi-task learning estimator for the case of two tasks.
@@ -136,7 +54,6 @@ where $B\in\real^p$ and $w_1, w_2$ are both real numbers. To solve the above pro
 As a remark, when $w_1 = w_2 = 1$, we obtain linear regression.
 If $\beta_1$ is a scaling of $\beta_2$, then  $w_1, w_2$ can be scaled accordingly to fix both tasks more accurately than linear regression.
 
-%For the discussions below, we assume that the entries of $\e_1$ and $\e_2$ all have the same variance $\sigma^2$. This holds for most parts of our discussion, except in Proposition \ref{prop_var_transition}. We will derive different expressions for the validation loss and the test error
 
 Next we consider $N_i$ independent samples of the training set $\{(\wt x_k^{(i)},\wt y_k^{(i)}): 1\le k \le N_i\}$ from task-$i$, $i=1,2$. With these sample, we form the random matrices $\wt X_i \in \R^{N_i\times p}$ and $\wt Y_i\in \R^{N_i}$, $i=1,2,$ whose row vectors are given by $\wt x_k^{(i)}$ and $\wt y_k^{(i)}$. We assume that $N_1$ and $N_2$ satisfy $N_1/N_2=n_1/n_2$ and $N_i \ge n_i^{1-\e_0}$ for some constant $\e_0>0$. Then we write the validation loss in \eqref{eq_mtl_eval} as
 \begin{align}\label{eq_mtl_2tasktilde}
@@ -182,9 +99,6 @@ Hence to minimize $g(v)$, it suffices to minimize $\val(v)$ over $v$.
 Let $\hat v=\hat{w_1}/\hat{w_2}$ be the global minimizer of $g(v)$.
 Now we can define the multi-task learning estimator for the target task as
 	\[ \hat{\beta}_2^{\MTL} = \hat{w}_{2}\hat{B}(\hat{w}_1, \hat{w}_2) .\]
-%	where $t=2$ since we are considering the two task case, and it also stands for the ``target task".
-%The intuition for deriving $\hat{\beta}_2^{\MTL}$ is akin to performing multi-task training in practice.
-%Let $\hat{v} = \hat{w_1} / \hat{w_2}$ for the simplicity of notation.
 The prediction loss of using $\hat{\beta}_2^{\MTL}$ for the target task is
 \begin{align}
 	\te(\hat{\beta}_2^{\MTL}) =&~ \hat{v}^2 \bignorm{\Sigma_2^{1/2}(\hat{v}^2 X_1^{\top}X_1 + X_2^{\top}X_2)^{-1} X_1^{\top}X_1 (\beta_1 - \hat{v} \beta_2)}^2 \nonumber \\
@@ -194,26 +108,10 @@ which only depends on $\hat v$, the sample covariance matrices, and $\beta_1,\be
 \fi
 
 
-%\section{Main Results}\label{sec_general}
 
-%\begin{proposition}[Bias-variance tradeoff]
-%	Variance always reduces and bias always increases.
-%\end{proposition}
 
-%In this section, we compare the prediction loss of the multi-task learning estimator to that of the single-task learning estimator.
-%First, we consider the two-task case.
-%We provide precise asymptotics of the bias and variance of the multi-task learning estimator.
-%We apply recent developments from the random matrix theory literature to characterize the bias and variance.
-%The results scale with key properties of task data such as sample size and covariance shift, and allow us to study the performance of multi-task learning by varying these properties (Section \ref{sec_special}).
-%Second, we consider the multiple-task case where all tasks have the same features but different labels.
-%We extend the bias-variance decomposition of the two-task case to this setting and show qualitatively similar results.
-%For the single-task learning estimator, there are well-known results that relate its prediction loss to sample size and noise variance.
 
-%We focus on the high-dimensional linear regression setting \cite{}
 
-%A well-known result in the high-dimensional linear regression setting states that $\tr[(X_2^{\top}X_2)^{-1}\Sigma_2]$ is concentrated around $1 / (\rho_2 - 1)$ (e.g. Chapter 6 of \cite{S07}), which scales with the sample size of the target task.
-%Our main technical contribution is to extend this result to two tasks.
-%We show how the variance of the multi-task estimator scales with sample size and covariate shift in the following result.
 
 	We observe that $\ex{g(\cW)}$ admits a bias-variance decomposition as follows.
 	First, we take expectation over $\varepsilon_1, \dots, \varepsilon_t$ conditional on $X$ and obtain the following:
@@ -222,87 +120,19 @@ which only depends on $\hat v$, the sample covariance matrices, and $\beta_1,\be
 		= \exarg{\varepsilon_1, \dots, \varepsilon_t}{g_2(\cW) \mid X}
 		= \sigma^2(n\cdot t - p\cdot r) \nonumber
 	\end{align}
-	%	\begin{align}
-	%		\exarg{\varepsilon_1, \dots, \varepsilon_t}{g(\cW) \mid X}
-	%		=& \bignorm{X B^{\star} \cW^{\top} (\cW\cW^{\top})^{-1} \cW - X B^{\star}}^2 \nonumber \\
-	%		&+ \sum_{j=1}^t\bigbrace{\exarg{\varepsilon_1, \dots, \varepsilon_t}{\norm{\varepsilon_j}^2 - 2\inner{U_X U_X^{\top} \sum_{i=1}^t\bigbrace{\varepsilon_i W_i^{\top}} (\cW\cW^{\top})^{-1} W_j}{\varepsilon_j}} } \nonumber \\
-	%		&+ \sum_{j=1}^t \exarg{\varepsilon_1, \dots, \varepsilon_t}{\bignorm{U_X U_X^{\top}
-	%\bigbrace{\sum_{i=1}^t  \varepsilon_i W_i^{\top}} (\cW\cW^{\top})^{-1} W_j}^2} \nonumber \\
-	%		=& \norm{XB^{\star} (\cW^{\top}(\cW\cW^{\top})^{-1}\cW - \id)}^2	\label{eq_empirical_1}\\
-	%			&+ \sum_{j=1}^t \bigbrace{{\ex{\norm{\varepsilon_j}^2}} - \exarg{\varepsilon_1, \dots, \varepsilon_t}{\bignorm{U_X U_X^{\top} \bigbrace{\sum_{i=1}^t \varepsilon_i W_t^{\top}} (\cW\cW^{\top})^{-1} W_j}^2 } }  \label{eq_empirical_2}\\
-	%		=& \bignorm{X B^{\star} \cW^{\top} (\cW\cW^{\top})^{-1} \cW - XB^{\star}}^2 + \sigma^2(n\cdot t - p\cdot r) \nonumber
-	%	\end{align}
 	The first equation uses the same fact the expectation of $g_1(\cW)$ over the random noise is zero.
 	The second equation uses the fact that $\varepsilon_i$ and $\varepsilon_j$ are pairwise independent for any $i \neq j$, and the variance of every entry of $\varepsilon_i$ is $\sigma^2$ for every $i = 1,\dots, t$, $\tr(U_X U_X^\top)=p$, and
 		\[ \sum_{1\le i\le t} \bigbrace{W_i^{\top} (\cW \cW^{\top})^{-1} W_i}
 			= \id_{r\times r} = r. \]
-	%\be\nonumber
-	%g(\cal W)= g_0 + 2g_1 + g_2,
-	%\ee
-	%where
 
-	%Now we switch $\hat{B}$ back into equation \eqref{eq_mtl_same_cov} to
-	%Then as in \eqref{approxvalid}, we pick $N$ independent samples of the training set for each task with $N\ge n^{1-\e_0}$, and use the concentration result, Lemma \ref{largedeviation}, to get the validation loss as
-	%\medskip
-	%\noindent\textbf{The optimal solution of $\ex{g(\cW)}$.}
-	%We observe that $\ex{g(\cW)}$ admits a bias-variance decomposition as follows.
-	%First, we take expectation over $\varepsilon_1, \dots, \varepsilon_t$ conditional on $X$ and obtain that
-	%\begin{align*}
-	%	\exarg{\varepsilon_1, \dots, \varepsilon_t}{g(\cW) \mid X} &= g_0(\cal W)
-	%	+ \exarg{\varepsilon_1, \dots, \varepsilon_t}{g_2(\cal W)  \mid X} \\
-	%	&=g_0(\cal W) + \exarg{\varepsilon_1, \dots, \varepsilon_t} {\bigbrace{\sum_{j=1}^t \norm{\varepsilon_j}^2} - \sum_{1\le i\le t} \bigbrace{W_i^{\top} (\cW \cW^{\top})^{-1} W_i} \cdot \bigbrace{\varepsilon_i^{\top} U_X U_X^{\top} \varepsilon_i}}\\
-%		=& \sum_{j=1}^t \bigbrace{{\ex{\norm{\varepsilon_j}^2}} - \exarg{\varepsilon_1, \dots, \varepsilon_t}{\bignorm{U_X U_X^{\top} \bigbrace{\sum_{i=1}^t \varepsilon_i W_t^{\top}} (\cW\cW^{\top})^{-1} W_j}^2 } }  \label{eq_empirical_2}\\
-	%	&=g_0(\cal W) + \sigma^2(n\cdot t - p\cdot r), \nonumber
-	%\end{align*}
-%	\begin{align}
-%		\exarg{\varepsilon_1, \dots, \varepsilon_t}{g(\cW) \mid X}
-%		=& \bignorm{X B^{\star} \cW^{\top} (\cW\cW^{\top})^{-1} \cW - X B^{\star}}^2 \nonumber \\
-%		&+ \sum_{j=1}^t\bigbrace{\exarg{\varepsilon_1, \dots, \varepsilon_t}{\norm{\varepsilon_j}^2 - 2\inner{U_X U_X^{\top} \sum_{i=1}^t\bigbrace{\varepsilon_i W_i^{\top}} (\cW\cW^{\top})^{-1} W_j}{\varepsilon_j}} } \nonumber \\
-%		&+ \sum_{j=1}^t \exarg{\varepsilon_1, \dots, \varepsilon_t}{\bignorm{U_X U_X^{\top}
-%\bigbrace{\sum_{i=1}^t  \varepsilon_i W_i^{\top}} (\cW\cW^{\top})^{-1} W_j}^2} \nonumber \\
-%		=& \norm{XB^{\star} (\cW^{\top}(\cW\cW^{\top})^{-1}\cW - \id)}^2	\label{eq_empirical_1}\\
-%			&+ \sum_{j=1}^t \bigbrace{{\ex{\norm{\varepsilon_j}^2}} - \exarg{\varepsilon_1, \dots, \varepsilon_t}{\bignorm{U_X U_X^{\top} \bigbrace{\sum_{i=1}^t \varepsilon_i W_t^{\top}} (\cW\cW^{\top})^{-1} W_j}^2 } }  \label{eq_empirical_2}\\
-%		=& \bignorm{X B^{\star} \cW^{\top} (\cW\cW^{\top})^{-1} \cW - XB^{\star}}^2 + \sigma^2(n\cdot t - p\cdot r) \nonumber
-%	\end{align}
-	%where the first equation uses the fact the expectation of $Z_1$ over the random noise is zero;
-	%the second equation uses the fact that $\varepsilon_i$ and $\varepsilon_j$ are pairwise independent for any $i \neq j$, and $\sum_{j=1}^t (\cW\cW^{\top})^{-1} W_j W_j^{\top} = \id$; the third equations uses that the variance of every entry of $\varepsilon_i$ is $\sigma^2$ for every $i = 1,\dots, t$, $\tr(U_X U_X^\top)=p$ and $\sum_{1\le i\le t} \bigbrace{W_i^{\top} (\cW \cW^{\top})^{-1} W_i}=\tr(\sum_i W_i W_i^{\top}(\cW \cW^{\top})^{-1})=r$.
 	We further take expectation over $X$ for $g_0(\cW)$ and obtain the following:
 
-	%\be\label{eq_multival}g(\cal W)=  N\left[\val(\cal W) + t  \sigma^2 \right]\cdot \left( 1+\OO(p^{-(1-\e_0)/2+\e})\right).\ee
-%\iffalse
-%{\color{red}
-%\begin{align*}
-%	f(W_1, \dots, W_t) = \sum_{i=1}^t \bignorm{X \hat B W_i - Y_i}^2 = \val(\cal W) \cdot \left( 1+\OO(p^{-1/2+\e})\right),
-%\end{align*}
-%where
-%\begin{align*}
-%	 \val(\cal W) &= \sum_{i=1}^t  \bignorm{X\bigbrace{(B^\star \cal W^\top) (\cal W\cal W^{\top})^{-1} W_i - \beta_i}}^2 + \E_{\e_i:1\le i \le t}\sum_{i=1}^t\left\| X(X^{\top}X)^{-1}X^{\top} \bigbrace{\sum_{i=1}^t \varepsilon_i W_i^{\top}} (\cal W \cal W^{\top})^{-1}W_i -\e_i\right\| \\
-%	 &= \sum_{i=1}^t  \bignorm{X\bigbrace{(B^\star \cal W^\top) (\cal W\cal W^{\top})^{-1} W_i - \beta_i}}^2 + \sigma^2 (nt-pr).
-%\end{align*}
-%
-%}
-%\fi
-%Here $\val(\cal W)$ is defined as
-%it remains to consider minimizing the validation loss
-%	$$\val( \cal W):=\exarg{\varepsilon_j, \forall 1\le j\le t}{ \sum_{i=1}^t \bignorm{\Sigma^{1/2}( \hat B W_i - \beta_i)}^2} =  \delta_{\bias}(\cal W) + \delta_{\vari} ,$$
-%where the model shift bias term $\delta_{\bias}(\cal W) $ is given by
-%	\begin{align*}
-%		\delta_{\bias}(\cal W) :=\sum_{i=1}^t  \bignorm{\Sigma^{1/2}\bigbrace{(B^\star \cal W^\top) (\cal W\cal W^{\top})^{-1} W_i - \beta_i}}^2,
-%	\end{align*}
-%	and the variance term $\delta_{\vari} $ can be calculated as
-%	\begin{align*}
-%		\delta_{\vari} := \sigma^2 \cdot \bigtr{\Sigma (X^{\top}X)^{-1}}.
-%	\end{align*}
-	%Recall that $\hat{\beta}_i^{\MTL} = \hat{B} A_i$.
 	By definition, $\hat{\beta}_i^{\MTL} = \hat{B} A_i$ because of local optimality, hence the expected prediction loss conditional on $X$ is equal to
 	\begin{align}
 		 & \exarg{\set{\varepsilon^{(j)}}_{j=1}^t}{L(\hat{\beta}_i^{\MTL}) \mid X}
 		= \exarg{\set{\varepsilon^{(j)}}_{j=1}^t}{\bignorm{\Sigma^{1/2} \bigbrace{\hat{B} A_i - \beta^{(i)}}}^2 \mid X} \nonumber \\
 		 =& \bignorm{\Sigma^{1/2}\bigbrace{\bigbrace{\sum_{j=1}^t \beta^{(j)} A_j^{\top}} (AA^{\top})^{-1} A_i - \beta^{(i)}}}^2 \nonumber
 		   + \exarg{\set{\varepsilon^{(j)}}_{j=1}^t}{\bignorm{\Sigma^{1/2} (X^{\top}X)^{-1} X^{\top} \bigbrace{\sum_{j=1}^t \varepsilon^{(j)} A_j^{\top}} (AA^{\top})^{-1} A_i}^2} \nonumber \\
-%		=& \exarg{\varepsilon_1, \dots, \varepsilon_t}{\bignorm{\Sigma^{1/2} \bigbrace{B^{\star} \cW^{\top} (\cW \cW^{\top})^{-1}W_i - \beta_i} + (X^{\top}X)^{-1} X^{\top} \bigbrace{\sum_{j=1}^t \varepsilon_j A_j^{\top}} (\cW \cW^{\top})^{-1} W_t}^2 \mid X} \nonumber \\
-%		=& \bignorm{\Sigma^{1/2} (B^{\star} \cW^{\top} (\cW \cW^{\top})^{-1} W_t - \beta_t)}^2
-%		+ \sum_{j=1}^t \bigtr{X (X^{\top}X)^{-1}\Sigma (X^{\top}X)^{-1}X^{\top} \exarg{\varepsilon_i}{\varepsilon_i \varepsilon_i^{\top}} (W_i^{\top} (\cW \cW^{\top})^{-1} W_t)^2} \nonumber \\
 		=& \bignorm{\Sigma^{1/2}(B^{\star} A^{\top} (A A^{\top})^{-1} A_i - \beta^{(i)})}^2
 		+ \sigma^2 \cdot (A_i^{\top} (A A^{\top})^{-1} A_i) \cdot \bigtr{\Sigma (X^{\top}X)^{-1}}. \label{eq_ex_pred}
 	\end{align}
@@ -310,95 +140,23 @@ which only depends on $\hat v$, the sample covariance matrices, and $\beta_1,\be
 	The last step uses the fact that for any $j\neq j'$, $\varepsilon^{(j)}$ and $\varepsilon^{(j')}$ are pairwise independent, and $\exarg{\varepsilon^{(j)}}{\varepsilon^{j}{\varepsilon^{j}}^{\top}} = \sigma^2 \id_{n\times n}$.
 	One can see that the first part of the last equation is the bias and the second part is the variance.
 
-	%A proof of equation \eqref{eq_gA}, which is based on elementary calculations, can be found in Appendix \ref{app_proof_error_same_cov}.
-	%Provided with the bias-variance decomposition of the expected prediction loss, we are ready to show the generalization error of the hard parameter sharing estimator.
-
-	%We state a concentration error bound between $g(\cal W)$ and its expectation.
-
-	%\begin{lemma}\label{lem_error_same_cov}
-	%	In the setting of Theorem \ref{thm_many_tasks}, we have that
-	%	\[ g(\cW) = \ex{g(\cW)} \cdot (1 + o(1)) + \OO(\sigma^2 p^{1/2 + c}). \]
-	%\end{lemma}
-	%The proof of Lemma \ref{lem_error_same_cov} is via standard concentration bounds.
-	%The details can be found in Appendix \ref{app_proof_error_same_cov}.
-	%Based on the above result, we are ready to prove Theorem \ref{thm_many_tasks}.
-	%We use the notation $U_X U_X^{\top} = X (X^{\top} X)^{-1} X^{\top} \in\real^{n \times n}$ to denote the projection matrix to $X$, where $U_X\in\real^{n \times p}$.
 
 
 
 
-	%In order to derive the minimizer, our proof involves two steps.
-	%First, we consider the expectation of $g(\cW)$ over $\varepsilon_1, \varepsilon_2, \dots, \varepsilon_t$, and $X$.
-	%We show that the minimizer of $\ex{g(\cW)}$ has a simple closed form solution similar to principal component analysis.
-	%Second, we show that the concentration error between $g(\cW)$ and $\ex{g(\cW)}$ is small provided with $n$ samples.
-	%Intuitively, this is because $\cW$ only has $r \times t$ parameters, which is much smaller than $n$ by our assumption.
-	%Hence we use standard concentration bounds and $\epsilon$-net arguments to show that the concentration error is small for $g(\cW)$.
-
-	%Now we switch $\hat{B}$ back into equation \eqref{eq_mtl_same_cov} to
-	%Then as in \eqref{approxvalid}, we pick $N$ independent samples of the training set for each task with $N\ge n^{1-\e_0}$, and use the concentration result, Lemma \ref{largedeviation}, to get the validation loss as
-
-
-
-%	\[ \abs{Z_1} \le \sum_{j=1}^t \sigma \cdot \norm{X B^{\star} \cW^{\top} (\cW\cW^{\top})^{-1} W_j - X \beta_j} \le \sigma \cdot \sqrt{t \cdot Z_0}, \]
-%	where the second part follows by using Cauchy-Shwartz inequality.
-
-	%We provide tights bounds on the concentration error from the randomness of $\varepsilon_1, \dots, \varepsilon_t$, and $X$, respectively.
-	%\begin{align}
-	%	g(\cW) &= \exarg{\varepsilon_1, \dots, \varepsilon_t}{g(\cW) \mid X} \cdot (1 \pm \OO(p^{-1/2 + c})), \text{ and} \label{approxvalid_1} \\
-	%	\exarg{\varepsilon_1, \dots, \varepsilon_t}{g(\cW) \mid X} &= \ex{g(\cW)} \cdot(1 + o(1)) \label{approxvalid_2}
-	%\end{align}
-	%Together, they imply that $g(\cW) = \ex{g(\cW)} \cdot (1 + o(1))$. Therefore, next we focus on proving equation \eqref{approxvalid_1} and \eqref{approxvalid_2}.
-
-	%For equation \eqref{approxvalid_1}, we observe that the summands of $g(\cW)$ w.r.t. $\varepsilon_1, \dots, \varepsilon_t$ belong to either of the following three types:
-	%\begin{enumerate}
-	%	\item[(i)] $\varepsilon_i^{\top} A \varepsilon_i$, for any $i = 1,\dots, t$ and a fixed $A\in\real^{n\times n}$ that is independent of $\varepsilon_i$;
-	%	\item[(ii)] $\varepsilon_i^{\top} A \varepsilon_j$, for any $i \neq j$ and a fixed $A$ that is independent of both $\varepsilon_i$ and $\varepsilon_j$;
-	%	\item[(iii)] $\varepsilon_i^{\top} A$, for any $i = 1,\dots, t$ and a fixed $A\in\real^n$ that is independent of $\varepsilon_i$.
-	%\end{enumerate}
-	%For all three types, using Lemma \ref{largedeviation} in Appendix \ref{sec_maintools} and the fact that all moments of $\varepsilon_i$ exist, we conclude that
-	%\begin{enumerate}
-	%	\item[(i)] $\varepsilon_i^{\top} A \varepsilon_i = \sigma^2 (1 + \OO(p^{-1/2 + c})) \normFro{A}^2$;
-	%	\item[(ii)] $\abs{}$
-	%	\item[(iii)]
-	%\end{enumerate}
-
-	%We use the fact that our random vectors have i.i.d. entries.
-%Before doing that, we first need to fix the setting for the following discussions, because we want to keep track of the error rate carefully instead of obtaining an asymptotic result only.
-	%Recall that $Y_i = X_i\beta_i + \varepsilon_i$ and $\wt Y_i = \wt X_i\beta_i + %\wt\varepsilon_i$, $i=1,2$, all satisfy Assumption \ref{assm_secA2}. Then we rewrite %\eqref{eq_mtl_2tasktilde} as
-%$$	g( v) = \sum_{i=1}^2\left\| \wt X_i\wt\beta_i  - \wt \e_i\right\|^2 , \quad \wt\beta:=\hat %B w_i-\beta_i.$$
-	%Since $ \wt X_i\wt\beta$ and $ \wt \e_i$ are independent random vectors with i.i.d. centered entries, we can use the concentration result,  to get that for any constant $\e>0$,
-	%\begin{align*}
-		%\left|\left\| \wt X_i\wt\beta_i  - \wt \e_i\right\|^2 -  \exarg{\wt X_i,\wt{\e}_i} {\left\| \wt X_i\wt\beta_i  - \wt \e_i\right\|^2} \right| & =\left|\left\| \wt X_i\wt\beta_i  %- \wt \e_i\right\|^2 - N_i (\wt\beta_i^\top \Sigma_i \wt\beta_i + \sigma_i^2) \right| \\
-%&\le N_i^{1/2+\e} (\wt\beta_i^\top \Sigma_i \wt\beta_i + \sigma_i^2),
-	%$\end{align*}
-	%with high probability. Thus we obtain that
-	%$$g(v)= \left[\sum_{i=1}^2 N_i\left\|\Sigma_i^{1/2}( \hat B w_i - \beta_i) \right\|^2 + (N_1\sigma^2_1+N_2\sigma^2_2)\right]\cdot \left( 1+\OO(p^{-(1-\e_0)/2+\e})\right),$$
-%where we also used $N_i\ge p^{-1+\e_0}$. Inserting \eqref{hatB} into the above expression and using
-	% again the concentration result, Lemma \ref{largedeviation}, we get that
-	%$$ \sum_{i=1}^2 N_i\left\|\Sigma_i^{1/2}( \hat B w_1 - \beta_i) \right\|^2 = \val(v)\cdot \left( 1+\OO(p^{-1/2+\e})\right)$$
-%with high probability.
-%-----old-------
-%Suppose that the entries of $\e_1$ and $\e_2$ have variance $\sigma^2$.  Using a validation set that is sub-sampled from the original training dataset, we get a validation loss as follows
-%\begin{align}
-%		&\val(\hat{B}; w_1, w_2):= \exarg{\varepsilon_1,\e_2} \sum_{i=1}^2 \left\|\Sigma_i^{1/2}( \hat B w_1 - \beta_i) \right\|^2 \\
-%	&=  n_1 \cdot \bignorm{\Sigma_1^{1/2}\left(\frac{w_1^2}{w_2^2} X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1}X_2^{\top}X_2\left (\beta_s - \frac{w_1}{w_2}\beta_t\right)}^2 \nonumber \\
-%		&+ n_1 \sigma^2 \cdot \frac{w_1^2}{w_2^2} \bigtr{\left(\frac{w_1^2}{w_2^2}  X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1}\Sigma_1} \nonumber \\
-%		&+ n_2 \cdot \frac{w_1^2}{w_2^2}\bignorm{\Sigma_2^{1/2}\left(\frac{w_1^2}{w_2^2} X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1}X_1^{\top}X_1\left(\beta_s - \frac{w_1}{w_2}\beta_t\right)}^2 \nonumber \\
-%		&+ n_2 \sigma^2 \cdot \bigtr{\left(\frac{w_1^2}{w_2^2} X_1^{\top}X_1 + X_2^{\top}X_2\right)^{-1}\Sigma_2}. \label{eq_val_mtl}
-%\end{align}
-%\nc
-%------------------
-%Thus we conclude the proof.
 
 
 
 
-%From the above we can obtain three conceptual insights that are consistent with Section \ref{sec_denoise} and \ref{sec_insight}.
-%\begin{itemize}
-%	\item The de-noising effect of multi-task learning.
-%	\item Multi-task training vs single-task training can be either positive or negative.
-%	\item Transfer learning is better than the other two. And the improvement over multi-task training increases as the model distances become larger.
-%\end{itemize}
+
+
+
+
+
+
+
+
+
 
 
 
@@ -410,7 +168,6 @@ which only depends on $\hat v$, the sample covariance matrices, and $\beta_1,\be
 		\[ g(M)=(1+\OO(p^{-\e}))\cdot \sigma^2  \bigtr{\Sigma_2(X_1^{\top}X_1  + X_2^{\top}X_2)^{-1} }  \quad \text{w.h.p.} \]
 	\end{claim}
 
-%Finally, in this subsection we prove Proposition \ref{prop_covariate}, which shows that $\te(\hat{\beta}_2^{\MTL})$ is minimized approximately when $M$ is a scalar matrix, provided that there is enough source data.
 
 \begin{proof}[Proof of Proposition \ref{prop_covariate}]
 
@@ -435,13 +192,6 @@ Inserting \eqref{est_a12extra} into \eqref{gvar_extra} and using $ M_0^\top M_0\
 \end{align}
 where
 $$h(M_0):=\frac{\sigma^2}{(\rho_1+\rho_2)a_1(M_0)}\cdot \frac1p\tr\left( \frac{1}{M_0^\top M_0}\right) .$$
-%With these two bounds, we can easily conclude \eqref{approxteM}.
-%
-%We have that the test error satisfies
-%\be\label{approxteM}  te(M)\left(1 -  \frac{n_2}{n_1-p} \frac{1}{\lambda_p^2 + \frac{n_2}{n_1-p}}\right)  \le  \frac{\sigma^2}{n_1+n_2}\tr\left( \frac{1}{a_1M^\top M + a_2}\right) \le te(M),\ee
-%where $\lambda_p$ is the smallest singular value of $p$ and
-%$$te(M):= \frac{\sigma^2}{a_1(n_1+n_2)}\tr\left( \frac{1}{M^\top M}\right) .$$
-%Moreover, for all $M$ satisfying \eqref{GMcons}, the minimum of $te(M)$ is attained when $M= a\id$.
 By AM-GM inequality, we observe that
 $$\tr\left( \frac{1}{M^\top M}\right) = \sum_{i=1}^p\frac{1}{\lambda_i^2}$$
 is minimized when $\lambda_1 = \cdots\lambda_p=\mu$ under the restriction $\prod_{i=1}^p\lambda_i\le \mu^p$. Hence we get that
@@ -454,7 +204,6 @@ g(\mu \id)&= \frac{\sigma^2}{\rho_1+\rho_2}\cdot \frac1p\tr\left( \frac{1}{\mu^2
 \end{split}
 \end{align}
 Combining \eqref{est_a12extra}, \eqref{approximateteM}, \eqref{AMGM} and \eqref{gvar_extra2}, we conclude the proof.
-%, we conclude that the sum $\sum_{i=1}^p\lambda_i^{-1}$ is smallest when $\lambda_1=\cdots=\lambda_p = a$.
 \end{proof}
 \fi
 
@@ -468,24 +217,13 @@ Combining \eqref{est_a12extra}, \eqref{approximateteM}, \eqref{AMGM} and \eqref{
 \section{Introduction}\label{sec introduction}
 
 \iffalse
-%Multi-task learning is an inductive learning mechanism to improve generalization performance using related task data.
-%Many state-of-the-art results in computer vision and natural language processing are obtained using multi-task learning.
 Multi-task learning is a powerful approach to improve performance for many tasks in computer vision, natural language processing, and other areas \cite{C97,ZY17,R17}.
-%In multi-task learning, having related task data is fundamental to its performance.
-%Multi-task learning is particularly powerful when there is limited labeled data for a task to be solved, meanwhile more labeled data from different but related tasks is available.
-%By combining multiple information sources, it is possible to share all the information in the same model.
 In many settings, multiple source tasks are available to help with predicting a particular target task.
 \todo{clarify setting is different from traditional MTL}
-%For example, many applications in , and many other areas have been achieved by learning from multiple tasks together.
 The performance of multi-task learning depends on the relationship between the source and target tasks \cite{C97}.
-%	We define that multi-task learning provides \textit{positive transfer} if it outperforms single-task learning, or \textit{negative transfer} otherwise.
 When the sources are relatively different from the target, multi-task learning (MTL) has often been observed to perform worse than single-task learning (STL) \cite{AP16,BS17}, which is referred to as \textit{negative transfer} \cite{PY09}.
 While many empirical approaches have been proposed to mitigate negative transfer \cite{ZY17}, a precise understanding of when negative transfer occurs remains elusive in the literature \cite{R17}.
-%This phenomenon, known as \textit{negative transfer}, is fundamental to the understanding of multi-task learning.
 
-%Inspired by the theory, we propose an incremental training schedule to improve multi-task training.
-%We consider a setting where the target task has limited labeled data and show
-%On the other hand, unless the structures across task data are well-understood, applying multi-task learning on several different datasets often result in suboptimal models (or negative transfer in more technical terms).
 
 Understanding negative transfer requires developing generalization bounds that scale tightly with properties of each task data, such as its sample size.
 This presents a technical challenge in the multi-task setting because of the difference among task features, even for two tasks.
@@ -493,12 +231,7 @@ For Rademacher complexity or VC-based techniques, the generalization error scale
 Without a tight lower bound for multi-task learning, comparing its performance to single-task learning results in vacuous bounds.
 \todo{add more technical motivation (or maybe later)}
 From a practical standpoint, developing a better understanding of multi-task learning in terms of properties of task data can provide guidance for downstream applications \cite{RH19}.
-%For example, the sample sizes of all tasks are often assumed to be equal \cite{B00,LPTV09,LPVT11}.
-%On the other hand, uneven sample sizes (or dominating tasks) have been empirically observed to cause negative transfer \cite{YKGLHF20}.
-%The benefit of learning multi-task representations has also been studied for certain half-spaces \cite{} and sparse regression \cite{}.
-%When all tasks are sufficiently similar, adding more labeled data improves the generalization performance for predicting a particular task \cite{WZR20}.
 
-%\textbf{Setup and Main Results.}
 In this work, we study the bias and variance of multi-task learning in the high-dimensional linear regression setting \cite{HMRT19,BLLT20}.
 Our key observation is that three properties of task data, including \textit{task similarity}, \textit{sample ratio}, and \textit{covariate shift}, can affect whether multi-task learning outperforms single-task learning (which we refer to as \textit{positive transfer}).
 As an example, we vary each property in Figure \ref{fig_model_shift_phasetrans} for two linear regression tasks and measure the improvement of multi-task learning over single-task learning for a particular task.
@@ -512,23 +245,13 @@ We refer to the first task as the source task and the second as the target task.
 	We measure the distance between them by $\norm{\beta_1 - \beta_2}$.
 	\item \textbf{Sample ratio:} Let $n_1 = \rho_1 \cdot p, n_2 = \rho_2 \cdot p$ be the sample size of each task, where $\rho_1, \rho_2>1$ are both fixed values that do not grow with $p$.
 	We measure the source/target sample ratio by $\rho_1 / \rho_2$.
-%	Importantly, $\rho_2$ can be a small constant (say $2$) to capture the need for more labeled data.
 	\item \textbf{Covariate shift:} Assume that the task features are random vectors with positive semidefinite covariance matrices $\Sigma_1\in\real^{p\times p}$ and $\Sigma_2\in\real^{p\times p}$, respectively.
-	%$x = \Sigma_i^{1/2}z$, where $z\in\real^p$ consists of i.i.d. entries with mean zero and unit variance, and is a positive semidefinite matrix.
 	We measure covariate shift with matrix $\Sigma_1^{1/2}\Sigma_2^{-1/2}$.
 \squishend
 
-%The observations highlight the need to develop generalization bounds that scale tightly with properties of multiple tasks data.
-% that only contains limited amount of labeled data.
-%Following Hastie et al.  and Bartlett et al. \cite{},
 
-%Let $n_i = \rho_i \cdot p$ denote the data size and $X_i\in\real^{n_i\times p}$ denote the features of task $i$.
-%The labels of task $i$ are given by $Y_i = X_i\beta_i + \varepsilon_i$, where $\beta_i\in\real^p$ denotes task $i$'s ground truth parameters and $\varepsilon_i$ denotes i.i.d. random noise with mean zero and variance $\sigma^2$.
 We consider a multi-task estimator obtained using a shared linear layer for all tasks and a separate output layer for each task \cite{WZR20}.
 This two-layer model is inspired by a commonly used idea of hard parameter sharing in multi-task learning \cite{R17,MTDNN19}.
 We consider the bias and variance of the multi-task estimator for predicting a target task and compare its performance to single-task learning.
-%This corresponds to minimizing $ \sum_{i=1}^t \norm{X_i B W_i - Y_i}^2$.
-%Let $\hat{\beta}_t^{\MTL}$ denote the optimal multi-task estimator for the target task, which is defined precisely in Section \ref{sec_prelim}.
-%We revisit the bias-variance tradeoff of $\hat{\beta}_t^{\MTL}$.
 \fi
 

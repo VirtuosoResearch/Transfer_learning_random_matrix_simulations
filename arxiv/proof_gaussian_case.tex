@@ -1,140 +1,8 @@
 \section{Proof of Theorem \ref{thm_main_RMT}}\label{appendix RMT}
-We first state the asymptotic limit for the bias equation \eqref{eq_bias_2task}.
-
-\begin{theorem}\label{thm_main_RMT_app}
-	Let $S$ be an arbitrary subset of the unit sphere in dimension $p$ whose size is polynomial in $p$.
-	In the setting of Theorem \ref{thm_main_RMT}, the bias equation \eqref{eq_bias_2task} satisfies the following limit with high probability for any unit vector $w\in S$:
-			\begin{align}\label{lem_cov_derv_eq}
-				\bigabs{w^{\top} \Sigma^{(1)} \bigbrace{\hat{\Sigma}^{-1} \Sigma^{(2)} \hat{\Sigma}^{-1} - \frac{1}{(n_1+n_2)^2}{\Sigma^{(2)}}^{-1/2} V {\frac{a_3 \Lambda^2 + (a_4 + 1)\id}{(a_1 \Lambda^2 + a_2\id)^2}} V^{\top} {\Sigma^{(2)}}^{-1/2}} \Sigma^{(1)} w} \le  \frac{p^{-c_{\varphi}}}{(n_1+n_2)^2},
-			\end{align}
-				where $a_{3}$ and $a_4$ are the solutions of the following self-consistent equations % with $b_k = \frac1{p}\sum_{i=1}^p \frac{\lambda_i^{2k}} {(\lambda_i^2 a_1 + a_2)^2}$, for $k = 0, 1, 2$:
-			\begin{align}\label{eq_a34extra}
-				a_3 + a_4 = \frac{1}{n_1 + n_2}\sum_{i=1}^p \frac{1}{\lambda_i^2 a_1 + a_2}, \ \
-				a_3 + \frac{1}{n_1 + n_2} \sum_{i=1}^p \frac{\lambda_i^2 (a_2 a_3-a_1 a_4 )}{(\lambda_i^2 a_1 + a_2)^2} = \frac{1}{n_1 + n_2} \sum_{i=1}^p \frac{\lambda_i^2 a_1}{(\lambda_i^2 a_1 + a_2)^{2}}.
-%				\left(\frac{\rho_1}{a_1^{2}} -  b_2  \right)\cdot  a_3 -  b_1 \cdot  a_4 = b_1,\quad \left(\frac{\rho_2}{a_2^{2}}-  b_0\right)\cdot  a_4 - b_1 \cdot  a_3
-%				= b_0.
-			\end{align}
-\end{theorem}
-%For the rest of this section, we present the proof of Theorem \ref{thm_main_RMT} and Theorem \ref{thm_main_RMT_app}
-
-\paragraph{Proof Overview (cont'd).}
-We continue the proof overview of Theorem \ref{thm_main_RMT} and \ref{thm_main_RMT_app} from Section \ref{sec_diff}.
-%Since the full proof of Theorem \ref{thm_main_RMT} and Theorem \ref{thm_main_RMT_app} is rather technical, in this subsection we give a more detailed proof overview, which contains the main ideas of the proof.
-Recall that $(W-z\id)^{-1}$ is the resolvent of matrix $W$.
-We say that $(W-z\id)^{-1}$ converges to a deterministic $p\times p$ matrix limit $R(z)$ if for any sequence of deterministic unit vectors $v\in \R^p$,
-$$v^\top \left[(W-z\id)^{-1}-R(z)\right]v\to 0\ \ \ \text{when $p$ goes to infinity.
-}$$
-
-To study $W$'s resolvent, we observe that $W$ is equal to $\AF\AF^{\top}$ for a $p$ by $n_1 + n_2$ matrix
-	\be\label{defn AF} \AF := (n_1+ n_2)^{-1/2} [\Lambda U^\top (Z^{(1)})^\top,V^\top (Z^{(2)})^\top]. \ee
-%}\HZ{what does this trick mean? use less technical words},
-%This idea dates back at least to Girko, see e.g., the works \cite{girko1975random,girko1985spectral} and references therein.
-Consider the following symmetric block matrix whose dimension is $p + n_1 + n_2$
-%which is a linear function of $(Z^{(1)})$ and $(Z^{(2)})$:
-%\begin{definition}[Linearizing block matrix]\label{def_linearHG}%definiton of the Green function
-%We define the $(n+N)\times (n+N)$ block matrix
- \begin{equation}\label{linearize_block}
-    H \define \left( {\begin{array}{*{20}c}
-   0 & \AF  \\
-   \AF^{\top} & 0
-%   {Z^{(2)}V} & 0 & 0
-   \end{array}} \right).
- \end{equation}
-For this block matrix, we define its resolvent as
-$$G(z) \define \left[H - \begin{pmatrix}z\id_{p\times p}&0\\ 0 & \id_{(n_1+n_2)\times (n_1+n_2)} \end{pmatrix}\right]^{-1},$$
-%as the resolvent of $H$,
-for any complex value $z\in \mathbb C$.
-Using Schur complement formula for the inverse of a block matrix, it is not hard to verify that
-	\begin{equation} \label{green2}
-	  G(z) =  \left( {\begin{array}{*{20}c}
-			(W- z\id)^{-1} & (W - z\id)^{-1} \AF  \\
-      \AF^\top (W - z\id)^{-1} & z(\AF^\top \AF - z\id)^{-1}
-		\end{array}} \right).%\quad \cal G_R:=(W^\top W - z)^{-1} ,
-  \end{equation}
-
-
-
-\paragraph{Variance asymptotic limit.}
-In Theorem \ref{main_cor}, we will show that for $z$ in a small neighborhood around $0$, when $p$ goes to infinity, $G(z)$ converges to the following limit
-\be \label{defn_piw}
-	\Gi(z) \define \begin{pmatrix} (a_{1}(z)\Lambda^2  +  (a_{2}(z)- z)\id_{p\times p})^{-1} & 0 & 0 \\ 0 & - \frac{n_1+n_2}{n_1} a_{1}(z)\id_{n_1\times n_1} & 0 \\ 0 & 0 & -\frac{n_1+n_2}{n_2}a_{2}(z)\id_{n_2\times n_2}  \end{pmatrix},\ee
-where $a_1(z)$ and $a_2(z)$ are the unique solutions to the following self-consistent equations
-\be\label{selfomega_a}
-\begin{split}
-	&a_1(z) + a_2(z) = 1 - \frac{1}{n_1 + n_2} \bigbrace{\sum_{i=1}^p \frac{\lambda_i^2 a_1(z) + a_2(z)}{\lambda_i^2 a_1(z) + a_2(z) - z}}, \\ %\label{selfomega_a000} \\
-	&a_1(z) + \frac{1}{n_1 + n_2}\bigbrace{\sum_{i=1}^p \frac{\lambda_i^2 a_1(z)}{\lambda_i^2 a_1(z) + a_2(z) - z}} = \frac{n_1}{n_1 + n_2}.
-% \frac{\rho_1}{a_{1}(z)} = \frac{1}{p}\sum_{i=1}^p \frac{\lambda_i^2}{ - z+\lambda_i^2 a_{1}(z) +a_{2} (z) } + (\rho_1+\rho_2),\  \frac{\rho_2}{a_{2}(z)} = \frac{1}{p}\sum_{i=1}^p \frac{1 }{  -z+\lambda_i^2 a_{1}(z) +  a_{2}(z)  }+ (\rho_1+\rho_2) .
-\end{split}
-\ee
-The existence and uniqueness of solutions to the above system are shown in Lemma \ref{lem_mbehaviorw}.
-%First, we define the deterministic limits of $(m_1(z), m_{2}(z))$ by $\left(-\frac{\rho_1+\rho_2}{\rho_1}a_{1}(z),-\frac{\rho_1+\rho_2}{\rho_2}a_{2}(z)\right)$, where
-%satisfying that $\im a_{1}(z)< 0$ and $\im a_{2}(z)<0$ for $z\in \C_+$ with $\im z$.
-%\be\label{ratios}
-% \gamma_n :=\frac{p}{n}=\frac{1}{\rho_1+\rho_2},\quad r_1 :=\frac{n_1}{n}=\frac{\rho_1}{\rho_1+\rho_2},\quad r_2 :=\frac{n_2}{n}=\frac{\rho_2}{\rho_1+\rho_2}.
-%\ee
-Given this result, we now show that when $z = 0$, the matrix limit $\Gi(0)$ implies the variance limit shown in equation \eqref{lem_cov_shift_eq}.
-First, we have that $a_1 = a_1(0)$ and $a_2 = a_2(0)$ since the equations in \eqref{selfomega_a} reduce to equations \eqref{eq_a12extra000} and \eqref{eq_a12extra} when $z=0$.
-Second, since $W^{-1}$ is the upper-left block matrix of $G(0)$, we have that $W^{-1}$ converges to $ (a_1\Lambda^2 + a_2\id)^{-1} $.
-Using the fact that $\tr[\Sigma^{(2)} \hat{\Sigma}^{-1}] = (n_1 + n_2)^{-1}\bigtr{W^{-1}} $, we get that when $p$ goes to infinity, % the trace of $$ converges to
-\begin{align*}
-  \bigtr{\Sigma^{(2)} \hat{\Sigma}} \rightarrow \frac{1}{n_1+n_2}\bigtr{(a_1 \Lambda^2 + a_2\id)^{-1}} &= \frac1{n_1+n_2}\bigtr{(a_1 M^{\top}M + a_2 \id)^{-1}} \\
-  &=\frac{1}{n_1+n_2} \bigtr{\Sigma^{(2)} (a_1 \Sigma^{(1)} + a_2 \Sigma^{(2)})^{-1}},
-  \end{align*}
-%\noindent{\bf Variance asymptotics.} Using definition \eqref{mainG}, we can write equation \eqref{eigen2extra} as
-%\be\label{rewrite X as R} [(X^{(1)})^\top X^{(1)}+(X^{(2)})^\top X^{(2)}]^{-1}=n^{-1}\Sigma_2^{-1/2}V\cal G(0)V^\top\Sigma_2^{-1/2}.\ee
-%When $z=0$, it is easy to check that , which means that we actually have $a_1(0)=a_1$ and $a_2(0)=a_2$. Hence the matrix limit of $\cal G(0)$ is given by $(a_{1}\Lambda^2 + a_{2}\id_p)^{-1}$. Then inserting this limit into equation \eqref{rewrite X as R}, we can write the left-hand side of equation \eqref{lem_cov_shift_eq} as
-%\begin{align}
-%&\bigtr{\left( (X^{(1)})^{\top}X^{(1)} + (X^{(2)})^{\top}X^{(2)}\right)^{-1} \Sigma}\approx n^{-1}\bigtr{\Sigma_2^{-1/2}V\cal (a_{1}\Lambda^2 + a_{2}\id_p)^{-1}V^\top\Sigma_2^{-1/2}\Sigma}  \nonumber\\
-%&=n^{-1}\bigtr{\Sigma_2^{-1/2}\cal (a_{1}\Sigma_2^{-1/2}\Sigma_1\Sigma_2^{-1/2} + a_{2}\id_p)^{-1}\Sigma_2^{-1/2}\Sigma}  = n^{-1}\bigtr{\cal (a_{1} \Sigma_1  + a_{2}\Sigma_2)^{-1}\Sigma}  ,\label{Gi00}
-%\end{align}
-where we note that $M^\top M = (\Sigma^{(2)})^{-1/2} \Sigma^{(1)} (\Sigma^{(2)})^{-1/2}$ and its SVD is equal to $V^{\top}\Lambda^2 V$.
-%For the asymptotic limit, its concentration error is shown in Appendix \ref{appendix RMT}.
 
 
 
 
-\paragraph{Bias asymptotic limit.}
- For the bias limit in equation \eqref{lem_cov_derv_eq}, we show that it is governed by the derivative of $(W - z\id)^2$ with respect to $z$ at $z = 0$.
-First, we can express the empirical bias term in equation \eqref{lem_cov_derv_eq} as %$W$
-\begin{align}\label{calculate G'}
-	(n_1 + n_2)^2 \hat{\Sigma}^{-1}\Sigma^{(2)}\hat{\Sigma}^{-1} = {\Sigma^{(2)}}^{-1/2} V W^{-2} V^{\top} {\Sigma^{(2)}}^{-1/2}.
-\end{align}
-Let $\cal G(z):=(W-z\id )^{-1}$ denote the resolvent of $W$.
-Our key observation is that $\frac{\dd{\cal G(z)}}{\dd z} =  \cal G^2(z)$.
-Hence, provided that the limit of $(W - z\id)^{-1}$ is $(a_1(z) \Lambda^2 + (a_2(z) - z) \id)^{-1}$ near $z = 0$, the limit of $\frac{\dd{\cal G(0)}}{\dd z}$ satisfies that
-\begin{align}\label{cal G'0}
-	\frac{\dd \cal G(0)}{\dd z} \to \frac{-\frac{\dd a_1(0)}{\dd z}\Lambda^2 - (\frac{\dd a_2(0)}{\dd z} - 1)\id}{(a_{1}(0)\Lambda^2 + a_{2}(0)\id_p)^2}.
-\end{align}
-To find the derivatives of $a_1(z)$ and $a_2(z)$, we take the derivatives on both sides of the system of equations \eqref{selfomega_a}.
-%\begin{align*}
-%	\frac{\dd a_1(z)}{\dd z} + \frac{\dd a_2(z)}{\dd z} = -\frac{1}{n_1 + n_2} \sum_{i=1}^p \frac{1}{\lambda_i^2 a_1 + a_2},
-%	\frac{\dd a_1(z)}{\dd z} + \frac{1}{n_1 + n_2}\sum_{i=1}^p \frac{\lambda_i^2 (a_1'(z) a_2 - a_2'(z) a_1)}{(\lambda_i^2 a_1 + a_2)^2} = -\frac{1}{n_1 + n_2} \sum_{i=1}^p \frac{\lambda_i^2 a_1}{(\lambda_i^2 a_1 + a_2)^2}
-%\end{align*}
-Let $a_3 = - \frac{\dd a_1(0)}{\dd z}$ and $a_4 = - \frac{\dd a_2(0)}{\dd z}$.
-%then taking implicit differentiation of equation \eqref{selfomega_a}
-One can verify that $a_3$ and $a_4$ satisfy the self-consistent equations in \eqref{eq_a34extra} (details omitted).
-Applying equation \eqref{cal G'0} to equation \eqref{calculate G'}, we obtain the asymptotic limit of the bias term.
-%\begin{align}
-%& n^2\bignorm{\Sigma_2^{1/2} \bigbrace{ (X^{(1)})^{\top}(X^{(1)}) + (X^{(2)})^{\top}(X^{(2)}) }^{-1} \Sigma_1^{1/2} w}^2 \nonumber\\
-%&\approx  w^\top \Sigma_1^{1/2}\Sigma_2^{-1/2}V\frac{a_3\Lambda^2 +(1+ a_4)\id_p}{(a_{1}\Lambda^2 + a_{2}\id)^2}V^\top \Sigma_2^{-1/2}\Sigma_1^{1/2}w= w^{\top} \Pi_\bias w, \label{calculatePibias}
-%\end{align}
-%where in the last step we used $M = \Sigma_1^{1/2}\Sigma_2^{-1/2}$ and $V \Lambda^2 V^\top=M^\top M$. This concludes equation \eqref{lem_cov_derv_eq}.
-
-As a remark, in order for $\frac{\dd \cal G(z)}{\dd z}$ to stay close to its limit at $z = 0$, we not only need to find the limit of $\cal G(0)$, but also the limit of $\cal G(z)$ within a small neighborhood of $0$.
-This is why we consider $W$'s resolvent for a general $z$. %as opposed to the Stieljes transform of its empirical spectral distribution.
-
-%\paragraph{Schur complement and self-consistent equations.}
-%
-%First, we consider the special case where $Z^{(1)}$ and $Z^{(2)}$ are both multivariate Gaussian random matrices.
-%By rotational invariance, we have that $Z^{(1)} U$ and $Z^{(2)} V$ are still multivariate Gaussian random matrices.
-%Next, we use the Schur complement formula to deal with the resolvent $G(z)$.
-%We show that $G(z)$'s diagonal entries satisfy a set of self-consistent equations in the limit, leading to equations in \eqref{selfomega_a}.
-%On the other hand, $G(z)$'s off-diagonal entries are approximately zero using standard concentration bounds.
-%Finally, we extend our result to general random matrices under the finite $\varphi$-th moment condition.
-%We prove an anisotropic local law using recent developments in random matrix theory \cite{erdos2017dynamical,Anisotropic}.
-%A complete proof of Theorem \ref{thm_main_RMT} will be given in Appendix \ref{sec pf RMTlemma}-Appendix \ref{sec entry}. %Appendix \ref{appendix RMT}.
-
-\paragraph{How to derive the matrix limit?}
 We begin with a warm up analysis when the entries of $Z^{(1)}$ and $Z^{(2)}$ are drawn i.i.d. from an isotropic Gaussian distribution.
 By the rotational invariance of the multivariate Gaussian distribution, we have that the entries of $Z^{(1)} U$ and $Z^{(2)}V$ also follow an isotropic Gaussian distribution.
 Hence it suffices to consider the following resolvent
@@ -148,10 +16,6 @@ Hence it suffices to consider the following resolvent
 We show how to derive the matrix limit $\Gi(z)$ and the self-consistent equation system \eqref{selfomega_a}.
 We first introduce several useful notations. We define $n:=n_1+n_2$ and the following index sets
 $$\cal I_0:=\llbracket 1,p\rrbracket, \quad  \cal I_1:=\llbracket p+1,p+n_1\rrbracket, \quad \cal I_2:=\llbracket p+n_1+1,p+n_1+n_2\rrbracket ,\quad \cal I:=\cal I_0\cup \cal I_1\cup \cal I_2  .$$
-%We will consistently use the latin letters $i,j\in\sI_{0}$ and greek letters $\mu,\nu\in\sI_{1}\cup \sI_{2}$.
-%Correspondingly, the indices of the matrices $Z^{(1)}$ and $Z^{(2)}$ are labelled as
-%	\be\label{labelZ}
-% Z^{(1)}= [Z^{(1)}_{\mu i}:i\in \mathcal I_0, \mu \in \mathcal I_1], \quad Z^{(2)}= [Z^{(2)}_{\nu i}:i\in \mathcal I_0, \nu \in \mathcal I_2].\ee
 We will study the following partial traces of the resolve $G(z)$:
 \be\label{defm}
 \begin{split}
@@ -199,20 +63,16 @@ For any $i$ in $\cal I_0$, any $\mu$ in $\cal I_1$, and any $\nu$ in $\cal I_2$,
 For the first equation, we expand the Schur complement formula $G_{ii}^{-1}(z) = -z - H_i G^{(i)}(z) H_{i}^\top$, where $H_i$ is the $i$-th row of $H$ with the $(i,i)$-th entry removed.
 The second and third equations follow by similar calculations.
 
-%\be\label{approx m12 add}
-%(m_1,m_2) =\left(-\frac{\rho_1+\rho_2}{\rho_1}a_{1}(z),-\frac{\rho_1+\rho_2}{\rho_2}a_{2}(z)\right)+\oo(1) \quad \text{with overwhelming probability. }
-%\ee
 
 Next, we apply standard concentration bounds to simplify the above results.
 For $G^{-1}_{i i}(z)$, recall that the resolvent minor $G^{(i)}$ is defined such that it is independent of the $i$-th row and column of $Z^{(1)}$ and $Z^{(2)}$.
 Hence by standard concentration inequalities, we have that the cross terms are approximately zero.
-%is approximately equal to the expectation over $\{Z^{(1)}_{\mu i}: \mu \in \cal I_1 \}\cup \{Z^{(2)}_{\nu i}: \nu \in \cal I_2\}$.
 As shown in Lemma \ref{lemm_selfcons_weak}, we have that with high probability the following holds
 \begin{align*}
 	G_{ii}^{-1}(z) &= -z - \frac{\lambda_i^2}{n} \sum_{\mu \in \mathcal I_1}  G^{\left( i \right)}_{\mu\mu} - \frac{1}{n} \sum_{\mu\in \mathcal I_2} G^{\left( i \right)}_{\mu\mu} +\oo(1) \\
 	&= - z - \frac{\lambda_i^2 \cdot n_1}{n_1 + n_2} m_1^{(i)}(z)-  \frac{n_2}{n_1 + n_2} m_2^{(i)}(z)+\oo(1),
 \end{align*}
-by our definition of the partial traces $m_1^{(i)}(z)$ and $m_2^{(i)}(z)$. %with respect to the resolvent minor $G^{(i)}(z)$.
+by our definition of the partial traces $m_1^{(i)}(z)$ and $m_2^{(i)}(z)$. %
 Since we have removed only one column and one row from $H(z)$, $m_1^{(i)}(z)$ and $m_2^{(i)}(z)$ should be approximately equal to $m_1(z)$ and $m_2(z)$.
 Hence we obtain that
 \begin{align}\label{1self_Gii}
@@ -220,7 +80,8 @@ Hence we obtain that
 \end{align}
 For the other two blocks $\cal I_1$ and $\cal I_2$, using similar ideas we obtain the following equations with high probability:
 \begin{align*}
-	G_{\mu\mu}(z) &= -\left(1+\frac{p}{n_1 + n_2} m_0(z) + \oo(1)\right)^{-1},\quad G_{\nu\nu}(z) = -\left(1+\frac{p}{n_1 + n_2} m(z) + \oo(1)\right)^{-1}.
+	G_{\mu\mu}(z) &= -\left(1+\frac{p}{n_1 + n_2} m_0(z) + \oo(1)\right)^{-1},\\ 
+	G_{\nu\nu}(z) &= -\left(1+\frac{p}{n_1 + n_2} m(z) + \oo(1)\right)^{-1}.
 \end{align*}
 By averaging the above results over $\mu \in \cal I_1$ and $\nu \in \cal I_2$, we obtain that with high probability
 \begin{align*}
@@ -232,7 +93,8 @@ $G_{\mu\mu}(z) = m_1(z) +\oo(1)$ and $G_{\nu\nu}(z) = m_2+\oo(1)$.
 In other words, both block matrices within $\cal I_1$ and $\cal I_2$ are approximately a scaling of the identity matrix.
 The above results for $m_1(z)$ and $m_2(z)$ imply that
 \begin{align*}
-	m_1^{-1}(z) = -1- \frac{1}{n } \sum_{i=1}^p \lambda_i^2 G_{ii}(z)+ \oo(1),\quad  m_2^{-1}(z) = -1- \frac{1}{n } \sum_{i=1}^p G_{ii}(z)  + \oo(1).
+	m_1^{-1}(z) &= -1- \frac{1}{n } \sum_{i=1}^p \lambda_i^2 G_{ii}(z)+ \oo(1),\\ 
+	 m_2^{-1}(z) &= -1- \frac{1}{n } \sum_{i=1}^p G_{ii}(z)  + \oo(1),
 \end{align*}
 where we used the definitions of $m(z)$ and $m_0(z)$.
 By applying equation \eqref{1self_Gii} for $G_{i i}(z)$ to these two equations, we obtain the system of self-consistent equations \eqref{approximate m1m2}.
@@ -250,7 +112,6 @@ For example, for $i\ne j\in \cal I_0$, by Schur complement, we have that
 $$G_{ij}(z) = -G_{ii}(z)\cdot {n^{-1/2}}\Big({\lambda_i}\sum_{\mu \in \cal I_1} Z^{(1)}_{\mu i} G^{(i)}_{\mu j}(z) + \sum_{\mu \in \cal I_2} Z^{(2)}_{\mu i} G^{(i)}_{\mu j}(z) \Big).$$
 Using standard concentration inequalities, we can show that $\sum_{\mu \in \cal I_1} Z^{(1)}_{\mu i} G^{(i)}_{\mu j}(z)$ and $\sum_{\mu \in \cal I_2} Z^{(2)}_{\mu i} G^{(i)}_{\mu j}(z)$ are both close to zero.
 The other off-diagonal entries are bounded similarly.
-%The bound on the off-diagonal entries will be proved rigorously .
 
 
 \paragraph{Notations.}
@@ -261,14 +122,12 @@ The following notion of stochastic domination, which was first introduced in \ci
 
 \begin{definition}[Stochastic domination]\label{stoch_domination}
 Let $\xi\equiv \xi^{(n)}$ and $\zeta\equiv \zeta^{(n)}$ be two $n$-dependent random variables.
-%\HZ{what is $n$-dependent rv?}[{\cor Most variables in our paper are $n$-dependent implicitly, such as resolvents. Furthermore, the random matrix entries can also depend on $n$ if we want. One important example is Bernoulli random variable with sparsity $p=n^{-\theta}$. Furthermore, this also includes the random variables that do not depend on $n$ as a special case.}]
 We say that $\xi$ is stochastically dominated by $\zeta$, denoted by $\xi\prec \zeta$ or $\xi=\OO_\prec(\zeta)$, if for any small constant $\e > 0$ and any large constant $D > 0$, there exists a function $n_0(\e, D)$ such that for all $n > n_0(\e, D)$,
 \[ \bbP\left(|\xi| >n^\e |\zeta|\right)\le n^{-D}. \]
-In case $\xi(u)$ and $\zeta(u)$ is a function of $u$ supported in $\cal U$, then we say $\xi(u)$ is stochastically dominated by $\zeta(u)$ uniformly in $\cal U$ if % for any constants $\e, D>0$,
+In case $\xi(u)$ and $\zeta(u)$ is a function of $u$ supported in $\cal U$, then we say $\xi(u)$ is stochastically dominated by $\zeta(u)$ uniformly in $\cal U$ if %
 \[ \sup_{u\in \cal U}\bbP\left(|\xi(u)|>n^\e |\zeta(u)|\right)\le n^{-D}. \]
 \end{definition}
 
-%For example, we say that $\xi$ is stochastically dominated by $\zeta$ with overwhelming probability if $\zeta$ is greater than $\xi$ up to a small power of $n^{\e}$.
 We make several remarks.
 First, since we allow an $n^\e$ factor in stochastic domination, we can ignore $\log$ factors without loss of generality since $(\log n)^C\prec 1$ for any constant $C>0$.
 Second, given a random variable $\xi$ whose moments exist up to any order, we have that $|\xi|\prec 1$.
@@ -289,8 +148,6 @@ Let $\xi$ and $\zeta$ be two families of nonnegative random variables depending 
 \end{itemize}
 \end{fact}
 
-%In this section, we shall prove a more fundamental random matrix result in a little more general setting than the one in Section \todo{add reference}; see Theorem \ref{LEM_SMALL} below. %\ref{sec_prelim}.
-%Then Theorem \ref{thm_main_RMT} will follow from this result as immediate corollaries. We first state the exact assumptions needed for our purpose.
 
 Next, we introduce the bounded support assumption for a random matrix.
 We say that a random matrix $Z \in\real^{n \times p}$ satisfies the {\it{bounded support condition}} with $Q$ or $Z$ has support $Q$ if
@@ -298,14 +155,14 @@ We say that a random matrix $Z \in\real^{n \times p}$ satisfies the {\it{bounded
 	\max_{1\le i \le n, 1 \le j \le p}\vert Z_{i j} \vert \prec Q. \label{eq_support}
 \end{equation}
 As shown in the example above, if the entries of $Z$ have finite moments up to any order, then $Z$ has bounded support $1$.
-More generally, if the entries of $Z$ have finite $\varphi$-th moment, then using Markov's inequality and a simple union bound we get that %\HZ{I don't fully get the equation below}
+More generally, if the entries of $Z$ have finite $\varphi$-th moment, then using Markov's inequality and a simple union bound we get that %
 \begin{align}
 	\P\left(\max_{1\le i\le n, 1\le j \le p}|Z_{i  j}|\ge (\log n) n^{\frac{2}{\varphi}}\right) &\le \sum_{i=1}^n \sum_{j=1}^p \P\left(|Z_{i j}|\ge (\log n) n^{\frac{2}{\varphi}}\right)  \nonumber\\
 	&\le \sum_{i=1}^n \sum_{j=1}^p \frac{C(\varphi)}{\left[(\log n) n^{\frac{2}{\varphi}}\right]^\varphi} = \OO((\log n)^{-\varphi}).\label{Ptrunc}
 	\end{align}
 In other words, $Z$ has bounded support $Q=n^{\frac{2}{\varphi}}$ with high probability.
 
-The following resolvent identities are important tools for our proof. Recall that the resolvent minors have been defined in Definition \ref{defn_Minor}, and matrix $\AF$ is given in equation \eqref{diagW}.
+The following resolvent identities are important tools for our proof. Recall that the resolvent minors have been defined in Definition \ref{defn_Minor}, and matrix $\AF$ is given in equation \eqref{defn AF}. %
 \begin{lemma}\label{lemm_resolvent}
 We have the following resolvent identities.
 \begin{itemize}
@@ -317,36 +174,19 @@ We have the following resolvent identities.
 		\begin{equation}
 			G_{ia}   = -G_{ii}  \left( \AF G^{\left( {i} \right)} \right)_{ia},\quad  G_{\mu b }  = - G_{\mu \mu }  \left( \AF^\top  G^{\left( {\mu } \right)}  \right)_{\mu b }. \label{resolvent3}
 		\end{equation}
-%For $i\in \mathcal I_1$ and $\mu\in \mathcal I_2$, we have
-%\begin{equation}\label{resolvent6}
-%\begin{split}
-% G_{i\mu } =  -G_{ii}  \left( WG^{\left( {i} \right)} \right)_{i\mu}, \quad G_{\mu i}= -G_{\mu\mu}\left( W^\top G^{(\mu)}\right)_{\mu i}. %\left( { - Y_{i\mu }  +  {\left( {YG^{\left( {i\mu } \right)} Y} \right)_{i\mu } } } \right) . %, \ \  G_{\mu i}  = G_{\mu \mu } G_{ii}^{\left( \mu  \right)} \left( { - Y_{\mu i}^\top  + \left( {Y^\top  G^{\left( {\mu i} \right)} Y^\top  } \right)_{\mu i} } \right).
-%\end{split}
-%\end{equation}
  \item[(iii)] For $a \in \mathcal I$ and $a_1,a_2 \in \mathcal I \setminus \{a\}$, we have
 		\begin{equation}
 			G_{a_1a_2}^{\left( a \right)}  = G_{a_1a_2}  - \frac{G_{a_1a} G_{aa_2}}{G_{aa}}.
-%, \quad  \frac{1}{{G_{{b}{b}} }} = \frac{1}{{G_{{b}{b}}^{({a})} }} - \frac{{G_{{b}{a}} G_{{a}{b}} }}{{G_{{b}{b}} G_{{b}{b}}^{({a})} G_{{a}{a}} }}.
 			\label{resolvent8}
 		\end{equation}
-%and
-%\begin{equation}
-%\frac{1}{{G_{ss} }} = \frac{1}{{G_{ss}^{(r)} }} - \frac{{G_{sr} G_{rs} }}{{G_{ss} G_{ss}^{(r)} G_{rr} }}.
-%\label{resolvent9}
-%\end{equation}
-% \item[(iv)]
-%All of the above identities hold for $G^{(\mathbb T)}$ instead of $G$ for $\mathbb T \subset \mathcal I$, and in the case where $A$ and $B$ are not diagonal.
 \end{itemize}
 \end{lemma}
 The above result can be proved using Schur's complement formula, cf. \citet[Lemma 4.4]{Anisotropic}.
 
 The following lemma gives sharp concentration bounds for linear and quadratic forms of bounded random variables. We recall that the stochastic domination ``$\prec$" has been defined in Definition \ref{stoch_domination}.
-%Besides the proof of Lemma \ref{prop_entry}, we also use it in several other places of this paper, including the proofs in Section \ref{sec_proof_general} and Section \ref{app_iso_cov}.
-%It constitutes the main difference between our proof and the one in \cite{KY2}, where the authors used a large deviation bound for random variables with arbitrarily high moments.
 \begin{lemma}[Lemma 3.8 of \cite{EKYY1} and Theorem B.1 of \cite{Delocal}]\label{largedeviation}
-Let $(x_i)$, $(y_j)$ be independent families of centered and independent random variables, and $(A_i)$, $(B_{ij})$ be families of deterministic complex numbers. Suppose the entries $x_i$ and $y_j$ have variance at most $1$, and satisfy the bounded support condition (\ref{eq_support}) for a deterministic parameter $Q$. %with $q\le n^{-\phi}$ for a small constant $\phi>0$.
+Let $(x_i)$, $(y_j)$ be independent families of centered and independent random variables, and $(A_i)$, $(B_{ij})$ be families of deterministic complex numbers. Suppose the entries $x_i$ and $y_j$ have variance at most $1$, and satisfy the bounded support condition (\ref{eq_support}) for a deterministic parameter $Q$. %
 Then we have the following results:
-%for any fixed $\xi>0$, the following bounds hold with $\xi$-high probability:
 \begin{align}
 \Big| \sum_{i=1}^n A_i x_i \Big\vert \prec Q \max_{i} \vert A_i \vert+ \Big(\sum_i |A_i|^2 \Big)^{1/2} , \quad &\Big\vert  \sum_{i,j=1}^n x_i B_{ij} y_j \Big\vert \prec Q^2 B_d  + Q n^{1/2}B_o +  \Big(\sum_{i\ne j} |B_{ij}|^2\Big)^{{1}/{2}},\label{eq largedev10}  \\
 \Big\vert  \sum_{i=1}^n (|x_i|^2-\mathbb E|x_i|^2) B_{ii}  \Big\vert  \prec Q n^{1/2}B_d   , \quad &\Big\vert  \sum_{1\le i\ne j\le n} \bar x_i B_{ij} x_j \Big\vert  \prec Qn^{1/2}B_o +  \Big(\sum_{i\ne j} |B_{ij}|^2\Big)^{{1}/{2}} ,\label{eq largedev20}
