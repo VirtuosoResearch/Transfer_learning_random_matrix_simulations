@@ -30,7 +30,7 @@ The critical questions are:
 
 \medskip
 \noindent\textbf{Main results.}
-Our first result (Theorem \ref{thm_many_tasks}) applies to multi-label prediction settings where all datasets have the same features (and sample size), and we want to make several predictions for every input (cf. examples in \citet{hsu2009multi}).
+Our first result (Theorem \ref{thm_many_tasks}) applies to multi-label prediction settings where all datasets have the same features (and sample size), and we want to make several predictions for every input (e.g. \citet{hsu2009multi}).
 We analyze the global minimizer of $f(A, B)$, and provide a sharp bias-variance decomposition of its (out-of-sample) prediction loss for any task.
 This setting is tractable even though in general, $f(A, B)$ is non-convex in $A$ and $B$ (e.g. matrix completion is a special case for suitably designed $X^{(i)}, Y^{(i)}$).
 %We show that the prediction loss of HPS admits a clean bias-variance decomposition.
@@ -130,7 +130,7 @@ Consequently, using our precise loss estimates, we observe several qualitative p
 Finally, we discuss the practical implications of our work.
 Our sample size ratio study implies a concrete progressive training procedure that gradually adds more data until performance drops.
 For example, in the setting of Figure \ref{fig_intro_sample_size_b}, this procedure will stop right at the minimum of the local basin.
-We conduct further studies of this procedure on six text classification datasets and observe that it reduces the computational cost by $65\%$ compared to a standard round-robin training procedure while keeping the average accuracy of all tasks simultaneously.
+We conduct further studies of this procedure on six text classification datasets and observe that it reduces the computational cost by more than half compared to a standard round-robin training procedure while keeping the average accuracy of all tasks simultaneously.
 
 \medskip
 \noindent\textbf{Proof techniques.}
@@ -199,10 +199,10 @@ However, their results only apply to sample size regimes at least logarithmic fa
 The rest of this paper is organized as follows.
 In Section \ref{sec_same}, we present the bias-variance decomposition for hard parameter sharing.
 In Section \ref{sec_diff}, we describe how varying sample sizes and covariate shifts impact hard parameter sharing using random matrix theory.
-In Sections \ref{sec_simulation}, we validate our results in simulations.
+In Sections \ref{sec_exp}, we validate our results in simulations and conduct further studies on text classification tasks.
 In Section \ref{sec_conclude}, we summarize our work and discuss future work.
-Section \ref{sec_text} describes our study on text classification tasks.
-Section \ref{app_proof_error_same_cov}, \ref{appendix RMT}, and \ref{app_iso_cov} present proofs of our results.
+Section \ref{app_proof_error_same_cov} presents the missing proofs of Section \ref{sec_same}.
+Section \ref{appendix RMT} and \ref{app_iso_cov} show the missing proofs of Section \ref{sec_diff}.
 
 \medskip
 \noindent\textbf{Notations.}
@@ -214,5 +214,5 @@ Let $\lambda_1(X), \lambda_2(X), \cdots, \lambda_{p\wedge n}(X)$ denote the sing
 Let $X^+$ denote the Moore-Penrose psuedoinverse of $X$.
 We refer to random matrices of the form $\frac {X^\top X} n$ as sample covariance matrices.
 We say that an event $\Xi$ holds with high probability if the probability that $\Xi$ happens goes to $1$ as $p$ goes to infinity.
-We use the big-O notation $g(n) = \OO(f(n))$ if there exists a constant $C$ such that $g(n) \le C \dot f(n)$ for large enough $n$.
+We use the big-O notation $g(n) = \OO(f(n))$ if there exists a constant $C$ such that $g(n) \le C  f(n)$ for large enough $n$.
 %We shall use $\oo(1)$ to mean a small positive quantity that converges to 0 as $p$ goes to infinity.

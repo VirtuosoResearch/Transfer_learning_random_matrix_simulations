@@ -2,7 +2,7 @@
 
 %We begin by considering the case where all tasks have the same sample size and feature covariates, that is, $n_i = n$ and $X^{(i)} = X\in\real^{n\times p}$ for all $i = 1, \dots, t$.
 %We provide a sharp generalization error bound of hard parameter sharing estimators.
-In this section, we show that the prediction loss of hard parameter sharing admits a clean bias-variance decomposition, when all tasks have the same features.
+This section describes our result that the prediction loss of hard parameter sharing admits a clean bias-variance decomposition when all tasks have the same features.
 %\FY{Is it should be "same covariate" or "same covariates"?}
 %This setting is prevalent in applications of multi-task learning to image classification, where there are multiple prediction labels/tasks for every image \cite{chexnet17,EA20}.
 %We consider an arbitrary local minimum $B, W_1, \dots, W_2$ of the optimization objective.
@@ -29,10 +29,10 @@ We assume:
 For an estimator $\hat{\beta}_i$ of task $i$, we are interested in its (out-of-sample) prediction loss
 \[ L(\hat{\beta}_i) = \bignorm{\Sigma^{1/2} (\hat{\beta_i} - \beta^{(i)})}^2. \]
 Recall that $r$ is the width of $B$.
-We focus on cases where $r < t$, because otherwise the global minimum of $f(A, B)$ reduces to single-task learning (cf. Proposition 1 of \citet{WZR20}).
+We focus on cases where $r < t$, because otherwise, the global minimum of $f(A, B)$ reduces to single-task learning (cf. Proposition 1 of \citet{WZR20}).
 
 Our first main result shows that hard parameter sharing essentially approximates all tasks through a rank-$r$ subspace.
-To formalize this geometric intuition, we introduce the matrix $B^\star \define [{\beta}^{(1)},{\beta}^{(2)},\dots,{\beta}^{(t)}] \in \real^{p\times t}$ which contains all the linear model parameters.
+To formalize this geometric intuition, we introduce the matrix $B^\star \define [{\beta}^{(1)},{\beta}^{(2)},\dots,{\beta}^{(t)}] \in \real^{p\times t}$, which contains all the linear model parameters.
 Let $A^{\star} {A^{\star}}^{\top}$ denote the best rank-$r$ subspace approximation of ${B^{\star}}^\top\Sigma B^{\star}$ (which is task labels' ``covariance''):\footnote{To ensure that $A^{\star}$ is unique, we assume that $\lambda_{r+1}({B^\star}^\top \Sigma B^\star)$ is strictly smaller than $\lambda_{r}({B^\star}^\top \Sigma B^\star)$.}
 \begin{align}\label{eq_A_star}
 	A^{\star} \define \argmin_{U\in\real^{t\times r} : U^{\top} U = \id_{r\times r}} \inner{U U^{\top}} {{B^{\star}}^{\top} \Sigma B^{\star}}.
@@ -68,14 +68,15 @@ Theorem \ref{thm_many_tasks} provides a sharp generalization error bound that is
 %The limiting loss of hard parameter sharing consists of two parts, a bias term $L(B^{\star} a_i^{\star})$ that measures the error of $B^{\star} a_i^{\star}$, and a variance term that scales with noise variance $\sigma^2$.
 %	Our result implies that the variance of hard parameter sharing is always smaller than single-task learning.
 %	This is because	STL's variance is equal to $\frac{\sigma^2 \cdot p} {n - p}$ by Fact \ref{lem_minv}, and $\norm{a_i^{\star}}^2 \le 1$ since the spectral norm of $U_r$, which is a projection matrix, is at most one.
-One direct implication of our result is that compared to STL, the variance always decreases, since STL's variance is equal to $\sigma^2 \tr[\Sigma (X^{\top} X)^{-1}]$.
-On the other hand, the bias always increases.
+One direct implication of our result is the variance always decreases when compared to STL, since STL's variance is equal to $\sigma^2 \tr[\Sigma (X^{\top} X)^{-1}]$.
+On the other hand,  bias always increases.
 
 
 \paragraph{How does hard parameter sharing scale with sample size $n$?}
 Obviously, the concentration error decreases with $n$.
+Therefore, we consider the bias and variance, respectively.
 First, we consider the variance of $\hat{\beta}_i^{\MTL}$, which is $\sigma^2\norm{a_i^{\star}} \bigtr{\Sigma (X^{\top} X)^{-1}}$?
-It turns out that this quantity converges to a fixed limit in the high-dimensional setting, which is formally stated in the following assumption.
+It turns out that this quantity converges to a fixed limit in the high-dimensional setting, which we define formally below.
 
 \begin{assumption}\label{assume_rm}
 	Let $\tau > 0$ be a small enough constant.
@@ -97,8 +98,8 @@ Under the above assumption, we can use the following result to simplify the vari
 		\[ \bigtr{\Sigma (X^{\top} X)^{-1}} = \frac{p}{n - p} \pm \OO(n^{-c_{\varphi}}). \]
 \end{fact}
 \noindent\textit{Remark.} The above result has a long history in random matrix theory.
-For a multivariate Gaussian random matrix, this result follows from the classical result for the mean of inverse Wishart distribution \cite{anderson1958introduction}.
-For a non-Gaussian random matrix, this result can be obtained using the well-known Stieltjes transform method (cf. Lemma 3.11 of \citet{bai2009spectral}).
+For a multivariate Gaussian random matrix, this result follows from the classical work for the mean of inverse Wishart distribution \cite{anderson1958introduction}.
+For non-Gaussian random matrices, this result can be derived via the well-known Stieltjes transform method (cf. Lemma 3.11 of \citet{bai2009spectral}).
 Applying Fact \ref{fact_tr} to Theorem \ref{thm_many_tasks}, we obtain that hard parameter sharing's variance is
 		\[ \sigma^2 \norm{a^{\star}_i}^2 \bigtr{\Sigma (X^{\top} X)^{-1}} = \sigma^2 \norm{a^{\star}_i}^2 \frac{p}{n- p} \pm \OO(p^{- {c_{\varphi}} }). \]
 
@@ -111,7 +112,7 @@ Applying Fact \ref{fact_tr} to Theorem \ref{thm_many_tasks}, we obtain that hard
 %Let $\e$ be a small enough fixed value and let $c_{\infty}$ be any fixed value within $(0, 1/2-\e)$.
 %We have that Fact \ref{lem_minv} holds for $\varepsilon^{(i)}$ where $c_{\varphi}$ becomes $c_{\infty}$ instead.
 
-Next, we consider the bias of $\hat{\beta}_i^{\MTL}$, that is $L(B^{\star} a^{\star}_i)$.
+Next, we consider the bias of $\hat{\beta}_i^{\MTL}$, which is $L(B^{\star} a^{\star}_i)$.
 We illustrate the bias through a random-effect model, which has been studied for a single-task case \cite{dobriban2020wonder}.
 Suppose every $\beta^{(i)}$ consists of two random components, one that is shared among all tasks and one that is task-specific.
 Thus, each task contributes a certain amount to the shared component and injects a task-specific bias.

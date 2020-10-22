@@ -1,15 +1,15 @@
 \section{Bias-variance Limits: Different Sample Sizes and Covariate Shifts}\label{sec_diff}
 
 The previous section assumes that all tasks have the same sample size and feature vectors.
-In this section, we study how having different sample sizes and different covariance matrices impact hard parameter sharing.
+This section discusses how having different sample sizes and different covariance matrices impact hard parameter sharing.
 %The different covariates case differs from the same covariates case in two aspects.
 %First, different tasks may have different sample sizes. In extreme scenarios, one task may have much less labeled data compared to another task.
-The setting where covariates differ across tasks is often called ``covariate shift''.
+The setting where covariates differ across tasks is often known as ``covariate shift''.
 
 Unlike the previous section, we can no longer characterize the global minimum of $f(A, B)$.
 This is because $f(A, B)$ is in general non-convex.
 Instead, our result implies sharp bias-variance tradeoffs for any \emph{local minimizer} of $f(A, B)$.
-We focus on the two-task case to better understand the impact of having different sample sizes and different covariates.
+We focus on the two-task case to better understand the impact of having different sample sizes and covariates.
 Let $n_1, n_2$ denote task one  and two's sample size, respectively.
 Suppose
 \begin{align*}
@@ -20,9 +20,9 @@ where the entries of $Z^{(1)}$ and $ Z^{(2)}$ are drawn independently from a one
 
 \paragraph{Bias-variance equations.}
 Our key result characterizes the asymptotic limit of the inverse of the sum of two arbitrarily different sample covariance matrices.
-Without loss of generality, we consider task two's prediction loss and the same result applies to task one.
+Without loss of generality, we consider task two's prediction loss, and the same result applies to task one.
 We consider the case of $r = 1 < t = 2$, since when $r > 1$, the global minimum of $f(A, B)$ reduces to single-task learning (cf. Proposition 1 of \citet{WZR20}).
-When $r = 1$, $B$ is a vector and $A_1, A_2$ are both scalars.
+When $r = 1$, $B$ is a vector, and $A_1, A_2$ are both scalars.
 To motivate our study, we consider a special case where $A_1=A_2=1$.
 Hence the HPS estimator is equal to $B$.
 %Hence we can write down a closed form equation for any local minimizer of $f(A, B)$.
@@ -42,10 +42,10 @@ To derive the bias and variance equation, we consider the expected loss conditio
 \end{align}
 Equations \eqref{eq_bias_2task} and \eqref{eq_variance_2task} correspond to the bias and variance of HPS for two tasks, respectively.
 Our main result in this section characterizes the asymptotic bias-variance limits in the high-dimensional setting.
-Intuitively, the spectrum of $\hat{\Sigma}^{-1}$ (and hence its trace) not only depends on both tasks' sample sizes, but also depends on the ``alignment'' between $\Sigma^{(1)}$ and $\Sigma^{(2)}$.
+Intuitively, the spectrum of $\hat{\Sigma}^{-1}$ (and hence its trace) not only depends on both tasks' sample sizes but also depends on the ``alignment'' between $\Sigma^{(1)}$ and $\Sigma^{(2)}$.
 However, capturing this intuition quantitatively turns out to be technically challenging.
 %The main technical challenge of our result deals with the ``covariate shift'' between tasks one and two.
-We introduce a key quantity $M \define (\Sigma^{(1)})^{1/2}(\Sigma^{(2)})^{-1/2}$, and as we show below, the trace of $\hat{\Sigma}^{-1}$ has an intricate dependence on the spectrum of $M$.
+We introduce a critical quantity $M \define (\Sigma^{(1)})^{1/2}(\Sigma^{(2)})^{-1/2}$, and as we show below, the trace of $\hat{\Sigma}^{-1}$ has an intricate dependence on the spectrum of $M$.
 %Let $U\Lambda V^\top$ denote the SVD of $M$ and
 Let $\lambda_1, \lambda_2, \dots, \lambda_p$ denote $M$'s singular values in descending order.
 Our main result is stated as follows.
@@ -132,7 +132,7 @@ Next, we illustrate how varying them impact the prediction loss.
 %	 {\color{red}[FY: the error also contains $p^{-1/2+2c}\kappa^2 +  p^{-1/4+c} (\sigma^2 +d^2) $, both of which cannot be omitted, because (i) there is no assumption on the upper bound of $\kappa^2$, and (ii) we do not necessarily have $c_\varphi<1/4$. We can decide how to present the result concisely (for instance we can impose an upper bound on $\kappa^2$ and that $c_\varphi<1/4$), but it needs to be correct.]}
 	 \end{corollary}
 
-In the above inequality, the $d^2$ scaling term is the bias limit and the $\sigma^2$ scaling term is the variance limit.
+In the above inequality, the $d^2$ scaling term is the bias limit, and the $\sigma^2$ scaling term is the variance limit.
 This result allows for a more concrete interpretation since the dependence on datasets' properties is explicit.
 The proof of Corollary \ref{cor_MTL_loss} can be found in Appendix \ref{app_iso_cov}.
 As a remark, %in equation \eqref{cor_MTL_error}, the predication loss $L(\hat{\beta}_2^{\MTL}) $ was obtained using the global minimizer $(\hat A,\hat B)$. B
@@ -143,7 +143,7 @@ Next, we use the bias-variance limits to study how varying sample sizes impacts 
 For example, imagine if we want to decide whether to collect more of task one's data or not, how does increasing $n_1$ affect the prediction loss?
 We assume that $n_2$ is fixed for simplicity.
 %Now we illustrate an interesting phenomenon that adding task one's samples helps task two initially, but may hurt eventually.
-The variance limit in equation \eqref{cor_MTL_error} obvious decreases with $n_1$.
+The variance limit in equation \eqref{cor_MTL_error} obviously decreases with $n_1$.
 It turns out that the bias term always increases with $n_1$, which can be verified by showing that the bias limit's derivative is always nonnegative.
 %As a function of the sample ratio, the limiting estimate always decreases first from $\frac{\sigma^2 p}{n_2 - p}$ with $n_1$ being zero, and then increases to $d^2$ when $n_1$ goes to infinity.
 %We describe a sketch of the proof.
