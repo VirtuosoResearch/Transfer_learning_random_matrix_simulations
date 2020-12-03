@@ -18,25 +18,39 @@
 \begin{document}
 
 	We thank all the reviewers for providing detailed comments.
-	We are more than happy to address the weaknesses pointed out by the reviewers and improve our work.
 	In this response, we first clarify several high-level questions and then respond to each reviewer's comments.
 
 	\textbf{Clarifying the setting of Section 3.} Both R2 and R3 pointed out that our covariate shift analysis only applies to two tasks where the rank of the shared matrix $B$ is $1$.
-	While this setting is only a special case of the two-layer linear neural net formulation, it corresponds to the important setting of transfer learning (specifically solving $f(B) = ||X^{(1)} B - Y^{(1)}||_F^2 + ||X^{(2)} B - Y^{(2)}||_F^2$).
-	The transfer learning problem with two tasks is well motivated from a practical perspective, and to the best of our knowledge, our work provides the first upper bound in the transfer learning setting of linear regression under covariate shift.
+	While this setting is a special case of a two-layer linear neural net, it corresponds to the important setting of transfer learning (specifically solving $f(B) = ||X^{(1)} B - Y^{(1)}||^2 + ||X^{(2)} B - Y^{(2)}||^2$).
+	The transfer learning problem with two tasks is well motivated from a practical perspective.
+	Our result provides precise asymptotics under covariate shift.
 	We think it is an excellent research question to study the multiple task setting under covariate shift.
 	Several recent work has made progress in the multiple linear regression setting, including (Li et al., 2020), (Chen et al., 2020 arXiv:2009.11282), (Kong et al., 2020 arXiv:2002.08936).
 	However, they all assume that the feature vectors are drawn from an isotropic Gaussian distribution.
-	Therefore, while we acknowledge that our analysis only applies to two tasks, we believe our work has made an important contribution toward studying multi-task learning under covariate shift.
+	Therefore, while our analysis only applies to two tasks, we believe our work has made an important contribution toward studying covariate shift.
 
-	\textbf{The gap between the theory and experiment in Fig 2.b?} Thanks to R2 and R3 for pointing out this gap.
+
+
+	\begin{wrapfigure}{R}{4.0cm}
+			\vspace{-0.2in}
+		\caption{Improved Result}\label{fig_update}
+		\includegraphics[width=4.0cm]{sample_ratio_several_d.eps}
+		\vspace{-0.4in}
+	\end{wrapfigure}
+	%------------------------------------------
+%	{\lipsum[2-3]
+%		\par
+%	Figure~\ref{wrap-fig:1} is a wrapped figure.
+
+
+\textbf{The gap between the theory and experiment in Fig 2.b?} Thanks to R2 and R3 for pointing out this gap.
 	We have improved our result so that the theory matches experiment in Fig 2.b (see Figure \ref{fig_update} for the updated result).
-	To derive the new results, we use the identity $\tr\left[(X_1^\top X_1 + X_2^\top X_2)^{-2}(X_1^\top X_1)^2\right]= \left.\frac{\rm{d}}{{\rm d} t}\right|_{t=0} \tr\left[(X_1^\top X_1 + t(X_1^\top X_1)^2 + X_2^\top X_2)^{-1}\right]$. To calculate the trace of the inverse of $X_1^\top X_1 + t(X_1^\top X_1)^2 + X_2^\top X_2$, we need to study its asymptotic eigenvalue distribution for $t$ close to 0. This is complicated but can be done with an extension of the method in our paper.  %DESCRIBE THE IDEA.
+	To derive the new results, we use the identity $\tr\left[(X_1^\top X_1 + X_2^\top X_2)^{-2}(X_1^\top X_1)^2\right]= \left.\frac{\rm{d}}{{\rm d} t}\right|_{t=0} \tr\left[(X_1^\top X_1 + t(X_1^\top X_1)^2 + X_2^\top X_2)^{-1}\right]$. To calculate the trace of the inverse of $X_1^\top X_1 + t(X_1^\top X_1)^2 + X_2^\top X_2$, we need to study its asymptotic eigenvalue distribution for $t$ close to 0, which can be done by the same technique in our paper.  %DESCRIBE THE IDEA.
 
 	\textbf{Can any of the results in Section 3 be obtained from a straightforward application of a generalized MP theorem?}
 	Thanks for raising this question. R3 is correct that the variance equation in Corollary 3.3 can be obtained from the MP law.
 	However, to the best of our knowledge, the bias equation in Corollary 3.3 and Example 3.4 cannot be obtained from the MP law.
-	Regarding the paper Ledoit and P{\'e}ch{\'e} (2011) mentioned by R2, the authors deal with a single sample covariance matrix $X^\top X$, where the row vectors of $X$ have the same population covariance matrix. This case cannot be reduced to our case with two sample covariance matrices $X_1^\top X_1$ and $X_2^\top X_2$ that have different population covariance matrices. In particular, if we stack the rows of $X_1$ and $X_2$ into one random matrix $X$, then the row vectors of $X$ have different covariance matrices. Moreover, in order to get the best convergence rates, the method in  Ledoit and P{\'e}ch{\'e} (2011) is not sufficient, and some new techniques in random matrix theory are needed. 
+	Regarding the paper Ledoit and P{\'e}ch{\'e} (2011) mentioned by R2, the authors deal with a single sample covariance matrix $X^\top X$, where the row vectors of $X$ have the same population covariance matrix. This case cannot be reduced to our case with two sample covariance matrices $X_1^\top X_1$ and $X_2^\top X_2$ that have different population covariance matrices. In particular, if we stack the rows of $X_1$ and $X_2$ into one random matrix $X$, then the row vectors of $X$ have different covariance matrices. Moreover, in order to get the best convergence rates, the method in  Ledoit and P{\'e}ch{\'e} (2011) is not sufficient, and some new techniques in random matrix theory are needed.
 
 	\textbf{Response to R1.} Please see our response to the detailed comments.
 	\textbf{(8-i)} Yes, the variance decreases because $||{a_i^{\star}}||^2 \le 1$.
@@ -55,23 +69,26 @@
 	These are interesting research questions, but beyond the scope of our work.
 
 	Response to questions under Section 3.
-	\textbf{(1-ii)} We would like to reminder the reviewer that the purpose of the examples is to explain the empirical phenomena of multi-task and transfer learning.
+	\textbf{(1-ii)} We would like to reminder the reviewer that the purpose of the examples is to explain empirical phenomena of multi-task and transfer learning.
 	We believe that our examples have provided important initial insights toward understanding the effect of varying sample size ratios and covariate shifts.
 	See Appendix A for evaluation in a real world data setting.
-	We will address these issues and the other clarification questions in the next version of the paper.
+%	We will address these issues and the other clarification questions in the next version of the paper.
 
 	\textbf{Response to R3.}
 	We thank the reviewer for the encouraging review.
-	Regarding the question of how the prediction loss varies with $r$, we would like to point out that in the setting of Theorem 2.1, our result implies the following simple corollary.
+	Regarding the question of how the prediction loss varies with $r$, our result implies the following corollary of Theorem 2.1.
 	Suppose that the singular values of ${B^{\star}}^{\top}\Sigma B^{\star}$ are $\lambda_1, \lambda_2, \dots, \lambda_t$ in decreasing order.
 	If we increase $r$ by $1$, the bias reduces by $\lambda_{r+1}$ while the variance increases, the amount of which depends on the singular vector of  ${B^{\star}}^{\top}\Sigma B^{\star}$ corresponding to $\lambda_{r+1}$.
 	As an example of this corollary, we can show that in the setting of Example 2.2, the average prediction loss of all tasks is minimized when $r$ is one.
-	We also thank the reviewer for suggesting the related work (indeed our work has been heavily inspired by Hastie et al., 2019).
+	We also thank the reviewer for suggesting the related work.
 	We will add these related work to the next version of the paper.
 
 	\textbf{Response to R5.}
 	In response to the reviewer's comments, we explain the high-level purpose of our work and the importance of why one should care about analyzing the sample size ratios.
-	(1) Hard parameter sharing is a widely used empirical approach to performing multi-task learning.
-	(2) However, there remain critical challenges of applying hard parameter sharing successfully in practice.
-	The first challenge is negative transfer -- this occurs commonly
+	Hard parameter sharing is a widely used empirical approach to performing multi-task learning.
+	However, there remain critical challenges of applying hard parameter sharing successfully in practice.
+	The first challenge is negative transfer -- this occurs when the performance of MTL is worse than STL.
+	The second challenge is unbalanced datasets (arXiv:2001.06782).
+	For example, Vu et al., EMNLP'20 conducted a large-scale evaluation and observed that sample sizes critically impact the performance of transfer learning.
+	Our results rigorously explain these intriguing empirical findings using bias-variance tradeoffs.
 \end{document}
