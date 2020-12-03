@@ -12,7 +12,8 @@
 \usepackage{microtype}      % microtypography
 \usepackage{xcolor}         % define colors in text
 \usepackage{xspace}         % fix spacing around commands
-
+\usepackage{macro_math}
+\usepackage{macro_fan}
 
 \begin{document}
 
@@ -41,7 +42,7 @@
 	\textbf{(8-i)} Yes, the variance decreases because $||{a_i^{\star}}||^2 \le 1$.
 	The bias increases because the bias of single-task learning (the ordinary least squares solution) is zero when $n > p$.
 	\textbf{(8-ii)} By lower order terms, we mean any term that vanishes to zero when $p$ increases to infinity.
-	\textbf{(8-iii)} The sum of $||{a_i^{\star}}||^2$ is one (or $r$ in general), because $A^{\star}$ is a (subspace) projection matrix.
+	\textbf{(8-iii)} The sum of $||{a_i^{\star}}||^2$ is one because $A^{\star}$ is a rank-$1$ projection matrix.
 	\textbf{(8-iv)} %We want to point out that the problem setting in Section 3 is in general non-convex. Therefore, it is not possible to explicitly solve $A_1, A_2$ without making further assumptions.
 	We can assume knowledge of $A_1 \in \mathbb R, A_2 \in \mathbb R$ without loss of generality since they can be solved numerically by using a subset of training data points (e.g. $\sqrt{p}$ suffices).
 	The sampling error of the numerical solution is $O(\exp(-p))$.
@@ -49,15 +50,25 @@
 	\textbf{Response to R2.} We thank the reviewer for providing detailed feedback.
 	Response to questions under Section 8.
 	\textbf{(i)}
-	In the over-parametrized regime, the minimum solution of $f(A ,B)$ (equation 1) reduces to single-task learning.
+	In the over-parametrized regime, the minimum solution of $f(A ,B)$ (equation 1) reduces to single-task learning  (cf. Proposition 1 in Wu et al., 20).
 	Hence, studing this regime is problematic without adding explicit regularization or implicit algorithmic biases.
 	These are interesting research questions, but beyond the scope of our work.
-	\textbf{(ii)}
 
 	Response to questions under Section 3.
-	\textbf{(1-i)}
+	\textbf{(1-ii)} We would like to reminder the reviewer that the purpose of the examples is to explain the empirical phenomena of multi-task and transfer learning.
+	We believe that our examples have provided important initial insights toward understanding the effect of varying sample size ratios and covariate shifts.
+	See Appendix A for evaluation in a real world data setting.
+	We will address these issues and the other clarification questions in the next version of the paper.
 
 	\textbf{Response to R3.}
+	We thank the reviewer for the encouraging review.
+	Regarding the question of how the prediction loss varies with $r$, we would like to point out that in the setting of Theorem 2.1, our result implies the following simple corollary.
+	Suppose that the singular values of ${B^{\star}}^{\top}\Sigma B^{\star}$ are $\lambda_1, \lambda_2, \dots, \lambda_t$ in decreasing order.
+	If we increase $r$ by $1$, the bias reduces by $\lambda_{r+1}$ while the variance increases, the amount of which depends on the singular vector of  ${B^{\star}}^{\top}\Sigma B^{\star}$ corresponding to $\lambda_{r+1}$.
+	As an example of this corollary, we can show that in the setting of Example 2.2, the average prediction loss of all tasks is minimized when $r$ is one.
+	We also thank the reviewer for suggesting the related work.
+	Our work is heavily inspired by Hastie et al., 2019.
+	We will add these related work to the next version of the paper.
 
 	\textbf{Response to R5.}
 \end{document}
