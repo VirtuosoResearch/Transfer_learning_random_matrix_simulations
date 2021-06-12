@@ -1,0 +1,212 @@
+\section{Transferring from multiple source tasks}\label{sec_same}
+
+%We begin by considering the case where all tasks have the same sample size and feature covariates, that is, $n_i = n$ and $X^{(i)} = X\in\real^{n\times p}$ for all $i = 1, \dots, t$.
+%We provide a sharp generalization error bound of hard parameter sharing estimators.
+
+Hard parameter sharing is a commonly used architecture in multi-task learning. However, there have been few theoretical results on the performance of the HPS estimators in high-dimensional multi-task learning. In this section, we extend our results on the predication loss of the HPS estimator to a multi-task linear regression, where all tasks have the same covariates. We make this extension for the following reasons. First, its restriction to the two-task case provides a rare example where the output layers $A_1$ and $A_2$ can be characterized exactly. Second, the proof of the multi-task case is no harder than the two-task case, but it can provide much clearer geometric intuition  as we will discuss below. Third, the corresponding multi-task setting is prevalent in applications of multi-task learning to image classification, where there are multiple prediction labels/tasks for every image \cite{chexnet17,EA20}. Finally, it provides useful insights into a more general theory of multi-task learning, which we will explore in greater details in future works.
+%It is not hard to extend the above result to the cases with more than two tasks. {\cor For the general case, we study them in a future work.}
+
+%Suppose we have $t$ datasets.
+%For each dataset $i$ from $1$ to $t$, let $n_i$ denote its sample size.
+%Let $X^{(i)} \in \real^{n_i \times p}$ denote dataset $i$'s feature covariates.
+%We assume that the label vector $Y^{(i)} \in \real^{n_i}$ for $X^{(i)}$ follows a linear model plus random noise.
+%We study the standard hard parameter sharing architecture:
+%a shared feature representation layer $B\in\real^{p\times r}$ for all datasets and a separate output layer $A_i \in \real^r$ for every dataset $i$.
+%See Figure \ref{fig_intro_arch} for an illustration.
+%The width of $B$, denoted by $r$, plays an important role in regularization.
+%As observed in Proposition 1 of \cite{WZR20}, if $r \ge t$, there is no regularization effect.
+%Hence, we assume that $r < t$ in our study.
+%For example, when there are only two tasks, $r = 1$ and $B$ reduces to a vector whereas $W_1, W_2$ become scalars.
+%We study the following minimization problem:
+%	\item Separate each dataset $(X_i, Y_i)$ randomly into a training set $(X_i^{tr}, Y_i^{tr})$ and a validation set $(X_i^{val}, Y_i^{val})$.
+%	The size of each set is described below.
+%	\item Learn the shared layer $B$: minimize the training loss over $B$ and $W_1, \dots, W_t$, leading to a local minimum of $B$ that depends on $W_1, \dots, W_t$, denoted by $\hat{B} = \hat{B}(W_1, \dots, W_t)$.
+%\vspace{-0.1in}
+%\begin{align}\label{eq_mtl}
+%			f(A, B) = \sum_{i=1}^t \norm{X^{(i)} B A_i - Y^{(i)}}^2,
+%\end{align}
+%\vspace{-0.05in}
+%where $A = [A_1, A_2, \dots, A_t] \in \real^{r \times t}$.
+
+\vspace{5pt}
+\noindent\textbf{Multi-task setting.} Suppose we have $t$ datasets whose sample sizes are all equal to $n$ and whose feature covariates are all equal to $X \in \real^{n \times p}$. The label vector of the $i$-th task follows a linear model
+$$Y^{(i)} = X \beta^{(i)} + \varepsilon^{(i)},\quad i=1,2,\cdots, t.$$
+We assume that $X=Z\Sigma^{1/2}$ is a random matrix satisfying the same assumption as $X^{(2)}$ in Assumption \ref{assm_big1}, that is, $Z$ is an $n\times p$ random matrix with i.i.d. entries satisfying (\ref{assm1}) and \eqref{conditionA2}, $\Sig$ is a deterministic positive definite symmetric matrix satisfying \eqref{eigen} and \eqref{assm3}, and $\rho:=n/p$ satisfies \eqref{assm2}. $\varepsilon^{(i)} \in \real^{n}$, $i=1,2,\cdots, t$, are independent random vectors with i.i.d entries of mean zero, variance $\sigma^2$, and bounded moments as in \eqref{eq_highmoments}. Finally, $X$, $\ve^{(i)}$ and $\beta^{(i)}$, $i=1,2,\cdots, t$, are all  independent from each other.
+
+%\begin{enumerate}
+%	\item $X = Z \Sigma^{1/2} \in \real^{n\times p}$ for a positive semidefinite matrix $\Sigma\in \R^{p\times p}$, and every entry of $Z \in \real^{n \times p}$ is drawn independently from a one dimensional distribution with zero mean, unit variance, and constant $\varphi$-th moment for a fixed $\varphi > 4$.
+%	\item every entry of $\varepsilon^{(i)} \in \real^{n \times t}$ is drawn indepdently from a one dimensional distribution with zero mean, variance $\sigma^2$, and bounded moment up to any order.\footnote{There exists a fixed function $C: \mathbb{N} \rightarrow \real^+$ such that for any $k \in \N$, the $k$-th moment is bounded by $C(k)$.}
+%\end{enumerate}
+
+
+	To define the HPS parameter for the above setting, we study the following minimization problem % \eqref{eq_tsl} becomes
+	\begin{align}
+		f(A, B) = \sum_{j=1}^t \bignorm{X B A_j - Y^{(j)}}^2, \label{eq_mtl_same_cov}
+	\end{align}
+	where $B \in \real^{p \times r}$ is a rank-$r$ shared feature representation layer, and $A := [A_1, A_2, \dots, A_t] \in \real^{r \times t}$ with $A_i \in \R^r$ being a separate output layer for task $i$. %Recall that $r$ is the width of $B$.
+We will focus on cases with $r < t$, because otherwise the global minimum of $f(A, B)$ reduces to single-task learning (cf. Proposition 1 of \cite{WZR20}).
+
+	%If $r\ge t$, then it is trivial to observe that we can always choose the parameters $A$ and $B$ such that $BA_i$ can fit any parameter $\beta^{(i)}\in \R^p$, which leads to a vanishing predication loss. Hence we only consider the case with $r<t$. \FY{Correct it if the reason is wrong.}
+
+	For the optimization objective  in \eqref{eq_mtl_same_cov}, using the local optimality condition over $B$, that is, $\frac{\partial f}{\partial B} = 0$, we obtain $\hat{B}$ as a function of $A$:
+	\begin{align}
+		\hat{B}(A) %&\define (X^{\top}X)^{-1} X^{\top} \bigbrace{\sum_{j=1}^t Y^{(j)} A_j^{\top}} (A  A^{\top})^{+} \nonumber \\
+		&= (X^{\top} X)^{-1} X^{\top} Y A^{\top} (AA^{\top})^{+}, \label{eq_Bhat}
+	\end{align}
+	where $Y := [Y^{(1)}, Y^{(2)}, \dots, Y^{(t)}]$ and $(AA^{\top})^{+}$ denotes the pseudoinverse of $AA^{\top}$.
+	%Here we have used that $X^{\top}X$ is invertible since $n > \rho \cdot p$ and $\rho > 1$ (cf. Fact \ref{fact_minv}).
+	%\FY{Is $\dag$ a standard notation? It is a bad notation at least for me because $\dag$ is more often used as Hermitian conjugate. Wiki page uses $(AA^{\top})^{+}$ for pseudo-inverse.}
+	Plugging $\hat{B}(A)$ into equation \eqref{eq_mtl_same_cov}, we obtain the following objective that only depends on $A$ (in matrix notation):
+	\begin{align}\label{eq_mtl_output_layer}
+		g(A) = \bignormFro{X (X^{\top}X)^{-1}X^{\top} Y A^{\top} (AA^{\top})^{+} A - Y}^2.
+	\end{align}
+%	Note that $A^{\top} (AA^{\top})^{+} A$ is a projection onto the subspace spanned by the rows of $A$. For simplicity, we write it into the form
+%	$$A^{\top} (AA^{\top})^{+} A= U_A U_A^\top,$$
+%	where $U_A \in \R^{t\times r}$ is a $t\times r$ partial orthonormal matrix (i.e. $U_A^\top U_A=\id_{r\times r}$). Hence we also denote the function $g(A)$ by $g(U_A)$.
+Let $\hat A$ be the global minimizer of $g(A)$. Then $(\hat A,\hat B(\hat A))$ is the global minimizer of $f(A,B)$. We define the HPS estimator for task $i$ as $\hat \beta_i^{\MTL} := \hat B(\hat A) \hat A_i,$
+%For an estimator $\hat{\beta}_i$ of task $i$, we are interested in
+and its (out-of-sample) prediction loss as
+\be\label{ith_loss} L_i(\hat{\beta}_i^{\MTL}) = \bignorm{\Sigma^{1/2} \left(\hat{\beta_i}^{\MTL} - \beta^{(i)}\right)}^2. \ee
+
+
+Our main result of this section, Theorem \ref{thm_many_tasks}, shows that hard parameter sharing essentially approximates all tasks through a rank-$r$ subspace. To formalize this geometric intuition, as in the two-task case, we introduce the matrix $B^\star \define [{\beta}^{(1)},{\beta}^{(2)},\dots,{\beta}^{(t)}] \in \real^{p\times t}$ formed by the linear model parameters of all the $t$ tasks.
+Let $A^{\star} {A^{\star}}^{\top}$ denote the best rank-$r$ subspace approximation of ${B^{\star}}^\top\Sigma B^{\star}$ (which can be regarded as the covariance of the task labels):
+\begin{align}\label{eq_A_star}
+	A^{\star} \define \argmin_{U\in\real^{t\times r} : U^{\top} U = \id_{r\times r}} \inner{U U^{\top}} {{B^{\star}}^{\top} \Sigma B^{\star}},
+\end{align}
+where $\langle \cdot ,\cdot \rangle $ denotes the Frobenius inner product between two matrices.
+ To ensure that $A^{\star}$ is unique, we assume that the $r$-th largest eigenvalue of ${B^\star}^\top \Sigma B^\star$ is strictly larger than the $(r+1)$-th largest eigenvalue. Otherwise, $A^{\star}$ is not well-defined and Theorem \ref{thm_many_tasks} will give a null result.
+ %$\lambda_{r+1}({B^\star}^\top \Sigma B^\star)$ is strictly smaller than $\lambda_{r}({B^\star}^\top \Sigma B^\star)$.
+Let $a_i^{\star}:= A^{\star}{A^{\star}}^{\top} e_i \in\real^r$ denote the $i$-th column of $A^{\star}{A^{\star}}^{\top}$, where $e_i$ is the standard basis unit vector along $i$-th direction. Then we have the following result.
+
+
+% $B^{\star} A^{\star} {A^{\star}}^{\top}$.
+%Let $(\hat{A}, \hat{B})$ be the global minimizer of $f(A, B)$.
+%Recall that the HPS estimator is defined as $\hat{\beta}_i^{\MTL} = \hat{B} \hat{A}_i$.
+%Our result is stated as follows.
+
+\begin{theorem}\label{thm_many_tasks}
+%Suppose $X=Z\Sigma^{1/2}\in \R^{n\times p}$ satisfy Assumption \ref{assm_secA1} with $\rho:=n/p>1$ being some fixed constant. Consider data models  $Y_i = X\beta_i + \varepsilon_i$, $i=1,2,\cdots, t$, where $\e_i\in \R^{n}$ are random vectors with i.i.d. entries with mean zero, variance $\sigma^2$ and all moments as in \eqref{assmAhigh}. Moreover, assume that $X$, $\beta_i$ and $\e_i$ are all independent of each other.
+	%Let $n = c \cdot p$.
+	%Let $X\in\real^{n\times p}$ and $Y_i = X\beta_i + \varepsilon_i$, for $i = 1,\dots,k$.
+%	Consider $t$ data models $Y_i = X\beta_i + \varepsilon_i$, $i=1,2,\cdots, t$, where $X$ has covariance matrix $\Sigma$, and the entries of $\e_i$ are i.i.d. with mean zero and variance $\sigma^2$.gT
+	%that satisfy Assumption \ref{assm_secA2} in the appendix.
+	%Assume that $n > \rho \cdot p$ for a fixed constant $\rho > 1$.
+	%Let $c_{\varphi}$ be any fixed value within $(0, \frac{\varphi-4}{2\varphi})$.
+%	Let $L(B^{\star}a_i^{\star}): = \norm{\Sigma^{1/2} (B^{\star} a_i^{\star}- \beta^{(i)})}^2$.
+%Suppose $X\in \R^{n\times p}$ is an $n\times p$ random matrix satisfying the same assumptions as $X^{(1)}$ and $X^{(2)}$ in Assumption \ref{assm_big1}, and $\rho:=n/p$ satisfies \eqref{assm2}.
+Suppose the above multi-task setting holds. Let $c>0$ be an arbitrary (small) constant. Then for any task $i = 1,  \cdots, t$, we have that with high probability,
+\be\label{minimizer_beta}
+\left\|  \hat A^{\top} (\hat A\hat A^{\top})^{+} \hat A - A^\star {A^\star}^\top\right\|_F  \le \left[ \frac{ n^{-1/2+2/\varphi+c}  \|{B^{\star}}^{\top}\Sigma B^{\star}\|  + n^{-1/2+c} \sigma^2 }{\lambda_r - \lambda_{r+1} }\right]^{1/2} ,
+\ee
+where $\lambda_r $ and $\lambda_{r+1}$ are respectively the $r$-th and $(r+1)$-th largest eigenvalues of ${B^\star}^\top\Sigma B^\star$. Moreover, the prediction loss of the HPS estimator $\hat{\beta}_i^{\MTL}$ satisfies that  with high probability,
+	\begin{align}
+		& \bigabs{L_i(\hat{\beta}_i^{\MTL}) - L_i(B^{\star}a_i^{\star}) -\frac{p\sigma^2}{n-p}  \norm{a_i^{\star}}^2  } \nonumber\\
+		& \le  \left[ \frac{  n^{-1/2+ 2/\varphi +c}   \norm{{B^\star}^\top\Sigma B^\star} +n^{-1/2+c}  \sigma^2} {\lambda_r  - \lambda_{r+1} }\right]^{1/2}  \left(\norm{{B^\star}^\top\Sigma B^\star}+  \sigma^2\right). \label{Li_multi1}
+		%\le n^{-\frac{c_{\varphi}}2} \cdot \frac{\bigbrace{ \norm{\Sigma^{1/2} B^{\star}}^2+  \sigma^2} \cdot (\bignormFro{\Sigma^{1/2} B^{\star}}^2 + \sigma^2 t)} {\lambda_r ({B^\star}^\top \Sigma B^\star)- \lambda_{r+1}({B^\star}^\top \Sigma B^\star)},
+	\end{align}
+	%where $\lambda_r({B^\star}^\top\Sigma B^\star)$ and $\lambda_{r+1}({B^\star}^\top\Sigma B^\star)$ are respectively be the $r$-th and $(r+1)$-th largest eigenvalue of ${B^\star}^\top\Sigma B^\star$.
+%	where $C_1: = \frac{\bignormFro{\Sigma^{1/2} B^{\star}}^2 + \sigma^2 t}{\lambda_r ({B^\star}^\top \Sigma B^\star)- \lambda_{r+1}({B^\star}^\top \Sigma B^\star)}$. %and $C_2 :=  C_1\cdot \norm{\Sigma^{1/2} B^{\star}}$.
+Finally, we have a better bound for the averaged prediction loss:  with high probability,
+\begin{align}
+&\left|\frac{1}{t}\sum_{i=1}^t L_i(\hat{\beta}_i^{\MTL}) - \frac1t\bignorm{\Sigma^{1/2} B^{\star} (A^\star {A^\star}^{\top} - \id_{t\times t})}_F^2 - \frac{p \sigma^2}{n-p}\cdot \frac{r}{t}  \right| \nonumber \\
+ &\le n^{-1/2+2/\varphi+c}  \norm{{B^\star}^\top\Sigma B^\star}+ n^{-1/2+c}   \sigma^2 .\label{Li_multi2}
+\end{align}
+
+\end{theorem}
+
+Recall that $\varphi$ is a constant larger than 4, hence $n^{-1/2+2/\varphi+c}$ is a negligible  factor asymptotically as long as $c$ is smaller than $1/2-2/\varphi$. Moreover, the factor $(\lambda_r - \lambda_{r+1})^{-1}$ is natural, because the best rank-$r$ subspace approximation of ${B^{\star}}^\top\Sigma B^{\star}$ is not stable when $\lambda_r $ and $\lambda_{r+1} $ are close to each other.  The bound \eqref{minimizer_beta} verifies our intuition that hard parameter sharing approximates the matrix ${B^{\star}}^\top\Sigma B^{\star}$ through a best rank-$r$ subspace. The estimate \eqref{Li_multi1}
+ gives the exact asymptotic limit of $L_i(\hat{\beta}_i^{\MTL}(\hat a))$, which shows that the prediction loss of $\hat{\beta}_i^{\MTL}$ decomposes into a bias term $L_i(B^{\star} a_i^{\star})$ that measures the prediction loss of $B^{\star} a_i^{\star}$, plus a variance term that scales with $\norm{a_i^{\star}}^2$. Since $\norm{a_i^{\star}}^2\le 1$, compared with the single-task predication loss \eqref{L_STL_simple01}, the variance term always decreases for the multi-task HPS estimator. On the other hand, the bias term always increases (because the bias in single-task linear regression is zero). Hence as in the transfer learning setting, whether the HPS estimator is better than the OLS estimator depends on an intricate  {bias-variance tradeoff}.
+%{\cor One direct implication of our result is that compared to STL, the variance always decreases, since STL's variance is equal to $\sigma^2 \tr[\Sigma (X^{\top} X)^{-1}]$.
+%On the other hand, the bias always increases.}
+We can observe a similar {bias-variance tradeoff} for the averaged predication loss in \eqref{Li_multi2} using the fact that $r<t$. Note that the estimate \eqref{Li_multi2} can be applied even when the best rank-$r$ subspace approximation of ${B^{\star}}^\top\Sigma B^{\star}$ is not unique. For all the estimates in Theorem \ref{thm_many_tasks}, we believe that their convergence rates are asymptotically tight when $n$ goes to infinity.
+
+
+The proof of Theorem \ref{thm_many_tasks} will be given in Appendix  \ref{app_proof_error_same_cov} of the supplement \cite{MTL_suppl}. Moreover, by setting $t=2$ in Theorem \ref{thm_many_tasks}, we can obtain the prediction loss for the HPS estimator for the transfer learning setting where the two tasks have the same covariates  $X^{(1)}=X^{(2)}$. For the reader's convenience, we give the precise statement in Corollary \ref{thm_two_tasks}.
+%Theorem \ref{thm_many_tasks} implies Theorem \ref{thm_two_tasks} as a special case with $t=2$ and $r=1$.
+%In this section, we consider the setting where the two tasks have the same covariates  $X^{(1)}=X^{(2)}$.
+We define $A^\star \in \R^{2}$ as the normalized eigenvector corresponding to the larger eigenvalue of the $2\times 2$ matrix
+$ {B^\star}^\top \Sigma  B^\star,$ where recall that $B^\star \define [{\beta}^{(1)},{\beta}^{(2)}] \in \real^{p\times 2}$ by definition.
+% is the matrix formed by the linear model parameters of the two tasks.
+Without loss of generality, we assume that the two eigenvalues of ${B^\star}^\top \Sigma B^\star$ are not degenerate, so that $A^\star$ is uniquely defined. %Otherwise, Theorem \ref{thm_two_tasks} will give a null result.
+In the following corollary, the estimate \eqref{minimizer_beta1} shows that the minimizer $\hat a$ is approximately equal to $A^\star(1)/A^\star(2)$, while \eqref{Li_multi0} gives the exact asymptotic limit of $L_2(\hat{\beta}_2^{\MTL}(\hat a)) $, together with an explicit convergence rate that we believe to be sharp.
+
+\begin{corollary}\label{thm_two_tasks}
+Under Assumption \ref{assm_big1}, suppose that $X^{(1)}=X^{(2)}$ and $n_1=n_2\equiv n$. Let $c>0$ be an arbitrary (small) constant. Then we have that with high probability,
+\be\label{minimizer_beta1}
+\left\| u_{\hat a}u_{\hat a}^\top - A^\star {A^\star}^\top\right\|_F  \le  \left[\frac{ n^{-1/2+2/\varphi+c}  \|{B^{\star}}^{\top}\Sigma B^{\star}\|  + n^{-1/2+c} \sigma^2 }{\lambda_1 - \lambda_{2} } \right]^{1/2},
+\ee
+where $u_{\hat a}$ is the unit vector defined as
+$ u_{\hat a}:= \frac1{\hat a^2 +1} \begin{pmatrix} {\hat a}\\ 1\end{pmatrix},$ and $\lambda_1 $ and $\lambda_{2}$ are respectively the larger and smaller eigenvalues of ${B^\star}^\top\Sigma B^\star$.
+%for task 2,  % over the randomness of the input,
+Moreover, the prediction loss of the HPS estimator satisfies that with high probability,
+	\begin{align}
+		& \bigabs{L_2(\hat{\beta}_2^{\MTL}(\hat a)) - \left\|(\Sigma^{(2)})^{1/2} \left(A^\star(2) \cdot B^{\star}A^{\star}  - \beta^{(2)}\right)\right\|^2  - |A^\star(2)|^2  \frac{p\sigma^2}{n-p} } \nonumber\\
+		& \le  \left[  \frac{  n^{-1/2+2/\varphi+c} \|{B^{\star}}^{\top}\Sigma B^{\star}\|+n^{-1/2+c} \sigma^2} {\lambda_1  - \lambda_2 }\right]^{1/2}   \left(\norm{\Sigma^{1/2} B^{\star}}^2+  \sigma^2\right), \label{Li_multi0}
+		%\le n^{-\frac{c_{\varphi}}2} \cdot \frac{\bigbrace{ \norm{\Sigma^{1/2} B^{\star}}^2+  \sigma^2} \cdot (\bignormFro{\Sigma^{1/2} B^{\star}}^2 + \sigma^2 t)} {\lambda_r ({B^\star}^\top \Sigma B^\star)- \lambda_{r+1}({B^\star}^\top \Sigma B^\star)},
+	\end{align}
+	 where $A^\star(2)$ denotes the second entry of $A^\star$.
+	 \end{corollary}
+
+%The estimate \eqref{minimizer_beta1} shows that the minimizer $\hat a$ is approximately equal to $A^\star(1)/A^\star(2)$, while \eqref{Li_multi0} gives the exact asymptotic limit of $L_2(\hat{\beta}_2^{\MTL}(\hat a)) $, together with an explicit convergence rate that we believe to be sharp.
+
+
+%It is not hard to extend the above result to the cases with more than two tasks. We make this extension for the following reasons. First, it provides a clearer geometric intuition than the two-task setting as we will discuss below. Second, the corresponding multi-task setting is prevalent in applications of multi-task learning to image classification, where there are multiple prediction labels/tasks for every image \cite{chexnet17,EA20}. Finally, it provides useful insights into a more general theory of multi-task learning, which we will explore in greater details in future works.
+
+%We consider an arbitrary local minimum $B, W_1, \dots, W_2$ of the optimization objective.
+%We extend the bias-variance decomposition from the two-task case to the multiple-task case.
+%We observe that the expected prediction loss of $\hat{\beta}_t^{\MTL}$ conditional on $X$ consists of a bias and a variance equation as follows
+%\begin{align}
+%	\exarg{\varepsilon_1, \dots, \varepsilon_t}{L(\hat{\beta}_t^{\MTL}) \mid X}
+%	=& \bignorm{\Sigma^{1/2} \bigbrace{B^{\star} \cW^{\top} (\cW \cW^{\top})^{-1} W_t - \beta_t}}^2 \label{eq_bias_multiple} \\
+%	&+ \sigma^2 \cdot (W_t^{\top} (\cW \cW^{\top})^{-1} W_t) \cdot \bigtr{\Sigma (X^{\top} X)^{-1}} \label{eq_var_multiple}
+%\end{align}
+%One can see that equation \eqref{eq_bias_multiple} is the bias of the multi-task learning estimator and equation \eqref{eq_var_multiple} is its variance.
+%Compared to the prediction loss of single-task learning (cf. equation \eqref{eq_var_stl}), we observe that the variance equation \eqref{eq_var_multiple} is always smaller because $W_t^{\top} (\cW \cW^{\top})^{-1} W_t \le 1$.
+%On the other hand, the bias equation \eqref{eq_bias_multiple} is always larger because of the difference between the task models.
+%We show the generalization error of hard parameter sharing estimators.
+%Before stating the result, we define the following notations.
+
+
+
+
+%The key step for proving Theorem \ref{thm_many_tasks} is a characterization of $f(A, B)$'s global minimizer.
+%\medskip
+%
+%\noindent\textbf{Comparison to single-task learning (STL).}
+%Theorem \ref{thm_many_tasks} provides a sharp generalization error bound that is asymptotically tight when $n$ goes to infinity.
+%%The limiting loss of hard parameter sharing consists of two parts, a bias term $L(B^{\star} a_i^{\star})$ that measures the error of $B^{\star} a_i^{\star}$, and a variance term that scales with noise variance $\sigma^2$.
+%%	Our result implies that the variance of hard parameter sharing is always smaller than single-task learning.
+%%	This is because	STL's variance is equal to $\frac{\sigma^2 \cdot p} {n - p}$ by Fact \ref{lem_minv}, and $\norm{a_i^{\star}}^2 \le 1$ since the spectral norm of $U_r$, which is a projection matrix, is at most one.
+%One direct implication of our result is that compared to STL, the variance always decreases, since STL's variance is equal to $\sigma^2 \tr[\Sigma (X^{\top} X)^{-1}]$.
+%On the other hand, the bias always increases.
+
+
+%\FY{add simulations to check our results; discuss motivations and possible applications}
+\iffalse
+In this paper, we consider a natural extension of the estimator $\hat \beta^{\rm{TL}} $, that is, the \emph{hard parameter sharing} (HPS) estimator, which has been a standard type of estimator in multi-task learning \FY{citations}. More precisely, we study the following HPS architecture: a shared feature representation layer $B\in\real^{p}$ for all datasets and a separate output layer $A_i \in \real$ for every dataset $i$. Then we study the following minimization problem:
+\begin{align}\label{eq_tsl}
+			f(A, B) = \norm{X^{(1)} B A_1 - Y^{(1)}}^2 + \norm{X^{(2)} B A_2 - Y^{(2)}}^2,
+\end{align}
+where we abbreviate $A = [A_1, A_2]$. Let $(\hat{A}, \hat{B})$ be the minimizer of $f(A, B)$. We define the hard parameter sharing (HPS) estimator for task $i$ as
+\be\label{def_HPS}\hat{\beta}_i^{\MTL} = \hat{B} \hat{A}_i,\quad i=1,2.\ee
+Note that $\hat \beta^{\rm{TL}}$ is a special case of $\hat{\beta}_i^{\MTL}$ by setting $A_1=A_2=1$.
+
+For the optimization objective $f(A, B)$ in \eqref{eq_tsl}, using the local optimality condition $\frac{\partial f}{\partial B} = 0$, we can solve that
+	\begin{align}
+		\hat{B} = A_2^{-1} \hat \Sigma(a)^{-1} \left[a (X^{(1))})^{\top}Y^{(1)} +  (X^{(2)})^{\top}Y^{(2)}\right], \label{eq_Bhat_2task} %\\
+		%&= (B^\star A ^{\top}) (A A^{\top})^{-1} + (X^{\top}X)^{-1}X^{\top}   \bigbrace{\sum_{j=1}^t \varepsilon_i A_i^{\top}} (A  A^{\top})^{-1}.
+	\end{align}
+where we denote $a:=A_1/A_2$ and $\hat \Sigma(a):= a^2 (X^{(1)})^\top X^{(1)}  + (X^{(2)})^\top X^{(2)}$.
+Applying $\hat B$ to equation \eqref{eq_tsl}, we obtain an objective that only depends on $a $ as follows %\HZ{$A$ has been used to denote the output layers. Could you replace $A$ with another symbol (say $x$)?}
+ \begin{align}
+		 g(a) \define & \left\| X^{(1)} \hat\Sigma(a)^{-1} (X^{(2)})^\top X^{(2)} (a\beta^{(2)}-\beta^{(1)}) \right. \nonumber\\
+			& \left. + \left(a^2 X^{(1)}\hat \Sigma(a)^{-1} (X^{(1)})^\top-\id_{n_1\times n_1}\right)\epsilon^{(1)}+ a X^{(1)}\hat \Sigma(a)^{-1} (X^{(2)})^\top \epsilon^{(2)} \right\|^2 \nonumber\\
+		   +& \left\| X^{(2)} \hat \Sigma(a)^{-1} (X^{(1)})^\top X^{(1)} (a\beta^{(1)}-a^2\beta^{(2)}) \right. \nonumber\\
+		  &\left.+ \left(X^{(2)}\hat\Sigma(a)^{-1} (X^{(2)})^\top-\id_{n_2\times n_2}\right)\epsilon^{(2)} + a X^{(2)}\hat \Sigma(a)^{-1} (X^{(1)})^\top \epsilon^{(1)} \right\|^2. \label{eq_mtl_A12}
+	\end{align}
+Let $\hat a$ be the minimizer of $g(a)$. Throughout this paper, we regard $Y^{(1)}$ as the source data, and $Y^{(2)}$ as the target data.  Then the HPS estimator \eqref{def_HPS} for the target task 2 is
+\be\label{HPS_est}
+\hat{\beta}_2^{\MTL} (\hat a) = \hat \Sigma(\hat a)^{-1}  \left[\hat a (X^{(1))})^{\top}Y^{(1)} +  (X^{(2)})^{\top}Y^{(2)}\right].
+\ee
+\fi
