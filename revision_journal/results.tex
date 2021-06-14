@@ -2,7 +2,27 @@
 In this section, we define our model for the setting of transfer learning, and introduce several transfer learning estimators that will be considered in this paper.
 
 
-\subsection{Assumptions}
+\subsection{Models and Assumptions}
+
+Consider the transfer learning setting with two data sets. We denote their sample sizes by $n_1$ and $n_2$. For $i=1,2,$ Let $X^{(i)} \in \real^{n_i \times p}$ denote dataset $i$'s feature covariates. We assume that the label vector $Y^{(i)} \in \real^{n_i}$ for $X^{(i)}$ follows a linear model plus random noise:
+$$Y^{(i)}= X^{(i)}\beta^{(i)} + \varepsilon^{(i)},\quad i=1,2.$$
+In this paper, we make the following assumptions on feature covariates $X^{(i)}$ and the noise vectors $\varepsilon^{(i)}$. We remark that all these assumptions are natural in high-dimensional statistics.
+
+We assume that the row vectors of $X^{(i)}$ are i.i.d. centered random vectors with  population covariance matrix $\Sigma^{(i)}$. More precisely, let
+\be\label{XofZ}X^{(i)} = Z^{(i)} (\Sigma^{(i)})^{1/2} \in \real^{n_i\times p},\quad i=1,2, \ee
+where each $\Sigma^{(1)}$ and $\Sigma^{(2)}$ are $p\times p$ deterministic positive definite symmetric matrices, and $Z^{(1)}=(z^{(1)}_{ij})$ and $Z^{(2)}=(z^{(2)}_{ij})$ are $n_1\times p$ and $n_2\times p$ random matrices with real i.i.d. entries satisfying
+\begin{equation}\label{assm1}
+\mathbb{E} z^{(1)}_{ij}=\mathbb{E} z^{(2)}_{ij} =0, \ \quad \ \mathbb{E} \vert z^{(1)}_{ij} \vert^2=\mathbb{E} \vert z^{(2)}_{ij} \vert^2 =1,
+\end{equation}
+
+Another commonly used transfer learning estimator is defined as the minimizer of the total loss function \cite{bastani2020predicting, li2020transfer}:
+$$\hat \beta^{\rm{TL}} := \argmin\left[ \norm{X^{(1)} \beta - Y^{(1)}}^2 + \norm{X^{(2)} \beta - Y^{(2)}}^2\right].$$
+
+Given a solution from minimizing $f(A, B)$, denoted by $(\hat{A}, \hat{B})$  (which we will specify below), let $\hat{\beta}_i^{\MTL} = \hat{B} \hat{A}_i$ denote the HPS estimator for task $i$.
+The critical questions are:
+(i) How well does the estimator work? In particular, how does the performance of the estimator scale with sample size?
+(ii) For datasets with different sample sizes and covariate shifts, how do they affect the estimator?
+
 Furthermore, we assume that the entries $z^{(1)}_{ij}$ and $z^{(2)}_{ij}$ have finite $\varphi$-th moment for some constant $\varphi>4$:
 \be \label{conditionA2}
 \mathbb{E} \vert z^{(1)}_{ij} \vert^\varphi  \le \tau^{-1},\quad \mathbb{E} \vert  z^{(2)}_{ij} \vert^\varphi   \le \tau^{-1}
@@ -51,7 +71,7 @@ Let $\tau$ be a small constant.
 \end{enumerate}
 \end{assumption}
 
-%\subsection{Transfer learning estimators}
+\subsection{Transfer Learning Estimators}
 
 
 %\FY{Introduce some popular transfer learning estimators: total loss estimator, and model averaging estimator.}
@@ -138,7 +158,7 @@ L(\hat{\beta}^{\AV}(\lambda) ) &= \left[ 1+ \OO(p^{-1/2+c})\right] \cdot \lambda
 On the other hand, much less is known about the predication loss of the HPS estimator. In particular, its exact dependence on the model parameters, including the model bias, noise variance, sample sizes, and population covariance matrices, is not well-understood so far. %\FY{What is known so far about this topic?}
 In Section \ref{sec_HPS_loss}, we give a rigorous analysis of the bias term \eqref{Lbias} and variance term \eqref{Lvar} in two different settings: (i) independent $X^{(1)}$ and $X^{(2)}$ with different sample sizes and same population covariance matrices $\Sigma^{(1)}=\Sigma^{(2)}$; (ii) independent $X^{(1)}$ and $X^{(2)}$ with different sample sizes and different population covariance matrices. In case (i), we provide the exact asymptotics for both the bias and variance terms, together with almost sharp convergence rates. We will use these results to illustrate the effects of the \emph{bias-variance tradeoff} and \emph{varying sample sizes}. In case (ii), we will prove an exact asymptotic variance limit, and employ the result to show the intricate effect of the covariate shift. On the other hand, in case (ii), we will provide an estimate on the bias term, which becomes exact only when $n_1\gg p$. %Here case (ii) is actually more general than (i)
 %In particular, we will use our results to analyze the effect of the following factors: \emph{bias-variance tradeoff}, \emph{sample sizes}, and \emph{covariate shift}.
-In Section \ref{sec_same}, we will consider a simple extension to a multi-task learning setting with more than two tasks and  the same covariates for all tasks. We will give the asymptotic limit of the predication loss for the HPS estimator, which provides useful insights into the more rich multi-task learning theory. Due to length constraint, we will explore the multi-task learning setting in greater details in other works.
+In Section \ref{sec_same}, we will consider a simple extension to a multi-task learning setting with more than two tasks and  the same covariates for all tasks. We will give the asymptotic limit of the predication loss for the HPS estimator, which provides useful insights into the more rich multi-task learning theory. %Due to length constraint, we will explore the multi-task learning setting in greater details in other works.
 
 %{\cor discuss about the bias-variance trade-off}
 %However, to the best of our knowledge, the asymptotic limit of $L(\hat{\beta}_2^{\MTL}(a))$ has never been calculated exactly in any high-dimensional setting.
@@ -290,6 +310,21 @@ We also remark for the general case with covariate shift, the method in Section 
 \end{remark}
 
 \paragraph{Examples.}
+To describe quantitively the bias-variance tradeoff phenomenon and the effect of varying sample sizes on the predication loss, we consider a \emph{random-effect model}, which has been studied for  single-task linear regression and ridge regression (see e.g. \cite{dobriban2020wonder,dobriban2018high}).
+
+ %{How does hard parameter sharing scale with sample sizes and covariate shift $M$?} One can see that the variance limit depends intricately on both tasks' samples sizes and covariate shift. Next, we illustrate how varying them impact the prediction loss.
+\begin{example}%[Sample sizes]
+\label{ex_sample_ratio}
+	%We first consider the impact of varying sample sizes.
+	%Consider the random-effect model from Section \ref{sec_same}, with both tasks having an isotropic population covariance matrix.
+	%We again consider the random effect model in Example \ref{ex_same_cov} with $t=2$.
+	Suppose each $\beta^{(i)}$ consists of two random components, one that is shared among the two tasks and one that is task-specific. More precisely, we let
+$$\beta^{(i)}=\beta_0 +\wt \beta^{(i)},\quad i=1,2, $$
+where $\beta_0$ denotes the shared component, %whose entries are i.i.d. Gaussian random variables of mean zero and variance $p^{-1}\kappa^2$,
+and $\wt \beta^{(i)}$ denotes the $i$-th
+%Let $\beta^{(i)}$ be equal to $\beta_0$ plus a
+task-specific component whose entries are i.i.d. Gaussian random variables of mean zero and variance $p^{-1} d^2$.
+
 \begin{example} %[Covariate shift]
 \label{ex_covshift}
 %So far we have considered the isotropic model where $\Sigma_1 = \Sigma_2$.
@@ -449,7 +484,7 @@ The sample size $n_2$ is $800$ and the noise variance $\sigma^2$ is $1/4$.
 
 
 
-\section{Asymptotics under Imbalanced Sample Sizes} \label{sec_sizeratio}
+\section{Asymptotics under Sample Size Imbalance}\label{sec_sizeratio}
 
  In this subsection, we consider the setting where $X^{(1)}$ and $X^{(2)}$ are independent and have the same population covariance matrices $\Sigma^{(1)}=\Sigma^{(2)}$. However, the two tasks can have different sample sizes $n_1\ne n_2$. In this case, we can obtain the exact asymptotic limits of the bias term \eqref{Lbias} and the variance term \eqref{Lvar}. We will use these results to illustrate the effects of the bias-variance tradeoff and varying sample sizes on the performance of the $\MTL$ estimator.
 
@@ -543,23 +578,7 @@ We believe that the above argument can be extended to the case without the Gauss
 
 
 \paragraph{Examples.}
-To describe quantitively the bias-variance tradeoff phenomenon and the effect of varying sample sizes on the predication loss, we consider a \emph{random-effect model}, which has been studied for  single-task linear regression and ridge regression (see e.g. \cite{dobriban2020wonder,dobriban2018high}).
-
-
-
-
- %{How does hard parameter sharing scale with sample sizes and covariate shift $M$?} One can see that the variance limit depends intricately on both tasks' samples sizes and covariate shift. Next, we illustrate how varying them impact the prediction loss.
-\begin{example}%[Sample sizes]
-\label{ex_sample_ratio}
-	%We first consider the impact of varying sample sizes.
-	%Consider the random-effect model from Section \ref{sec_same}, with both tasks having an isotropic population covariance matrix.
-	%We again consider the random effect model in Example \ref{ex_same_cov} with $t=2$.
-	Suppose each $\beta^{(i)}$ consists of two random components, one that is shared among the two tasks and one that is task-specific. More precisely, we let
-$$\beta^{(i)}=\beta_0 +\wt \beta^{(i)},\quad i=1,2, $$
-where $\beta_0$ denotes the shared component, %whose entries are i.i.d. Gaussian random variables of mean zero and variance $p^{-1}\kappa^2$,
-and $\wt \beta^{(i)}$ denotes the $i$-th
-%Let $\beta^{(i)}$ be equal to $\beta_0$ plus a
-task-specific component whose entries are i.i.d. Gaussian random variables of mean zero and variance $p^{-1} d^2$. First, we show that if $\|\beta_0\|^2 \gg d^2$, then the global minimizer $\hat a$ of the function $g(a)$ in \eqref{eq_mtl_A12} is close to $1$.
+First, we show that if $\|\beta_0\|^2 \gg d^2$, then the global minimizer $\hat a$ of the function $g(a)$ in \eqref{eq_mtl_A12} is close to $1$.
 	The proof of Proposition \ref{lem_hat_v} will be given in Appendix \ref{app_iso_cov_prop}.
 
 	\begin{proposition}\label{lem_hat_v}

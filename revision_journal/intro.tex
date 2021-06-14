@@ -47,28 +47,11 @@ This setting captures the fact that a single task's sample size is usually insuf
 For example, if a dataset's sample size is only a constant factor of dimension in linear regression, the variance is also constant (cf. Fact \ref{fact_tr}).
 The high-dimensional setting is challenging but is crucial for understanding how datasets' sample sizes impact generalization performance.
 
-\subsection{Setup and definitions}
-Consider the transfer learning setting with two data sets. We denote their sample sizes by $n_1$ and $n_2$. For $i=1,2,$ Let $X^{(i)} \in \real^{n_i \times p}$ denote dataset $i$'s feature covariates. We assume that the label vector $Y^{(i)} \in \real^{n_i}$ for $X^{(i)}$ follows a linear model plus random noise:
-$$Y^{(i)}= X^{(i)}\beta^{(i)} + \varepsilon^{(i)},\quad i=1,2.$$
-In this paper, we make the following assumptions on feature covariates $X^{(i)}$ and the noise vectors $\varepsilon^{(i)}$. We remark that all these assumptions are natural in high-dimensional statistics.
-
-We assume that the row vectors of $X^{(i)}$ are i.i.d. centered random vectors with  population covariance matrix $\Sigma^{(i)}$. More precisely, let
-\be\label{XofZ}X^{(i)} = Z^{(i)} (\Sigma^{(i)})^{1/2} \in \real^{n_i\times p},\quad i=1,2, \ee
-where each $\Sigma^{(1)}$ and $\Sigma^{(2)}$ are $p\times p$ deterministic positive definite symmetric matrices, and $Z^{(1)}=(z^{(1)}_{ij})$ and $Z^{(2)}=(z^{(2)}_{ij})$ are $n_1\times p$ and $n_2\times p$ random matrices with real i.i.d. entries satisfying
-\begin{equation}\label{assm1}
-\mathbb{E} z^{(1)}_{ij}=\mathbb{E} z^{(2)}_{ij} =0, \ \quad \ \mathbb{E} \vert z^{(1)}_{ij} \vert^2=\mathbb{E} \vert z^{(2)}_{ij} \vert^2 =1,
-\end{equation}
-
-Another commonly used transfer learning estimator is defined as the minimizer of the total loss function \cite{bastani2020predicting, li2020transfer}:
-$$\hat \beta^{\rm{TL}} := \argmin\left[ \norm{X^{(1)} \beta - Y^{(1)}}^2 + \norm{X^{(2)} \beta - Y^{(2)}}^2\right].$$
-
-Given a solution from minimizing $f(A, B)$, denoted by $(\hat{A}, \hat{B})$  (which we will specify below), let $\hat{\beta}_i^{\MTL} = \hat{B} \hat{A}_i$ denote the HPS estimator for task $i$.
-The critical questions are:
-(i) How well does the estimator work? In particular, how does the performance of the estimator scale with sample size?
-(ii) For datasets with different sample sizes and covariate shifts, how do they affect the estimator?
 
 
-\subsection{Main results}
+
+\subsection{Summary of Results}
+
 Our first result (Theorem \ref{thm_many_tasks}) applies to multi-label prediction settings where all datasets have the same features (and sample size), and we want to make several predictions for every input (cf. examples in \cite{hsu2009multi}).
 We analyze the global minimizer of $f(A, B)$, and provide a sharp bias-variance decomposition of its (out-of-sample) prediction loss for any task.
 This setting is tractable even though in general, $f(A, B)$ is non-convex in $A$ and $B$ (e.g. matrix completion is a special case for suitably designed $X^{(i)}, Y^{(i)}$).
@@ -96,17 +79,17 @@ Our sample size ratio study implies a concrete progressive training procedure th
 For example, in the setting of Figure \ref{fig_intro_sample_size_b}, this procedure will stop right at the minimum of the local basin.
 We conduct further studies of this procedure on six text classification datasets and observe that it reduces the computational cost by $65\%$ compared to a standard round-robin training procedure while keeping the average accuracy of all tasks simultaneously.
 
-\medskip
-\noindent\textbf{Proof techniques.}
-There are two main ideas in our analysis. The proof of our first result uses a geometric intuition that hard parameter sharing finds a ``rank-$r$'' approximation of the datasets.
-We carefully keep track of the concentration error between the global minimizer of $f(A, B)$ and its population version (cf. equation \eqref{eq_A_star}).
-The proof of our second result is significantly more involved because of different sample sizes and covariate shifts. We show that the inverse of the sum of two sample covariance matrices with arbitrary covariate shifts converges to a deterministic diagonal matrix asymptotically (cf. Theorem \ref{thm_main_RMT}).
-We use recently developed techniques from random matrix theory to show a sharp convergence rate.
+%\medskip
+%\noindent\textbf{Proof techniques.}
+%There are two main ideas in our analysis. The proof of our first result uses a geometric intuition that hard parameter sharing finds a ``rank-$r$'' approximation of the datasets.
+%We carefully keep track of the concentration error between the global minimizer of $f(A, B)$ and its population version (cf. equation \eqref{eq_A_star}).
+%The proof of our second result is significantly more involved because of different sample sizes and covariate shifts. We show that the inverse of the sum of two sample covariance matrices with arbitrary covariate shifts converges to a deterministic diagonal matrix asymptotically (cf. Theorem \ref{thm_main_RMT}).
+%We use recently developed techniques from random matrix theory to show a sharp convergence rate.
 % to obtain a sharp estimate on the..., which is commonly referred to as the \emph{local law}.
 %\HZ{add several sentences on the technical insight}
-One limitation of our analysis is that in Example \ref{ex_sample_ratio}, there is an error term that can result in vacuous bounds for very small $n_1$ (cf. equation \eqref{cor_MTL_error}).
-We believe our result has provided significant initial insights, and it is an interesting question to tighten our result.
-See Section \ref{sec_conclude} for more discussions of the technical challenge.
+%One limitation of our analysis is that in Example \ref{ex_sample_ratio}, there is an error term that can result in vacuous bounds for very small $n_1$ (cf. equation \eqref{cor_MTL_error}).
+%We believe our result has provided significant initial insights, and it is an interesting question to tighten our result.
+%See Section \ref{sec_conclude} for more discussions of the technical challenge.
 
 
 
