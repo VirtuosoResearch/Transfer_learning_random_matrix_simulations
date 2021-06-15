@@ -4,8 +4,8 @@ We assume that there are multiple datasets that all follow (potentially differen
 In each dataset, suppose the feature vector is $x = {\Sigma}^{1/2} z$, where $z \in \real^p$ has i.i.d entries with zero mean and unit variance, and the population covariance matrix $\Sigma \in\real^{p \times p}$ is deterministic and positive semidefinite.
 
 
-We study a hard parameter sharing architecture to learn jointly from multiple datasets.
-In this architecture, there is a shared feature representation layer $B\in\real^{p\times r}$ for all tasks and a separate output layer $A_i \in \real^r$ for every task $i$.
+We study a hard parameter sharing architecture to learn jointly from multiple datasets.\textbf{
+I would reorder the next sentence with the 2 that follows it as Xi and the datasets come first}In this architecture, there is a shared feature representation layer $B\in\real^{p\times r}$ for all tasks and a separate output layer $A_i \in \real^r$ for every task $i$.
 Suppose we have $t$ datasets.
 For each dataset $i$ from $1$ to $t$, let $n_i$ denote its sample size, $X^{(i)} \in \real^{n_i \times p}$ denote its feature covariates, and $Y^{(i)} \in \real^{n_i}$ denote all the labels.
 %The width of $B$, denoted by $r$, plays an important role in regularization.
@@ -13,7 +13,7 @@ For each dataset $i$ from $1$ to $t$, let $n_i$ denote its sample size, $X^{(i)}
 %Hence, we assume that $r < t$ in our study.
 %For example, when there are only two tasks, $r = 1$ and $B$ reduces to a vector whereas $W_1, W_2$ become scalars.
 Let $A = [A_1, A_2, \dots, A_t] \in \real^{r \times t}$.
-We study the following optimization objective.
+We study the following optimization \textbf{minimization? better} objective.
 %	\item Separate each dataset $(X_i, Y_i)$ randomly into a training set $(X_i^{tr}, Y_i^{tr})$ and a validation set $(X_i^{val}, Y_i^{val})$.
 %	The size of each set is described below.
 %	\item Learn the shared layer $B$: minimize the training loss over $B$ and $W_1, \dots, W_t$, leading to a local minimum of $B$ that depends on $W_1, \dots, W_t$, denoted by $\hat{B} = \hat{B}(W_1, \dots, W_t)$.
@@ -25,14 +25,15 @@ We study the following optimization objective.
 Given a solution $(\hat{A}, \hat{B})$ of $f(A, B)$, let $\hat{\beta}_i^{\MTL} = \hat{B} \hat{A}_i$ denote the HPS estimator for task $i$.
 Some critical questions are:
 (i) How well does the estimator work? In particular, how does the performance of the estimator scale with sample size?
-(ii) For datasets with different sample sizes and covariate shifts, how do they affect the estimator?
+(ii) For datasets with different sample sizes and covariate shifts, how do they affect the estimator? \textbf{I guess this architecture you are talking about is the standard form for HPS right?}
 
 
 \textbf{Main results.}
 Our first result (Theorem \ref{thm_many_tasks}) applies to the multi-label prediction setting where all datasets have the same features, and we want to make multiple predictions (see e.g. \cite{hsu2009multi}).
 We analyze the global minimizer of $f(A, B)$, and provide a sharp generalization bound on its (out-of-sample) prediction loss for any task.
 This case is tractable even though in general, $f(A, B)$ is non-convex in $A$ and $B$ (e.g. matrix completion is a special case for suitably designed $X^{(i)}, Y^{(i)}$).
-We show that the prediction loss of hard parameter sharing admits a clean bias-variance decomposition.
+We show that the prediction loss of hard parameter sharing\textbf{ HPS maybe be consistent with it?} admits a clean bias-variance decomposition.\textbf{
+for next sentence is this true regardless of sample sizes and the ratio? it sounds too strong. is it?}
 Our results imply that hard parameter sharing helps by reducing the variance compared to single-task learning, but hurts by increasing the bias.
 Our second result (Theorem \ref{thm_main_RMT}) applies to two tasks with arbitrarily different sample size ratios and population covariance matrices.
 We analyze the local minimizers of $f(A, B)$ and provide a sharp generalization bound on both tasks' prediction loss.
@@ -46,7 +47,7 @@ Consequently, using our precise loss estimates, we observe several qualitative p
 %\begin{enumerate}
 
 \textit{Sample efficiency (Example \ref{ex_same_cov})}:
-	One advantage of combining multiple datasets is that the requirement for labeled data reduces compared to STL, a phenomenon that \citet{ZSSGM18} has observed empirically.
+	One advantage of combining multiple datasets is that the requirement for labeled data reduces compared to STL\textbf{what is STL?}, a phenomenon that \citet{ZSSGM18} has observed empirically.
 	Our results further imply that HPS's sample efficiency depends on model-specific variances across tasks vs. the noise variance, and is generally high when the latter is large.
 
 \textit{Sample size ratio (Example \ref{ex_sample_ratio})}: Increasing one task's sample size does not always help to reduce another task's loss. In a simplified setting, we find that the task loss either decreases first before increasing afterwards, or decreases monotonically depending on how fast the bias increases. These two trends result from different bias-variance tradeoffs.
@@ -126,8 +127,8 @@ Consequently, using our precise loss estimates, we observe several qualitative p
 %Third, we provide a fine-grained insight on a covariance alignment procedure proposed in \cite{WZR20}.
 %We show that the alignment procedure provides more significant improvement when the source/target sample ratio is large.
 %Finally, we validate our three theoretical findings on sentiment analysis tasks.
-
-
+\textbf{in the 3 examples above, all three phenomena are new? or how surprising/challenging are they? maybe just a brief line commenting will put it into context}
+\textbf{maybe say Techniques?}
 There are two main ideas in our analysis. The proof of our first result uses a geometric intuition that hard parameter sharing finds a ``rank-$r$'' approximation of the datasets.
 We carefully keep track of the concentration error between the global minimum of $f(A, B)$ and its population version.
 The proof of our second result is significantly more involved because of different sample sizes and covariate shifts. Using recently developed techniques from random matrix theory \cite{Anisotropic}, we show that the inverse of the sum of two sample covariance matrices with arbitrary covariate shifts converges to a deterministic diagonal matrix asymptotically (cf. Theorem \ref{thm_main_RMT}). % Moreover, we can obtain a sharp bound on the concentration error.
@@ -136,7 +137,7 @@ The proof of our second result is significantly more involved because of differe
 One limitation of our analysis is that for two tasks with different sample sizes, there is an extra error term in the prediction loss of hard parameter sharing (cf. equation \eqref{cor_MTL_error}), which can be large for very small $n_1$. This requires studying the singular value spectrum of certain non-symmetric random matrices, which is an intriguing open question (see Section \ref{sec_conclude} for more discussion).
 % plus an identity matrix,  due to lack of freeness
 %\HZ{add why this is challenging}
-
+\textbf{i think this experimental advice that stems from your work is nice, and you can motivate it further up in the text? maybe right after the 3 examples? even by looking at Fig1 it suggests that you should increase data up to some point then stop. You experimentally verify this.} 
 Finally, we discuss the practical implications of work.
 Our sample size ratio study implies a concrete progressive training procedure that gradually adds more data until performance drops.
 For example, in the setting of Figure \ref{fig_intro_sample_size_b}, this procedure will stop right at the minimum of the local basin.
