@@ -1,0 +1,213 @@
+\section{Preliminaries and related work}\label{sec_HPS}
+In this section, we define our model for the setting of transfer learning, and introduce several transfer learning estimators that will be considered in this paper.
+
+
+\subsection{Large dimensional random matrices}
+
+Consider the transfer learning setting with two data sets. We denote their sample sizes by $n_1$ and $n_2$. For $i=1,2,$ Let $X^{(i)} \in \real^{n_i \times p}$ denote dataset $i$'s feature covariates. We assume that the label vector $Y^{(i)} \in \real^{n_i}$ for $X^{(i)}$ follows a linear model plus random noise:
+$$Y^{(i)}= X^{(i)}\beta^{(i)} + \varepsilon^{(i)},\quad i=1,2.$$
+In this paper, we make the following assumptions on feature covariates $X^{(i)}$ and the noise vectors $\varepsilon^{(i)}$. We remark that all these assumptions are natural in high-dimensional statistics.
+
+We assume that the row vectors of $X^{(i)}$ are i.i.d. centered random vectors with  population covariance matrix $\Sigma^{(i)}$. More precisely, let
+\be\label{XofZ}X^{(i)} = Z^{(i)} (\Sigma^{(i)})^{1/2} \in \real^{n_i\times p},\quad i=1,2, \ee
+where each $\Sigma^{(1)}$ and $\Sigma^{(2)}$ are $p\times p$ deterministic positive definite symmetric matrices, and $Z^{(1)}=(z^{(1)}_{ij})$ and $Z^{(2)}=(z^{(2)}_{ij})$ are $n_1\times p$ and $n_2\times p$ random matrices with real i.i.d. entries satisfying
+\begin{equation}\label{assm1}
+\mathbb{E} z^{(1)}_{ij}=\mathbb{E} z^{(2)}_{ij} =0, \ \quad \ \mathbb{E} \vert z^{(1)}_{ij} \vert^2=\mathbb{E} \vert z^{(2)}_{ij} \vert^2 =1,
+\end{equation}
+
+Another commonly used transfer learning estimator is defined as the minimizer of the total loss function \cite{bastani2020predicting, li2020transfer}:
+$$\hat \beta^{\rm{TL}} := \argmin\left[ \norm{X^{(1)} \beta - Y^{(1)}}^2 + \norm{X^{(2)} \beta - Y^{(2)}}^2\right].$$
+
+Given a solution from minimizing $f(A, B)$, denoted by $(\hat{A}, \hat{B})$  (which we will specify below), let $\hat{\beta}_i^{\MTL} = \hat{B} \hat{A}_i$ denote the HPS estimator for task $i$.
+The critical questions are:
+(i) How well does the estimator work? In particular, how does the performance of the estimator scale with sample size?
+(ii) For datasets with different sample sizes and covariate shifts, how do they affect the estimator?
+
+Furthermore, we assume that the entries $z^{(1)}_{ij}$ and $z^{(2)}_{ij}$ have finite $\varphi$-th moment for some constant $\varphi>4$:
+\be \label{conditionA2}
+\mathbb{E} \vert z^{(1)}_{ij} \vert^\varphi  \le \tau^{-1},\quad \mathbb{E} \vert  z^{(2)}_{ij} \vert^\varphi   \le \tau^{-1}
+\ee
+for a small constant $\tau>0$. We assume that $\Sig^{(i)}$ has eigendecomposition
+\be\label{eigen}
+\Sig^{(i)}= O_i\Lambda_i O_i^\top, \quad  \Lambda_1=\text{diag}(\si_1^{(i)}, \ldots, \si^{(i)}_n),  \quad i=1,2,
+\ee
+where $O_i$ is the eigenmatrix and the eigenvalues satisfy that
+\begin{equation}\label{assm3}
+ \tau \le  \si^{(i)}_p \le\cdots\le \si^{(i)}_2 \le \si^{(i)}_1 \le \tau^{-1} \quad i=1,2.
+\ee
+%for a small constant $\tau>0$.
+
+We assume that $\varepsilon^{(1)} \in \real^{n}$ and $\varepsilon^{(2)} \in \real^{n}$ are two independent random noise vectors with i.i.d entries of mean zero, variance $\sigma^2$, and bounded moment up to any order: for any fixed $k\in \N$, there exists a constant $C_k>0$ such that
+\be\label{eq_highmoments}
+\E  | \ve^{(1)}_{i} |^k \le C_k,\quad \E  | \ve^{(2)}_{i} |^k \le C_k.
+\ee
+Finally, we assume that $\beta^{(1)}$ and $\beta^{(2)}$ are two arbitrary deterministic or random vectors that are independent of $X^{(1)}$, $X^{(2)}$, $\varepsilon^{(1)}$ and $\varepsilon^{(2)}$.
+%Moreover, we assume that
+%\be\label{eq_SNR}
+%\tau\le \frac{\|\beta^{(1)}\|^2}{\|\beta^{(2)}\|^2} \le \tau^{-1},\quad  \frac{\|\beta^{(1)}\|^2}{\sigma^2} \ge \tau,
+%\ee
+%for a small constant $\tau >0$. The first condition means that the norms of the two model parameters $\beta^{(1)}$ and $\beta^{(2)}$ are comparable, while the second condition means that the singal-to-noise ratio cannot be too small.
+
+In this paper, we consider the high-dimensional setting, where the sample ratios satisfy that  %We assume that the aspect ratios $d_1:= p/n_1$ and $d_2:=p/n_2$ satisfy that
+\be\label{assm2}
+1+\tau \le \rho_1:=\frac{n_1}{p} \le p^{\tau^{-1}}, \quad 1+\tau \le \rho_2:=\frac{n_2}{p} \le p^{\tau^{-1}}, \quad \tau \le \frac{\rho_1}{\rho_2}\le \tau^{-1},
+\ee
+for a small constant $\tau >0$. If $\rho_i>p^{\tau^{-1}}$, $i=1,2$, we are basically in the low-dimensional region, where the law of large numbers and central limit theorem already  give good enough results without using the theory developed in this paper. The lower bounds $\rho_1> 1+\tau$ and ${\rho_2 > 1+ \tau}$
+are to ensure that the sample covariance matrices $  (X^{(1)})^\top X^{(1)} $ and $  (X^{(2)})^\top X^{(2)} $ are non-singular with high probability, so that the ordinary least squares (OLS) estimator is well-defined for the linear regression problem on each task.
+
+
+We summarize our basic assumptions here for future reference.
+\begin{assumption}\label{assm_big1}
+Let $\tau$ be a small constant.
+\begin{enumerate}
+\item  $X^{(1)}$ and $X^{(2)}$ take the form \eqref{XofZ}, where $Z^{(1)}$ and $Z^{(2)}$ are respectively $n_1\times p$ and $n_2\times p$ random matrices with i.i.d. entries satisfying (\ref{assm1}) and \eqref{conditionA2}, $\Sig^{(1)}$ and $\Sig^{(2)}$ are deterministic positive definite symmetric matrices satisfying \eqref{eigen} and \eqref{assm3}. %and (\ref{assm2}). We assume that $T$ is an $M\times M$ deterministic diagonal matrix satisfying (\ref{simple_assumption}) and (\ref{assm3}).
+
+\item $\varepsilon^{(1)} \in \real^{n}$ and $\varepsilon^{(2)} \in \real^{n}$ are random vectors independent from $X^{(1)}$ and $X^{(2)}$, and with i.i.d entries of mean zero, variance $\sigma^2$, and bounded moments as in \eqref{eq_highmoments}.
+
+\item $\beta^{(1)}$ and $\beta^{(2)} $ are independent of $X^{(1)}$, $X^{(2)}$, $\varepsilon^{(1)}$ and $\varepsilon^{(2)} $. %, and satisfy \eqref{eq_SNR}.
+
+\item $\rho_{1}$ and $\rho_{2}$ satisfy \eqref{assm2}.
+
+\end{enumerate}
+\end{assumption}
+
+
+\subsection{Hard parameter sharing estimators}
+
+
+%\FY{Introduce some popular transfer learning estimators: total loss estimator, and model averaging estimator.}
+
+
+In this paper, we measure the performance of $\hat{\beta}_2^{\MTL} (\hat a)$ through the out-of-sample predication loss (test error). Consider a test data point $(x,y)$ generated from the same model as task 2: $y= x^\top \beta^{(2)} + \ve$, where $x \in \R^p$ and $\ve\in \R$ are independent of $X^{(1)}$, $X^{(2)}$, $\varepsilon^{(1)}$ and $\varepsilon^{(2)}$, and only $x$ is observable. We want to use $x^\top \hat{\beta}_2^{\MTL} (\hat a) $ to predict $y$, and we measure the predication loss using the mean squared error
+$$\exarg{x}{\left\|y-x^\top \hat{\beta}_2^{\MTL} (\hat a) \right\|^2}= \left\|(\Sigma^{(2)})^{1/2} \left(\hat{\beta}_2^{\MTL} (\hat a)  - \beta^{(2)}\right)\right\|^2 + \sigma^2.  $$
+Since $\sigma^2$ is a constant that does not depend on the model, we ignore it and define the predication loss as
+\be\label{HPS_loss}
+L(\hat{\beta}_2^{\MTL}(\hat a)):= \left\|(\Sigma^{(2)})^{1/2} \left(\hat{\beta}_2^{\MTL} (\hat a)  - \beta^{(2)}\right)\right\|^2 .
+ \ee
+We will compare it to the out-of-sample predication losses of the baseline estimators, $L(\hat{\beta}_2^{\STL})$ and $L(\hat{\beta}^{\AV}(\lambda))$ for some properly chosen $\lambda\in [0,1]$.
+
+%$L(\hat{\beta}_2^{\STL})$ of the single-task OLS estimator  as a baseline.
+
+Plugging \eqref{HPS_est} into \eqref{HPS_loss}, we get
+\begin{align}
+L(\hat{\beta}_2^{\MTL}(\hat a))  =  &\left\| (\Sigma^{(2)})^{1/2}\hat \Sigma(\hat a)^{-1} (X^{(1)})^\top X^{(1)} (\hat a\beta^{(1)}-\hat a^2\beta^{(2)}) \right. \nonumber\\
+&\left. +(\Sigma^{(2)})^{1/2}\hat \Sigma(\hat a)^{-1} \left[ (X^{(2)})^\top \epsilon^{(2)} + \hat a  (X^{(1)})^\top \epsilon^{(1)} \right]\right\|^2.\label{Lbeta_HPS}
+\end{align}
+Note that if we replace $\hat a$ with a fixed number $a$ in \eqref{Lbeta_HPS}, then taking the expectation over $\ve^{(1)}$ and $\ve^{(2)}$, we can get a clean bias-variance decomposition of the predication loss:
+\be\label{partial-L} \exarg{\ve^{(1)},\ve^{(2)}}{L(\hat{\beta}_2^{\MTL}(a)) } = L_{\bias} (a) + L_{\var}(a),\ee
+where
+\be\label{Lbias} L_{\bias} (a) := \left\| (\Sigma^{(2)})^{1/2}\hat \Sigma(a)^{-1} (X^{(1)})^\top X^{(1)} \left(a\beta^{(1)}- a^2\beta^{(2)}\right) \right\|^2 \ee
+is called the bias term, which depends on the model bias between task 1 and task 2, and
+\be\label{Lvar}  L_{\var}(a):=\sigma^2  \bigtr{{\Sigma^{(2)}\hat \Sigma(a)^{-1}  }} \ee
+is called the variance term, which depends on the noise variance. Using concentration of the noise vectors $\ve^{(1)}$ and $\ve^{(2)}$, we can show that $L(\hat{\beta}_2^{\MTL}(a))$ is close to \eqref{partial-L} up to a small error as in the next lemma. In this paper, we say that an event $\Xi$ holds \emph{with high probability} (w.h.p.) if $\mathbb P(\Xi)\to 1$ as $p\to \infty$.
+%predication loss for the HPS and OLS estimators.
+
+
+\begin{lemma}\label{lem_HPS_loss}
+ Under Assumption \ref{assm_big1}, for any small constant $\e>0$ and large constant $C>0$, there exists a high probability event $\Xi$, on which the following estimates hold uniformly in $a\in \R$ and $\lambda\in [0,1]$:
+\begin{align}
+L(\hat{\beta}_2^{\MTL}(a)) &=\left[ 1+ \OO(p^{-1/2+c})\right]\cdot \left[L_{\bias} (a) + L_{\var}(a)\right] \nonumber\\
+&+ \OO \left[ p^{-C}\left( \|\beta^{(1)} \|^2  +  \|\beta^{(2)} \|^2\right)   \right], \label{L_HPS_simple}
+\end{align}
+\begin{align}
+L(\hat{\beta}^{\AV}(\lambda) ) &= \left[ 1+ \OO(p^{-1/2+c})\right] \cdot \lambda^2 \left\| (\Sigma^{(2)})^{1/2}(\beta^{(1)}-\beta^{(2)})\right\|^2 \nonumber \\
+&+  \left[ 1+ \OO(p^{-1/2+c})\right] \cdot \sigma^2   \lambda^2 \bigtr{\Sigma^{(2)} [(X^{(1)})^\top X^{(1)}]^{-1}  }\nonumber\\
+& + \left[ 1+ \OO(p^{-1/2+c})\right] \cdot \sigma^2  (1-\lambda)^2 \bigtr{\Sigma^{(2)} [(X^{(2)})^\top X^{(2)}]^{-1}  }  . \label{L_AVE_simple}
+\end{align}
+and
+\begin{align}
+L(\hat{\beta}_2^{\STL} ) &= \left[ 1+ \OO(p^{-1/2+c})\right] \cdot \sigma^2  \bigtr{\Sigma^{(2)} [(X^{(2)})^\top X^{(2)}]^{-1}  }  . \label{L_STL_simple}
+\end{align}
+%Moreover, there exists a constant $C_0>0$ such that with high probability,
+%\be\label{loss_large}
+%g(a) > g(0) \quad \text{for all $a$ such that }|a|\ge C_0.
+%\ee
+%with high probability for any small constant $\e>0$.
+\end{lemma}
+
+
+
+Since \eqref{L_HPS_simple} holds uniformly for all $a\in \R$, we can also apply it to $\hat{\beta}_2^{\MTL}(\hat a)$, where $\hat a$ is a random variable that may depend on $\ve^{(1)}$ and $\ve^{(2)}$. In practice, the parameter $ a$  is up to one's choice and may not be the global minimizer, so we have stated the result for an completely arbitrary $a$. (In fact, the optimization objective $g(a)$ is generally non-convex, so in some cases one can only find a local minimizer.) For a fixed $a\in \R$, the proof of \eqref{L_HPS_simple} is based on the sharp concentration bounds in Lemma \ref{largedeviation} of the supplement \cite{MTL_suppl}. To extend uniformly to all $a\in \R$, we will use a standard $\ve$-net argument, which leads to a small error $ p^{-C}\left( \|\beta^{(1)} \|^2  +  \|\beta^{(2)} \|^2\right) $. Note that this error is negligible unless $\beta^{(1)}$ and $ a\beta^{(2)}$ cancel each other almost exactly, and the noise variance $\sigma$ is very small. The proof of Lemma \ref{lem_HPS_loss} will be given in Appendix  \ref{app_firstpf} of the supplement \cite{MTL_suppl}.
+
+%In this section, we show that the prediction loss of hard parameter sharing admits a clean bias-variance decomposition, when all tasks have the same features.
+
+
+
+
+For the single-task predication loss \eqref{L_STL_simple}, we can calculate its asymptotic limit exactly using the following classical result in multivariate statistics.
+
+\begin{lemma}[Theorem 2.4 of \cite{isotropic} and Theorem 3.14 of \cite{DY}]\label{fact_tr}
+	%Let $X  \in \real^{n\times p}$ be a random matrix that satisfies Assumption \ref{assume_rm}.
+	%Let $\Sigma\in\real^{p\times p}$ denote the population covariance matrix of $X$.
+	Under Assumption \ref{assm_big1}, we have that for any deterministic $p\times p$ matrix $\Sigma$,
+		\[ \bigtr{\Sigma \frac1{(X^{(2)})^\top X^{(2)} }  } %= \bigtr{ \frac1{(Z^{(2)})^\top Z^{(2)} }  }
+		= \frac{1}{n_2 - p}\bigtr{\Sigma (\Sigma^{(2)})^{-1}} +  \OO\left( \frac{p^{\e}}{\sqrt{n_2 p}}\cdot \frac{p}{n_2}\|A\| \right) \]
+		with high probability for any small constant $\e>0$.
+\end{lemma}
+ %The above result has a long history in random matrix theory.
+If the entries of $Z^{(2)}$ are i.i.d. Gaussian, then this result follows from the classical result for %the mean of
+the inverse Wishart distribution \cite{anderson1958introduction}. For a general non-Gaussian $Z^{(2)}$, this result can be obtained using the well-known Stieltjes transform method (cf. Lemma 3.11 of \cite{bai2009spectral}). Here we have presented the results from \cite{isotropic,DY}, which give an almost sharp convergence rate. With Lemma \ref{fact_tr}, we obtain that w.h.p.,
+\begin{align}
+L(\hat{\beta}_2^{\STL} ) &= \left[ 1+ \OO(p^{-1/2+c})\right] \cdot \frac{p \sigma^2 }{n_2-p}   , \label{L_STL_simple01}
+\end{align}
+and
+\begin{align}
+L(\hat{\beta}^{\AV}(\lambda) ) &= \left[ 1+ \OO(p^{-1/2+c})\right] \cdot \lambda^2 \left\| (\Sigma^{(2)})^{1/2}(\beta^{(1)}-\beta^{(2)})\right\|^2 \nonumber \\
+&+  \left[ 1+ \OO(p^{-1/2+c})\right] \cdot \sigma^2 \left[\frac{ \lambda^2}{n_1-p}\bigtr{\Sigma^{(2)}(\Sigma^{(1)})^{-1}} + \frac{(1-\lambda)^2p  }{n_2-p}\right] . \label{L_AVE_simple01}
+ \end{align}
+
+On the other hand, much less is known about the predication loss of the HPS estimator. In particular, its exact dependence on the model parameters, including the model bias, noise variance, sample sizes, and population covariance matrices, is not well-understood so far. %\FY{What is known so far about this topic?}
+In Section \ref{sec_HPS_loss}, we give a rigorous analysis of the bias term \eqref{Lbias} and variance term \eqref{Lvar} in two different settings: (i) independent $X^{(1)}$ and $X^{(2)}$ with different sample sizes and same population covariance matrices $\Sigma^{(1)}=\Sigma^{(2)}$; (ii) independent $X^{(1)}$ and $X^{(2)}$ with different sample sizes and different population covariance matrices. In case (i), we provide the exact asymptotics for both the bias and variance terms, together with almost sharp convergence rates. We will use these results to illustrate the effects of the \emph{bias-variance tradeoff} and \emph{varying sample sizes}. In case (ii), we will prove an exact asymptotic variance limit, and employ the result to show the intricate effect of the covariate shift. On the other hand, in case (ii), we will provide an estimate on the bias term, which becomes exact only when $n_1\gg p$. %Here case (ii) is actually more general than (i)
+%In particular, we will use our results to analyze the effect of the following factors: \emph{bias-variance tradeoff}, \emph{sample sizes}, and \emph{covariate shift}.
+In Section \ref{sec_same}, we will consider a simple extension to a multi-task learning setting with more than two tasks and  the same covariates for all tasks. We will give the asymptotic limit of the predication loss for the HPS estimator, which provides useful insights into the more rich multi-task learning theory. %Due to length constraint, we will explore the multi-task learning setting in greater details in other works.
+
+%{\cor discuss about the bias-variance trade-off}
+%However, to the best of our knowledge, the asymptotic limit of $L(\hat{\beta}_2^{\MTL}(a))$ has never been calculated exactly in any high-dimensional setting.
+
+
+%\section{Predication loss for HPS estimator}\label{sec_HPS_loss}
+
+\subsection{Related work}
+
+There is a large body of classical and recent works on multi-task learning.
+We focus our discussion on theoretical results and refer interested readers to several excellent surveys for general references \cite{PY09,ZY17,V20}.
+The early work of \cite{B00,BS03,M06} studied multi-task learning from a theoretical perspective, often using uniform convergence or Rademacher complexity based techniques.
+An influential paper by \cite{BBCK10} provides uniform convergence bounds that combine multiple datasets in certain settings.
+One limitation of uniform convergence based techniques is that the results often assume that all  tasks have the same sample size, see e.g. \cite{B00,MPR16}.
+Moreover, these techniques do not apply to the high-dimensional setting because the results usually require a sample size of at least $p \log p$.
+
+Our proof techniques use the so-called local law of random matrices \cite{erdos2017dynamical}, a recent development in the random matrix theory literature.
+In the single-task case, \cite{isotropic} first proved such a local law for sample covariance matrices with isotropic covariance.
+\cite{Anisotropic} later extended this result to arbitrary covariance matrices.
+%On the other hand, one may derive the asymptotic result in Theorem \ref{thm_main_RMT} with error $\oo(1)$ using the free addition of two independent random matrices in  theory .
+These techniques provide almost sharp convergence rates to the asymptotic limit compared to other methods such as free probability \cite{nica2006lectures}.
+To the best of our knowledge, we are not aware of any previous results in the multi-task case, even for two tasks (with arbitrary covariate shifts).
+\HZ{can you please add a discussion of the related work from RMT?}
+
+The problem we study here is also related to high-dimensional prediction in transfer learning \cite{li2020transfer,bastani2020predicting} and distributed learning \cite{dobriban2018high}.
+For example, \cite{li2020transfer} provide minimax-optimal rates to predict a target regression task given multiple sparse regression tasks.
+One closely related work is \cite{WZR20}, which studied hard parameter sharing for two linear regression tasks.
+However, their results only apply to sample size regimes at least logarithmic factors of dimension.
+%\cite{WZR20} (and an earlier work by \cite{KD12}) observed that the shared layer size $r$ in hard parameter sharing plays a critical role of regularization.
+%Linear models in multi-task learning have been studied in various settings, including online learning \cite{CCG10,DCSP18}, sparse regression \cite{LPTV09,LPVT11}, and representation learning \cite{BHKL19}.
+
+%Our setting is closely related to domain adaptation \cite{DM06,BB07,BC08,DH09,MMR09,CWB11,ZS13,NB17,ZD19}.
+%The important distinction is that we focus on predicting the target task using a hard parameter sharing model.
+%For such models, their output dimension plays an important role of regularization \cite{KD12}.
+%Below, we describe several lines of work that are most related to this work.
+
+%Some of the earliest works on multi-task learning are Baxter , Ben-David and Schuller \cite{BS03}.
+%Mauer \cite{M06} studies generalization bounds for linear separation settings of MTL.
+%The benefit of learning multi-task representations has been studied for learning certain half-spaces \cite{MPR16} and sparse regression \cite{LPTV09,LPVT11}.
+%Our work is closely related to Wu et al. \cite{WZR20}.
+%While Wu et al. provide generalization bounds to show that adding more labeled helps learn the target task more accurately, their techniques cannot be used to explain when MTL outperforms STL.
+%\todo{spell out the challenge more explicitly}
+
+%Ando and Zhang \cite{AZ05} introduces an alternating minimization framework for learning multiple tasks.
+%Argyriou et al. \cite{AEP08} present a convex algorithm which learns common sparse representations across a pool of related tasks.
+%Evgeniou et al. \cite{EMP05} develop a framework for multi-task learning in the context of kernel methods.
+%\cite{KD12} observed that controlling the capacity can outperform the implicit capacity control of adding regularization over $B$.
+%The multi-task learning model that we have focused on uses the idea of hard parameter sharing \cite{C93,KD12,R17}.
+%We believe that our theoretical framework can apply to other approaches to multi-task learning.
+
+
