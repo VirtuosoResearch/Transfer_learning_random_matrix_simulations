@@ -10,39 +10,12 @@ How well do they extend to other scenarios?
 In this section, we conduct further studies on six text classification datasets.
 Our datasets include a movie review sentiment dataset (MR) \cite{pang2005seeing}, a sentence subjectivity dataset (SUBJ) \cite{pang2004sentimental}, a customer reviews dataset (CR) \cite{hu2004mining}, a question type dataset (TREC) \cite{li2002learning}, an opinion polarity dataset (MPQA) \cite{wiebe2005annotating}, and the Stanford sentiment treebank (SST) dataset \cite{socher2013recursive}.
 %The question is to predict positive or negative sentiment expressed in the text.
-Our model consists of a word embedding layer with GloVe embeddings \cite{pennington2014glove} followed by a long-short term memory (LSTM) or a multi-layer perception (MLP) layer \cite{lei2018simple}.\footnote{For MLP, we apply an average pooling layer over word embeddings. For LSTM, we add a shared feature representation layer on top of word embeddings.}
-
-
-\subsection{Covariate alignment}
-
-
-\paragraph{Covariate shift}
-Recall from Example \ref{ex_covshift} that having covariate shifts worsens the variance (hence the loss) of hard parameter sharing when the sample ratio increases.
-This highlights the need for correcting covariate shifts when the sample size ratio rises.
-To this end, we study a covariance alignment procedure proposed in \cite{WZR20}, designed to correct covariate shifts.
-The idea is to add an alignment module between the input and the shared module $B$.
-This module is then trained together with $B$ and the output layers. We refer to \cite{WZR20} for more details about the procedure and the implementation.
-%We validate our insight on this procedure in the experiments.
-%We implement the covariance alignment procedure following \cite{WZR20}.
-
-We conduct multi-task training on all $15$ task pairs from the six datasets.
-In Figure \ref{fig_ab_cov}, we measure the performance gains from performing covariance alignment vs. HPS.
-To get a robust comparison, we average the improvements over the 15 task pairs.
-The result shows that as the sample size ratio increases, performing covariance alignment provides more significant gains over HPS.
-We fix task two's sample size at $1,000$, and increase task one's sample size from $1,000$ to $3,000$.
+Our model consists of a word embedding layer with GloVe embeddings \cite{pennington2014glove} followed by a long-short term memory (LSTM) or a multi-layer perception (MLP) layer \cite{lei2018simple}.\footnote{For MLP, we apply an average pooling layer over word embeddings.
+For LSTM, we add a shared feature representation layer on top of word embeddings.}
 
 
 
-%One estimator that is sometimes employed in the literature is simply an average of the OLS estimators for two tasks \cite{bastani2020predicting}
-%\be\label{eq_est_ave}\hat \beta^{\AV}(\lambda)=\lambda \cdot \hat \beta_1^{\STL}+ (1-\lambda)\cdot \hat \beta_2^{\STL},\ee
-%where $\lambda\in [0,1]$ is an averaging parameter subject to choice in practice, and we recall that the OLS estimators are given by
-%$$\hat \beta_i^{\STL}= [(X^{(i)})^\top X^{(i)}]^{-1}(X^{(i)})^\top Y^{(i)},\quad i=1,2.$$
-%The estimator in \eqref{eq_est_ave} is conventionally called an \emph{averaging estimator}.
-%In particular, when $\lambda=0$ and $1$, we get the OLS estimators for tasks 2 and 1, respectively.
-
-%\section{Experimental results}
-
-\subsection{Progressive training}%\label{sec_text}
+\subsection{Progressively increasing source task sample sizes}%\label{sec_text}
 
 
 %multi-layer perceptron (MLP), LSTM, CNN on all tasks
@@ -132,7 +105,43 @@ We extend our procedure to all six datasets. We include the data from all tasks 
 We set $\tau$ to be the average test accuracy of all six tasks obtained using standard round-robin training.
 We find that adding samples progressively from SST requires less than $35\%$ of the computational cost to reach the same average test accuracy $\tau$.
 
-\subsection{Width selection}
+
+
+
+\subsection{Covariate alignment}
+
+
+\paragraph{Covariate shift}
+Recall from Example \ref{ex_covshift} that having covariate shifts worsens the variance (hence the loss) of hard parameter sharing when the sample ratio increases.
+This highlights the need for correcting covariate shifts when the sample size ratio rises.
+To this end, we study a covariance alignment procedure proposed in \cite{WZR20}, designed to correct covariate shifts.
+The idea is to add an alignment module between the input and the shared module $B$.
+This module is then trained together with $B$ and the output layers. We refer to \cite{WZR20} for more details about the procedure and the implementation.
+%We validate our insight on this procedure in the experiments.
+%We implement the covariance alignment procedure following \cite{WZR20}.
+
+We conduct multi-task training on all $15$ task pairs from the six datasets.
+In Figure \ref{fig_ab_cov}, we measure the performance gains from performing covariance alignment vs. HPS.
+To get a robust comparison, we average the improvements over the 15 task pairs.
+The result shows that as the sample size ratio increases, performing covariance alignment provides more significant gains over HPS.
+We fix task two's sample size at $1,000$, and increase task one's sample size from $1,000$ to $3,000$.
+
+
+
+%One estimator that is sometimes employed in the literature is simply an average of the OLS estimators for two tasks \cite{bastani2020predicting}
+%\be\label{eq_est_ave}\hat \beta^{\AV}(\lambda)=\lambda \cdot \hat \beta_1^{\STL}+ (1-\lambda)\cdot \hat \beta_2^{\STL},\ee
+%where $\lambda\in [0,1]$ is an averaging parameter subject to choice in practice, and we recall that the OLS estimators are given by
+%$$\hat \beta_i^{\STL}= [(X^{(i)})^\top X^{(i)}]^{-1}(X^{(i)})^\top Y^{(i)},\quad i=1,2.$$
+%The estimator in \eqref{eq_est_ave} is conventionally called an \emph{averaging estimator}.
+%In particular, when $\lambda=0$ and $1$, we get the OLS estimators for tasks 2 and 1, respectively.
+
+%\section{Experimental results}
+
+
+
+
+
+\subsection{Model width selection}
 %As a further validation, excluding TREC, we observe similar comparative results.
 %The data efficiency ratio of using MLP is $100\%$ because the average performance of MTL is worse than the average of STL.
 %We further show that applying incremental training helps reduce the data efficiency ratio to \alert{$xx\%$}.
