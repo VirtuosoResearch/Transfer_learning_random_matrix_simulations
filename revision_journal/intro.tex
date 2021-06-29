@@ -49,7 +49,7 @@ The high-dimensional setting is challenging but is crucial for understanding how
 
 
 
-
+\todo{mention connection to pooling \cite{hanneke2020no}}
 %\subsection{Summary of Results}
 
 Our first result (Theorem \ref{thm_many_tasks}) applies to multi-label prediction settings where all datasets have the same features (and sample size), and we want to make several predictions for every input (cf. examples in \cite{hsu2009multi}).
@@ -92,10 +92,76 @@ We conduct further studies of this procedure on six text classification datasets
 %See Section \ref{sec_conclude} for more discussions of the technical challenge.
 
 
+%\section{Predication loss for HPS estimator}\label{sec_HPS_loss}
+
+\subsection{Related work}
+
+\paragraph{Transfer learning.}
+There is a large body of classical and recent works on multi-task learning.
+We focus our discussion on theoretical results and refer interested readers to several excellent surveys for general references \cite{PY09,ZY17,V20}.
+The early work of \cite{B00,BS03,M06} studied multi-task learning from a theoretical perspective, often using uniform convergence or Rademacher complexity based techniques.
+An influential paper by \cite{BBCK10} provides uniform convergence bounds that combine multiple datasets in certain settings.
+One limitation of uniform convergence based techniques is that the results often assume that all  tasks have the same sample size, see e.g. \cite{B00,MPR16}.
+Moreover, these techniques do not apply to the high-dimensional setting because the results usually require a sample size of at least $p \log p$.
+The problem we study here is also related to high-dimensional prediction in transfer learning \cite{li2020transfer,bastani2020predicting}.
+For example, \cite{li2020transfer} provide minimax-optimal rates to predict a target regression task given multiple sparse regression tasks.
+\citet{tian2021transfer}
+One closely related work is \cite{WZR20}, which studied hard parameter sharing for two linear regression tasks.
+However, their results only apply to sample size regimes at least logarithmic factors of dimension.
+\todo{a list of relevant papers}
+\begin{itemize}
+	\item \citet{lei2021nearoptimal}
+	\item \citet{kalan2020minimax}
+	\item \citet{cao2019learning}
+	\item \citet{hanneke2020value,hanneke2020no}, \citet{cai2021transfer}
+\end{itemize}
+\textit{Other related works.} Distributed learning \cite{dobriban2018high}.
+\citet{chen2021weighted}
+
+\paragraph{Random matrix theory.}
+\todo{write a paragraph regarding applications of RMT to modern machine learning.}
+\begin{itemize}
+	\item \citet{hastie2019surprises}
+	\item \citet{bartlett2020benign}
+	\item \citet{liang2020just}
+	\item \citet{montanari2019generalization}, \citet{liang2020precise}
+\end{itemize}
+
+Our proof techniques use the so-called local law of random matrices \cite{erdos2017dynamical}, a recent development in the random matrix theory literature.
+In the single-task case, \cite{isotropic} first proved such a local law for sample covariance matrices with isotropic covariance.
+\cite{Anisotropic} later extended this result to arbitrary covariance matrices.
+%On the other hand, one may derive the asymptotic result in Theorem \ref{thm_main_RMT} with error $\oo(1)$ using the free addition of two independent random matrices in  theory .
+These techniques provide almost sharp convergence rates to the asymptotic limit compared to other methods such as free probability \cite{nica2006lectures}.
+To the best of our knowledge, we are not aware of any previous results in the multi-task case, even for two tasks (with arbitrary covariate shifts).
+%\HZ{can you please add a discussion of the related work from RMT?}
+
+
+%\cite{WZR20} (and an earlier work by \cite{KD12}) observed that the shared layer size $r$ in hard parameter sharing plays a critical role of regularization.
+%Linear models in multi-task learning have been studied in various settings, including online learning \cite{CCG10,DCSP18}, sparse regression \cite{LPTV09,LPVT11}, and representation learning \cite{BHKL19}.
+
+%Our setting is closely related to domain adaptation \cite{DM06,BB07,BC08,DH09,MMR09,CWB11,ZS13,NB17,ZD19}.
+%The important distinction is that we focus on predicting the target task using a hard parameter sharing model.
+%For such models, their output dimension plays an important role of regularization \cite{KD12}.
+%Below, we describe several lines of work that are most related to this work.
+
+%Some of the earliest works on multi-task learning are Baxter , Ben-David and Schuller \cite{BS03}.
+%Mauer \cite{M06} studies generalization bounds for linear separation settings of MTL.
+%The benefit of learning multi-task representations has been studied for learning certain half-spaces \cite{MPR16} and sparse regression \cite{LPTV09,LPVT11}.
+%Our work is closely related to Wu et al. \cite{WZR20}.
+%While Wu et al. provide generalization bounds to show that adding more labeled helps learn the target task more accurately, their techniques cannot be used to explain when MTL outperforms STL.
+%\todo{spell out the challenge more explicitly}
+
+%Ando and Zhang \cite{AZ05} introduces an alternating minimization framework for learning multiple tasks.
+%Argyriou et al. \cite{AEP08} present a convex algorithm which learns common sparse representations across a pool of related tasks.
+%Evgeniou et al. \cite{EMP05} develop a framework for multi-task learning in the context of kernel methods.
+%\cite{KD12} observed that controlling the capacity can outperform the implicit capacity control of adding regularization over $B$.
+%The multi-task learning model that we have focused on uses the idea of hard parameter sharing \cite{C93,KD12,R17}.
+%We believe that our theoretical framework can apply to other approaches to multi-task learning.
 
 
 
-%\paragraph{Organizations.}
+
+\subsection{Organizations}
 The rest of this paper is organized as follows.
 In Section \ref{sec_same}, we present the bias-variance decomposition for hard parameter sharing.
 In Section \ref{sec_diff}, we describe how varying sample sizes and covariate shifts impact hard parameter sharing using random matrix theory.
