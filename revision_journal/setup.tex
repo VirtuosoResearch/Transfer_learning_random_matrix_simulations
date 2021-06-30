@@ -4,9 +4,10 @@ In this section, we define our model for the setting of transfer learning, and i
 
 \subsection{Large dimensional random matrices}
 
-Consider the transfer learning setting with two data sets. We denote their sample sizes by $n_1$ and $n_2$. For $i=1,2,$ Let $X^{(i)} \in \real^{n_i \times p}$ denote dataset $i$'s feature covariates. We assume that the label vector $Y^{(i)} \in \real^{n_i}$ for $X^{(i)}$ follows a linear model plus random noise:
+Consider the transfer learning setting with two data sets. We denote their sample sizes by $n_1$ and $n_2$.
+For $i=1,2,$ let $X^{(i)} \in \real^{n_i \times p}$ denote dataset $i$'s feature covariates. We assume that the label vector $Y^{(i)} \in \real^{n_i}$ for $X^{(i)}$ follows a linear model plus random noise:
 $$Y^{(i)}= X^{(i)}\beta^{(i)} + \varepsilon^{(i)},\quad i=1,2.$$
-In this paper, we make the following assumptions on feature covariates $X^{(i)}$ and the noise vectors $\varepsilon^{(i)}$. We remark that all these assumptions are natural in high-dimensional statistics.
+Throughout the paper, we make the following assumptions on the feature covariates $X^{(i)}$ and the noise vectors $\varepsilon^{(i)}$, following the work of \citet{hastie2019surprises} (see also \citet{wu2020optimal,richards2021asymptotics} and the references therein). %We remark that all these assumptions are natural in high-dimensional statistics.
 
 We assume that the row vectors of $X^{(i)}$ are i.i.d. centered random vectors with  population covariance matrix $\Sigma^{(i)}$. More precisely, let
 \be\label{XofZ}X^{(i)} = Z^{(i)} (\Sigma^{(i)})^{1/2} \in \real^{n_i\times p},\quad i=1,2, \ee
@@ -15,13 +16,6 @@ where each $\Sigma^{(1)}$ and $\Sigma^{(2)}$ are $p\times p$ deterministic posit
 \mathbb{E} z^{(1)}_{ij}=\mathbb{E} z^{(2)}_{ij} =0, \ \quad \ \mathbb{E} \vert z^{(1)}_{ij} \vert^2=\mathbb{E} \vert z^{(2)}_{ij} \vert^2 =1,
 \end{equation}
 
-Another commonly used transfer learning estimator is defined as the minimizer of the total loss function \cite{bastani2020predicting, li2020transfer}:
-$$\hat \beta^{\rm{TL}} := \argmin\left[ \norm{X^{(1)} \beta - Y^{(1)}}^2 + \norm{X^{(2)} \beta - Y^{(2)}}^2\right].$$
-
-Given a solution from minimizing $f(A, B)$, denoted by $(\hat{A}, \hat{B})$  (which we will specify below), let $\hat{\beta}_i^{\MTL} = \hat{B} \hat{A}_i$ denote the HPS estimator for task $i$.
-The critical questions are:
-(i) How well does the estimator work? In particular, how does the performance of the estimator scale with sample size?
-(ii) For datasets with different sample sizes and covariate shifts, how do they affect the estimator?
 
 Furthermore, we assume that the entries $z^{(1)}_{ij}$ and $z^{(2)}_{ij}$ have finite $\varphi$-th moment for some constant $\varphi>4$:
 \be \label{conditionA2}
@@ -76,6 +70,13 @@ Let $\tau$ be a small constant.
 
 
 %\FY{Introduce some popular transfer learning estimators: total loss estimator, and model averaging estimator.}
+Another commonly used transfer learning estimator is defined as the minimizer of the total loss function \cite{bastani2020predicting, li2020transfer}:
+$$\hat \beta^{\rm{TL}} := \argmin\left[ \norm{X^{(1)} \beta - Y^{(1)}}^2 + \norm{X^{(2)} \beta - Y^{(2)}}^2\right].$$
+
+Given a solution from minimizing $f(A, B)$, denoted by $(\hat{A}, \hat{B})$  (which we will specify below), let $\hat{\beta}_i^{\MTL} = \hat{B} \hat{A}_i$ denote the HPS estimator for task $i$.
+The critical questions are:
+(i) How well does the estimator work? In particular, how does the performance of the estimator scale with sample size?
+(ii) For datasets with different sample sizes and covariate shifts, how do they affect the estimator?
 
 
 In this paper, we measure the performance of $\hat{\beta}_2^{\MTL} (\hat a)$ through the out-of-sample predication loss (test error). Consider a test data point $(x,y)$ generated from the same model as task 2: $y= x^\top \beta^{(2)} + \ve$, where $x \in \R^p$ and $\ve\in \R$ are independent of $X^{(1)}$, $X^{(2)}$, $\varepsilon^{(1)}$ and $\varepsilon^{(2)}$, and only $x$ is observable. We want to use $x^\top \hat{\beta}_2^{\MTL} (\hat a) $ to predict $y$, and we measure the predication loss using the mean squared error
