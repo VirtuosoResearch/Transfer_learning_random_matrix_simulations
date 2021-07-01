@@ -1,11 +1,13 @@
 \section{Main results}
 
+%In Section \ref{sec_HPS_loss}, we give a rigorous analysis of the bias term  and variance term  in two different settings:
+In case (i), we provide the exact asymptotics for both the bias and variance terms, together with almost sharp convergence rates. We will use these results to illustrate the effects of the \emph{bias-variance tradeoff} and \emph{varying sample sizes}. In case (ii), we will prove an exact asymptotic variance limit, and employ the result to show the intricate effect of the covariate shift. On the other hand, in case (ii), we will provide an estimate on the bias term, which becomes exact only when $n_1\gg p$. %Here case (ii) is actually more general than (i)
 
-\subsection{Uneven sample sizes}\label{sec_sizeratio}
+\subsection{Model shift}\label{sec_sizeratio}
 
  In this subsection, we consider the setting where $X^{(1)}$ and $X^{(2)}$ are independent and have the same population covariance matrices $\Sigma^{(1)}=\Sigma^{(2)}$. However, the two tasks can have different sample sizes $n_1\ne n_2$. In this case, we can obtain the exact asymptotic limits of the bias term \eqref{Lbias} and the variance term \eqref{Lvar}. We will use these results to illustrate the effects of the bias-variance tradeoff and varying sample sizes on the performance of the $\MTL$ estimator.
 
-\begin{theorem}\label{cor_MTL_loss}
+\begin{theorem}[Bias-variance asymptotics of HPS estimators under model shift]\label{cor_MTL_loss}
 Under Assumption \ref{assm_big1}, suppose that $\Sigma^{(1)}=\Sigma^{(2)}$ and the entries of $Z^{(1)}$ and $Z^{(2)}$ are i.i.d. Gaussian random variables. Then for any small constant $\e>0$ and large constant $C>0$, there exists a high probability event $\Xi$, on which the following estimates hold uniformly in all $a\in \R$:
 \be\label{Lvar_samplesize}
 L_{\var}(a)= \sigma^2  \left[ \cal L_1(a)+ \OO\left({p^{c}}/{n_1}\right)\right]  ,
@@ -94,7 +96,7 @@ Taking derivative with respect to $x$ at $x=0$ gives the exact asymptotic limit 
 We believe that the above argument can be extended to the case without the Gaussian assumption. For example, instead of using the results in \cite{BES_free1,BES_free2} on free addition, we can use the sharp local laws on polynomials of random matrices in \cite{EKN_poly}. However, to apply the result in \cite{EKN_poly}, we need to check some difficult technical regularity conditions for our setting, which is not the focus of this work. Hence we do not pursue this direction in this paper.
 
 
-\paragraph{Examples.}
+\paragraph{Illustrative examples.}
 First, we show that if $\|\beta_0\|^2 \gg d^2$, then the global minimizer $\hat a$ of the function $g(a)$ in \eqref{eq_mtl_A12} is close to $1$.
 	The proof of Proposition \ref{lem_hat_v} will be given in Appendix \ref{app_iso_cov_prop}.
 
@@ -209,8 +211,33 @@ By comparing the derivative of the bias and variance limits with respect to $n_1
 \fi
 %	\end{example}
 
+\paragraph{Comparison to other estimators.}
+    \begin{align}
+    L(\hat{\beta}^{\AV}(\lambda) ) &= \left[ 1+ \OO(p^{-1/2+c})\right] \cdot \lambda^2 \left\| (\Sigma^{(2)})^{1/2}(\beta^{(1)}-\beta^{(2)})\right\|^2 \nonumber \\
+    &+  \left[ 1+ \OO(p^{-1/2+c})\right] \cdot \sigma^2   \lambda^2 \bigtr{\Sigma^{(2)} [(X^{(1)})^\top X^{(1)}]^{-1}  }\nonumber\\
+    & + \left[ 1+ \OO(p^{-1/2+c})\right] \cdot \sigma^2  (1-\lambda)^2 \bigtr{\Sigma^{(2)} [(X^{(2)})^\top X^{(2)}]^{-1}  }  . \label{L_AVE_simple}
+    \end{align}
+    and
+    \begin{align}
+    L(\hat{\beta}_2^{\STL} ) &= \left[ 1+ \OO(p^{-1/2+c})\right] \cdot \sigma^2  \bigtr{\Sigma^{(2)} [(X^{(2)})^\top X^{(2)}]^{-1}  }  . \label{L_STL_simple}
+    \end{align}
+    %Moreover, there exists a constant $C_0>0$ such that with high probability,
+    %\be\label{loss_large}
+    %g(a) > g(0) \quad \text{for all $a$ such that }|a|\ge C_0.
+    %\ee
+    %with high probability for any small constant $\e>0$.
+    
+ With Lemma \ref{fact_tr}, we obtain that w.h.p.,
+\begin{align}
+L(\hat{\beta}_2^{\STL} ) &= \left[ 1+ \OO(p^{-1/2+c})\right] \cdot \frac{p \sigma^2 }{n_2-p}   , \label{L_STL_simple01}
+\end{align}
+and
+\begin{align}
+L(\hat{\beta}^{\AV}(\lambda) ) &= \left[ 1+ \OO(p^{-1/2+c})\right] \cdot \lambda^2 \left\| (\Sigma^{(2)})^{1/2}(\beta^{(1)}-\beta^{(2)})\right\|^2 \nonumber \\
+&+  \left[ 1+ \OO(p^{-1/2+c})\right] \cdot \sigma^2 \left[\frac{ \lambda^2}{n_1-p}\bigtr{\Sigma^{(2)}(\Sigma^{(1)})^{-1}} + \frac{(1-\lambda)^2p  }{n_2-p}\right] . \label{L_AVE_simple01}
+ \end{align}    
 
-\paragraph{Simulations.}
+\todo{merge into prev paragraphs {Simulations.}}
 Second, we validate the result of Example \ref{ex_sample_ratio}.
 Figure \ref{fig_size} shows task two's prediction loss  as we increase the sample ratio $n_1 / n_2$ from $1/10$ to $7/10$.
 %Again, our estimates are accurate compared to the empirical losses.
@@ -312,58 +339,8 @@ and plug them into \eqref{lem_cov_shift_eq}.  The proof of Theorem \ref{thm_main
 %This amounts to replacing $M$ with $\frac{A_1}{A_2}M$ in Theorem \ref{thm_main_RMT}.
 
 
-For the bias limit, we have the following proposition.
 
-\begin{proposition}\label{prop_main_RMT}
-%The bias equation \eqref{Lbias} satisfies the following limit with high probability: Let $S$ be an arbitrary subset of the unit sphere in dimension $p$ whose size is polynomial in $p$, for any unit vector $w\in S$,
-Under Assumption \ref{assm_big1}, for any small constant $c>0$ and large constant $C>0$, there exists a high probability event $\Xi$, on which the following estimate  holds for $L_{\bias}(a)$ in \eqref{Lbias}:
-			\begin{align}
-				& \bigabs{ L_{\bias}(a) -   (\beta^{(1)}- a\beta^{(2)} )^\top (\Sigma^{(1)})^{1/2} \Pi(a)(\Sigma^{(1)})^{1/2} (\beta^{(1)}- a\beta^{(2)})   }  \nonumber\\
-				& \le \left[\left( 1+\sqrt{\frac{p}{n_1}}\right)^4 - 1 +\OO\left( n_1^{-1/2+2/\varphi + c}\right)\right] \frac{n_1^2 \lambda_1^2 \left\|(\Sigma^{(1)})^{1/2} \left(\beta^{(1)}- a\beta^{(2)}\right) \right\|^2}{  [(\sqrt{n_1}-\sqrt{p})^2 \lambda_p^2+ (\sqrt{n_2}-\sqrt{p})^2]^2}  \nonumber\\
-				& + p^{-C} \left[\| \beta^{(1)}\|^2 + \| \beta^{(2)}\|^2 \right], \label{lem_cov_derv_eq}
-			\end{align}
-%			\begin{align}\label{lem_cov_derv_eq}
-%				\bigabs{ L_{\bias}(a) - \left\|\frac{n_1}{n_1+n_2}  \frac{\left[a_3 M(a)^\top M(a) + (a_4 + 1) \right]^{1/2}}{ a_1 M(a)^\top M(a) + a_2 } M(a)^\top (\Sigma^{(1)})^{1/2} \left(\beta^{(1)}- a\beta^{(2)}\right)\right\|^2   } \le  \frac{p^{-c_{\varphi}}}{(n_1+n_2)^2},
-%			\end{align}
-				uniformly in all $a\in \R$. Here $\lambda_1$ and $\lambda_p$ are respectively the largest and smallest singular values of $M(a)$, $\Pi(a)$ is a $p\times p$ matrix defined as
-				$$\Pi(a):=\frac{n_1^2}{(n_1+n_2)^2}  M(a)  \frac{a_3 M(a)^\top M(a) + (a_4 + 1) }{[a_1 M(a)^\top M(a) + a_2 ]^2} M(a)^\top  ,$$
-				 and $(a_{3},a_4)$ is the solution of the following system of equations % with $b_k = \frac1{p}\sum_{i=1}^p \frac{\lambda_i^{2k}} {(\lambda_i^2 a_1 + a_2)^2}$, for $k = 0, 1, 2$:
-		\be  \label{eq_a34extra}
-		\begin{split}
-				& a_3 + a_4 = \frac{1}{n_1 + n_2}\sum_{i=1}^p \frac{1}{\lambda_i^2 a_1 + a_2}, \\
-				& a_3 + \frac{1}{n_1 + n_2} \sum_{i=1}^p \frac{\lambda_i^2 (a_2 a_3-a_1 a_4 )}{(\lambda_i^2 a_1 + a_2)^2} = \frac{1}{n_1 + n_2} \sum_{i=1}^p \frac{\lambda_i^2 a_1}{(\lambda_i^2 a_1 + a_2)^{2}},
-%				\left(\frac{\rho_1}{a_1^{2}} -  b_2  \right)\cdot  a_3 -  b_1 \cdot  a_4 = b_1,\quad \left(\frac{\rho_2}{a_2^{2}}-  b_0\right)\cdot  a_4 - b_1 \cdot  a_3
-%				= b_0.
-			\end{split}
-			\ee
-			where we recall that $(a_1,a_2)$ is the solution of \eqref{eq_a12extra}.
-\end{proposition}
-
-Note that the first error term on the right-hand side of \eqref{lem_cov_derv_eq} is typically smaller than the main term $ (\beta^{(1)}- a\beta^{(2)} )^\top (\Sigma^{(1)})^{1/2} \Pi(a)(\Sigma^{(1)})^{1/2} (\beta^{(1)}- a\beta^{(2)})  $ by a factor of $\OO(\sqrt{p/n_1} + n_1^{-1/2+2/\varphi + c})$. Hence \eqref{lem_cov_derv_eq} only gives an exact asymptotic limit in the regime $n_1\gg p$. Moreover, by equations \eqref{eq_a12extra} and \eqref{eq_a34extra} we have
-$$a_1 =\frac{n_1}{n_1+n_2} + \OO\left( \frac{p}{n_1+n_2}\right), \quad a_3 =\frac{n_3}{n_1+n_2} + \OO\left( \frac{p}{n_1+n_2}\right),$$
-and
-$$a_3 =\OO\left( \frac{p}{n_1+n_2}\right),\quad a_4 =\OO\left( \frac{p}{n_1+n_2}\right).$$
-Using these estimates, it is easy to check that
-\begin{align}
-& (\beta^{(1)}- a\beta^{(2)} )^\top (\Sigma^{(1)})^{1/2} \Pi(a)(\Sigma^{(1)})^{1/2} (\beta^{(1)}- a\beta^{(2)})   \nonumber \\
-&=\left\| (\Sigma^{(2)})^{1/2}\frac{1}{a^2\Sigma^{(1)}+\Sigma^{(2)}} a \Sigma^{(1)} \left(\beta^{(1)}- a\beta^{(2)}\right) \right\|^2 + \OO\left( \frac{p\left\|\beta^{(1)}- a\beta^{(2)}\right\|^2}{n_1+n_2}  \right)  . \label{bias_LLN}
-\end{align}
-Hence \eqref{lem_cov_derv_eq} is consistent with the result obtained by replacing $ (X^{(1)})^\top X^{(1)}$ and $ (X^{(2)})^\top X^{(2)}$ with $n_1\Sigma^{(1)}$ and $n_2\Sigma^{(2)}$, respectively, in $L_{\bias} (a) $ using the law of large numbers in the regime $n_1\gg p$. However, simulations show that our estimate \eqref{lem_cov_derv_eq} is more precise than the first term on the right-hand side of \eqref{bias_LLN}.
-
-\begin{remark}
-%First, our result in Corollary \ref{cor_MTL_loss} involves an error term that scales down with $n_1$.
-%Tightening this error bound requires showing the limit of $\normFro{({Z^{(1)}}^{\top} Z^{(1)} + {Z^{(2)}}^{\top} Z^{(2)})^{-1} {Z^{(1)}}^{\top} Z^{(1)}}^2$ for two isotropic sample covariance matrices.
-%This requires studying the asymptotic singular values distribution of the non-symmetric matrix $({Z^{(1)}}^{\top} Z^{(1)})^{-1}{Z^{(2)}}^{\top} Z^{(2)}+\id$, which is still an open problem in random matrix theory.
-%\begin{remark}
-The main error in Proposition \ref{prop_main_RMT} comes from approximating $(Z^{(1)})^\top Z^{(1)}$ by $n_1\id_{n_1\times n_2}$ using Corollary \ref{fact_minv} in the supplement \cite{MTL_suppl}. In order to improve this estimate and obtain an exact asymptotic result, one needs to study the singular value distribution of the  random matrix $\cal X + a^2$ for any fixed $a\in \R$, where $\cal X:=[(X^{(1)})^{\top}X^{(1)}]^{-1}(X^{(2)})^{\top}X^{(2)}$. We remark that the eigenvalues of $\cal X$ have been studied in the name of Fisher matrices \cite{Fmatrix}. However, since $\cal X$ is not symmetric, its singular values are different from its eigenvalues. To the best of our knowledge, the asymptotic singular value behavior of $\cal X$ is still an open problem in random matrix theory, and the study of the singular values of $\cal X + a^2$ will be even harder. We leave this problem to future study.
-
-We also remark for the general case with covariate shift, the method in Section \ref{sec_sizeratio} for the bias term also fails, because we cannot reduce the problem into the free addition of two random matrices that are asymptotically freely independent.
-%\end{remark}
-\end{remark}
-
-\todo{describe comparison to the TL estimator and the weighted OLS estimator.}
-
-\paragraph{Examples.}
+\paragraph{Illustrative examples.}
 To describe quantitatively the bias-variance tradeoff phenomenon and the effect of varying sample sizes on the predication loss, we consider a \emph{random-effect model}, which has been studied for  single-task linear regression and ridge regression (see e.g. \cite{dobriban2020wonder,dobriban2018high}).
 
  %{How does hard parameter sharing scale with sample sizes and covariate shift $M$?} One can see that the variance limit depends intricately on both tasks' samples sizes and covariate shift. Next, we illustrate how varying them impact the prediction loss.
@@ -526,8 +503,9 @@ Thus, we conclude that if $n_1 \ge n_2$, then $f(\lambda) > f(1)$.
 If $n_1< n_2$, then $f(\lambda)< f(1)$.
 \fi
 
+\paragraph{Comparison to other estimators.}
 
-\paragraph{Simulations.}
+\todo{merge into previous paragraphs {Simulations.}}
 Finally, we validate the result of Example \ref{ex_covshift}.
 Figure \ref{fig_covariate} shows task two's prediction loss as we increase task one's sample size.
 Recall that $\lambda$ measures the severity of covariate shifts---a larger $\lambda$ means a larger covariate shift.
@@ -540,4 +518,60 @@ The sample size $n_2$ is $800$ and the noise variance $\sigma^2$ is $1/4$.
 
 
 
-\input{multitask.tex}
+\subsection{Model and covariate shift}
+
+
+For the bias limit, we have the following proposition.
+
+\begin{proposition}\label{prop_main_RMT}
+%The bias equation \eqref{Lbias} satisfies the following limit with high probability: Let $S$ be an arbitrary subset of the unit sphere in dimension $p$ whose size is polynomial in $p$, for any unit vector $w\in S$,
+Under Assumption \ref{assm_big1}, for any small constant $c>0$ and large constant $C>0$, there exists a high probability event $\Xi$, on which the following estimate  holds for $L_{\bias}(a)$ in \eqref{Lbias}:
+			\begin{align}
+				& \bigabs{ L_{\bias}(a) -   (\beta^{(1)}- a\beta^{(2)} )^\top (\Sigma^{(1)})^{1/2} \Pi(a)(\Sigma^{(1)})^{1/2} (\beta^{(1)}- a\beta^{(2)})   }  \nonumber\\
+				& \le \left[\left( 1+\sqrt{\frac{p}{n_1}}\right)^4 - 1 +\OO\left( n_1^{-1/2+2/\varphi + c}\right)\right] \frac{n_1^2 \lambda_1^2 \left\|(\Sigma^{(1)})^{1/2} \left(\beta^{(1)}- a\beta^{(2)}\right) \right\|^2}{  [(\sqrt{n_1}-\sqrt{p})^2 \lambda_p^2+ (\sqrt{n_2}-\sqrt{p})^2]^2}  \nonumber\\
+				& + p^{-C} \left[\| \beta^{(1)}\|^2 + \| \beta^{(2)}\|^2 \right], \label{lem_cov_derv_eq}
+			\end{align}
+%			\begin{align}\label{lem_cov_derv_eq}
+%				\bigabs{ L_{\bias}(a) - \left\|\frac{n_1}{n_1+n_2}  \frac{\left[a_3 M(a)^\top M(a) + (a_4 + 1) \right]^{1/2}}{ a_1 M(a)^\top M(a) + a_2 } M(a)^\top (\Sigma^{(1)})^{1/2} \left(\beta^{(1)}- a\beta^{(2)}\right)\right\|^2   } \le  \frac{p^{-c_{\varphi}}}{(n_1+n_2)^2},
+%			\end{align}
+				uniformly in all $a\in \R$. Here $\lambda_1$ and $\lambda_p$ are respectively the largest and smallest singular values of $M(a)$, $\Pi(a)$ is a $p\times p$ matrix defined as
+				$$\Pi(a):=\frac{n_1^2}{(n_1+n_2)^2}  M(a)  \frac{a_3 M(a)^\top M(a) + (a_4 + 1) }{[a_1 M(a)^\top M(a) + a_2 ]^2} M(a)^\top  ,$$
+				 and $(a_{3},a_4)$ is the solution of the following system of equations % with $b_k = \frac1{p}\sum_{i=1}^p \frac{\lambda_i^{2k}} {(\lambda_i^2 a_1 + a_2)^2}$, for $k = 0, 1, 2$:
+		\be  \label{eq_a34extra}
+		\begin{split}
+				& a_3 + a_4 = \frac{1}{n_1 + n_2}\sum_{i=1}^p \frac{1}{\lambda_i^2 a_1 + a_2}, \\
+				& a_3 + \frac{1}{n_1 + n_2} \sum_{i=1}^p \frac{\lambda_i^2 (a_2 a_3-a_1 a_4 )}{(\lambda_i^2 a_1 + a_2)^2} = \frac{1}{n_1 + n_2} \sum_{i=1}^p \frac{\lambda_i^2 a_1}{(\lambda_i^2 a_1 + a_2)^{2}},
+%				\left(\frac{\rho_1}{a_1^{2}} -  b_2  \right)\cdot  a_3 -  b_1 \cdot  a_4 = b_1,\quad \left(\frac{\rho_2}{a_2^{2}}-  b_0\right)\cdot  a_4 - b_1 \cdot  a_3
+%				= b_0.
+			\end{split}
+			\ee
+			where we recall that $(a_1,a_2)$ is the solution of \eqref{eq_a12extra}.
+\end{proposition}
+
+Note that the first error term on the right-hand side of \eqref{lem_cov_derv_eq} is typically smaller than the main term $ (\beta^{(1)}- a\beta^{(2)} )^\top (\Sigma^{(1)})^{1/2} \Pi(a)(\Sigma^{(1)})^{1/2} (\beta^{(1)}- a\beta^{(2)})  $ by a factor of $\OO(\sqrt{p/n_1} + n_1^{-1/2+2/\varphi + c})$. Hence \eqref{lem_cov_derv_eq} only gives an exact asymptotic limit in the regime $n_1\gg p$. Moreover, by equations \eqref{eq_a12extra} and \eqref{eq_a34extra} we have
+$$a_1 =\frac{n_1}{n_1+n_2} + \OO\left( \frac{p}{n_1+n_2}\right), \quad a_3 =\frac{n_3}{n_1+n_2} + \OO\left( \frac{p}{n_1+n_2}\right),$$
+and
+$$a_3 =\OO\left( \frac{p}{n_1+n_2}\right),\quad a_4 =\OO\left( \frac{p}{n_1+n_2}\right).$$
+Using these estimates, it is easy to check that
+\begin{align}
+& (\beta^{(1)}- a\beta^{(2)} )^\top (\Sigma^{(1)})^{1/2} \Pi(a)(\Sigma^{(1)})^{1/2} (\beta^{(1)}- a\beta^{(2)})   \nonumber \\
+&=\left\| (\Sigma^{(2)})^{1/2}\frac{1}{a^2\Sigma^{(1)}+\Sigma^{(2)}} a \Sigma^{(1)} \left(\beta^{(1)}- a\beta^{(2)}\right) \right\|^2 + \OO\left( \frac{p\left\|\beta^{(1)}- a\beta^{(2)}\right\|^2}{n_1+n_2}  \right)  . \label{bias_LLN}
+\end{align}
+Hence \eqref{lem_cov_derv_eq} is consistent with the result obtained by replacing $ (X^{(1)})^\top X^{(1)}$ and $ (X^{(2)})^\top X^{(2)}$ with $n_1\Sigma^{(1)}$ and $n_2\Sigma^{(2)}$, respectively, in $L_{\bias} (a) $ using the law of large numbers in the regime $n_1\gg p$. However, simulations show that our estimate \eqref{lem_cov_derv_eq} is more precise than the first term on the right-hand side of \eqref{bias_LLN}.
+
+\begin{remark}
+%First, our result in Corollary \ref{cor_MTL_loss} involves an error term that scales down with $n_1$.
+%Tightening this error bound requires showing the limit of $\normFro{({Z^{(1)}}^{\top} Z^{(1)} + {Z^{(2)}}^{\top} Z^{(2)})^{-1} {Z^{(1)}}^{\top} Z^{(1)}}^2$ for two isotropic sample covariance matrices.
+%This requires studying the asymptotic singular values distribution of the non-symmetric matrix $({Z^{(1)}}^{\top} Z^{(1)})^{-1}{Z^{(2)}}^{\top} Z^{(2)}+\id$, which is still an open problem in random matrix theory.
+%\begin{remark}
+The main error in Proposition \ref{prop_main_RMT} comes from approximating $(Z^{(1)})^\top Z^{(1)}$ by $n_1\id_{n_1\times n_2}$ using Corollary \ref{fact_minv} in the supplement \cite{MTL_suppl}. In order to improve this estimate and obtain an exact asymptotic result, one needs to study the singular value distribution of the  random matrix $\cal X + a^2$ for any fixed $a\in \R$, where $\cal X:=[(X^{(1)})^{\top}X^{(1)}]^{-1}(X^{(2)})^{\top}X^{(2)}$. We remark that the eigenvalues of $\cal X$ have been studied in the name of Fisher matrices \cite{Fmatrix}. However, since $\cal X$ is not symmetric, its singular values are different from its eigenvalues. To the best of our knowledge, the asymptotic singular value behavior of $\cal X$ is still an open problem in random matrix theory, and the study of the singular values of $\cal X + a^2$ will be even harder. We leave this problem to future study.
+
+We also remark for the general case with covariate shift, the method in Section \ref{sec_sizeratio} for the bias term also fails, because we cannot reduce the problem into the free addition of two random matrices that are asymptotically freely independent.
+%\end{remark}
+\end{remark}
+
+\todo{describe comparison to the TL estimator and the weighted OLS estimator.}
+
+
+
+

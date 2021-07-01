@@ -1,11 +1,11 @@
 \section{Preliminaries}\label{sec_HPS}
 In this section, we define our model for the setting of transfer learning, and introduce several transfer learning estimators that will be considered in this paper.
-
+In Section \ref{sec_same}, we will consider a simple extension to a multi-task learning setting with more than two tasks and  the same covariates for all tasks. We will give the asymptotic limit of the predication loss for the HPS estimator, which provides useful insights into the more rich multi-task learning theory. %Due to length constraint, we will explore the multi-task learning setting in greater details in other works.
 
 \subsection{Data model}
 
 We describe the data model and the underlying assumptions.
-Suppose we have two regression datasets.
+Suppose we have two regression datasets (or tasks).
 We denote their sample sizes by $n_1$ and $n_2$, respectively.
 Consider either $i = 1$ or $i = 2$.
 Let $X^{(i)} \in \real^{n_i \times p}$ denote dataset $i$'s feature covariates.
@@ -66,18 +66,6 @@ Let $\Sig^{(1)}$ and $\Sig^{(2)}$ are deterministic positive definite symmetric 
 
 %\item $\beta^{(1)}$ and $\beta^{(2)} $ are independent of $X^{(1)}$, $X^{(2)}$, $\varepsilon^{(1)}$ and $\varepsilon^{(2)} $. %, and satisfy \eqref{eq_SNR}.
 
-\todo{
-We assume that $\Sig^{(i)}$ has eigendecomposition
-\be\label{eigen}
-\Sig^{(i)}= O_i\Lambda_i O_i^\top, \quad  \Lambda_1=\text{diag}(\si_1^{(i)}, \ldots, \si^{(i)}_n),  \quad i=1,2,
-\ee
-where $O_i$ is the eigenmatrix and the eigenvalues satisfy that
-\begin{equation}\label{assm3}
- \tau \le  \si^{(i)}_p \le\cdots\le \si^{(i)}_2 \le \si^{(i)}_1 \le \tau^{-1} \quad i=1,2.
-\ee}
-%for a small constant $\tau>0$.
-
-
 \subsection{Estimators}
 
 We describe our estimators that combine the information from both datasets.
@@ -109,7 +97,7 @@ We focus on the setting where the hidden dimension $r = 1$.
 Otherwise, the excess risk of the HPS estimator and that of the ordinary least squares (OLS) estimator are equal to each other \cite{WZR20}.
 \begin{proposition}\label{prop_large_r}
     Suppose that Assumption \ref{assm_big1} holds.
-    Let $\hat{\beta}_i^{\STL} = \big( {X^{(i)}}^{\top} X^{(i)} \big)^{-1} {X^{(i)}}^{\top} Y^{(i)}$ denote the OLS estimator, for either $i = 1$ or $i = 2$.
+    Let $\hat{\beta}_i^{\STL} = \big( (X^{(i)})^{\top} X^{(i)} \big)^{-1} (X^{(i)})^{\top} Y^{(i)}$ denote the OLS estimator, for either $i = 1$ or $i = 2$.
     Then, for any $r \ge 2$, we have that $L(\hat{\beta}_i^{\MTL}) = L(\hat{\beta}_i^{\STL})$.
 \end{proposition}
 
@@ -142,60 +130,80 @@ Additionally, they have been used as a preprocessing step of minimax optimal est
 \subsection{Bias and variance}
 
 Proposition \ref{prop_large_r} suggests that the two-layer neural network provides information transfer only when $r = 1$.
-Next, we provide the bias-variance decomposition of $L(\hat{\beta}^{\MTL}_2)$ under this setting.
+Next, we provide the bias-variance decomposition of the excess risk under this setting.
+Without loss of generality, we focus on task two's excess risk $L(\hat{\beta}^{\MTL}_2)$.
 As a remark, for general $r$, problem \eqref{eq_hps} is non-convex since $f(\cdot)$ is a degree-four polynomial.
-Nevertheless, the setting when $r = 1$ remain tractable since we can write a closed-form solution of $A$ given any (scalar) $B_1$ and $B_2$.
+Nevertheless, the setting when $r = 1$ remains tractable since we can write a closed-form solution of $A$ given any (scalar) $B_1$ and $B_2$.
+Since $B_1$ and $B_2$ are both scalars, let $a = B_1 / B_2$.
+Let $\hat{\Sigma}(a) \define a^2 (X^{(1)})^{\top} X^{(1)} + (X^{(2)})^{\top} X^{(2)}$ be a weighted combination of the sample covariance matrices.
+We present a bias-variance decomposition of $L(\hat{\beta}^{\MTL}_2)$ for the setting of $r = 1$ as follows.
 
-
-\begin{proposition}\label{lem_HPS_loss}
+\begin{proposition}[Bias-variance decomposition]\label{lem_HPS_loss}
      Under Assumption \ref{assm_big1}, for any small constant $\e>0$ and large constant $C>0$, there exists a high probability event $\Xi$, on which the following estimates hold uniformly in $a\in \R$ and $\lambda\in [0,1]$:
     \begin{align}
-    L(\hat{\beta}_2^{\MTL}(a)) &=\left[ 1+ \OO(p^{-1/2+c})\right]\cdot \left[L_{\bias} (a) + L_{\var}(a)\right] \nonumber\\
-    &+ \OO \left[ p^{-C}\left( \|\beta^{(1)} \|^2  +  \|\beta^{(2)} \|^2\right)   \right], \label{L_HPS_simple}
+        L(\hat{\beta}_2^{\MTL}) =& \left( 1+ \OO(p^{-1/2+c})\right)\cdot \left(L_{\bias} (a) + L_{\var}(a)\right) %\nonumber\\
+        + \OO \left( p^{-C}\big( \|\beta^{(1)} \|^2  +  \|\beta^{(2)} \|^2\big)   \right), \label{L_HPS_simple}
     \end{align}
+    where the bias and variance equations are defined as follows:
     \begin{align}
-    L(\hat{\beta}^{\AV}(\lambda) ) &= \left[ 1+ \OO(p^{-1/2+c})\right] \cdot \lambda^2 \left\| (\Sigma^{(2)})^{1/2}(\beta^{(1)}-\beta^{(2)})\right\|^2 \nonumber \\
-    &+  \left[ 1+ \OO(p^{-1/2+c})\right] \cdot \sigma^2   \lambda^2 \bigtr{\Sigma^{(2)} [(X^{(1)})^\top X^{(1)}]^{-1}  }\nonumber\\
-    & + \left[ 1+ \OO(p^{-1/2+c})\right] \cdot \sigma^2  (1-\lambda)^2 \bigtr{\Sigma^{(2)} [(X^{(2)})^\top X^{(2)}]^{-1}  }  . \label{L_AVE_simple}
+        L_{\bias} (a) &\define \left\| (\Sigma^{(2)})^{1/2}\hat \Sigma(a)^{-1} (X^{(1)})^\top X^{(1)} \left(a\beta^{(1)}- a^2\beta^{(2)}\right) \right\|^2,  \label{Lbias} \\
+        L_{\var}(a)   &\define \sigma^2  \bigtr{{\Sigma^{(2)}\hat \Sigma(a)^{-1}  }}.  \label{Lvar}
     \end{align}
-    and
-    \begin{align}
-    L(\hat{\beta}_2^{\STL} ) &= \left[ 1+ \OO(p^{-1/2+c})\right] \cdot \sigma^2  \bigtr{\Sigma^{(2)} [(X^{(2)})^\top X^{(2)}]^{-1}  }  . \label{L_STL_simple}
-    \end{align}
-    %Moreover, there exists a constant $C_0>0$ such that with high probability,
-    %\be\label{loss_large}
-    %g(a) > g(0) \quad \text{for all $a$ such that }|a|\ge C_0.
-    %\ee
-    %with high probability for any small constant $\e>0$.
 \end{proposition}
 
-\begin{proof}[Proof sketch]
-    Plugging \eqref{HPS_est} into \eqref{HPS_loss}, we get
-    \begin{align}
-    L(\hat{\beta}_2^{\MTL}(\hat a))  =  &\left\| (\Sigma^{(2)})^{1/2}\hat \Sigma(\hat a)^{-1} (X^{(1)})^\top X^{(1)} (\hat a\beta^{(1)}-\hat a^2\beta^{(2)}) \right. \nonumber\\
-    &\left. +(\Sigma^{(2)})^{1/2}\hat \Sigma(\hat a)^{-1} \left[ (X^{(2)})^\top \epsilon^{(2)} + \hat a  (X^{(1)})^\top \epsilon^{(1)} \right]\right\|^2.\label{Lbeta_HPS}
-    \end{align}
-    Note that if we replace $\hat a$ with a fixed number $a$ in \eqref{Lbeta_HPS}, then taking the expectation over $\ve^{(1)}$ and $\ve^{(2)}$, we can get a clean bias-variance decomposition of the predication loss:
-    \be\label{partial-L} \exarg{\ve^{(1)},\ve^{(2)}}{L(\hat{\beta}_2^{\MTL}(a)) } = L_{\bias} (a) + L_{\var}(a),\ee
-    where
-    \be\label{Lbias} L_{\bias} (a) := \left\| (\Sigma^{(2)})^{1/2}\hat \Sigma(a)^{-1} (X^{(1)})^\top X^{(1)} \left(a\beta^{(1)}- a^2\beta^{(2)}\right) \right\|^2 \ee
-    is called the bias term, which depends on the model bias between task 1 and task 2, and
-    \be\label{Lvar}  L_{\var}(a):=\sigma^2  \bigtr{{\Sigma^{(2)}\hat \Sigma(a)^{-1}  }} \ee
-    is called the variance term, which depends on the noise variance. Using concentration of the noise vectors $\ve^{(1)}$ and $\ve^{(2)}$, we can show that $L(\hat{\beta}_2^{\MTL}(a))$ is close to \eqref{partial-L} up to a small error as in the next lemma. In this paper, we say that an event $\Xi$ holds \emph{with high probability} (w.h.p.) if $\mathbb P(\Xi)\to 1$ as $p\to \infty$.
+Equation \eqref{L_HPS_simple} shows that the excess risk of the HPS estimator admits a clean bias-variance decomposition plus lower-order terms that decrease to zero with the dimension $p$.
+Since equation \eqref{L_HPS_simple} holds uniformly for all $a\in \R$, we can apply the result to $a = \hat{B}_1 / \hat{B}_2$, for any $\hat{B}_1$ and $\hat{B}_2$ that may depend on $\ve^{(1)}$ and $\ve^{(2)}$ (after solving problem \eqref{eq_hps}).
+%The proof of Proposition \ref{lem_HPS_loss} involves
+We briefly describe why Proposition \ref{lem_HPS_loss} holds.
+First, suppose that $a$ is an arbitrary value that is independent of the random noise vectors$ \varepsilon^{(1)}$ and $\varepsilon^{(2)}$.
+By taking the expectation over both of them, we get the following result:
+\be\label{partial-L}
+    \exarg{\ve^{(1)},\ve^{(2)}}{L(\hat{\beta}_2^{\MTL}) } = L_{\bias} (a) + L_{\var}(a).
+\ee
+Secondly, using concentration of the noise vectors $\ve^{(1)}$ and $\ve^{(2)}$, we can show that $L(\hat{\beta}_2^{\MTL}(a))$ is close to \eqref{partial-L} up to a small error as in the next lemma.
+For a fixed $a\in \R$, the proof of \eqref{L_HPS_simple} is based on the sharp concentration bounds in Lemma \ref{largedeviation} of Section \ref{??}.
+To extend uniformly to all $a\in \R$, we will use a standard $\ve$-net argument, which leads to a small error $ p^{-C}\left( \|\beta^{(1)} \|^2  +  \|\beta^{(2)} \|^2\right) $. Note that this error is negligible unless $\beta^{(1)}$ and $ a\beta^{(2)}$ cancel each other almost exactly, and the noise variance $\sigma$ is very small.
+The proof of Proposition \ref{lem_HPS_loss} can be found in Section  \ref{app_firstpf}.
+
+\paragraph{Connection to information transfer.}
+To be precise, we say that task one provides a positive transfer to task two, if the excess risk $L(\hat{\beta}_2^{\MTL})$ is smaller than $L(\hat{\beta}_2^{\STL})$.
+Otherwise, we say that task one provides a negative transfer to task two.
+We now illustrate that the bias-variance decomposition of Proposition \ref{lem_HPS_loss} characterizes whether or not the information transfer is positive.
+
+First, we compare the bias. Since $n_1 \ge (1 + \tau) p$ by Assumption \ref{assm_big1}, the bias of $\hat{\beta}_2^{\STL}$ is zero.
+Thus, the bias of $\hat{\beta}_2^{\MTL}$ is always higher than that of $\hat{\beta}_2^{\STL}$.
+Second, we compare the variance. By a similar argument as in Proposition \ref{lem_HPS_loss}, the variance of $\hat{\beta}_2^{\STL}$ is equal to $\sigma^2 \bigtr{\Sigma^{(2)} ((X^{(2)})^{\top} X^{(2)})^{-1}}$.
+Then, a straightforward algebraic calculation (e.g. using the Woodbury matrix identity) shows that the variance of $\hat{\beta}_2^{\MTL}$ is always higher than that of $\hat{\beta}_2^{\STL}$:
+\begin{align*}
+    \bigtr{\Sigma^{(2)} \big(\hat{\Sigma}(a)\big)^{-1}} \le \bigtr{\Sigma^{(2)} \big((X^{(2)})^{\top} X^{(2)}\big)^{-1}}.
+\end{align*}
+Combining both comparisons, we conclude that HPS affects the excess risk in two ways: the bias always increases while the variance always decreases.
+Thus, whether or not task one provides a positive transfer to task two depends on which effect is more significant.
+
+%The bias equation \eqref{Lbias} captures the 
+%Plugging \eqref{HPS_est} into \eqref{HPS_loss}, we get
+%\begin{align}
+%    L(\hat{\beta}_2^{\MTL}(\hat a))  =  &\left\| (\Sigma^{(2)})^{1/2}\hat \Sigma(\hat a)^{-1} (X^{(1)})^\top X^{(1)} (\hat a\beta^{(1)}-\hat a^2\beta^{(2)}) \right. \nonumber\\
+%    &\left. +(\Sigma^{(2)})^{1/2}\hat \Sigma(\hat a)^{-1} \left[ (X^{(2)})^\top \epsilon^{(2)} + \hat a  (X^{(1)})^\top \epsilon^{(1)} \right]\right\|^2.\label{Lbeta_HPS}
+%\end{align}
+%Note that 
+%    is called the variance term, which depends on the noise variance. 
     %predication loss for the HPS and OLS estimators.
-\end{proof}
+%\end{proof}
 
 
-Since \eqref{L_HPS_simple} holds uniformly for all $a\in \R$, we can also apply it to $\hat{\beta}_2^{\MTL}(\hat a)$, where $\hat a$ is a random variable that may depend on $\ve^{(1)}$ and $\ve^{(2)}$. In practice, the parameter $ a$  is up to one's choice and may not be the global minimizer, so we have stated the result for an completely arbitrary $a$. (In fact, the optimization objective $g(a)$ is generally non-convex, so in some cases one can only find a local minimizer.) For a fixed $a\in \R$, the proof of \eqref{L_HPS_simple} is based on the sharp concentration bounds in Lemma \ref{largedeviation} of the supplement \cite{MTL_suppl}. To extend uniformly to all $a\in \R$, we will use a standard $\ve$-net argument, which leads to a small error $ p^{-C}\left( \|\beta^{(1)} \|^2  +  \|\beta^{(2)} \|^2\right) $. Note that this error is negligible unless $\beta^{(1)}$ and $ a\beta^{(2)}$ cancel each other almost exactly, and the noise variance $\sigma$ is very small. The proof of Lemma \ref{lem_HPS_loss} will be given in Appendix  \ref{app_firstpf} of the supplement \cite{MTL_suppl}.
+
+%In practice, the parameter $ a$  is up to one's choice and may not be the global minimizer, so we have stated the result for an completely arbitrary $a$. (In fact, the optimization objective $g(a)$ is generally non-convex, so in some cases one can only find a local minimizer.) 
 
 %In this section, we show that the prediction loss of hard parameter sharing admits a clean bias-variance decomposition, when all tasks have the same features.
 
 
 
+\paragraph{Bias and variance asymptotics.}
+Building on the above connection, we apply recent developments from random matrix theory to analyze information transfer.
+As a warmup, we describe the following classical result in multivariate statistics that characterizes the excess risk (or equivalently, the variance) of the OLS estimator.
 
-For the single-task predication loss \eqref{L_STL_simple}, we can calculate its asymptotic limit exactly using the following classical result in multivariate statistics.
-
-\begin{lemma}[Theorem 2.4 of \cite{isotropic} and Theorem 3.14 of \cite{DY}]\label{fact_tr}
+\begin{lemma}[Variance asymtotics of OLS estimators, cf. Theorem 2.4 of \citet{isotropic} and Theorem 3.14 of \citet{DY}]\label{fact_tr}
 	%Let $X  \in \real^{n\times p}$ be a random matrix that satisfies Assumption \ref{assume_rm}.
 	%Let $\Sigma\in\real^{p\times p}$ denote the population covariance matrix of $X$.
 	Under Assumption \ref{assm_big1}, we have that for any deterministic $p\times p$ matrix $\Sigma$,
@@ -205,23 +213,43 @@ For the single-task predication loss \eqref{L_STL_simple}, we can calculate its 
 \end{lemma}
  %The above result has a long history in random matrix theory.
 If the entries of $Z^{(2)}$ are i.i.d. Gaussian, then this result follows from the classical result for %the mean of
-the inverse Wishart distribution \cite{anderson1958introduction}. For a general non-Gaussian $Z^{(2)}$, this result can be obtained using the well-known Stieltjes transform method (cf. Lemma 3.11 of \cite{bai2009spectral}). Here we have presented the results from \cite{isotropic,DY}, which give an almost sharp convergence rate. With Lemma \ref{fact_tr}, we obtain that w.h.p.,
-\begin{align}
-L(\hat{\beta}_2^{\STL} ) &= \left[ 1+ \OO(p^{-1/2+c})\right] \cdot \frac{p \sigma^2 }{n_2-p}   , \label{L_STL_simple01}
-\end{align}
-and
-\begin{align}
-L(\hat{\beta}^{\AV}(\lambda) ) &= \left[ 1+ \OO(p^{-1/2+c})\right] \cdot \lambda^2 \left\| (\Sigma^{(2)})^{1/2}(\beta^{(1)}-\beta^{(2)})\right\|^2 \nonumber \\
-&+  \left[ 1+ \OO(p^{-1/2+c})\right] \cdot \sigma^2 \left[\frac{ \lambda^2}{n_1-p}\bigtr{\Sigma^{(2)}(\Sigma^{(1)})^{-1}} + \frac{(1-\lambda)^2p  }{n_2-p}\right] . \label{L_AVE_simple01}
- \end{align}
+the inverse Wishart distribution \citet{anderson1958introduction}. For a general non-Gaussian $Z^{(2)}$, this result can be obtained using the well-known Stieltjes transform method (cf. Lemma 3.11 of \citet{bai2009spectral}). Here we have presented the results from \citet{isotropic} and \citet{DY}, who give an almost sharp convergence rate.
 
-On the other hand, much less is known about the predication loss of the HPS estimator. In particular, its exact dependence on the model parameters, including the model bias, noise variance, sample sizes, and population covariance matrices, is not well-understood so far. %\FY{What is known so far about this topic?}
-In Section \ref{sec_HPS_loss}, we give a rigorous analysis of the bias term \eqref{Lbias} and variance term \eqref{Lvar} in two different settings: (i) independent $X^{(1)}$ and $X^{(2)}$ with different sample sizes and same population covariance matrices $\Sigma^{(1)}=\Sigma^{(2)}$; (ii) independent $X^{(1)}$ and $X^{(2)}$ with different sample sizes and different population covariance matrices. In case (i), we provide the exact asymptotics for both the bias and variance terms, together with almost sharp convergence rates. We will use these results to illustrate the effects of the \emph{bias-variance tradeoff} and \emph{varying sample sizes}. In case (ii), we will prove an exact asymptotic variance limit, and employ the result to show the intricate effect of the covariate shift. On the other hand, in case (ii), we will provide an estimate on the bias term, which becomes exact only when $n_1\gg p$. %Here case (ii) is actually more general than (i)
+On the other hand, characterizing the risk of the HPS estimator requires dealing with several challenges.
+First, characterizing bias (cf. equation \eqref{Lbias}) introduces the issue of \textit{model shift}, when $\beta^{(1)}$ differs from $\beta^{(2)}$.
+Second, characterizing variance (cf. equation \eqref{Lvar}) introduces  the issue of \textit{covariate shift}, when $\Sigma^{(1)}$ differs from $\Sigma^{(2)}$.
+More precisely, we define the two settings as follows:
+\begin{itemize}
+    \item \textbf{Model shift:} independent $X^{(1)}$ and $X^{(2)}$ with the same population covariance matrices (i.e. $\Sigma^{(1)}=\Sigma^{(2)}$) but different models (i.e. $\beta^{(1)} \neq \beta^{(2)}$).
+    \item \textbf{Covariate shift:} independent $X^{(1)}$ and $X^{(2)}$ with the same population covariance matrices and but different models.
+\end{itemize}
+Our main results in the next section provide precise bias-variance asymptotics under both settings.
+%In particular, its exact dependence on the model parameters, including the model bias, noise variance, sample sizes, and population covariance matrices, is not well-understood so far. %\FY{What is known so far about this topic?}
+
 %In particular, we will use our results to analyze the effect of the following factors: \emph{bias-variance tradeoff}, \emph{sample sizes}, and \emph{covariate shift}.
-In Section \ref{sec_same}, we will consider a simple extension to a multi-task learning setting with more than two tasks and  the same covariates for all tasks. We will give the asymptotic limit of the predication loss for the HPS estimator, which provides useful insights into the more rich multi-task learning theory. %Due to length constraint, we will explore the multi-task learning setting in greater details in other works.
+
 
 %{\cor discuss about the bias-variance trade-off}
 %However, to the best of our knowledge, the asymptotic limit of $L(\hat{\beta}_2^{\MTL}(a))$ has never been calculated exactly in any high-dimensional setting.
+\begin{remark}
+    \todo{clarify overparametrize}
+    As a clar,  following the work of \citet{hastie2019surprises} (see also \citet{bartlett2020benign} and the references therein)
+\end{remark}
 
-\todo{clarify overparametrize}
-As a clar,  following the work of \citet{hastie2019surprises} (see also \citet{bartlett2020benign} and the references therein)
+\subsection{Notations}
+
+
+\todo{
+We assume that $\Sig^{(i)}$ has eigendecomposition
+\be\label{eigen}
+\Sig^{(i)}= O_i\Lambda_i O_i^\top, \quad  \Lambda_1=\text{diag}(\si_1^{(i)}, \ldots, \si^{(i)}_n),  \quad i=1,2,
+\ee
+where $O_i$ is the eigenmatrix and the eigenvalues satisfy that
+\begin{equation}\label{assm3}
+ \tau \le  \si^{(i)}_p \le\cdots\le \si^{(i)}_2 \le \si^{(i)}_1 \le \tau^{-1} \quad i=1,2.
+\ee}
+%for a small constant $\tau>0$.
+
+
+
+In this paper, we say that an event $\Xi$ holds \emph{with high probability} (w.h.p.) if $\mathbb P(\Xi)\to 1$ as $p\to \infty$.
