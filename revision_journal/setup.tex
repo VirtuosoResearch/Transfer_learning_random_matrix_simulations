@@ -1,6 +1,12 @@
 \section{Preliminaries}\label{sec_HPS}
-In this section, we define our model for the setting of transfer learning, and introduce several transfer learning estimators that will be considered in this paper.
-In Section \ref{sec_same}, we will consider a simple extension to a multi-task learning setting with more than two tasks and  the same covariates for all tasks. We will give the asymptotic limit of the predication loss for the HPS estimator, which provides useful insights into the more rich multi-task learning theory. %Due to length constraint, we will explore the multi-task learning setting in greater details in other works.
+We begin by formally defining the data model involving large dimensional random matrices together with the underling assumptions.
+We define the model shift and covariate shift settings, in which we will analyze transfer learning in the next section.
+Then, we describe the estimators for the model using two-layer linear neural networks.
+Finally, we present a bias-variance decomposition of our estimators.
+We explain why this decomposition is crucial for analyzing information transfer and the need for new techniques in the analysis.
+Our setup in this section concerns the case of a single data source.
+Later on in Section \ref{sec_same}, we will extend the setup to the case of multiple data sources.
+%In Section \ref{sec_same}, we will consider a simple extension to a multi-task learning setting with more than two tasks and  the same covariates for all tasks. We will give the asymptotic limit of the predication loss for the HPS estimator, which provides useful insights into the more rich multi-task learning theory. %Due to length constraint, we will explore the multi-task learning setting in greater details in other works.
 
 \subsection{Data model}
 
@@ -27,6 +33,14 @@ We assume that for some constant $\varphi>4$, the $\varphi$-th moment of each en
 \be \label{conditionA2}
 \ex{\vert z^{(i)}_{j, k} \vert^\varphi}  \le \frac 1{\tau}. %,\quad \mathbb{E} \vert  z^{(2)}_{ij} \vert^\varphi   \le \tau^{-1}
 \ee
+%$Denote by $\Sig^{(i)} = O_i\Lambda_i O_i^\top$ its eigendecomposition, where $\Lambda_1=\text{diag}(\si_1^{(i)}, \ldots, \si^{(i)}_n)$.
+%\be\label{eigen}
+%\Sig^{(i)}, \quad  ,  \quad i=1,2,
+%\ee
+Additionally, We assume that the eigenvalues of $\Sigma^{(i)}$ are bounded between $\tau$ and $1 / \tau$.
+%\begin{equation}\label{assm3}
+%    \tau \le  \si^{(i)}_p \le\cdots\le \si^{(i)}_2 \le \si^{(i)}_1 \le \tau^{-1} \quad i=1,2.
+%\end{equation}
  
 Second, we assume that $\varepsilon^{(i)} \in \real^{n_i}$ is a random noise vector with i.i.d entries having mean zero, variance $\sigma^2$, and bounded moment up to any order: for any fixed $k\in \N$, there exists a constant $C_k>0$ such that
 \be\label{eq_highmoments}
@@ -63,12 +77,33 @@ Let $\Sig^{(1)}$ and $\Sig^{(2)}$ are deterministic positive definite symmetric 
 \end{enumerate}
 \end{assumption}
 
+Having defined the data model for each task, next, we describe typical scenarios in transfer learning under our setup.
+We define two settings as follows:
+\begin{itemize}
+    \item \textbf{Covariate shift:} independent $X^{(1)}$ and $X^{(2)}$ with the same population covariance matrices but different models.
+    \item \textbf{Model shift:} independent $X^{(1)}$ and $X^{(2)}$ with the same population covariance matrices (i.e. $\Sigma^{(1)}=\Sigma^{(2)}$) but different models (i.e. $\beta^{(1)} \neq \beta^{(2)}$).
+\end{itemize}
+One interesting special case of capturing different models is the following random-effect model, which has been studied in several recent works concerning high-dimensional (single-task) ridge regression \cite{dobriban2018high} and distributed regression \cite{dobriban2020wonder}.
+ %{How does hard parameter sharing scale with sample sizes and covariate shift $M$?} One can see that the variance limit depends intricately on both tasks' samples sizes and covariate shift. Next, we illustrate how varying them impact the prediction loss.
+%\begin{example}%[Sample sizes]
+%\label{ex_sample_ratio}
+	%We first consider the impact of varying sample sizes.
+	%Consider the random-effect model from Section \ref{sec_same}, with both tasks having an isotropic population covariance matrix.
+	%We again consider the random effect model in Example \ref{ex_same_cov} with $t=2$.
+Suppose each $\beta^{(i)}$ consists of two random components, one that is shared among the two tasks and one that is task-specific. More precisely, let
+\begin{align}
+    \beta^{(i)}=\beta_0 +\wt \beta^{(i)},\quad i=1,2, \label{eq_re}
+\end{align}
+where $\beta_0$ denotes the shared component, %whose entries are i.i.d. Gaussian random variables of mean zero and variance $p^{-1}\kappa^2$,
+and $\wt \beta^{(i)}$ denotes the $i$-th
+%Let $\beta^{(i)}$ be equal to $\beta_0$ plus a
+task-specific component whose entries are i.i.d. Gaussian random variables of mean zero and variance $p^{-1} d^2$.
 
 %\item $\beta^{(1)}$ and $\beta^{(2)} $ are independent of $X^{(1)}$, $X^{(2)}$, $\varepsilon^{(1)}$ and $\varepsilon^{(2)} $. %, and satisfy \eqref{eq_SNR}.
 
 \subsection{Estimators}
 
-We describe our estimators that combine the information from both datasets.
+%We describe our estimators that combine the information from both datasets.
 We learn a two-layer linear neural network with parameters $A \in \real^{p\times r}$, $B_1 \in \real^{r}$, and $B_2 \in \real^r$ by minimizing the following optimization objective:
 \begin{align}\label{eq_hps}
     f(A, B_1, B_2) = \bignorm{X^{(1)} A B_1 - Y^{(1)}}_2^2 + \bignorm{X^{(2)} A B_2 - Y^{(2)}}_2^2.
@@ -115,21 +150,48 @@ When $r = 1$, both $B_1$ and $B_2$ reduce to scalars.
 In particular, the case when $B_1$ and $B_2$ are both equal to $1$ reduces to a pooling estimator, which treats both datasets as if they are drawn independently from the same distribution.
 Such pooling estimators have been shown to be effective on e-commence and healthcare datasets \cite{bastani2020predicting}.
 Additionally, they have been used as a preprocessing step of minimax optimal estimators, under certain conditions of the data \cite{li2020transfer} (see also Section \ref{sec_related} for further discussion of both works).
-%Another commonly used transfer learning estimator is defined as the minimizer of the total loss function \cite{, li2020transfer}:
-%$$\hat \beta^{\rm{TL}} := \argmin\left[ \norm{X^{(1)} \beta - Y^{(1)}}^2 + \norm{X^{(2)} \beta - Y^{(2)}}^2\right].$$
 
-%Given a solution from minimizing $f(A, B)$, denoted by   (which we will specify below), let  denote the HPS estimator for task $i$.
-%The critical questions are:
-%(i) How well does the estimator work? In particular, how does the performance of the estimator scale with sample size?
-%(ii) For datasets with different sample sizes and covariate shifts, how do they affect the estimator?
+\todo{edit the transition here} We show that if $\|\beta_0\|^2 \gg d^2$, then the global minimizer $\hat a$ of the function $g(a)$ in \eqref{eq_mtl_A12} is close to $1$.
+The proof of Proposition \ref{lem_hat_v} can be found in Section \ref{app_iso_cov_prop}.
+
+\begin{proposition}[Optimum under the random-effect model]\label{lem_hat_v}
+%Suppose the assumptions of Lemma \ref{prop_model_shift_tight} hold. Assume that $ \kappa^2 \sim pd^2 \sim \sigma^2$ are of the same order.
+    Suppose Assumption \ref{assm_big1} and the above random-effect model under equation \eqref{eq_re} holds. %in Example \ref{ex_same_cov} hold.
+    Suppose that for a constant $c_0>0$,
+	\be\label{para_rel}
+	    \|\beta_0\|^2 \ge p^{c_0}d^2 +p^{-1/2+c_0}\sigma^2.
+	\ee
+    Then we have that for any small constant $c>0$ and large constant $ C>0$,
+	%Let $c$ be a sufficiently small fixed constant.
+	%In the setting of Corollary \ref{cor_MTL_loss},
+%There exists a constant $C>0$ such that
+	\be\label{hatw_add1}
+	 \hat a =1+ \OO\left(\frac{d^2}{\|\beta_0\|^2} + p^{-1/4+c} \frac{d+\sigma}{\|\beta_0\|} + p^{-C}\right) \quad \text{w.h.p.}
+	\ee
+\end{proposition}
+In this paper, we say that an event $\Xi$ holds \emph{with high probability} (w.h.p.) if $\mathbb P(\Xi)\to 1$ as $p\to \infty$.
+
+%Suppose every $\beta^{(i)}$ consists of two random components, one that is shared among all tasks and one that is task-specific.
+%%Thus, each task contributes a certain amount to the shared component and injects a task-specific bias.
+%More precisely, %we have
+%$$\beta^{(i)}=\beta_0 +\wt \beta^{(i)},\quad i=1,2,\cdots, t,$$
+%where $\beta_0$ denotes the shared component, %whose entries are i.i.d. Gaussian random variables of mean zero and variance $p^{-1}\kappa^2$,
+%and $\wt \beta^{(i)}$ denotes the $i$-th
+%%Let $\beta^{(i)}$ be equal to $\beta_0$ plus a
+%task-specific component whose entries are i.i.d. Gaussian random variables of mean zero and variance $p^{-1} d^2$.
+%We emphasize that unlike Theorem \ref{cor_MTL_loss}, for Proposition \ref{lem_hat_v} we do not assume $\Sigma^{(1)}=\Sigma^{(2)}$ and the Gaussian distributions of the entries of $Z^{(1)}$ and $Z^{(2)}$.
+%In particular, its exact dependence on the model parameters, including the model bias, noise variance, sample sizes, and population covariance matrices, is not well-understood so far. %\FY{What is known so far about this topic?}
+
+%In particular, we will use our results to analyze the effect of the following factors: \emph{bias-variance tradeoff}, \emph{sample sizes}, and \emph{covariate shift}.
 
 
+%{\cor discuss about the bias-variance trade-off}
+%However, to the best of our knowledge, the asymptotic limit of $L(\hat{\beta}_2^{\MTL}(a))$ has never been calculated exactly in any high-dimensional setting.
 
-
-%$L(\hat{\beta}_2^{\STL})$ of the single-task OLS estimator  as a baseline.
 \subsection{Bias and variance}
 
-Proposition \ref{prop_large_r} suggests that the two-layer neural network provides information transfer only when $r = 1$.
+%Proposition \ref{prop_large_r} suggests that the two-layer neural network provides information transfer only when $r = 1$.
+
 Next, we provide the bias-variance decomposition of the excess risk under this setting.
 Without loss of generality, we focus on task two's excess risk $L(\hat{\beta}^{\MTL}_2)$.
 As a remark, for general $r$, problem \eqref{eq_hps} is non-convex since $f(\cdot)$ is a degree-four polynomial.
@@ -151,6 +213,8 @@ We present a bias-variance decomposition of $L(\hat{\beta}^{\MTL}_2)$ for the se
     \end{align}
 \end{proposition}
 
+
+
 Equation \eqref{L_HPS_simple} shows that the excess risk of the HPS estimator admits a clean bias-variance decomposition plus lower-order terms that decrease to zero with the dimension $p$.
 Since equation \eqref{L_HPS_simple} holds uniformly for all $a\in \R$, we can apply the result to $a = \hat{B}_1 / \hat{B}_2$, for any $\hat{B}_1$ and $\hat{B}_2$ that may depend on $\ve^{(1)}$ and $\ve^{(2)}$ (after solving problem \eqref{eq_hps}).
 %The proof of Proposition \ref{lem_HPS_loss} involves
@@ -164,9 +228,20 @@ Secondly, using concentration of the noise vectors $\ve^{(1)}$ and $\ve^{(2)}$, 
 For a fixed $a\in \R$, the proof of \eqref{L_HPS_simple} is based on the sharp concentration bounds in Lemma \ref{largedeviation} of Section \ref{??}.
 To extend uniformly to all $a\in \R$, we will use a standard $\ve$-net argument, which leads to a small error $ p^{-C}\left( \|\beta^{(1)} \|^2  +  \|\beta^{(2)} \|^2\right) $. Note that this error is negligible unless $\beta^{(1)}$ and $ a\beta^{(2)}$ cancel each other almost exactly, and the noise variance $\sigma$ is very small.
 The proof of Proposition \ref{lem_HPS_loss} can be found in Section  \ref{app_firstpf}.
+%Another commonly used transfer learning estimator is defined as the minimizer of the total loss function \cite{, li2020transfer}:
+%$$\hat \beta^{\rm{TL}} := \argmin\left[ \norm{X^{(1)} \beta - Y^{(1)}}^2 + \norm{X^{(2)} \beta - Y^{(2)}}^2\right].$$
 
-\paragraph{Connection to information transfer.}
-To be precise, we say that task one provides a positive transfer to task two, if the excess risk $L(\hat{\beta}_2^{\MTL})$ is smaller than $L(\hat{\beta}_2^{\STL})$.
+%Given a solution from minimizing $f(A, B)$, denoted by   (which we will specify below), let  denote the HPS estimator for task $i$.
+%The critical questions are:
+%(i) How well does the estimator work? In particular, how does the performance of the estimator scale with sample size?
+%(ii) For datasets with different sample sizes and covariate shifts, how do they affect the estimator?
+
+
+
+
+%$L(\hat{\beta}_2^{\STL})$ of the single-task OLS estimator  as a baseline.
+
+\paragraph{Connection to information transfer.} To be precise, we say that task one provides a positive transfer to task two, if the excess risk $L(\hat{\beta}_2^{\MTL})$ is smaller than $L(\hat{\beta}_2^{\STL})$.
 Otherwise, we say that task one provides a negative transfer to task two.
 We now illustrate that the bias-variance decomposition of Proposition \ref{lem_HPS_loss} characterizes whether or not the information transfer is positive.
 
@@ -198,8 +273,7 @@ Thus, whether or not task one provides a positive transfer to task two depends o
 %In this section, we show that the prediction loss of hard parameter sharing admits a clean bias-variance decomposition, when all tasks have the same features.
 
 
-
-\paragraph{Bias and variance asymptotics.}
+%\paragraph{Random matrix theory.}
 Building on the above connection, we apply recent developments from random matrix theory to analyze information transfer.
 As a warmup, we describe the following classical result in multivariate statistics that characterizes the excess risk (or equivalently, the variance) of the OLS estimator.
 
@@ -218,38 +292,4 @@ the inverse Wishart distribution \citet{anderson1958introduction}. For a general
 On the other hand, characterizing the risk of the HPS estimator requires dealing with several challenges.
 First, characterizing bias (cf. equation \eqref{Lbias}) introduces the issue of \textit{model shift}, when $\beta^{(1)}$ differs from $\beta^{(2)}$.
 Second, characterizing variance (cf. equation \eqref{Lvar}) introduces  the issue of \textit{covariate shift}, when $\Sigma^{(1)}$ differs from $\Sigma^{(2)}$.
-More precisely, we define the two settings as follows:
-\begin{itemize}
-    \item \textbf{Model shift:} independent $X^{(1)}$ and $X^{(2)}$ with the same population covariance matrices (i.e. $\Sigma^{(1)}=\Sigma^{(2)}$) but different models (i.e. $\beta^{(1)} \neq \beta^{(2)}$).
-    \item \textbf{Covariate shift:} independent $X^{(1)}$ and $X^{(2)}$ with the same population covariance matrices and but different models.
-\end{itemize}
-Our main results in the next section provide precise bias-variance asymptotics under both settings.
-%In particular, its exact dependence on the model parameters, including the model bias, noise variance, sample sizes, and population covariance matrices, is not well-understood so far. %\FY{What is known so far about this topic?}
-
-%In particular, we will use our results to analyze the effect of the following factors: \emph{bias-variance tradeoff}, \emph{sample sizes}, and \emph{covariate shift}.
-
-
-%{\cor discuss about the bias-variance trade-off}
-%However, to the best of our knowledge, the asymptotic limit of $L(\hat{\beta}_2^{\MTL}(a))$ has never been calculated exactly in any high-dimensional setting.
-\begin{remark}
-    \todo{clarify overparametrize}
-    As a clar,  following the work of \citet{hastie2019surprises} (see also \citet{bartlett2020benign} and the references therein)
-\end{remark}
-
-\subsection{Notations}
-
-
-\todo{
-We assume that $\Sig^{(i)}$ has eigendecomposition
-\be\label{eigen}
-\Sig^{(i)}= O_i\Lambda_i O_i^\top, \quad  \Lambda_1=\text{diag}(\si_1^{(i)}, \ldots, \si^{(i)}_n),  \quad i=1,2,
-\ee
-where $O_i$ is the eigenmatrix and the eigenvalues satisfy that
-\begin{equation}\label{assm3}
- \tau \le  \si^{(i)}_p \le\cdots\le \si^{(i)}_2 \le \si^{(i)}_1 \le \tau^{-1} \quad i=1,2.
-\ee}
-%for a small constant $\tau>0$.
-
-
-
-In this paper, we say that an event $\Xi$ holds \emph{with high probability} (w.h.p.) if $\mathbb P(\Xi)\to 1$ as $p\to \infty$.
+Our main results in the next section provide precise bias-variance asymptotics under either (or both) shift(s).

@@ -2,9 +2,10 @@
 
 
 %\subsection{Comparison between the averaging and HPS estimators}
-\paragraph{Regression tasks.}
+\subsection{Regression tasks}
 
-\paragraph{Text classification.}
+
+\subsection{Text classification tasks}
 Our results and simulations are all in the high-dimensional linear regression setting.
 How well do they extend to other scenarios?
 In this section, we conduct further studies on six text classification datasets.
@@ -14,10 +15,7 @@ Our model consists of a word embedding layer with GloVe embeddings \cite{penning
 For LSTM, we add a shared feature representation layer on top of word embeddings.}
 
 
-
-\subsection{Progressively increasing source task sample sizes}%\label{sec_text}
-
-
+\paragraph{Progressively increasing source dataset sizes.}%\label{sec_text}
 %multi-layer perceptron (MLP), LSTM, CNN on all tasks
 %We use this task to verify our theoretical results on model capacity and task covariance in real world.
 %{\it ChestX-ray14.} This dataset contains 112,120 frontal-view X-ray images \cite{chexnet17}.
@@ -38,8 +36,7 @@ For LSTM, we add a shared feature representation layer on top of word embeddings
 %We find that using a threshold of $\tau = 0.1$, the STL results correctly predict positive or negative transfer with $75.6\%$ precision and $38.8\%$ recall among $30$ times $5$ (random seeds) task pairs!
 %We observe similar results for $91$ task pairs from the ChestX-ray14 dataset.
 %The results show that STL results are indicative of MTL results.
-
-\paragraph{Sample size ratio.}
+%\paragraph{Sample size ratio.}
 First, we we show that our observation in Figure \ref{fig_size} also occurs in the text classification tasks.
 In Figure \ref{fig_ab_data}, we observe that for multiple example task pairs, increasing task one's sample size improves task two's prediction accuracy initially, but hurts eventually.
 On the $y$-axis, we plot task two's test accuracy using HPS, subtracted by its STL test accuracy.
@@ -108,10 +105,7 @@ We find that adding samples progressively from SST requires less than $35\%$ of 
 
 
 
-\subsection{Covariate alignment}
-
-
-\paragraph{Covariate shift}
+\paragraph{Covariate alignment.}
 Recall from Example \ref{ex_covshift} that having covariate shifts worsens the variance (hence the loss) of hard parameter sharing when the sample ratio increases.
 This highlights the need for correcting covariate shifts when the sample size ratio rises.
 To this end, we study a covariance alignment procedure proposed in \cite{WZR20}, designed to correct covariate shifts.
@@ -141,7 +135,7 @@ We fix task two's sample size at $1,000$, and increase task one's sample size fr
 
 
 
-\subsection{Model width selection}
+%\subsection{Model width selection}
 %As a further validation, excluding TREC, we observe similar comparative results.
 %The data efficiency ratio of using MLP is $100\%$ because the average performance of MTL is worse than the average of STL.
 %We further show that applying incremental training helps reduce the data efficiency ratio to \alert{$xx\%$}.
