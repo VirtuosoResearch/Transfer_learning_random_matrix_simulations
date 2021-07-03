@@ -5,11 +5,7 @@ In case (i), we provide the exact asymptotics for both the bias and variance ter
 
 \subsection{Covariate shift}\label{sec_diff}
 
-%The previous section assumes that all tasks have the same sample size and feature vectors.
 We begin by considering the covariate shift setting where both tasks have the same linear model but different population covariance matrices.
-%The different covariates case differs from the same covariates case in two aspects.
-%First, different tasks may have different sample sizes. In extreme scenarios, one task may have much less labeled data compared to another task.
-%In particular, the fact that population covariance matrices differ across tasks is often called ``covariate shift''. %which is characterized by the matrix $(\Sigma^{(1)})^{1/2}(\Sigma^{(2)})^{-1/2}$.
 We show the exact asymptotic limit of the excess risk of the HPS estimator in the high-dimensional setting.
 
 %By solving $B$ in equation \eqref{eq_mtl}, we obtain the estimator for task two as follows:
@@ -33,7 +29,7 @@ Intuitively, the spectrum of $\hat{\Sigma}(a)^{-1}$ now not only depends on the 
 %However, capturing this intuition quantitatively turns out to be technically challenging.
 %The main technical challenge of our result deals with the ``covariate shift'' between tasks one and two.
 To capture this alignment quantitatively, we introduce the covariate shift matrix %(rescaled by $a$)
-$$ M \define (\Sigma^{(1)})^{1/2}(\Sigma^{(2)})^{-1/2}.$$
+$$ M \define (\Sigma^{(1)})^{\frac 1 2}(\Sigma^{(2)})^{-\frac 1 2}.$$
 %Let $U\Lambda V^\top$ denote the SVD of $M$ and
 Let $\lambda_1 \ge \lambda_2 \ge \dots\ge \lambda_p $ be the singular values of $M$ in descending order. %By \eqref{assm3}, these singular values satisfy that
 %\begin{equation}\label{assm32}
@@ -44,49 +40,129 @@ Our first main result is the following theorem on the variance limit, which char
 
 
 \begin{theorem}[Variance asymptotics under covariate shift]\label{thm_main_RMT}
-%	Let $c_{\varphi}$ be any fixed value within $(0, \frac{\varphi - 4}{2\varphi})$.
-%	Assume that: a) the sample sizes $n_1$ and $n_2$ both satisfy Assumption \ref{assume_rm};
-%	b) $M$'s singular values are all greater than $\tau$ and less than $1/\tau$;
-%	c) task one's sample size is greater than $\tau p$ and task two's sample size is greater than $(1 + \tau) p$.
-%	With high probability over the randomness of $X^{(1)}$ and $X^{(2)}$, we have the following limits:
 Under Assumption \ref{assm_big1} (recalling $\varphi > 4$), for any small constant $c>0$, there exists a high probability event $\Xi$, on which the following estimate holds for $L_{\var}(a)$ in \eqref{Lvar}:
-%equation \eqref{eq_variance_2task} $\tr[\Sigma^{(2)} \hat{\Sigma}^{-1}]$ (leaving out $\sigma^2$) satisfies the following estimate:
 	\begin{align}\label{lem_cov_shift_eq}
-		\bigabs{L_{\var}(a)- \frac{\sigma^2}{n_1+n_2}\bigtr{  \frac{1}{a_1 a^2\cdot M^\top M + a_2  }  }}
+		\bigabs{L_{\var}(a)- \frac{\sigma^2}{n_1+n_2}\bigtr{  \frac{1}{\alpha_1 a^2\cdot M^\top M + \alpha_2}  }}
 		\le \frac{(n_1+n_2)^{\frac 2{\varphi} - \frac 1 2 + c}}{p^{1/2}}\cdot\frac{p \sigma^2}{n_1+ n_2},
 	\end{align}
 	uniformly in all $a\in \R$. Here $(\alpha_1, \alpha_2)$ is the solution of the following system of equations
 	\begin{align}
 		\alpha_1 + \alpha_2 = 1- \frac{p}{n_1 + n_2}, \quad
-		\alpha_1 + \frac1{n_1 + n_2}  \bigbrace{\sum_{i=1}^p \frac{\lambda_i^2 \alpha_1 a^2}{\lambda_i^2 \alpha_1 a^2 + \alpha_2}} = \frac{n_1}{n_1 + n_2}. \label{eq_a12extra}
+		\alpha_1 + \frac1{n_1 + n_2}  \bigbrace{\sum_{i=1}^p \frac{(a \lambda_i)^2 \alpha_1}{(a \lambda_i)^2 \alpha_1 + \alpha_2}} = \frac{n_1}{n_1 + n_2}. \label{eq_a12extra}
 	\end{align}
 \end{theorem}
 \todo{changed $a_1, a_2$ to $\alpha_1, \alpha_2$ since they conflict with $a$}
 
 Equation \eqref{lem_cov_shift_eq} thus characterizes the variance of the HPS estimator, up to an error term on the order of $O\big(\frac{\sigma^2}{p^{-1/2}}\big)$ (recall that $\varphi > 4$, $c$ is an arbitrarily small constant, $\frac{p}{n_1+n_2} \in (2 {\tau}, \frac 2 {\tau})$).
-With Assumption \ref{assm_big1},
-$$ \frac{\sigma^2}{n_1+n_2}\bigtr{  \frac{1}{a_1 M(a)^\top M(a) + a_2  }  } \sim \frac{p \sigma^2}{n_1+ n_2}.$$
-Hence the right-hand side of \eqref{lem_cov_shift_eq} is much smaller than this main term by a factor of $p^{-1/2} (n_1+n_2)^{-1/2+2/\varphi + c}$, which we believe to be sharp up to the $(n_1+n_2)^c$ factor. Lemma \ref{fact_tr} can be also regarded as a special case of Theorem \ref{thm_main_RMT}. %also extends  to the inverse of the sum of two sample covariance matrices.
-To see this, when $M(a)=0$, we solve equation \eqref{eq_a12extra} to obtain that
-$$a_1 = \frac{n_1}{n_1+n_2},\quad a_2 = \frac{n_2-p}{n_1+ n_2},$$
-and plug them into \eqref{lem_cov_shift_eq}.  The proof of Theorem \ref{thm_main_RMT} is based on some recent developments in random matrix theory \cite{Anisotropic}, and will be given in Appendix \ref{appendix RMT} of the supplement \cite{MTL_suppl}.
+Our result can be viewed as a generalization of the classical result in Lemma \ref{fact_tr} to the \textit{covariate shift} setting.
+In particular, Lemma \ref{fact_tr} corresponds to a setting where the singular values $\lambda_1,\dots,\lambda_p$ are all equal to one, and $a = 1$. Then, the second part of equation \eqref{eq_a12extra} simplifies to
+\[ \alpha_1 + \frac{p}{n_1 + n_2}\cdot \frac{\alpha_1}{\alpha_1 + \alpha_2} = \frac{n_1}{n_1 + n_2}. \]
+By solving the above together with the first part of equation \eqref{eq_a12extra}, we obtain that
+$$\alpha_1 = \frac{n_1}{n_1+n_2},\quad \alpha_2 = \frac{n_2-p}{n_1+ n_2}.$$
+Plugging the above solutions back to the variance limit, we thus find that the limit is equal to
+\begin{align*}
+    \frac{\sigma^2}{n_1 + n_2} \bigtr{\frac 1 {\alpha_1 M^{\top} M + \alpha_2}} &= \frac{\sigma^2}{n_1 + n_2} \frac{p}{\alpha_1 + \alpha_2} \tag{since the singular values of $M$ are equal to $1$} \\
+    &= \frac{\sigma^2}{n_1 + n_2} \cdot\frac{p (n_1 + n_2)}{n_1 + n_2 - p} \tag{applying $\alpha_1$ and $\alpha_2$ from above} \\
+    &= \frac{\sigma^2 p}{n_1 + n_2 - p},
+\end{align*}
+which is precisely the limit in Lemma \ref{fact_tr}.
+Additionally, the convergence rate in equation \eqref{lem_cov_shift_eq} matches the one in Lemma \ref{fact_tr} for this special case.
+%With Assumption \ref{assm_big1},
+%$$ \frac{\sigma^2}{n_1+n_2}\bigtr{  \frac{1}{a_1 M(a)^\top M(a) + a_2  }  } \sim \frac{p \sigma^2}{n_1+ n_2}.$$
+%Hence the right-hand side of \eqref{lem_cov_shift_eq} is much smaller than this main term by a factor of $p^{-1/2} (n_1+n_2)^{-1/2+2/\varphi + c}$, which we believe to be sharp up to the $(n_1+n_2)^c$ factor. Lemma \ref{fact_tr} can be also regarded as a special case of Theorem \ref{thm_main_RMT}. %also extends  to the inverse of the sum of two sample covariance matrices.
+%To see this, when $M(a)=0$,
+The proof of Theorem \ref{thm_main_RMT}, which is based on recent developments in random matrix theory \cite{Anisotropic}, can be found in Section \ref{appendix RMT}.
 %For general $A_1,A_2$ that are not equal to one, we can still apply our result by rescaling $X^{(1)}$ and $M$ with $A_1 / A_2$.
 %We defer a proof sketch of Theorem \ref{thm_main_RMT} until the end of the section.
 %This amounts to replacing $M$ with $\frac{A_1}{A_2}M$ in Theorem \ref{thm_main_RMT}.
 
+Second, we consider the bias.
+Note that the setting where $\beta_1 = \beta_2$ can be viewed as a special case of the random-effect model with $d = 0$, thus, assuming that $\norm{\beta_1}_2^2 \ge \sigma^2 / p^{1/2 - c_0}$ for a small constant $c_0 > 0$, we have that $\hat B_1 / \hat B_2$ is equal to $1$ plus lower-order terms that scale to zero as $p$ goes to infinity (see equation \eqref{hatw_add1} for the precise scaling).
+In Proposition \ref{lem_hat_v}, we have seen that the global minimizer $\hat a$ is close to 1 up to a small error.
+Thus, the bias equation $L_{\bias}(\hat B_1 / \hat B_2)$ is equal to $0$ plus the above lower-order terms.
+We summarize this discussion in the following corollary:
+
+\begin{corollary}[Asymptotics for HPS under covariate shift]\label{cor_hps_cov}
+    Under Assumption \ref{assm_big1}, suppose further that $\beta_1 = \beta_2$ and $\norm{\beta_1}^2_2 \ge \frac{\sigma^2}{p^{1/2 - c_0}}$ for a constant $c_0 > 0$.
+    Then, for any constant $c > 0$, the following estimate on the excess risk of the HPS estimator holds w.h.p.
+    \begin{align}
+        \bigabs{L(\hat{\beta}_2^{\MTL}) - \frac{\sigma^2}{n_1 + n_2} \bigtr{\frac{1}{\alpha_1 M^{\top} M + \alpha_2}}}
+        \le
+        \OO\bigbrace{\frac{(n_1+n_2)^{\frac 2{\varphi} - \frac 1 2 + c}}{p^{1/2}}\cdot\frac{p \sigma^2}{n_1+ n_2}
+        + p^{-c_0 + 2c}},
+    \end{align}
+    where $\alpha_1$ and $\alpha_2$ are the solutions of equation \eqref{eq_a12extra} after taking $a = 1$.
+\end{corollary}
+
+Next, we illustrate the result of Corollary \ref{cor_hps_cov} in several examples.
+
+\begin{figure}[!t]
+	\begin{subfigure}[b]{0.5\textwidth}
+		\centering
+		\includegraphics[width=0.9\textwidth]{figures/covariate_shift.eps}
+		\caption{Example \ref{ex_covshift}}
+		\label{fig_covariate}
+	\end{subfigure}
+\end{figure}
 
 
-\paragraph{Illustrative examples.}
-To describe quantitatively the bias-variance tradeoff phenomenon and the effect of varying sample sizes on the predication loss, we consider a \emph{random-effect model}, 
+\begin{example}[Whether or not covariate shift helps depends on sample sizes]
+    %However, we now use an example to show that the above observation fails when $n_1$ is comparable to $n_2$.
+    Our first example illustrates that the effect of covariate shift depends on the sample sizes of each dataset in an intricate manner.
+    Let $\lambda > 0$ be a variable that captures the degree of covariate shift: higher values imply worse covariate shift.
+    Suppose that half of the singular values of $M$ are equal to $\lambda$ while the other half eigenvalues are $\lambda_{p/2}^{-1}\ge \cdots \ge \lambda_2^{-1} \ge \lambda_1^{-1}$. When $\lambda_1/\lambda_{p/2} = 1$, we have $M=\id_{p\times p}$ and there is no covariate shift.
+%while as As $\lambda$ increases, the severity of covariate shift increases.
+We claim the following dichotomy.
+\begin{enumerate}
+	\item If $n_1 \ge n_2$, then the variance limit is smallest when there is no covariate shift.
+	\item If $n_1 < n_2$, then the variance limit is largest when there is no covariate shift.
+\end{enumerate}
+We explain why the above dichotomy happens. We can write the variance limit as
+$$\ell_{\var}(M)=\frac{\sigma^2}{ n_1+n_2 }\sum_{i=1}^{p/2}\left( \frac{1}{\lambda_i^{2} a_1 + a_2} + \frac1{\lambda_i^{-2} a_1 + a_2} \right) .$$
+When $M=\id_{p\times p}$, by the first equation of \eqref{eq_a12extra}, we have
+$$\ell_{\var}(\id_{p\times p})=\frac{\sigma^2}{ n_1+n_2 }\sum_{i=1}^{p/2} \frac{2}{1-\gamma} , $$
+where we abbreviate $\gamma:=p/(n_1+n_2)$. Then using $a_1+a_2=1-\gamma$, through a direct calculation we find that %we can calculate that
+\begin{align*}
+\ell_{\var}(M) - \ell_{\var}(\id_{p\times p})%&= \frac{\sigma^2 \gamma}{2(1-\gamma)} (\lambda^2-1)a_1\cdot \bigbrace{  \frac{1}{ -a_1(\lambda^2-1)+(1-\gamma)\lambda^2 } - \frac{1}{a_1(\lambda^2-1) + (1-\gamma)}} \\
+&= \frac{\sigma^2 }{ n_1+n_2-p} \sum_{i=1}^{p/2} \frac{(\lambda_i^2-1)^2 a_1(M) \left[ a_1(M) - a_2(M)\right] }{[a_1(M)+\lambda_i^2 a_2(M)][\lambda_i^2 a_1(M)+a_2(M)]} .
+\end{align*}
+%in this example is equal to
+%$\frac{p}{2(n_1 + n_2)} f(\lambda)$, where
+%\[ f(\lambda) = {(\lambda^{-2} a_1 + a_2)^{-1} + (\lambda^2 a_1 + a_2)^{-1}}. \]
+%Using the fact that $a_1 + a_2 = 1 - \frac{p}{n_1 + n_2}$, we can verify
+%\begin{align*}
+%	f(\lambda) - f(1) &= \left(\lambda^2 a_1 + \frac{n_1 + n_2 - p}{n_1 + n_2} - a_1\right)^{-1} \\
+%	&+ \left(\lambda^{-2} a_1 + \frac{n_1 + n_2 - p}{n_1 + n_2} - a_1\right)^{-1} \\
+%	&- \frac{2(n_1 + n_2)}{n_1 + n_2 - p} \\
+%	&= \left(2a_1 - \frac{n_1 + n_2-p} {n_1 + n_2 }\right)  g(\lambda, a_1), %\cdot (\lambda^2-1)^2
+%\end{align*}
+%\begin{align*}
+%	f(\lambda) - f(1) &= \left(2a_1 - \frac{n_1 + n_2-p} {n_1 + n_2 }\right)  g(\lambda, a_1), %\cdot (\lambda^2-1)^2
+%\end{align*}
+%where $g(\lambda, a_1) \ge 0$.
+%and can be derived from algebraic calculations (details omitted).
+We claim that $a_1(M) > a_2 (M)$ if and only if $n_1 > n_2$, which then explains the dichonomy. In fact, if $a_1>a_2$, then the first equation in \eqref{eq_a12extra} gives that $a_1> (1-\gamma)/2$, and the second equation in  \eqref{eq_a12extra} gives that
+\begin{align*}
+ \frac{n_1}{n_1 + n_2} &> a_1 + \frac{1}{n_1+n_2} \sum_{i=1}^{p/2}\left(\frac{\lambda_i^2}{\lambda_i^2+1}+\frac{\lambda_i^{-2}}{\lambda_i^{-2}+1}\right) = \frac{1-\gamma}{2}+\frac{\gamma}{2}=\frac{1}{2}.
+\end{align*}
+%\begin{align*}
+% \frac{n_1}{n_1 + n_2} &=a_1 + \frac1{n_1 + n_2}\cdot \bigbrace{\sum_{i=1}^p \frac{\lambda_i^2 a_1}{\lambda_i^2 a_1 + a_2}} \\
+%	&> a_1 + \frac{p}{2(n_1+n_2)} \left(\frac{\lambda^2}{\lambda^2+1}+\frac{\lambda^{-2}}{\lambda^{-2}+1}\right) =\frac{1}{2}.
+%\end{align*}
+This implies $n_1>n_2$. The other direction follows from a similar argument. % Similarly, if $a_1<a_2$, equations  \eqref{eq_a12extra000} and  \eqref{eq_a12extra} give that $a_1 < \frac{n_1 + n_2-p}{2 (n_1 + n_2)}$ and $n_1<n_2$. Thus, we conclude that $f(\lambda) \ge f(1)$ if and only if $n_1 \ge n_2$.
+%\end{example}
 
-%\begin{example} %[Covariate shift]
-%\label{ex_covshift}
-%So far we have considered the isotropic model where $\Sigma_1 = \Sigma_2$.
-%This setting is relevant for settings where different tasks share the same input features such as multi-class image classification.
-%In general, the covariance matrices of the two tasks may be different such as in text classification.
-To illustrate the effect of covariate shift, we consider a similar setting as in Example \ref{ex_sample_ratio}, such that \eqref{para_rel} holds. In Proposition \ref{lem_hat_v}, we have seen that the global minimizer $\hat a$ is close to 1 up to a small error. Hence we take $a=1$ in \eqref{lem_cov_shift_eq}, and study the asymptotic limit
-$$\ell_{\var}(M):= \frac{\sigma^2}{n_1+n_2}\bigtr{  \frac{1}{a_1(M) \cdot M^\top M + a_2(M)  }  }, $$
-where $ M=(\Sigma^{(1)})^{1/2}(\Sigma^{(2)})^{-1/2}$, and $a_1(M)$ and $a_2(M)$ are defined through \eqref{eq_a12extra}.
+
+
+\todo{draw a connection to \citet{david2010impossibility}}
+\end{example}
+
+
+%\paragraph{Illustrative examples.}
+%Hence we take $a=1$ in \eqref{lem_cov_shift_eq}, and study the asymptotic limit
+%$$\ell_{\var}(M):= \frac{\sigma^2}{n_1+n_2}\bigtr{  \frac{1}{a_1(M) \cdot M^\top M + a_2(M)  }  }, $$
+%where $ M=(\Sigma^{(1)})^{1/2}(\Sigma^{(2)})^{-1/2}$, and $a_1(M)$ and $a_2(M)$ are defined through \eqref{eq_a12extra}.
+\begin{example}[Covariate shift hurts more under imbalanced sample sizes]
 We compare different choices of $M$ that are scaled to have the same determinant. More precisely, for a fixed $\mu>0$ we define
 \begin{align*}
 		\cS_{\mu}\define\bigset{M \left| \prod_{i=1}^p \lambda_i = \mu^p, \tau \le \lambda_p \le \lambda_1 \le \tau^{-1}\right.}.
@@ -143,7 +219,7 @@ $$\ell_{\var}(M)= \left[ 1+\OO\left(\frac{n_2}{n_1}\right)\right] \cdot \frac{\s
 By AM-GM inequality, we observe that
 $$\tr\left( \frac{1}{M^\top M}\right) = \sum_{i=1}^p\frac{1}{\lambda_i^2}$$
 is minimized when $\lambda_1 = \cdots\lambda_p=\mu$ under the restriction $\prod_{i=1}^p\lambda_i =\mu^p$. Hence in this case, $M=\mu \id_{p\times p}$ is approximately the optimal choice.
-
+\end{example}
 %Hence we get that
 %\be\label{AMGM} h(M_0) \le \frac{\sigma^2}{\mu^2 (\rho_1+\rho_2)a_1(M_0)}.\ee
 %
@@ -172,49 +248,7 @@ Hence the variance limit depends on the spectrum of $M$. % To be clear, for this
 
 %Our second example focuses on how varying covariate shifts impacts the \textit{variance} limit in equation \eqref{lem_cov_shift_eq}.
 %Our first observation is that:
-However, we now use an example to show that the above observation fails when $n_1$ is comparable to $n_2$. We take $\mu =1$, and consider the subset of covariate shift matrices satisfying $M=M^{-1}$. In other words, half of the singular values of $M$ satisfy that $\lambda_1 \ge \lambda_2\ge \cdots \ge \lambda_{p/2} \ge 1$, while the other half eigenvalues are $\lambda_{p/2}^{-1}\ge \cdots \ge \lambda_2^{-1} \ge \lambda_1^{-1}$. When $\lambda_1/\lambda_{p/2} = 1$, we have $M=\id_{p\times p}$ and there is no covariate shift.
-%while as As $\lambda$ increases, the severity of covariate shift increases.
-We claim the following dichotomy.
-\begin{enumerate}
-	\item If $n_1 \ge n_2$, then the variance limit is smallest when there is no covariate shift.
-	\item If $n_1 < n_2$, then the variance limit is largest when there is no covariate shift.
-\end{enumerate}
-We explain why the above dichotomy happens. We can write the variance limit as
-$$\ell_{\var}(M)=\frac{\sigma^2}{ n_1+n_2 }\sum_{i=1}^{p/2}\left( \frac{1}{\lambda_i^{2} a_1 + a_2} + \frac1{\lambda_i^{-2} a_1 + a_2} \right) .$$
-When $M=\id_{p\times p}$, by the first equation of \eqref{eq_a12extra}, we have
-$$\ell_{\var}(\id_{p\times p})=\frac{\sigma^2}{ n_1+n_2 }\sum_{i=1}^{p/2} \frac{2}{1-\gamma} , $$
-where we abbreviate $\gamma:=p/(n_1+n_2)$. Then using $a_1+a_2=1-\gamma$, through a direct calculation we find that %we can calculate that
-\begin{align*}
-\ell_{\var}(M) - \ell_{\var}(\id_{p\times p})%&= \frac{\sigma^2 \gamma}{2(1-\gamma)} (\lambda^2-1)a_1\cdot \bigbrace{  \frac{1}{ -a_1(\lambda^2-1)+(1-\gamma)\lambda^2 } - \frac{1}{a_1(\lambda^2-1) + (1-\gamma)}} \\
-&= \frac{\sigma^2 }{ n_1+n_2-p} \sum_{i=1}^{p/2} \frac{(\lambda_i^2-1)^2 a_1(M) \left[ a_1(M) - a_2(M)\right] }{[a_1(M)+\lambda_i^2 a_2(M)][\lambda_i^2 a_1(M)+a_2(M)]} .
-\end{align*}
-%in this example is equal to
-%$\frac{p}{2(n_1 + n_2)} f(\lambda)$, where
-%\[ f(\lambda) = {(\lambda^{-2} a_1 + a_2)^{-1} + (\lambda^2 a_1 + a_2)^{-1}}. \]
-%Using the fact that $a_1 + a_2 = 1 - \frac{p}{n_1 + n_2}$, we can verify
-%\begin{align*}
-%	f(\lambda) - f(1) &= \left(\lambda^2 a_1 + \frac{n_1 + n_2 - p}{n_1 + n_2} - a_1\right)^{-1} \\
-%	&+ \left(\lambda^{-2} a_1 + \frac{n_1 + n_2 - p}{n_1 + n_2} - a_1\right)^{-1} \\
-%	&- \frac{2(n_1 + n_2)}{n_1 + n_2 - p} \\
-%	&= \left(2a_1 - \frac{n_1 + n_2-p} {n_1 + n_2 }\right)  g(\lambda, a_1), %\cdot (\lambda^2-1)^2
-%\end{align*}
-%\begin{align*}
-%	f(\lambda) - f(1) &= \left(2a_1 - \frac{n_1 + n_2-p} {n_1 + n_2 }\right)  g(\lambda, a_1), %\cdot (\lambda^2-1)^2
-%\end{align*}
-%where $g(\lambda, a_1) \ge 0$.
-%and can be derived from algebraic calculations (details omitted).
-We claim that $a_1(M) > a_2 (M)$ if and only if $n_1 > n_2$, which then explains the dichonomy. In fact, if $a_1>a_2$, then the first equation in \eqref{eq_a12extra} gives that $a_1> (1-\gamma)/2$, and the second equation in  \eqref{eq_a12extra} gives that
-\begin{align*}
- \frac{n_1}{n_1 + n_2} &> a_1 + \frac{1}{n_1+n_2} \sum_{i=1}^{p/2}\left(\frac{\lambda_i^2}{\lambda_i^2+1}+\frac{\lambda_i^{-2}}{\lambda_i^{-2}+1}\right) = \frac{1-\gamma}{2}+\frac{\gamma}{2}=\frac{1}{2}.
-\end{align*}
-%\begin{align*}
-% \frac{n_1}{n_1 + n_2} &=a_1 + \frac1{n_1 + n_2}\cdot \bigbrace{\sum_{i=1}^p \frac{\lambda_i^2 a_1}{\lambda_i^2 a_1 + a_2}} \\
-%	&> a_1 + \frac{p}{2(n_1+n_2)} \left(\frac{\lambda^2}{\lambda^2+1}+\frac{\lambda^{-2}}{\lambda^{-2}+1}\right) =\frac{1}{2}.
-%\end{align*}
-This implies $n_1>n_2$. The other direction follows from a similar argument. % Similarly, if $a_1<a_2$, equations  \eqref{eq_a12extra000} and  \eqref{eq_a12extra} give that $a_1 < \frac{n_1 + n_2-p}{2 (n_1 + n_2)}$ and $n_1<n_2$. Thus, we conclude that $f(\lambda) \ge f(1)$ if and only if $n_1 \ge n_2$.
-%\end{example}
 
-\todo{draw a connection to \citet{david2010impossibility}}
 
 \iffalse
 %FY: Below was the word explanation. I still think the above simple proof is clearer.
