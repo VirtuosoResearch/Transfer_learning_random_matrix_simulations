@@ -60,11 +60,11 @@ In particular, Lemma \ref{fact_tr} corresponds to a setting where the singular v
 By solving the above together with the first part of equation \eqref{eq_a12extra}, we obtain that
 $$\alpha_1 = \frac{n_1}{n_1+n_2},\quad \alpha_2 = \frac{n_2-p}{n_1+ n_2}.$$
 Plugging the above solutions back to the variance limit, we thus find that the limit is equal to
-\begin{align*}
-    \frac{\sigma^2}{n_1 + n_2} \bigtr{\frac 1 {\alpha_1 M^{\top} M + \alpha_2}} &= \frac{\sigma^2}{n_1 + n_2} \frac{p}{\alpha_1 + \alpha_2} \tag{since the singular values of $M$ are equal to $1$} \\
-    &= \frac{\sigma^2}{n_1 + n_2} \cdot\frac{p (n_1 + n_2)}{n_1 + n_2 - p} \tag{applying $\alpha_1$ and $\alpha_2$ from above} \\
-    &= \frac{\sigma^2 p}{n_1 + n_2 - p},
-\end{align*}
+\begin{align}
+    \frac{\sigma^2}{n_1 + n_2} \bigtr{\frac 1 {\alpha_1 M^{\top} M + \alpha_2}} &= \frac{\sigma^2}{n_1 + n_2} \frac{p}{\alpha_1 + \alpha_2} \tag{since the singular values of $M$ are equal to $1$} \nonumber \\
+    &= \frac{\sigma^2}{n_1 + n_2} \cdot\frac{p (n_1 + n_2)}{n_1 + n_2 - p} \tag{applying $\alpha_1$ and $\alpha_2$ from above} \nonumber \\
+    &= \frac{\sigma^2 p}{n_1 + n_2 - p}, \label{g_id}
+\end{align}
 which is precisely the limit in Lemma \ref{fact_tr}.
 Additionally, the convergence rate in equation \eqref{lem_cov_shift_eq} matches the one in Lemma \ref{fact_tr} for this special case.
 %With Assumption \ref{assm_big1},
@@ -178,52 +178,45 @@ As a result, we indeed observe the dichotomy shown in Claim \ref{claim_dichotomy
 %Hence we take $a=1$ in \eqref{lem_cov_shift_eq}, and study the asymptotic limit
 %$$\ell_{\var}(M):= \frac{\sigma^2}{n_1+n_2}\bigtr{  \frac{1}{a_1(M) \cdot M^\top M + a_2(M)  }  }, $$
 %where $ M=(\Sigma^{(1)})^{1/2}(\Sigma^{(2)})^{-1/2}$, and $a_1(M)$ and $a_2(M)$ are defined through \eqref{eq_a12extra}.
-\begin{example}[Covariate shift hurts more under imbalanced sample sizes]
+\begin{example}
 Our second example illustrates that the effect of covariate shift worsens as the sample size of task one increases.
 We consider a set of covariate shift matrices $M^{\top} M$ whose determinant are all equal to one, and the eigenvalues are bounded between $\tau^2$ and $1 / \tau^2$.
 Let $\cS$ denote the set of $M\in\real^{p\times p}$ such that $M^{\top} M$ satisfies both conditions.
 %\begin{align*}
 %		\cS_{\mu}\define\bigset{M \left| \prod_{i=1}^p \lambda_i = \mu^p, \tau \le \lambda_p \le \lambda_1 \le \tau^{-1}\right.}.
 %\end{align*}
-\begin{claim}\label{prop_covariate}
+\begin{claim}[Identical covariance provides approximately optimal transfer under imbalanced dataset sizes]\label{prop_covariate}
 %	Assume that $\Psi(\beta_1, \beta_2) = 0$ and $\rho_1, \rho_2>1$.
 %	Let $g(M)$ denote the prediction loss of $\hat{\beta}_t^{\MTL}$ when $M = \Sigma_1^{1/2}\Sigma_2^{-1/2} \in\cS_{\mu}$.
     Recall that $g(M) = \frac{\sigma^2}{n_1 + n_2} \bigtr{\frac 1 {\alpha_1 M^{\top} M + \alpha_2}}$.
 	We have the following relation between $g(\id_{p \times p})$ and the rest of $g(M)$ for any $M \in\cS$:
-	\[ g(\id_{p\times p}) \le \bigbrace{1+ \bigo{\frac{n_2}{n_1}  }} g(M), \text{ for any } M \in \cS. \]
+	\begin{align} g(\id_{p\times p}) \le \bigbrace{1+ {\frac{n_2}{\tau^2\cdot n_1}  }} g(M), \text{ for any } M \in \cS. \label{eq_claim_id}
+	\end{align}
 \end{claim}
 \begin{proof}
-    From equation \eqref{eq_a12extra}, it is easy to obtain the following estimates on $\alpha_1$ and $\alpha_2$ for any $M\in \cS$:
-    \begin{align*}%\label{est_a12extra}
-        \frac{n_1 - p}{n_1 + n_2} < \alpha_1 <  \frac{n_1 + n_2 - p}{n_1 + n_2},\quad \alpha_2 < \frac{n_2}{n_1 + n_2}.
+    We can write down the trace of $(\alpha_1 M^{\top} M + \alpha_2)^{-1}$ using the eigenvalues of $M^{\top} M$ as follows:
+    \begin{align*}
+        (\alpha_1 M^{\top} M + \alpha_2)^{-1} &= \sum_{i=1}^p \frac{1} {\alpha_1 \lambda_i^2 + \alpha_2} \\
+        &\ge \sum_{i=1}^p \frac{1} {\alpha_1 \lambda_i^2 + \alpha_2 \cdot {\lambda_i^2} / {\tau^2}} \tag{since $\lambda_i \le \tau$, for any $i$} \\
+        &= \frac 1 {\alpha_1 + \alpha_2 / \tau^2} \sum_{i=1}^ p \frac 1 {\lambda_i^2} \\
+        &\ge \frac 1 {\alpha_1 + \alpha_2 /\tau^2} p\cdot \bigbrace{\prod_{i=1}^p \frac 1 {\lambda_i^2}}^{1/ p} \tag{by the AM-GM inequality} \\
+        &= \frac{p}{\alpha_1 + \alpha_2 / \tau^2} \tag{since $\prod_{i=1}^p \lambda_i^2 = \det(M^{\top} M) = 1$}
     \end{align*}
-    Applying the above into $g(M)$, and using the fact that the minimum eigenvalue of $ M^\top M$ is at least $\tau^2$, we obtain
-    \begin{align}\label{approximateteM}
-    \left(1+\frac{\rho_2}{(\rho_1-1)\mu_{\min}^2}\right)^{-1}h(M_0) \cdot \left(1 - \OO(p^{-\e})\right) \le g(M_0) \le h(M_0) \cdot \left(1 +\OO(p^{-\e})\right),
+    Next, recall from equation \eqref{g_id} that
+    $g(\id_{p\times p}) = \frac{\sigma^2 p}{n_1 + n_2 - p}$.
+    Thus, equation \eqref{eq_claim_id} follows if we show that (after rearranging terms)
+    \begin{align}
+        \frac{n_1 + n_2}{n_1 + n_2 - p} \cdot \frac 1 {\alpha_1 + \frac{\alpha_2}{\tau^2}} \le 1 + \frac{n_2}{\tau^2 \cdot n_1}. \label{eq_claim_id_step}
     \end{align}
-    where
-    $$h(M_0):=\frac{\sigma^2}{(\rho_1+\rho_2)a_1(M_0)}\cdot \frac1p\tr\left( \frac{1}{M_0^\top M_0}\right) .$$
-    %With these two bounds, we can easily conclude \eqref{approxteM}. 
-    %
-    %We have that the test error satisfies
-    %\be\label{approxteM}  te(M)\left(1 -  \frac{n_2}{n_1-p} \frac{1}{\lambda_p^2 + \frac{n_2}{n_1-p}}\right)  \le  \frac{\sigma^2}{n_1+n_2}\tr\left( \frac{1}{a_1M^\top M + a_2}\right) \le te(M),\ee
-    %where $\lambda_p$ is the smallest singular value of $p$ and
-    %$$te(M):= \frac{\sigma^2}{a_1(n_1+n_2)}\tr\left( \frac{1}{M^\top M}\right) .$$
-    %Moreover, for all $M$ satisfying \eqref{GMcons}, the minimum of $te(M)$ is attained when $M= a\id$.
-    By AM-GM inequality, we observe that 
-    $$\tr\left( \frac{1}{M^\top M}\right) = \sum_{i=1}^p\frac{1}{\lambda_i^2}$$
-    is minimized when $\lambda_1 = \cdots\lambda_p=\mu$ under the restriction $\prod_{i=1}^p\lambda_i\le \mu^p$. Hence we get that 
-    \be\label{AMGM} h(M_0) \le \frac{\sigma^2}{\mu^2 (\rho_1+\rho_2)a_1(M_0)}.\ee
-    
-    On the other hand, when $M=\mu \id$, applying Lemma \ref{lem_cov_shift} we obtain that with high probability,
-    \begin{align}\label{gvar_extra2}
-    \begin{split}
-    g(\mu \id)&= \frac{\sigma^2}{\rho_1+\rho_2}\cdot \frac1p\tr\left( \frac{1}{\mu^2 a_1 (\mu\id) + a_2(\mu\id)}\right) \cdot \left(1 +\OO(p^{-\e})\right)\\
-    &\le \frac{\sigma^2}{\mu^2(\rho_1+\rho_2)a_1 (\mu\id)}.
-    \end{split}
-    \end{align}
-    Combining \eqref{est_a12extra}, \eqref{approximateteM}, \eqref{AMGM} and \eqref{gvar_extra2}, we conclude the proof.
-    %, we conclude that the sum $\sum_{i=1}^p\lambda_i^{-1}$ is smallest when $\lambda_1=\cdots=\lambda_p = a$.
+    From the second part of equation \eqref{eq_a12extra}, we have that
+    \begin{align*}
+        \frac{n_1} {n_1 + n_2} &= \alpha_1 + \frac 1 {n_1 + n_2} \bigbrace{\sum_{i=1}^p \frac{\lambda_i^2\alpha_1}{\lambda_i^2\alpha_1 + \alpha_2}} \\
+        &< \alpha_1 + \frac p {n_1 + n_2}.
+    \end{align*}
+    Thus, $\alpha_1 > \frac{n_1 - p}{n_1 + n_2}$, which implies that $\alpha_2 < \frac{n_2}{n_1 + n_2}$.
+    Hence, $\alpha_1 + \frac{\alpha_2}{\tau^2} = 1 - \frac{p}{n_1 + n_2} - \alpha_2 + \frac{\alpha_2}{\tau^2} \le 1 - \frac{p}{n_1 + n_2} + \frac{n_2}{n_1 + n_2} \frac 1 {\tau^2}$, which implies
+    equation \eqref{eq_claim_id_step} by straightforward calculations.
+    Thus, the proof is complete.
 \end{proof}
 \todo{draw a connection to \citet{david2010impossibility}}
 \end{example}
