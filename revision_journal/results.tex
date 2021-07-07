@@ -1,6 +1,6 @@
 \section{Main results}
 
-In case (i), we provide the exact asymptotics for both the bias and variance terms, together with almost sharp convergence rates. We will use these results to illustrate the effects of the \emph{bias-variance tradeoff} and \emph{varying sample sizes}. In case (ii), we will prove an exact asymptotic variance limit, and employ the result to show the intricate effect of the covariate shift. On the other hand, in case (ii), we will provide an estimate on the bias term, which becomes exact only when $n_1\gg p$. %Here case (ii) is actually more general than (i)
+In case (i), we provide the exact asymptotics for both the bias and variance terms, together with almost sharp convergence rates. We will use these results to illustrate the effects of the \emph{bias-variance tradeoff} and \emph{varying sample sizes}. In case (ii), we will prove an exact asymptotic variance limit, and employ the result to show the intricate effect of the covariate shift. On the other hand, in case (ii), we will provide an estimate on the bias term, which becomes exact only when $n_1\gg p$. 
 
 
 \subsection{Covariate shift}\label{sec_diff}
@@ -8,34 +8,13 @@ In case (i), we provide the exact asymptotics for both the bias and variance ter
 We begin by considering the covariate shift setting where both tasks have the same linear model but different population covariance matrices.
 We show the exact asymptotic limit of the excess risk of the HPS estimator in the high-dimensional setting.
 
-%By solving $B$ in equation \eqref{eq_mtl}, we obtain the estimator for task two as follows:
-%\begin{align}
-%	\hat{\beta}_2^{\MTL} = {\hat{\Sigma}}^{-1} ({X^{(1)}}^{\top} Y^{(1)} + {X^{(2)}}^{\top} Y^{(2)}), \text{ where }
-%	\hat{\Sigma} = {X^{(1)}}^{\top} X^{(1)} + {X^{(2)}}^{\top} X^{(2)}. \label{def hatsig}
-%\end{align}
 First, we consider the variance. Recall from equation \eqref{Lvar} that the variance equation is equal to $\sigma^2 \cdot \bigtr{\Sigma^{(2)} (\hat\Sigma(a))^{-1}}$.
 In particular, the matrix $\hat{\Sigma}$ adds up both tasks' sample covariance matrices.
 Thus, the expectation of $\hat{\Sigma}(a)$ is equal to a mixture of both tasks' population covariance matrices, with mixing proportions determined by their sample sizes.
-%To derive the bias and variance equation, we consider the expected loss conditional on the covariates as follows (the empirical loss is close to this expectation as will be shown in equation \eqref{claim_largedev2}):
- %similar to Claim \ref{claim_pred_err}
-%\begin{align}
-%	 \exarg{\cE}{L(\hat{\beta}_2^{\MTL}) \mid X^{(1)}, X^{(2)}}
-%	=& \bignorm{{\Sigma^{(2)}}^{1/2} \hat{\Sigma}^{-1} {X^{(1)}}^{\top} X^{(1)} (\beta^{(1)} - \beta^{(2)})}^2 \label{eq_bias_2task} \\
-%	& + \sigma^2 \bigtr{\Sigma^{(2)}\hat{\Sigma}^{-1}}. \label{eq_variance_2task}
-%\end{align}
-%Equations \eqref{eq_bias_2task} and \eqref{eq_variance_2task} correspond to the bias and variance of HPS for two tasks, respectively.
-%Our key result characterizes the asymptotic limit of the inverse of the sum of two arbitrarily different sample covariance matrices.
 Intuitively, the spectrum of $\hat{\Sigma}(a)^{-1}$ now not only depends on the sample sizes of both tasks, but also depends on how well ``aligned'' $\Sigma^{(1)}$ and $\Sigma^{(2)}$ are.
-%However, capturing this intuition quantitatively turns out to be technically challenging.
-%The main technical challenge of our result deals with the ``covariate shift'' between tasks one and two.
 To capture this alignment quantitatively, we introduce the covariate shift matrix %(rescaled by $a$)
 $$ M \define (\Sigma^{(1)})^{\frac 1 2}(\Sigma^{(2)})^{-\frac 1 2}.$$
-%Let $U\Lambda V^\top$ denote the SVD of $M$ and
-Let $\lambda_1 \ge \lambda_2 \ge \dots\ge \lambda_p $ be the singular values of $M$ in descending order. %By \eqref{assm3}, these singular values satisfy that
-%\begin{equation}\label{assm32}
-%|a| \tau \le  \lambda_p(a) \le \cdots \le \lambda_2(a)\le \lambda_1(a) \le |a|\tau^{-1}. %, \quad \max\left\{\pi_A^{(n)}([0,\tau]), \pi_B^{(n)}([0,\tau])\right\} \le 1 - \tau .
-%\end{equation}
-%for some small constant $0<\tau<1$.
+Let $\lambda_1 \ge \lambda_2 \ge \dots\ge \lambda_p $ be the singular values of $M$ in descending order.
 Our first main result is the following theorem on the variance limit, which characterizes the exact dependence of $L_{\var}(a)$ on the singular values of $M$.
 
 
@@ -70,11 +49,7 @@ Additionally, the convergence rate in equation \eqref{lem_cov_shift_eq} matches 
 %With Assumption \ref{assm_big1},
 %$$ \frac{\sigma^2}{n_1+n_2}\bigtr{  \frac{1}{a_1 M(a)^\top M(a) + a_2  }  } \sim \frac{p \sigma^2}{n_1+ n_2}.$$
 %Hence the right-hand side of \eqref{lem_cov_shift_eq} is much smaller than this main term by a factor of $p^{-1/2} (n_1+n_2)^{-1/2+2/\varphi + c}$, which we believe to be sharp up to the $(n_1+n_2)^c$ factor. Lemma \ref{fact_tr} can be also regarded as a special case of Theorem \ref{thm_main_RMT}. %also extends  to the inverse of the sum of two sample covariance matrices.
-%To see this, when $M(a)=0$,
 The proof of Theorem \ref{thm_main_RMT}, which is based on recent developments in random matrix theory \cite{Anisotropic}, can be found in Section \ref{appendix RMT}.
-%For general $A_1,A_2$ that are not equal to one, we can still apply our result by rescaling $X^{(1)}$ and $M$ with $A_1 / A_2$.
-%We defer a proof sketch of Theorem \ref{thm_main_RMT} until the end of the section.
-%This amounts to replacing $M$ with $\frac{A_1}{A_2}M$ in Theorem \ref{thm_main_RMT}.
 
 Second, we consider the bias.
 Note that the setting where $\beta_1 = \beta_2$ can be viewed as a special case of the random-effect model with $d = 0$, thus, assuming that $\norm{\beta_1}_2^2 \ge \sigma^2 / p^{1/2 - c_0}$ for a small constant $c_0 > 0$, we have that $\hat B_1 / \hat B_2$ is equal to $1$ plus lower-order terms that scale to zero as $p$ goes to infinity (see equation \eqref{hatw_add1} for the precise scaling).
@@ -82,7 +57,7 @@ In Proposition \ref{lem_hat_v}, we have seen that the global minimizer $\hat a$ 
 Thus, the bias equation $L_{\bias}(\hat B_1 / \hat B_2)$ is equal to $0$ plus the above lower-order terms.
 We summarize this discussion in the following corollary:
 
-\begin{corollary}[Asymptotics for HPS under covariate shift]\label{cor_hps_cov}
+\begin{corollary}[Excess risk of HPS under covariate shift]\label{cor_hps_cov}
     Under Assumption \ref{assm_big1}, suppose further that $\beta_1 = \beta_2$ and $\norm{\beta_1}^2_2 \ge \frac{\sigma^2}{p^{1/2 - c_0}}$ for a constant $c_0 > 0$.
     Then, for any constant $c > 0$, the following estimate on the excess risk of the HPS estimator holds w.h.p.
     \begin{align}
@@ -98,19 +73,24 @@ We summarize this discussion in the following corollary:
 \begin{figure}[!t]
 	\begin{subfigure}[b]{0.5\textwidth}
 		\centering
+		\includegraphics[width=0.9\textwidth]{figures/verify_covariate_shift.eps}
+		\caption{Verify variance asymptotics in finite dimensions}
+		\label{fig_sec3_covariate}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.5\textwidth}
+		\centering
 		\includegraphics[width=0.9\textwidth]{figures/covariate_shift.eps}
 		\caption{HPS estimator under covariate shift}
 		\label{fig_sec3_covariate}
 	\end{subfigure}
-	\caption{The dimension $p = 200$, $n_2 = 800$, and the noise variance $\sigma^2 = 1/4$.}
+	\caption{Figure \ref{fig_sec3_covariate}: we verify that Theorem \ref{thm_main_RMT} provides incredibly accurate estimates of the empirical variance under various finite sample sizes and dimensions.
+	Figure \ref{fig_sec3_covariate}: We illustrate an intriguing dichotomy between covariate shift and sample size ratio: The dimension $p = 200$, $n_2 = 800$, and the noise variance $\sigma^2 = 1/4$.}
 \end{figure}
 
-\subsubsection{Illustrative examples}
-
+\paragraph{Illustrative examples.}
 Next, we illustrate the result of Corollary \ref{cor_hps_cov} in several examples.
 
 \begin{example}[Does covariate shift help or hurt information transfer?]
-    %However, we now use an example to show that the above observation fails when $n_1$ is comparable to $n_2$.
     Our first example illustrates that the effect of covariate shift depends on the sample sizes of each dataset in an intricate manner.
     While the folklore belief is that transferring from a covariate-shifted distribution performs worse than an identical distribution, we show that, surprisingly, the former can sometimes outperform the latter.
     
@@ -133,7 +113,7 @@ Next, we illustrate the result of Corollary \ref{cor_hps_cov} in several example
     $$g(M)=\frac{\sigma^2}{ n_1+n_2 }\sum_{i=1}^{p/2}\left( \frac{1}{\lambda_i^{2} a_1 + a_2} + \frac1{\lambda_i^{-2} a_1 + a_2} \right).$$
     When $M=\id_{p\times p}$, by the first equation of \eqref{eq_a12extra}, we have
     $$g(\id_{p\times p})=\frac{\sigma^2}{ n_1+n_2 }\sum_{i=1}^{p/2} \frac{2}{1-\gamma},$$
-    where we abbreviate $\gamma:=p/(n_1+n_2)$. Then using $\alpha_1 + \alpha_2 = 1-\gamma$, through a direct calculation we find that %we can calculate that
+    where we abbreviate $\gamma:=p/(n_1+n_2)$. Then using $\alpha_1 + \alpha_2 = 1-\gamma$, through a direct calculation we find that
     \begin{align*}
         g(M) - g(\id_{p\times p})%&= \frac{\sigma^2 \gamma}{2(1-\gamma)} (\lambda^2-1)a_1\cdot \bigbrace{  \frac{1}{ -a_1(\lambda^2-1)+(1-\gamma)\lambda^2 } - \frac{1}{a_1(\lambda^2-1) + (1-\gamma)}} \\
         &= \frac{\sigma^2 }{ n_1+n_2-p} \sum_{i=1}^{p/2} \frac{(\lambda_i^2-1)^2 \alpha_1 \left[ \alpha_1 - \alpha_2\right] }{[\alpha_1 + \lambda_i^2 \alpha_2][\lambda_i^2 \alpha_1 + \alpha_2]} .
@@ -171,33 +151,27 @@ Figure \ref{fig_sec3_covariate} illustrates a special case where $\lambda_1 = \c
 Thus, $\lambda > 0$ captures the degree of covariate shift: higher $\lambda$ implies worse covariate shift.
 We observe that our theoretical estimates using Corollary \ref{cor_hps_cov} matches the empirical risks incredibly accurately.
 As a result, we indeed observe the dichotomy shown in Claim \ref{claim_dichotomy}.
+Furthermore, for higher $\lambda$, HPS' excess risk decreases slower--indicating a worse rate of ``transfer'' from task one. 
+As a remark, the classical work of \citet{david2010impossibility} have likewise shown impossibility results for transfer learning under covariate shift in a classification setting.
+By contrast, our analysis applies to a (high-dimensional) regression setting.
 \end{example}
 
 
-%\paragraph{Illustrative examples.}
-%Hence we take $a=1$ in \eqref{lem_cov_shift_eq}, and study the asymptotic limit
-%$$\ell_{\var}(M):= \frac{\sigma^2}{n_1+n_2}\bigtr{  \frac{1}{a_1(M) \cdot M^\top M + a_2(M)  }  }, $$
-%where $ M=(\Sigma^{(1)})^{1/2}(\Sigma^{(2)})^{-1/2}$, and $a_1(M)$ and $a_2(M)$ are defined through \eqref{eq_a12extra}.
 \begin{example}
 Our second example illustrates that the effect of covariate shift worsens as the sample size of task one increases.
 We consider a set of covariate shift matrices $M^{\top} M$ whose determinant are all equal to one, and the eigenvalues are bounded between $\tau^2$ and $1 / \tau^2$.
 Let $\cS$ denote the set of $M\in\real^{p\times p}$ such that $M^{\top} M$ satisfies both conditions.
-%\begin{align*}
-%		\cS_{\mu}\define\bigset{M \left| \prod_{i=1}^p \lambda_i = \mu^p, \tau \le \lambda_p \le \lambda_1 \le \tau^{-1}\right.}.
-%\end{align*}
 \begin{claim}[Identical covariance provides approximately optimal transfer under imbalanced dataset sizes]\label{prop_covariate}
-%	Assume that $\Psi(\beta_1, \beta_2) = 0$ and $\rho_1, \rho_2>1$.
-%	Let $g(M)$ denote the prediction loss of $\hat{\beta}_t^{\MTL}$ when $M = \Sigma_1^{1/2}\Sigma_2^{-1/2} \in\cS_{\mu}$.
     Recall that $g(M) = \frac{\sigma^2}{n_1 + n_2} \bigtr{\frac 1 {\alpha_1 M^{\top} M + \alpha_2}}$.
-	We have the following relation between $g(\id_{p \times p})$ and the rest of $g(M)$ for any $M \in\cS$:
-	\begin{align} g(\id_{p\times p}) \le \bigbrace{1+ {\frac{n_2}{\tau^2\cdot n_1}  }} g(M), \text{ for any } M \in \cS. \label{eq_claim_id}
+	We have the following result regarding $g(\id_{p \times p})$:
+	\begin{align} g(\id_{p\times p}) \le \bigbrace{1+ {\frac{n_2}{\tau^2 n_1}  }} g(M), \text{ for any } M \in \cS. \label{eq_claim_id}
 	\end{align}
 \end{claim}
 \begin{proof}
     We can write down the trace of $(\alpha_1 M^{\top} M + \alpha_2)^{-1}$ using the eigenvalues of $M^{\top} M$ as follows:
     \begin{align*}
         (\alpha_1 M^{\top} M + \alpha_2)^{-1} &= \sum_{i=1}^p \frac{1} {\alpha_1 \lambda_i^2 + \alpha_2} \\
-        &\ge \sum_{i=1}^p \frac{1} {\alpha_1 \lambda_i^2 + \alpha_2 \cdot {\lambda_i^2} / {\tau^2}} \tag{since $\lambda_i \le \tau$, for any $i$} \\
+        &\ge \sum_{i=1}^p \frac{1} {\alpha_1 \lambda_i^2 + \alpha_2 \cdot {\lambda_i^2} / {\tau^2}} \tag{since $\lambda_i \ge \tau$, for any $i$} \\
         &= \frac 1 {\alpha_1 + \alpha_2 / \tau^2} \sum_{i=1}^ p \frac 1 {\lambda_i^2} \\
         &\ge \frac 1 {\alpha_1 + \alpha_2 /\tau^2} p\cdot \bigbrace{\prod_{i=1}^p \frac 1 {\lambda_i^2}}^{1/ p} \tag{by the AM-GM inequality} \\
         &= \frac{p}{\alpha_1 + \alpha_2 / \tau^2} \tag{since $\prod_{i=1}^p \lambda_i^2 = \det(M^{\top} M) = 1$}
@@ -218,21 +192,9 @@ Let $\cS$ denote the set of $M\in\real^{p\times p}$ such that $M^{\top} M$ satis
     equation \eqref{eq_claim_id_step} by straightforward calculations.
     Thus, the proof is complete.
 \end{proof}
-\todo{draw a connection to \citet{david2010impossibility}}
+As a corollary of Claim \ref{prop_covariate}, when $n_1$ is much larger than $n_2 / \tau^2$, the excess risk of HPS is approximately optimal in the set of all possible $M\in\cS$ when there is no covariate shift between dataset one and two.
 \end{example}
 
-\subsubsection{Comparing HPS to other estimators}
-
-\todo{merge into previous paragraphs {Simulations.}}
-Finally, we validate the result of Example \ref{ex_covshift}.
-Figure \ref{fig_covariate} shows task two's prediction loss as we increase task one's sample size.
-Recall that $\lambda$ measures the severity of covariate shifts---a larger $\lambda$ means a larger covariate shift.
-We indeed observe the dichotomy in Example \ref{ex_covshift} at $n_1 = 800$.
-The sample size $n_2$ is $800$ and the noise variance $\sigma^2$ is $1/4$.
-
-%{\cob The idea of proof: proved using free probability; can also use polynomials of random matrices.}
-
-%Now we use the following example to illustrate the effect of varying sample sizes on the predication loss of the HPS estimator.
 
 
 
@@ -241,7 +203,7 @@ The sample size $n_2$ is $800$ and the noise variance $\sigma^2$ is $1/4$.
 
  In this subsection, we consider the setting where $X^{(1)}$ and $X^{(2)}$ are independent and have the same population covariance matrices $\Sigma^{(1)}=\Sigma^{(2)}$. However, the two tasks can have different sample sizes $n_1\ne n_2$. In this case, we can obtain the exact asymptotic limits of the bias term \eqref{Lbias} and the variance term \eqref{Lvar}. We will use these results to illustrate the effects of the bias-variance tradeoff and varying sample sizes on the performance of the $\MTL$ estimator.
 
-\begin{theorem}[Bias-variance asymptotics of HPS estimators under model shift]\label{cor_MTL_loss}
+\begin{theorem}[Excess risk of HPS under model shift]\label{cor_MTL_loss}
 Under Assumption \ref{assm_big1}, suppose that $\Sigma^{(1)}=\Sigma^{(2)}$ and the entries of $Z^{(1)}$ and $Z^{(2)}$ are i.i.d. Gaussian random variables. Then for any small constant $\e>0$ and large constant $C>0$, there exists a high probability event $\Xi$, on which the following estimates hold uniformly in all $a\in \R$:
 \be\label{Lvar_samplesize}
 L_{\var}(a)= \sigma^2  \left[ \cal L_1(a)+ \OO\left({p^{c}}/{n_1}\right)\right]  ,
@@ -418,31 +380,7 @@ By comparing the derivative of the bias and variance limits with respect to $n_1
 \fi
 %	\end{example}
 
-\paragraph{Comparing HPS to other estimators.}
-    \begin{align}
-    L(\hat{\beta}^{\AV}(\lambda) ) &= \left[ 1+ \OO(p^{-1/2+c})\right] \cdot \lambda^2 \left\| (\Sigma^{(2)})^{1/2}(\beta^{(1)}-\beta^{(2)})\right\|^2 \nonumber \\
-    &+  \left[ 1+ \OO(p^{-1/2+c})\right] \cdot \sigma^2   \lambda^2 \bigtr{\Sigma^{(2)} [(X^{(1)})^\top X^{(1)}]^{-1}  }\nonumber\\
-    & + \left[ 1+ \OO(p^{-1/2+c})\right] \cdot \sigma^2  (1-\lambda)^2 \bigtr{\Sigma^{(2)} [(X^{(2)})^\top X^{(2)}]^{-1}  }  . \label{L_AVE_simple}
-    \end{align}
-    and
-    \begin{align}
-    L(\hat{\beta}_2^{\STL} ) &= \left[ 1+ \OO(p^{-1/2+c})\right] \cdot \sigma^2  \bigtr{\Sigma^{(2)} [(X^{(2)})^\top X^{(2)}]^{-1}  }  . \label{L_STL_simple}
-    \end{align}
-    %Moreover, there exists a constant $C_0>0$ such that with high probability,
-    %\be\label{loss_large}
-    %g(a) > g(0) \quad \text{for all $a$ such that }|a|\ge C_0.
-    %\ee
-    %with high probability for any small constant $\e>0$.
-    
- With Lemma \ref{fact_tr}, we obtain that w.h.p.,
-\begin{align}
-L(\hat{\beta}_2^{\STL} ) &= \left[ 1+ \OO(p^{-1/2+c})\right] \cdot \frac{p \sigma^2 }{n_2-p}   , \label{L_STL_simple01}
-\end{align}
-and
-\begin{align}
-L(\hat{\beta}^{\AV}(\lambda) ) &= \left[ 1+ \OO(p^{-1/2+c})\right] \cdot \lambda^2 \left\| (\Sigma^{(2)})^{1/2}(\beta^{(1)}-\beta^{(2)})\right\|^2 \nonumber \\
-&+  \left[ 1+ \OO(p^{-1/2+c})\right] \cdot \sigma^2 \left[\frac{ \lambda^2}{n_1-p}\bigtr{\Sigma^{(2)}(\Sigma^{(1)})^{-1}} + \frac{(1-\lambda)^2p  }{n_2-p}\right] . \label{L_AVE_simple01}
- \end{align}    
+%\paragraph{Comparing HPS to other estimators.}
 
 \todo{merge into prev paragraphs {Simulations.}}
 Second, we validate the result of Example \ref{ex_sample_ratio}.

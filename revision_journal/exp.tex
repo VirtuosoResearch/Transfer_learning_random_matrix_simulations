@@ -1,7 +1,42 @@
 \section{Empirical results}
 
+\subsection{Comparing HPS to other estimators}
 
-%\subsection{Comparison between the averaging and HPS estimators}
+    \begin{align}
+    L(\hat{\beta}^{\AV}(\lambda) ) &= \left[ 1+ \OO(p^{-1/2+c})\right] \cdot \lambda^2 \left\| (\Sigma^{(2)})^{1/2}(\beta^{(1)}-\beta^{(2)})\right\|^2 \nonumber \\
+    &+  \left[ 1+ \OO(p^{-1/2+c})\right] \cdot \sigma^2   \lambda^2 \bigtr{\Sigma^{(2)} [(X^{(1)})^\top X^{(1)}]^{-1}  }\nonumber\\
+    & + \left[ 1+ \OO(p^{-1/2+c})\right] \cdot \sigma^2  (1-\lambda)^2 \bigtr{\Sigma^{(2)} [(X^{(2)})^\top X^{(2)}]^{-1}  }  . \label{L_AVE_simple}
+    \end{align}
+    and
+    \begin{align}
+    L(\hat{\beta}_2^{\STL} ) &= \left[ 1+ \OO(p^{-1/2+c})\right] \cdot \sigma^2  \bigtr{\Sigma^{(2)} [(X^{(2)})^\top X^{(2)}]^{-1}  }  . \label{L_STL_simple}
+    \end{align}
+    %Moreover, there exists a constant $C_0>0$ such that with high probability,
+    %\be\label{loss_large}
+    %g(a) > g(0) \quad \text{for all $a$ such that }|a|\ge C_0.
+    %\ee
+    %with high probability for any small constant $\e>0$.
+    
+ With Lemma \ref{fact_tr}, we obtain that w.h.p.,
+\begin{align}
+L(\hat{\beta}_2^{\STL} ) &= \left[ 1+ \OO(p^{-1/2+c})\right] \cdot \frac{p \sigma^2 }{n_2-p}   , \label{L_STL_simple01}
+\end{align}
+and
+\begin{align}
+L(\hat{\beta}^{\AV}(\lambda) ) &= \left[ 1+ \OO(p^{-1/2+c})\right] \cdot \lambda^2 \left\| (\Sigma^{(2)})^{1/2}(\beta^{(1)}-\beta^{(2)})\right\|^2 \nonumber \\
+&+  \left[ 1+ \OO(p^{-1/2+c})\right] \cdot \sigma^2 \left[\frac{ \lambda^2}{n_1-p}\bigtr{\Sigma^{(2)}(\Sigma^{(1)})^{-1}} + \frac{(1-\lambda)^2p  }{n_2-p}\right] . \label{L_AVE_simple01}
+ \end{align}    
+
+
+\todo{merge into previous paragraphs {Simulations.}}
+Finally, we validate the result of Example \ref{ex_covshift}.
+Figure \ref{fig_covariate} shows task two's prediction loss as we increase task one's sample size.
+Recall that $\lambda$ measures the severity of covariate shifts---a larger $\lambda$ means a larger covariate shift.
+We indeed observe the dichotomy in Example \ref{ex_covshift} at $n_1 = 800$.
+The sample size $n_2$ is $800$ and the noise variance $\sigma^2$ is $1/4$.
+
+%{\cob The idea of proof: proved using free probability; can also use polynomials of random matrices.}
+
 \subsection{Regression tasks}
 
 
