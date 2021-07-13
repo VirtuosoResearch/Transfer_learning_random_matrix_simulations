@@ -73,13 +73,13 @@ We summarize this discussion in the following corollary:
 \begin{figure}[!t]
 	\begin{subfigure}[b]{0.5\textwidth}
 		\centering
-		\includegraphics[width=0.9\textwidth]{figures/verify_covariate_shift.eps}
+		\includegraphics[width=0.8\textwidth]{figures/verify_covariate_shift.eps}
 		\caption{Verify variance asymptotics in finite dimensions}
 		\label{fig_sec3_verify_cov}
 	\end{subfigure}
 	\begin{subfigure}[b]{0.5\textwidth}
 		\centering
-		\includegraphics[width=0.9\textwidth]{figures/covariate_shift.eps}
+		\includegraphics[width=0.8\textwidth]{figures/covariate_shift.eps}
 		\caption{Sample size ratios vs. covariate shift}
 		\label{fig_sec3_covariate}
 	\end{subfigure}
@@ -88,11 +88,9 @@ We summarize this discussion in the following corollary:
 	\label{fig_sec31}
 \end{figure}
 
-\paragraph{Illustrative examples.}
-Next, we illustrate the result of Corollary \ref{cor_hps_cov} in several examples.
-
-\begin{example}[Does covariate shift help or hurt information transfer?]
-    Our first example illustrates that the effect of covariate shift depends on the sample sizes of each dataset in an intricate manner.
+\paragraph{Illustrative examples.} Next, we illustrate the result of Corollary \ref{cor_hps_cov} in several examples.
+We use our estimates to explore whether covariate shift helps or hurts information transfer.
+Our first example illustrates that the effect of covariate shift depends on the sample sizes of each dataset in an intricate manner.
     While the folklore belief is that transferring from a covariate-shifted distribution performs worse than an identical distribution, we show that, surprisingly, the former can sometimes outperform the latter.
     
     We first describe a setting for modeling covariate shift.
@@ -155,10 +153,8 @@ As a result, we indeed observe the dichotomy shown in Claim \ref{claim_dichotomy
 Furthermore, for higher $\lambda$, HPS' excess risk decreases slower--indicating a worse rate of ``transfer'' from task one. 
 As a remark, the classical work of \citet{david2010impossibility} have likewise shown impossibility results for transfer learning under covariate shift in a classification setting.
 By contrast, our analysis applies to a (high-dimensional) regression setting.
-\end{example}
 
 
-\begin{example}
 Our second example illustrates that the effect of covariate shift worsens as the sample size of task one increases.
 We consider a set of covariate shift matrices $M^{\top} M$ whose determinant are all equal to one, and the eigenvalues are bounded between $\tau^2$ and $1 / \tau^2$.
 Let $\cS$ denote the set of $M\in\real^{p\times p}$ such that $M^{\top} M$ satisfies both conditions.
@@ -194,7 +190,6 @@ Let $\cS$ denote the set of $M\in\real^{p\times p}$ such that $M^{\top} M$ satis
     Thus, the proof is complete.
 \end{proof}
 As a corollary of Claim \ref{prop_covariate}, when $n_1$ is much larger than $n_2 / \tau^2$, the excess risk of HPS is approximately optimal in the set of all possible $M\in\cS$ when there is no covariate shift between dataset one and two.
-\end{example}
 
 
 
@@ -292,8 +287,37 @@ Taking derivative with respect to $x$ at $x=0$ gives the exact asymptotic limit 
 
 We believe that the above argument can be extended to the case without the Gaussian assumption. For example, instead of using the results in \cite{BES_free1,BES_free2} on free addition, we can use the sharp local laws on polynomials of random matrices in \cite{EKN_poly}. However, to apply the result in \cite{EKN_poly}, we need to check some difficult technical regularity conditions for our setting, which is not the focus of this work. Hence we do not pursue this direction in this paper.
 
+\begin{figure}[!t]
+	\begin{subfigure}[b]{0.33\textwidth}
+		\centering
+		\includegraphics[width=0.95\textwidth]{figures/model_shift_positive.eps}
+		\caption{Positive transfer}
+		\label{fig_sec5_covariate}
+	\end{subfigure}\hfill%
+	\begin{subfigure}[b]{0.33\textwidth}
+		\centering
+		\includegraphics[width=0.95\textwidth]{figures/model_shift_transition.eps}
+		\caption{From positive to negative transfer}
+		\label{fig_sec5_covariate}
+	\end{subfigure}\hfill%
+	\begin{subfigure}[b]{0.33\textwidth}
+		\centering
+		\includegraphics[width=0.95\textwidth]{figures/model_shift_negative.eps}
+		\caption{Negative transfer}
+		\label{fig_sec5_covariate}
+	\end{subfigure}	
+	\caption{Comparing HPS to several natural estimators for transfer learning. We find that HPS enjoys superior performance under covariate and/or model shifts. The results are averaged over five random seeds.}
+	\label{fig_sec51}
+\end{figure}
 
 \paragraph{Illustrative examples.}
+Based on the estimates provided in Theorem \ref{cor_MTL_loss}, we now provide a detailed analysis in the random-effect model.
+\begin{claim}[Estimating information transfer in the random-effect model]
+
+\end{claim}
+
+\begin{proof}
+We would like to show that as a 
 Combining Lemma \ref{lem_HPS_loss}, Theorem \ref{cor_MTL_loss} and Proposition \ref{lem_hat_v}, and using  that $\|\beta^{(1)}-\beta^{(2)}\|^2 = (2+\oo(1))d^2$ with high probability, the predication loss $L(\hat{\beta}_2^{\MTL}(\hat a)) $ is approximately equal to
 $$\ell(n_1,n_2)= \sigma^2 \cal L_1(1) +   2d^2 \cal L_2(1)= \frac{p\sigma^2}{n_1+n_2-p} +  2d^2  \frac{n_1^2 (n_1+n_2-p)+p n_1n_2}{(n_1+n_2)^2(n_1+n_2-p)}, $$
 with high probability, where in the second step we obtain $\cal L_1(1)$ and $\cal L_2(1)$ through direct calculations.
@@ -379,7 +403,7 @@ By comparing the derivative of the bias and variance limits with respect to $n_1
 	To see this, near the point where $n_1$ is zero, one can verify (from the derivatives) that bias increases less while variance decreases more, and there is \textit{exactly} one critical point where the derivative is zero, which corresponds to the \textit{optimal sample size ratio}.
 \end{enumerate}
 \fi
-%	\end{example}
+\end{proof}
 
 %\paragraph{Comparing HPS to other estimators.}
 
