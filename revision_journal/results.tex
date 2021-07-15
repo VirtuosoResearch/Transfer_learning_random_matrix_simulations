@@ -74,17 +74,22 @@ We summarize this discussion in the following corollary:
 	\begin{subfigure}[b]{0.5\textwidth}
 		\centering
 		\includegraphics[width=0.8\textwidth]{figures/verify_covariate_shift.eps}
-		\caption{Verify variance asymptotics in finite dimensions}
+		\caption{Illustrating variance estimates for finite $p$}
 		\label{fig_sec3_verify_cov}
 	\end{subfigure}
 	\begin{subfigure}[b]{0.5\textwidth}
 		\centering
 		\includegraphics[width=0.8\textwidth]{figures/covariate_shift.eps}
-		\caption{Sample size ratios vs. covariate shift}
+		\caption{Sample sizes vs. covariate shift}
 		\label{fig_sec3_covariate}
 	\end{subfigure}
-	\caption{Figure \ref{fig_sec3_covariate}: we verify that Theorem \ref{thm_main_RMT} provides incredibly accurate estimates of the empirical variance under various finite sample sizes and dimensions.
-	Figure \ref{fig_sec3_covariate}: We illustrate an intriguing dichotomy between covariate shift and sample size ratio: The dimension $p = 200$, $n_2 = 800$, and the noise variance $\sigma^2 = 1/4$.}
+	\caption{We verify that Theorem \ref{thm_main_RMT} provides incredibly accurate estimates of the empirical variance under various finite sample sizes and dimensions.
+	Furthermore, we illustrate an intriguing dichotomy between sample sizes and covariate (cf. Claim \ref{claim_dichotomy}).
+	When $n_1 \ge n_2$, the lowest risk for predicting task two's labels is achieved by transferring from a dataset that has the same covariance matrix as task two. 
+	When $n_1 < n_2$, the lowest risk is instead achieved by transferring a covariate-shifted dataset.
+	Both simulation uses $\sigma = 1/2$.
+	Figure \ref{fig_sec3_verify_cov} fixes $\lambda = 4$ and varies $n_1, p$.
+	Figure \ref{fig_sec3_covariate} fixes $p = 100, n_2 = 300$ while varying $n_1, \lambda$.}
 	\label{fig_sec31}
 \end{figure}
 
@@ -147,7 +152,7 @@ Our first example illustrates that the effect of covariate shift depends on the 
     %\end{example}
 \end{proof}
 
-Figure \ref{fig_sec3_covariate} illustrates a special case where $\lambda_1 = \cdots = \lambda_{\floor{p /2}} = \lambda > 0$ for $M^{\top}M$ and the rest of the eigenvalues are all equal to $1 / \lambda$.
+Figure \ref{fig_sec3_covariate} illustrates a special case where $\lambda_1 = \cdots = \lambda_{\floor{p /2}} = \lambda > 0$ and the rest of the eigenvalues are all equal to $1 / \lambda$.
 Thus, $\lambda > 0$ captures the degree of covariate shift: higher $\lambda$ implies worse covariate shift.
 We observe that our theoretical estimates using Corollary \ref{cor_hps_cov} matches the empirical risks incredibly accurately.
 As a result, we indeed observe the dichotomy shown in Claim \ref{claim_dichotomy}.
@@ -317,7 +322,7 @@ Second, we believe that the above argument can be extended to the case without t
 		\caption{Negative transfer}
 		\label{fig_sec3_model_negative}
 	\end{subfigure}	
-	\caption{We illustrate three regimes of information transfer in HPS under model shift. When $\mu$ is small, HPS outperforms the OLS estimator irrespective of $n_1$. When $\mu$ is large, HPS performs worse than OLS. For an intermediate range of $\mu$, HPS outperforms OLS only for a restricted range of $n_1$. See Claim \ref{claim_model_shift} for the precise range of each regime. This simulation uses $p = 100, n_2 = 300, \sigma = 1/2$.}
+	\caption{We illustrate three regimes of information transfer in HPS under model shift. When $\mu$ is small, HPS outperforms the OLS estimator irrespective of $n_1$. When $\mu$ is large, HPS performs worse than OLS. For an intermediate range of $\mu$, HPS outperforms OLS only for a restricted range of $n_1$. See Claim \ref{claim_model_shift} for the precise range of each regime. This simulation fixes $p = 100, n_2 = 300, \sigma = 1/2$ while varying $n_1, \mu$.}
 	\label{fig_sec3_model_shift}
 \end{figure}
 
@@ -374,7 +379,6 @@ For claim iii), if $\frac{\sigma^2 n_2}{2(n_2 - p)} \le \mu^2$, then $C_1 \ge 0$
 Furthermore, $\frac{\sigma^2 p n_2}{(n_2 - p)^2} \le \frac{\sigma^2 n_2}{2(n_2 - p)}$ because $n_2 \ge 3p$ by our assumption.
 Thus, $C_2$ is non-negative as well, which implies $\tilde h(n_1) \ge 0$.
 \end{proof}
-
 
 As a remark, when $p < n_2 < 3p$, similar results can be derived using the above arguments (details omitted).
 Figure \ref{fig_sec3_model_shift} illustrates Claim \ref{claim_model_shift} for different regimes of model shift.
@@ -436,5 +440,3 @@ The main error in Proposition \ref{prop_main_RMT} comes from approximating $(Z^{
 We also remark for the general case with covariate shift, the method in Section \ref{sec_sizeratio} for the bias term also fails, because we cannot reduce the problem into the free addition of two random matrices that are asymptotically freely independent.
 %\end{remark}
 \end{remark}
-
-\todo{describe comparison to the TL estimator and the weighted OLS estimator.}
