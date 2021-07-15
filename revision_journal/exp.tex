@@ -1,6 +1,15 @@
 \section{Empirical results}
 
-\subsection{Evaluating HPS under covariate and model shifts}
+This section complements our theoretical analysis of HPS with empirical evaluations.
+First, we evaluate the performance of HPS estimators against several natural transfer learning estimators.
+We show that HPS achieves superior performance under various settings of covariate and model shifts.
+Second, we provide empirical implications that are inspired by our theoretical insights for mitigating covariate and model shifts.
+One concerns a certain covariate alignment procedure for mitigating covariate shift.
+We show that such alignment procedures provide greater gains for larger regimes of $n_1 / n_2$.
+The other is a progressive training procedure for mitigating model shift.
+We show that progressively increasing the sample sizes of data sources significantly reduces the computational cost of learning HPS neural networks while achieving the same accuracy for predicting the target task.
+
+\subsection{Evaluating HPS under covariate and model shifts}\label{sec_diff}
 
 \begin{figure}[!t]
 	\begin{subfigure}[b]{0.33\textwidth}
@@ -54,7 +63,7 @@ We find that HPS outperforms all the other estimators in this simulation (the re
 		\includegraphics[width=0.27\textwidth]{figures/mtl_model_arch.pdf}
 	\end{center}
 	\vspace{-0.28in}
-	\caption{A hard parameter sharing architecture.}
+	\caption{A hard parameter sharing neural network.}
 	\label{fig_intro_arch}
 \end{wrapfigure}
 We conduct further studies of HPS for text classification tasks.
@@ -95,16 +104,15 @@ We observe that covariate alignment achieves up to 4\% accuracy improvement as $
 		\caption{Information transfer under varying sample sizes}
 		\label{fig_ab_data}
 	\end{subfigure}
-	\caption{Comparing hard parameter sharing (HPS) to single-task learning (STL) and a covariate alignment approach proposed by \cite{WZR20}:
-	In Figure \ref{fig_ab_data}, we observe that for multiple task pairs, increasing task one's sample size improves task two's prediction accuracy initially, but hurts eventually -- a phenomenon similar  to Figure \ref{fig_size}.
-	This experiment fixes $n_2 = 1000$ while varying $n_1$.
-	In Figure \ref{fig_ab_cov}, we observe that as task one's sample size increases, covariance alignment improves more over HPS.
-	On the $y$-axis, we plot task two's test accuracy using HPS, subtracted by its STL test accuracy.
-    We fix task two's sample size at $1000$ and increase task one's sample size from $100$ to $3000$.}
+	\caption{
+	We extend some of our theoretical observations to text classification tasks using HPS neural networks.
+	Figure \ref{fig_ab_cov} shows that covariance alignment improves the task two's test accuracy more for larger sample size ratio $n_1 / n_2$.
+ 	Figure \ref{fig_ab_data} shows that task one provides a positive transfer to task two in HPS only for a restricted range of $n_1$ (similar to Figure \ref{fig_sec3_model_transition}).
+    Both experiments fixes $n_2 = 1000$ while varying $n_1$ from $100$ to $3000$.
+	The $y$-axis measures task two's test accuracy using HPS subtracted by its test accuracy without using task one's data.}
 	\label{fig_text}
 \end{figure}
 
-%For the text classification experiment, we encode each word using the GLoVe word embeddings.%
 %\textit{Predicting transfer effect via STL results.}
 %We show that the single-task based metric proposed in Section \ref{sec_similarity} can predict positive or negative transfer in MTL.
 %A common challenge in the study of MTL is that the results can be hard to understand.
@@ -171,19 +179,18 @@ In light of these observations, our hypothesis is that this procedure requires a
 We evaluate Algorithm \ref{alg_inc_train} under two scenarios.
 First, we consider all $15$ pairwise tasks and use the first task as a data source to help predict the second task.
 We find that when averaged over all $15$ two-task pairs, our procedure requires less than $35\%$ of the computational cost relative to SGD while reaching the same level of test accuracy for predicting task two.
-%Our insight is that since adding more samples from the source task does not always help, we can improve efficiency by adding source samples \textit{progressively} during training.
-%\textbf{Improving transfer learning training efficiency.}
-%We show that Algorithm \ref{alg_inc_train} also applies to transfer learning settings.
-%Compared to fine-tuning the source model on the target task, we show that our proposed method reduces the computional cost by \alert{$xx\%$}, without sacrificing accuracy.
 Second, we consider using all six datasets as data sources to help predict every other task---that is, we measure the average accuracy of predicting all six tasks.
 We find that a similar progressive training style procedure requires less than $35\%$ of the computational cost for reaching the same average test accuracy compared to SGD.
 
 \medskip
-\noindent\textit{Further details.} We task two's test accuracy and set $\tau$ as task two's test accuracy obtained via the standard round-robin training schedule.
-We include all of task two's data and progressively add task one's data using the procedure described above.
-Since the prediction accuracy has been controlled the same, we compare the computational cost.
-We set $\tau$ to be the average test accuracy of all six tasks obtained using standard round-robin training.
-We extend our procedure to all six datasets. We include the data from all tasks except SST. For SST, we progressively add data similar to the above procedure.
+\noindent\textit{Further details.}
+Algorithm \ref{alg_inc_train} uses SGD during the minimization step.
+We randomly shuffle the data of both tasks and apply SGD on the shuffled data.
+For the two-task experiment, we set $\tau$ to be task two's (STL) test accuracy trained without using any other task's data.
+%We include all of task two's data and progressively add task one's data using the procedure described above.
+As a result, once Algorithm \ref{alg_inc_train} terminates, task two's test accuracy is at least $\tau$.
+For the six-task experiment, We set $\tau$ to be the average test accuracy of all six tasks trained using all tasks' data.
+We include the data from all tasks except SST. For SST, we progressively increasing its sample size similar to Algorithm \ref{alg_inc_train}.
 
 
 
