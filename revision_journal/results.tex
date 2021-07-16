@@ -38,20 +38,21 @@ Under Assumption \ref{assm_big1} (recalling $\varphi > 4$), for any small consta
 \end{theorem}
 \todo{changed $a_1, a_2$ to $\alpha_1, \alpha_2$ since they conflict with $a$}
 
-Equation \eqref{lem_cov_shift_eq} thus characterizes the variance of the HPS estimator, up to an error term on the order of $O\big(\frac{\sigma^2}{p^{-1/2}}\big)$ (recall that $\varphi > 4$, $c$ is an arbitrarily small constant, $\frac{p}{n_1+n_2} \in (2 {\tau}, \frac 2 {\tau})$).
-Our result can be viewed as a generalization of the classical result in Lemma \ref{fact_tr} to the \textit{covariate shift} setting.
-In particular, Lemma \ref{fact_tr} corresponds to a setting where the singular values $\lambda_1,\dots,\lambda_p$ are all equal to one, and $a = 1$. Then, the second part of equation \eqref{eq_a12extra} simplifies to
+Equation \eqref{lem_cov_shift_eq} thus characterizes the variance of the HPS estimator, up to an error term on the order of $O\big(\frac{\sigma^2}{p^{1/2}}\big)$ (recall that $\varphi > 4$, $c$ is an arbitrarily small constant, and $\frac{p}{n_1+n_2} \le \frac 1 {2 + 2\tau}$).
+Theorem \ref{thm_main_RMT} generalizes the classical result from Lemma \ref{fact_tr} to the sum of two independent sample covariance matrices.
+To see this, we note that Lemma \ref{fact_tr} corresponds to a setting where the singular values $\lambda_1,\dots,\lambda_p$ (of the matrix $M$) are all equal to one, and $a = 1$.
+In this setting, the second part of equation \eqref{eq_a12extra} simplifies to
 \[ \alpha_1 + \frac{p}{n_1 + n_2}\cdot \frac{\alpha_1}{\alpha_1 + \alpha_2} = \frac{n_1}{n_1 + n_2}. \]
-By solving the above together with the first part of equation \eqref{eq_a12extra}, we obtain that
+By solving the above equation and the first part of equation \eqref{eq_a12extra}, we obtain that
 $$\alpha_1 = \frac{n_1}{n_1+n_2},\quad \alpha_2 = \frac{n_2-p}{n_1+ n_2}.$$
-Plugging the above solutions back to the variance limit, we thus find that the limit is equal to
+Plugging the solutions of $\alpha_1, \alpha_2$ back to the LHS of equation \eqref{lem_cov_shift_eq}, we thus find that
 \begin{align}
-    \frac{\sigma^2}{n_1 + n_2} \bigtr{\frac 1 {\alpha_1 M^{\top} M + \alpha_2}} &= \frac{\sigma^2}{n_1 + n_2} \frac{p}{\alpha_1 + \alpha_2} \tag{since the singular values of $M$ are equal to $1$} \nonumber \\
-    &= \frac{\sigma^2}{n_1 + n_2} \cdot\frac{p (n_1 + n_2)}{n_1 + n_2 - p} \tag{applying $\alpha_1$ and $\alpha_2$ from above} \nonumber \\
+    \frac{\sigma^2}{n_1 + n_2} \bigtr{\frac 1 {\alpha_1 M^{\top} M + \alpha_2}} &= \frac{\sigma^2}{n_1 + n_2} \frac{p}{\alpha_1 + \alpha_2} \tag{since $\lambda_i = 1$ for all $i=1,\dots,p$} \nonumber \\
+    &= \frac{\sigma^2}{n_1 + n_2} \cdot\frac{p (n_1 + n_2)}{n_1 + n_2 - p} \tag{applying the solutions of $\alpha_1$ and $\alpha_2$} \nonumber \\
     &= \frac{\sigma^2 p}{n_1 + n_2 - p}, \label{g_id}
 \end{align}
 which is precisely the limit in Lemma \ref{fact_tr}.
-Additionally, the convergence rate in equation \eqref{lem_cov_shift_eq} matches the one in Lemma \ref{fact_tr} for this special case.
+Additionally, the convergence rate in equation \eqref{lem_cov_shift_eq} matches the rate in Lemma \ref{fact_tr} for this particular setting.
 %With Assumption \ref{assm_big1},
 %$$ \frac{\sigma^2}{n_1+n_2}\bigtr{  \frac{1}{a_1 M(a)^\top M(a) + a_2  }  } \sim \frac{p \sigma^2}{n_1+ n_2}.$$
 %Hence the right-hand side of \eqref{lem_cov_shift_eq} is much smaller than this main term by a factor of $p^{-1/2} (n_1+n_2)^{-1/2+2/\varphi + c}$, which we believe to be sharp up to the $(n_1+n_2)^c$ factor. Lemma \ref{fact_tr} can be also regarded as a special case of Theorem \ref{thm_main_RMT}. %also extends  to the inverse of the sum of two sample covariance matrices.
@@ -177,9 +178,9 @@ Let $\cS$ denote the set of $M\in\real^{p\times p}$ such that $M^{\top} M$ satis
 	\end{align}
 \end{claim}
 \begin{proof}
-    We can write down the trace of $(\alpha_1 M^{\top} M + \alpha_2)^{-1}$ using the eigenvalues of $M^{\top} M$ as follows:
+    We can write the trace of $(\alpha_1 M^{\top} M + \alpha_2)^{-1}$ using the eigenvalues of $M^{\top} M$ as follows:
     \begin{align*}
-        (\alpha_1 M^{\top} M + \alpha_2)^{-1} &= \sum_{i=1}^p \frac{1} {\alpha_1 \lambda_i^2 + \alpha_2} \\
+        \bigtr{(\alpha_1 M^{\top} M + \alpha_2)^{-1}} &= \sum_{i=1}^p \frac{1} {\alpha_1 \lambda_i^2 + \alpha_2} \\
         &\ge \sum_{i=1}^p \frac{1} {\alpha_1 \lambda_i^2 + \alpha_2 \cdot {\lambda_i^2} / {\tau^2}} \tag{since $\lambda_i \ge \tau$, for any $i$} \\
         &= \frac 1 {\alpha_1 + \alpha_2 / \tau^2} \sum_{i=1}^ p \frac 1 {\lambda_i^2} \\
         &\ge \frac 1 {\alpha_1 + \alpha_2 /\tau^2} p\cdot \bigbrace{\prod_{i=1}^p \frac 1 {\lambda_i^2}}^{1/ p} \tag{by the AM-GM inequality} \\
@@ -337,10 +338,10 @@ While the estimates from Theorem \ref{cor_MTL_loss} are generally complex, we de
 Under the assumptions stated in Proposition \ref{lem_hat_v}, $\hat{a}$ is approximately equal to one.
 Then, we can calculate that
 \[ \cL_1(1) = \frac{p}{n_1 + n_2 - p} \text{ and } \cL_2(1) = \frac{n_1^2(n_1 + n_2 - p) + p n_1 n_2}{(n_1 + n_2)^2 (n_1 + n_2 - p)}, \text{ in which } \kappa(1) = \frac{n_2^2}{(n_1 + n_2)^2 - n_1 p}. \]
-Thus, using that $\|\beta^{(1)}-\beta^{(2)}\|^2 = (2+\oo(1))\mu^2$ w.h.p., we conclude that for the random-effect model, the excess risk $L(\hat{\beta}_2^{\MTL}$ is approximately equal to
+Thus, using that $\|\beta^{(1)}-\beta^{(2)}\|^2 = (2+\oo(1))\mu^2$ w.h.p., we conclude that for the random-effect model, the excess risk $L(\hat{\beta}_2^{\MTL})$ is approximately equal to
 $$ g(n_1) \define \sigma^2 \cal L_1(1) +   2\mu^2 \cal L_2(1)= \frac{p\sigma^2}{n_1+n_2-p} +  2\mu^2 \cdot \frac{n_1^2 (n_1+n_2-p)+p n_1n_2}{(n_1+n_2)^2(n_1+n_2-p)}$$
 plus lower order terms (that vanishes to zero as $p$ goes to infinity).
-Next, we provide a detailed analysis of when combining task one using HPS transfers positively to task two, depending on sample sizes $n_1, n_2$, and model shift $\mu$.
+Next, we analyze when combining task one using HPS transfers positively to task two, depending on sample sizes $n_1, n_2$, and the model shift parameter $\mu$ in the random-effect model.
 
 \begin{claim}[Sample sizes vs. model shift]\label{claim_model_shift}
     Suppose Assumption \ref{assm_big1} and the random-effect model under equation \eqref{eq_re} and \eqref{para_rel} holds.
@@ -387,9 +388,9 @@ Thus, $C_2$ is non-negative as well, which implies $\tilde h(n_1) \ge 0$.
 \end{proof}
 
 As a remark, when $p < n_2 < 3p$, similar results can be derived using the above arguments (details omitted).
-Figure \ref{fig_sec3_model_shift} illustrates Claim \ref{claim_model_shift} for different regimes of model shift.
-First, we observe that our estimates accurately match with the empirical risks.
-Second, as we vary the model shift parameter $\mu$, we observe the three information transfer regimes shown in Claim \ref{claim_model_shift}.
+Figure \ref{fig_sec3_model_shift} illustrates Claim \ref{claim_model_shift} for different regimes of model shift parameter $\mu$ in the random-effect model.
+This simulation affirms that our estimates accurately match with the empirical bias equation \eqref{Lbias} plus the variance equation \eqref{Lvar}.
+Furthermore, we observe the three information transfer regimes shown in Claim \ref{claim_model_shift} by varying $\mu$ in the random-effect model.
 
 
 

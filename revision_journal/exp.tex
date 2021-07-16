@@ -30,7 +30,7 @@ We show that progressively increasing the sample sizes of data sources significa
 		\caption{Covariate and model shift}
 		\label{fig_sec5_cov_model}
 	\end{subfigure}
-	\caption{We compare the empirical excess risk of HPS and several natural transfer learning estimators. We find that HPS achieves the lowest excess risk for predicting task two under (either or both) covariate and model shift. This simulation uses $p = 100, n_1 = n_2 = 200, \sigma = 1/2$. Figure \ref{fig_sec5_cov_model} uses $\lambda = 4$ for generating covariate-shifted data.}
+	\caption{We compare the empirical excess risk of HPS and several natural transfer learning estimators. We find that HPS achieves the lowest excess risk for predicting task two under (either or both) covariate and model shift. This simulation uses $p = 100, n_1 = n_2 = 200, \sigma = 1/2$. Figure \ref{fig_sec5_cov_model} uses $\lambda = 4$ for generating covariate-shifted features.}
 	\label{fig_sec51}
 \end{figure}
 
@@ -45,11 +45,11 @@ The parameter $b$ in the averaging estimator is optimized using a validation set
 Additionally, we extend the two-layer neural network formulation of HPS (cf. equation \eqref{eq_hps}) to a weighted objective:
 $b \cdot \bignorm{X^{(1)} B A_1 - Y^{(1)}}^2 + (1 - b) \cdot  \bignorm{X^{2} B A_2 - Y^{(2)}}^2$, and optimize $b$ using the same validation set.
 
-Figure \ref{fig_sec51} shows the result under (either or both) covariate and model shift.
+Figure \ref{fig_sec51} shows the result under (either or both) covariate and model shifts.
 Figure \ref{fig_sec5_covariate} uses the same data generating process as Figure \ref{fig_sec31}.
 Figure \ref{fig_sec5_model} uses the same data generating process as Figure \ref{fig_sec3_model_shift}.
-Figure \ref{fig_sec5_cov_model} further combines the covariate-shifted data and the model shift setting.
-For reach run, we average the result over 100 random seeds because of high variance from using only a limited number of samples.
+Figure \ref{fig_sec5_cov_model} combines both by generating covariate-shifted features and different linear models for each dataset.
+For reach run, we average the result over 100 random seeds because of high variance from the small sample sizes.
 We find that HPS outperforms all the other estimators in this simulation (the result for the TL estimator is worse than STL and is omitted from the figure).
 
 %\subsection{Implications for regression methods}
