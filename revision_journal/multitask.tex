@@ -111,6 +111,28 @@ The proof of Theorem \ref{thm_many_tasks}, which characterizes the global minimu
 %	 where $A^\star(2)$ denotes the second entry of $A^\star$.
 %	 \end{corollary}
 
+\begin{figure}[!t]
+	\begin{subfigure}[b]{0.5\textwidth}
+		\centering
+		\includegraphics[width=0.8\textwidth]{figures/multitask_width.eps}
+		\caption{Varying width}
+		\label{fig_sec4_width}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.5\textwidth}
+		\centering
+		\includegraphics[width=0.8\textwidth]{figures/multitask_transfer.eps}
+		\caption{Varying sample size and model shift parameter}
+		\label{fig_sec4_transfer}
+	\end{subfigure}
+	\caption{We illustrate the performance of HPS in the random-effect model with $p = 100, t = 10, \sigma = 1/2$.
+	Figure \ref{fig_sec4_width} shows that from $1$ to $t = 10$, setting width $r = 1$ gives the lowest excess risk for task $t$.
+	The result is averaged over three random seeds.
+	This simulation uses $\mu = 0.05$.
+	Figure \ref{fig_sec4_transfer} fixes $r = 1$ while varying $\mu$ and $n$. We observe that depending on $\mu$ and $n$, HPS may provide a positive transfer or a negative transfer to task $t$ (similar to Figure \ref{fig_sec3_model_shift}). The precise condition for deciding which one is provided in Claim \ref{claim_re_multi}.}
+	\label{fig_sec4}
+\end{figure}
+
+
 \paragraph{Illustrative examples.}
 We give an example of our estimate in the random-effect model.
 In this setting, the model vector of every task is the sum of a shared vector $\beta_0$ plus a task-specific component $\wt \beta^{(i)}$:
@@ -186,26 +208,6 @@ We compare $g_r(n, \mu)$ with the OLS estimate in the following claim.
     Furthermore, equation \eqref{eq_re_final} is minimized when $r = 1$, and claim ii) follows since the RHS of equation \eqref{eq_re_final} is at most $\epsilon$.
 \end{proof}
 
-\begin{figure}[!t]
-	\begin{subfigure}[b]{0.5\textwidth}
-		\centering
-		\includegraphics[width=0.8\textwidth]{figures/multitask_width.eps}
-		\caption{Varying width}
-		\label{fig_sec4_width}
-	\end{subfigure}
-	\begin{subfigure}[b]{0.5\textwidth}
-		\centering
-		\includegraphics[width=0.8\textwidth]{figures/multitask_transfer.eps}
-		\caption{Varying sample size and model shift parameter}
-		\label{fig_sec4_transfer}
-	\end{subfigure}
-	\caption{We illustrate the performance of HPS in the random-effect model with $p = 100, t = 10, \sigma = 1/2$.
-	Figure \ref{fig_sec4_width} shows that from $1$ to $t = 10$, setting width $r = 1$ gives the lowest excess risk for task $t$.
-	The result is averaged over three random seeds.
-	This simulation uses $\mu = 0.05$.
-	Figure \ref{fig_sec4_transfer} fixes $r = 1$ while varying $\mu$ and $n$. We observe that depending on $\mu$ and $n$, HPS may provide a positive transfer or a negative transfer to task $t$ (similar to Figure \ref{fig_sec3_model_shift}). The precise condition for deciding which one is provided in Claim \ref{claim_re_multi}.}
-	\label{fig_sec4}
-\end{figure}
 
 Figure \ref{fig_sec4} validates Claim \ref{claim_re_multi}.
 First, we see that the empirical excess risk (measured on a particular task) is indeed smallest when the width $r$ is equal to $1$.
