@@ -14,7 +14,7 @@ We make several standard assumptions on $X$ and each of $\varepsilon^{(i)}$.
 First, $X = Z\Sigma^{1/2}$ is a random matrix satisfying Assumption \ref{assm_big1} (same as $X^{(2)}$).
 In particular, the sample size $n$ is greater than the dimension $p$.
 Second, every $\varepsilon^{(i)} \in \real^{n}$ is a random vector with i.i.d entries of mean zero, variance $\sigma^2$, and bounded moments up to any order (cf. equation \eqref{eq_highmoments}).
-Finally, $\beta^{(i)} \in \real^{p}$ is a fixed vector independent from any other $\beta^{(j)}$ for $j \neq i$, the matrix $X$, and $\varepsilon^{(j)}$ for any $j$.
+Finally, $\beta^{(i)} \in \real^{p}$ is a fixed vector independent from any other $\beta^{(j)}$ for $j \neq i$, the matrix $X$, and $\varepsilon^{(j)}$ for any $j=1,\dots,t$.
 
 \paragraph{Estimator.} We combine multiple data sources by extending the two-layer linear neural network from equation \eqref{eq_hps} as follows:
 \begin{align}
@@ -25,32 +25,32 @@ We set the width of the feature layer $r$ less than the number of tasks $t$.
 Otherwise, when $r \ge t$, the global minimum of $f(A, B)$ reduces to single-task learning, similar to Proposition \ref{prop_large_r} (details omitted).
 
 Let $(\hat A, \hat B)$ denote a global minimizer of $f(A, B)$.
-We define the HPS estimator for task $t$ as $\hat \beta_t^{\MTL} := \hat B \hat A_i$, where $\hat A_i$ denotes the $i$-th column of $\hat A$.
-We evaluate the performance of $\hat{\beta}_t^{\MTL}$ according to its excess risk:
+We define the HPS estimator for task $i$ as $\hat \beta_i^{\MTL} := \hat B \hat A_i$, where $\hat A_i$ denotes the $i$-th column of $\hat A$.
+We evaluate the performance of $\hat{\beta}_i^{\MTL}$ according to its excess risk:
 \be\label{ith_loss}
-    L_t(\hat{\beta}_t^{\MTL}) = \bignorm{\Sigma^{1/2} \left(\hat{\beta}^{\MTL}_t - \beta^{(t)}\right)}^2.
+    L_i(\hat{\beta}_i^{\MTL}) = \bignorm{\Sigma^{1/2} \left(\hat{\beta}^{\MTL}_i - \beta^{(i)}\right)}^2.
 \ee
 
 \paragraph{Result.} We show that in the multi-task setting, hard parameter sharing finds the ``best'' rank-$r$ approximation to all tasks.
 To formally describe our result, we introduce several notations.
 Let $B^\star \define [{\beta}^{(1)},{\beta}^{(2)},\dots,{\beta}^{(t)}] \in \real^{p\times t}$ be the concatenated model vectors of all tasks.
-Let $A^{\star} {A^{\star}}^{\top}$ be the best rank-$r$ approximation of ${B^{\star}}^\top\Sigma B^{\star}$ in the following sense:
+Let $A^{\star} {A^{\star}}^{\top}$ be the best approximation of ${B^{\star}}^\top\Sigma B^{\star}$ in the set of rank-$r$ subspaces:
 \begin{align}\label{eq_A_star}
-	A^{\star} \define \argmin_{U\in\real^{t\times r} : U^{\top} U = \id_{r\times r}} \inner{U U^{\top}} {{B^{\star}}^{\top} \Sigma B^{\star}},
+	A^{\star} \define \argmax{U\in\real^{t\times r} : U^{\top} U = \id_{r\times r}} \inner{U U^{\top}} {{B^{\star}}^{\top} \Sigma B^{\star}},
 \end{align}
 where $\langle \cdot ,\cdot \rangle $ denotes the Frobenius inner product between two matrices.
 Let $a_i^{\star}\in\real^r$ be the $i$-th column vector of $A^{\star}{A^{\star}}^{\top}$.
-We characterize the excess risk $L_t(\hat{\beta}_t^{\MTL})$ precisely in the following result.
+We show a precise estimate of $L_i(\hat{\beta}_i^{\MTL})$ based on $a_i^{\star}$ as follows.
 
 \begin{theorem}[Excess risk of HPS for multiple tasks under model shift]\label{thm_many_tasks}
 Suppose the multi-task setting according to equation \eqref{eq_mtl_data} holds.
-Let $r$ be any positive integer less than $t$.
+Let $r < t$ be a positive integer.
 Suppose the $r$-th largest eigenvalue of ${B^\star}^\top \Sigma B^\star$ is strictly larger than its $(r+1)$-th largest eigenvalue. 
-Let $c>0$ be an arbitrary (small) constant.
-The following estimates for $L_t(\hat{\beta}_t^{\MTL})$ holds with high probability:
+Let $c>0$ be an arbitrarily (small) constant.
+The following estimate of $L_i(\hat{\beta}_i^{\MTL})$ holds w.h.p., for any $i = 1,\dots,t$:
 \begin{align}
-	\bigabs{L_t(\hat{\beta}_t^{\MTL}) - L_t(B^{\star}a_t^{\star}) -\frac{p\sigma^2}{n-p}  \norm{a_t^{\star}}^2} 
-	\le  \sqrt{\bignorm{{B^\star}^\top\Sigma B^\star}_{\op} \cdot n^{-\frac 1 2+ \frac 2{\varphi} + c}  + \sigma^2 n^{-\frac 1 2 + c}} \cdot \frac{\bignorm{{B^\star}^\top\Sigma B^\star}_{\op}+  \sigma^2}{\lambda_r - \lambda_{r+1}}. \label{Li_multi1}
+	\bigabs{L_i(\hat{\beta}_i^{\MTL}) - L_i(B^{\star}a_i^{\star}) -\frac{p\sigma^2}{n-p} \cdot \norm{a_i^{\star}}^2} 
+	\le  \sqrt{\norm{{B^\star}^\top\Sigma B^\star}_{2} \cdot n^{-\frac 1 2+ \frac 2{\varphi} + c}  + \sigma^2 n^{-\frac 1 2 + c}} \cdot \frac{\norm{{B^\star}^\top\Sigma B^\star}_{2}+  \sigma^2}{\lambda_r - \lambda_{r+1}}. \label{Li_multi1}
 \end{align}
 	%where $\lambda_r({B^\star}^\top\Sigma B^\star)$ and $\lambda_{r+1}({B^\star}^\top\Sigma B^\star)$ are respectively be the $r$-th and $(r+1)$-th largest eigenvalue of ${B^\star}^\top\Sigma B^\star$.
 %	where $C_1: = \frac{\bignormFro{\Sigma^{1/2} B^{\star}}^2 + \sigma^2 t}{\lambda_r ({B^\star}^\top \Sigma B^\star)- \lambda_{r+1}({B^\star}^\top \Sigma B^\star)}$. %and $C_2 :=  C_1\cdot \norm{\Sigma^{1/2} B^{\star}}$.
@@ -63,10 +63,9 @@ The following estimates for $L_t(\hat{\beta}_t^{\MTL})$ holds with high probabil
 
 
 Recall that $\varphi > 4$ according to Assumption \ref{assm_big1}, thus, $\frac {2}{\varphi} \le \frac 1 2$ and $n^{-\frac 1 2 + \frac 2 {\varphi} + c}$ vanishes to zero for a small enough constant $c$.
-Therefore, equation \eqref{Li_multi1} precisely characterizes the excess risk of the HPS estimator.
-As a remark, the same result applies to any other tasks although we have focused on predicting task $t$.
-Theorem \ref{thm_many_tasks} significantly extends the two-task model shift setting of Theorem \ref{cor_MTL_loss}.
-The term $L_t(B^{\star} a_t^{\star})$ captures the bias of the HPS estimator and $\frac{p \sigma^2}{n - p} \bignorm{a_t^{\star}}^2$ captures the estimator's variance.
+Thus, $L_i(B^{\star} a_i^{\star}) + \frac{p\sigma^2}{n - p} \norm{a_i^{\star}}^2$ is the limit of $L_i(\hat{\beta}_i^{\MTL})$ as $p$ approaches infinity---$L_i(B^{\star} a_i^{\star})$ is the limiting bias of $\hat{\beta}_i^{\MTL}$ and $\frac{p \sigma^2}{n - p} \bignorm{a_i^{\star}}^2$ is its limiting variance.
+The proof of Theorem \ref{thm_many_tasks}, which characterizes the global minimum of problem \eqref{eq_mtl_same_cov} through a connection to PCA, can be found in Section \ref{app_proof_error_same_cov}.
+%We also point out that equation \eqref{Li_multi1} similarly applies to any other task $t' \neq t$.
 %The bound \eqref{minimizer_beta} verifies our intuition that hard parameter sharing approximates the matrix ${B^{\star}}^\top\Sigma B^{\star}$ through a best rank-$r$ subspace. The estimate \eqref{Li_multi1}
 % gives the exact asymptotic limit of $L_i(\hat{\beta}_i^{\MTL}(\hat a))$, which shows that the prediction loss of $\hat{\beta}_i^{\MTL}$ decomposes into a bias term $L_i(B^{\star} a_i^{\star})$ that measures the prediction loss of $B^{\star} a_i^{\star}$, plus a variance term that scales with $\norm{a_i^{\star}}^2$. Since $\norm{a_i^{\star}}^2\le 1$, compared with the single-task predication loss \eqref{L_STL_simple01}, the variance term always decreases for the multi-task HPS estimator. On the other hand, the bias term always increases (because the bias in single-task linear regression is zero). Hence as in the transfer learning setting, whether the HPS estimator is better than the OLS estimator depends on an intricate  {bias-variance tradeoff}.
 %{\cor One direct implication of our result is that compared to STL, the variance always decreases, since STL's variance is equal to $\sigma^2 \tr[\Sigma (X^{\top} X)^{-1}]$.
@@ -84,33 +83,8 @@ The term $L_t(B^{\star} a_t^{\star})$ captures the bias of the HPS estimator and
 %	\begin{align}\label{eq_mtl_output_layer}
 %		g(A) = \bignormFro{X (X^{\top}X)^{-1}X^{\top} Y A^{\top} (AA^{\top})^{+} A - Y}^2.
 %	\end{align}
-The proof of Theorem \ref{thm_many_tasks}, which is based on a characterization of the global minimum of problem \eqref{eq_mtl_same_cov}, can be found in Section  \ref{app_proof_error_same_cov}.
 
-\iffalse
-\begin{figure*}[!t]
-	\begin{subfigure}[b]{0.5\textwidth}
-		\centering
-		\includegraphics[width=0.9\textwidth]{figures/same_covariates.eps}
-		\caption{Example \ref{ex_same_cov}}
-		\label{fig_same_cov}
-	\end{subfigure}\hfill
-	\begin{subfigure}[b]{0.5\textwidth}
-		\centering
-		\includegraphics[width=0.9\textwidth]{figures/same_covariates.eps}
-		\caption{Example \ref{ex_sample_ratio}}
-		\label{fig_width}
-	\end{subfigure}
-%	\caption{%Three takeaways of our theory in Section \ref{sec_insight}.
-%	Our estimated losses (solid line) match the empirical losses (dotted line) accurately under various settings in dimension $p = 200$.
-%	\textbf{Left.} Validating Example \ref{ex_same_cov} for ten tasks: the noise variance $\sigma^2$ is $1/4$.
-%	\textbf{Middle.} Validating Example \ref{ex_sample_ratio} for two tasks: we discover an interesting phenomena by fixing task two's sample size and increasing task one's sample size.
-%	Moreover, our result accurately predicts the critical point (marked in circle) of the loss curve.
-%	Depending on how large the distance $d^2$ is, task two's prediction loss decreases initially before increasing again, or decreases monotonically.
-%	\textbf{Right.} We show how different levels of covariate shift affect hard parameter sharing when there is no bias.
-%	Having covariate shift increases task two's prediction loss when task two's sample size is smaller than task one. Otherwise, having covariate shift (surprisingly) decreases task two's prediction loss.}
-%	\label{fig_model_shift_phasetrans}
-\end{figure*}
-\fi
+
 %Moreover, by setting $t=2$ in Theorem \ref{thm_many_tasks}, we can obtain the prediction loss for the HPS estimator for the transfer learning setting where the two tasks have the same covariates  $X^{(1)}=X^{(2)}$. For the reader's convenience, we give the precise statement in Corollary \ref{thm_two_tasks}.
 %Theorem \ref{thm_many_tasks} implies Theorem \ref{thm_two_tasks} as a special case with $t=2$ and $r=1$.
 %In this section, we consider the setting where the two tasks have the same covariates  $X^{(1)}=X^{(2)}$.
@@ -137,176 +111,117 @@ The proof of Theorem \ref{thm_many_tasks}, which is based on a characterization 
 %	 where $A^\star(2)$ denotes the second entry of $A^\star$.
 %	 \end{corollary}
 
-\begin{example}[How to set the width $r$ in HPS?]
-\label{ex_same_cov}
-%Suppose every $\beta^{(i)}$ consists of two random components, one that is shared among all tasks and one that is task-specific.
-%Thus, each task contributes a certain amount to the shared component and injects a task-specific bias.
-%More precisely, %we have
-An important question in applications of HPS is how to set the width $r$ of the feature layer.
-We use our estimates to show that the optimal width depends on the tradeoff between the estimator's bias and variance.
-Concretely, consider a random-effect model where all tasks share a model vector $\beta_0$ plus perturbations.
-For every $i=1,2,\cdots, t,$, $\beta^{(i)} = \beta_0 + \wt \beta^{(i)}$, where $\wt \beta^{(i)}$ denotes the $i$-th task-specific component whose entries are i.i.d. Gaussian random variables of mean zero and variance $\frac {\kappa^2} p$.
-
-\begin{claim}
-\begin{enumerate}
-	\item {\bf Positive vs. negative transfer.} The averaged HPS prediction loss is smaller than the single-task OLS prediction loss if and only if $\frac{d^2}{p}\tr \Sigma  < \frac{p\sigma^2 }{n - p}$, that is, the ``task-specific variance'' is smaller than the ``noise variance'' up to some constant factor.
-	
-	\item {\bf The optimal rank $r$.} If $\frac{d^2}{p}\tr \Sigma  < \frac{\sigma^2 p}{n - p}$, then the smallest averaged HPS  prediction loss is achieved when $r=1$. Hence increasing the width $r$ of the shared feature representation layer does not help.
-\end{enumerate}
+\paragraph{Illustrative examples.}
+We give an example of our estimate in the random-effect model.
+In this setting, the model vector of every task is the sum of a shared vector $\beta_0$ plus a task-specific component $\wt \beta^{(i)}$:
+\begin{align}
+    \beta^{(i)} = \beta_0 + \wt \beta^{(i)}, \text{ for every } i=1,2,\cdots, t, \label{eq_re_mt}
+\end{align}
+where every entry of $\wt \beta^{(i)}$ is drawn i.i.d. from a Gaussian distribution with zero mean and ${\mu^2}/p$ variance.
+Thus, $\mu$ is a parameter for modeling the difference between different tasks.
+We study two fundamental questions in this setting.
+First, what should the width ($r$) of the feature layer $B$ be?
+Second, when does HPS transfer positively to a particular task, depending the sample size $n$ and the (model shift) parameter $\mu$?
+Since all tasks are symmetric in this setting, we analyze the average (limiting) risk
+\[ g_r(n, \mu) = \frac {1}{t} \sum_{i=1}^t \big(L_i(B^{\star} a_i^{\star}) + \frac{p \sigma^2}{n - p} \cdot \norm{a_i^{\star}}^2\big). \]
+We address both questions by characterizing $g_r(n, \mu)$, which accurately approximates $\frac{1}{t} \sum_{i=1}^t L_i(\hat{\beta}_i^{\MTL})$ according to Theorem \ref{thm_many_tasks}.
+Recall from Lemma \ref{lem_hat_v} that the excess risk of the OLS estimator satisfies that $L_i(\hat{\beta}_i^{\STL}) = \frac{\sigma^2 p}{n - p} + o_p(1)$, in which $o_p(1)$ vanishes to zero as $p$ approaches infinity.
+We compare $g_r(n, \mu)$ with the OLS estimate in the following claim.
+\begin{claim}[Choosing $r$ for HPS in the random-effect model]\label{claim_re_multi}
+    Suppose the multi-task setting with random-effect linear models under equation \eqref{eq_mtl_data} and \eqref{eq_re_mt} holds.
+    Let $\epsilon = o_p(\norm{\beta_0}^2 + \mu^2)$ be a small error term that decreases to zero as $p$ goes to infinity.
+    Let $r \in [1, r]$.
+    W.h.p. over the randomness of $B^{\star}$, the following holds:
+    \begin{enumerate}
+        \item[i)] If $\mu^2 \ge \frac{\sigma^2 p^2}{(n - p) \tr[\Sigma]}$, then $g_r(n, \mu) \ge \frac{\sigma^2 p}{n - p} + \epsilon$, for any $1\le r < t$.
+    	\item[i)] If $\mu^2 < \frac{\sigma^2 p^2}{(n - p)\tr[\Sigma]} - \frac{t p}{\bigtr{\Sigma}} \epsilon$, then $g_r(n, \mu)$ is minimized when $r=1$.
+    	Additionally, $g_1(n, \mu) \le \frac{\sigma^2 p}{n - p} + \epsilon$.
+    \end{enumerate}
 \end{claim}
 %For our discussion below, we assume that $\kappa^2 \sim d^2 \sim \sigma^2$ and $n\sim p$. %and $d^2=\OO(\kappa^2)$.
 %The more precise conditions on the relations between $d^2$, $\sigma^2$ and $\kappa^2$ are given in  \eqref{choiceofpara}.
 %We assume that all the random variables have finite moments up to any order as in equation \eqref{assmAhigh2}.
 \begin{proof}
-    In this random-effect model, using the concentration of Gaussian random vectors (e.g. Lemma \ref{largedeviation} in the supplement  \cite{MTL_suppl}),
-    %Based on the definition of the random-effect model,
-    the $(i, j)$-th entry of ${B^{\star}}^{\top} \Sigma B^{\star}$ is equal to %(ignoring lower order terms)
-    %\begin{align*}
-    %	\beta_i^{\top} \beta_j \approx \norm{\beta_0}^2 + \frac{d^2}{2}\delta_{ij},\quad 1\le i,j \le t,
-    %\end{align*}
+    We first simplify the expression of $g_r(n, \mu)$ using its definition
+    \begin{align*}
+        g_r(n, \mu) &= \frac 1 t \sum_{i=1}^t \big(L_i(B^{\star} a_i^{\star}) + \frac{p\sigma^2}{n - p} \cdot \norm{a_i^{\star}}^2\big) \\
+        &= \Big(\frac 1 t \sum_{i=1}^t \bignorm{\Sigma^{1/2} (B^{\star} a_i^{\star} - \beta^{(i)})}^2 \Big)
+        + \Big(\frac 1 t \sum_{i=1}^t \frac{p\sigma^2}{n - p} \cdot \norm{a_i^{\star}}^2 \Big) \\
+        &= \frac 1 t \bignormFro{\Sigma^{1/2} (B^{\star} A^{\star} - B^{\star})}^2 + \frac{r}{t} \cdot \frac{p\sigma^2}{n - p}.
+    \end{align*}
+    In the last step, we use the matrix notation to write the sum for the first part.
+    We use the fact that $\sum_{i=1}^t \norm{a_i^{\star}}^2 = r$ because $A^{\star} = [a_1^{\star}, \dots, a_t^{\star}]$ satisfies that ${A^{\star}}^{\top} A^{\star} = \id_{p\times p}$ following its definition in equation \eqref{eq_A_star}.
+    Using this condition on $A^{\star}$, we further get that
+    \begin{align*}
+        \bignormFro{\Sigma^{1/2}(B^{\star} A^{\star} - B^{\star})}^2
+        = \bigtr{{B^{\star}}^{\top} \Sigma B^{\star} (\id_{p \times p} - A^{\star}{A^{\star}}^{\top})},
+    \end{align*}
+    which is precisely equal to the smallest $(t - r)$ eigenvalues of ${B^{\star}}^{\top}\Sigma B^{\star}$.
+    Using the concentration of Gaussian random vectors in Lemma \ref{largedeviation}, w.h.p. the $(i, j)$-th entry of ${B^{\star}}^{\top} \Sigma B^{\star}$ is equal to
     \begin{align}\label{betaSbeta}
-    	\beta_i^{\top}\Sigma  \beta_j =\beta_0^\top \Sigma \beta_0 + \delta_{ij} \frac{d^2 }{p}\tr \Sigma + \OO\left(p^{-1/2+c}\|\beta_0\|^2+ p^{-1/2+c} d^2\right),
+    	{\beta^{(i)}}^{\top}\Sigma  {\beta^{(j)}} =\beta_0^\top \Sigma \beta_0 + \delta_{i,j} \frac{\mu^2 }{p}\bigtr{\Sigma} + \OO\left(p^{-1/2+c}\|\beta_0\|^2+ p^{-1/2+c} \mu^2\right)
     \end{align}
-     with high probability for any constant $c>0$. We omit the details to show the error bound using Lemma \ref{largedeviation}.
-    %Note that $\norm{\beta_0}^2$ is approximately $\kappa^2$.
-    With \eqref{betaSbeta}, it is easy to calculate that with high probability, the eigenvalues of ${B^{\star}}^{\top} \Sigma B^{\star}$ are given by
-    $$\lambda_1=\left[1+\OO(p^{-1/2+c})\right]\cdot\left(t \beta_0^\top \Sigma \beta_0  + \frac{d^2}{ p}\tr \Sigma\right) ,$$
-    and
-    $$ \lambda_i=\left[1+\OO(p^{-1/2+c})\right]\cdot \frac{d^2}{ p}\tr \Sigma , \ \ i=2,\cdots, t.$$ %Therefore, by taking a rank-$1$ approximation of ${B^{\star}}^{\top} B^{\star}$, we get the average prediction loss of $B^{\star} a_i^{\star}$.
-    Thus for the best rank-$r$ approximation $A^\star {A^\star}^\top$  of ${B^{\star}}^{\top}\Sigma  B^{\star}$, we have
-    $$\bignorm{\Sigma^{1/2} B^{\star} (A^\star {A^\star}^{\top} - \id_{t\times t})}_F^2= [1+\OO(p^{-1/2+c})]\cdot(t-r)\frac{d^2}{ p}\tr \Sigma $$
-    with high probability.
+    for any constant $c>0$, where $\delta_{i,j} = 1$ if and only if $i = j$.
+    Thus, ${B^{\star}}^{\top} \Sigma B^{\star}$ is equal to a rank-$1$ matrix with (spectral) norm $t\cdot \beta_0^{\top} \Sigma \beta_0$ plus Gaussian perturbation.
+    Using the concentration result of Lemma \ref{largedeviation} \todo{check}, we have that
+    \begin{align*}
+        \lambda_1 &= \Big(1+\OO(p^{-1/2+c})\Big)\cdot\left(t\cdot \beta_0^\top \Sigma \beta_0  + \frac{\mu^2}{ p}\bigtr{\Sigma}\right) , \text{ and } \\
+        \lambda_i &= \Big(1+\OO(p^{-1/2+c})\Big)\cdot \frac{\mu^2}{ p}\bigtr{\Sigma}, \text{ for } i=2,\cdots, t.
+    \end{align*}
+    Thus, w.h.p. the sum of smallest $(t - r)$ eigenvalues of ${B^{\star}}^{\top}\Sigma  B^{\star}$ is equal to
+    $(1+\OO(p^{-1/2+c}))\cdot(t-r)\frac{\mu^2 \bigtr{\Sigma}}{p}$.
+    Let $\epsilon = o_p(1)$ denote the error term.
     %To see this, recall that $r$ is one and $A^{\star} {A^{\star}}^{\top}$ is the best rank-$1$ approximation of ${B^{\star}}^{\top}\Sigma B^{\star} = {B^{\star}}^{\top} B^{\star}$.
     %Hence, the above expression is equal to the sum of ${B^{\star}}^{\top} {B^{\star}}$'s bottom $t-1$ singular values.
     %In the random-effect model described above, we further assume that $\Sigma$ is isotropic as an example.
     %We show that when the rank $r$ is one, the average prediction loss of hard parameter sharing is as follows
-    Then using \eqref{Li_multi2}, we obtain that
-    \[ \frac{1}{t}\sum_{i=1}^t L_i(\hat{\beta}_i^{\MTL}) = \bigbrace{1 - \frac{r}{t}} \frac{d^2}{p}\tr \Sigma + \frac{r}{t} \cdot \frac{p\sigma^2 }{n - p} +\oo(\|\beta_0\|^2+d^2 + \sigma^2) ,\quad \text{w.h.p. }\]
-    %We describe a proof sketch.
-    %First, we show that the bias equation $L(B^{\star} a_i^{\star})$ simplifies to the following
-    %\[ \frac{1}{t} \sum_{i=1}^t L(B^{\star} a_i^{\star}) = \frac{1}{t}\normFro{B^{\star} A^{\star} {A^{\star}}^{\top} - B^{\star}}^2 \approx \left(1 - \frac{1}{t}\right) {d^2}{}  . \]
-    %Second, using Fact \ref{fact_tr}, one can see that the average variance is
-    %\begin{align*}
-    %	\frac{1}{t} \sum_{i=1}^t \sigma^2\norm{a_i^{\star}}^2 \bigtr{\Sigma (X^{\top} X)^{-1}} = \frac{\sigma^2}{t} \sum_{i=1}^t \norm{a_i^{\star}}^2 \frac{p}{n - p}
-    %	= \frac{1}{t}\frac{\sigma^2 p}{n - p},
-    %\end{align*}
-    %because $A^{\star}$ has rank-$1$ and $\sum_{i=1}^t \norm{a_i^{\star}}^2 = 1$.
-    %Combined together, we have derived the average prediction loss in the random-effect model.
-    %If the error is sufficiently small, then
-    %Recall that the average prediction loss of STL scales as $\sigma^2\cdot \bigtr{\Sigma (X^{\top} X)^{-1}} = \frac{\sigma^2 p}{n - p}$ by Fact \ref{fact_tr}.
-    %Comparing HPS to STL, we have the following qualitative properties.
-    %	Suppose $n$ is sufficiently large so that the error is negligible.
+    We conclude that w.h.p.,
+    \begin{align}
+        g_r(n, \mu) - \frac{\sigma^2 p}{n - p} &= \bigbrace{1 - \frac{r}{t}} \frac{\mu^2}{p}\bigtr{\Sigma} + \frac{r}{t} \cdot \frac{p\sigma^2 }{n - p} + \epsilon - \frac{\sigma^2 p}{n - p} \nonumber \\
+        &= \Big(1 - \frac r t\Big) \cdot \Big(\frac{\mu^2\bigtr{\Sigma}}{p} - \frac{p\sigma^2}{n - p}\Big) + \epsilon. \label{eq_re_final}
+    \end{align}
+    Now we are ready to finish the proof.
+    For claim i), if $\mu^2 \ge \frac{\sigma^2 p^2}{(n - p) \bigtr{\Sigma}}$, the coefficient of $(1 - \frac r t)$ in equation \eqref{eq_re_final} is non-negative, and claim i) follows.
+    For claim ii), if $\mu^2 < \frac{\sigma^2 p^2}{(n - p)\bigtr{\Sigma}} - \frac{p t}{\bigtr{\Sigma}}\epsilon$, the coefficient of $(1 - \frac r t)$ in equation \eqref{eq_re_final} is negative.
+    Furthermore, equation \eqref{eq_re_final} is minimized when $r = 1$, and claim ii) follows since the RHS of equation \eqref{eq_re_final} is at most $\epsilon$.
 \end{proof}
-\end{example}
 
 \begin{figure}[!t]
 	\begin{subfigure}[b]{0.5\textwidth}
 		\centering
 		\includegraphics[width=0.8\textwidth]{figures/multitask_width.eps}
-		\caption{width}
+		\caption{Varying width}
 		\label{fig_sec4_width}
 	\end{subfigure}
 	\begin{subfigure}[b]{0.5\textwidth}
 		\centering
 		\includegraphics[width=0.8\textwidth]{figures/multitask_transfer.eps}
-		\caption{transfer}
+		\caption{Varying sample size and model shift parameter}
 		\label{fig_sec4_transfer}
 	\end{subfigure}
-	\caption{test.}
-	\label{fig_sec31}
+	\caption{We illustrate the performance of HPS in the random-effect model with $p = 100, t = 10, \sigma = 1/2$.
+	Figure \ref{fig_sec4_width} shows that from $1$ to $t = 10$, setting width $r = 1$ gives the lowest excess risk for task $t$.
+	The result is averaged over three random seeds.
+	This simulation uses $\mu = 0.05$.
+	Figure \ref{fig_sec4_transfer} fixes $r = 1$ while varying $\mu$ and $n$. We observe that depending on $\mu$ and $n$, HPS may provide a positive transfer or a negative transfer to task $t$ (similar to Figure \ref{fig_sec3_model_shift}). The precise condition for deciding which one is provided in Claim \ref{claim_re_multi}.}
+	\label{fig_sec4}
 \end{figure}
 
-%We demonstrate the accuracy of our results in simulations.
-%While our theory is asymptotic (with error terms that are negligible when $p$ is sufficiently large), we observe that they are incredibly accurate in a moderate dimension of $p = 200$.
-
-
-
-First, we validate the result of Example \ref{ex_same_cov}.
-Figure \ref{fig_same_cov} shows the average prediction loss over ten tasks as we increase the number of samples per-task from $400$ to $2000$.
-In all the parameter settings, our results estimate the empirical losses accurately.
-We also observe a trend that the average prediction loss increases as we increase distance $d$ from $0.1$ to $0.2$.
-Our work explains the differences between these two settings since $d^2 = 0.1^2$ is always smaller than $\frac{\sigma^2 p}{n - p}$, but $d^2 = 0.2^2$ is not.
-%Second, when $d = 0.1$, we have that $d^2 \le \frac{\sigma^2 p}{n - p}$ for all values of $n$, hence the average prediction loss of hard parameter sharing is always lower than STL.
-Indeed, we observe a crossover point between hard parameter sharing and STL.
-Finally, for $d = 0.2$, looking horizontally, we find that HPS requires fewer samples per-task than STL to achieve the same loss level. %\FY{I do not quite understand this sentence about "3x fewer", because how much data needed depends on $d$ and the prediction loss level we are looking at. For example, at the cross point, this ratio is 1. }
-
-
-%Our result from Corollary \ref{cor_MTL_loss} explains this trend.
-
-
-%Covariate shift: We set $\kappa = 1$ and $d = 0$.
-%We set $\rho_2 = 4$ and vary $\rho_1$ from $5$ to $25$ for sample sizes.
-%We use the scale parameter $\lambda = 1$ for the curve without covariate shift and $\lambda = 2$ for the curve with covariate shift (cf. Section \ref{sec_covshift}).
-
-
-%Recall that Section \ref{sec_data_size} shows that increasing the data size of the source task does not always improve the performance of MTL for the target task.
-%In Figure \ref{fig_ab_data}, we show that for source task MR and target task SST, there is a transition from positive to negative transfer as we increase the data size of the source task.
-%Our result provides a fine-grained insight on the covariance alignment algorithm proposed in \cite{WZR20}.
-%Recall that the covariance alignment procedure in \cite{WZR20} adds an additional module between the word embedding representation and the shared module.
-%When the source task data size is particularly large compared to the target task, we show that applying the covariance alignment algorithm results in more significant gains.
-%In Figure \ref{fig_ab_cov}, we observe that the benefit from aligning task covariances becomes more significant for LSTM and MLP as we increase the number of datapoints of the source task.
-
-%\begin{table}
-%	\begin{center}
-%		\begin{tabular}{c c c c c}
-%			\toprule
-%			\multirow{2}{*}{{\bf Models}} & \multicolumn{2}{c}{\begin{minipage}{1.1in}\begin{center}
-%				                                                                          MR, SST, SUBJ, CR, MPQA, TREC\end{center}\end{minipage}} & \multicolumn{2}{c}{\begin{minipage}{1.1in}\begin{center}MR, SST, SUBJ, CR, MPQA\end{center}\end{minipage}} \\
-%			\cmidrule(lr){2-3} \cmidrule(lr){4-5}
-%			& {\bf Stanford} & {\bf Alignment} & {\bf Stanford} & {\bf Alignment} \\
-%			\midrule
-%			{\bf MLP}  & > 100\% & 39\% & 25\% & 25\% \\
-%			{\bf LSTM} & 36\% & 36\% & 28\% & 25\% \\
-			% {\bf CNN}  & 76\% & - & 32\% & -\\
-%			\bottomrule
-%		\end{tabular}
-%	\end{center}
-%	\caption{Taskonomy experiment.}
-%	\label{tab:taskonomy}
-%\end{table}
-%\begin{figure}[!t]
-%	\centering
-%	\includegraphics[width=0.35\textwidth]{figures/same_covariates.eps}
-%	\caption{Validating Example \ref{ex_same_cov} in Section \ref{sec_same} for $10$ tasks: our estimated loss (solid line) matches the empirical loss (dotted line) accurately for various task-specific variance $d^2$ and sample size $n$ settings. The feature dimension $p$ is $200$, and noise variance $\sigma^2$ is $1/4$.}
-%	\label{fig_same_cov}
-%\end{figure}
+Figure \ref{fig_sec4} validates Claim \ref{claim_re_multi}.
+First, we see that the empirical excess risk (measured on a particular task) is indeed smallest when the width $r$ is equal to $1$.
+Second, we see that HPS provides a positive transfer (to a particular task) depending on the sample size $n$ and the model shift parameter $\mu$.
+The results match with the condition (on $\mu$) suggested by our estimates.
 
 
 
 
 
-%The estimate \eqref{minimizer_beta1} shows that the minimizer $\hat a$ is approximately equal to $A^\star(1)/A^\star(2)$, while \eqref{Li_multi0} gives the exact asymptotic limit of $L_2(\hat{\beta}_2^{\MTL}(\hat a)) $, together with an explicit convergence rate that we believe to be sharp.
-
-
-%It is not hard to extend the above result to the cases with more than two tasks. We make this extension for the following reasons. First, it provides a clearer geometric intuition than the two-task setting as we will discuss below. Second, the corresponding multi-task setting is prevalent in applications of multi-task learning to image classification, where there are multiple prediction labels/tasks for every image \cite{chexnet17,EA20}. Finally, it provides useful insights into a more general theory of multi-task learning, which we will explore in greater details in future works.
-
-%We consider an arbitrary local minimum $B, W_1, \dots, W_2$ of the optimization objective.
-%We extend the bias-variance decomposition from the two-task case to the multiple-task case.
-%We observe that the expected prediction loss of $\hat{\beta}_t^{\MTL}$ conditional on $X$ consists of a bias and a variance equation as follows
-%\begin{align}
-%	\exarg{\varepsilon_1, \dots, \varepsilon_t}{L(\hat{\beta}_t^{\MTL}) \mid X}
-%	=& \bignorm{\Sigma^{1/2} \bigbrace{B^{\star} \cW^{\top} (\cW \cW^{\top})^{-1} W_t - \beta_t}}^2 \label{eq_bias_multiple} \\
-%	&+ \sigma^2 \cdot (W_t^{\top} (\cW \cW^{\top})^{-1} W_t) \cdot \bigtr{\Sigma (X^{\top} X)^{-1}} \label{eq_var_multiple}
-%\end{align}
-%One can see that equation \eqref{eq_bias_multiple} is the bias of the multi-task learning estimator and equation \eqref{eq_var_multiple} is its variance.
-%Compared to the prediction loss of single-task learning (cf. equation \eqref{eq_var_stl}), we observe that the variance equation \eqref{eq_var_multiple} is always smaller because $W_t^{\top} (\cW \cW^{\top})^{-1} W_t \le 1$.
-%On the other hand, the bias equation \eqref{eq_bias_multiple} is always larger because of the difference between the task models.
-%We show the generalization error of hard parameter sharing estimators.
-%Before stating the result, we define the following notations.
 
 
 
 
-%The key step for proving Theorem \ref{thm_many_tasks} is a characterization of $f(A, B)$'s global minimizer.
-%\medskip
-%
-%\noindent\textbf{Comparison to single-task learning (STL).}
-%Theorem \ref{thm_many_tasks} provides a sharp generalization error bound that is asymptotically tight when $n$ goes to infinity.
-%%The limiting loss of hard parameter sharing consists of two parts, a bias term $L(B^{\star} a_i^{\star})$ that measures the error of $B^{\star} a_i^{\star}$, and a variance term that scales with noise variance $\sigma^2$.
-%%	Our result implies that the variance of hard parameter sharing is always smaller than single-task learning.
-%%	This is because	STL's variance is equal to $\frac{\sigma^2 \cdot p} {n - p}$ by Fact \ref{lem_minv}, and $\norm{a_i^{\star}}^2 \le 1$ since the spectral norm of $U_r$, which is a projection matrix, is at most one.
-%One direct implication of our result is that compared to STL, the variance always decreases, since STL's variance is equal to $\sigma^2 \tr[\Sigma (X^{\top} X)^{-1}]$.
-%On the other hand, the bias always increases.
+
+
 
 
 %\FY{add simulations to check our results; discuss motivations and possible applications}
