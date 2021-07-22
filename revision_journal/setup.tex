@@ -10,21 +10,21 @@ Later on in Section \ref{sec_same}, we will extend the setup to the case of mult
 
 \subsection{Data model}\label{sec_data}
 
-We describe the data model and the underlying assumptions.
-Suppose we have two regression datasets (or tasks).
-We denote their sample sizes by $n_1$ and $n_2$, respectively.
-Consider either $i = 1$ or $i = 2$.
-Let $X^{(i)} \in \real^{n_i \times p}$ denote dataset $i$'s feature covariates.
-We assume that the label vector $Y^{(i)} \in \real^{n_i}$ for the feature covariates $X^{(i)}$ follows a linear model plus random noise $\varepsilon^{(i)}$:
+%We describe the data model and the underlying assumptions.
+Recall we have two regression datasets (or tasks) with sample sizes denoted as $n_1$ and $n_2$, respectively.
+Suppose that $i = 1$ or $i = 2$.
+Let $X^{(i)} \in \real^{n_i \times p}$ be the matrix notation corresponding to dataset $i$'s covariates.
+Let $Y^{(i)} \in \real^{n_i}$ and $\varepsilon \in \real^{n_i}$ be the vector notation corresponding to its labels and additive noise.
+Equation \eqref{eq_linear} thus implies that
 $Y^{(i)}= X^{(i)}\beta^{(i)} + \varepsilon^{(i)}.$
 Both $\beta^{(1)}$ and $\beta^{(2)}$ are two arbitrary deterministic or random vectors that are independent of the feature covariates and the noise vector.
-Throughout the paper, we make the following assumptions on  $X^{(i)}$ and  $\varepsilon^{(i)}$, which are standard in recent  random matrix theory literature (see e.g. \citet{tulino2004random,bai2010spectral}). %We remark that all these assumptions are natural in high-dimensional statistics.
+Throughout the paper, we make the following assumptions on  $X^{(i)}$ and  $\varepsilon^{(i)}$, which are standard in the random matrix theory literature (see e.g., \citet{tulino2004random,Bai2006}). %We remark that all these assumptions are natural in high-dimensional statistics.
 
-First, we assume the row vectors of $X^{(i)}$ are i.i.d. centered random vectors with  population covariance matrix $\Sigma^{(i)} \in \real^{p \times p}$. More precisely, let
+First, we assume the row vectors of $X^{(i)}$ are i.i.d. centered random vectors with  population covariance matrix $\Sigma^{(i)} \in \real^{p \times p}$. Equation \eqref{eq_rvm} implies that
 \be\label{XofZ}
     X^{(i)} = Z^{(i)} (\Sigma^{(i)})^{1/2} \in \real^{n_i\times p},
 \ee
-where $\Sigma^{(i)}$ is a deterministic positive definite symmetric matrices, $Z^{(i)}=(z^{(i)}_{j,k})$ is a $n_i\times p$ random matrix with real-valued independent entries having zero mean and unit variance.
+recalling that $\Sigma^{(i)}$ is a deterministic positive definite symmetric matrices, $Z^{(i)}=(z^{(i)}_{j,k})$ is a $n_i\times p$ random matrix with real-valued independent entries having zero mean and unit variance.
 %\begin{equation}\label{assm1}
 %\mathbb{E} z^{(1)}_{ij}=\mathbb{E} z^{(2)}_{ij} =0, \ \quad \ \mathbb{E} \vert z^{(1)}_{ij} \vert^2=\mathbb{E} \vert z^{(2)}_{ij} \vert^2 =1,
 %\end{equation}
@@ -56,7 +56,7 @@ Second, we assume that $\varepsilon^{(i)} \in \real^{n_i}$ is a random noise vec
 Finally, we assume a high-dimensional setting when the sample sizes are proportional to the dimension up to a constant factor.
 Denote by $\rho_i = n_i / p$, we require that
 \be\label{assm2}
-1+\tau \le \rho_i \le p^{\tau^{-1}}.
+    \tau \le \rho_1 \le p^{\tau^{-1}} \text{ and } 1+\tau \le \rho_2 \le p^{\tau^{-1}}.
 \ee
 The first inequality ($1 + \tau \le \rho_i$) ensures that the sample covariance matrices $(X^{(1)})^\top X^{(1)}$ and $(X^{(2)})^\top X^{(2)}$ are non-singular with high probability.
 %Thus, the ordinary least squares estimator is well-defined for the linear regression problem on each (single) task.
@@ -77,19 +77,7 @@ Let $\Sig^{(1)}$ and $\Sig^{(2)}$ are deterministic positive definite symmetric 
 \end{enumerate}
 \end{assumption}
 
-Having defined the data model for each task, next, we describe typical scenarios in transfer learning under our setup.
-We define two settings as follows:
-\begin{itemize}
-    \item \textbf{Covariate shift:} independent $X^{(1)}$ and $X^{(2)}$ with the same population covariance matrices but different models.
-    \item \textbf{Model shift:} independent $X^{(1)}$ and $X^{(2)}$ with the same population covariance matrices (i.e. $\Sigma^{(1)}=\Sigma^{(2)}$) but different models (i.e. $\beta^{(1)} \neq \beta^{(2)}$).
-\end{itemize}
-One interesting special case of capturing different models is the following random-effect model, which has been studied in several recent works concerning high-dimensional (single-task) ridge regression \cite{dobriban2018high} and distributed regression \cite{dobriban2020wonder}.
- %{How does hard parameter sharing scale with sample sizes and covariate shift $M$?} One can see that the variance limit depends intricately on both tasks' samples sizes and covariate shift. Next, we illustrate how varying them impact the prediction loss.
-%\begin{example}%[Sample sizes]
-%\label{ex_sample_ratio}
-	%We first consider the impact of varying sample sizes.
-	%Consider the random-effect model from Section \ref{sec_same}, with both tasks having an isotropic population covariance matrix.
-	%We again consider the random effect model in Example \ref{ex_same_cov} with $t=2$.
+We will consider a random-effect model as our running example, which has been studied in several recent works concerning high-dimensional (single-task) ridge regression \cite{dobriban2018high} and distributed regression \cite{dobriban2020wonder}.
 Suppose each $\beta^{(i)}$ consists of two random components, one that is shared among the two tasks and one that is task-specific. More precisely, let
 \begin{align}
     \beta^{(i)}=\beta_0 +\wt \beta^{(i)},\quad i=1,2, \label{eq_re}
@@ -97,23 +85,11 @@ Suppose each $\beta^{(i)}$ consists of two random components, one that is shared
 where $\beta_0$ denotes the shared component, %whose entries are i.i.d. Gaussian random variables of mean zero and variance $p^{-1}\kappa^2$,
 and $\wt \beta^{(i)}$ denotes the $i$-th
 %Let $\beta^{(i)}$ be equal to $\beta_0$ plus a
-task-specific component whose entries are i.i.d. Gaussian random variables of mean zero and variance $p^{-1} \mu^2$.
+task-specific component whose entries are i.i.d. Gaussian random variables of mean zero and variance $\mu^2 / p$.
 
 %\item $\beta^{(1)}$ and $\beta^{(2)} $ are independent of $X^{(1)}$, $X^{(2)}$, $\varepsilon^{(1)}$ and $\varepsilon^{(2)} $. %, and satisfy \eqref{eq_SNR}.
 
-\subsection{Estimators}
-
-%We describe our estimators that combine the information from both datasets.
-We learn a two-layer linear neural network with parameters $A \in \real^{p\times r}$, $B_1 \in \real^{r}$, and $B_2 \in \real^r$ by minimizing the following optimization objective:
-\begin{align}\label{eq_hps}
-    f(A, B_1, B_2) = \bignorm{X^{(1)} A B_1 - Y^{(1)}}_2^2 + \bignorm{X^{(2)} A B_2 - Y^{(2)}}_2^2.
-\end{align}
-The above two-layer neural network (also called hard parameter sharing \cite{C97}) captures the intuition that both datasets share the feature space (i.e. the subspace spanned by the columns of $A$) while each having a separate prediction head.
-Suppose that $(\hat{A}, \hat{B_1}, \hat{B_2})$ is a minimizer of $f(\cdot)$.
-We define the hard parameter sharing estimator for task $i$ as
-\[ \hat{\beta}_i^{\MTL} \define \hat{B} \hat{A}_i. \]
-Our study of such estimators is motivated by the fact that hard parameter sharing is widely used in empirical studies of multi-task learning \cite{R17}.
-Later on in Section \ref{sec_diff}, we will evaluate the performance of HPS estimators against several natural transfer learning estimators.
+\subsection{Risks}
 
 We measure the performance of $\hat{\beta}_i^{\MTL}$ over samples $(x,y)$ generated from the $i$-th data model: $y= x^\top \beta^{(i)} + \ve$.
 The expected prediction risk (under mean squared loss) is given by
@@ -143,7 +119,8 @@ In particular, the case when $B_1$ and $B_2$ are both equal to $1$ reduces to a 
 Such pooling estimators have been shown to be effective on e-commence and healthcare datasets \cite{bastani2020predicting}.
 Additionally, they have been used as a preprocessing step of minimax optimal estimators, under certain conditions of the data \cite{li2020transfer} (see also Section \ref{sec_related} for further discussion of both works).
 
-
+\paragraph{Information transfer.} To be precise, we say that task one provides a \textit{positive transfer} to task two, if the excess risk $L(\hat{\beta}_2^{\MTL})$ is smaller than $L(\hat{\beta}_2^{\STL})$.
+Otherwise, we say that task one provides a \textit{negative transfer} to task two.
 
 \subsection{Bias and variance}
 
@@ -235,10 +212,8 @@ The proof of Proposition \ref{lem_hat_v} can be found in Section \ref{app_iso_co
 
 
 
-\paragraph{Connection to information transfer.} To be precise, we say that task one provides a \textit{positive transfer} to task two, if the excess risk $L(\hat{\beta}_2^{\MTL})$ is smaller than $L(\hat{\beta}_2^{\STL})$.
-Otherwise, we say that task one provides a \textit{negative transfer} to task two.
-We now illustrate that the bias-variance decomposition of Proposition \ref{lem_HPS_loss} characterizes whether or not the information transfer is positive.
 
+We now illustrate that the bias-variance decomposition of Proposition \ref{lem_HPS_loss} characterizes whether or not the information transfer is positive.
 First, we compare the bias. Since $n_1 \ge (1 + \tau) p$ by Assumption \ref{assm_big1}, the bias of $\hat{\beta}_2^{\STL}$ is zero.
 Thus, the bias of $\hat{\beta}_2^{\MTL}$ is always higher than that of $\hat{\beta}_2^{\STL}$.
 Second, we compare the variance. By a similar argument as in Proposition \ref{lem_HPS_loss}, the variance of $\hat{\beta}_2^{\STL}$ is equal to $\sigma^2 \bigtr{\Sigma^{(2)} ((X^{(2)})^{\top} X^{(2)})^{-1}}$.

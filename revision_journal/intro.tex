@@ -25,20 +25,86 @@
 %The high-dimensional setting is challenging but is crucial for understanding how datasets' sample sizes impact generalization performance.
 
 
-\subsection{Setup and motivating examples}\label{sec_HPS_loss}
+\subsection{Setup and motivating examples}
+
+We first define the data model.
+Suppose we have two datasets (or tasks). We refer the first one as the (data) source and the second one as the target.
+Suppose that $i = 1$ or $i = 2$.
+Let $n_i$ be the sample size of dataset $i$.
+Let $x_1^{(i)}, x_2^{\ss (i)}, \dots, x_{n_1}^{(i)}$ be $p$-dimensional covariates of the $n_i$ datapoints.
+Let $y_1^{(i)}, y_2^{(i)}, \dots, y_{n_1}^{(i)}$ be the real-valued labels of these datapoints.
+We assume that a linear model holds:
+\begin{align}
+    y_j^{(i)} = \inner{x_j^{(i)}}{\beta^{(i)}} + \varepsilon_j^{(i)}, \text{ for any } j = 1,\dots,n_i, \label{eq_linear}
+\end{align}
+where $\beta^{(i)} \in \real^p$ denotes an unknown model vector and $\varepsilon^{(i)}_j$ denotes an additive noise (independent of the covariates).
+%Let $(x_1^{(2)}, y_1^{(2)}), \dots, (x_{n_2}^{(2)}, y_{n_2}^{(2)})$ be $n_2$ labeled examples, where $x_i^{(2)}$ denotes the covariates and $y_i^{(2)}$ denotes the label, for any $i = 1,\dots, n_2$.
+%Similar to the first dataset, we assume that
+%for an unknown vector $\beta^{(2)}\in\real^p$ and an additive noise $\varepsilon^{(2)}_i$.
+Our goal is to learn an estimator to predict the target task (two) given both datasets.
+
+We consider a high-dimensional setting (e.g., \citet{hastie2019surprises}) where the sample size $n_i$ increases with $p$ proportionally by a constant factor.
+Let $\Sigma^{(i)} \in \real^{p\times p}$ be a deterministic positive semidefinite matrix.
+We assume that
+\begin{align}
+    x_j^{(i)} = \big(\Sigma^{(i)}\big)^{1/2} z_{j}^{(i)}, \text{ for any } j = 1,\dots,n_i, \label{eq_rvm}
+\end{align}
+where $z_j^{(i)}$ consists of independent and identical entries sampled from a distribution that has zero mean, unit variance, and satisfies certain bounded moment condition. 
+We focus on the so called \textit{underparametrized} setting for task two where $n_2 > \rho p$ for a constant $\rho > 1$ whereas for task one $n_1$ can be smaller than $p$.
+%A distinction between our setup and \citet{hastie2019surprises} is that we 
+See Section \ref{sec_data} for the precise assumptions underlying the above data model.
+
+We learn a two-layer linear neural network with parameters $A \in \real^{p\times r}$, $B_1 \in \real^{r}$, and $B_2 \in \real^r$ by minimizing the following optimization objective:
+\begin{align}\label{eq_hps}
+    f(A, B_1, B_2) = \bignorm{X^{(1)} A B_1 - Y^{(1)}}_2^2 + \bignorm{X^{(2)} A B_2 - Y^{(2)}}_2^2.
+\end{align}
+The above two-layer neural network (also called hard parameter sharing \cite{C97}) captures the intuition that both datasets share the feature space (i.e. the subspace spanned by the columns of $A$) while each having a separate prediction head.
+Suppose that $(\hat{A}, \hat{B_1}, \hat{B_2})$ is a minimizer of $f(\cdot)$.
+We define the hard parameter sharing estimator for task $i$ as
+\[ \hat{\beta}_i^{\MTL} \define \hat{B} \hat{A}_i. \]
+Our study of such estimators is motivated by the fact that hard parameter sharing is widely used in empirical studies of transfer learning \cite{R17}.
+%Later on in Section \ref{sec_diff}, we will evaluate the performance of HPS estimators against several natural transfer learning estimators.
+
+
 
 \subsection{Summary of results}
-\todo{mention connection to pooling \cite{hanneke2020no}}
+%\todo{mention connection to pooling \cite{hanneke2020no}}
 
+\paragraph{Precise estimates under distribution shift.}
+Having defined the data model for each task, next, we describe typical scenarios in transfer learning under our setup.
+We define two settings as follows:
+\begin{itemize}
+    \item \textbf{Covariate shift:}
+    independent $X^{(1)}$ and $X^{(2)}$ with the same population covariance matrices but different models.
+    Our second result (Theorem \ref{thm_main_RMT}) applies to two tasks with arbitrarily different sample size ratios and covariate shifts.
+    While we can no longer characterize $f(A, B)$'s global minimum because of non-convexity, we can still provide a sharp bias-variance tradeoff of any local minimizer's prediction loss for both tasks.
+    Despite being a simple setting, we observe several non-trivial phenomena by varying sample size ratios and covariate shifts between the two tasks.
+    \item \textbf{Model shift:} independent $X^{(1)}$ and $X^{(2)}$ with the same population covariance matrices (i.e. $\Sigma^{(1)}=\Sigma^{(2)}$) but different models (i.e. $\beta^{(1)} \neq \beta^{(2)}$).
+    \item \textbf{Covariate and model shift.}
+\end{itemize}
+
+Theoretical insights
+\begin{itemize}
+    \item \textit{Whether or not covariate shift helps depends on sample sizes:} In addition to sample sizes, variance also scales with two datasets' covariate shifts. For a large sample size ratio, HPS's  variance is smallest when there is no covariate shift. Counterintuitively, for a small sample size ratio, having covariate shifts reduces variance through a complementary spectrum. We achieve this result through a novel characterization on the inverse of the sum of two sample covariance matrices with arbitrary covariate shifts. See our discussion of proof techniques below for details.
+    \item \textit{Identical covariance provides approximately optimal transfer under imbalanced sizes:}
+    \item \textit{Determining information transfer under model shift}: Increasing one task's sample size does not always reduce another task's loss. In a simplified setting, we find that the task loss either decreases first before increasing afterward or decreases monotonically depending on how fast the bias grows. These two trends result from different bias-variance tradeoffs. This result is surprising because previous generalization bounds in multi-task learning typically scale down as all tasks' sample sizes increase, thus do not apply for different sample size ratios.
+\end{itemize}
+
+\paragraph{Empirical results.}
+Finally, we discuss the practical implications of our work.
+Our sample size ratio study implies a concrete progressive training procedure that gradually adds more data until performance drops.
+For example, in the setting of Figure \ref{fig_intro_sample_size_b}, this procedure will stop right at the minimum of the local basin.
+We conduct further studies of this procedure on six text classification datasets and observe that it reduces the computational cost by $65\%$ compared to a standard round-robin training procedure while keeping the average accuracy of all tasks simultaneously.
+
+
+\paragraph{Extension to multiple sources.}
 Our first result (Theorem \ref{thm_many_tasks}) applies to multi-label prediction settings where all datasets have the same features (and sample size), and we want to make several predictions for every input (cf. examples in \cite{hsu2009multi}).
 We analyze the global minimizer of $f(A, B)$, and provide a sharp bias-variance decomposition of its (out-of-sample) prediction loss for any task.
 This setting is tractable even though in general, $f(A, B)$ is non-convex in $A$ and $B$ (e.g. matrix completion is a special case for suitably designed $X^{(i)}, Y^{(i)}$).
 %We show that the prediction loss of HPS admits a clean bias-variance decomposition.
 Our result implies that when all tasks have the same features but different labels, for any task, HPS helps reduce the task's variance compared to single-task learning but increases bias.
 
-Our second result (Theorem \ref{thm_main_RMT}) applies to two tasks with arbitrarily different sample size ratios and covariate shifts.
-While we can no longer characterize $f(A, B)$'s global minimum because of non-convexity, we can still provide a sharp bias-variance tradeoff of any local minimizer's prediction loss for both tasks.
-Despite being a simple setting, we observe several non-trivial phenomena by varying sample size ratios and covariate shifts between the two tasks.
+
 %See Figure \ref{fig_intro_sample_size_b} for an illustration of the former.
 Consequently, using our precise loss estimates, we observe several qualitative properties of HPS for varying dataset properties.
 %\begin{itemize}
@@ -46,16 +112,9 @@ Consequently, using our precise loss estimates, we observe several qualitative p
 %	One advantage of combining multiple datasets is that the requirement for labeled data reduces compared to single-task learning, a phenomenon that \cite{ZSSGM18} has observed empirically.
 %	Our results further imply that HPS's sample efficiency depends on model-specific variances across tasks vs. the noise variance and is generally high when the latter is large.
 
- \textit{Sample size ratio (Example \ref{ex_sample_ratio})}: Increasing one task's sample size does not always reduce another task's loss. In a simplified setting, we find that the task loss either decreases first before increasing afterward or decreases monotonically depending on how fast the bias grows. These two trends result from different bias-variance tradeoffs. This result is surprising because previous generalization bounds in multi-task learning typically scale down as all tasks' sample sizes increase, thus do not apply for different sample size ratios.
 
- \textit{Covariate shift (Example \ref{ex_covshift})}: In addition to sample sizes, variance also scales with two datasets' covariate shifts. For a large sample size ratio, HPS's  variance is smallest when there is no covariate shift. Counterintuitively, for a small sample size ratio, having covariate shifts reduces variance through a complementary spectrum. We achieve this result through a novel characterization on the inverse of the sum of two sample covariance matrices with arbitrary covariate shifts. See our discussion of proof techniques below for details.
+
 %\end{itemize}
-
-
-Finally, we discuss the practical implications of our work.
-Our sample size ratio study implies a concrete progressive training procedure that gradually adds more data until performance drops.
-For example, in the setting of Figure \ref{fig_intro_sample_size_b}, this procedure will stop right at the minimum of the local basin.
-We conduct further studies of this procedure on six text classification datasets and observe that it reduces the computational cost by $65\%$ compared to a standard round-robin training procedure while keeping the average accuracy of all tasks simultaneously.
 
 %\medskip
 %\noindent\textbf{Proof techniques.}
@@ -73,41 +132,8 @@ We conduct further studies of this procedure on six text classification datasets
 
 \subsection{Related work}\label{sec_related}
 
-\paragraph{Transfer learning.}
-There is a large body of classical and recent works on multi-task learning.
-We focus our discussion on theoretical results and refer interested readers to several excellent surveys for general references \cite{PY09,ZY17,V20}.
-The early work of \cite{B00,BS03,M06} studied multi-task learning from a theoretical perspective, often using uniform convergence or Rademacher complexity based techniques.
-An influential paper by \cite{BBCK10} provides uniform convergence bounds that combine multiple datasets in certain settings.
-One limitation of uniform convergence based techniques is that the results often assume that all  tasks have the same sample size, see e.g. \cite{B00,MPR16}.
-Moreover, these techniques do not apply to the high-dimensional setting because the results usually require a sample size of at least $p \log p$.
-The problem we study here is also related to high-dimensional prediction in transfer learning \cite{li2020transfer,bastani2020predicting}.
-For example, \cite{li2020transfer} provide minimax-optimal rates to predict a target regression task given multiple sparse regression tasks.
-\citet{tian2021transfer}
-One closely related work is \cite{WZR20}, which studied hard parameter sharing for two linear regression tasks.
-However, their results only apply to sample size regimes at least logarithmic factors of dimension.
-\todo{a list of relevant papers}
-\begin{itemize}
-	\item \citet{lei2021nearoptimal}
-	\item \citet{kalan2020minimax}
-	\item \citet{cao2019learning}
-	\item \citet{hanneke2020value,hanneke2020no}, \citet{cai2021transfer}
-\end{itemize}
-\textit{Other related works.} Distributed learning \cite{dobriban2018high}.
-\citet{chen2021weighted}
 
-\paragraph{Random matrix theory.}
-\todo{write a paragraph regarding applications of RMT to modern machine learning.}
-\begin{itemize}
-	\item \citet{hastie2019surprises}
-	\item \citet{bartlett2020benign}
-	\item \citet{liang2020just}
-	\item \citet{montanari2019generalization}, \citet{liang2020precise}
-\end{itemize}
-\begin{remark}
-    \todo{clarify overparametrize}
-    As a clar,  following the work of \citet{hastie2019surprises} (see also \citet{bartlett2020benign} and the references therein)
-\end{remark}
-
+\paragraph{Sample covariance matrices under distribution shift.}
 These previous works mainly consider cases with only one high-dimensional sample covariance matrix involved. %need to check 
 In the single task case, if the data is Gaussian, then the precise variance limit can be derived directly from properties of Wishart distribution. In the high-dimensional setting, the eigenvalues of Wishart matrices satisfy the famous Marchenko–Pastur (MP) law \cite{MP}, whose Stieltjes transform characterizes the variance limit. Furthermore, it is well-known that the MP law holds universally regardless of the detailed data distribution \cite{bai2010spectral}. \cite{isotropic} obtained a sharp converge rate of the empirical spectral distribution (ESD) to the MP law for sample covariance matrices with isotropic covariance. \cite{Anisotropic,DY} later extended this result to sample covariance matrices with arbitrary population covariances. These results are proved by establishing certain optimal convergence estimates of the Stieltjes transforms of sample covariance matrices, which are referred to as \emph{local laws} in the random matrix theory literature. We refer the reader to \cite{erdos2017dynamical} and the references therein for a detailed review of related concepts. We extend these techniques to the two-task setting and prove a local law for the sum of two sample covariance matrices with an arbitrary covariate shift, which is one technical contribution of this work. From the local law, we can derive the variance limit with a precise dependence on the singular values of the covariate shift matrix. 
 
@@ -122,14 +148,41 @@ There is another method to derive the asymptotic variance limit using free addit
 %(in the sense that it is hard to establish rigorously the free independence between two sample covariance matrices). 
 Furthermore, our techniques provide almost sharp convergence rates to the asymptotic limit, which is not given by free probability techniques. 
 
-On the other hand, the bias limit is much harder to study, and its dependence on the sample ratio and the covariate shift is still an open problem in random matrix theory in the most general setting. However, when the data is Gaussian distributed and the two tasks have the same population covariance, we find a way to calculate the exact bias limit using free probability techniques. Leveraging on the recent results \cite{BES_free1,BES_free2}, we can obtain a sharp convergence rate to the bias limit. To the best of our knowledge, we are not aware of any previous result on the precise bias limit in the high-dimensional setting, even for two Wishart matrices with the same sample size. 
+On the other hand, the bias limit is much harder to study, and its dependence on the sample ratio and the covariate shift is still an open problem in random matrix theory in the most general setting. However, when the data is Gaussian distributed and the two tasks have the same population covariance, we find a way to calculate the exact bias limit using free probability techniques. Leveraging on the recent results \cite{BES_free1,BES_free2}, we can obtain a sharp convergence rate to the bias limit. To the best of our knowledge, we are not aware of any previous result on the precise bias limit in the high-dimensional setting, even for two Wishart matrices with the same population covariance matrix. 
 
-%previous results in the multi-task case, even for cases without covariate shifts.
+\paragraph{Random matrix theory and machine learning.} \todo{write a paragraph regarding applications of RMT to modern machine learning.}
+\begin{itemize}
+	\item \citet{hastie2019surprises}
+	\item \citet{bartlett2020benign}
+	\item \citet{liang2020just}
+	\item \citet{montanari2019generalization}, \citet{liang2020precise}
+\end{itemize}
+\begin{remark}
+    \todo{clarify overparametrize}
+    As a clar,  following the work of \citet{hastie2019surprises} (see also \citet{bartlett2020benign} and the references therein)
+\end{remark}
 
-%\HZ{can you please add a discussion of the related work from RMT?}
 
+\paragraph{Transfer learning and related problems.}
+There is a large body of classical and recent works on multi-task learning.
+The early work of \cite{B00,BS03,M06} studied multi-task learning from a theoretical perspective, often using uniform convergence or Rademacher complexity based techniques.
+An influential paper by \cite{BBCK10} provides uniform convergence bounds that combine multiple datasets in certain settings.
+One limitation of uniform convergence based techniques is that the results often assume that all  tasks have the same sample size, see e.g. \cite{B00,MPR16}.
+\citet{pontil2013excess}
+Moreover, these techniques do not apply to the high-dimensional setting because the results usually require a sample size of at least $p \log p$.
+The problem we study here is also related to high-dimensional prediction in transfer learning \cite{li2020transfer,bastani2020predicting}.
+For example, \cite{li2020transfer} provide minimax-optimal rates to predict a target regression task given multiple sparse regression tasks.
+One closely related work is \cite{WZR20}, which studied hard parameter sharing for two linear regression tasks.
+However, their results only apply to sample size regimes at least logarithmic factors of dimension.
+\todo{a list of relevant papers}
+\begin{itemize}
+	\item \citet{lei2021nearoptimal}
+	\item \citet{kalan2020minimax}
+	\item  \citet{cai2021transfer}
+	\item \citet{lounici2011oracle}
+\end{itemize}
+\textit{Other related works.} Distributed learning \cite{dobriban2018high}.
 
-%\cite{WZR20} (and an earlier work by \cite{KD12}) observed that the shared layer size $r$ in hard parameter sharing plays a critical role of regularization.
 %Linear models in multi-task learning have been studied in various settings, including online learning \cite{CCG10,DCSP18}, sparse regression \cite{LPTV09,LPVT11}, and representation learning \cite{BHKL19}.
 
 %Our setting is closely related to domain adaptation \cite{DM06,BB07,BC08,DH09,MMR09,CWB11,ZS13,NB17,ZD19}.
@@ -154,10 +207,10 @@ On the other hand, the bias limit is much harder to study, and its dependence on
 
 \subsection{Organizations}
 The rest of this paper is organized as follows.
-In Section \ref{sec_HPS}, we formally define the data model and the assumptions.
-We describe a bias-variance decomposition of the HPS estimator, and connect the decomposition to random matrix theory.
+In Section \ref{sec_HPS}, we formally define the data model and describe the underlying assumptions.
+We show a bias-variance decomposition of the HPS estimator, and connect the bias and variance equations to random matrix theory.
 In Section \ref{sec_main}, we show precise estimates for the excess risk of the HPS estimator under covariate and model shifts.
-In Section \ref{sec_same}, we extend our setup to transferring from multiple data sources under model shift.
 In Section \ref{sec_exp}, we evaluate the performance of HPS estimators against several commonly used transfer learning estimators, and present two implications for migating covariate and model shift in neural networks.
+In Section \ref{sec_same}, we extend our setup to transferring from multiple data sources under model shift.
 Section \ref{sec_conclude} concludes the paper and discusses potential future directions.
 Section \ref{app_proof_error_same_cov}, \ref{appendix RMT}, and \ref{app_iso_cov} present proofs of our results.
