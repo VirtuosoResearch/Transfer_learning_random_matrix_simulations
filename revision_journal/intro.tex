@@ -28,49 +28,62 @@
 \subsection{Setup and motivating examples}
 
 We first define the data model.
-Suppose we have two datasets (or tasks). We refer the first one as the (data) source and the second one as the target.
-Suppose that $i = 1$ or $i = 2$.
-Let $n_i$ be the sample size of dataset $i$.
-Let $x_1^{(i)}, x_2^{\ss (i)}, \dots, x_{n_1}^{(i)}$ be $p$-dimensional covariates of the $n_i$ datapoints.
-Let $y_1^{(i)}, y_2^{(i)}, \dots, y_{n_1}^{(i)}$ be the real-valued labels of these datapoints.
-We assume that a linear model holds:
+Suppose we have two datasets (or tasks).
+We refer the first dataset as the source and the second task as the target.
+Let $i = 1$ or $2$.
+Let $n_i$ be dataset $i$'s sample size.
+Let $x_1^{(i)}, x_2^{\ss (i)}, \dots, x_{n_i}^{(i)}$ be the $n_i$ datapoints' $p$-dimensional covariates.
+Let $y_1^{(i)}, y_2^{(i)}, \dots, y_{n_i}^{(i)}$ be these datapoints' labels.
+We assume a linear model specified by an unknown model vector $\beta^{(i)} \in \real^p$ as follows:
 \begin{align}
     y_j^{(i)} = \inner{x_j^{(i)}}{\beta^{(i)}} + \varepsilon_j^{(i)}, \text{ for any } j = 1,\dots,n_i, \label{eq_linear}
 \end{align}
-where $\beta^{(i)} \in \real^p$ denotes an unknown model vector and $\varepsilon^{(i)}_j$ denotes an additive noise (independent of the covariates).
+where $\varepsilon^{(i)}_j$ denotes an additive noise (independent of the covariates).
 %Let $(x_1^{(2)}, y_1^{(2)}), \dots, (x_{n_2}^{(2)}, y_{n_2}^{(2)})$ be $n_2$ labeled examples, where $x_i^{(2)}$ denotes the covariates and $y_i^{(2)}$ denotes the label, for any $i = 1,\dots, n_2$.
 %Similar to the first dataset, we assume that
 %for an unknown vector $\beta^{(2)}\in\real^p$ and an additive noise $\varepsilon^{(2)}_i$.
-Our goal is to learn an estimator to predict the target task (two) given both datasets.
+Our goal is to learn an estimator to predict the target task given both datasets.
 
-We consider a high-dimensional setting (e.g., \citet{hastie2019surprises}) where the sample size $n_i$ increases with $p$ to infinity proportionally by a constant factor.
+We consider a high-dimensional setting on each dataset where the sample size $n_i$ increases with $p$ to infinity proportionally by a constant factor, which has recently received lots of interests (see e.g., \citet{hastie2019surprises} and Section \ref{sec_related} for more references).
 Let $\Sigma^{(i)} \in \real^{p\times p}$ be a deterministic positive semidefinite matrix.
-We assume that
+The covariates are assumed to have population covariance equal to $\Sigma^{(i)}$:
 \begin{align}
     x_j^{(i)} = \big(\Sigma^{(i)}\big)^{1/2} z_{j}^{(i)}, \text{ for any } j = 1,\dots,n_i, \label{eq_rvm}
 \end{align}
 where $z_j^{(i)}$ consists of independent and identical entries sampled from a distribution that has zero mean, unit variance, and satisfies certain bounded moment condition. 
 We focus on the so called \textit{underparametrized} setting for task two where $n_2 > \rho p$ for a constant $\rho > 1$ whereas for task one $n_1$ can be smaller than $p$.
-%A distinction between our setup and \citet{hastie2019surprises} is that we 
 See Section \ref{sec_data} for the precise assumptions underlying the above data model.
 
 We learn a two-layer linear neural network with parameters $A \in \real^{p\times r}$, $B_1 \in \real^{r}$, and $B_2 \in \real^r$ by minimizing the following optimization objective:
 \begin{align}\label{eq_hps}
     f(A, B_1, B_2) = \bignorm{X^{(1)} A B_1 - Y^{(1)}}_2^2 + \bignorm{X^{(2)} A B_2 - Y^{(2)}}_2^2.
 \end{align}
-The above two-layer neural network (also called hard parameter sharing \cite{C97}) captures the intuition that both datasets share the feature space (i.e. the subspace spanned by the columns of $A$) while each having a separate prediction head.
-Suppose that $(\hat{A}, \hat{B_1}, \hat{B_2})$ is a minimizer of $f(\cdot)$.
-We define the hard parameter sharing estimator for task $i$ as
-\[ \hat{\beta}_i^{\MTL} \define \hat{B} \hat{A}_i. \]
-Our study of such estimators is motivated by the fact that hard parameter sharing is widely used in empirical studies of transfer learning \cite{R17}.
-%Later on in Section \ref{sec_diff}, we will evaluate the performance of HPS estimators against several natural transfer learning estimators.
+The above two-layer neural network uses a shared feature space $A$ for both tasks while using a separate prediction head for each task.\footnote{A popular variant of objective function \eqref{eq_hps} adds a weight parameter to each summand. We focus on the unweighted objective for simplicity and all of our results apply to the weighted objective.}
+Such models are also known as \textit{hard parameter sharing} in the machine learning literature \cite{C97,R17}.
+Suppose that $(\hat{A}, \hat{B}_1, \hat{B}_2)$ is a global minimizer of $f(\cdot)$.
+We define the hard parameter sharing (HPS) estimator for the target task as $\hat{\beta}_2^{\MTL} \define \hat{B} \hat{A}_2$.
+In order to evaluate the estimator, we will study the excess risk at a new (unseen) test datapoint from task two, denoted as $L(\hat{\beta}_2^{\MTL})$ (see Section \ref{sec_risk} for its precise definition).
+
+As a motivating example of the above setup, we show an intriguing simulation where combining both datasets jointly results in different transfer effect on $L(\hat{\beta}_2^{\MTL})$, depending on the distance between $\beta^{(1)}$ and $\beta^{(2)}$.
+Figure \ref{fig_motivation} shows the result for a setting where every entry of $X_1, X_2$ is generated from an isotropic Gaussian, and $\beta_1,\beta_2$ are generated such that $\norm{\beta^{(1)} - \beta^{(2)}}^2 \approx 2\mu^2$.
+We observe that for $\mu = 0.25$, $L(\hat{\beta}_2^{\MTL})$ is always smaller than the excess risk of OLS.
+For the other $\mu$ values, $L(\hat{\beta}_2^{\MTL})$ is smaller than the excess risk of OLS for a restricted range of $n_1$.
+Such a scenario, where combining both datasets jointly improves over learning the target task individually, and is also called a \textit{positive information transfer} \cite{PY09}.
+Our main contribution is to precisely analyze a number of interesting phenomena including the above that are prevalent in transfer learning, depending on geometries of the covariance matrices and model distances. 
 
 
+\begin{figure*}
+    \centering
+    \includegraphics[width=0.7\textwidth]{figures/motivation.eps}
+    \caption{We illustrate that our setup can reproduce the phenomenon of \textit{positive} (or \textit{negative}) \textit{information transfer}, which is prevalent in the context of transfer learning.
+    We vary the sample size of dataset one and the distance parameter $\mu$ such that $\norm{\beta^{(1)} - \beta^{(2)}}^2 = 2\mu^2$. The region below the excess risk of the ordinary least squares (OLS) estimator corresponds to the range of $n_1$ in which $L(\hat{\beta}_2^{\MTL})$ is smaller than the excess risk of the OLS estimator. See also Figure \ref{fig_ab_data} for a similar phenomenon observed in text classification tasks.}
+    \label{fig_motivation}
+\end{figure*}
 
 \subsection{Summary of results}
 %\todo{mention connection to pooling \cite{hanneke2020no}}
 
-\paragraph{Precise estimates under distribution shift.}
+\paragraph{Precise asymptotics given heterogeneous sources.}
 Having defined the data model for each task, next, we describe typical scenarios in transfer learning under our setup.
 We define two settings as follows:
 \begin{itemize}
@@ -133,7 +146,7 @@ Consequently, using our precise loss estimates, we observe several qualitative p
 \subsection{Related work}\label{sec_related}
 
 
-\paragraph{Sample covariance matrices under distribution shift.}
+\paragraph{Sample covariance matrices with distribution shift.}
 These previous works mainly consider cases with only one high-dimensional sample covariance matrix involved. %need to check 
 In the single task case, if the data is Gaussian, then the precise variance limit can be derived directly from properties of Wishart distribution. In the high-dimensional setting, the eigenvalues of Wishart matrices satisfy the famous Marchenko–Pastur (MP) law \cite{MP}, whose Stieltjes transform characterizes the variance limit. Furthermore, it is well-known that the MP law holds universally regardless of the detailed data distribution \cite{bai2010spectral}. \cite{isotropic} obtained a sharp converge rate of the empirical spectral distribution (ESD) to the MP law for sample covariance matrices with isotropic covariance. \cite{Anisotropic,DY} later extended this result to sample covariance matrices with arbitrary population covariances. These results are proved by establishing certain optimal convergence estimates of the Stieltjes transforms of sample covariance matrices, which are referred to as \emph{local laws} in the random matrix theory literature. We refer the reader to \cite{erdos2017dynamical} and the references therein for a detailed review of related concepts. We extend these techniques to the two-task setting and prove a local law for the sum of two sample covariance matrices with an arbitrary covariate shift, which is one technical contribution of this work. From the local law, we can derive the variance limit with a precise dependence on the singular values of the covariate shift matrix. 
 
