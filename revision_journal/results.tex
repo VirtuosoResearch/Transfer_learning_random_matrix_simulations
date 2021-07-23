@@ -109,7 +109,7 @@ Our first example illustrates that the effect of covariate shift depends on the 
     Let $\cS$ be the set of positive definite matrices $M^{\top} M$ such that for $i = 1,2,\dots,\floor{\frac p 2}$, $\lambda_{p - i}  = \frac 1 {\lambda_i}$, where $\lambda_1 \ge \lambda_2 \ge \cdots \ge \lambda_p$ are the eigenvalues of $M$.
     Under this setting, we ask: suppose that the sample sizes $n_1$ and $n_2$ are both fixed, which $M$ provides the best ``transfer'' in the sense of HPS estimator's excess risk?
     We observe a dichotomy that depends on whether or not $n_1$ is greater than $n_2$.
-    \begin{claim}[Sample sizes vs. covariate shift]\label{claim_dichotomy}
+    \begin{proposition}[Sample sizes vs. covariate shift]\label{claim_dichotomy}
         Let $g(M) = \frac{\sigma^2}{n_1 + n_2} \bigtr{\frac 1 {\alpha_1 M^{\top} M + \alpha_2}}$.
         Suppose that $n_1$ and $n_2$ are both fixed.
         Within the set of all possible covariate shift matrix $M\in\cS$, the following dichotomy holds:
@@ -117,7 +117,7 @@ Our first example illustrates that the effect of covariate shift depends on the 
 	        \item[i)] If $n_1 \ge n_2$, then $g(M)$ is minimized in $\cS$ when $\lambda_i = 1$, for any $i = 1,\dots,p$.
 	        \item[ii)] If $n_1 < n_2$, then $g(M)$ is maximized in $\cS$ when $\lambda_i = 1$, for any $i = 1,\dots,p$.
         \end{enumerate}
-    \end{claim}
+    \end{proposition}
 
 \begin{proof}
     For any $M \in \cS$, we can write $g(M)$ as
@@ -171,12 +171,12 @@ By contrast, our analysis applies to a (high-dimensional) regression setting.
 Our second example illustrates that the effect of covariate shift worsens as the sample size of task one increases.
 We consider a set of covariate shift matrices $M^{\top} M$ whose determinant are all equal to one, and the eigenvalues are bounded between $\tau^2$ and $1 / \tau^2$.
 Let $\cS$ denote the set of $M\in\real^{p\times p}$ such that $M^{\top} M$ satisfies both conditions.
-\begin{claim}[Identical covariance provides approximately optimal transfer under imbalanced dataset sizes]\label{prop_covariate}
+\begin{proposition}[Identical covariance provides approximately optimal transfer under imbalanced dataset sizes]\label{prop_covariate}
     Recall that $g(M) = \frac{\sigma^2}{n_1 + n_2} \bigtr{\frac 1 {\alpha_1 M^{\top} M + \alpha_2}}$.
 	We have the following result regarding $g(\id_{p \times p})$:
 	\begin{align} g(\id_{p\times p}) \le \bigbrace{1+ {\frac{n_2}{\tau^2 n_1}  }} g(M), \text{ for any } M \in \cS. \label{eq_claim_id}
 	\end{align}
-\end{claim}
+\end{proposition}
 \begin{proof}
     We can write the trace of $(\alpha_1 M^{\top} M + \alpha_2)^{-1}$ using the eigenvalues of $M^{\top} M$ as follows:
     \begin{align*}
@@ -344,7 +344,7 @@ $$ g(n_1) \define \sigma^2 \cal L_1(1) +   2\mu^2 \cal L_2(1)= \frac{p\sigma^2}{
 plus lower order terms (that vanishes to zero as $p$ goes to infinity).
 Next, we analyze when combining task one using HPS transfers positively to task two, depending on sample sizes $n_1, n_2$, and the model shift parameter $\mu$ in the random-effect model.
 
-\begin{claim}[Sample sizes vs. model shift]\label{claim_model_shift}
+\begin{proposition}[Sample sizes vs. model shift]\label{claim_model_shift}
     Suppose Assumption \ref{assm_big1} and the random-effect model under equation \eqref{eq_re} and \eqref{para_rel} holds.
     Suppose further that $n_2 \ge 3p$.
     Then, there exists a large constant $C > 0$ such that the following holds w.h.p.,
@@ -353,7 +353,7 @@ Next, we analyze when combining task one using HPS transfers positively to task 
         \item[ii)] If $\frac{\sigma^2 p}{2(n_2 - p)} < \mu^2 < \frac{\sigma^2 n_2}{2(n_2 - p)}$, then there exists a deterministic constant $\rho$ such that if $n_1 \le \rho\cdot p$, then $L(\hat{\beta}_2^{\MTL}) \le L(\hat{\beta}_2^{\STL}) + \OO(p^{-C})$, else $L(\hat{\beta}_2^{\STL}) \le L(\hat{\beta}_2^{\MTL}) + \OO(p^{-C})$.
         \item[iii)] If $\frac{\sigma^2 n_2} {2(n_2 - p)} \le \mu^2$, then $L(\hat{\beta}_2^{\STL}) \le L(\hat{\beta}_2^{\MTL}) + \OO(p^{-C})$.
     \end{enumerate}
-\end{claim}
+\end{proposition}
 
 \begin{proof}
 By Theorem \ref{cor_MTL_loss} and the discussion above, we have that $L(\hat{\beta}_2^{\MTL}) = g(n) + \OO(p^{-C})$ w.h.p.
@@ -398,6 +398,42 @@ Furthermore, we observe the three information transfer regimes shown in Claim \r
 
 
 \subsection{Covariate and model shift}\label{sec3_combined}
+
+Consider the special case with $\Sigma^{(2)}=\id$, $a=1$ and the random effect model. Let $\sigma_i^{(1)}$ be the eigenvalues of $\Sigma^{(1)}$. Define the function 
+\be\label{g1new} g_0(x)= \frac{1}{n_1}\sum_{i=1}^p \frac{\sigma_i^{(1)}}{1+ \sigma_i^{(1)} x} -\frac{1}{x} .\ee
+Let $y$ be the unique positive solution to the equation 
+\be\nonumber
+\frac{n_1+n_2-p}{n_1} + g_0(y) \cdot \left( 1+    y\right)=0 .
+\ee
+Define the following three functions of $y$:
+$$f_1= \frac{n_1}{p}y + \frac{n_1-p}{p}\frac1{g_0(y)},\quad f_2= \frac{n_1}{p}\frac{1}{g_0'(y)}- \frac{n_1-p}{p}\frac1{[g_0(y)]^2},\quad f_3= - g_0(y),$$
+where $g_0'(y)$ is the derivative
+$$ g_0'(y)=  -\frac{1}{n_1}\sum_{i=1}^p \frac{(\sigma_i^{(1)})^2}{(1+ \sigma_i^{(1)} y)^2} +\frac{1}{y^2}. $$
+Then the variance limit is given by
+$$ L_{\var}(1)=\sigma^2 \frac{p}{n_1}f_1,$$
+and the bias limit is given by 
+$$ L_{\bias}(1)=2\mu^2 \frac{1 - 2f_1 f_3  +f_2 f_3^2  }{ 1 - \frac{p}{n_2}f_2 f_3^2 }.$$
+(Here $2\mu^2$ represents $\|\beta^{(1)}-\beta^{(2)}\|^2$.)
+
+\begin{figure}[!t]
+	\begin{subfigure}[b]{0.5\textwidth}
+		\centering
+		\includegraphics[width=0.8\textwidth]{figures/covariate_and_model_shift_a.eps}
+		\caption{Fixed $\mu$, different $\lambda$}
+		\label{fig_sec3_cov_mo_a}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.5\textwidth}
+		\centering
+		\includegraphics[width=0.8\textwidth]{figures/covariate_and_model_shift_b.eps}
+		\caption{Fixed $\lambda$, different $\mu$}
+		\label{fig_sec3_cov_mo_b}
+	\end{subfigure}
+	\caption{We further show that our observations in Figures \ref{fig_sec31} and \ref{fig_sec3_model_shift} extend to settings with both covariate and model shift.
+	Both simulation use $p = 100, n_2 = 300, \sigma = 1/2$.
+	Figure \ref{fig_sec3_cov_mo_a} fixes $\mu = 0.1$ while varying $\lambda, n_1$.
+	Figure \ref{fig_sec3_cov_mo_b} fixes $\lambda = 4$ while varying $\mu, n_1$.}
+	\label{fig_sec33}
+\end{figure}
 
 
 For the bias limit, we have the following proposition.
@@ -449,38 +485,3 @@ We also remark for the general case with covariate shift, the method in Section 
 %\end{remark}
 \end{remark}
 
-\begin{figure}[!t]
-	\begin{subfigure}[b]{0.5\textwidth}
-		\centering
-		\includegraphics[width=0.8\textwidth]{figures/covariate_and_model_shift_a.eps}
-		\caption{Fixed $\mu$, different $\lambda$}
-		\label{fig_sec3_cov_mo_a}
-	\end{subfigure}
-	\begin{subfigure}[b]{0.5\textwidth}
-		\centering
-		\includegraphics[width=0.8\textwidth]{figures/covariate_and_model_shift_b.eps}
-		\caption{Fixed $\lambda$, different $\mu$}
-		\label{fig_sec3_cov_mo_b}
-	\end{subfigure}
-	\caption{We further show that our observations in Figures \ref{fig_sec31} and \ref{fig_sec3_model_shift} extend to settings with both covariate and model shift.
-	Both simulation use $p = 100, n_2 = 300, \sigma = 1/2$.
-	Figure \ref{fig_sec3_cov_mo_a} fixes $\mu = 0.1$ while varying $\lambda, n_1$.
-	Figure \ref{fig_sec3_cov_mo_b} fixes $\lambda = 4$ while varying $\mu, n_1$.}
-	\label{fig_sec33}
-\end{figure}
-
-Consider the special case with $\Sigma^{(2)}=\id$, $a=1$ and the random effect model. Let $\sigma_i^{(1)}$ be the eigenvalues of $\Sigma^{(1)}$. Define the function 
-\be\label{g1new} g_0(x)= \frac{1}{n_1}\sum_{i=1}^p \frac{\sigma_i^{(1)}}{1+ \sigma_i^{(1)} x} -\frac{1}{x} .\ee
-Let $y$ be the unique positive solution to the equation 
-\be\nonumber
-\frac{n_1+n_2-p}{n_1} + g_0(y) \cdot \left( 1+    y\right)=0 .
-\ee
-Define the following three functions of $y$:
-$$f_1= \frac{n_1}{p}y + \frac{n_1-p}{p}\frac1{g_0(y)},\quad f_2= \frac{n_1}{p}\frac{1}{g_0'(y)}- \frac{n_1-p}{p}\frac1{[g_0(y)]^2},\quad f_3= - g_0(y),$$
-where $g_0'(y)$ is the derivative
-$$ g_0'(y)=  -\frac{1}{n_1}\sum_{i=1}^p \frac{(\sigma_i^{(1)})^2}{(1+ \sigma_i^{(1)} y)^2} +\frac{1}{y^2}. $$
-Then the variance limit is given by
-$$ L_{\var}(1)=\sigma^2 \frac{p}{n_1}f_1,$$
-and the bias limit is given by 
-$$ L_{\bias}(1)=2\mu^2 \frac{1 - 2f_1 f_3  +f_2 f_3^2  }{ 1 - \frac{p}{n_2}f_2 f_3^2 }.$$
-(Here $2\mu^2$ represents $\|\beta^{(1)}-\beta^{(2)}\|^2$.)

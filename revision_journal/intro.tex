@@ -25,7 +25,7 @@
 %The high-dimensional setting is challenging but is crucial for understanding how datasets' sample sizes impact generalization performance.
 
 
-\subsection{Setup and motivating examples}
+\subsection{Setup and motivating examples}\label{sec_mot}
 
 We first define the data model.
 Suppose we have two datasets (or tasks).
@@ -38,27 +38,14 @@ We assume a linear model specified by an unknown model vector $\beta^{(i)} \in \
 \begin{align}
     y_j^{(i)} = \inner{x_j^{(i)}}{\beta^{(i)}} + \varepsilon_j^{(i)}, \text{ for any } j = 1,\dots,n_i, \label{eq_linear}
 \end{align}
-where $\varepsilon^{(i)}_j$ denotes an additive noise (independent of the covariates).
-%Let $(x_1^{(2)}, y_1^{(2)}), \dots, (x_{n_2}^{(2)}, y_{n_2}^{(2)})$ be $n_2$ labeled examples, where $x_i^{(2)}$ denotes the covariates and $y_i^{(2)}$ denotes the label, for any $i = 1,\dots, n_2$.
-%Similar to the first dataset, we assume that
-%for an unknown vector $\beta^{(2)}\in\real^p$ and an additive noise $\varepsilon^{(2)}_i$.
+where $\varepsilon^{(i)}_j\in\real$ denotes a random noise variable with mean zero and variance $\sigma^2$.
 Our goal is to learn an estimator to predict the target task given both datasets.
-
-We consider a high-dimensional setting on each dataset where the sample size $n_i$ increases with $p$ to infinity proportionally by a constant factor, which has recently received lots of interests (see e.g., \citet{hastie2019surprises} and Section \ref{sec_related} for more references).
-Let $\Sigma^{(i)} \in \real^{p\times p}$ be a deterministic positive semidefinite matrix.
-The covariates are assumed to have population covariance equal to $\Sigma^{(i)}$:
-\begin{align}
-    x_j^{(i)} = \big(\Sigma^{(i)}\big)^{1/2} z_{j}^{(i)}, \text{ for any } j = 1,\dots,n_i, \label{eq_rvm}
-\end{align}
-where $z_j^{(i)}$ consists of independent and identical entries sampled from a distribution that has zero mean, unit variance, and satisfies certain bounded moment condition. 
-We focus on the so called \textit{underparametrized} setting for task two where $n_2 > \rho p$ for a constant $\rho > 1$ whereas for task one $n_1$ can be smaller than $p$.
-See Section \ref{sec_data} for the precise assumptions underlying the above data model.
 
 We learn a two-layer linear neural network with parameters $A \in \real^{p\times r}$, $B_1 \in \real^{r}$, and $B_2 \in \real^r$ by minimizing the following optimization objective:
 \begin{align}\label{eq_hps}
     f(A, B_1, B_2) = \bignorm{X^{(1)} A B_1 - Y^{(1)}}_2^2 + \bignorm{X^{(2)} A B_2 - Y^{(2)}}_2^2.
 \end{align}
-The above two-layer neural network uses a shared feature space $A$ for both tasks while using a separate prediction head for each task.\footnote{A popular variant of objective function \eqref{eq_hps} adds a weight parameter to each summand. We focus on the unweighted objective for simplicity and all of our results apply to the weighted objective.}
+The above two-layer neural network uses a shared feature space $A$ for both tasks while using a separate prediction head for each task.\footnote{Popular variants of the objective function \eqref{eq_hps} include adding a weight parameter to each summand and adding ridge regularization. We focus on the unweighted and unregularized objective for simplicity. All of the asymptotic limits we show below can be straightforwardly extended to weighted and regularized objectives.}
 Such models are also known as \textit{hard parameter sharing} in the machine learning literature \cite{C97,R17}.
 Suppose that $(\hat{A}, \hat{B}_1, \hat{B}_2)$ is a global minimizer of $f(\cdot)$.
 We define the hard parameter sharing (HPS) estimator for the target task as $\hat{\beta}_2^{\MTL} \define \hat{B} \hat{A}_2$.
@@ -67,67 +54,83 @@ In order to evaluate the estimator, we will study the excess risk at a new (unse
 As a motivating example of the above setup, we show an intriguing simulation where combining both datasets jointly results in different transfer effect on $L(\hat{\beta}_2^{\MTL})$, depending on the distance between $\beta^{(1)}$ and $\beta^{(2)}$.
 Figure \ref{fig_motivation} shows the result for a setting where every entry of $X_1, X_2$ is generated from an isotropic Gaussian, and $\beta_1,\beta_2$ are generated such that $\norm{\beta^{(1)} - \beta^{(2)}}^2 \approx 2\mu^2$.
 We observe that for $\mu = 0.25$, $L(\hat{\beta}_2^{\MTL})$ is always smaller than the excess risk of OLS.
-For the other $\mu$ values, $L(\hat{\beta}_2^{\MTL})$ is smaller than the excess risk of OLS for a restricted range of $n_1$.
-Such a scenario, where combining both datasets jointly improves over learning the target task individually, and is also called a \textit{positive information transfer} \cite{PY09}.
+For $\mu = 0.3$ or $0.35$, $L(\hat{\beta}_2^{\MTL})$ is smaller than the excess risk of OLS for a restricted range of $n_1$.
+Such a scenario, where combining both datasets jointly improves over learning the target task individually, is also called a \textit{positive information transfer} \cite{PY09}.
+On the other hand, for $\mu = 0.45$, HPS is always worse than OLS, thus providing a \textit{negative information transfer}.  
 Our main contribution is to precisely analyze a number of interesting phenomena including the above that are prevalent in transfer learning, depending on geometries of the covariance matrices and model distances. 
 
 
 \begin{figure*}
     \centering
-    \includegraphics[width=0.7\textwidth]{figures/motivation.eps}
+    \includegraphics[width=0.8\textwidth]{figures/motivation.eps}
     \caption{We illustrate that our setup can reproduce the phenomenon of \textit{positive} (or \textit{negative}) \textit{information transfer}, which is prevalent in the context of transfer learning.
-    We vary the sample size of dataset one and the distance parameter $\mu$ such that $\norm{\beta^{(1)} - \beta^{(2)}}^2 = 2\mu^2$. The region below the excess risk of the ordinary least squares (OLS) estimator corresponds to the range of $n_1$ in which $L(\hat{\beta}_2^{\MTL})$ is smaller than the excess risk of the OLS estimator. See also Figure \ref{fig_ab_data} for a similar phenomenon observed in text classification tasks.}
+    We vary the sample size of dataset one and the distance parameter $\mu$ such that $\norm{\beta^{(1)} - \beta^{(2)}}^2 \approx 2\mu^2$. The region below the excess risk of the ordinary least squares (OLS) estimator corresponds to \textit{positive information transfer} when $L(\hat{\beta}_2^{\MTL})$ is smaller than the excess risk of the OLS estimator. This simulation uses $p = 100, n_2 = 300, \sigma = 1/2$. See also Figure \ref{fig_ab_data} for a similar phenomenon observed in text classification tasks.}
     \label{fig_motivation}
 \end{figure*}
 
 \subsection{Summary of results}
-%\todo{mention connection to pooling \cite{hanneke2020no}}
 
-\paragraph{Precise asymptotics given heterogeneous sources.}
-Having defined the data model for each task, next, we describe typical scenarios in transfer learning under our setup.
-We define two settings as follows:
+We consider a high-dimensional setting on each dataset where the sample size $n_i$ increases with $p$ to infinity proportionally by a constant factor, which has recently received lots of interests (see e.g., \citet{hastie2019surprises} and Section \ref{sec_related} for more references).
+Let $\Sigma^{(i)} \in \real^{p\times p}$ be a deterministic positive semidefinite matrix.
+The covariates are assumed to have population covariance equal to $\Sigma^{(i)}$:
+\begin{align}
+    x_j^{(i)} = \big(\Sigma^{(i)}\big)^{1/2} z_{j}^{(i)}, \text{ for any } j = 1,\dots,n_i, \label{eq_rvm}
+\end{align}
+where $z_j^{(i)}$ consists of independent and identical entries sampled from a distribution that has zero mean, unit variance, and satisfies certain bounded moment condition (see Section \ref{sec_data} for the precise assumptions).
+
+We focus on the so called \textit{underparametrized} setting for the target task where $n_2 > p$ whereas for dataset one $n_1$ can be either smaller or greater than $p$.
+Thus, the OLS estimator exists and it is well-known that the limit of its excess risk when $p$ approaches infinity is equal to $\frac{\sigma^2 p}{n_2 - p}$ (see e.g., \citet{bai2009spectral}).
+By contrast, showing the asymptotic limit of $L(\hat{\beta}^{\MTL}_2)$ in the high-dimensional setting requires dealing with the inverse of the sum of two sample covariance matrices.
+The first challenge is dealing with \textit{covariate shift}---when $\Sigma^{(1)}$ and $\Sigma^{(2)}$ are different.
+The second challenge is dealing with \textit{model shift}---when $\beta^{(1)}$ and $\beta^{(2)}$ are different.
+Our main result addresses both challenges by \todo{illustrate}.
 \begin{itemize}
     \item \textbf{Covariate shift:}
-    independent $X^{(1)}$ and $X^{(2)}$ with the same population covariance matrices but different models.
-    Our second result (Theorem \ref{thm_main_RMT}) applies to two tasks with arbitrarily different sample size ratios and covariate shifts.
-    While we can no longer characterize $f(A, B)$'s global minimum because of non-convexity, we can still provide a sharp bias-variance tradeoff of any local minimizer's prediction loss for both tasks.
-    Despite being a simple setting, we observe several non-trivial phenomena by varying sample size ratios and covariate shifts between the two tasks.
-    \item \textbf{Model shift:} independent $X^{(1)}$ and $X^{(2)}$ with the same population covariance matrices (i.e. $\Sigma^{(1)}=\Sigma^{(2)}$) but different models (i.e. $\beta^{(1)} \neq \beta^{(2)}$).
-    \item \textbf{Covariate and model shift.}
+    Our first result applies to settings where $\Sigma^{(1)}$ and $\Sigma^{(2)}$ can be arbitrarily different but $\beta^{(1)} = \beta^{(2)}$.
+    For such settings, we show in Theorem \ref{thm_main_RMT} the asymptotic limit of $L(\hat{\beta}_2^{\MTL})$ as a function of the singular values of the matrix $\big(\Sigma^{(1)}\big)^{1/2}\big(\Sigma^{(2)}\big)^{-1/2}$ and the sample sizes $n_1, n_2$.
+    \item \textbf{Model shift:} Our second result applies to settings where $\beta^{(1)}$ and $\beta^{(2)}$ can be arbitrarily different but $\Sigma^{(1)} = \Sigma^{(2)}$.
+    For such settings, we show in Theorem \ref{cor_MTL_loss} the asymptotic limit of $L(\hat{\beta}_2^{\MTL})$ as a function of the $\ell_2$ distance between $\beta^{(1)}$ and $\beta^{(2)}$, and the sample sizes.
+    \item \textbf{Covariate and model shift:} Our third result applies to settings with both covariate shift and model shift.
+    When $\Sigma^{(2)}$ is isotropic, we show in Theorem \ref{???} the asymptotic limit of $L(\hat{\beta}_2^{\MTL})$ as a function of the singular values of $\Sigma^{(1)}$, the $\ell_2$ distance between $\beta^{(1)}$ and $\beta^{(2)}$), and the sample sizes.
+    For the most general setting when $\Sigma^{(2)}$ is unisotropic, we show in Theorem \ref{prop_main_RMT} an estimate of $L(\hat{\beta}_2^{\MTL})$ that is accurate when $n_1$ is much larger than $n_2$.
 \end{itemize}
 
-Theoretical insights
-\begin{itemize}
-    \item \textit{Whether or not covariate shift helps depends on sample sizes:} In addition to sample sizes, variance also scales with two datasets' covariate shifts. For a large sample size ratio, HPS's  variance is smallest when there is no covariate shift. Counterintuitively, for a small sample size ratio, having covariate shifts reduces variance through a complementary spectrum. We achieve this result through a novel characterization on the inverse of the sum of two sample covariance matrices with arbitrary covariate shifts. See our discussion of proof techniques below for details.
-    \item \textit{Identical covariance provides approximately optimal transfer under imbalanced sizes:}
-    \item \textit{Determining information transfer under model shift}: Increasing one task's sample size does not always reduce another task's loss. In a simplified setting, we find that the task loss either decreases first before increasing afterward or decreases monotonically depending on how fast the bias grows. These two trends result from different bias-variance tradeoffs. This result is surprising because previous generalization bounds in multi-task learning typically scale down as all tasks' sample sizes increase, thus do not apply for different sample size ratios.
-\end{itemize}
+Next, we demonstrate the power of these precise asymptotics by explaining a number of empirical phenomena in the context of transfer learning.
+We consider a random-effect model where $\beta^{(i)}$ is equal to a shared model vector plus per-task variances (cf. \citet{dobriban2018high}).
+Under this model, we show the following \textit{theoretical insights}.
+\begin{enumerate}
+    \item[i)] \textit{Whether or not covariate shift helps depends on sample sizes:} We consider the covariate shift setting and show that (cf. Proposition \ref{claim_dichotomy}) when $n_1 < n_2$, transferring from a data source with $\Sigma^{(1)} \neq \Sigma^{(2)}$ can achieve a smaller $L(\hat{\beta}_2^{\MTL})$ compared to transferring from a data source with $\Sigma^{(1)} = \Sigma^{(2)}$. When $n_1 > n_2$, transferring from from a data source with $\Sigma^{(1)} \neq \Sigma^{(2)}$ always results in higher $L(\hat{\beta}_2^{\MTL})$ than transferring from a data source with $\Sigma^{(1)} = \Sigma^{(2)}$.
+    \item[ii)] \textit{Identical covariance provides approximately optimal transfer under imbalanced sizes:} Additionally, in Proposition \ref{prop_covariate}, we show that when $n_1$ is greater than $n_2$ times a certain large constant factor, transferring from a data source with $\Sigma^{(1)} = \Sigma^{(2)}$ achieves an approximately minimum excess risk value, within a certain family of covariance matrices of $\Sigma^{(1)}$.
+    \item[iii)] \textit{Three regimes of information transfer under model shift}: Next, we consider the model shift setting and characterize the precise range of $n_1$ under which there is a positive transfer.
+    In Proposition \ref{claim_model_shift}, we show that when $\mu^2 \le \frac{\sigma^2 p}{2(n_2 - p)}$ (recall that $\norm{\beta^{(1)} - \beta^{(2)}}^2 \approx 2\mu^2$) is small, the transfer effect is positive for any $n_1$.
+    When $\frac{\sigma^2 p}{2(n_2 - p)} < \mu^2 < \frac{\sigma^2 n_2}{2(n_2 - p)}$, there is a transition from positive to negative transfer, as $n_1$ increases.
+    When $\frac{\sigma^2 n_2}{2(n_2 - p)} \le \mu^2$, the transfer effect is negative for any $n_1$.
+    Additionally, we illustrate that these three regimes of information transfer arises under both covariate and model shift (cf. Figure \ref{fig_sec3_cov_mo_b}).
+\end{enumerate}
 
 \paragraph{Empirical results.}
-Finally, we discuss the practical implications of our work.
-Our sample size ratio study implies a concrete progressive training procedure that gradually adds more data until performance drops.
-For example, in the setting of Figure \ref{fig_intro_sample_size_b}, this procedure will stop right at the minimum of the local basin.
-We conduct further studies of this procedure on six text classification datasets and observe that it reduces the computational cost by $65\%$ compared to a standard round-robin training procedure while keeping the average accuracy of all tasks simultaneously.
+We also complement our theoretical analysis with empirical evaluations.
+As mentioned in Section \ref{sec_mot}, our motivation for studying the HPS estimator stems from its superior empirical performance for transfer learning.
+We affirm that HPS indeed outperforms several commonly used estimators including weighted averages of the OLS estimators of each task (cf. \citet{bastani2020predicting}) and the ridge estimator of the target task in our setting. See Figure \ref{fig_sec51} for the result.
+
+We then conduct a case study on six text classification tasks using HPS neural network models.
+We demonstrate that our theoretical insights above imply interesting new methods for mitigating covariate shift and model shift, respectively.
+
+First, our insight ii) above suggests the importance of mitigating covariate shift under imbalanced dataset sizes.
+To this end, we consider a certain covariance alignment procedure proposed in \citet{WZR20} for mitigating covariate shift.
+We show that such an alignment procedure provides more significant improvement when $n_1 / n_2$ increases.
+
+Second, our insight iii) above suggests subsampling the source dataset under model shift.
+An efficient instantiation of this above would be to increase the sample size of the source dataset gradually until performance drops.
+For example, in the setting of Figure \ref{fig_motivation}, this procedure will stop right at the minimum of the local basin.
+On both two-task and multi-task case studies using the six text classification datasets, such a training procedure can reduce the computational cost by $65\%$ compared to a stochastic gradient descent procedure without sacrificing accuracy.
 
 
 \paragraph{Extension to multiple sources.}
-Our first result (Theorem \ref{thm_many_tasks}) applies to multi-label prediction settings where all datasets have the same features (and sample size), and we want to make several predictions for every input (cf. examples in \cite{hsu2009multi}).
-We analyze the global minimizer of $f(A, B)$, and provide a sharp bias-variance decomposition of its (out-of-sample) prediction loss for any task.
-This setting is tractable even though in general, $f(A, B)$ is non-convex in $A$ and $B$ (e.g. matrix completion is a special case for suitably designed $X^{(i)}, Y^{(i)}$).
-%We show that the prediction loss of HPS admits a clean bias-variance decomposition.
-Our result implies that when all tasks have the same features but different labels, for any task, HPS helps reduce the task's variance compared to single-task learning but increases bias.
-
-
-%See Figure \ref{fig_intro_sample_size_b} for an illustration of the former.
-Consequently, using our precise loss estimates, we observe several qualitative properties of HPS for varying dataset properties.
-%\begin{itemize}
-%	\item \textit{Sample efficiency (Example \ref{ex_same_cov})}:
-%	One advantage of combining multiple datasets is that the requirement for labeled data reduces compared to single-task learning, a phenomenon that \cite{ZSSGM18} has observed empirically.
-%	Our results further imply that HPS's sample efficiency depends on model-specific variances across tasks vs. the noise variance and is generally high when the latter is large.
-
-
-
-%\end{itemize}
+Finally, we also extend our setup to the case of having multiple data sources.
+We consider a setting where all datasets have the same features but different labels, which is also known as multi-label prediction \cite{hsu2009multi}.
+We show the asymptotic limit of $L(\hat{\beta}_i^{\MTL})$ under model shift (cf. Theorem \ref{thm_many_tasks}) and use the result to illustrate how to select the hidden width $r$ of $B$.
+%Our result implies that when all tasks have the same features but different labels, for any task, HPS helps reduce the task's variance compared to single-task learning but increases bias.
 
 %\medskip
 %\noindent\textbf{Proof techniques.}
@@ -145,38 +148,7 @@ Consequently, using our precise loss estimates, we observe several qualitative p
 
 \subsection{Related work}\label{sec_related}
 
-
-\paragraph{Sample covariance matrices with distribution shift.}
-These previous works mainly consider cases with only one high-dimensional sample covariance matrix involved. %need to check 
-In the single task case, if the data is Gaussian, then the precise variance limit can be derived directly from properties of Wishart distribution. In the high-dimensional setting, the eigenvalues of Wishart matrices satisfy the famous Marchenko–Pastur (MP) law \cite{MP}, whose Stieltjes transform characterizes the variance limit. Furthermore, it is well-known that the MP law holds universally regardless of the detailed data distribution \cite{bai2010spectral}. \cite{isotropic} obtained a sharp converge rate of the empirical spectral distribution (ESD) to the MP law for sample covariance matrices with isotropic covariance. \cite{Anisotropic,DY} later extended this result to sample covariance matrices with arbitrary population covariances. These results are proved by establishing certain optimal convergence estimates of the Stieltjes transforms of sample covariance matrices, which are referred to as \emph{local laws} in the random matrix theory literature. We refer the reader to \cite{erdos2017dynamical} and the references therein for a detailed review of related concepts. We extend these techniques to the two-task setting and prove a local law for the sum of two sample covariance matrices with an arbitrary covariate shift, which is one technical contribution of this work. From the local law, we can derive the variance limit with a precise dependence on the singular values of the covariate shift matrix. 
-
-%Our proof techniques use the so-called local law of random matrices, a recent development in the random matrix theory literature, called the \emph{local law} of 
-
-%These techniques provide almost sharp convergence rates to the asymptotic limit compared to other methods such as free probability \cite{nica2006lectures}.
-%We also extend the techniques in ?, which is one contribution of this work. 
-
-%On the other hand, one may derive the asymptotic result in Theorem \ref{thm_main_RMT} with error $\oo(1)$ using the free addition of two independent random matrices in theory.
-
-There is another method to derive the asymptotic variance limit using free addition in free probability theory \cite{nica2006lectures}. We do not take this procedure because this method is not completely justified in the general non-Gaussian setting with non-diagonal covariate shift matrix. 
-%(in the sense that it is hard to establish rigorously the free independence between two sample covariance matrices). 
-Furthermore, our techniques provide almost sharp convergence rates to the asymptotic limit, which is not given by free probability techniques. 
-
-On the other hand, the bias limit is much harder to study, and its dependence on the sample ratio and the covariate shift is still an open problem in random matrix theory in the most general setting. However, when the data is Gaussian distributed and the two tasks have the same population covariance, we find a way to calculate the exact bias limit using free probability techniques. Leveraging on the recent results \cite{BES_free1,BES_free2}, we can obtain a sharp convergence rate to the bias limit. To the best of our knowledge, we are not aware of any previous result on the precise bias limit in the high-dimensional setting, even for two Wishart matrices with the same population covariance matrix. 
-
-\paragraph{Random matrix theory and machine learning.} \todo{write a paragraph regarding applications of RMT to modern machine learning.}
-\begin{itemize}
-	\item \citet{hastie2019surprises}
-	\item \citet{bartlett2020benign}
-	\item \citet{liang2020just}
-	\item \citet{montanari2019generalization}, \citet{liang2020precise}
-\end{itemize}
-\begin{remark}
-    \todo{clarify overparametrize}
-    As a clar,  following the work of \citet{hastie2019surprises} (see also \citet{bartlett2020benign} and the references therein)
-\end{remark}
-
-
-\paragraph{Transfer learning and related problems.}
+\paragraph{Generalization theory for transfer learning.}
 There is a large body of classical and recent works on multi-task learning.
 The early work of \cite{B00,BS03,M06} studied multi-task learning from a theoretical perspective, often using uniform convergence or Rademacher complexity based techniques.
 An influential paper by \cite{BBCK10} provides uniform convergence bounds that combine multiple datasets in certain settings.
@@ -216,6 +188,40 @@ However, their results only apply to sample size regimes at least logarithmic fa
 %\cite{KD12} observed that controlling the capacity can outperform the implicit capacity control of adding regularization over $B$.
 %The multi-task learning model that we have focused on uses the idea of hard parameter sharing \cite{C93,KD12,R17}.
 %We believe that our theoretical framework can apply to other approaches to multi-task learning.
+
+\paragraph{Random matrix theory and machine learning.} \todo{write a paragraph regarding applications of RMT to modern machine learning.}
+\begin{itemize}
+	\item \citet{hastie2019surprises}
+	\item \citet{bartlett2020benign}
+	\item \citet{liang2020just}
+	\item \citet{montanari2019generalization}, \citet{liang2020precise}
+\end{itemize}
+\begin{remark}
+    \todo{clarify overparametrize}
+    As a clar,  following the work of \citet{hastie2019surprises} (see also \citet{bartlett2020benign} and the references therein)
+\end{remark}
+
+
+
+\paragraph{Sample covariance matrices with distribution shift.}
+These previous works mainly consider cases with only one high-dimensional sample covariance matrix involved. %need to check 
+In the single task case, if the data is Gaussian, then the precise variance limit can be derived directly from properties of Wishart distribution. In the high-dimensional setting, the eigenvalues of Wishart matrices satisfy the famous Marchenko–Pastur (MP) law \cite{MP}, whose Stieltjes transform characterizes the variance limit. Furthermore, it is well-known that the MP law holds universally regardless of the detailed data distribution \cite{bai2010spectral}. \cite{isotropic} obtained a sharp converge rate of the empirical spectral distribution (ESD) to the MP law for sample covariance matrices with isotropic covariance. \cite{Anisotropic,DY} later extended this result to sample covariance matrices with arbitrary population covariances. These results are proved by establishing certain optimal convergence estimates of the Stieltjes transforms of sample covariance matrices, which are referred to as \emph{local laws} in the random matrix theory literature. We refer the reader to \cite{erdos2017dynamical} and the references therein for a detailed review of related concepts. We extend these techniques to the two-task setting and prove a local law for the sum of two sample covariance matrices with an arbitrary covariate shift, which is one technical contribution of this work. From the local law, we can derive the variance limit with a precise dependence on the singular values of the covariate shift matrix. 
+
+%Our proof techniques use the so-called local law of random matrices, a recent development in the random matrix theory literature, called the \emph{local law} of 
+
+%These techniques provide almost sharp convergence rates to the asymptotic limit compared to other methods such as free probability \cite{nica2006lectures}.
+%We also extend the techniques in ?, which is one contribution of this work. 
+
+%On the other hand, one may derive the asymptotic result in Theorem \ref{thm_main_RMT} with error $\oo(1)$ using the free addition of two independent random matrices in theory.
+
+There is another method to derive the asymptotic variance limit using free addition in free probability theory \cite{nica2006lectures}. We do not take this procedure because this method is not completely justified in the general non-Gaussian setting with non-diagonal covariate shift matrix. 
+%(in the sense that it is hard to establish rigorously the free independence between two sample covariance matrices). 
+Furthermore, our techniques provide almost sharp convergence rates to the asymptotic limit, which is not given by free probability techniques. 
+
+On the other hand, the bias limit is much harder to study, and its dependence on the sample ratio and the covariate shift is still an open problem in random matrix theory in the most general setting. However, when the data is Gaussian distributed and the two tasks have the same population covariance, we find a way to calculate the exact bias limit using free probability techniques. Leveraging on the recent results \cite{BES_free1,BES_free2}, we can obtain a sharp convergence rate to the bias limit. To the best of our knowledge, we are not aware of any previous result on the precise bias limit in the high-dimensional setting, even for two Wishart matrices with the same population covariance matrix. 
+
+
+
 
 
 \subsection{Organizations}
