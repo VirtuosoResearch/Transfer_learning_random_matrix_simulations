@@ -9,7 +9,7 @@ We show that such alignment procedures provide greater gains for larger regimes 
 The other is a progressive training procedure for mitigating model shift.
 We show that progressively increasing the sample sizes of data sources significantly reduces the computational cost of learning HPS neural networks while achieving the same accuracy for predicting the target task.
 
-\subsection{Evaluating HPS under covariate and model shifts}\label{sec_diff}
+\subsection{Evaluating HPS under distribution shift}\label{sec_diff}
 
 \begin{figure}[!t]
 	\begin{subfigure}[b]{0.33\textwidth}
@@ -30,22 +30,22 @@ We show that progressively increasing the sample sizes of data sources significa
 		\caption{Covariate and model shift}
 		\label{fig_sec5_cov_model}
 	\end{subfigure}
-	\caption{We compare the empirical excess risk of HPS and several natural transfer learning estimators. We find that HPS achieves the lowest excess risk for predicting task two under (either or both) covariate and model shift. This simulation uses $p = 100, n_1 = n_2 = 200, \sigma = 1/2$. Figure \ref{fig_sec5_cov_model} uses $\lambda = 4$ for generating covariate-shifted features.}
+	\caption{We compare the empirical excess risk of HPS and several natural transfer learning estimators. We find that HPS achieves the lowest excess risk for predicting task two under (either or both) covariate and model shift. This simulation uses $p = 50, n_1 = n_2 = 100, \sigma = 1/2$. Figure \ref{fig_sec5_cov_model} uses $\lambda = 4$ for generating covariate-shifted features.}
 	\label{fig_sec51}
 \end{figure}
 
 We show that HPS estimators enjoy superior empirical performance compared to several natural transfer learning estimators.
 We consider the following estimators for this comparative study:
-\begin{itemize}
-    \item {\bf Averaging estimator (AVG):} given two tasks, take a convex combination of their OLS estimators $b \cdot \hat{\beta}^{\STL}_1 + (1 - b) \cdot \hat{\beta}^{\STL}_2$.
-    \item {\bf STL estimator (STL):} simply use the OLS estimator of task two $\hat{\beta}^{\STL}_2$ without using task one's data.
-    \item {\bf Transfer learning estimator (TL):} simply use the OLS estimator of task one $\hat{\beta}^{\STL}_1$ without using task two's data.
-\end{itemize}
+\begin{enumerate}
+    \item[i)] STL estimator (OLS): $\hat{\beta}_2^{\STL} = \big((X^{(2)})^{\top} X^{(2)}\big)^{-1} (X^{(2)})^{\top} Y^{(2)}$.
+    \item[ii)] Averaging estimator (AVG): given two tasks, take a convex combination of their OLS estimators $b \cdot \hat{\beta}^{\STL}_1 + (1 - b) \cdot \hat{\beta}^{\STL}_2$.
+    \item[iii)] Ridge estimator (RIDGE): $\hat{\beta}_2^{\RIDGE} = \big((X^{(2)})^{\top} X^{(2)} + \lambda \cdot \id_{p\times p}\big)^{-1} (X^{(2)})^{\top} Y^{(2)}$.
+\end{enumerate}
 The parameter $b$ in the averaging estimator is optimized using a validation set of the same size as the training set.
-Additionally, we extend the two-layer neural network formulation of HPS (cf. equation \eqref{eq_hps}) to a weighted objective:
-$b \cdot \bignorm{X^{(1)} B A_1 - Y^{(1)}}^2 + (1 - b) \cdot  \bignorm{X^{2} B A_2 - Y^{(2)}}^2$, and optimize $b$ using the same validation set.
+Additionally, we extend the two-layer neural network formulation of HPS (cf. equation \eqref{eq_hps}) to a weighted and regularized objective:
+$b \cdot \bignorm{X^{(1)} B A_1 - Y^{(1)}}^2 + (1 - b) \cdot  \bignorm{X^{2} B A_2 - Y^{(2)}}^2 + \frac{\lambda}{2} \cdot \norm{B}^2$, and optimize $b, \lambda$ using the same validation set.
 
-Figure \ref{fig_sec51} shows the result under (either or both) covariate and model shifts.
+Figure \ref{fig_sec51} shows the result under various settings of covariate shift and model shift.
 Figure \ref{fig_sec5_covariate} uses the same data generating process as Figure \ref{fig_sec31}.
 Figure \ref{fig_sec5_model} uses the same data generating process as Figure \ref{fig_sec3_model_shift}.
 Figure \ref{fig_sec5_cov_model} combines both by generating covariate-shifted features and different linear models for each dataset.

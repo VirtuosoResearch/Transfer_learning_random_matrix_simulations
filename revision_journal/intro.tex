@@ -148,25 +148,6 @@ We show the asymptotic limit of $L(\hat{\beta}_i^{\MTL})$ under model shift (cf.
 
 \subsection{Related work}\label{sec_related}
 
-\paragraph{Generalization theory for transfer learning.}
-There is a large body of classical and recent works on multi-task learning.
-The early work of \cite{B00,BS03,M06} studied multi-task learning from a theoretical perspective, often using uniform convergence or Rademacher complexity based techniques.
-An influential paper by \cite{BBCK10} provides uniform convergence bounds that combine multiple datasets in certain settings.
-One limitation of uniform convergence based techniques is that the results often assume that all  tasks have the same sample size, see e.g. \cite{B00,MPR16}.
-\citet{pontil2013excess}
-Moreover, these techniques do not apply to the high-dimensional setting because the results usually require a sample size of at least $p \log p$.
-The problem we study here is also related to high-dimensional prediction in transfer learning \cite{li2020transfer,bastani2020predicting}.
-For example, \cite{li2020transfer} provide minimax-optimal rates to predict a target regression task given multiple sparse regression tasks.
-One closely related work is \cite{WZR20}, which studied hard parameter sharing for two linear regression tasks.
-However, their results only apply to sample size regimes at least logarithmic factors of dimension.
-\todo{a list of relevant papers}
-\begin{itemize}
-	\item \citet{lei2021nearoptimal}
-	\item \citet{kalan2020minimax}
-	\item  \citet{cai2021transfer}
-	\item \citet{lounici2011oracle}
-\end{itemize}
-\textit{Other related works.} Distributed learning \cite{dobriban2018high}.
 
 %Linear models in multi-task learning have been studied in various settings, including online learning \cite{CCG10,DCSP18}, sparse regression \cite{LPTV09,LPVT11}, and representation learning \cite{BHKL19}.
 
@@ -189,23 +170,20 @@ However, their results only apply to sample size regimes at least logarithmic fa
 %The multi-task learning model that we have focused on uses the idea of hard parameter sharing \cite{C93,KD12,R17}.
 %We believe that our theoretical framework can apply to other approaches to multi-task learning.
 
-\paragraph{Random matrix theory and machine learning.} \todo{write a paragraph regarding applications of RMT to modern machine learning.}
-\begin{itemize}
-	\item \citet{hastie2019surprises}
-	\item \citet{bartlett2020benign}
-	\item \citet{liang2020just}
-	\item \citet{montanari2019generalization}, \citet{liang2020precise}
-\end{itemize}
-\begin{remark}
-    \todo{clarify overparametrize}
-    As a clar,  following the work of \citet{hastie2019surprises} (see also \citet{bartlett2020benign} and the references therein)
-\end{remark}
+\paragraph{Random matrix theory in machine learning.}
+This work is inspired by an emerging line of recent work that has found random matrix theory useful for studying modern machine learning techniques.
+A prominent line of recent work in this direction has been to understand the generalization properties of interpolators \cite{bartlett2020benign,hastie2019surprises,montanari2019generalization,liang2020just,liang2020precise}.
+Interpolators such as minimum-norm estimators (in the context of linear regression) share similar behavior with modern neural networks in the sense that such models learn by ``memorizing'' the data with lots of parameters \cite{mei2019generalization}.
+The study of such interpolators has also led to an explanation of the double-descent phenomenon \cite{belkin2019reconciling}.
 
 
-
-\paragraph{Sample covariance matrices with distribution shift.}
-These previous works mainly consider cases with only one high-dimensional sample covariance matrix involved. %need to check 
-In the single task case, if the data is Gaussian, then the precise variance limit can be derived directly from properties of Wishart distribution. In the high-dimensional setting, the eigenvalues of Wishart matrices satisfy the famous Marchenko–Pastur (MP) law \cite{MP}, whose Stieltjes transform characterizes the variance limit. Furthermore, it is well-known that the MP law holds universally regardless of the detailed data distribution \cite{bai2010spectral}. \cite{isotropic} obtained a sharp converge rate of the empirical spectral distribution (ESD) to the MP law for sample covariance matrices with isotropic covariance. \cite{Anisotropic,DY} later extended this result to sample covariance matrices with arbitrary population covariances. These results are proved by establishing certain optimal convergence estimates of the Stieltjes transforms of sample covariance matrices, which are referred to as \emph{local laws} in the random matrix theory literature. We refer the reader to \cite{erdos2017dynamical} and the references therein for a detailed review of related concepts. We extend these techniques to the two-task setting and prove a local law for the sum of two sample covariance matrices with an arbitrary covariate shift, which is one technical contribution of this work. From the local law, we can derive the variance limit with a precise dependence on the singular values of the covariate shift matrix. 
+\paragraph{Sample covariance matrices and distribution shift.}
+These previous works primarily deal with a single high-dimensional sample covariance matrix. %need to check 
+In the \textit{underparametrized} setting ($n_2 > p$) which this work focuses on, when the covariates are sampled from Gaussian distributions, the precise asymptotic limit can be derived directly from properties of the Wishart distribution (see also Lemma \ref{fact_tr} and the historical notes in Section \ref{sec_bv}).
+In the high-dimensional setting, the eigenvalues of Wishart matrices satisfy the well-known Marchenko–Pastur (MP) law \cite{MP}, whose Stieltjes transform characterizes the variance limit.
+Furthermore, it is well-known that the MP law holds universally regardless of the underlying data distribution of the covariates \cite{bai2010spectral}. \citet{isotropic} obtained a sharp convergence rate of the empirical spectral distribution (ESD) of the MP law for sample covariance matrices with isotropic population covariance matrices. \citet{Anisotropic,DY} later extended this result to sample covariance matrices with arbitrary population covariances. These results are proved by establishing certain optimal convergence estimates of the Stieltjes transforms of sample covariance matrices, which are referred to as \emph{local laws} in the random matrix theory literature. We refer the reader to \cite{erdos2017dynamical} and the references therein for a detailed review of related concepts.
+Our technical contribution is to extend these techniques to the two-task setting and prove a local law for the sum of two sample covariance matrices with arbitrary covariate shifts.
+Using the local law, we can then derive the variance limit with a precise dependence on the singular values of the covariate shift matrix $\big(\Sigma^{(1)}\big)^{1/2} \big(\Sigma^{(2)}\big)^{-1/2}$. 
 
 %Our proof techniques use the so-called local law of random matrices, a recent development in the random matrix theory literature, called the \emph{local law} of 
 
@@ -214,11 +192,42 @@ In the single task case, if the data is Gaussian, then the precise variance limi
 
 %On the other hand, one may derive the asymptotic result in Theorem \ref{thm_main_RMT} with error $\oo(1)$ using the free addition of two independent random matrices in theory.
 
-There is another method to derive the asymptotic variance limit using free addition in free probability theory \cite{nica2006lectures}. We do not take this procedure because this method is not completely justified in the general non-Gaussian setting with non-diagonal covariate shift matrix. 
+The asymptotic limit of the variance of $L(\hat{\beta}_2^{\MTL})$ (cf. equation \eqref{Lvar}) under covariate shift may also be derived using free addition in free probability theory \cite{nica2006lectures}.
+However, this approach is not completely justified when the covariates are sampled from non-Gaussian distributions with non-diagonal covariate shift matrices. 
 %(in the sense that it is hard to establish rigorously the free independence between two sample covariance matrices). 
-Furthermore, our techniques provide almost sharp convergence rates to the asymptotic limit, which is not given by free probability techniques. 
+Furthermore, our technique provides almost sharp convergence rates to the asymptotic limit, while it is unclear how to obtain such rates using free probability techniques, to the best of our knowledge.
 
-On the other hand, the bias limit is much harder to study, and its dependence on the sample ratio and the covariate shift is still an open problem in random matrix theory in the most general setting. However, when the data is Gaussian distributed and the two tasks have the same population covariance, we find a way to calculate the exact bias limit using free probability techniques. Leveraging on the recent results \cite{BES_free1,BES_free2}, we can obtain a sharp convergence rate to the bias limit. To the best of our knowledge, we are not aware of any previous result on the precise bias limit in the high-dimensional setting, even for two Wishart matrices with the same population covariance matrix. 
+The asymptotic limit of the bias of $L(\hat{\beta}_2^{\MTL})$ (cf. equation \eqref{Lbias}) involves ``asymmetric'' additions of two sample covariance matrices, whose analysis is technically involved.
+Our result on the bias limit is inspired by the recent work of \citet{BES_free1,BES_free2}.
+Additionally, we show a sharp convergence rate to the bias limit using free probability techniques.
+Our work provides the first result in the model shift setting assuming that $\Sigma^{(1)} = \Sigma^{(2)}$ or that $\Sigma^{(2)}$ is isotropic, and the covariates are sampled from Gaussian distributions.
+%To the best of our knowledge, we are not aware of any prior work on the precise bias limit in the high-dimensional setting, even for two Wishart matrices with the same population covariance matrix.
+Showing the asymptotic bias limit under the most general covariate shift and model shift is an interesting open problem for future work.
+See Section \ref{sec_conclude} for further discussion on the technical challenges.
+
+\paragraph{Transfer learning and domain adaptation theory.}
+Earlier works on transfer learning and domain adaptation use uniform convergence to obtain generalization bounds \cite{B00,BS03,M06}.
+The influential paper by \citet{BBCK10} proposes a rigorous model for domain adaptation in classification (see also \citet{crammer2008learning} for an earlier result).
+The main result provides a generalization bound for combining multiple data sources using an objective that averages over the risk of every datapoint.
+This bound provides a principled way to reweight each data source by minimizing the bound.
+From a technical perspective, uniform convergence based techniques provide upper bounds on the excess risks.
+On the other hand, analyzing the empirical phenomena of information transfer such as the ones in Figure \ref{fig_motivation} requires tight lower bounds on the excess risks.
+
+%One limitation of uniform convergence based techniques is that the results often assume that all  tasks have the same sample size, see e.g. \cite{B00,MPR16}.
+%\citet{pontil2013excess}
+%Moreover, these techniques do not apply to the high-dimensional setting because the results usually require a sample size of at least $p \log p$.
+Finally, we discuss several concurrent works that study transfer learning in linear regression settings.
+The work of \citet{li2020transfer} considers the problem of how to select useful data sources for transfer learning under model shift.
+Their work provides an adaptive procedure that applies even when the set of useful data sources are unknown.
+Our work differs from theirs in two aspects.
+First, we considered a high-dimensional setting where the sample size increases with dimension proportionally.
+Such a setting allows us to derive precise asymptotics of the excess risks, which is then used to explain a number of interesting phenomena in transfer learning.
+Second, our result applies to covariate-shifted (and not necessarily Gaussian) source datasets whereas the setting of \citet{li2020transfer} assumes the covariates of all data sources and the target are drawn from a Gaussian distribution with the same population covariance matrix.
+The work of \citet{lei2021nearoptimal} considers a setting of linear regression under distribution shift including covariate shift and model shift similar to our setting.
+The difference is that our setting deals with a labeled target dataset whereas the result of \citet{lei2021nearoptimal} applies to settings with an unlabeled target dataset.
+%One closely related work is \cite{WZR20}, which studied hard parameter sharing for two linear regression tasks.
+%	\item \citet{kalan2020minimax}
+%	\item \citet{lounici2011oracle}
 
 
 
