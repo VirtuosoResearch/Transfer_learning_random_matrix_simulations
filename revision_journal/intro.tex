@@ -5,7 +5,7 @@ For example, suppose you have $n_1$ datapoints with $p$-dimensional covariates (
 Does combining the $n_1 + n_2$ datapoints help learn a model whose performance is better than a model learned using the $n_2$ datapoints alone?
 Such questions are prevalent in transfer learning, where one often uses data from related tasks to expand the sample size of a task of interest.
 A frequent impediment to applying transfer learning is \textit{negative information transfer} if combining both data performs worse than learning a single task clone \cite{PY09}.
-\textit{Positive information transfer} refers to the desirable scenario where a task of interest benefits when combined with another task.
+\textit{Positive information transfer} refers to the desirable scenario where a task of interest benefits from another task's data.
 
 The answer to the two questions above hinges on the tasks' heterogeneity.
 For example, negative information transfer can happen if the label distribution of the second task conditional on the covariates deviates significantly from that of the first task.
@@ -18,7 +18,7 @@ We use a two-layer linear neural network to combine the data from both tasks and
 We analyze the prediction risk of this network and its transfer effect, providing precise conditions based on geometries of $D_1, D_2$, and the sample sizes $n_1, n_2$.
 The analysis has also inspired several insights for understanding and mitigating covariate and model shifts.
 
-The key ingredient of our analysis is showing the asymptotic limit of certain combinations of sample covariance matrices under distribution shift, using the local laws developed recently by \citet{isotropic} and \citet{BES_free1}.
+The key ingredient of our analysis is showing the asymptotic limit of certain combinations of sample covariance matrices under distribution shift, using the \textit{local laws} developed recently by \citet{isotropic} and \citet{BES_free1}.
 After formally defining the specific problem that we tackle, in Section \ref{sec_related}, we provide a technical discussion of the related works in random matrix theory.
 
 %Our main contribution is to precisely analyze a number of interesting phenomena including the above that are prevalent in transfer learning, depending on .
@@ -34,17 +34,17 @@ We assume a linear model specified by an unknown model vector $\beta^{(i)} \in \
     y_j^{(i)} = \inner{x_j^{(i)}}{\beta^{(i)}} + \varepsilon_j^{(i)}, \text{ for any } j = 1,\dots,n_i, \label{eq_linear}
 \end{align}
 where $\varepsilon^{(i)}_j\in\real$ denotes a random noise variable with mean zero and variance $\sigma^2$.
-For the ease of presentation, we refer to the first dataset as the source and the second task as the target.
-%Our goal is to learn an estimator to predict the target task given both datasets.
+We focus on the so called \textit{underparametrized} setting for the target task where $n_2 > p$ whereas for dataset one $n_1$ can be either smaller or greater than $p$  (see Section \ref{sec_data} for the precise assumptions).
+For the ease of presentation, we refer to the first task as the source and the second task as the target.
 
 We learn a two-layer linear neural network with parameters $A \in \real^{p\times r}$, $B_1 \in \real^{r}$, and $B_2 \in \real^r$ by minimizing the following optimization objective:
 \begin{align}\label{eq_hps}
     f(A, B_1, B_2) = \bignorm{X^{(1)} A B_1 - Y^{(1)}}_2^2 + \bignorm{X^{(2)} A B_2 - Y^{(2)}}_2^2.
 \end{align}
-The above objective uses $A$ as the shared feature space for both tasks and $B_1, B_2$ as the prediction head for each task.\footnote{Popular variants of the objective function \eqref{eq_hps} include adding a weight parameter to each summand and adding ridge regularization. We focus on the unweighted and unregularized objective for simplicity. All of the asymptotic limits we show below can be straightforwardly extended to weighted and regularized objectives.}
+The above objective uses $A$ as the shared feature space for both tasks and $B_1, B_2$ as the prediction head for each task.\footnote{Popular variants of the objective function \eqref{eq_hps} also involve weight parameters for each task and ridge regularization. We focus on the unweighted and unregularized objective for simplicity. All of the asymptotic limits described below can be straightforwardly extended to weighted and regularized objectives.}
 Such models are also known as \textit{hard parameter sharing} \cite{C97,R17}.
-We focus on the case of $r = 1$---otherwise, the global minimizer of $f(A, B_1, B_2)$ reduces to learning each task alone, resulting in no transfer effect (cf. Proposition \ref{prop_large_r} in Section \ref{sec_risk}).
-In this case, let $(\hat{A}, \hat{B}_1, \hat{B}_2)$ be a global minimizer of $f(\cdot)$.
+We focus on the case of $r = 1$---otherwise, the global minimizer of $f(A, B_1, B_2)$ reduces to learning each task alone, resulting in zero information transfer (cf. Proposition \ref{prop_large_r} in Section \ref{sec_risk}).
+For the case of $r = 1$, let $(\hat{A}, \hat{B}_1, \hat{B}_2)$ be $f(\cdot)$'s global minimizer, which is unique because $n_2 > p$.
 The hard parameter sharing (HPS) estimator for the target task is defined as $\hat{\beta}_2^{\MTL} \define \hat{B} \hat{A}_2$.
 In order to evaluate the estimator, we will study the excess risk, which is the prediction risk at an unseen datapoint (of task two) minus $\sigma^2$, denoted as $L(\hat{\beta}_2^{\MTL})$.
 
@@ -69,9 +69,9 @@ Our result below will imply the exact conditions for positive information transf
 We consider a high-dimensional setting on each dataset where the sample size $n_i$ increases with $p$ to infinity proportionally by a constant factor, which has recently received lots of interests (see e.g., \citet{hastie2019surprises} and Section \ref{sec_related} for more references).
 Let $\Sigma^{(i)} \in \real^{p\times p}$ be a deterministic positive semidefinite matrix.
 The covariates are assumed to have population covariance equal to $\Sigma^{(i)}$: $x_j^{(i)} = \big(\Sigma^{(i)}\big)^{1/2} z_{j}^{(i)},$ for any $j = 1,\dots,n_i,$
-where $z_j^{(i)}$ consists of independent and identical entries sampled from a distribution that has zero mean, unit variance, and satisfies certain bounded moment condition (see Section \ref{sec_data} for the precise assumptions).
+where $z_j^{(i)}$ consists of independent and identical entries sampled from a distribution that has zero mean, unit variance, and satisfies certain bounded moment condition.
 
-\paragraph{Main results.} We focus on the so called \textit{underparametrized} setting for the target task where $n_2 > p$ whereas for dataset one $n_1$ can be either smaller or greater than $p$.
+\paragraph{Main results.} 
 Thus, the OLS estimator exists and it is well-known that the limit of its excess risk when $p$ approaches infinity is equal to $\frac{\sigma^2 p}{n_2 - p}$ (see e.g., \citet{bai2009spectral}).
 By contrast, showing the asymptotic limit of $L(\hat{\beta}^{\MTL}_2)$ in the high-dimensional setting requires dealing with the inverse of the sum of two sample covariance matrices under distribution shift.
 %The first challenge is dealing with \textit{covariate shift}---when $\Sigma^{(1)}$ and $\Sigma^{(2)}$ are different.
@@ -105,7 +105,8 @@ Under this model, we show the following \textit{theoretical insights}.
     In Proposition \ref{claim_model_shift}, we show that when $\mu^2 \le \frac{\sigma^2 p}{2(n_2 - p)}$ (recall that $\norm{\beta^{(1)} - \beta^{(2)}}^2 \approx 2\mu^2$) is small, the transfer effect is positive for any $n_1$.
     When $\frac{\sigma^2 p}{2(n_2 - p)} < \mu^2 < \frac{\sigma^2 n_2}{2(n_2 - p)}$, there is a transition from positive to negative transfer, as $n_1$ increases.
     When $\frac{\sigma^2 n_2}{2(n_2 - p)} \le \mu^2$, the transfer effect is negative for any $n_1$.
-    Additionally, we illustrate that these three regimes of information transfer arises under both covariate and model shift (cf. Figure \ref{fig_sec3_cov_mo_b}).
+    Figure \ref{fig_motivation} suggests that the asymptotic limits are also accurate in finite dimensions.
+    Additionally, these three regimes of information transfer can be observed in settings of covariate and model shifts (cf. Figure \ref{fig_sec3_cov_mo_b}).
 \end{enumerate}
 
 We also complement our theoretical analysis with empirical evaluations.
