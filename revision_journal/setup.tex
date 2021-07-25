@@ -19,11 +19,12 @@ $Y^{(i)}= X^{(i)}\beta^{(i)} + \varepsilon^{(i)}.$
 Both $\beta^{(1)}$ and $\beta^{(2)}$ are two arbitrary deterministic or random vectors that are independent of the feature covariates and the noise vector.
 Throughout the paper, we make the following assumptions on  $X^{(i)}$ and  $\varepsilon^{(i)}$, which are standard in the random matrix theory literature (see e.g., \citet{tulino2004random,Bai2006}). %We remark that all these assumptions are natural in high-dimensional statistics.
 
-First, we assume the row vectors of $X^{(i)}$ are i.i.d. centered random vectors with  population covariance matrix $\Sigma^{(i)} \in \real^{p \times p}$. Equation \eqref{eq_rvm} implies that
+First, recall that the row vectors of $X^{(i)}$ are i.i.d. centered random vectors with  population covariance matrix $\Sigma^{(i)} \in \real^{p \times p}$:
 \be\label{XofZ}
-    X^{(i)} = Z^{(i)} (\Sigma^{(i)})^{1/2} \in \real^{n_i\times p},
+    X^{(i)} = Z^{(i)} (\Sigma^{(i)})^{1/2} \in \real^{n_i\times p}.
 \ee
-recalling that $\Sigma^{(i)}$ is a deterministic positive definite symmetric matrices, $Z^{(i)}=(z^{(i)}_{j,k})$ is a $n_i\times p$ random matrix with real-valued independent entries having zero mean and unit variance.
+%recalling that $\Sigma^{(i)}$ is a deterministic positive definite symmetric matrices,
+where $Z^{(i)}=(z^{(i)}_{j,k})$ is a $n_i\times p$ random matrix with real-valued independent entries having zero mean and unit variance.
 %\begin{equation}\label{assm1}
 %\mathbb{E} z^{(1)}_{ij}=\mathbb{E} z^{(2)}_{ij} =0, \ \quad \ \mathbb{E} \vert z^{(1)}_{ij} \vert^2=\mathbb{E} \vert z^{(2)}_{ij} \vert^2 =1,
 %\end{equation}
@@ -118,8 +119,8 @@ In particular, the case when $B_1$ and $B_2$ are both equal to $1$ reduces to a 
 Such pooling estimators have been shown to be effective on e-commence and healthcare datasets \cite{bastani2020predicting}.
 Additionally, they have been used as a preprocessing step of minimax optimal estimators, under certain conditions of the data \cite{li2020transfer} (see also Section \ref{sec_related} for further discussion of both works).
 
-\paragraph{Information transfer.} To be precise, we say that task one provides a \textit{positive transfer} to task two, if the excess risk $L(\hat{\beta}_2^{\MTL})$ is smaller than $L(\hat{\beta}_2^{\STL})$.
-Otherwise, we say that task one provides a \textit{negative transfer} to task two.
+%\paragraph{Information transfer.} To be precise, we say that task one provides a \textit{positive transfer} to task two, if the excess risk $L(\hat{\beta}_2^{\MTL})$ is smaller than $L(\hat{\beta}_2^{\STL})$.
+%Otherwise, we say that task one provides a \textit{negative transfer} to task two.
 
 \subsection{Bias and variance}\label{sec_bv}
 
@@ -220,8 +221,8 @@ Then, a straightforward algebraic calculation (e.g. using the Woodbury matrix id
 \begin{align*}
     \bigtr{\Sigma^{(2)} \big(\hat{\Sigma}(a)\big)^{-1}} \le \bigtr{\Sigma^{(2)} \big((X^{(2)})^{\top} X^{(2)}\big)^{-1}}.
 \end{align*}
-Combining both comparisons, we conclude that HPS affects the excess risk in two ways: the bias always increases while the variance always decreases.
-Thus, whether or not task one provides a positive transfer to task two depends on which effect is more significant.
+Combining both comparisons, we conclude that the transfer effect of HPS is mixed: the bias always increases while the variance always decreases.
+Thus, whether or not the resulting information transfer is \textit{positive} depends on which effect is more significant.
 
 %The bias equation \eqref{Lbias} captures the 
 %Plugging \eqref{HPS_est} into \eqref{HPS_loss}, we get

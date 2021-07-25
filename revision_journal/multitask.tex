@@ -15,6 +15,8 @@ First, $X = Z\Sigma^{1/2}$ is a random matrix satisfying Assumption \ref{assm_bi
 In particular, the sample size $n$ is greater than the dimension $p$.
 Second, every $\varepsilon^{(i)} \in \real^{n}$ is a random vector with i.i.d entries of mean zero, variance $\sigma^2$, and bounded moments up to any order (cf. equation \eqref{eq_highmoments}).
 Finally, $\beta^{(i)} \in \real^{p}$ is a fixed vector independent from any other $\beta^{(j)}$ for $j \neq i$, the matrix $X$, and $\varepsilon^{(j)}$ for any $j=1,\dots,t$.
+As a remark, the above data model is similar in spirit to the setting of \citet{lounici2011oracle}.
+While that work assumes all of the model vectors $\beta^{(1)}, \beta^{(2)}, \dots, \beta^{(t)}$ share the same subset of non-zero coordinates, our result below will apply even when these vectors do not satisfy such conditions.
 
 \paragraph{Estimator.} We combine multiple data sources by extending the two-layer linear neural network from equation \eqref{eq_hps} as follows:
 \begin{align}
@@ -128,7 +130,7 @@ The proof of Theorem \ref{thm_many_tasks}, which characterizes the global minimu
 	Figure \ref{fig_sec4_width} shows that from $1$ to $t = 10$, setting width $r = 1$ gives the lowest excess risk for task $t$.
 	The result is averaged over three random seeds.
 	This simulation uses $\mu = 0.05$.
-	Figure \ref{fig_sec4_transfer} fixes $r = 1$ while varying $\mu$ and $n$. We observe that depending on $\mu$ and $n$, HPS may provide a positive transfer or a negative transfer to task $t$ (similar to Figure \ref{fig_sec3_model_shift}). The precise condition for deciding which one is provided in Claim \ref{claim_re_multi}.}
+	Figure \ref{fig_sec4_transfer} fixes $r = 1$ while varying $\mu$ and $n$. We observe that depending on $\mu$ and $n$, HPS may provide a positive transfer or a negative transfer to task $t$ (similar to Figure \ref{fig_sec3_model_shift}). The precise condition for determining the transfer effect can be found in Claim \ref{claim_re_multi}.}
 	\label{fig_sec4}
 \end{figure}
 
@@ -209,10 +211,10 @@ We compare $g_r(n, \mu)$ with the OLS estimate in the following claim.
 \end{proof}
 
 
-Figure \ref{fig_sec4} validates Claim \ref{claim_re_multi}.
+Figure \ref{fig_sec4} validates the result of Claim \ref{claim_re_multi} in finite dimensions.
 First, we see that the empirical excess risk (measured on a particular task) is indeed smallest when the width $r$ is equal to $1$.
 Second, we see that HPS provides a positive transfer (to a particular task) depending on the sample size $n$ and the model shift parameter $\mu$.
-The results match with the condition (on $\mu$) suggested by our estimates.
+The results under different $\mu$ values match with the condition in Claim \ref{claim_re_multi}. 
 
 
 
